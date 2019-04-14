@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def simplify_poly(poly1, simp = 0.1):
     """
     This function accepts either a Polygon or a MultiPolygon and creates a

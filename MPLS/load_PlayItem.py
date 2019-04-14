@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def load_PlayItem(fobj, length2):
     # NOTE: see https://github.com/lerks/BluRay/wiki/PlayItem
 

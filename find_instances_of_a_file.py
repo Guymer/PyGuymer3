@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def find_instances_of_a_file(path, basename):
     # Import modules ...
     import os

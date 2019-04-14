@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def return_dict_of_media_audio_streams(fname, playlist = None):
     # Check input ...
     if fname.startswith("bluray:") and playlist is None:

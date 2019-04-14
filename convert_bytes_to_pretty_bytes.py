@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def convert_bytes_to_pretty_bytes(size = 0):
     # Convert input to float and set default units ...
     size = float(size)

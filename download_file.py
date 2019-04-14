@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def download_file(sess, url, fname):
     # Import modules ...
     import datetime

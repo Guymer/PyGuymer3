@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def return_file_list_with_warnings(path):
     # Import modules ...
     import os

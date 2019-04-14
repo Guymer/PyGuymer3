@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def return_ISO_palette(fname, usr_track = None):
     # Import modules ...
     import numpy

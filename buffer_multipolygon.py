@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def buffer_multipolygon(multipoly, dist, nang = 19, simp = 0.1, debug = False):
     """
     This function reads in a MultiPolygon, made up of Polygons (with an exterior

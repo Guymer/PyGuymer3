@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def return_MP4_video_profile(fname):
     # Import modules ...
     import json

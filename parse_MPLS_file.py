@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def parse_MPLS_file(br, ip):
     # Import modules ...
     import os

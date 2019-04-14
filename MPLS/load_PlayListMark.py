@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def load_PlayListMark(fobj):
     # NOTE: see https://github.com/lerks/BluRay/wiki/PlayListMark
 

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def load_GPS_EXIF(fname, python = True):
     # Load sub-functions ...
     from .load_GPS_EXIF1 import load_GPS_EXIF1

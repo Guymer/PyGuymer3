@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def save_array_as_PNG(img, fname, ftype_req = -1):
     """
     Save an array as a PNG.

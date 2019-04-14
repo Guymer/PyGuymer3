@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def download(sess, method, url):
     # Import modules ...
     import requests

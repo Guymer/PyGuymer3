@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def remove_almost_empty_directories(path):
     # Import modules ...
     import os

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def calc_loc_from_loc_and_bearing_and_dist(lon1_deg, lat1_deg, alpha1_deg, s_m, nmax = 100, eps = 1.0e-12):
     """
     This function reads in coordinates (in degrees) on the surface of Earth

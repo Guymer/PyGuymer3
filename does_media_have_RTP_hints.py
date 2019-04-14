@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def does_media_have_RTP_hints(fname = "missing"):
     # Import modules ...
     import json

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def buffer_polygon(poly, dist, nang = 19, simp = 0.1, debug = False):
     """
     This function reads in a Polygon (with an exterior and any number of

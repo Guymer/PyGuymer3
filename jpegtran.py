@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def jpegtran(fname):
     # Import modules ...
     import os

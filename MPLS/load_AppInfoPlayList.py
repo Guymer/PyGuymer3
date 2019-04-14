@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def load_AppInfoPlayList(fobj):
     # NOTE: see https://github.com/lerks/BluRay/wiki/AppInfoPlayList
 

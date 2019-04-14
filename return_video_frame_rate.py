@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def return_video_frame_rate(fname, playlist = None):
     # Check input ...
     if fname.startswith("bluray:") and playlist is None:

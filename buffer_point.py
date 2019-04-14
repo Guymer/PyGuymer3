@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def buffer_point(lon1, lat1, dist, nang = 19, debug = False):
     """
     This function reads in coordinates (in degrees) that exist on the surface of

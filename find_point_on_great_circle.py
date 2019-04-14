@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def find_point_on_great_circle(frac, lon1_deg, lat1_deg, lon2_deg, lat2_deg):
     """
     This function reads in two coordinates (in degrees) on the surface of a

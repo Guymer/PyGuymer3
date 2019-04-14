@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def find_middle_of_great_circle(lon1_deg, lat1_deg, lon2_deg, lat2_deg):
     """
     This function reads in two coordinates (in degrees) on the surface of a

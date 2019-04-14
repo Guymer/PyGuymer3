@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def buffer_points(points, dist, nang = 19, simp = 0.1, debug = False):
     """
     This function reads in a list of (lon,lat)-tuples representing coordinates

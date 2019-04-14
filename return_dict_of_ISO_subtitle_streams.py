@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def return_dict_of_ISO_subtitle_streams(fname, usr_track = -1):
     # Import modules ...
     import subprocess

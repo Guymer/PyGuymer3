@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def load_GPS_EXIF2(fname):
     # NOTE: This function uses the binary "exiftool".
 

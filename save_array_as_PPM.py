@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def save_array_as_PPM(img, fname):
     # Write out PPM ...
     with open(fname, "wb") as fobj:

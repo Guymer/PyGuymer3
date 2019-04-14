@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def generate_random_stub():
     # Import modules ...
     import base64

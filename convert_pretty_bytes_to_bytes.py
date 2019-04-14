@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def convert_pretty_bytes_to_bytes(string):
     # Import modules ...
     import re

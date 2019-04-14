@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def find_program_version(prog = "python"):
     # Import modules ...
     import os

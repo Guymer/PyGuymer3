@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def find_integer_divisors(n):
     # Check input ...
     if n <= 2:

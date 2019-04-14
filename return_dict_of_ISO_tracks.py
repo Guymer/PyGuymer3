@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def return_dict_of_ISO_tracks(fname):
     # Import modules ...
     import subprocess

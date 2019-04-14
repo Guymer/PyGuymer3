@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def load_StreamAttributes(fobj, length2, length2a, length2b):
     # NOTE: see https://github.com/lerks/BluRay/wiki/StreamAttributes
 

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 A Python module containing functions relating to openstreetmap.org
 """

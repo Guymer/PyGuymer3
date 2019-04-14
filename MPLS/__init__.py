@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 # Load sub-functions ...
 from .load_AppInfoPlayList import load_AppInfoPlayList
 from .load_ExtensionData import load_ExtensionData

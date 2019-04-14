@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def return_dict_of_bluray_playlists(dname, threshold = 60.0):
     # Import modules ...
     import glob

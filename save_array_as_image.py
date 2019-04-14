@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def save_array_as_image(img0, fname, form = "png", scale = False, pc_bot = 0.0, pc_top = 0.0, ct = "fire"):
     """
     Saves an array as an image with optional scaling and/or colour mapping.

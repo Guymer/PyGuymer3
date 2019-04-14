@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def load_STNTable(fobj, length2, length2a):
     # NOTE: see https://github.com/lerks/BluRay/wiki/STNTable
 

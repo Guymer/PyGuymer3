@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def calc_dist_between_two_locs(lon1_deg, lat1_deg, lon2_deg, lat2_deg, nmax = 100, eps = 1.0e-12):
     """
     This function reads in two coordinates (in degrees) on the surface of Earth

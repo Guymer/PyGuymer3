@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def paeth_filter(a, b, c):
     # Find differences ...
     pi = a + b - c

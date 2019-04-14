@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def return_subtitle_extent(fname, playlist = None, subtitle = 0):
     # Check input ...
     if fname.startswith("bluray:") and playlist is None:

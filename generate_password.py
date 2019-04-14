@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def generate_password():
     # Import modules ...
     import base64

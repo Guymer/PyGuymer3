@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def return_video_source_aspect_ratio(fname, playlist = None):
     # Check input ...
     if fname.startswith("bluray:") and playlist is None:

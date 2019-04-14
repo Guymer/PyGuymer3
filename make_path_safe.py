@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def make_path_safe(path):
     # Loop over characters ...
     for illegal_char in "\\", "/", ":", "*", "?", "\"", "<", ">", "|", "%":

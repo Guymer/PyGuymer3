@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def download_header(sess, url):
     # Load sub-functions ...
     from .download import download

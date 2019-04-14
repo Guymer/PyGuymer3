@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 def num2deg(xtile, ytile, zoom):
     # NOTE: http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#Python
     import math
