@@ -1,0 +1,9 @@
+[MASTER]
+extension-pkg-whitelist=ephem,matplotlib,matplotlib.cm,numpy,sysctl
+
+[MESSAGES CONTROL]
+disable=bad-whitespace,line-too-long,missing-docstring,too-many-locals
+
+[TYPECHECK]
+ignored-classes=ephem,matplotlib,matplotlib.cm,numpy,sysctl
+ignored-modules=ephem,matplotlib,matplotlib.cm,numpy,sysctl
