@@ -3,7 +3,7 @@
 def parse_MPLS_file(br, ip):
     # Import modules ...
     import os
-    import pyguymer.MPLS
+    import pyguymer3.MPLS
 
     # Create dictionary to hold information ...
     info = {}
