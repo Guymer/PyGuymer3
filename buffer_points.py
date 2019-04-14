@@ -13,7 +13,6 @@ def buffer_points(points, dist, nang = 19, simp = 0.1, debug = False):
 
     # Load sub-functions ...
     from .buffer_point import buffer_point
-    from .calc_loc_from_loc_and_bearing_and_dist import calc_loc_from_loc_and_bearing_and_dist
 
     # Check argument ...
     if not isinstance(points, list):
