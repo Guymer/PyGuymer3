@@ -24,7 +24,7 @@ def return_dict_of_ISO_tracks(fname):
     # NOTE: "lsdvd" sometimes returns invalid XML as it does not:
     #         * escape characters; or
     #         * remove invalid characters.
-    stdout = str(stdout, "utf-8", "ignore").replace("&", "&amp;")
+    stdout = stdout.replace("&", "&amp;")
 
     # Create empty dictionary ...
     ans = {}

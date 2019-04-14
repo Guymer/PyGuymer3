@@ -96,10 +96,6 @@ def return_video_crop_parameters(fname, playlist = None):
                 if proc.returncode != 0:
                     raise Exception("\"ffmpeg\" command failed")
 
-        # Clean up ...
-        stderr = str(stderr, "utf-8", "ignore")
-        stdout = str(stdout, "utf-8", "ignore")
-
         # Loop over lines ...
         for line in stderr.split("\n"):
             # Skip irrelevant lines ...

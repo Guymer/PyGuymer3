@@ -25,8 +25,10 @@ def return_dict_of_ISO_subtitle_streams(fname, usr_track = -1):
         raise Exception("\"lsdvd\" command failed")
 
     # Clean up ...
-    # NOTE: "lsdvd" sometimes returns invalid XML as it does not: escape characters; or remove invalid characters.
-    stdout = str(stdout, "utf-8", "ignore").replace("&", "&amp;")
+    # NOTE: "lsdvd" sometimes returns invalid XML as it does not:
+    #         * escape characters; or
+    #         * remove invalid characters.
+    stdout = stdout.replace("&", "&amp;")
 
     # Loop over all tracks ...
     for track in xml.etree.ElementTree.fromstring(stdout).findall("track"):
