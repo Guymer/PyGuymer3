@@ -1,6 +1,6 @@
 # PyGuymer3
 
-This is a Python 3.X port of my Python module containing a bunch of random functions that I have written over the years.
+This is a Python 3.X port of [my Python 2.X module](https://github.com/Guymer/PyGuymer) containing a bunch of random functions that I have written over the years.
 
 ## Dependencies
 
