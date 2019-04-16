@@ -1,0 +1,9 @@
+[MASTER]
+extension-pkg-whitelist=ephem,matplotlib,matplotlib.cm,numpy,sysctl
+
+[MESSAGES CONTROL]
+disable=bad-whitespace,invalid-name,line-too-long,missing-docstring,too-many-arguments,too-many-locals
+
+[TYPECHECK]
+ignored-classes=cartopy,ephem,exifread,magic,matplotlib,matplotlib.cm,numpy,shapely,sysctl
+ignored-modules=cartopy,ephem,exifread,magic,matplotlib,matplotlib.cm,numpy,shapely,sysctl
