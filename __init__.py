@@ -3,6 +3,11 @@ A Python module containing a bunch of random functions that I have written over
 the years.
 """
 
+# Ensure that this module is only imported by Python 3.x ...
+import sys
+if sys.version_info.major != 3:
+    raise Exception("the Python module \"pyguymer3\" must only be used with Python 3.x, if you want a Python 2.x version then use \"pyguymer\" instead")
+
 # Load sub-functions ...
 from .add_map_background import add_map_background
 from .buffer_multipolygon import buffer_multipolygon
