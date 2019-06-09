@@ -70,5 +70,6 @@ from .return_video_width import return_video_width
 from .save_array_as_PNG import save_array_as_PNG
 from .save_array_as_PPM import save_array_as_PPM
 from .save_array_as_image import save_array_as_image
+from .save_file_if_needed import save_file_if_needed
 from .simplify_poly import simplify_poly
 from .yuv2rgb import yuv2rgb
