@@ -40,7 +40,7 @@ def save_array_as_PNG(img, fname, ftype_req = -1):
 
         ihdr = bytearray()
         ihdr += numpy.uint32(13).byteswap().tobytes()                           # Length
-        ihdr += bytearray("IHDR")                                               # Chunk type
+        ihdr += bytearray("IHDR", encoding = "ascii")                           # Chunk type
         ihdr += numpy.uint32(nx).byteswap().tobytes()                           # IHDR : Width
         ihdr += numpy.uint32(ny).byteswap().tobytes()                           # IHDR : Height
         ihdr += numpy.uint8(8).byteswap().tobytes()                             # IHDR : Bit depth
@@ -57,7 +57,7 @@ def save_array_as_PNG(img, fname, ftype_req = -1):
 
         idat = bytearray()
         idat += numpy.uint32(0).byteswap().tobytes()                            # Length
-        idat += bytearray("IDAT")                                               # Chunk type
+        idat += bytearray("IDAT", encoding = "ascii")                           # Chunk type
         stream = ""
 
         # Loop over rows ...
@@ -161,6 +161,6 @@ def save_array_as_PNG(img, fname, ftype_req = -1):
 
         iend = bytearray()
         iend += numpy.uint32(0).byteswap().tobytes()                            # Length
-        iend += bytearray("IEND")                                               # Chunk type
+        iend += bytearray("IEND", encoding = "ascii")                           # Chunk type
         iend += numpy.uint32(binascii.crc32(iend[4:])).byteswap().tobytes()     # CRC-32
         fobj.write(iend)
