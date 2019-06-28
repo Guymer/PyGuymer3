@@ -58,7 +58,7 @@ def save_array_as_PNG(img, fname, ftype_req = -1):
         idat = bytearray()
         idat += numpy.uint32(0).byteswap().tobytes()                            # Length
         idat += bytearray("IDAT", encoding = "ascii")                           # Chunk type
-        stream = ""
+        stream = bytearray()
 
         # Loop over rows ...
         for iy in range(ny):
