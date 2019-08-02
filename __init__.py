@@ -59,6 +59,7 @@ from .return_file_list import return_file_list
 from .return_file_list_with_warnings import return_file_list_with_warnings
 from .return_media_duration import return_media_duration
 from .return_subtitle_extent import return_subtitle_extent
+from .return_video_bit_depth import return_video_bit_depth
 from .return_video_crop_parameters import return_video_crop_parameters
 from .return_video_display_aspect_ratio import return_video_display_aspect_ratio
 from .return_video_frame_rate import return_video_frame_rate
