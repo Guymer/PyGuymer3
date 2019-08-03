@@ -1,4 +1,4 @@
-def return_dict_of_bluray_playlists(dname, threshold = 60.0):
+def return_dict_of_bluray_playlists(dname, size_threshold = 1073741824, time_threshold = 60.0):
     # Import modules ...
     import glob
     import json
@@ -9,7 +9,7 @@ def return_dict_of_bluray_playlists(dname, threshold = 60.0):
     ans = {}
 
     # Loop over playlists ...
-    for fname in glob.iglob(os.path.join(dname, "BDMV", "PLAYLIST", "*.mpls")):
+    for fname in glob.glob(os.path.join(dname, "BDMV", "PLAYLIST", "*.mpls")):
         # Extract number ...
         playlist = int(os.path.basename(fname).split(".")[0])
 
@@ -22,22 +22,26 @@ def return_dict_of_bluray_playlists(dname, threshold = 60.0):
                 "-analyzeduration", "1800M",
                 "-print_format", "json",
                 "-show_format",
-                "-playlist", "{0:d}".format(playlist),
-                "bluray:{0:s}".format(dname)
+                "-playlist", "{:d}".format(playlist),
+                "bluray:{:s}".format(dname)
             ],
             stderr = subprocess.PIPE,
             stdout = subprocess.PIPE
         )
         stdout, stderr = proc.communicate()
         if proc.returncode != 0:
-            print("WARNING: \"ffprobe\" command failed on playlist \"{0:d}\" of \"{1:s}\"".format(playlist, fname))
+            print("WARNING: \"ffprobe\" command failed on playlist \"{:d}\" of \"{:s}\"".format(playlist, fname))
             continue
 
-        # Append information if this playlist is worthwhile ...
+        # Append information if this playlist is worthwhile (by default,
+        # "worthwhile" is defined as >=1 GiB and/or >=1 minute) ...
         info = json.loads(stdout)["format"]
         if "duration" in info:
-            if float(info["duration"]) >= threshold:
-                ans["{0:d}".format(playlist)] = info
+            if float(info["duration"]) >= time_threshold:
+                ans["{:d}".format(playlist)] = info
+        if "size" in info:
+            if int(info["size"]) >= size_threshold:
+                ans["{:d}".format(playlist)] = info
 
     # Return dictionary ...
     return ans
