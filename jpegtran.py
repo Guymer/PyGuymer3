@@ -10,6 +10,7 @@ def jpegtran(fname):
                 "type",
                 "jpegtran"
             ],
+            encoding = "utf-8",
             stdout = open(os.devnull, "wt"),
             stderr = open(os.devnull, "wt")
         )
@@ -31,6 +32,7 @@ def jpegtran(fname):
                 "-perfect",
                 fname
             ],
+            encoding = "utf-8",
             stdout = open(os.devnull, "wt"),
             stderr = open(os.devnull, "wt")
         )

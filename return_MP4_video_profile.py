@@ -14,6 +14,7 @@ def return_MP4_video_profile(fname):
             "-show_streams",
             fname
         ],
+        encoding = "utf-8",
         stderr = subprocess.PIPE,
         stdout = subprocess.PIPE
     )

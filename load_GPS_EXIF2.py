@@ -24,7 +24,8 @@ def load_GPS_EXIF2(fname):
             "-GPSLatitude",
             "-GPSHPositioningError",
             fname
-        ]
+        ],
+        encoding = "utf-8"
     )
     dat = json.loads(out)[0]
 

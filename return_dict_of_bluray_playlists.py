@@ -25,6 +25,7 @@ def return_dict_of_bluray_playlists(dname, size_threshold = 1073741824, time_thr
                 "-playlist", "{:d}".format(playlist),
                 "bluray:{:s}".format(dname)
             ],
+            encoding = "utf-8",
             stderr = subprocess.PIPE,
             stdout = subprocess.PIPE
         )

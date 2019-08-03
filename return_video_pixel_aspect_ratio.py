@@ -20,6 +20,7 @@ def return_video_pixel_aspect_ratio(fname, playlist = None):
                 "-playlist", "{0:d}".format(playlist),
                 fname
             ],
+            encoding = "utf-8",
             stderr = subprocess.PIPE,
             stdout = subprocess.PIPE
         )
@@ -37,6 +38,7 @@ def return_video_pixel_aspect_ratio(fname, playlist = None):
                 "-show_streams",
                 fname
             ],
+            encoding = "utf-8",
             stderr = subprocess.PIPE,
             stdout = subprocess.PIPE
         )
@@ -54,6 +56,7 @@ def return_video_pixel_aspect_ratio(fname, playlist = None):
                     "-f", "mjpeg",
                     fname
                 ],
+                encoding = "utf-8",
                 stderr = subprocess.PIPE,
                 stdout = subprocess.PIPE
             )

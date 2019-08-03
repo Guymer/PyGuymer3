@@ -15,6 +15,7 @@ def return_ISO_palette(fname, usr_track = None):
             "-Ox",
             fname
         ],
+        encoding = "utf-8",
         stderr = subprocess.PIPE,
         stdout = subprocess.PIPE
     )

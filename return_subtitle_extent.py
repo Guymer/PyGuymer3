@@ -39,6 +39,7 @@ def return_subtitle_extent(fname, playlist = None, subtitle = 0):
                 "-f", "null",
                 "/dev/null"
             ],
+            encoding = "utf-8",
             stderr = subprocess.PIPE,
             stdout = subprocess.PIPE
         )
@@ -63,6 +64,7 @@ def return_subtitle_extent(fname, playlist = None, subtitle = 0):
                 "-f", "null",
                 "/dev/null"
             ],
+            encoding = "utf-8",
             stderr = subprocess.PIPE,
             stdout = subprocess.PIPE
         )
@@ -87,6 +89,7 @@ def return_subtitle_extent(fname, playlist = None, subtitle = 0):
                     "-f", "null",
                     "/dev/null"
                 ],
+                encoding = "utf-8",
                 stderr = subprocess.PIPE,
                 stdout = subprocess.PIPE
             )

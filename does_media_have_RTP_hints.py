@@ -14,6 +14,7 @@ def does_media_have_RTP_hints(fname = "missing"):
             "-show_streams",
             fname
         ],
+        encoding = "utf-8",
         stderr = subprocess.PIPE,
         stdout = subprocess.PIPE
     )
@@ -31,6 +32,7 @@ def does_media_have_RTP_hints(fname = "missing"):
                 "-f", "mjpeg",
                 fname
             ],
+            encoding = "utf-8",
             stderr = subprocess.PIPE,
             stdout = subprocess.PIPE
         )

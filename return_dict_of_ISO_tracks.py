@@ -11,6 +11,7 @@ def return_dict_of_ISO_tracks(fname):
             "-Ox",
             fname
         ],
+        encoding = "utf-8",
         stderr = subprocess.PIPE,
         stdout = subprocess.PIPE
     )

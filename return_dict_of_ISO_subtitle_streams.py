@@ -15,6 +15,7 @@ def return_dict_of_ISO_subtitle_streams(fname, usr_track = -1):
             "-Ox",
             fname
         ],
+        encoding = "utf-8",
         stderr = subprocess.PIPE,
         stdout = subprocess.PIPE
     )

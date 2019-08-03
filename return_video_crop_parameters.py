@@ -43,6 +43,7 @@ def return_video_crop_parameters(fname, playlist = None):
                     "-f", "null",
                     "/dev/null"
                 ],
+                encoding = "utf-8",
                 stderr = subprocess.PIPE,
                 stdout = subprocess.PIPE
             )
@@ -65,6 +66,7 @@ def return_video_crop_parameters(fname, playlist = None):
                     "-f", "null",
                     "/dev/null"
                 ],
+                encoding = "utf-8",
                 stderr = subprocess.PIPE,
                 stdout = subprocess.PIPE
             )
@@ -87,6 +89,7 @@ def return_video_crop_parameters(fname, playlist = None):
                         "-f", "null",
                         "/dev/null"
                     ],
+                    encoding = "utf-8",
                     stderr = subprocess.PIPE,
                     stdout = subprocess.PIPE
                 )

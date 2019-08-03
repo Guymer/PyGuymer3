@@ -10,6 +10,7 @@ def optipng(fname):
                 "type",
                 "optipng"
             ],
+            encoding = "utf-8",
             stdout = open(os.devnull, "wt"),
             stderr = open(os.devnull, "wt")
         )
@@ -27,6 +28,7 @@ def optipng(fname):
                 "optipng",
                 fname
             ],
+            encoding = "utf-8",
             stdout = open(os.devnull, "wt"),
             stderr = open(os.devnull, "wt")
         )
