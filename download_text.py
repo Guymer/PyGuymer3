@@ -1,4 +1,7 @@
 def download_text(sess, url):
+    # Import modules ...
+    import html
+
     # Load sub-functions ...
     from .download import download
 
@@ -7,4 +10,4 @@ def download_text(sess, url):
     if resp is False:
         return False
 
-    return resp.text.encode("utf8", "xmlcharrefreplace")
+    return html.unescape(resp.text)
