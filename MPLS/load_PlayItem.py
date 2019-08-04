@@ -13,8 +13,8 @@ def load_PlayItem(fobj, length2):
 
     # Read the binary data ...
     ans["Length"], = struct.unpack(">H", fobj.read(2));                                                                 length2 += 2
-    ans["ClipInformationFileName"] = fobj.read(5);                                                                      length2 += 5; length2a += 5
-    ans["ClipCodecIdentifier"] = fobj.read(4);                                                                          length2 += 4; length2a += 4
+    ans["ClipInformationFileName"] = fobj.read(5).decode("utf-8");                                                      length2 += 5; length2a += 5
+    ans["ClipCodecIdentifier"] = fobj.read(4).decode("utf-8");                                                          length2 += 4; length2a += 4
     ans["MiscFlags1"], = struct.unpack(">H", fobj.read(2));                                                             length2 += 2; length2a += 2
     ans["IsMultiAngle"] = bool(ans["MiscFlags1"]&(1<<11))
     ans["RefToSTCID"], = struct.unpack(">B", fobj.read(1));                                                             length2 += 1; length2a += 1

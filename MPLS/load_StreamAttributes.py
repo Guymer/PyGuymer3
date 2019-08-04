@@ -16,12 +16,12 @@ def load_StreamAttributes(fobj, length2, length2a, length2b):
             ans["VideoFormat+FrameRate"], = struct.unpack(">B", fobj.read(1));                                          length2 += 1; length2a += 1; length2b += 1; length2c += 1
         if ans["StreamCodingType"] in [int(0x80), int(0x81), int(0x82), int(0x83), int(0x84), int(0x85), int(0x86), int(0xA1), int(0xA2)]:
             ans["AudioFormat+SampleRate"], = struct.unpack(">B", fobj.read(1));                                         length2 += 1; length2a += 1; length2b += 1; length2c += 1
-            ans["LanguageCode"] = fobj.read(3);                                                                         length2 += 3; length2a += 3; length2b += 3; length2c += 3
+            ans["LanguageCode"] = fobj.read(3).decode("utf-8");                                                         length2 += 3; length2a += 3; length2b += 3; length2c += 3
         if ans["StreamCodingType"] in [int(0x90), int(0x91)]:
-            ans["LanguageCode"] = fobj.read(3);                                                                         length2 += 3; length2a += 3; length2b += 3; length2c += 3
+            ans["LanguageCode"] = fobj.read(3).decode("utf-8");                                                         length2 += 3; length2a += 3; length2b += 3; length2c += 3
         if ans["StreamCodingType"] in [int(0x92)]:
-            ans["CharacterCode"] = fobj.read(1);                                                                        length2 += 1; length2a += 1; length2b += 1; length2c += 1
-            ans["LanguageCode"] = fobj.read(3);                                                                         length2 += 3; length2a += 3; length2b += 3; length2c += 3
+            ans["CharacterCode"] = fobj.read(1).decode("utf-8");                                                        length2 += 1; length2a += 1; length2b += 1; length2c += 1
+            ans["LanguageCode"] = fobj.read(3).decode("utf-8");                                                         length2 += 3; length2a += 3; length2b += 3; length2c += 3
 
         # Pad out the read ...
         if length2c != ans["Length"]:
