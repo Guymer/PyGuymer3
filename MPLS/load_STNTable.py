@@ -13,15 +13,15 @@ def load_STNTable(fobj, length2, length2a):
     length2b = 0                                                                                                        # [B]
 
     # Read the binary data ...
-    ans["Length"], = struct.unpack(">H", fobj.read(2));                                                               length2 += 2; length2a += 2
+    ans["Length"], = struct.unpack(">H", fobj.read(2));                                                                 length2 += 2; length2a += 2
     fobj.read(2);                                                                                                       length2 += 2; length2a += 2; length2b += 2
-    ans["NumberOfPrimaryVideoStreamEntries"], = struct.unpack(">B", fobj.read(1));                                    length2 += 1; length2a += 1; length2b += 1
-    ans["NumberOfPrimaryAudioStreamEntries"], = struct.unpack(">B", fobj.read(1));                                    length2 += 1; length2a += 1; length2b += 1
-    ans["NumberOfPrimaryPGStreamEntries"], = struct.unpack(">B", fobj.read(1));                                       length2 += 1; length2a += 1; length2b += 1
-    ans["NumberOfPrimaryIGStreamEntries"], = struct.unpack(">B", fobj.read(1));                                       length2 += 1; length2a += 1; length2b += 1
-    ans["NumberOfSecondaryAudioStreamEntries"], = struct.unpack(">B", fobj.read(1));                                  length2 += 1; length2a += 1; length2b += 1
-    ans["NumberOfSecondaryVideoStreamEntries"], = struct.unpack(">B", fobj.read(1));                                  length2 += 1; length2a += 1; length2b += 1
-    ans["NumberOfSecondaryPGStreamEntries"], = struct.unpack(">B", fobj.read(1));                                     length2 += 1; length2a += 1; length2b += 1
+    ans["NumberOfPrimaryVideoStreamEntries"], = struct.unpack(">B", fobj.read(1));                                      length2 += 1; length2a += 1; length2b += 1
+    ans["NumberOfPrimaryAudioStreamEntries"], = struct.unpack(">B", fobj.read(1));                                      length2 += 1; length2a += 1; length2b += 1
+    ans["NumberOfPrimaryPGStreamEntries"], = struct.unpack(">B", fobj.read(1));                                         length2 += 1; length2a += 1; length2b += 1
+    ans["NumberOfPrimaryIGStreamEntries"], = struct.unpack(">B", fobj.read(1));                                         length2 += 1; length2a += 1; length2b += 1
+    ans["NumberOfSecondaryAudioStreamEntries"], = struct.unpack(">B", fobj.read(1));                                    length2 += 1; length2a += 1; length2b += 1
+    ans["NumberOfSecondaryVideoStreamEntries"], = struct.unpack(">B", fobj.read(1));                                    length2 += 1; length2a += 1; length2b += 1
+    ans["NumberOfSecondaryPGStreamEntries"], = struct.unpack(">B", fobj.read(1));                                       length2 += 1; length2a += 1; length2b += 1
     fobj.read(5);                                                                                                       length2 += 5; length2a += 5; length2b += 5
 
     # Loop over stream list names ...
@@ -38,7 +38,7 @@ def load_STNTable(fobj, length2, length2a):
 
     # Pad out the read ...
     if length2b != ans["Length"]:
-        l = ans["Length"] - length2b                                                                                   # [B]
+        l = ans["Length"] - length2b                                                                                    # [B]
         fobj.read(l);                                                                                                   length2 += l; length2a += l; length2b += l
 
     # Return answer ...

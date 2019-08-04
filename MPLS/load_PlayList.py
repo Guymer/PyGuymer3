@@ -15,8 +15,8 @@ def load_PlayList(fobj):
     # Read the binary data ...
     ans["Length"], = struct.unpack(">I", fobj.read(4))
     fobj.read(2);                                                                                                       length2 += 2
-    ans["NumberOfPlayItems"], = struct.unpack(">H", fobj.read(2));                                                    length2 += 2
-    ans["NumberOfSubPaths"], = struct.unpack(">H", fobj.read(2));                                                     length2 += 2
+    ans["NumberOfPlayItems"], = struct.unpack(">H", fobj.read(2));                                                      length2 += 2
+    ans["NumberOfSubPaths"], = struct.unpack(">H", fobj.read(2));                                                       length2 += 2
 
     # Loop over PlayItems ...
     ans["PlayItems"] = []
@@ -34,7 +34,7 @@ def load_PlayList(fobj):
 
     # Pad out the read ...
     if length2 != ans["Length"]:
-        l = ans["Length"] - length2                                                                                    # [B]
+        l = ans["Length"] - length2                                                                                     # [B]
         fobj.read(l);                                                                                                   length2 += l
 
     # Return answer ...

@@ -9,13 +9,13 @@ def load_SubPlayItem(fobj, length2, length2a):
     length2b = 0                                                                                                        # [B]
 
     # Read the binary data ...
-    ans["Length"], = struct.unpack(">H", fobj.read(2));                                                               length2 += 2; length2a += 2
+    ans["Length"], = struct.unpack(">H", fobj.read(2));                                                                 length2 += 2; length2a += 2
 
     # NOTE: SubPlayItem is not implemented
 
     # Pad out the read ...
     if length2b != ans["Length"]:
-        l = ans["Length"] - length2b                                                                                   # [B]
+        l = ans["Length"] - length2b                                                                                    # [B]
         fobj.read(l);                                                                                                   length2 += l; length2a += l; length2b += l
 
     # Return answer ...
