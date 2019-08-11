@@ -17,7 +17,7 @@ def jpegtran(fname):
     except subprocess.CalledProcessError:
         raise Exception("\"jpegtran\" is not installed")
 
-    # Check that the JP[E]G exists ...
+    # Check that the image exists ...
     if not os.path.exists(fname):
         raise Exception("\"{0:s}\" does not exist".format(fname))
 
