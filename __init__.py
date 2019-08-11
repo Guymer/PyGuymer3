@@ -3,12 +3,10 @@ A Python module containing a bunch of random functions that I have written over
 the years.
 """
 
-# Ensure that this module is only imported by Python 3.x ...
+# Import standard modules ...
 import sys
-if sys.version_info.major != 3:
-    raise Exception("the Python module \"pyguymer3\" must only be used with Python 3.x, if you want a Python 2.x version then use \"pyguymer\" instead")
 
-# Load sub-functions ...
+# Import sub-functions ...
 from .add_map_background import add_map_background
 from .buffer_multipolygon import buffer_multipolygon
 from .buffer_point import buffer_point
@@ -26,6 +24,7 @@ from .download_file import download_file
 from .download_header import download_header
 from .download_stream import download_stream
 from .download_text import download_text
+from .exiftool import exiftool
 from .find_instances_of_a_file import find_instances_of_a_file
 from .find_integer_divisors import find_integer_divisors
 from .find_middle_of_great_circle import find_middle_of_great_circle
@@ -74,3 +73,7 @@ from .save_array_as_image import save_array_as_image
 from .save_file_if_needed import save_file_if_needed
 from .simplify_poly import simplify_poly
 from .yuv2rgb import yuv2rgb
+
+# Ensure that this module is only imported by Python 3.x ...
+if sys.version_info.major != 3:
+    raise Exception("the Python module \"pyguymer3\" must only be used with Python 3.x, if you want a Python 2.x version then use \"pyguymer\" instead")
