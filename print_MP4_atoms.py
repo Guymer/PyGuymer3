@@ -21,11 +21,11 @@ def print_MP4_atoms(fname = "missing"):
         # Loop over entire contents of MP4 ...
         while fobj.tell() < os.path.getsize(fname):
             # Attempt to read 4 bytes as a big-endian un-signed 32 bit integer ...
-            val, = struct.unpack(">I", fobj.read(4))                           # [B]
+            val, = struct.unpack(">I", fobj.read(4))                            # [B]
             off = 4
 
             # Extract atom name ...
-            name = fobj.read(4)
+            name = fobj.read(4).decode("utf-8")
             off += 4
 
             # Check that it matches the pattern ...
@@ -51,7 +51,7 @@ def print_MP4_atoms(fname = "missing"):
                 # NOTE: This atom has 64-bit sizes.
 
                 # Attempt to read 8 bytes as a big-endian un-signed 64 bit integer ...
-                val, = struct.unpack(">Q", fobj.read(8))                       # [B]
+                val, = struct.unpack(">Q", fobj.read(8))                        # [B]
                 off += 8
 
                 # Print summary ...
