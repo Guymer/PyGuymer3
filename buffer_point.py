@@ -30,7 +30,7 @@ def buffer_point(lon1, lat1, dist, nang = 19, debug = False):
     # NOTE: The most two subsequent points can be apart is ~45 degrees (with
     #       nang = 9).
     for i in range(nang):
-        # Calculate initial angle, then the ring coordinates and them to the list ...
+        # Calculate initial angle, then the ring coordinates and add them to the list ...
         ang1 = 360.0 * float(i) / float(nang - 1)
         lon2, lat2, ang2 = calc_loc_from_loc_and_bearing_and_dist(lon1, lat1, ang1, dist)
         ring.append((lon2, lat2))
