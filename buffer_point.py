@@ -143,14 +143,14 @@ def buffer_point(lon1, lat1, dist, nang = 19, debug = False):
         tmp = shapely.geometry.polygon.Polygon(part1)
         if not tmp.is_valid:
             if debug:
-                print("DEBUG: \"tmp\" is not a valid [Multi]Polygon ({0:s})".format(shapely.validation.explain_validity(tmp)))
+                print("DEBUG: \"tmp\" is not a valid Polygon ({0:s})".format(shapely.validation.explain_validity(tmp)))
         else:
             ans.append(tmp)
     if len(set(part2)) >= 3:
         tmp = shapely.geometry.polygon.Polygon(part2)
         if not tmp.is_valid:
             if debug:
-                print("DEBUG: \"tmp\" is not a valid [Multi]Polygon ({0:s})".format(shapely.validation.explain_validity(tmp)))
+                print("DEBUG: \"tmp\" is not a valid Polygon ({0:s})".format(shapely.validation.explain_validity(tmp)))
         else:
             ans.append(tmp)
 
