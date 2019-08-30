@@ -1,0 +1,22 @@
+dict(
+    integer = dict(
+        c_int = "int",
+        c_short = "short",
+        c_long = "long",
+        c_long_long = "long_long",
+        c_signed_char = "signed_char",
+    ),
+    real = dict(
+        c_float = "float",
+        c_double = "double",
+        c_long_double = "long_double",
+    ),
+    complex = dict(
+        c_float_complex = "complex_float",
+        c_double_complex = "complex_double",
+        c_long_double_complex = "complex_long_double",
+    ),
+    character = dict(
+        c_char = "char",
+    ),
+)
