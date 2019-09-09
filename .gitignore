@@ -9,7 +9,7 @@ ehthumbs.db
 Thumbs.db
 
 # Hide compiled code ...
-*.pyc
+__pycache__
 *.so
 f90.cpython-37m-darwin.so
 f90.cpython-37m-darwin.so.dSYM
