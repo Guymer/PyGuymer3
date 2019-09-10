@@ -5,7 +5,7 @@ rm -rf f90.so f90.cpython-37m-darwin.so f90.cpython-37m-darwin.so.dSYM
 
 # Define options ...
 LANG_OPTS="-ffree-form -ffree-line-length-none -frecursive"
-WARN_OPTS="-Wall -Wextra -Waliasing -Warray-temporaries -Wconversion-extra -Wimplicit-interface -Wimplicit-procedure"
+WARN_OPTS="-Wall -Wextra -Waliasing -Wconversion-extra -Wimplicit-interface -Wimplicit-procedure"
 MACH_OPTS="-m64"
 
 # Compile ...
