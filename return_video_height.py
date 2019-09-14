@@ -71,7 +71,7 @@ def return_video_height(fname, playlist = None):
             continue
 
         # Return height ...
-        return int(stream["height"])                                           # [px]
+        return int(stream["height"])                                            # [px]
 
     # Return error ...
     return -1

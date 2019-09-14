@@ -104,8 +104,8 @@ def return_subtitle_extent(fname, playlist = None, subtitle = 0):
     # Loop over matches ...
     for match in re.findall(r"crop=[0-9]+:[0-9]+:[0-9]+:[0-9]+", stderr):
         # Extract information ...
-        h = int(match.split("=")[1].split(":")[1])                            # [px]
-        y = int(match.split("=")[1].split(":")[3])                            # [px]
+        h = int(match.split("=")[1].split(":")[1])                              # [px]
+        y = int(match.split("=")[1].split(":")[3])                              # [px]
 
         # Update values ...
         y1 = min(y1, y)                                                         # [px]

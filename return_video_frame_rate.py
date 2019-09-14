@@ -75,8 +75,8 @@ def return_video_frame_rate(fname, playlist = None):
             raise Exception("\"avg_frame_rate\" did not contain a \"/\"")
 
         # Return frame rate ...
-        a = stream["avg_frame_rate"].split("/")[0]                             # [#]
-        b = stream["avg_frame_rate"].split("/")[1]                             # [s]
+        a = stream["avg_frame_rate"].split("/")[0]                              # [#]
+        b = stream["avg_frame_rate"].split("/")[1]                              # [s]
         fps = -1.0                                                              # [Hz]
         if int(b) != 0:
             fps = float(a) / float(b)                                           # [Hz]

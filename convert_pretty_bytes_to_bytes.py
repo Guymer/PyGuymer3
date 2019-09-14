@@ -3,7 +3,7 @@ def convert_pretty_bytes_to_bytes(string):
     import re
 
     # Extract digits (with decimal point) and letters separately ...
-    val = float(re.sub(r"[A-Z]", "", string.upper()))                          # [?]
+    val = float(re.sub(r"[A-Z]", "", string.upper()))                           # [?]
     units = re.sub(r"[0-9\.]", "", string).upper()
 
     # Scale value ...

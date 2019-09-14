@@ -71,7 +71,7 @@ def return_video_width(fname, playlist = None):
             continue
 
         # Return width ...
-        return int(stream["width"])                                            # [px]
+        return int(stream["width"])                                             # [px]
 
     # Return error ...
     return -1

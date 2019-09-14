@@ -68,5 +68,5 @@ def return_media_duration(fname, playlist = None):
     form = json.loads(stdout)["format"]
     dur = -1.0                                                                  # [s]
     if "duration" in form:
-        dur = float(form["duration"])                                          # [s]
+        dur = float(form["duration"])                                           # [s]
     return dur
