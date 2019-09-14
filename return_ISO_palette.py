@@ -2,7 +2,7 @@ def return_ISO_palette(fname, usr_track = None):
     # Import modules ...
     import numpy
     import subprocess
-    import xml.etree.ElementTree
+    import lxml.etree
 
     # Load sub-functions ...
     from .yuv2rgb import yuv2rgb
@@ -23,14 +23,8 @@ def return_ISO_palette(fname, usr_track = None):
     if proc.returncode != 0:
         raise Exception("\"lsdvd\" command failed")
 
-    # Clean up ...
-    # NOTE: "lsdvd" sometimes returns invalid XML as it does not:
-    #         * escape characters; or
-    #         * remove invalid characters.
-    stdout = stdout.replace("&", "&amp;")
-
     # Loop over all tracks ...
-    for track in xml.etree.ElementTree.fromstring(stdout).findall("track"):
+    for track in lxml.etree.fromstring(stdout).findall("track"):
         # Skip if this track is not the chosen one ...
         if int(track.find("ix").text) != int(usr_track):
             continue
