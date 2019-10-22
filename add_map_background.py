@@ -1,4 +1,4 @@
-def add_map_background(axis, debug = False, name = "natural-earth-1", resolution = "medium0512px"):
+def add_map_background(axis, debug = False, name = "natural-earth-1", resolution = "medium0512px", extent = None):
     # Import modules ...
     import json
     import os
@@ -28,4 +28,4 @@ def add_map_background(axis, debug = False, name = "natural-earth-1", resolution
     else:
         if debug:
             print("INFO: Drawing user-requested background.")
-        axis.background_img(name = name, resolution = resolution)
+        axis.background_img(name = name, resolution = resolution, extent = extent)
