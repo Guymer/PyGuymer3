@@ -4,7 +4,7 @@ This is a Python 3.X sub-module containing a bunch of random functions that I ha
 
 ## Notes
 
-* To compile the FORTRAN source code and create the sub-module just run [compile.sh](compile.sh).
+* To compile the FORTRAN source code and create the sub-module just run [Makefile](Makefile).
 * f2py isn't good at creating interfaces to FORTRAN functions, see [this Stack Overflow question](https://stackoverflow.com/questions/10913003/f2py-array-valued-functions) and [this Stack Overflow question](https://stackoverflow.com/questions/18669814/when-using-f2py-function-scope-within-fortran-module-different-than-when-compil), so all the FORTRAN here will be subroutines.
 
 ## Data Types
@@ -65,7 +65,3 @@ Returns
 -------
 c : float
 ```
-
-## To Do
-
-* Obviously, the [compile.sh](compile.sh) needs to be replaced by a real Makefile at some point.
