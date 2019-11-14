@@ -1,21 +1,21 @@
 # Find executables ...
-CUT     = $(shell which cut      2> /dev/null || echo "ERROR")
-EGREP   = $(shell which egrep    2> /dev/null || echo "ERROR")
-FC1     = $(shell which f2py-3.7 2> /dev/null || echo "ERROR")
-FC2     = $(shell which mpif90   2> /dev/null || echo "ERROR")
-RM      = $(shell which rm       2> /dev/null || echo "ERROR")
+CUT   := $(shell which cut      2> /dev/null || echo "ERROR")
+EGREP := $(shell which egrep    2> /dev/null || echo "ERROR")
+FC1   := $(shell which f2py-3.7 2> /dev/null || echo "ERROR")
+FC2   := $(shell which mpif90   2> /dev/null || echo "ERROR")
+RM    := $(shell which rm       2> /dev/null || echo "ERROR")
 
 # Set defaults ...
-DEBUG = true
+DEBUG ?= true
 
 # ******************************************************************************
 
 # Set compiler flags ...
-DEBG_OPTS = -g -fcheck=all
-LANG_OPTS = -ffree-form -ffree-line-length-none -frecursive -fno-unsafe-math-optimizations -frounding-math -fsignaling-nans
-WARN_OPTS = -Wall -Wextra -Waliasing -Wcharacter-truncation -Wconversion-extra -Wimplicit-interface -Wimplicit-procedure -Wunderflow -Wtabs
-OPTM_OPTS = -O2
-MACH_OPTS = -march=native -m64
+DEBG_OPTS := -g -fcheck=all
+LANG_OPTS := -ffree-form -ffree-line-length-none -frecursive -fno-unsafe-math-optimizations -frounding-math -fsignaling-nans
+WARN_OPTS := -Wall -Wextra -Waliasing -Wcharacter-truncation -Wconversion-extra -Wimplicit-interface -Wimplicit-procedure -Wunderflow -Wtabs
+OPTM_OPTS := -O2
+MACH_OPTS := -march=native -m64
 
 # If the user wants debugging then append the debugging flags to the language
 # flags ...
