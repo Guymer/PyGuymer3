@@ -1,10 +1,10 @@
 def save_array_as_PNG(img, fname, ftype_req = -1):
     """
-    Save an array as a PNG.
+    Save an array as a PNG image.
 
-    img: a 3D NumPy array of type uint8 with shape (ny,nx,nc)
-    fname: output file name
-    ftype_req = filter type to be used
+    img -- a 3D NumPy array of type uint8 with shape (ny,nx,3)
+    fname -- output file name
+    ftype_req -- filter type to be used
 
     The PNG specification defines 5 different possible filters which are
     numbered 0 to 4 (inclusively). Filter #0 is "no filtering". If the user
@@ -25,6 +25,12 @@ def save_array_as_PNG(img, fname, ftype_req = -1):
 
     # Find image size ...
     ny, nx, nc = img.shape
+
+    # Check image ...
+    if not img.dtype == "uint8":
+        raise TypeError("\"img\" must be a \"uint8\" array")
+    if nc != 3:
+        raise Exception("\"img\" must be a 3-channel array")
 
     # Try opening the PNG ...
     with open(fname, "wb") as fobj:

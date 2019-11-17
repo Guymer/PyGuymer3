@@ -3,15 +3,15 @@ def save_array_as_image(img0, fname, form = "png", scale = False, pc_bot = 0.0, 
     Saves an array as an image with optional scaling and/or colour mapping.
     Currently only "png" and "ppm" formats are available.
 
-    img0: a 2D NumPy array of any type with shape (ny,nx)
-    fname: output file name
-    form: output file format
-    scale: does the input need scaling?
-    pc_bot: the percentage to clip off the bottom of the histogram (if scaling
+    img0 -- a 2D NumPy array of any type with shape (ny,nx)
+    fname -- output file name
+    form -- output file format
+    scale -- does the input need scaling?
+    pc_bot -- the percentage to clip off the bottom of the histogram (if scaling
         is requested)
-    pc_top: the percentage to clip off the top of the histogram (if scaling is
+    pc_top -- the percentage to clip off the top of the histogram (if scaling is
         requested)
-    ct: the colour table to apply (if 3-channel output is requested)
+    ct -- the colour table to apply (if 3-channel output is requested)
     """
 
     # Load modules ...
@@ -22,6 +22,9 @@ def save_array_as_image(img0, fname, form = "png", scale = False, pc_bot = 0.0, 
     # Load sub-functions ...
     from .save_array_as_PPM import save_array_as_PPM
     from .save_array_as_PNG import save_array_as_PNG
+
+    # Find image size ...
+    ny, nx = img0.shape
 
     # Load colour tables ...
     colour_tables = json.load(
@@ -37,7 +40,7 @@ def save_array_as_image(img0, fname, form = "png", scale = False, pc_bot = 0.0, 
     )
 
     # Create uint8 image that will be passed to the external function ...
-    img2 = numpy.empty((img0.shape[0], img0.shape[1], 3), dtype = numpy.uint8)
+    img2 = numpy.empty((ny, nx, 3), dtype = numpy.uint8)
 
     # Check if scaling is required ...
     if scale:
@@ -58,13 +61,13 @@ def save_array_as_image(img0, fname, form = "png", scale = False, pc_bot = 0.0, 
         img1 = 255.0 * (img1 - p_lo) / (p_hi - p_lo)
         numpy.place(img1, img1 > 255.0, 255.0)
         numpy.place(img1, img1 < 0.0, 0.0)
-        for ix in range(img0.shape[1]):
-            for iy in range(img0.shape[0]):
+        for ix in range(nx):
+            for iy in range(ny):
                 img2[iy, ix, :] = colour_tables[ct][img1[iy, ix].astype(numpy.uint8)][:]
     else:
         # Convert image to correct type ...
-        for ix in range(img0.shape[1]):
-            for iy in range(img0.shape[0]):
+        for ix in range(nx):
+            for iy in range(ny):
                 img2[iy, ix, :] = colour_tables[ct][img0[iy, ix].astype(numpy.uint8)][:]
 
     # Save image ...
