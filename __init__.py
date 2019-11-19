@@ -42,6 +42,7 @@ from .load_GPS_EXIF2 import load_GPS_EXIF2
 from .make_path_safe import make_path_safe
 from .optipng import optipng
 from .paeth_filter import paeth_filter
+from .parse_CLPI_file import parse_CLPI_file
 from .parse_MPLS_file import parse_MPLS_file
 from .print_MP4_atoms import print_MP4_atoms
 from .remove_almost_empty_directories import remove_almost_empty_directories

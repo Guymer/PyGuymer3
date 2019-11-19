@@ -1,0 +1,40 @@
+def parse_CLPI_file(br, ip):
+    # Import modules ...
+    import os
+    import pyguymer3.MPLS
+
+    print("WARNING: parse_CLPI_file() is experimental")
+
+    # Create dictionary to hold information ...
+    info = {}
+
+    # Open file ...
+    with open(os.path.join(br, "BDMV/CLIPINF/{0:05d}.clpi".format(ip)), "rb") as fobj:
+        # Load header ...
+        res, length0 = pyguymer3.MPLS.load_header(fobj)
+        info["header"] = res
+
+        # Load AppInfoPlayList section ...
+        res, length1 = pyguymer3.MPLS.load_AppInfoPlayList(fobj)
+        info["AppInfoPlayList"] = res
+
+        # Load PlayList section ...
+        if info["header"]["PlayListStartAddress"] != 0:
+            fobj.seek(info["header"]["PlayListStartAddress"], os.SEEK_SET)
+            res, length2 = pyguymer3.MPLS.load_PlayList(fobj)
+            info["PlayList"] = res
+
+        # Load PlayListMark section ...
+        if info["header"]["PlayListMarkStartAddress"] != 0:
+            fobj.seek(info["header"]["PlayListMarkStartAddress"], os.SEEK_SET)
+            res, length3 = pyguymer3.MPLS.load_PlayListMark(fobj)
+            info["PlayListMark"] = res
+
+        # Load ExtensionData section ...
+        if info["header"]["ExtensionDataStartAddress"] != 0:
+            fobj.seek(info["header"]["ExtensionDataStartAddress"], os.SEEK_SET)
+            res, length4 = pyguymer3.MPLS.load_ExtensionData(fobj)
+            info["ExtensionData"] = res
+
+    # Return answer ...
+    return info
