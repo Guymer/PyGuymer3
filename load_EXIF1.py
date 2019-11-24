@@ -1,0 +1,13 @@
+def load_EXIF1(fname):
+    # NOTE: This function uses the Python module "exifread".
+
+    # Import modules ...
+    import exifread
+
+    # Open RAW file read-only ...
+    with open(fname, "rb") as fobj:
+        # Load EXIF tags ...
+        ans = exifread.process_file(fobj, details = False)
+
+    # Return answer ...
+    return ans

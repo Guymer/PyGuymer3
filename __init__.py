@@ -36,6 +36,9 @@ from .gifsicle import gifsicle
 from .interpolate import interpolate
 from .is_moov_at_beginning_of_MP4 import is_moov_at_beginning_of_MP4
 from .jpegtran import jpegtran
+from .load_EXIF import load_EXIF
+from .load_EXIF1 import load_EXIF1
+from .load_EXIF2 import load_EXIF2
 from .load_GPS_EXIF import load_GPS_EXIF
 from .load_GPS_EXIF1 import load_GPS_EXIF1
 from .load_GPS_EXIF2 import load_GPS_EXIF2
