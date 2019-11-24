@@ -3,7 +3,9 @@ def load_ProgramInfo(fobj):
 
     # Import modules ...
     import struct
-    from BLURAY import CLPI
+
+    # Load sub-functions ...
+    from .load_StreamCodingInfo import load_StreamCodingInfo
 
     # Initialize variables ...
     ans = {}
@@ -28,7 +30,7 @@ def load_ProgramInfo(fobj):
             for ii in range(tmp_dict["NumberOfStreamsInPS"]):
                 tmp2_dict = dict()
                 tmp2_dict['StreamPID'], = struct.unpack(">H", fobj.read(2))
-                tmp2_dict["StreamCodingInfo"] = CLPI.load_StreamCodingInfo(fobj)
+                tmp2_dict["StreamCodingInfo"] = load_StreamCodingInfo(fobj)
                 tmp_dict["StreamsInPS"].append(tmp2_dict)
             ans["ProgramInfo"].append(tmp_dict)
 
@@ -38,7 +40,6 @@ def load_ProgramInfo(fobj):
     if BytesPassed < ans["Length"]:
         l = ans["Length"] - BytesPassed
         fobj.read(l)
-        print("load_ProgramInfo: skip %d bytes" % l)
     elif BytesPassed > ans["Length"]:
         print("load_ProgramInfo: incorrect length")
 

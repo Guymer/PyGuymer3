@@ -11,7 +11,6 @@ def load_TSTypeInfoBlock(fobj):
     ans["Length"], = struct.unpack(">H", fobj.read(2))
 
     BytesStart = fobj.tell()
-    # print(BytesStart)
 
     fobj.read(ans["Length"])
 

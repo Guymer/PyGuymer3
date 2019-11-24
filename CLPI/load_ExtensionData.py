@@ -32,7 +32,6 @@ def load_ExtensionData(fobj):
     if BytesPassed < ans["Length"]:
         l = ans["Length"] - BytesPassed
         fobj.read(l)
-        print("load_ClipInfo: skip %d bytes" % l)
     elif BytesPassed > ans["Length"]:
         print("load_ClipInfo: incorrect length")
 

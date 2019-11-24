@@ -15,7 +15,6 @@ def load_ATCSequence(fobj):
     ans["NumberOfSTCSequences"], = struct.unpack(">B", fobj.read(1))
     ans["OffsetSTCID"], = struct.unpack(">B", fobj.read(1))
 
-    # print("\tBefore load STNTable: ", fobj.tell() * 8, "剩余长度：", (7578 - fobj.tell()) * 8)
     # Load STCSequences section ...
     ans["STCSequences"] = list()
     for i in range(ans["NumberOfSTCSequences"]):

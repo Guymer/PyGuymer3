@@ -43,7 +43,7 @@ def load_CPI(fobj):
 
             # Entry Point Map
             tmp_dic["EPMapForOneStreamPIDStartAddress"], = struct.unpack(">I", fobj.read(4))
-            
+
             ans["StreamPIDEntries"].append(tmp_dic)
 
         ans["EPMapForOneStreamPID"] = list()

@@ -3,7 +3,6 @@ def load_StreamCodingInfo(fobj):
 
     # Import modules ...
     import struct
-    from BLURAY import CLPI
 
     # Initialize variables ...
     ans = {}
@@ -40,7 +39,6 @@ def load_StreamCodingInfo(fobj):
     if BytesPassed < ans["Length"]:
         l = ans["Length"] - BytesPassed
         fobj.read(l)
-        # print("load_ClipInfo: skip %d bytes" % l)
     elif BytesPassed > ans["Length"]:
         print("load_ClipInfo: incorrect length")
 
