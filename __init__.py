@@ -78,6 +78,7 @@ from .save_array_as_PPM import save_array_as_PPM
 from .save_array_as_image import save_array_as_image
 from .save_file_if_needed import save_file_if_needed
 from .simplify_poly import simplify_poly
+from .start_session import start_session
 from .yuv2rgb import yuv2rgb
 
 # Ensure that this module is only imported by Python 3.x ...
