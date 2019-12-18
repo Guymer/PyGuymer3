@@ -3,9 +3,10 @@ def print_MP4_atoms(fname = "missing"):
     #       parse MP4 files - the first just forgot to say that integers are
     #       big-endian.
     #         * http://atomicparsley.sourceforge.net/mpeg-4files.html
+    #         * https://developer.apple.com/library/archive/documentation/QuickTime/QTFF/QTFFChap2/qtff2.html
     #         * https://wiki.multimedia.cx/index.php/QuickTime_container
 
-    # Import modules ...
+    # Import standard modules ...
     import os
     import re
     import struct
