@@ -1,10 +1,13 @@
-def return_hash_of_MP4(fname = "missing"):
+def return_hash_of_MP4(fname = "missing", ignoreModificationTime = True):
     """
     This function returns the SHA512 hash of the passed MP4 file as if the
     "Modification Time" field (in the "mvhd" atom in the "moov" atom) is set to
     zero. Using this function it is possible to discover that the only binary
     difference between two different MP4 files is the "Modification Time" field
     (in the "mvhd" atom in the "moov" atom).
+
+    If the optional second argument is passed as False then this function will
+    return the SHA512 identically to any other method.
     """
 
     # NOTE: The following websites have some very useful information on how to
@@ -143,8 +146,11 @@ def return_hash_of_MP4(fname = "missing"):
                         # big-endian un-signed 32-bit integer) ...
                         # NOTE: See Figure 2-3 of https://developer.apple.com/library/archive/documentation/QuickTime/QTFF/QTFFChap2/qtff2.html
                         hobj.update(fobj.read(8))
-                        fobj.read(4)
-                        hobj.update(struct.pack(">I", 0))
+                        if ignoreModificationTime:
+                            fobj.read(4)
+                            hobj.update(struct.pack(">I", 0))
+                        else:
+                            hobj.update(fobj.read(4))
                         hobj.update(fobj.read(88))
                     else:
                         # Pass the rest of the atom to the hash object ...
