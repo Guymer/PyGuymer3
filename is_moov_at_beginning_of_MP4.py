@@ -12,13 +12,16 @@ def is_moov_at_beginning_of_MP4(fname = "missing"):
 
     # Open MP4 read-only ...
     with open(fname, "rb") as fobj:
+        # Create short-hand ...
+        fsize = os.path.getsize(fname)
+
         # Set triggers ...
         foundFTYP = False
         foundMDAT = False
         foundMOOV = False
 
         # Loop over entire contents of MP4 ...
-        while fobj.tell() < os.path.getsize(fname):
+        while fobj.tell() < fsize:
             # Attempt to read 4 bytes as a big-endian un-signed 32 bit integer ...
             val, = struct.unpack(">I", fobj.read(4))                            # [B]
             off = 4
