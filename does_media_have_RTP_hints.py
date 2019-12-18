@@ -1,4 +1,4 @@
-def does_media_have_RTP_hints(fname = "missing"):
+def does_media_have_RTP_hints(fname):
     # Import modules ...
     import json
     import subprocess

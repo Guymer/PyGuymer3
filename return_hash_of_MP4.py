@@ -1,4 +1,4 @@
-def return_hash_of_MP4(fname = "missing", ignoreModificationTime = True):
+def return_hash_of_MP4(fname, ignoreModificationTime = True):
     """
     This function returns the SHA512 hash of the passed MP4 file as if the
     "Modification Time" field (in the "mvhd" atom in the "moov" atom) is set to

@@ -1,4 +1,4 @@
-def find_program_version(prog = "python"):
+def find_program_version(prog):
     # Import modules ...
     import os
     import subprocess

@@ -1,4 +1,4 @@
-def print_MP4_atoms(fname = "missing"):
+def print_MP4_atoms(fname):
     # NOTE: The following websites have some very useful information on how to
     #       parse MP4 files - the first just forgot to say that integers are
     #       big-endian.
