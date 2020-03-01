@@ -2,5 +2,5 @@
 disable=bad-continuation,bad-whitespace,c-extension-no-member,invalid-name,line-too-long,missing-docstring,too-many-arguments,too-many-branches,too-many-locals,too-many-nested-blocks,too-many-statements
 
 [TYPECHECK]
-ignored-classes=cartopy,ephem,exifread,lxml,magic,matplotlib,matplotlib.cm,numpy,shapely,sysctl
-ignored-modules=cartopy,ephem,exifread,lxml,magic,matplotlib,matplotlib.cm,numpy,shapely,sysctl
+ignored-classes=boto3,cartopy,ephem,exifread,lxml,magic,matplotlib,matplotlib.cm,numpy,shapely,sysctl
+ignored-modules=boto3,cartopy,ephem,exifread,lxml,magic,matplotlib,matplotlib.cm,numpy,shapely,sysctl
