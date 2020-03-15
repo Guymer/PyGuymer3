@@ -1,4 +1,4 @@
-def download_file(sess, url, fname, verify = True):
+def download_file(sess, url, fname, timeout = 10.0, verify = True):
     # Import modules ...
     import email.utils
     import os
@@ -7,7 +7,7 @@ def download_file(sess, url, fname, verify = True):
     from .download import download
 
     # Try to download the file and catch common errors ...
-    resp = download(sess, "get", url, verify = verify)
+    resp = download(sess, "get", url, timeout = timeout, verify = verify)
     if resp is False:
         return False
 
