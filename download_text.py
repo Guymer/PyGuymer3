@@ -1,4 +1,4 @@
-def download_text(sess, url):
+def download_text(sess, url, verify = True):
     # Import modules ...
     import html
 
@@ -6,7 +6,7 @@ def download_text(sess, url):
     from .download import download
 
     # Try to download the page and catch common errors ...
-    resp = download(sess, "get", url)
+    resp = download(sess, "get", url, verify = verify)
     if resp is False:
         return False
 

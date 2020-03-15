@@ -1,10 +1,10 @@
-def download(sess, method, url):
+def download(sess, method, url, verify = True):
     # Import modules ...
     import requests
 
     # Try to download the URL and catch common errors ...
     try:
-        resp = sess.request(method, url, timeout = 10.0)
+        resp = sess.request(method, url, timeout = 10.0, verify = verify)
     except requests.exceptions.TooManyRedirects:
         return False
     except requests.exceptions.ConnectionError:
