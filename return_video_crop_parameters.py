@@ -1,8 +1,4 @@
-def return_video_crop_parameters(fname, playlist = None):
-    # Check input ...
-    if fname.startswith("bluray:") and playlist is None:
-        raise Exception("a Blu-ray was specified but no playlist was supplied")
-
+def return_video_crop_parameters(fname, playlist = -1):
     # Import modules ...
     import subprocess
 
@@ -10,6 +6,10 @@ def return_video_crop_parameters(fname, playlist = None):
     from .return_media_duration import return_media_duration
     from .return_video_height import return_video_height
     from .return_video_width import return_video_width
+
+    # Check input ...
+    if fname.startswith("bluray:") and playlist < 0:
+        raise Exception("a Blu-ray was specified but no playlist was supplied")
 
     # Initialize variables ...
     dur = return_media_duration(fname, playlist)                                # [s]
