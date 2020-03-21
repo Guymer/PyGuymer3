@@ -26,6 +26,7 @@ from .download_header import download_header
 from .download_stream import download_stream
 from .download_text import download_text
 from .exiftool import exiftool
+from .ffprobe import ffprobe
 from .find_instances_of_a_file import find_instances_of_a_file
 from .find_integer_divisors import find_integer_divisors
 from .find_middle_of_great_circle import find_middle_of_great_circle
@@ -87,3 +88,6 @@ from .yuv2rgb import yuv2rgb
 # Ensure that this module is only imported by Python 3.x ...
 if sys.version_info.major != 3:
     raise Exception("the Python module \"pyguymer3\" must only be used with Python 3.x, if you want a Python 2.x version then use \"pyguymer\" instead")
+
+# Initialize global dictionary ...
+__ffprobe = {}
