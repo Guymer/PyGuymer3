@@ -62,7 +62,8 @@ def is_moov_at_beginning_of_MP4(fname):
             elif val == 1:
                 # NOTE: This atom has 64-bit sizes.
 
-                # Attempt to read 8 bytes as a big-endian un-signed 64-bit integer ...
+                # Attempt to read 8 bytes as a big-endian un-signed 64-bit
+                # integer ...
                 val, = struct.unpack(">Q", fobj.read(8))                        # [B]
                 off += 8
 

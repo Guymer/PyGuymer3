@@ -30,7 +30,8 @@ def buffer_point(lon1, lat1, dist, nang = 19, debug = False):
     # NOTE: The most two subsequent points can be apart is ~45 degrees (with
     #       nang = 9).
     for i in range(nang):
-        # Calculate initial angle, then the ring coordinates and add them to the list ...
+        # Calculate initial angle, then the ring coordinates and add them to the
+        # list ...
         ang1 = 360.0 * float(i) / float(nang - 1)
         lon2, lat2, ang2 = calc_loc_from_loc_and_bearing_and_dist(lon1, lat1, ang1, dist)
         ring.append((lon2, lat2))
@@ -45,7 +46,8 @@ def buffer_point(lon1, lat1, dist, nang = 19, debug = False):
     # NOTE: Start at 1 (not 0) because the first one will be checked when the
     #       last one is (as they are the same).
     for i in range(1, nang):
-        # Check if the anti-meridian has been crossed between this and the last point ...
+        # Check if the anti-meridian has been crossed between this and the last
+        # point ...
         if min(ring[i - 1][0], ring[i][0]) < -90.0 and max(ring[i - 1][0], ring[i][0]) > +90.0:
             # NOTE: There is no way with, at most, ~45 degree jumps and only, at
             #       most, half the Earth's circumference travelled that two
@@ -137,7 +139,8 @@ def buffer_point(lon1, lat1, dist, nang = 19, debug = False):
         if part2[0] != part2[-1]:
             part2[-1] = part2[0]
 
-    # Create a list of Polygons if there are enough unique points to make a Polygon ...
+    # Create a list of Polygons if there are enough unique points to make a
+    # Polygon ...
     ans = []
     if len(set(part1)) >= 3:
         tmp = shapely.geometry.polygon.Polygon(part1)

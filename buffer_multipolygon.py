@@ -28,7 +28,8 @@ def buffer_multipolygon(multipoly, dist, nang = 19, simp = 0.1, debug = False):
         # Buffer Polygon ...
         buff = buffer_polygon(poly, dist, nang, simp, debug)
 
-        # Check how many polygons describe the buffer and append them to the list ...
+        # Check how many polygons describe the buffer and append them to the
+        # list ...
         if isinstance(buff, shapely.geometry.multipolygon.MultiPolygon):
             for tmp1 in buff.geoms:
                 if not tmp1.is_valid:

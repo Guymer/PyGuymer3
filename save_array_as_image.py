@@ -57,7 +57,8 @@ def save_array_as_image(img0, fname, form = "png", scale = False, pc_bot = 0.0, 
         p_lo = numpy.percentile(img1, pc_bot)
         p_hi = numpy.percentile(img1, 100.0 - pc_top)
 
-        # Scale the image, clip scale image, convert scaled image to correct type, clean up ...
+        # Scale the image, clip scale image, convert scaled image to correct
+        # type, clean up ...
         img1 = 255.0 * (img1 - p_lo) / (p_hi - p_lo)
         numpy.place(img1, img1 > 255.0, 255.0)
         numpy.place(img1, img1 < 0.0, 0.0)

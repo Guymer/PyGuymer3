@@ -7,7 +7,8 @@ def calc_loc_from_loc_and_bearing_and_dist(lon1_deg, lat1_deg, alpha1_deg, s_m, 
 
     # NOTE: https://en.wikipedia.org/wiki/Vincenty%27s_formulae
     # NOTE: https://www.movable-type.co.uk/scripts/latlong-vincenty.html
-    # NOTE: "lambda" is a reserved word in Python so I use "lam" as my variable name.
+    # NOTE: "lambda" is a reserved word in Python so I use "lam" as my variable
+    #       name.
 
     # Import modules ...
     import math

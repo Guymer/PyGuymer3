@@ -16,7 +16,8 @@ def generate_password():
             # Obtain a 4 UTF-8 character stub from 3 random bytes ...
             stub = base64.b64encode(devrand.read(3)).decode("utf-8")
 
-            # Check that it is just the 4 UTF-8 characters I want and add it to the password ...
+            # Check that it is just the 4 UTF-8 characters I want and add it to
+            # the password ...
             if test.match(stub) is not None:
                 passwd += stub
 

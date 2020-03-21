@@ -7,7 +7,8 @@ def calc_dist_between_two_locs(lon1_deg, lat1_deg, lon2_deg, lat2_deg, nmax = 10
 
     # NOTE: https://en.wikipedia.org/wiki/Vincenty%27s_formulae
     # NOTE: https://www.movable-type.co.uk/scripts/latlong-vincenty.html
-    # NOTE: "lambda" is a reserved word in Python so I use "lam" as my variable name.
+    # NOTE: "lambda" is a reserved word in Python so I use "lam" as my variable
+    #       name.
 
     # Skip if the start- and end-points are the same ...
     if lon1_deg == lon2_deg and lat1_deg == lat2_deg:

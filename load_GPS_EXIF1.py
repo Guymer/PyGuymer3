@@ -87,7 +87,8 @@ def load_GPS_EXIF1(fname):
 
             # Check that the required tags are preset ...
             if "GPS GPSDate" in tags and "GPS GPSTimeStamp" in tags:
-                # Extract date/time and merge into one (TZ-aware) object (correcting mistakes that shouldn't exist) ...
+                # Extract date/time and merge into one (TZ-aware) object (
+                # correcting mistakes that shouldn't exist) ...
                 tmp1 = tags["GPS GPSDate"].values.split(":")
                 ye = int(tmp1[0])                                                                                           # [year]
                 mo = int(tmp1[1])                                                                                           # [month]
@@ -98,7 +99,8 @@ def load_GPS_EXIF1(fname):
                 se = int(math.floor(tmp2))                                                                                  # [s]
                 us = int(1.0e6 * (tmp2 - se))                                                                               # [us]
                 if hr > 23:
-                    # HACK: This particular gem is due to my Motorola Moto G3 smartphone.
+                    # HACK: This particular gem is due to my Motorola Moto G3
+                    #       smartphone.
                     hr = hr % 24                                                                                            # [hour]
                 ans["datetime"] = datetime.datetime(
                     year = ye,
