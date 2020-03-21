@@ -1,47 +1,16 @@
-def does_media_have_RTP_hints(fname):
-    # Import modules ...
-    import json
-    import subprocess
+def does_media_have_RTP_hints(fname, playlist = -1):
+    # Load sub-functions ...
+    from . import __ffprobe
+    from .ffprobe import ffprobe
 
-    # Find stream info ...
-    proc = subprocess.Popen(
-        [
-            "ffprobe",
-            "-probesize", "3G",
-            "-analyzeduration", "1800M",
-            "-loglevel", "quiet",
-            "-print_format", "json",
-            "-show_streams",
-            fname
-        ],
-        encoding = "utf-8",
-        stderr = subprocess.PIPE,
-        stdout = subprocess.PIPE
-    )
-    stdout, stderr = proc.communicate()
-    if proc.returncode != 0:
-        # HACK: Fallback and attempt to load it as a raw M-JPEG stream.
-        proc = subprocess.Popen(
-            [
-                "ffprobe",
-                "-loglevel", "quiet",
-                "-probesize", "3G",
-                "-analyzeduration", "1800M",
-                "-print_format", "json",
-                "-show_streams",
-                "-f", "mjpeg",
-                fname
-            ],
-            encoding = "utf-8",
-            stderr = subprocess.PIPE,
-            stdout = subprocess.PIPE
-        )
-        stdout, stderr = proc.communicate()
-        if proc.returncode != 0:
-            raise Exception("\"ffprobe\" command failed")
+    # Make sure that this fname/playlist combination is in the global dictionary ...
+    if fname not in __ffprobe:
+        __ffprobe[fname] = {}
+    if playlist not in __ffprobe[fname]:
+        __ffprobe[fname][playlist] = ffprobe(fname, playlist)
 
     # Loop over streams ...
-    for stream in json.loads(stdout)["streams"]:
+    for stream in __ffprobe[fname][playlist]["streams"]:
         # Skip stream if it is not data ...
         if stream["codec_type"].strip().lower() != "data":
             continue
