@@ -26,7 +26,7 @@ def return_video_ratios(fname, playlist = -1):
                 break
 
         # Create short-hands and then return them ...
-        # NOTE: "ffmpeg" incorrectly calls PAR "sample aspect ratio".
+        # NOTE: "ffprobe" incorrectly calls PAR "sample aspect ratio".
         dar = stream["display_aspect_ratio"]
         par = stream["sample_aspect_ratio"]
         sar = "{0:d}:{1:d}".format(stream["width"] / fact, stream["height"] / fact)

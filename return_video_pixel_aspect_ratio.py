@@ -16,7 +16,7 @@ def return_video_pixel_aspect_ratio(fname, playlist = -1):
             continue
 
         # Return pixel aspect ratio ...
-        # NOTE: "ffmpeg" incorrectly calls it "sample aspect ratio".
+        # NOTE: "ffprobe" incorrectly calls PAR "sample aspect ratio".
         return stream["sample_aspect_ratio"]
 
     # Return error ...
