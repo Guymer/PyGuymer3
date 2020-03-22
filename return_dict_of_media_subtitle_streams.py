@@ -1,4 +1,4 @@
-def return_dict_of_media_subtitle_streams(fname, playlist = -1):
+def return_dict_of_media_subtitle_streams(fname, playlist = -1, debug = False):
     # Load sub-functions ...
     from . import __ffprobe__
     from .ffprobe import ffprobe
@@ -8,6 +8,8 @@ def return_dict_of_media_subtitle_streams(fname, playlist = -1):
     if fname not in __ffprobe__:
         __ffprobe__[fname] = {}
     if playlist not in __ffprobe__[fname]:
+        if debug:
+            print("INFO: Running ffprobe(\"{:s}\", {:d}) ...".format(fname, playlist))
         __ffprobe__[fname][playlist] = ffprobe(fname, playlist)
 
     # Initialize dictionary ...
