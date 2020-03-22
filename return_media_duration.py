@@ -1,16 +1,16 @@
 def return_media_duration(fname, playlist = -1):
     # Load sub-functions ...
-    from . import __ffprobe
+    from . import __ffprobe__
     from .ffprobe import ffprobe
 
     # Make sure that this fname/playlist combination is in the global dictionary ...
-    if fname not in __ffprobe:
-        __ffprobe[fname] = {}
-    if playlist not in __ffprobe[fname]:
-        __ffprobe[fname][playlist] = ffprobe(fname, playlist)
+    if fname not in __ffprobe__:
+        __ffprobe__[fname] = {}
+    if playlist not in __ffprobe__[fname]:
+        __ffprobe__[fname][playlist] = ffprobe(fname, playlist)
 
     # Return duration ...
-    form = __ffprobe[fname][playlist]["format"]
+    form = __ffprobe__[fname][playlist]["format"]
     dur = -1.0                                                                  # [s]
     if "duration" in form:
         dur = float(form["duration"])                                           # [s]

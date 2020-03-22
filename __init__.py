@@ -90,4 +90,4 @@ if sys.version_info.major != 3:
     raise Exception("the Python module \"pyguymer3\" must only be used with Python 3.x, if you want a Python 2.x version then use \"pyguymer\" instead")
 
 # Initialize global dictionary ...
-__ffprobe = {}
+__ffprobe__ = {}
