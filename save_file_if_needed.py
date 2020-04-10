@@ -1,4 +1,4 @@
-def save_file_if_needed(fname, fcontent):
+def save_file_if_needed(fname, fcontent, debug = False):
     # Import modules ...
     import os
 
@@ -16,6 +16,7 @@ def save_file_if_needed(fname, fcontent):
 
     # Check if the file does not exist ...
     if not os.path.exists(fname):
+        # Set trigger ...
         save = True
 
         # Check if the target directory does not exist ...
@@ -25,8 +26,11 @@ def save_file_if_needed(fname, fcontent):
     else:
         # Check the old content ...
         if open(fname, "r" + mode).read() != fcontent:
+            # Set trigger ...
             save = True
 
     # Save the file if needed ...
     if save:
+        if debug:
+            print("INFO: Saving \"{:s}\" ...".format(fname))
         open(fname, "w" + mode).write(fcontent)
