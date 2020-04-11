@@ -1,7 +1,7 @@
 def ffprobe(fname, playlist = -1):
     """
-    This function will run "ffprobe" on a file and return the stream information
-    as a dictionary.
+    This function will run "ffprobe" on a file and return the format and stream
+    information as a dictionary.
 
     fname -- the file to be surveyed
     playlist -- the playlist within the Blu-ray folder structure to be surveyed
