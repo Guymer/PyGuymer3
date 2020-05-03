@@ -1,5 +1,5 @@
 def num2deg(xtile, ytile, zoom):
-    # NOTE: http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#Python
+    # NOTE: https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#Python
     import math
     n = 2.0 ** zoom
     lon_deg = xtile / n * 360.0 - 180.0
