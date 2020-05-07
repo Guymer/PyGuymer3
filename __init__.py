@@ -34,6 +34,9 @@ from .find_point_on_great_circle import find_point_on_great_circle
 from .find_program_version import find_program_version
 from .generate_password import generate_password
 from .generate_random_stub import generate_random_stub
+from .getatime import getatime
+from .getctime import getctime
+from .getmtime import getmtime
 from .gifsicle import gifsicle
 from .hostname import hostname
 from .interpolate import interpolate
