@@ -6,11 +6,19 @@ def load_GPS_EXIF1(fname):
     #       * https://gist.github.com/snakeye/fdc372dbf11370fe29eb
     #       * https://sno.phy.queensu.ca/~phil/exiftool/TagNames/GPS.html
 
-    # Import modules ...
+    # Import standard modules ...
     import datetime
-    import exifread
     import math
-    import pytz
+
+    # Import special modules ...
+    try:
+        import exifread
+    except:
+        raise Exception("\"exifread\" is not installed; run \"pip install --user ExifRead\"")
+    try:
+        import pytz
+    except:
+        raise Exception("\"pytz\" is not installed; run \"pip install --user pytz\"")
 
     # Create default dictionary answer ...
     ans = {}
