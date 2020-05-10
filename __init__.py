@@ -90,6 +90,8 @@ from .save_array_as_image import save_array_as_image
 from .save_array_as_PNG import save_array_as_PNG
 from .save_array_as_PPM import save_array_as_PPM
 from .save_file_if_needed import save_file_if_needed
+from .sha256 import sha256
+from .sha512 import sha512
 from .simplify_poly import simplify_poly
 from .start_session import start_session
 from .stat import stat
