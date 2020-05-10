@@ -1,6 +1,6 @@
 # NOTE: https://stackoverflow.com/a/58684090
 
-def stat(fname):
+def stat(fname, follow_symlinks = True):
     """
     This function aims to mimic os.stat() but instead of returning a stat_result
     object with attributes it returns a dictionary with keys (for more user-
@@ -11,7 +11,7 @@ def stat(fname):
     import os
 
     # Stat the file ...
-    info = os.stat(fname)
+    info = os.stat(fname, follow_symlinks = follow_symlinks)
 
     # Create a dictionary from the stat_result object ...
     ans = {}
