@@ -3,7 +3,8 @@
 def stat(fname):
     """
     This function aims to mimic os.stat() but instead of returning a stat_result
-    object it returns a dictionary.
+    object with attributes it returns a dictionary with keys (for more user-
+    friendly serialization to JSON).
     """
 
     # Import standard modules ...
