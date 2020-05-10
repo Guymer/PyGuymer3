@@ -1,4 +1,4 @@
-# NOTE: See https://stackoverflow.com/a/58684090
+# NOTE: https://stackoverflow.com/a/58684090
 
 def stat(fname):
     """
