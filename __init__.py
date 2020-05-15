@@ -49,6 +49,7 @@ from .load_GPS_EXIF import load_GPS_EXIF
 from .load_GPS_EXIF1 import load_GPS_EXIF1
 from .load_GPS_EXIF2 import load_GPS_EXIF2
 from .make_path_safe import make_path_safe
+from .now import now
 from .optipng import optipng
 from .paeth_filter import paeth_filter
 from .parse_CLPI_file import parse_CLPI_file
