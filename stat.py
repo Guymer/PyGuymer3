@@ -8,7 +8,9 @@ def stat(fname, follow_symlinks = True):
     """
 
     # Import standard modules ...
+    import grp
     import os
+    import pwd
 
     # Stat the file ...
     info = os.stat(fname, follow_symlinks = follow_symlinks)
@@ -18,6 +20,12 @@ def stat(fname, follow_symlinks = True):
     for key in dir(info):
         if key.startswith("st_"):
             ans[key] = getattr(info, key)
+
+    # Add helpful short-hands for user and group information ...
+    if "st_uid" in ans:
+        ans["user"] = pwd.getpwuid(ans["st_uid"]).pw_name
+    if "st_gid" in ans:
+        ans["group"] = grp.getgrgid(ans["st_gid"]).gr_name
 
     # Return answer ...
     return ans
