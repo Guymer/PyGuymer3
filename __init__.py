@@ -51,6 +51,7 @@ from .load_GPS_EXIF2 import load_GPS_EXIF2
 from .make_path_safe import make_path_safe
 from .now import now
 from .optipng import optipng
+from .OSGBpoints2WGSpolygon import OSGBpoints2WGSpolygon
 from .paeth_filter import paeth_filter
 from .parse_CLPI_file import parse_CLPI_file
 from .parse_MPLS_file import parse_MPLS_file
