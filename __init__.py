@@ -26,6 +26,7 @@ from .download_file import download_file
 from .download_header import download_header
 from .download_stream import download_stream
 from .download_text import download_text
+from .en2ll import en2ll
 from .exiftool import exiftool
 from .ffprobe import ffprobe
 from .find_instances_of_a_file import find_instances_of_a_file
@@ -52,7 +53,6 @@ from .load_GPS_EXIF2 import load_GPS_EXIF2
 from .make_path_safe import make_path_safe
 from .now import now
 from .optipng import optipng
-from .OSGBpoints2WGSpolygon import OSGBpoints2WGSpolygon
 from .paeth_filter import paeth_filter
 from .parse_CLPI_file import parse_CLPI_file
 from .parse_MPLS_file import parse_MPLS_file
