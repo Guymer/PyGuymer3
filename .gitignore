@@ -10,9 +10,10 @@ Thumbs.db
 
 # Hide compiled code ...
 __pycache__
-*.so
-f90.cpython-37m-darwin.so
-f90.cpython-37m-darwin.so.dSYM
 
 # Hide output of Pylint ...
 pylint.log
+
+# Ignore compiler generated files ...
+*.so
+*.so.dSYM
