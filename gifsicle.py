@@ -27,6 +27,7 @@ def gifsicle(fname):
             [
                 "gifsicle",
                 "--batch",
+                "--unoptimize",
                 "--optimize=3",
                 fname
             ],
