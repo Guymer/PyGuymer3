@@ -1,5 +1,11 @@
 def jpegtran(fname):
-    # Import modules ...
+    """
+    "jpegtran" does not modify, but it does touch, the image if it cannot make
+    it smaller, therefore it is NOT safe to keep on running "jpegtran" on the
+    same JPG over and over again.
+    """
+
+    # Import standard modules ...
     import os
     import subprocess
 

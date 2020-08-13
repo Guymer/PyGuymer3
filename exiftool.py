@@ -1,5 +1,11 @@
 def exiftool(fname):
-    # Import modules ...
+    """
+    "exiftool" does not modify, and it does not touch, the image if it cannot
+    strip anything, therefore it is safe to keep on running "exiftool" on the
+    same image over and over again.
+    """
+
+    # Import standard modules ...
     import os
     import subprocess
 

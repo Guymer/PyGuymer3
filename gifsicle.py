@@ -1,5 +1,18 @@
 def gifsicle(fname):
-    # Import modules ...
+    """
+    "gifsicle" does modify, and it does touch, the image if it cannot make
+    it smaller, therefore it is NOT safe to keep on running "gifsicle" on the
+    same GIF over and over again.
+
+    In my own testing (August 2020) I have found that "gifsicle" switches
+    between two different images when it is run repeatadly (try finding the MD5
+    hash of the images) and that the only differences between these identically
+    sized images is the order of the colours in the colour map (try running
+    "gifsicle --color-info file.gif" yourself after each call and then "diff"
+    the output).
+    """
+
+    # Import standard modules ...
     import os
     import subprocess
 

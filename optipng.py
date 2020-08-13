@@ -1,5 +1,11 @@
 def optipng(fname):
-    # Import modules ...
+    """
+    "optipng" does not modify, and it does not touch, the image if it cannot
+    make it smaller, therefore it is safe to keep on running "optipng" on the
+    same PNG over and over again.
+    """
+
+    # Import standard modules ...
     import os
     import subprocess
 
