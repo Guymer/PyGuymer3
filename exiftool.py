@@ -10,17 +10,7 @@ def exiftool(fname):
     import subprocess
 
     # Check that "exiftool" is installed ...
-    try:
-        subprocess.check_call(
-            [
-                "type",
-                "exiftool"
-            ],
-            encoding = "utf-8",
-            stdout = open(os.devnull, "wt"),
-            stderr = open(os.devnull, "wt")
-        )
-    except subprocess.CalledProcessError:
+    if shutil.which("exiftool") is None:
         raise Exception("\"exiftool\" is not installed")
 
     # Check that the image exists ...

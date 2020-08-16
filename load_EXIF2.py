@@ -1,9 +1,12 @@
 def load_EXIF2(fname):
-    # NOTE: This function uses the binary "exiftool".
-
-    # Import modules ...
+    # Import standard modules ...
     import json
+    import shutil
     import subprocess
+
+    # Check that "exiftool" is installed ...
+    if shutil.which("exiftool") is None:
+        raise Exception("\"exiftool\" is not installed")
 
     # Run "exiftool" and load it as JSON ...
     out = subprocess.check_output(

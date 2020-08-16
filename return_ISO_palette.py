@@ -1,11 +1,16 @@
 def return_ISO_palette(fname, usr_track = None):
     # Import modules ...
     import numpy
+    import shutil
     import subprocess
     import lxml.etree
 
     # Load sub-functions ...
     from .yuv2rgb import yuv2rgb
+
+    # Check that "lsdvd" is installed ...
+    if shutil.which("lsdvd") is None:
+        raise Exception("\"lsdvd\" is not installed")
 
     # Find track info ...
     proc = subprocess.Popen(

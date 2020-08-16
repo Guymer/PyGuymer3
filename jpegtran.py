@@ -15,17 +15,7 @@ def jpegtran(fname1, debug = False):
     from .sha512 import sha512
 
     # Check that "jpegtran" is installed ...
-    try:
-        subprocess.check_call(
-            [
-                "type",
-                "jpegtran"
-            ],
-            encoding = "utf-8",
-            stdout = open(os.devnull, "wt"),
-            stderr = open(os.devnull, "wt")
-        )
-    except subprocess.CalledProcessError:
+    if shutil.which("jpegtran") is None:
         raise Exception("\"jpegtran\" is not installed")
 
     # Check that the image exists ...

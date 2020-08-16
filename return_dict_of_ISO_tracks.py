@@ -1,7 +1,12 @@
 def return_dict_of_ISO_tracks(fname):
     # Import modules ...
+    import shutil
     import subprocess
     import lxml.etree
+
+    # Check that "lsdvd" is installed ...
+    if shutil.which("lsdvd") is None:
+        raise Exception("\"lsdvd\" is not installed")
 
     # Find track info ...
     proc = subprocess.Popen(

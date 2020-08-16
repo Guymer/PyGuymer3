@@ -1,11 +1,16 @@
 def return_dict_of_ISO_subtitle_streams(fname, usr_track = -1):
     # Import modules ...
+    import shutil
     import subprocess
     import lxml.etree
 
     # Check input ...
     if usr_track == -1:
         raise Exception("no track was requested")
+
+    # Check that "lsdvd" is installed ...
+    if shutil.which("lsdvd") is None:
+        raise Exception("\"lsdvd\" is not installed")
 
     # Find track info ...
     proc = subprocess.Popen(

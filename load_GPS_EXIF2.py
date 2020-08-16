@@ -1,10 +1,9 @@
 def load_GPS_EXIF2(fname):
-    # NOTE: This function uses the binary "exiftool".
-
     # Import standard modules ...
     import datetime
     import json
     import math
+    import shutil
     import subprocess
 
     # Import special modules ...
@@ -12,6 +11,10 @@ def load_GPS_EXIF2(fname):
         import pytz
     except:
         raise Exception("\"pytz\" is not installed; run \"pip install --user pytz\"")
+
+    # Check that "exiftool" is installed ...
+    if shutil.which("exiftool") is None:
+        raise Exception("\"exiftool\" is not installed")
 
     # Create default dictionary answer ...
     ans = {}

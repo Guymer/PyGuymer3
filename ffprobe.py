@@ -10,11 +10,16 @@ def ffprobe(fname, playlist = -1):
     # Import standard modules ...
     import json
     import os
+    import shutil
     import subprocess
 
     # Check input ...
     if fname.startswith("bluray:") and playlist < 0:
         raise Exception("a Blu-ray was specified but no playlist was supplied")
+
+    # Check that "ffprobe" is installed ...
+    if shutil.which("ffprobe") is None:
+        raise Exception("\"ffprobe\" is not installed")
 
     # Check if it is a Blu-ray ...
     if fname.startswith("bluray:"):

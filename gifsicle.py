@@ -22,17 +22,7 @@ def gifsicle(fname1, debug = False):
     from .sha512 import sha512
 
     # Check that "gifsicle" is installed ...
-    try:
-        subprocess.check_call(
-            [
-                "type",
-                "gifsicle"
-            ],
-            encoding = "utf-8",
-            stdout = open(os.devnull, "wt"),
-            stderr = open(os.devnull, "wt")
-        )
-    except subprocess.CalledProcessError:
+    if shutil.which("gifsicle") is None:
         raise Exception("\"gifsicle\" is not installed")
 
     # Check that the image exists ...

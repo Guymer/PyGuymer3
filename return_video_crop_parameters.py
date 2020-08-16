@@ -1,5 +1,6 @@
 def return_video_crop_parameters(fname, playlist = -1):
     # Import modules ...
+    import shutil
     import subprocess
 
     # Load sub-functions ...
@@ -10,6 +11,10 @@ def return_video_crop_parameters(fname, playlist = -1):
     # Check input ...
     if fname.startswith("bluray:") and playlist < 0:
         raise Exception("a Blu-ray was specified but no playlist was supplied")
+
+    # Check that "ffmpeg" is installed ...
+    if shutil.which("ffmpeg") is None:
+        raise Exception("\"ffmpeg\" is not installed")
 
     # Initialize variables ...
     dur = return_media_duration(fname, playlist)                                # [s]

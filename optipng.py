@@ -7,20 +7,11 @@ def optipng(fname):
 
     # Import standard modules ...
     import os
+    import shutil
     import subprocess
 
     # Check that "optipng" is installed ...
-    try:
-        subprocess.check_call(
-            [
-                "type",
-                "optipng"
-            ],
-            encoding = "utf-8",
-            stdout = open(os.devnull, "wt"),
-            stderr = open(os.devnull, "wt")
-        )
-    except subprocess.CalledProcessError:
+    if shutil.which("optipng") is None:
         raise Exception("\"optipng\" is not installed")
 
     # Check that the image exists ...
