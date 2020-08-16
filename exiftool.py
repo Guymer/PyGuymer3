@@ -7,6 +7,7 @@ def exiftool(fname):
 
     # Import standard modules ...
     import os
+    import shutil
     import subprocess
 
     # Check that "exiftool" is installed ...
