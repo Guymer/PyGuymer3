@@ -69,6 +69,5 @@ for pnt in pnts:
     # Save figure ...
     fg.suptitle("({:.1f},{:.1f}) buffered by {:,.1f}km".format(pnt[0], pnt[1], pnt[2] / 1000.0))
     fg.savefig(fname, bbox_inches = "tight", dpi = 150, pad_inches = 0.1)
-    pyguymer3.exiftool(fname)
-    pyguymer3.optipng(fname)
+    pyguymer3.optimize_image(fname, strip = True)
     matplotlib.pyplot.close("all")
