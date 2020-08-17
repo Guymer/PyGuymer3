@@ -30,7 +30,7 @@ def gifsicle(fname1, debug = False):
         raise Exception("\"{:s}\" does not exist".format(fname1))
 
     # Create temporary directory ...
-    with tempfile.TemporaryDirectory(prefix = "jpegtran.") as tname:
+    with tempfile.TemporaryDirectory(prefix = "gifsicle.") as tname:
         # Create temporary name ...
         fname2 = os.path.join(tname, "image.gif")
 
@@ -39,7 +39,6 @@ def gifsicle(fname1, debug = False):
             subprocess.check_call(
                 [
                     "gifsicle",
-                    "--batch",
                     "--unoptimize",
                     "--optimize=3",
                     "--output", fname2,
