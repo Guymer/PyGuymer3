@@ -53,6 +53,9 @@ def calc_loc_from_loc_and_bearing_and_dist(lon1_deg, lat1_deg, alpha1_deg, s_m, 
         # Only check the solution after at least 3 function calls ...
         if i >= 3:
             if abs(sigmaNew - sigma) / abs(sigmaNew) <= eps:
+                # Replace old sigma with new sigma ...
+                sigma = sigmaNew
+
                 break
 
         # Replace old sigma with new sigma ...
