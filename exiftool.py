@@ -19,17 +19,14 @@ def exiftool(fname):
         raise Exception("\"{:s}\" does not exist".format(fname))
 
     # Strip all metadata ...
-    try:
-        subprocess.check_call(
-            [
-                "exiftool",
-                "-overwrite_original",
-                "-all=",
-                fname
-            ],
-            encoding = "utf-8",
-            stdout = open(os.devnull, "wt"),
-            stderr = open(os.devnull, "wt")
-        )
-    except subprocess.CalledProcessError:
-        raise Exception("\"exiftool\" failed")
+    subprocess.check_call(
+        [
+            "exiftool",
+            "-overwrite_original",
+            "-all=",
+            fname
+        ],
+        encoding = "utf-8",
+        stdout = open(os.devnull, "wt"),
+        stderr = open(os.devnull, "wt")
+    )

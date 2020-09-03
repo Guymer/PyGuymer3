@@ -28,22 +28,19 @@ def jpegtran(fname1, debug = False):
         fname2 = os.path.join(tname, "image.jpg")
 
         # Optimise JP[E]G ...
-        try:
-            subprocess.check_call(
-                [
-                    "jpegtran",
-                    "-copy", "all",
-                    "-optimise",
-                    "-outfile", fname2,
-                    "-perfect",
-                    fname1
-                ],
-                encoding = "utf-8",
-                stdout = open(os.devnull, "wt"),
-                stderr = open(os.devnull, "wt")
-            )
-        except subprocess.CalledProcessError:
-            raise Exception("\"jpegtran\" failed")
+        subprocess.check_call(
+            [
+                "jpegtran",
+                "-copy", "all",
+                "-optimise",
+                "-outfile", fname2,
+                "-perfect",
+                fname1
+            ],
+            encoding = "utf-8",
+            stdout = open(os.devnull, "wt"),
+            stderr = open(os.devnull, "wt")
+        )
 
         # Find the two sizes and don't replace the original if the new one is
         # larger, or equal ...

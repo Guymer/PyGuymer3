@@ -19,15 +19,12 @@ def optipng(fname):
         raise Exception("\"{:s}\" does not exist".format(fname))
 
     # Optimise PNG ...
-    try:
-        subprocess.check_call(
-            [
-                "optipng",
-                fname
-            ],
-            encoding = "utf-8",
-            stdout = open(os.devnull, "wt"),
-            stderr = open(os.devnull, "wt")
-        )
-    except subprocess.CalledProcessError:
-        raise Exception("\"optipng\" failed")
+    subprocess.check_call(
+        [
+            "optipng",
+            fname
+        ],
+        encoding = "utf-8",
+        stdout = open(os.devnull, "wt"),
+        stderr = open(os.devnull, "wt")
+    )

@@ -35,21 +35,18 @@ def gifsicle(fname1, debug = False):
         fname2 = os.path.join(tname, "image.gif")
 
         # Optimise GIF ...
-        try:
-            subprocess.check_call(
-                [
-                    "gifsicle",
-                    "--unoptimize",
-                    "--optimize=3",
-                    "--output", fname2,
-                    fname1
-                ],
-                encoding = "utf-8",
-                stdout = open(os.devnull, "wt"),
-                stderr = open(os.devnull, "wt")
-            )
-        except subprocess.CalledProcessError:
-            raise Exception("\"gifsicle\" failed")
+        subprocess.check_call(
+            [
+                "gifsicle",
+                "--unoptimize",
+                "--optimize=3",
+                "--output", fname2,
+                fname1
+            ],
+            encoding = "utf-8",
+            stdout = open(os.devnull, "wt"),
+            stderr = open(os.devnull, "wt")
+        )
 
         # Find the two sizes and don't replace the original if the new one is
         # larger, or equal ...
