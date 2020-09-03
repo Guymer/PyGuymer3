@@ -17,7 +17,7 @@ def buffer_point(lon1, lat1, dist, nang = 19, debug = False):
     from .interpolate import interpolate
 
     # Correct inputs ...
-    lon1 = (lon1 + 180.0) % 360.0 - 180.0                                       # NOTE: Normalize longitude to -180 <--> +180
+    lon1 = max(-180.0, min(180.0, lon1))                                        # NOTE: Limit longitude to -180 <--> +180
     lat1 = max(-90.0, min(90.0, lat1))                                          # NOTE: Limit latitude to -90 <--> +90
     dist = max(1.0, min(math.pi * 6371009.0, dist))                             # NOTE: Limit distance to 1m <--> (half-circumference)
     nang = max(9, nang)                                                         # NOTE: Must do at least 9 points around the compass
