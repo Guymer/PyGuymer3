@@ -28,6 +28,8 @@ try:
 except:
     raise Exception("\"pyguymer3\" is not installed; you need to have the Python module from https://github.com/Guymer/PyGuymer3 located somewhere in your $PYTHONPATH")
 
+print("Testing \"{:s}\" ...".format(pyguymer3.__path__[0]))
+
 # Define points ...
 pnts = [
     (-180.0, +90.0, 1000000.0), # Satisfies test A, C, D, F
@@ -44,7 +46,7 @@ for pnt in pnts:
     # Determine file name ...
     fname = "bufferPoint{:d}.png".format(pnts.index(pnt))
 
-    print("Making \"{:s}\" ...".format(fname))
+    print(" > Making \"{:s}\" ...".format(fname))
 
     # Create figure ...
     fg = matplotlib.pyplot.figure(figsize = (6, 3), dpi = 150)
