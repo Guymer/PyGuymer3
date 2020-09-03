@@ -13,7 +13,7 @@ def buffer_point(lon1, lat1, dist, nang = 19, debug = False):
     import shapely.validation
 
     # Load sub-functions ...
-    from .calc_loc_from_loc_and_bearing_and_dist import calc_loc_from_loc_and_bearing_and_dist
+    from .buffer_point_crudely import buffer_point_crudely
     from .interpolate import interpolate
 
     # Correct inputs ...
@@ -22,19 +22,8 @@ def buffer_point(lon1, lat1, dist, nang = 19, debug = False):
     dist = max(1.0, min(math.pi * 6371009.0, dist))                             # NOTE: Limit distance to 1m <--> (half-circumference)
     nang = max(9, nang)                                                         # NOTE: Must do at least 9 points around the compass
 
-    # Create empty list ...
-    ring = []
-
-    # Loop over angles ...
-    # NOTE: The first and last angles will *always* be exactly North.
-    # NOTE: The most two subsequent points can be apart is ~45 degrees (with
-    #       nang = 9).
-    for i in range(nang):
-        # Calculate initial angle, then the ring coordinates and add them to the
-        # list ...
-        ang1 = 360.0 * float(i) / float(nang - 1)
-        lon2, lat2, ang2 = calc_loc_from_loc_and_bearing_and_dist(lon1, lat1, ang1, dist)
-        ring.append((lon2, lat2))
+    # Buffer the point crudely ...
+    ring = buffer_point_crudely(lon1, lat1, dist, nang)
 
     # Initialise flag, create empty lists and append first point ...
     flag = True
