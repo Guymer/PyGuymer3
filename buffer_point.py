@@ -23,21 +23,29 @@ def buffer_point(lon1, lat1, dist, nang = 19, debug = False):
     nang = max(9, nang)                                                         # NOTE: Must do at least 9 points around the compass
 
     # Buffer the point crudely ...
-    ring = buffer_point_crudely(lon1, lat1, dist, nang)
+    try:
+        from .f90 import f90
+        if debug:
+            print("DEBUG: finding the ring using FORTRAN")
+        ring = f90.buffer_point_crudely(lon1, lat1, dist, nang)
+    except:
+        if debug:
+            print("DEBUG: finding the ring using Python")
+        ring = buffer_point_crudely(lon1, lat1, dist, nang)
 
     # Initialise flag, create empty lists and append first point ...
     flag = True
     part1 = []
     part2 = []
-    part1.append((ring[0][0], ring[0][1]))
+    part1.append((ring[0, 0], ring[0, 1]))
 
     # Loop over angles ...
     # NOTE: Start at 1 (not 0) because the first one will be checked when the
     #       last one is (as they are the same).
-    for i in range(1, nang):
+    for iang in range(1, nang):
         # Check if the anti-meridian has been crossed between this and the last
         # point ...
-        if min(ring[i - 1][0], ring[i][0]) < -90.0 and max(ring[i - 1][0], ring[i][0]) > +90.0:
+        if min(ring[iang - 1, 0], ring[iang, 0]) < -90.0 and max(ring[iang - 1, 0], ring[iang, 0]) > +90.0:
             # NOTE: There is no way with, at most, ~45 degree jumps and only, at
             #       most, half the Earth's circumference travelled that two
             #       neighbouring points can straddle *both* -90 longitude and
@@ -46,18 +54,18 @@ def buffer_point(lon1, lat1, dist, nang = 19, debug = False):
             # NOTE: The positive one is West of the anti-meridian.
 
             # Create short-hand variables for interpolation and then interpolate ...
-            if ring[i - 1][0] > ring[i][0]:
-                x1 = ring[i - 1][0]
+            if ring[iang - 1, 0] > ring[iang, 0]:
+                x1 = ring[iang - 1, 0]
                 x2 = +180.0
-                x3 = ring[i][0] + 360.0
-                y1 = ring[i - 1][1]
-                y3 = ring[i][1]
+                x3 = ring[iang, 0] + 360.0
+                y1 = ring[iang - 1, 1]
+                y3 = ring[iang, 1]
             else:
-                x1 = ring[i - 1][0]
+                x1 = ring[iang - 1, 0]
                 x2 = -180.0
-                x3 = ring[i][0] - 360.0
-                y1 = ring[i][1]
-                y3 = ring[i - 1][1]
+                x3 = ring[iang, 0] - 360.0
+                y1 = ring[iang, 1]
+                y3 = ring[iang - 1, 1]
             y2 = interpolate(x1, x3, y1, y3, x2)
 
             # Decide which list needs appending ...
@@ -74,9 +82,9 @@ def buffer_point(lon1, lat1, dist, nang = 19, debug = False):
 
         # Decide which list needs appending and append point ...
         if flag:
-            part1.append((ring[i][0], ring[i][1]))
+            part1.append((ring[iang, 0], ring[iang, 1]))
         else:
-            part2.append((ring[i][0], ring[i][1]))
+            part2.append((ring[iang, 0], ring[iang, 1]))
 
     # Check flag ...
     # NOTE: The only way a continuous ring can cross the anti-meridian an odd
