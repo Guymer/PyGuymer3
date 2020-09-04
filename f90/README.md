@@ -51,6 +51,8 @@ The above study has led me to create [.f2py_f2cmap](.f2py_f2cmap) to allow me to
 
 ## Documentation
 
+Obtained by running `python3.7 -c "import pyguymer3; import pyguymer3.f90; print(pyguymer3.f90.f90.$FUNCTION.__doc__)"`.
+
 ```
 c = add(a,b)
 
@@ -64,4 +66,21 @@ b : input float
 Returns
 -------
 c : float
+```
+
+```
+ring = buffer_point_crudely(lon1,lat1,dist,nang)
+
+Wrapper for ``buffer_point_crudely``.
+
+Parameters
+----------
+lon1 : input float
+lat1 : input float
+dist : input float
+nang : input long
+
+Returns
+-------
+ring : rank-2 array('d') with bounds (nang,2)
 ```
