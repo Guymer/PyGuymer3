@@ -6,7 +6,8 @@ FC2   := $(shell which mpif90   2> /dev/null || echo "ERROR")
 RM    := $(shell which rm       2> /dev/null || echo "ERROR")
 
 # Set defaults ...
-DEBUG ?= true
+DEBUG  ?= true
+FTNLIB ?= fortranlib
 
 # ******************************************************************************
 
@@ -49,9 +50,13 @@ help:		$(EGREP)															\
 
 f90.cpython-37m-darwin.so:	$(FC1)												\
 							$(FC2)												\
+							$(FTNLIB)/mod_safe.o								\
 							f90.F90												\
 							src/*.f90
-	$(FC1) -c --f77exec=$(FC2) --f90exec=$(FC2) --opt="$(LANG_OPTS) $(WARN_OPTS) $(OPTM_OPTS)" --arch="$(MACH_OPTS)" -m f90 f90.F90
+	$(FC1) -c --f77exec=$(FC2) --f90exec=$(FC2) --opt="$(LANG_OPTS) $(WARN_OPTS) $(OPTM_OPTS)" --arch="$(MACH_OPTS)" -m f90 -I$(FTNLIB) f90.F90
 
 f90.so:						f90.cpython-37m-darwin.so
 	ln -s f90.cpython-37m-darwin.so f90.so
+
+$(FTNLIB)/mod_safe.o:
+	$(MAKE) -r -C $(FTNLIB) mod_safe.o
