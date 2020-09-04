@@ -1,0 +1,3 @@
+[submodule "f90/fortranlib"]
+	path = f90/fortranlib
+	url = https://github.com/Guymer/fortranlib.git
