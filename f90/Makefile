@@ -54,7 +54,7 @@ f90.cpython-37m-darwin.so:	$(FC1)												\
 							$(FTNLIB)/mod_safe.o								\
 							f90.F90												\
 							src/*.f90
-	$(FC1) -c --f77exec=$(FC2) --f90exec=$(FC2) --opt="$(LANG_OPTS) $(WARN_OPTS) $(OPTM_OPTS)" --arch="$(MACH_OPTS)" -m f90 -I$(FTNLIB) f90.F90
+	$(FC1) -c --f77exec=$(FC2) --f90exec=$(FC2) --opt="$(LANG_OPTS) $(WARN_OPTS) $(OPTM_OPTS)" --arch="$(MACH_OPTS)" -m f90 -I$(FTNLIB) f90.F90 $(FTNLIB)/mod_safe.o
 
 f90.so:						f90.cpython-37m-darwin.so
 	ln -sf f90.cpython-37m-darwin.so f90.so
