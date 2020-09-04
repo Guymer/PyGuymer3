@@ -15,10 +15,10 @@ def buffer_point_crudely(lon1, lat1, dist, nang):
     # NOTE: The first and last angles will *always* be exactly North.
     # NOTE: The most two subsequent points can be apart is ~45 degrees (with
     #       nang >= 9).
-    for i in range(nang):
+    for iang in range(nang):
         # Calculate initial angle, then the ring coordinates and add them to the
         # list ...
-        ang1 = 360.0 * float(i) / float(nang - 1)
+        ang1 = 360.0 * float(iang) / float(nang - 1)
         lon2, lat2, ang2 = calc_loc_from_loc_and_bearing_and_dist(lon1, lat1, ang1, dist)
         ring.append((lon2, lat2))
 
