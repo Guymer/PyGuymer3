@@ -30,7 +30,7 @@ PURE SUBROUTINE buffer_point_crudely(lon1, lat1, dist, nang, ring)
         ! list ...
         ang1 = 360.0e0_C_DOUBLE * REAL(iang - 1_C_LONG_LONG, kind = C_DOUBLE) / REAL(nang - 1_C_LONG_LONG, kind = C_DOUBLE)
         CALL sub_calc_loc_from_loc_and_bearing_and_dist(lon1, lat1, ang1, dist, lon2, lat2, ang2)
-        ring(iang, 1) = lon2
-        ring(iang, 2) = lat2
+        ring(iang, 1) = lon2                                                    ! [deg]
+        ring(iang, 2) = lat2                                                    ! [deg]
     END DO
 END SUBROUTINE buffer_point_crudely
