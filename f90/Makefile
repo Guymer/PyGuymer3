@@ -32,6 +32,7 @@ all:		compile
 # "gmake clean"   = removes the compiled code
 clean:		$(RM)
 	$(RM) -f *.mod *.o *.so
+	$(MAKE) -r -C $(FTNLIB) clean
 
 # "gmake compile" = compiles the code
 compile:	f90.so
