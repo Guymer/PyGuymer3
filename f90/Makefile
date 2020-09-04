@@ -27,28 +27,36 @@ endif
 
 # ******************************************************************************
 
-# "gmake [all]"   = "make compile" (default)
+# "gmake -r [all]"   = "make compile" (default)
 all:		compile
 
-# "gmake clean"   = removes the compiled code
+# "gmake -r clean"   = removes the compiled code
 clean:		$(RM)
 	$(RM) -f *.mod *.o *.so
 	$(MAKE) -r -C $(FTNLIB) clean
 
-# "gmake compile" = compiles the code
+# "gmake -r compile" = compiles the code
 compile:	f90.so
 
-# "gmake help"    = print this help
+# "gmake -r help"    = print this help
 help:		$(EGREP)															\
 			$(CUT)
 	echo "These are the available options:"
-	$(EGREP) "^# \"gmake " Makefile | $(CUT) -c 2-
+	$(EGREP) "^# \"gmake -r " Makefile | $(CUT) -c 2-
 
 # ******************************************************************************
 
 .SILENT: help
 
 # ******************************************************************************
+
+# NOTE: As of 01/Nov/2019 there is still a bug in "gcc9" from MacPorts which
+#       results in it being unable to find some system libraries. Below are
+#       links to the MacPorts ticket and the GCC ticket as well as the reference
+#       for my chosen (hopefully temporary) workaround.
+#         * https://trac.macports.org/ticket/59113
+#         * https://gcc.gnu.org/bugzilla/show_bug.cgi?id=90835
+#         * https://stackoverflow.com/a/58081934
 
 f90.cpython-37m-darwin.so:	$(FC1)												\
 							$(FC2)												\
@@ -57,8 +65,9 @@ f90.cpython-37m-darwin.so:	$(FC1)												\
 							src/*.f90
 	$(FC1) -c --f77exec=$(FC2) --f90exec=$(FC2) --opt="$(LANG_OPTS) $(WARN_OPTS) $(OPTM_OPTS)" --arch="$(MACH_OPTS)" -m f90 -I$(FTNLIB) f90.F90 $(FTNLIB)/mod_safe.o -L/usr/lib
 
-f90.so:						f90.cpython-37m-darwin.so
+f90.so:						$(LN)												\
+							f90.cpython-37m-darwin.so
 	$(LN) -sf f90.cpython-37m-darwin.so f90.so
 
-$(FTNLIB)/mod_safe.o:
+$(FTNLIB)/mod_safe.o:		$(FTNLIB)
 	$(MAKE) -r -C $(FTNLIB) mod_safe.o
