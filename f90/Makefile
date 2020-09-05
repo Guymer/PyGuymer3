@@ -14,7 +14,7 @@ FTNLIB ?= fortranlib
 
 # Set compiler flags ...
 DEBG_OPTS := -g -fcheck=all
-LANG_OPTS := -ffree-form -ffree-line-length-none -frecursive -fno-unsafe-math-optimizations -frounding-math -fsignaling-nans
+LANG_OPTS := -ffree-form -ffree-line-length-none -frecursive -fno-unsafe-math-optimizations -frounding-math -fsignaling-nans -fPIC
 WARN_OPTS := -Wall -Wextra -Waliasing -Wcharacter-truncation -Wconversion-extra -Wimplicit-interface -Wimplicit-procedure -Wunderflow -Wtabs
 OPTM_OPTS := -O2
 MACH_OPTS := -march=native -m64
@@ -69,5 +69,7 @@ f90.so:						$(LN)												\
 							f90.cpython-37m-darwin.so
 	$(LN) -sf f90.cpython-37m-darwin.so f90.so
 
-$(FTNLIB)/mod_safe.o:		$(FTNLIB)
-	$(MAKE) -r -C $(FTNLIB) mod_safe.o
+$(FTNLIB)/%.mod																	\
+$(FTNLIB)/%.o:				$(FTNLIB)/Makefile									\
+							$(FTNLIB)/%.F90
+	$(MAKE) -r -C $(FTNLIB) DEBUG=$(DEBUG) $*.o
