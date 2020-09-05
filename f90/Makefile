@@ -7,7 +7,7 @@ LN    := $(shell which ln       2> /dev/null || echo "ERROR")
 RM    := $(shell which rm       2> /dev/null || echo "ERROR")
 
 # Set defaults ...
-DEBUG  ?= true
+DEBUG  ?= false
 FTNLIB ?= fortranlib
 
 # ******************************************************************************
