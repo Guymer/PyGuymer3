@@ -20,22 +20,24 @@ def load_GPS_EXIF2(fname):
     ans = {}
 
     # Run "exiftool" and load it as JSON ...
-    out = subprocess.check_output(
-        [
-            "exiftool",
-            "-json",
-            "-dateFormat", "%Y:%m:%d %H:%M:%S.%f",
-            "--printConv",
-            "-GPSDateTime",
-            "-GPSAltitude",
-            "-GPSLongitude",
-            "-GPSLatitude",
-            "-GPSHPositioningError",
-            fname
-        ],
-        encoding = "utf-8"
-    )
-    dat = json.loads(out)[0]
+    dat = json.loads(
+        subprocess.check_output(
+            [
+                "exiftool",
+                "-json",
+                "-dateFormat", "%Y:%m:%d %H:%M:%S.%f",
+                "--printConv",
+                "-GPSDateTime",
+                "-GPSAltitude",
+                "-GPSLongitude",
+                "-GPSLatitude",
+                "-GPSHPositioningError",
+                fname
+            ],
+            encoding = "utf-8",
+            stderr = subprocess.STDOUT
+        )
+    )[0]
 
     # Populate dictionary ...
     if "GPSLongitude" in dat:

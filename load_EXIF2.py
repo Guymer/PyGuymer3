@@ -9,17 +9,19 @@ def load_EXIF2(fname):
         raise Exception("\"exiftool\" is not installed")
 
     # Run "exiftool" and load it as JSON ...
-    out = subprocess.check_output(
-        [
-            "exiftool",
-            "-json",
-            "-dateFormat", "%Y:%m:%d %H:%M:%S.%f",
-            "--printConv",
-            fname
-        ],
-        encoding = "utf-8"
-    )
-    ans = json.loads(out)[0]
+    ans = json.loads(
+        subprocess.check_output(
+            [
+                "exiftool",
+                "-json",
+                "-dateFormat", "%Y:%m:%d %H:%M:%S.%f",
+                "--printConv",
+                fname
+            ],
+            encoding = "utf-8",
+            stderr = subprocess.STDOUT
+        )
+    )[0]
 
     # Return answer ...
     return ans

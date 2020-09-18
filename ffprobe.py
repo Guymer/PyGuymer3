@@ -24,7 +24,7 @@ def ffprobe(fname, playlist = -1):
     # Check if it is a Blu-ray ...
     if fname.startswith("bluray:"):
         # Find stream info ...
-        stdout = subprocess.check_output(
+        stderrout = subprocess.check_output(
             [
                 "ffprobe",
                 "-loglevel", "quiet",
@@ -43,7 +43,7 @@ def ffprobe(fname, playlist = -1):
         # Attempt to survey the file ...
         try:
             # Find stream info ...
-            stdout = subprocess.check_output(
+            stderrout = subprocess.check_output(
                 [
                     "ffprobe",
                     "-loglevel", "quiet",
@@ -59,7 +59,7 @@ def ffprobe(fname, playlist = -1):
             )
         except subprocess.CalledProcessError:
             # Fallback and attempt to find stream info as a raw M-JPEG stream ...
-            stdout = subprocess.check_output(
+            stderrout = subprocess.check_output(
                 [
                     "ffprobe",
                     "-loglevel", "quiet",
@@ -76,4 +76,4 @@ def ffprobe(fname, playlist = -1):
             )
 
     # Return ffprobe output as dictionary ...
-    return json.loads(stdout)
+    return json.loads(stderrout)
