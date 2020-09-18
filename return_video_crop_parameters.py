@@ -35,6 +35,7 @@ def return_video_crop_parameters(fname, playlist = -1):
             stderrout = subprocess.check_output(
                 [
                     "ffmpeg",
+                    "-hide_banner",
                     "-probesize", "3G",
                     "-analyzeduration", "1800M",
                     "-playlist", "{0:d}".format(playlist),
@@ -58,6 +59,7 @@ def return_video_crop_parameters(fname, playlist = -1):
                 stderrout = subprocess.check_output(
                     [
                         "ffmpeg",
+                        "-hide_banner",
                         "-probesize", "3G",
                         "-analyzeduration", "1800M",
                         "-ss", "{0:.3f}".format(t),
@@ -77,6 +79,7 @@ def return_video_crop_parameters(fname, playlist = -1):
                 stderrout = subprocess.check_output(
                     [
                         "ffmpeg",
+                        "-hide_banner",
                         "-probesize", "3G",
                         "-analyzeduration", "1800M",
                         "-ss", "{0:.3f}".format(t),
