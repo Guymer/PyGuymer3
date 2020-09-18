@@ -27,6 +27,7 @@ def ffprobe(fname, playlist = -1):
         stderrout = subprocess.check_output(
             [
                 "ffprobe",
+                "-hide_banner",
                 "-loglevel", "quiet",
                 "-probesize", "3G",
                 "-analyzeduration", "1800M",
@@ -46,6 +47,7 @@ def ffprobe(fname, playlist = -1):
             stderrout = subprocess.check_output(
                 [
                     "ffprobe",
+                    "-hide_banner",
                     "-loglevel", "quiet",
                     "-probesize", "3G",
                     "-analyzeduration", "1800M",
@@ -62,6 +64,7 @@ def ffprobe(fname, playlist = -1):
             stderrout = subprocess.check_output(
                 [
                     "ffprobe",
+                    "-hide_banner",
                     "-loglevel", "quiet",
                     "-probesize", "3G",
                     "-analyzeduration", "1800M",
