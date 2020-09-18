@@ -9,7 +9,7 @@ def return_dict_of_ISO_tracks(fname):
         raise Exception("\"lsdvd\" is not installed")
 
     # Find track info ...
-    proc = subprocess.Popen(
+    stderrout = subprocess.check_output(
         [
             "lsdvd",
             "-x",
@@ -17,18 +17,14 @@ def return_dict_of_ISO_tracks(fname):
             fname
         ],
         encoding = "utf-8",
-        stderr = subprocess.PIPE,
-        stdout = subprocess.PIPE
+        stderr = subprocess.STDOUT
     )
-    stdout, stderr = proc.communicate()
-    if proc.returncode != 0:
-        raise Exception("\"lsdvd\" command failed")
 
     # Initialize dictionary ...
     ans = {}
 
     # Loop over all tracks ...
-    for track in lxml.etree.fromstring(stdout).findall("track"):
+    for track in lxml.etree.fromstring(stderrout).findall("track"):
         # Append information ...
         ans[track.find("ix").text] = {
             "length" : float(track.find("length").text)                         # [s]

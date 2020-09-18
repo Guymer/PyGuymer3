@@ -13,7 +13,7 @@ def return_dict_of_ISO_audio_streams(fname, usr_track = -1):
         raise Exception("\"lsdvd\" is not installed")
 
     # Find track info ...
-    proc = subprocess.Popen(
+    stderrout = subprocess.check_output(
         [
             "lsdvd",
             "-x",
@@ -21,15 +21,11 @@ def return_dict_of_ISO_audio_streams(fname, usr_track = -1):
             fname
         ],
         encoding = "utf-8",
-        stderr = subprocess.PIPE,
-        stdout = subprocess.PIPE
+        stderr = subprocess.STDOUT
     )
-    stdout, stderr = proc.communicate()
-    if proc.returncode != 0:
-        raise Exception("\"lsdvd\" command failed")
 
     # Loop over all tracks ...
-    for track in lxml.etree.fromstring(stdout).findall("track"):
+    for track in lxml.etree.fromstring(stderrout).findall("track"):
         # Skip if this track is not the chosen one ...
         if int(track.find("ix").text) != int(usr_track):
             continue

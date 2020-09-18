@@ -26,7 +26,7 @@ def return_subtitle_extent(fname, playlist = -1, subtitle = 0):
 
     # Find stream info ...
     if fname.startswith("bluray:"):
-        proc = subprocess.Popen(
+        stderrout = subprocess.check_output(
             [
                 "ffmpeg",
                 "-hide_banner",
@@ -45,38 +45,34 @@ def return_subtitle_extent(fname, playlist = -1, subtitle = 0):
                 "/dev/null"
             ],
             encoding = "utf-8",
-            stderr = subprocess.PIPE,
-            stdout = subprocess.PIPE
+            stderr = subprocess.STDOUT
         )
-        stdout, stderr = proc.communicate()
-        if proc.returncode != 0:
-            raise Exception("\"ffmpeg\" command failed")
     else:
-        proc = subprocess.Popen(
-            [
-                "ffmpeg",
-                "-hide_banner",
-                "-f", "lavfi",
-                "-i", "color=color=black:size={0:d}x{1:d}:rate={2:f}:duration={3:f},format=yuv420p".format(width, height, fps, duration),
-                "-probesize", "3G",
-                "-analyzeduration", "1800M",
-                "-i", fname,
-                "-filter_complex", "[0:v:0][1:s:{0:d}]overlay,cropdetect".format(subtitle),
-                "-an",
-                "-sn",
-                "-vn",
-                "-y",
-                "-f", "null",
-                "/dev/null"
-            ],
-            encoding = "utf-8",
-            stderr = subprocess.PIPE,
-            stdout = subprocess.PIPE
-        )
-        stdout, stderr = proc.communicate()
-        if proc.returncode != 0:
-            # HACK: Fallback and attempt to load it as a raw M-JPEG stream.
-            proc = subprocess.Popen(
+        # Try to analyze it properly first, if it failes then attempt to load it
+        # as a raw M-JPEG stream ...
+        try:
+            stderrout = subprocess.check_output(
+                [
+                    "ffmpeg",
+                    "-hide_banner",
+                    "-f", "lavfi",
+                    "-i", "color=color=black:size={0:d}x{1:d}:rate={2:f}:duration={3:f},format=yuv420p".format(width, height, fps, duration),
+                    "-probesize", "3G",
+                    "-analyzeduration", "1800M",
+                    "-i", fname,
+                    "-filter_complex", "[0:v:0][1:s:{0:d}]overlay,cropdetect".format(subtitle),
+                    "-an",
+                    "-sn",
+                    "-vn",
+                    "-y",
+                    "-f", "null",
+                    "/dev/null"
+                ],
+                encoding = "utf-8",
+                stderr = subprocess.STDOUT
+            )
+        except:
+            stderrout = subprocess.check_output(
                 [
                     "ffmpeg",
                     "-hide_banner",
@@ -95,19 +91,15 @@ def return_subtitle_extent(fname, playlist = -1, subtitle = 0):
                     "/dev/null"
                 ],
                 encoding = "utf-8",
-                stderr = subprocess.PIPE,
-                stdout = subprocess.PIPE
+                stderr = subprocess.STDOUT
             )
-            stdout, stderr = proc.communicate()
-            if proc.returncode != 0:
-                raise Exception("\"ffmpeg\" command failed")
 
     # Initialize values ...
     y1 = height                                                                 # [px]
     y2 = 0                                                                      # [px]
 
     # Loop over matches ...
-    for match in re.findall(r"crop=[0-9]+:[0-9]+:[0-9]+:[0-9]+", stderr):
+    for match in re.findall(r"crop=[0-9]+:[0-9]+:[0-9]+:[0-9]+", stderrout):
         # Extract information ...
         h = int(match.split("=")[1].split(":")[1])                              # [px]
         y = int(match.split("=")[1].split(":")[3])                              # [px]

@@ -8,46 +8,34 @@ def find_program_version(prog):
         # NOTE: It is FreeBSD.
 
         # Find raw string ...
-        proc = subprocess.Popen(
+        stderrout = subprocess.check_output(
             ["pkg", "info", prog],
             encoding = "utf-8",
-            stderr = subprocess.PIPE,
-            stdout = subprocess.PIPE
+            stderr = subprocess.STDOUT
         )
-        stdout, stderr = proc.communicate()
-        if proc.returncode != 0:
-            raise Exception("\"pkg\" command failed")
     elif shutil.which("port") is not None:
         # NOTE: It is MacPorts.
 
         # Find raw string ...
-        proc = subprocess.Popen(
+        stderrout = subprocess.check_output(
             ["port", "info", "--version", prog],
             encoding = "utf-8",
-            stderr = subprocess.PIPE,
-            stdout = subprocess.PIPE
+            stderr = subprocess.STDOUT
         )
-        stdout, stderr = proc.communicate()
-        if proc.returncode != 0:
-            raise Exception("\"port\" command failed")
     elif shutil.which("zypper") is not None:
         # NOTE: It is OpenSUSE.
 
         # Find raw string ...
-        proc = subprocess.Popen(
+        stderrout = subprocess.check_output(
             ["zypper", "--disable-repositories", "info", prog],
             encoding = "utf-8",
-            stderr = subprocess.PIPE,
-            stdout = subprocess.PIPE
+            stderr = subprocess.STDOUT
         )
-        stdout, stderr = proc.communicate()
-        if proc.returncode != 0:
-            raise Exception("\"zypper\" command failed")
     else:
         raise Exception("neither \"pkg\" nor \"port\" nor \"zypper\" have been found")
 
     # Find clean string ...
-    for line in stdout.splitlines():
+    for line in stderrout.splitlines():
         if line.strip().lower().startswith("version"):
             return line.strip().lower().split(":")[1].strip()
 

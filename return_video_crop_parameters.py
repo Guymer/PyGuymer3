@@ -32,7 +32,7 @@ def return_video_crop_parameters(fname, playlist = -1):
 
         # Find crop parameters ...
         if fname.startswith("bluray:"):
-            proc = subprocess.Popen(
+            stderrout = subprocess.check_output(
                 [
                     "ffmpeg",
                     "-probesize", "3G",
@@ -49,36 +49,32 @@ def return_video_crop_parameters(fname, playlist = -1):
                     "/dev/null"
                 ],
                 encoding = "utf-8",
-                stderr = subprocess.PIPE,
-                stdout = subprocess.PIPE
+                stderr = subprocess.STDOUT
             )
-            stdout, stderr = proc.communicate()
-            if proc.returncode != 0:
-                raise Exception("\"ffmpeg\" command failed")
         else:
-            proc = subprocess.Popen(
-                [
-                    "ffmpeg",
-                    "-probesize", "3G",
-                    "-analyzeduration", "1800M",
-                    "-ss", "{0:.3f}".format(t),
-                    "-i", fname,
-                    "-an",
-                    "-sn",
-                    "-t", "2.0",
-                    "-vf", "cropdetect",
-                    "-y",
-                    "-f", "null",
-                    "/dev/null"
-                ],
-                encoding = "utf-8",
-                stderr = subprocess.PIPE,
-                stdout = subprocess.PIPE
-            )
-            stdout, stderr = proc.communicate()
-            if proc.returncode != 0:
-                # HACK: Fallback and attempt to load it as a raw M-JPEG stream.
-                proc = subprocess.Popen(
+            # Try to analyze it properly first, if it failes then attempt to
+            # load it as a raw M-JPEG stream ...
+            try:
+                stderrout = subprocess.check_output(
+                    [
+                        "ffmpeg",
+                        "-probesize", "3G",
+                        "-analyzeduration", "1800M",
+                        "-ss", "{0:.3f}".format(t),
+                        "-i", fname,
+                        "-an",
+                        "-sn",
+                        "-t", "2.0",
+                        "-vf", "cropdetect",
+                        "-y",
+                        "-f", "null",
+                        "/dev/null"
+                    ],
+                    encoding = "utf-8",
+                    stderr = subprocess.STDOUT
+                )
+            except:
+                stderrout = subprocess.check_output(
                     [
                         "ffmpeg",
                         "-probesize", "3G",
@@ -95,15 +91,11 @@ def return_video_crop_parameters(fname, playlist = -1):
                         "/dev/null"
                     ],
                     encoding = "utf-8",
-                    stderr = subprocess.PIPE,
-                    stdout = subprocess.PIPE
+                    stderr = subprocess.STDOUT
                 )
-                stdout, stderr = proc.communicate()
-                if proc.returncode != 0:
-                    raise Exception("\"ffmpeg\" command failed")
 
         # Loop over lines ...
-        for line in stderr.split("\n"):
+        for line in stderrout.splitlines():
             # Skip irrelevant lines ...
             if not line.startswith("[Parsed_cropdetect"):
                 continue
@@ -128,9 +120,9 @@ def return_video_crop_parameters(fname, playlist = -1):
 
     # Check results ...
     #if x1 >= x2:
-        #raise Exception(u"failed to find cropped width")
+        #raise Exception("failed to find cropped width")
     #if y1 >= y2:
-        #raise Exception(u"failed to find cropped height")
+        #raise Exception("failed to find cropped height")
 
     # Return largest extent (and cropped width and height) ...
     return x1, y1, x2, y2, x2 - x1 + 1, y2 - y1 + 1
