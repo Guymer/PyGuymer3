@@ -48,7 +48,7 @@ def return_subtitle_extent(fname, playlist = -1, subtitle = 0):
             stderr = subprocess.STDOUT
         )
     else:
-        # Try to analyze it properly first, if it failes then attempt to load it
+        # Try to analyze it properly first, if it fails then attempt to load it
         # as a raw M-JPEG stream ...
         try:
             stderrout = subprocess.check_output(

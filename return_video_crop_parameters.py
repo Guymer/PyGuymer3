@@ -52,7 +52,7 @@ def return_video_crop_parameters(fname, playlist = -1):
                 stderr = subprocess.STDOUT
             )
         else:
-            # Try to analyze it properly first, if it failes then attempt to
+            # Try to analyze it properly first, if it fails then attempt to
             # load it as a raw M-JPEG stream ...
             try:
                 stderrout = subprocess.check_output(
