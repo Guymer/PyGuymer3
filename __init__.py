@@ -22,6 +22,7 @@ from .convert_spreadsheet_to_datetime import convert_spreadsheet_to_datetime
 from .convert_spreadsheet_to_unix import convert_spreadsheet_to_unix
 from .does_media_have_RTP_hints import does_media_have_RTP_hints
 from .does_MP4_have_free import does_MP4_have_free
+from .dot2png import dot2png
 from .download import download
 from .download_file import download_file
 from .download_header import download_header
