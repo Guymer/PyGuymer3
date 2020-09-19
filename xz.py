@@ -12,7 +12,7 @@ def xz(fname, threads = 0):
     if not isinstance(threads, int):
         raise Exception("\"threads\" is not an integer")
 
-    # Create image ...
+    # Compress file ...
     subprocess.check_call(
         ["xz", "--compress", "-9e", "--check=sha256", "--format=xz", "--threads={:d}".format(threads), fname],
         encoding = "utf-8",
