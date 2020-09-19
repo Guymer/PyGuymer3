@@ -103,6 +103,7 @@ from .sha512 import sha512
 from .simplify_poly import simplify_poly
 from .start_session import start_session
 from .stat import stat
+from .xz import xz
 from .yuv2rgb import yuv2rgb
 
 # Ensure that this module is only imported by Python 3.x ...
