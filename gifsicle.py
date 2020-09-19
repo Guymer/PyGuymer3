@@ -44,8 +44,8 @@ def gifsicle(fname1, debug = False):
                 fname1
             ],
             encoding = "utf-8",
-            stdout = open(os.devnull, "wt"),
-            stderr = open(os.devnull, "wt")
+            stderr = open(os.devnull, "wt"),
+            stdout = open(os.devnull, "wt")
         )
 
         # Find the two sizes and don't replace the original if the new one is

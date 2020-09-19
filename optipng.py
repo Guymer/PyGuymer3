@@ -25,6 +25,6 @@ def optipng(fname):
             fname
         ],
         encoding = "utf-8",
-        stdout = open(os.devnull, "wt"),
-        stderr = open(os.devnull, "wt")
+        stderr = open(os.devnull, "wt"),
+        stdout = open(os.devnull, "wt")
     )
