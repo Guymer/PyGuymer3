@@ -103,6 +103,7 @@ from .sha512 import sha512
 from .simplify_poly import simplify_poly
 from .start_session import start_session
 from .stat import stat
+from .tar import tar
 from .xz import xz
 from .yuv2rgb import yuv2rgb
 
