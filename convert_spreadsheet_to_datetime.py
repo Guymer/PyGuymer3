@@ -7,14 +7,8 @@ def convert_spreadsheet_to_datetime(val):
     # Import standard modules ...
     import datetime
 
-    # Import special modules ...
-    try:
-        import pytz
-    except:
-        raise Exception("\"pytz\" is not installed; run \"pip install --user pytz\"")
-
     # Return answer ..
     return datetime.datetime.fromtimestamp(
         86400 * (val - 25569),
-        tz = pytz.timezone("UTC"),
+        tz = datetime.timezone.utc,
     )

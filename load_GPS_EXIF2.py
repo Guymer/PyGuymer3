@@ -6,12 +6,6 @@ def load_GPS_EXIF2(fname):
     import shutil
     import subprocess
 
-    # Import special modules ...
-    try:
-        import pytz
-    except:
-        raise Exception("\"pytz\" is not installed; run \"pip install --user pytz\"")
-
     # Check that "exiftool" is installed ...
     if shutil.which("exiftool") is None:
         raise Exception("\"exiftool\" is not installed")
@@ -70,7 +64,7 @@ def load_GPS_EXIF2(fname):
             minute = mi,
             second = se,
             microsecond = us,
-            tzinfo = pytz.timezone("UTC")
+            tzinfo = datetime.timezone.utc
         )
 
     # Check that there is location information ...

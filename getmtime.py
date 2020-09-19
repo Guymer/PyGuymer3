@@ -8,14 +8,8 @@ def getmtime(fname):
     import datetime
     import os
 
-    # Import special modules ...
-    try:
-        import pytz
-    except:
-        raise Exception("\"pytz\" is not installed; run \"pip install --user pytz\"")
-
     # Return answer ...
     return datetime.datetime.fromtimestamp(
         os.path.getmtime(fname),
-        tz = pytz.timezone("UTC"),
+        tz = datetime.timezone.utc,
     )

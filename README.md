@@ -11,7 +11,6 @@ PyGuymer3 requires the following Python modules to be installed and available in
 * [lxml](https://pypi.org/project/lxml/)
 * [numpy](https://pypi.org/project/numpy/)
 * [PIL](https://pypi.org/project/Pillow/)
-* [pytz](https://pypi.org/project/pytz/)
 * [requests](https://pypi.org/project/requests/)
 * [shapely](https://pypi.org/project/shapely/)
 

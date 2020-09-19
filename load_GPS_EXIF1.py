@@ -15,10 +15,6 @@ def load_GPS_EXIF1(fname):
         import exifread
     except:
         raise Exception("\"exifread\" is not installed; run \"pip install --user ExifRead\"")
-    try:
-        import pytz
-    except:
-        raise Exception("\"pytz\" is not installed; run \"pip install --user pytz\"")
 
     # Create default dictionary answer ...
     ans = {}
@@ -118,7 +114,7 @@ def load_GPS_EXIF1(fname):
                     minute = mi,
                     second = se,
                     microsecond = us,
-                    tzinfo = pytz.timezone("UTC")
+                    tzinfo = datetime.timezone.utc
                 )
 
                 # Deduce time precision ...
