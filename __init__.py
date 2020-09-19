@@ -42,6 +42,7 @@ from .getatime import getatime
 from .getctime import getctime
 from .getmtime import getmtime
 from .gifsicle import gifsicle
+from .git_commits import git_commits
 from .hostname import hostname
 from .interpolate import interpolate
 from .is_moov_at_beginning_of_MP4 import is_moov_at_beginning_of_MP4
