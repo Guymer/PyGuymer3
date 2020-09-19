@@ -45,6 +45,7 @@ from .hostname import hostname
 from .interpolate import interpolate
 from .is_moov_at_beginning_of_MP4 import is_moov_at_beginning_of_MP4
 from .jpegtran import jpegtran
+from .jpg2png import jpg2png
 from .load_EXIF import load_EXIF
 from .load_EXIF1 import load_EXIF1
 from .load_EXIF2 import load_EXIF2
@@ -58,6 +59,7 @@ from .optipng import optipng
 from .paeth_filter import paeth_filter
 from .parse_CLPI_file import parse_CLPI_file
 from .parse_MPLS_file import parse_MPLS_file
+from .png2jpg import png2jpg
 from .print_MP4_atoms import print_MP4_atoms
 from .remove_almost_empty_directories import remove_almost_empty_directories
 from .return_audio_bit_rate import return_audio_bit_rate
