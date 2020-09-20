@@ -1,5 +1,5 @@
 def download_file(sess, url, fname, timeout = 10.0, verify = True):
-    # Import modules ...
+    # Import standard modules ...
     import email.utils
     import os
 

@@ -1,5 +1,5 @@
 def add_map_background(axis, debug = False, name = "natural-earth-1", resolution = "medium0512px", extent = None):
-    # Import modules ...
+    # Import standard modules ...
     import json
     import os
 

@@ -1,5 +1,5 @@
 def return_dict_of_bluray_playlists(dname, size_threshold = 1073741824, time_threshold = 60.0, debug = False):
-    # Import modules ...
+    # Import standard modules ...
     import glob
     import os
 

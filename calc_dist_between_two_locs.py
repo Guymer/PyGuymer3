@@ -10,12 +10,12 @@ def calc_dist_between_two_locs(lon1_deg, lat1_deg, lon2_deg, lat2_deg, nmax = 10
     # NOTE: "lambda" is a reserved word in Python so I use "lam" as my variable
     #       name.
 
+    # Import standard modules ...
+    import math
+
     # Skip if the start- and end-points are the same ...
     if lon1_deg == lon2_deg and lat1_deg == lat2_deg:
         return 0.0, 0.0, 0.0
-
-    # Import modules ...
-    import math
 
     # Convert to radians ...
     lon1 = math.radians(lon1_deg)                                               # [rad]

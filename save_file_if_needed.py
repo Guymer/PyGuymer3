@@ -1,5 +1,5 @@
 def save_file_if_needed(fname, fcontent, debug = False):
-    # Import modules ...
+    # Import standard modules ...
     import os
 
     # Check that the content is one of the two types allowed in Python 3 and set

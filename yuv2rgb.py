@@ -14,8 +14,11 @@ def yuv2rgb(im, version = 'SDTV'):
         - 'HDTV': ITU-R BT.709 version
     """
 
-    # import modules
-    import numpy
+    # Import special modules ...
+    try:
+        import numpy
+    except:
+        raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"")
 
     # check input
     if not im.dtype == 'uint8':

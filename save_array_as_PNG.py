@@ -15,10 +15,15 @@ def save_array_as_PNG(img, fname, ftype_req = -1):
     smallest compressed stream.
     """
 
-    # Import modules ...
+    # Import standard modules ...
     import binascii
-    import numpy
     import zlib
+
+    # Import special modules ...
+    try:
+        import numpy
+    except:
+        raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"")
 
     # Load sub-functions ...
     from .paeth_filter import paeth_filter

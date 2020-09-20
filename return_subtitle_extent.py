@@ -1,5 +1,5 @@
 def return_subtitle_extent(fname, playlist = -1, subtitle = 0):
-    # Import modules ...
+    # Import standard modules ...
     import re
     import shutil
     import subprocess

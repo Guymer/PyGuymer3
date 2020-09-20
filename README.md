@@ -4,7 +4,7 @@ This is a Python 3.X port of [my Python 2.X module](https://github.com/Guymer/Py
 
 ## Dependencies
 
-PyGuymer3 requires the following Python modules to be installed and available in your `PYTHONPATH`.
+PyGuymer3 requires the following Python modules to be installed and available in your `PYTHONPATH`:
 
 * [convertbng](https://pypi.org/project/convertbng/)
 * [exifread](https://pypi.org/project/ExifRead/)
@@ -12,9 +12,14 @@ PyGuymer3 requires the following Python modules to be installed and available in
 * [numpy](https://pypi.org/project/numpy/)
 * [PIL](https://pypi.org/project/Pillow/)
 * [requests](https://pypi.org/project/requests/)
-* [shapely](https://pypi.org/project/shapely/)
+* [shapely](https://pypi.org/project/Shapely/)
 
-Similarly, PyGuymer3 requires the following binaries to be installed and available in your `PATH`.
+Furthermore, if you wish to run the [test scripts](tests) then the following additional Python modules need to be installed and available in your `PYTHONPATH` too:
+
+* [cartopy](https://pypi.org/project/Cartopy/)
+* [matplotlib](https://pypi.org/project/matplotlib/)
+
+Similarly, PyGuymer3 requires the following binaries to be installed and available in your `PATH`:
 
 * `dot`
 * `exiftool`

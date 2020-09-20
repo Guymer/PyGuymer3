@@ -5,11 +5,16 @@ def buffer_points(points, dist, nang = 19, simp = 0.1, debug = False):
     [Multi]Polygon of them buffered by a constant distance (in metres).
     """
 
-    # Import modules ...
+    # Import standard modules ...
     import multiprocessing
-    import shapely
-    import shapely.ops
-    import shapely.validation
+
+    # Import special modules ...
+    try:
+        import shapely
+        import shapely.ops
+        import shapely.validation
+    except:
+        raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"")
 
     # Load sub-functions ...
     from .buffer_point import buffer_point

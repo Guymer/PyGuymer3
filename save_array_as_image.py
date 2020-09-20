@@ -14,10 +14,15 @@ def save_array_as_image(img0, fname, form = "png", scale = False, pc_bot = 0.0, 
     ct -- the colour table to apply (if 3-channel output is requested)
     """
 
-    # Load modules ...
+    # Import modules ...
     import json
-    import numpy
     import os
+
+    # Import special modules ...
+    try:
+        import numpy
+    except:
+        raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"")
 
     # Load sub-functions ...
     from .save_array_as_PPM import save_array_as_PPM

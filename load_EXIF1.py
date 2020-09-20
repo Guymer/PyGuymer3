@@ -1,8 +1,9 @@
 def load_EXIF1(fname):
-    # NOTE: This function uses the Python module "exifread".
-
-    # Import modules ...
-    import exifread
+    # Import special modules ...
+    try:
+        import exifread
+    except:
+        raise Exception("\"exifread\" is not installed; run \"pip install --user ExifRead\"")
 
     # Open RAW file read-only ...
     with open(fname, "rb") as fobj:

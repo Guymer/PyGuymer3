@@ -1,5 +1,5 @@
 def generate_password():
-    # Import modules ...
+    # Import standard modules ...
     import base64
     import re
 

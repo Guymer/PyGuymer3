@@ -1,9 +1,17 @@
 def return_ISO_palette(fname, usr_track = None):
-    # Import modules ...
-    import numpy
+    # Import standard modules ...
     import shutil
     import subprocess
-    import lxml.etree
+
+    # Import special modules ...
+    try:
+        import lxml.etree
+    except:
+        raise Exception("\"lxml\" is not installed; run \"pip install --user lxml\"")
+    try:
+        import numpy
+    except:
+        raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"")
 
     # Load sub-functions ...
     from .yuv2rgb import yuv2rgb

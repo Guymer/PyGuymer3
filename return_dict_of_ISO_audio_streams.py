@@ -1,8 +1,13 @@
 def return_dict_of_ISO_audio_streams(fname, usr_track = -1):
-    # Import modules ...
+    # Import standard modules ...
     import shutil
     import subprocess
-    import lxml.etree
+
+    # Import special modules ...
+    try:
+        import lxml.etree
+    except:
+        raise Exception("\"lxml\" is not installed; run \"pip install --user lxml\"")
 
     # Check input ...
     if usr_track == -1:

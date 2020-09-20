@@ -1,5 +1,5 @@
 def return_video_crop_parameters(fname, playlist = -1):
-    # Import modules ...
+    # Import standard modules ...
     import shutil
     import subprocess
 

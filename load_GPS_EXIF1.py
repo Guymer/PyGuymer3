@@ -1,6 +1,4 @@
 def load_GPS_EXIF1(fname):
-    # NOTE: This function uses the Python module "exifread".
-
     # NOTE: Earth's mean radius is 6,371,009 m.
     # NOTE: The following web pages were helpful:
     #       * https://gist.github.com/snakeye/fdc372dbf11370fe29eb

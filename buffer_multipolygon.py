@@ -5,11 +5,14 @@ def buffer_multipolygon(multipoly, dist, nang = 19, simp = 0.1, debug = False):
     returns the same [Multi]Polygon buffered by a constant distance (in metres).
     """
 
-    # Import modules ...
-    import shapely
-    import shapely.geometry
-    import shapely.ops
-    import shapely.validation
+    # Import special modules ...
+    try:
+        import shapely
+        import shapely.geometry
+        import shapely.ops
+        import shapely.validation
+    except:
+        raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"")
 
     # Load sub-functions ...
     from .buffer_polygon import buffer_polygon

@@ -1,6 +1,9 @@
 def download(sess, method, url, timeout = 10.0, verify = True):
-    # Import modules ...
-    import requests
+    # Import special modules ...
+    try:
+        import requests
+    except:
+        raise Exception("\"requests\" is not installed; run \"pip install --user requests\"")
 
     # Try to download the URL and catch common errors ...
     try:

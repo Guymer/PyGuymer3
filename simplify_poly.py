@@ -4,10 +4,13 @@ def simplify_poly(poly1, simp = 0.1):
     Polygon or a MultiPolygon from the simplified (member) Polygon(s).
     """
 
-    # Import modules ...
-    import shapely
-    import shapely.geometry
-    import shapely.validation
+    # Import special modules ...
+    try:
+        import shapely
+        import shapely.geometry
+        import shapely.validation
+    except:
+        raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"")
 
     # Create empty list ...
     poly2 = []

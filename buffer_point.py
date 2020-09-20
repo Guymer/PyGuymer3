@@ -5,12 +5,17 @@ def buffer_point(lon1, lat1, dist, nang = 19, debug = False):
     (in metres).
     """
 
-    # Import modules ...
+    # Import standard modules ...
     import copy
     import math
-    import shapely
-    import shapely.geometry
-    import shapely.validation
+
+    # Import special modules ...
+    try:
+        import shapely
+        import shapely.geometry
+        import shapely.validation
+    except:
+        raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"")
 
     # Load sub-functions ...
     from .buffer_point_crudely import buffer_point_crudely
