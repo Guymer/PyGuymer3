@@ -3,7 +3,7 @@ def does_FLAC_have_padding(fname):
     import shutil
     import subprocess
 
-    # Check that "ffmpeg" is installed ...
+    # Check that "metaflac" is installed ...
     if shutil.which("metaflac") is None:
         raise Exception("\"metaflac\" is not installed")
 
