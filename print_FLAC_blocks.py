@@ -48,7 +48,7 @@ def print_FLAC_blocks(fname):
             val = int.from_bytes(fobj.read(3), byteorder = "big", signed = False)
 
             # Print summary ...
-            size, units = convert_bytes_to_pretty_bytes(val)
+            size, units = convert_bytes_to_pretty_bytes(val + 4)
             print("{0:s} is {1:6.1f} {2:3s} long".format(blocks.get(name, "RESERVED"), size, units))
 
             # Check if this is the last block before the frames ...
