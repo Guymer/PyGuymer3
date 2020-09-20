@@ -14,6 +14,19 @@ PyGuymer3 requires the following Python modules to be installed and available in
 * [requests](https://pypi.org/project/requests/)
 * [shapely](https://pypi.org/project/shapely/)
 
+Similarly, PyGuymer3 requires the following binaries to be installed and available in your `PATH`.
+
+* `dot`
+* `exiftool`
+* `ffmpeg` and `ffprobe`
+* `gifsicle`
+* `git`
+* `jpegtran`
+* `lsdvd`
+* `optipng`
+* `tar`
+* `xz`
+
 ## Notes
 
 ### The Zen of Python
