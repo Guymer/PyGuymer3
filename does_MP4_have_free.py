@@ -39,7 +39,7 @@ def does_MP4_have_free(fname):
             else:
                 foundFTYP = True
 
-            # Check if it is the FREE atom ...
+            # Check if it is a FREE atom ...
             if name == "free":
                 return True
 
