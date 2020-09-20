@@ -1,6 +1,6 @@
 def make_path_safe(path):
     # Loop over characters ...
-    for illegal_char in "\\", "/", ":", "*", "?", "\"", "<", ">", "|", "%":
+    for illegal_char in ["\\", "/", ":", "*", "?", "\"", "<", ">", "|", "%"]:
         path = path.replace(illegal_char, "")
 
     # Make the file visible ...
