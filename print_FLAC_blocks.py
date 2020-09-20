@@ -24,7 +24,7 @@ def print_FLAC_blocks(fname):
     # Open FLAC read-only ...
     with open(fname, "rb") as fobj:
         # Create short-hand ...
-        fsize = os.path.getsize(fname)
+        fsize = os.path.getsize(fname)                                          # [B]
 
         # Read magic marker and raise exception if it is not expected ...
         if fobj.read(4).decode("utf-8") != "fLaC":
@@ -45,7 +45,7 @@ def print_FLAC_blocks(fname):
                 name -= 128
 
             # Attempt to read 3 bytes as a big-endian un-signed integer ...
-            val = int.from_bytes(fobj.read(3), byteorder = "big", signed = False)
+            val = int.from_bytes(fobj.read(3), byteorder = "big", signed = False)   # [B]
 
             # Print summary ...
             size, units = convert_bytes_to_pretty_bytes(val + 4)

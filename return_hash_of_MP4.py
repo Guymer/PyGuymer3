@@ -29,7 +29,7 @@ def return_hash_of_MP4(fname, ignoreModificationTime = True):
         hobj = hashlib.sha512()
 
         # Create short-hand ...
-        fsize = os.path.getsize(fname)
+        fsize = os.path.getsize(fname)                                          # [B]
 
         # Set triggers ...
         foundFTYP = False
@@ -43,13 +43,13 @@ def return_hash_of_MP4(fname, ignoreModificationTime = True):
             src = fobj.read(4)
             val, = struct.unpack(">I", src)                                     # [B]
             hobj.update(src)
-            off = 4
+            off = 4                                                             # [B]
 
             # Extract atom name and pass it to the hash object ...
             src = fobj.read(4)
             name = src.decode("utf-8")
             hobj.update(src)
-            off += 4
+            off += 4                                                            # [B]
 
             # Check that it matches the pattern ...
             if re.match(r"[a-z][a-z][a-z][a-z]", name) is None:
@@ -78,10 +78,10 @@ def return_hash_of_MP4(fname, ignoreModificationTime = True):
                 src = fobj.read(8)
                 val, = struct.unpack(">Q", src)                                 # [B]
                 hobj.update(src)
-                off += 8
+                off += 8                                                        # [B]
 
             # Create short-hand ...
-            rem = val - off
+            rem = val - off                                                     # [B]
 
             # Check if it is the MOOV atom ...
             if name == "moov":
@@ -98,13 +98,13 @@ def return_hash_of_MP4(fname, ignoreModificationTime = True):
                     src = fobj.read(4)
                     val, = struct.unpack(">I", src)                             # [B]
                     hobj.update(src)
-                    off2 = 4
+                    off2 = 4                                                    # [B]
 
                     # Extract atom name and pass it to the hash object ...
                     src = fobj.read(4)
                     name = src.decode("utf-8")
                     hobj.update(src)
-                    off2 += 4
+                    off2 += 4                                                   # [B]
 
                     # Check that it matches the pattern ...
                     if re.match(r"[a-z][a-z][a-z][a-z]", name) is None:
@@ -127,10 +127,10 @@ def return_hash_of_MP4(fname, ignoreModificationTime = True):
                         src = fobj.read(8)
                         val, = struct.unpack(">Q", src)                         # [B]
                         hobj.update(src)
-                        off2 += 8
+                        off2 += 8                                               # [B]
 
                     # Create short-hand ...
-                    rem2 = val - off
+                    rem2 = val - off                                            # [B]
 
                     # Check if it is the MVHD atom ...
                     if name == "mvhd":

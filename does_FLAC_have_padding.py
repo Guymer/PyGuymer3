@@ -21,7 +21,7 @@ def does_FLAC_have_padding(fname):
     # Open FLAC read-only ...
     with open(fname, "rb") as fobj:
         # Create short-hand ...
-        fsize = os.path.getsize(fname)
+        fsize = os.path.getsize(fname)                                          # [B]
 
         # Read magic marker and raise exception if it is not expected ...
         if fobj.read(4).decode("utf-8") != "fLaC":
@@ -42,7 +42,7 @@ def does_FLAC_have_padding(fname):
                 name -= 128
 
             # Attempt to read 3 bytes as a big-endian un-signed integer ...
-            val = int.from_bytes(fobj.read(3), byteorder = "big", signed = False)
+            val = int.from_bytes(fobj.read(3), byteorder = "big", signed = False)   # [B]
 
             # Check if it is a PADDING block ...
             if blocks.get(name, "RESERVED") == "PADDING":

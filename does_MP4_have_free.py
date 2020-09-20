@@ -14,7 +14,7 @@ def does_MP4_have_free(fname):
     # Open MP4 read-only ...
     with open(fname, "rb") as fobj:
         # Create short-hand ...
-        fsize = os.path.getsize(fname)
+        fsize = os.path.getsize(fname)                                          # [B]
 
         # Set trigger ...
         foundFTYP = False
@@ -23,11 +23,11 @@ def does_MP4_have_free(fname):
         while fobj.tell() < fsize:
             # Attempt to read 4 bytes as a big-endian un-signed 32-bit integer ...
             val, = struct.unpack(">I", fobj.read(4))                            # [B]
-            off = 4
+            off = 4                                                             # [B]
 
             # Extract atom name ...
             name = fobj.read(4).decode("utf-8")
-            off += 4
+            off += 4                                                            # [B]
 
             # Check that it matches the pattern ...
             if re.match(r"[a-z][a-z][a-z][a-z]", name) is None:
@@ -55,7 +55,7 @@ def does_MP4_have_free(fname):
                 # Attempt to read 8 bytes as a big-endian un-signed 64-bit
                 # integer ...
                 val, = struct.unpack(">Q", fobj.read(8))                        # [B]
-                off += 8
+                off += 8                                                        # [B]
 
             # Skip to the end of the atom ...
             fobj.seek(val - off, os.SEEK_CUR)
