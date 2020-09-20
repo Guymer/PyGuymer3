@@ -25,4 +25,4 @@ def sha512(fname, chunksize = 1048576):
             hobj.update(chunk)
 
     # Return answer ...
-    return hobj
+    return hobj.hexdigest()
