@@ -1,17 +1,19 @@
-def save_array_as_image(img0, fname, form = "png", scale = False, pc_bot = 0.0, pc_top = 0.0, ct = "fire"):
+def save_array_as_image(img0, fname, form = "png", scale = False, pc_bot = 0.0, pc_top = 0.0, ct = "grey"):
     """
     Saves an array as an image with optional scaling and/or colour mapping.
     Currently only "png" and "ppm" formats are available.
 
     img0 -- a 2D NumPy array of any type with shape (ny,nx)
     fname -- output file name
-    form -- output file format
-    scale -- does the input need scaling?
+    form -- output image format
+    scale -- does the input need scaling? (if not, then the input array must be
+        >= 0 and <= 255)
     pc_bot -- the percentage to clip off the bottom of the histogram (if scaling
         is requested)
     pc_top -- the percentage to clip off the top of the histogram (if scaling is
         requested)
-    ct -- the colour table to apply (if 3-channel output is requested)
+    ct -- the colour table to apply (the default is no colour mapping, i.e.,
+        greyscale)
     """
 
     # Import modules ...
@@ -30,10 +32,10 @@ def save_array_as_image(img0, fname, form = "png", scale = False, pc_bot = 0.0, 
     from .save_array_as_PNG import save_array_as_PNG
 
     # Find image size ...
-    ny, nx = img0.shape
+    ny, nx = img0.shape                                                         # [px], [px]
 
     # Load colour tables ...
-    colour_tables = json.load(
+    cts = json.load(
         open(
             os.path.join(
                 os.path.dirname(__file__),
@@ -67,15 +69,15 @@ def save_array_as_image(img0, fname, form = "png", scale = False, pc_bot = 0.0, 
         # type, clean up ...
         img1 = 255.0 * (img1 - p_lo) / (p_hi - p_lo)
         numpy.place(img1, img1 > 255.0, 255.0)
-        numpy.place(img1, img1 < 0.0, 0.0)
+        numpy.place(img1, img1 <   0.0,   0.0)
         for ix in range(nx):
             for iy in range(ny):
-                img2[iy, ix, :] = colour_tables[ct][img1[iy, ix].astype(numpy.uint8)][:]
+                img2[iy, ix, :] = cts[ct][img1[iy, ix].astype(numpy.uint8)][:]
     else:
         # Convert image to correct type ...
         for ix in range(nx):
             for iy in range(ny):
-                img2[iy, ix, :] = colour_tables[ct][img0[iy, ix].astype(numpy.uint8)][:]
+                img2[iy, ix, :] = cts[ct][img0[iy, ix].astype(numpy.uint8)][:]
 
     # Save image ...
     if form == "png":
@@ -84,4 +86,4 @@ def save_array_as_image(img0, fname, form = "png", scale = False, pc_bot = 0.0, 
     elif form == "ppm":
         save_array_as_PPM(img2, fname)
     else:
-        raise Exception("unknown format was requested")
+        raise Exception("an unknown image format was requested")
