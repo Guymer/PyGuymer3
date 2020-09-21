@@ -25,6 +25,7 @@ def save_array_as_image(img0, fname, form = "png", scale = False, pc_bot = 0.0, 
         raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"")
 
     # Load sub-functions ...
+    from .optimize_image import optimize_image
     from .save_array_as_PPM import save_array_as_PPM
     from .save_array_as_PNG import save_array_as_PNG
 
@@ -79,6 +80,7 @@ def save_array_as_image(img0, fname, form = "png", scale = False, pc_bot = 0.0, 
     # Save image ...
     if form == "png":
         save_array_as_PNG(img2, fname, ftype_req = 4)
+        optimize_image(fname, strip = True)
     elif form == "ppm":
         save_array_as_PPM(img2, fname)
     else:
