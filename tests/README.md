@@ -21,6 +21,12 @@ The function [buffer_point](../buffer_point.py) is tested by the script [bufferP
 
 ![bufferPoint output image](bufferPoint6.png)
 
+### `find_point_on_great_circle()`
+
+The function [find_point_on_great_circle](../find_point_on_great_circle.py) is tested by the script [greatCircle.py](greatCircle.py) which produces the image below.
+
+![greatCircle output image](greatCircle.png)
+
 ### `save_array_as_image()`
 
 The function [save_array_as_image](../save_array_as_image.py) is tested by the script [saveArrayAsImage.py](saveArrayAsImage.py) which produces the images below.
