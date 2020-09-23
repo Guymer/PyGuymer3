@@ -30,6 +30,9 @@ print("Testing \"{:s}\" ...".format(pyguymer3.__path__[0]))
 p1 = (-90.0, +15.0)
 p2 = (+90.0, +15.0)
 
+# Define number of sub-divisions ...
+ndivs = [2, 3, 4, 8, 16, 1000]
+
 # Create figure ...
 fg = matplotlib.pyplot.figure(figsize = (6, 3), dpi = 150)
 
@@ -40,33 +43,33 @@ pyguymer3.add_map_background(ax)
 ax.coastlines(resolution = "110m", color = "black", linewidth = 0.1)
 
 # Loop over number of sub-divisions ...
-for ndiv in range(5):
+for i, ndiv in enumerate(ndivs):
     # Create fractions and initialize arrays of lon/lat ...
-    frac = numpy.linspace(0.0, 1.0, num = 2 ** (ndiv + 1))
-    lon = numpy.zeros(frac.size, dtype = numpy.float64)
-    lat = numpy.zeros(frac.size, dtype = numpy.float64)
+    frac = numpy.linspace(0.0, 1.0, num = ndiv)
+    lon = numpy.zeros(ndiv, dtype = numpy.float64)
+    lat = numpy.zeros(ndiv, dtype = numpy.float64)
 
-    # Loop over fractions ...
-    for i in range(frac.size):
+    # Loop over sub-divisions ...
+    for j in range(ndiv):
         # Check what to do ...
-        if i == 0:
+        if j == 0:
             # Set start point ...
-            lon[i] = p1[0]
-            lat[i] = p1[1]
-        elif i == frac.size - 1:
+            lon[j] = p1[0]
+            lat[j] = p1[1]
+        elif j == ndiv - 1:
             # Set end point ...
-            lon[i] = p2[0]
-            lat[i] = p2[1]
+            lon[j] = p2[0]
+            lat[j] = p2[1]
         else:
             # Set intermediate point ...
-            lon[i], lat[i] = pyguymer3.find_point_on_great_circle(frac[i], p1[0], p1[1], p2[0], p2[1])
+            lon[j], lat[j] = pyguymer3.find_point_on_great_circle(frac[j], p1[0], p1[1], p2[0], p2[1])
 
         # Transform point ...
         # NOTE: See https://stackoverflow.com/a/52861074
-        lon[i], lat[i] = cartopy.crs.Robinson().transform_point(lon[i], lat[i], cartopy.crs.Geodetic())
+        lon[j], lat[j] = cartopy.crs.Robinson().transform_point(lon[j], lat[j], cartopy.crs.Geodetic())
 
     # Plot great circle ...
-    ax.plot(lon, lat, transform = cartopy.crs.Robinson(), linewidth = 1.0, color = matplotlib.pyplot.cm.rainbow(float(ndiv) / float(4)),)
+    ax.plot(lon, lat, transform = cartopy.crs.Robinson(), linewidth = 1.0, color = matplotlib.pyplot.cm.rainbow(float(i) / float(len(ndivs) - 1)))
 
 # Save figure ...
 fg.savefig("greatCircle.png", bbox_inches = "tight", dpi = 150, pad_inches = 0.1)
