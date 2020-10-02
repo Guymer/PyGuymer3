@@ -1,4 +1,4 @@
-def return_video_crop_parameters(fname, playlist = -1):
+def return_video_crop_parameters(fname, playlist = -1, dt = 2.0):
     # Import standard modules ...
     import shutil
     import subprocess
@@ -25,10 +25,10 @@ def return_video_crop_parameters(fname, playlist = -1):
     y1 = h                                                                      # [px]
     y2 = 0                                                                      # [px]
 
-    # Loop over times ...
-    for i in range(7):
-        # Deduce time ...
-        t = 0.1 * float(i + 2) * dur - 1.0                                      # [s]
+    # Loop over fractions ...
+    for frac in [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]:
+        # Deduce start time ...
+        t = frac * dur - dt / 2.0                                               # [s]
 
         # Find crop parameters ...
         if fname.startswith("bluray:"):
@@ -43,7 +43,7 @@ def return_video_crop_parameters(fname, playlist = -1):
                     "-i", fname,
                     "-an",
                     "-sn",
-                    "-t", "2.0",
+                    "-t", "{:f}".format(dt),
                     "-vf", "cropdetect",
                     "-y",
                     "-f", "null",
@@ -66,7 +66,7 @@ def return_video_crop_parameters(fname, playlist = -1):
                         "-i", fname,
                         "-an",
                         "-sn",
-                        "-t", "2.0",
+                        "-t", "{:f}".format(dt),
                         "-vf", "cropdetect",
                         "-y",
                         "-f", "null",
@@ -87,7 +87,7 @@ def return_video_crop_parameters(fname, playlist = -1):
                         "-i", fname,
                         "-an",
                         "-sn",
-                        "-t", "2.0",
+                        "-t", "{:f}".format(dt),
                         "-vf", "cropdetect",
                         "-y",
                         "-f", "null",
@@ -122,10 +122,10 @@ def return_video_crop_parameters(fname, playlist = -1):
                     y2 = max(y2, int(value))                                    # [px]
 
     # Check results ...
-    #if x1 >= x2:
-        #raise Exception("failed to find cropped width")
-    #if y1 >= y2:
-        #raise Exception("failed to find cropped height")
+    if x1 >= x2:
+        raise Exception("failed to find cropped width (x1 = {:d}, y1 = {:d}, x2 = {:d}, y2 = {:d})".format(x1, y1, x2, y2))
+    if y1 >= y2:
+        raise Exception("failed to find cropped height (x1 = {:d}, y1 = {:d}, x2 = {:d}, y2 = {:d})".format(x1, y1, x2, y2))
 
     # Return largest extent (and cropped width and height) ...
     return x1, y1, x2, y2, x2 - x1 + 1, y2 - y1 + 1
