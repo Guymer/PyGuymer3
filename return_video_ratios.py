@@ -3,6 +3,8 @@ def return_video_ratios(fname, playlist = -1, debug = False):
     from . import __ffprobe__
     from .ffprobe import ffprobe
     from .find_integer_divisors import find_integer_divisors
+    from .return_video_height import return_video_height
+    from .return_video_width import return_video_width
 
     # Make sure that this fname/playlist combination is in the global dictionary ...
     if fname not in __ffprobe__:
@@ -19,8 +21,10 @@ def return_video_ratios(fname, playlist = -1, debug = False):
             continue
 
         # Find common dimensions divisors ...
-        w_divs = find_integer_divisors(stream["width"])
-        h_divs = find_integer_divisors(stream["height"])
+        w = return_video_width(fname, playlist)
+        h = return_video_height(fname, playlist)
+        w_divs = find_integer_divisors(w)
+        h_divs = find_integer_divisors(h)
         fact = 1
         for w_div in reversed(w_divs):
             if w_div in h_divs:
@@ -31,7 +35,7 @@ def return_video_ratios(fname, playlist = -1, debug = False):
         # NOTE: "ffprobe" incorrectly calls PAR "sample aspect ratio".
         dar = stream["display_aspect_ratio"]
         par = stream["sample_aspect_ratio"]
-        sar = "{0:d}:{1:d}".format(stream["width"] / fact, stream["height"] / fact)
+        sar = "{:d}:{:d}".format(w // fact, h // fact)
         return dar, par, sar
 
     # Return error ...
