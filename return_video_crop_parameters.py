@@ -18,12 +18,10 @@ def return_video_crop_parameters(fname, playlist = -1, dt = 2.0):
 
     # Initialize variables ...
     dur = return_media_duration(fname, playlist)                                # [s]
-    w = return_video_width(fname, playlist)                                     # [px]
-    h = return_video_height(fname, playlist)                                    # [px]
-    x1 = w                                                                      # [px]
-    x2 = 0                                                                      # [px]
-    y1 = h                                                                      # [px]
-    y2 = 0                                                                      # [px]
+    inW = return_video_width(fname, playlist)                                   # [px]
+    inH = return_video_height(fname, playlist)                                  # [px]
+    outX = 0                                                                    # [px]
+    outY = 0                                                                    # [px]
 
     # Loop over fractions ...
     for frac in [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]:
@@ -103,30 +101,33 @@ def return_video_crop_parameters(fname, playlist = -1, dt = 2.0):
             if not line.startswith("[Parsed_cropdetect"):
                 continue
 
-            # Extract information and loop over key+value pairs ...
+            # Extract the information part of the line and make a dictionary of
+            # all of the key+value pairs ...
+            db = {}
             info = line.strip().split("]")[-1]
-            for keyvalue in info.split():
-                # Skip irrelevant key+value pairs ...
-                if keyvalue.count(":") != 1:
-                    continue
+            for keyvalue in info.strip().split():
+                if keyvalue.count(":") == 1:
+                    key, value = keyvalue.split(":")
+                elif keyvalue.count("=") == 1:
+                    key, value = keyvalue.split("=")
+                else:
+                    raise Exception("an unexpected string format was encountered (\"{:s}\")".format(keyvalue))
+                db[key] = value
 
-                # Extract key and value and update variables ...
-                key, value = keyvalue.split(":")
-                if key == "x1":
-                    x1 = min(x1, int(value))                                    # [px]
-                if key == "x2":
-                    x2 = max(x2, int(value))                                    # [px]
-                if key == "y1":
-                    y1 = min(y1, int(value))                                    # [px]
-                if key == "y2":
-                    y2 = max(y2, int(value))                                    # [px]
+            # Update variables ...
+            outX = max(outX, int(db["x"]))                                      # [px]
+            outY = max(outY, int(db["y"]))                                      # [px]
+
+    # Update variables ...
+    outW = inW - 2 * outX                                                       # [px]
+    outH = inH - 2 * outY                                                       # [px]
+    cropParams = "{:d}:{:d}:{:d}:{:d}".format(outW, outH, outX, outY)
 
     # Check results ...
-    if x1 >= x2:
-        raise Exception("failed to find cropped width (x1 = {:d}, y1 = {:d}, x2 = {:d}, y2 = {:d})".format(x1, y1, x2, y2))
-    if y1 >= y2:
-        raise Exception("failed to find cropped height (x1 = {:d}, y1 = {:d}, x2 = {:d}, y2 = {:d})".format(x1, y1, x2, y2))
+    if outW > inW or outW <= 0:
+        raise Exception("failed to find cropped width (inW = {:d}, inH = {:d}, outX = {:d}, outY = {:d}, outW = {:d}, outH = {:d})".format(inW, inH, outX, outY, outW, outH))
+    if outH > inH or outH <= 0:
+        raise Exception("failed to find cropped height (inW = {:d}, inH = {:d}, outX = {:d}, outY = {:d}, outW = {:d}, outH = {:d})".format(inW, inH, outX, outY, outW, outH))
 
-    # Return top-left corner, bottom-right corner, width, height and FFMPEG crop
-    # parameter string ...
-    return x1, y1, x2, y2, x2 - x1 + 1, y2 - y1 + 1, "{:d}:{:d}:{:d}:{:d}".format(w, h, x1 - 1, y1 - 1)
+    # Return top-left corner, width, height and FFMPEG crop parameter string ...
+    return outX, outY, outW, outH, cropParams
