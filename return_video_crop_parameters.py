@@ -127,5 +127,6 @@ def return_video_crop_parameters(fname, playlist = -1, dt = 2.0):
     if y1 >= y2:
         raise Exception("failed to find cropped height (x1 = {:d}, y1 = {:d}, x2 = {:d}, y2 = {:d})".format(x1, y1, x2, y2))
 
-    # Return largest extent (and cropped width and height) ...
-    return x1, y1, x2, y2, x2 - x1 + 1, y2 - y1 + 1
+    # Return top-left corner, bottom-right corner, width, height and FFMPEG crop
+    # parameter string ...
+    return x1, y1, x2, y2, x2 - x1 + 1, y2 - y1 + 1, "{:d}:{:d}:{:d}:{:d}".format(w, h, x1 - 1, y1 - 1)
