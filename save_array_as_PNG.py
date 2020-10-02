@@ -76,13 +76,13 @@ def save_array_as_PNG(img, fname, ftype_req = -1):
             row = numpy.zeros((5, nc, nx), dtype = numpy.uint8)
 
             # Calculate stream for "none" filter (if required) ...
-            if ftype_req == -1 or ftype_req == 0:
+            if ftype_req in [-1, 0]:
                 ftype = 0
                 for ix in range(nx):
                     row[ftype, :, ix] = img[iy, ix, :]
 
             # Calculate stream for "sub" filter (if required) ...
-            if ftype_req == -1 or ftype_req == 1:
+            if ftype_req in [-1, 1]:
                 ftype = 1
                 for ix in range(nx):
                     for ic in range(nc):
@@ -95,7 +95,7 @@ def save_array_as_PNG(img, fname, ftype_req = -1):
                         row[ftype, ic, ix] = diff.astype(numpy.uint8)
 
             # Calculate stream for "up" filter (if required) ...
-            if ftype_req == -1 or ftype_req == 2:
+            if ftype_req in [-1, 2]:
                 ftype = 2
                 for ix in range(nx):
                     for ic in range(nc):
@@ -108,7 +108,7 @@ def save_array_as_PNG(img, fname, ftype_req = -1):
                         row[ftype, ic, ix] = diff.astype(numpy.uint8)
 
             # Calculate stream for "average" filter (if required) ...
-            if ftype_req == -1 or ftype_req == 3:
+            if ftype_req in [-1, 3]:
                 ftype = 3
                 for ix in range(nx):
                     for ic in range(nc):
@@ -120,12 +120,12 @@ def save_array_as_PNG(img, fname, ftype_req = -1):
                             p2 = numpy.int16(0)
                         else:
                             p2 = img[iy - 1, ix, ic].astype(numpy.int16)
-                        diff = img[iy, ix, ic].astype(numpy.int16) - numpy.int16((p1.astype(numpy.int16) + p2.astype(numpy.int16)) / numpy.int16(2))
+                        diff = img[iy, ix, ic].astype(numpy.int16) - ((p1 + p2) // numpy.int16(2))
                         diff = numpy.mod(diff, 256)
                         row[ftype, ic, ix] = diff.astype(numpy.uint8)
 
             # Calculate stream for "Paeth" filter (if required) ...
-            if ftype_req == -1 or ftype_req == 4:
+            if ftype_req in [-1, 4]:
                 ftype = 4
                 for ix in range(nx):
                     for ic in range(nc):
@@ -149,7 +149,7 @@ def save_array_as_PNG(img, fname, ftype_req = -1):
             if ftype_req == -1:
                 tmp1 = numpy.uint64(255 * nx)
                 for ftype in range(5):
-                    tmp2 = row[ftype, :, :].sum().astype(numpy.uint64)
+                    tmp2 = row[ftype, :, :].astype(numpy.uint64).sum()
                     if tmp2 < tmp1:
                         tmp1 = tmp2
                         ftype_best = ftype
@@ -159,7 +159,7 @@ def save_array_as_PNG(img, fname, ftype_req = -1):
             # Use the best/requested stream for this row ...
             stream += numpy.uint8(ftype_best).byteswap().tobytes()
             for ix in range(nx):
-                stream += row[ftype_best, :, ix].astype(numpy.uint8).byteswap().tobytes()
+                stream += row[ftype_best, :, ix].byteswap().tobytes()
 
         idat += zlib.compress(stream, 9)                                        # IDAT : Data
         idat[0:4] = numpy.uint32(len(idat[8:])).byteswap().tobytes()            # Length
