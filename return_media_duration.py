@@ -9,7 +9,7 @@ def return_media_duration(fname, playlist = -1, debug = False):
     if playlist not in __ffprobe__[fname]:
         if debug:
             print("INFO: Running ffprobe(\"{:s}\", {:d}) ...".format(fname, playlist))
-        __ffprobe__[fname][playlist] = ffprobe(fname, playlist)
+        __ffprobe__[fname][playlist] = ffprobe(fname, playlist = playlist)
 
     # Return duration ...
     form = __ffprobe__[fname][playlist]["format"]

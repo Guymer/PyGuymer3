@@ -9,7 +9,7 @@ def return_MP4_video_level(fname, playlist = -1, debug = False):
     if playlist not in __ffprobe__[fname]:
         if debug:
             print("INFO: Running ffprobe(\"{:s}\", {:d}) ...".format(fname, playlist))
-        __ffprobe__[fname][playlist] = ffprobe(fname, playlist)
+        __ffprobe__[fname][playlist] = ffprobe(fname, playlist = playlist)
 
     # Loop over streams ...
     for stream in __ffprobe__[fname][playlist]["streams"]:

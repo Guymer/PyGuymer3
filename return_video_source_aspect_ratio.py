@@ -12,7 +12,7 @@ def return_video_source_aspect_ratio(fname, playlist = -1, debug = False):
     if playlist not in __ffprobe__[fname]:
         if debug:
             print("INFO: Running ffprobe(\"{:s}\", {:d}) ...".format(fname, playlist))
-        __ffprobe__[fname][playlist] = ffprobe(fname, playlist)
+        __ffprobe__[fname][playlist] = ffprobe(fname, playlist = playlist)
 
     # Loop over streams ...
     for stream in __ffprobe__[fname][playlist]["streams"]:
@@ -21,8 +21,8 @@ def return_video_source_aspect_ratio(fname, playlist = -1, debug = False):
             continue
 
         # Find common dimensions divisors ...
-        w = return_video_width(fname, playlist)                                 # [px]
-        h = return_video_height(fname, playlist)                                # [px]
+        w = return_video_width(fname, playlist = playlist)                      # [px]
+        h = return_video_height(fname, playlist = playlist)                     # [px]
         w_divs = find_integer_divisors(w)
         h_divs = find_integer_divisors(h)
         fact = 1

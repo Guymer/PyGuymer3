@@ -10,7 +10,7 @@ def return_video_height(fname, playlist = -1, debug = False):
     if playlist not in __ffprobe__[fname]:
         if debug:
             print("INFO: Running ffprobe(\"{:s}\", {:d}) ...".format(fname, playlist))
-        __ffprobe__[fname][playlist] = ffprobe(fname, playlist)
+        __ffprobe__[fname][playlist] = ffprobe(fname, playlist = playlist)
 
     # Loop over streams ...
     for stream in __ffprobe__[fname][playlist]["streams"]:
@@ -19,10 +19,10 @@ def return_video_height(fname, playlist = -1, debug = False):
             continue
 
         # Check the rotation ...
-        if return_video_rotation(fname, playlist) in [0, 180]:
+        if return_video_rotation(fname, playlist = playlist) in [0, 180]:
             # Return height ...
             return int(stream["height"])                                        # [px]
-        if return_video_rotation(fname, playlist) in [90, 270]:
+        if return_video_rotation(fname, playlist = playlist) in [90, 270]:
             # Return width ...
             return int(stream["width"])                                         # [px]
 
