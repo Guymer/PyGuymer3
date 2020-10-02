@@ -27,7 +27,7 @@ def return_video_frame_rate(fname, playlist = -1, debug = False):
         fps = -1.0                                                              # [Hz]
         if int(b) != 0:
             fps = float(a) / float(b)                                           # [Hz]
-        return fps
+        return fps                                                              # [Hz]
 
     # Return error ...
-    return -1.0
+    return -1.0                                                                 # [Hz]

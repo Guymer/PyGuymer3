@@ -18,7 +18,8 @@ def return_video_bit_rate(fname, playlist = -1, debug = False):
             continue
 
         # Return bit rate ...
-        return int(stream["bit_rate"])                                          # [b/s]
+        if "bit_rate" in stream:
+            return int(stream["bit_rate"])                                      # [b/s]
 
     # Return error ...
-    return -1
+    return -1                                                                   # [b/s]

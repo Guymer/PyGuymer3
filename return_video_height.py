@@ -27,4 +27,4 @@ def return_video_height(fname, playlist = -1, debug = False):
             return int(stream["width"])                                         # [px]
 
     # Return error ...
-    return -1
+    return -1                                                                   # [px]

@@ -18,7 +18,8 @@ def return_video_display_aspect_ratio(fname, playlist = -1, debug = False):
             continue
 
         # Return display aspect ratio ...
-        return stream["display_aspect_ratio"]
+        if "display_aspect_ratio" in stream:
+            return stream["display_aspect_ratio"]
 
     # Return error ...
     return "ERROR"

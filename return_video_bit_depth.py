@@ -18,7 +18,8 @@ def return_video_bit_depth(fname, playlist = -1, debug = False):
             continue
 
         # Return bit depth ...
-        return int(stream["bits_per_raw_sample"])
+        if "bits_per_raw_sample" in stream:
+            return int(stream["bits_per_raw_sample"])                           # [b]
 
     # Return error ...
-    return -1
+    return -1                                                                   # [b]
