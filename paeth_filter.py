@@ -8,7 +8,6 @@ def paeth_filter(a, b, c):
     # Return best point ...
     if pa <= pb and pa <= pc:
         return a
-    elif pb <= pc:
+    if pb <= pc:
         return b
-    else:
-        return c
+    return c
