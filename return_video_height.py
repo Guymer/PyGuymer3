@@ -2,6 +2,7 @@ def return_video_height(fname, playlist = -1, debug = False):
     # Load sub-functions ...
     from . import __ffprobe__
     from .ffprobe import ffprobe
+    from .return_video_rotation import return_video_rotation
 
     # Make sure that this fname/playlist combination is in the global dictionary ...
     if fname not in __ffprobe__:
@@ -17,8 +18,13 @@ def return_video_height(fname, playlist = -1, debug = False):
         if stream["codec_type"].strip().lower() != "video":
             continue
 
-        # Return height ...
-        return int(stream["height"])                                            # [px]
+        # Check the rotation ...
+        if return_video_rotation(fname, playlist) in [0, 180]:
+            # Return height ...
+            return int(stream["height"])                                        # [px]
+        if return_video_rotation(fname, playlist) in [90, 270]:
+            # Return width ...
+            return int(stream["width"])                                         # [px]
 
     # Return error ...
     return -1
