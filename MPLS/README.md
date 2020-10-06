@@ -1,6 +1,6 @@
 # PyGuymer3.MPLS
 
-This sub-module is a native Python implementation of a parser for Blu-ray MPLS files. It has used [an excellent MPLS Wiki](https://github.com/lerks/BluRay/wiki/MPLS) with a little help from [a WikiBook](https://en.wikibooks.org/wiki/User:Bdinfo/mpls) too. This project was started because, as of February 2018, [ffprobe](https://www.ffmpeg.org/ffprobe.html) v3.4 doesn't return the language information for the audio streams in a Blu-ray playlist.
+This sub-module is a native Python implementation of a parser for Blu-ray MPLS files. It has used [an excellent MPLS Wiki](https://github.com/lw/BluRay/wiki/MPLS) with a little help from [a WikiBook](https://en.wikibooks.org/wiki/User:Bdinfo/mpls) too. This project was started because, as of February 2018, [ffprobe](https://www.ffmpeg.org/ffprobe.html) v3.4 doesn't return the language information for the audio streams in a Blu-ray playlist.
 
 For example, running `ffprobe -probesize 3G -analyzeduration 1800M -playlist 820 bluray:/path/to/br` yields:
 

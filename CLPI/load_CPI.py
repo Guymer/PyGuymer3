@@ -1,5 +1,5 @@
 def load_CPI(fobj):
-    # NOTE: see https://github.com/lerks/BluRay/wiki/CPI
+    # NOTE: see https://github.com/lw/BluRay/wiki/CPI
     # and https://patents.google.com/patent/US20090238539
 
     # Import standard modules ...

@@ -1,6 +1,6 @@
 # PyGuymer3.CLPI
 
-This sub-module is a native Python implementation of a parser for Blu-ray CLPI files. It has used [an excellent CLPI Wiki](https://github.com/lerks/BluRay/wiki/CLPI) and was initially provided by [lonecrane](https://github.com/lonecrane) - thank you very much!
+This sub-module is a native Python implementation of a parser for Blu-ray CLPI files. It has used [an excellent CLPI Wiki](https://github.com/lw/BluRay/wiki/CLPI) and was initially provided by [lonecrane](https://github.com/lonecrane) - thank you very much!
 
 ## Usage
 

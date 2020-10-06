@@ -1,5 +1,5 @@
 def load_ProgramInfo(fobj):
-    # NOTE: see https://github.com/lerks/BluRay/wiki/ProgramInfo
+    # NOTE: see https://github.com/lw/BluRay/wiki/ProgramInfo
 
     # Import standard modules ...
     import struct

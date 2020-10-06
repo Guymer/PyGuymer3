@@ -1,5 +1,5 @@
 def load_STCSequence(fobj):
-    # NOTE: see https://github.com/lerks/BluRay/wiki/SequenceInfo
+    # NOTE: see https://github.com/lw/BluRay/wiki/SequenceInfo
 
     # Import standard modules ...
     import struct

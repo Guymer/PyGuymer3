@@ -1,5 +1,5 @@
 def load_TSTypeInfoBlock(fobj):
-    # NOTE: see https://github.com/lerks/BluRay/blob/master/src/TSTypeInfoBlock.vala
+    # NOTE: see https://github.com/lw/BluRay/blob/master/src/TSTypeInfoBlock.vala
 
     # Import standard modules ...
     import struct

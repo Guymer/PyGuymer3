@@ -1,5 +1,5 @@
 def load_header(fobj):
-    # NOTE: see https://github.com/lerks/BluRay/wiki/CLPI
+    # NOTE: see https://github.com/lw/BluRay/wiki/CLPI
 
     # Import standard modules ...
     import struct

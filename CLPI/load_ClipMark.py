@@ -1,5 +1,5 @@
 def load_ClipMark(fobj):
-    # NOTE: see https://github.com/lerks/BluRay/wiki/ClipMark
+    # NOTE: see https://github.com/lw/BluRay/wiki/ClipMark
 
     # Import standard modules ...
     import struct

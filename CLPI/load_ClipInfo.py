@@ -1,5 +1,5 @@
 def load_ClipInfo(fobj):
-    # NOTE: see https://github.com/lerks/BluRay/wiki/ClipInfo
+    # NOTE: see https://github.com/lw/BluRay/wiki/ClipInfo
 
     # Import standard modules ...
     import struct

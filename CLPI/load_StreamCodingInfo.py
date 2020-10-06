@@ -1,5 +1,5 @@
 def load_StreamCodingInfo(fobj):
-    # NOTE: see https://github.com/lerks/BluRay/wiki/StreamCodingInfo
+    # NOTE: see https://github.com/lw/BluRay/wiki/StreamCodingInfo
 
     # Import standard modules ...
     import struct

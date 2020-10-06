@@ -1,5 +1,5 @@
 def load_ExtensionData(fobj):
-    # NOTE: see https://github.com/lerks/BluRay/wiki/ExtensionData
+    # NOTE: see https://github.com/lw/BluRay/wiki/ExtensionData
 
     # Import standard modules ...
     import struct
