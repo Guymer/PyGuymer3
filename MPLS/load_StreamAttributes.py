@@ -45,7 +45,10 @@ def load_StreamAttributes(fobj, debug = False, indent = 0):
             elif ans["CharacterCode"] in [int(0x07)]:
                 ans["LanguageCode"] = fobj.read(3).decode("big5")
             else:
+                print("WARNING: \"CharacterCode\" was not a recognised value", ans["CharacterCode"])
                 ans["LanguageCode"] = fobj.read(3)
+        else:
+            print("WARNING: \"StreamCodingType\" was not a recognised value", ans["StreamCodingType"])
 
     # Skip ahead to the end of the data structure ...
     fobj.seek(pos + ans["Length"] + 1)

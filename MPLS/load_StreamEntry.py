@@ -29,6 +29,8 @@ def load_StreamEntry(fobj, debug = False, indent = 0):
             ans["RefToSubPathID"], = struct.unpack(">B", fobj.read(1))
             tmp, = struct.unpack(">H", fobj.read(2))
             ans["RefToStreamPID"] = "0x{:<04x}".format(tmp)
+        else:
+            print("WARNING: \"StreamType\" was not a recognised value", ans["StreamType"])
 
     # Skip ahead to the end of the data structure ...
     fobj.seek(pos + ans["Length"] + 1)
