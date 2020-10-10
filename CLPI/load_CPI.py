@@ -48,7 +48,7 @@ def load_CPI(fobj):
 
         ans["EPMapForOneStreamPID"] = list()
         for i in range(ans["NumberOfStreamPIDEntries"]):
-            fobj.seek(blkEPMapStart + ans["StreamPIDEntries"][i]["EPMapForOneStreamPIDStartAddress"], os.SEEK_SET)
+            fobj.seek(blkEPMapStart + ans["StreamPIDEntries"][i]["EPMapForOneStreamPIDStartAddress"])
 
             tmp2_dic = dict()
             tmp2_dic["EPFineTableStartAddress"], = struct.unpack(">I", fobj.read(4))
@@ -74,7 +74,7 @@ def load_CPI(fobj):
             tmp2_dic['EPFineTable'] = list()
             # EPFineTableStartAddress is relative to the address of the EPMapForOneStreamPID
             fobj.seek(blkEPMapStart + ans["StreamPIDEntries"][i]["EPMapForOneStreamPIDStartAddress"]
-                      + tmp2_dic["EPFineTableStartAddress"], os.SEEK_SET)
+                      + tmp2_dic["EPFineTableStartAddress"])
 
             for ii in range(ans["StreamPIDEntries"][i]["NumberOfEPFineEntries"]):
                 # 1 ReservedEPFine (also called IsAngleChangePoint); 3 IEndPositionOffset; 11 PTSEPFine; 17 SPNEPFine
