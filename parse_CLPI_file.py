@@ -26,31 +26,31 @@ def parse_CLPI_file(br, ip):
 
         # Load SequenceInfo section ...
         if info["header"]["SequenceInfoStartAddress"] != 0:
-            fobj.seek(info["header"]["SequenceInfoStartAddress"], os.SEEK_SET)
+            fobj.seek(info["header"]["SequenceInfoStartAddress"])
             res = load_SequenceInfo(fobj)
             info["SequenceInfo"] = res
 
         # Load ProgramInfo section ...
         if info["header"]["ProgramInfoStartAddress"] != 0:
-            fobj.seek(info["header"]["ProgramInfoStartAddress"], os.SEEK_SET)
+            fobj.seek(info["header"]["ProgramInfoStartAddress"])
             res = load_ProgramInfo(fobj)
             info["ProgramInfo"] = res
 
         # Load CPI section ...
         if info["header"]["CPIStartAddress"] != 0:
-            fobj.seek(info["header"]["CPIStartAddress"], os.SEEK_SET)
+            fobj.seek(info["header"]["CPIStartAddress"])
             res = load_CPI(fobj)
             info["CPI"] = res
 
         # Load ClipMark section ...
         if info["header"]["ClipMarkStartAddress"] != 0:
-            fobj.seek(info["header"]["ClipMarkStartAddress"], os.SEEK_SET)
+            fobj.seek(info["header"]["ClipMarkStartAddress"])
             res = load_ClipMark(fobj)
             info["ClipMark"] = res
 
         # Load ExtensionData section ...
         if info["header"]["ExtensionDataStartAddress"] != 0:
-            fobj.seek(info["header"]["ExtensionDataStartAddress"], os.SEEK_SET)
+            fobj.seek(info["header"]["ExtensionDataStartAddress"])
             res = load_ExtensionData(fobj)
             info["ExtensionData"] = res
 
