@@ -8,11 +8,13 @@ def load_StreamEntry(fobj, debug = False, indent = 0):
     ans = {}
     pos = fobj.tell()                                                           # [B]
     if debug:
-        print("DEBUG:{:s} {:s}() called at {:,d} bytes".format(indent * "  ", __name__, pos))
+        print("DEBUG:{:s} {:s}() called at {:,d} bytes".format(indent * "  ", __name__, pos), end = "")
 
     # Read the binary data ...
     ans = {}
     ans["Length"], = struct.unpack(">B", fobj.read(1))                          # [B]
+    if debug:
+        print(" and is {:,d} bytes long".format(ans["Length"] + 1))
     ans["StreamType"], = struct.unpack(">B", fobj.read(1))
     if ans["StreamType"] in [int(0x01)]:
         tmp, = struct.unpack(">H", fobj.read(2))

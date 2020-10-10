@@ -11,10 +11,12 @@ def load_SubPath(fobj, debug = False, indent = 0):
     ans = {}
     pos = fobj.tell()                                                           # [B]
     if debug:
-        print("DEBUG:{:s} {:s}() called at {:,d} bytes".format(indent * "  ", __name__, pos))
+        print("DEBUG:{:s} {:s}() called at {:,d} bytes".format(indent * "  ", __name__, pos), end = "")
 
     # Read the binary data ...
     ans["Length"], = struct.unpack(">I", fobj.read(4))                          # [B]
+    if debug:
+        print(" and is {:,d} bytes long".format(ans["Length"] + 4))
     fobj.read(1)
     ans["SubPathType"], = struct.unpack(">B", fobj.read(1))
     ans["MiscFlags1"], = struct.unpack(">H", fobj.read(2))

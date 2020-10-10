@@ -8,10 +8,12 @@ def load_StreamAttributes(fobj, debug = False, indent = 0):
     ans = {}
     pos = fobj.tell()                                                           # [B]
     if debug:
-        print("DEBUG:{:s} {:s}() called at {:,d} bytes".format(indent * "  ", __name__, pos))
+        print("DEBUG:{:s} {:s}() called at {:,d} bytes".format(indent * "  ", __name__, pos), end = "")
 
     # Read the binary data ...
     ans["Length"], = struct.unpack(">B", fobj.read(1))                          # [B]
+    if debug:
+        print(" and is {:,d} bytes long".format(ans["Length"] + 1))
     ans["StreamCodingType"], = struct.unpack(">B", fobj.read(1))
     if ans["StreamCodingType"] in [int(0x01), int(0x02), int(0x1B), int(0xEA)]:
         ans["VideoFormat+FrameRate"], = struct.unpack(">B", fobj.read(1))

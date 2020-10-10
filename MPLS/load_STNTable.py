@@ -12,10 +12,12 @@ def load_STNTable(fobj, debug = False, indent = 0):
     ans = {}
     pos = fobj.tell()                                                           # [B]
     if debug:
-        print("DEBUG:{:s} {:s}() called at {:,d} bytes".format(indent * "  ", __name__, pos))
+        print("DEBUG:{:s} {:s}() called at {:,d} bytes".format(indent * "  ", __name__, pos), end = "")
 
     # Read the binary data ...
     ans["Length"], = struct.unpack(">H", fobj.read(2))                          # [B]
+    if debug:
+        print(" and is {:,d} bytes long".format(ans["Length"] + 2))
     fobj.read(2)
     ans["NumberOfPrimaryVideoStreamEntries"], = struct.unpack(">B", fobj.read(1))
     ans["NumberOfPrimaryAudioStreamEntries"], = struct.unpack(">B", fobj.read(1))

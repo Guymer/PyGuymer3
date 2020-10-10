@@ -8,7 +8,7 @@ def load_header(fobj, debug = False, indent = 0):
     ans = {}
     pos = fobj.tell()                                                           # [B]
     if debug:
-        print("DEBUG:{:s} {:s}() called at {:,d} bytes".format(indent * "  ", __name__, pos))
+        print("DEBUG:{:s} {:s}() called at {:,d} bytes and is 40 bytes long".format(indent * "  ", __name__, pos))
 
     # Check everything is going to be OK ...
     if pos != 0:
