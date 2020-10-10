@@ -15,8 +15,8 @@ def load_PlayItem(fobj, debug = False, indent = 0):
 
     # Read the binary data ...
     ans["Length"], = struct.unpack(">H", fobj.read(2))                          # [B]
-    ans["ClipInformationFileName"] = fobj.read(5).decode("utf-8", errors = "ignore")
-    ans["ClipCodecIdentifier"] = fobj.read(4).decode("utf-8", errors = "ignore")
+    ans["ClipInformationFileName"] = fobj.read(5).decode("utf-8")
+    ans["ClipCodecIdentifier"] = fobj.read(4).decode("utf-8")
     ans["MiscFlags1"], = struct.unpack(">H", fobj.read(2))
     ans["IsMultiAngle"] = bool(ans["MiscFlags1"]&(1<<11))
     ans["RefToSTCID"], = struct.unpack(">B", fobj.read(1))
@@ -35,8 +35,8 @@ def load_PlayItem(fobj, debug = False, indent = 0):
         ans["Angles"] = []
         for i in range(ans["NumberOfAngles"]):
             tmp = {}
-            tmp["ClipInformationFileName"] = fobj.read(5).decode("utf-8", errors = "ignore")
-            tmp["ClipCodecIdentifier"] = fobj.read(4).decode("utf-8", errors = "ignore")
+            tmp["ClipInformationFileName"] = fobj.read(5).decode("utf-8")
+            tmp["ClipCodecIdentifier"] = fobj.read(4).decode("utf-8")
             tmp["RefToSTCID"], = struct.unpack(">B", fobj.read(1))
             ans["Angles"].append(tmp)
 
