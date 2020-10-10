@@ -18,21 +18,22 @@ def load_PlayList(fobj, debug = False, indent = 0):
     ans["Length"], = struct.unpack(">I", fobj.read(4))                          # [B]
     if debug:
         print(" and is {:,d} bytes long".format(ans["Length"] + 4))
-    fobj.read(2)
-    ans["NumberOfPlayItems"], = struct.unpack(">H", fobj.read(2))
-    ans["NumberOfSubPaths"], = struct.unpack(">H", fobj.read(2))
+    if ans["Length"] != 0:
+        fobj.read(2)
+        ans["NumberOfPlayItems"], = struct.unpack(">H", fobj.read(2))
+        ans["NumberOfSubPaths"], = struct.unpack(">H", fobj.read(2))
 
-    # Loop over PlayItems ...
-    ans["PlayItems"] = []
-    for i in range(ans["NumberOfPlayItems"]):
-        # Load PlayItem section and append to PlayItems list ...
-        ans["PlayItems"].append(load_PlayItem(fobj, debug = debug, indent = indent + 1))
+        # Loop over PlayItems ...
+        ans["PlayItems"] = []
+        for i in range(ans["NumberOfPlayItems"]):
+            # Load PlayItem section and append to PlayItems list ...
+            ans["PlayItems"].append(load_PlayItem(fobj, debug = debug, indent = indent + 1))
 
-    # Loop over SubPaths ...
-    ans["SubPaths"] = []
-    for i in range(ans["NumberOfSubPaths"]):
-        # Load SubPath section and append to SubPaths list ...
-        ans["SubPaths"].append(load_SubPath(fobj, debug = debug, indent = indent + 1))
+        # Loop over SubPaths ...
+        ans["SubPaths"] = []
+        for i in range(ans["NumberOfSubPaths"]):
+            # Load SubPath section and append to SubPaths list ...
+            ans["SubPaths"].append(load_SubPath(fobj, debug = debug, indent = indent + 1))
 
     # Skip ahead to the end of the data structure ...
     fobj.seek(pos + ans["Length"] + 4)

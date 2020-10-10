@@ -15,19 +15,20 @@ def load_StreamEntry(fobj, debug = False, indent = 0):
     ans["Length"], = struct.unpack(">B", fobj.read(1))                          # [B]
     if debug:
         print(" and is {:,d} bytes long".format(ans["Length"] + 1))
-    ans["StreamType"], = struct.unpack(">B", fobj.read(1))
-    if ans["StreamType"] in [int(0x01)]:
-        tmp, = struct.unpack(">H", fobj.read(2))
-        ans["RefToStreamPID"] = "0x{:<04x}".format(tmp)
-    elif ans["StreamType"] in [int(0x02)]:
-        ans["RefToSubPathID"], = struct.unpack(">B", fobj.read(1))
-        ans["RefToSubClipID"], = struct.unpack(">B", fobj.read(1))
-        tmp, = struct.unpack(">H", fobj.read(2))
-        ans["RefToStreamPID"] = "0x{:<04x}".format(tmp)
-    elif ans["StreamType"] in [int(0x03), int(0x04)]:
-        ans["RefToSubPathID"], = struct.unpack(">B", fobj.read(1))
-        tmp, = struct.unpack(">H", fobj.read(2))
-        ans["RefToStreamPID"] = "0x{:<04x}".format(tmp)
+    if ans["Length"] != 0:
+        ans["StreamType"], = struct.unpack(">B", fobj.read(1))
+        if ans["StreamType"] in [int(0x01)]:
+            tmp, = struct.unpack(">H", fobj.read(2))
+            ans["RefToStreamPID"] = "0x{:<04x}".format(tmp)
+        elif ans["StreamType"] in [int(0x02)]:
+            ans["RefToSubPathID"], = struct.unpack(">B", fobj.read(1))
+            ans["RefToSubClipID"], = struct.unpack(">B", fobj.read(1))
+            tmp, = struct.unpack(">H", fobj.read(2))
+            ans["RefToStreamPID"] = "0x{:<04x}".format(tmp)
+        elif ans["StreamType"] in [int(0x03), int(0x04)]:
+            ans["RefToSubPathID"], = struct.unpack(">B", fobj.read(1))
+            tmp, = struct.unpack(">H", fobj.read(2))
+            ans["RefToStreamPID"] = "0x{:<04x}".format(tmp)
 
     # Skip ahead to the end of the data structure ...
     fobj.seek(pos + ans["Length"] + 1)

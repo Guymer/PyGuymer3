@@ -18,26 +18,27 @@ def load_STNTable(fobj, debug = False, indent = 0):
     ans["Length"], = struct.unpack(">H", fobj.read(2))                          # [B]
     if debug:
         print(" and is {:,d} bytes long".format(ans["Length"] + 2))
-    fobj.read(2)
-    ans["NumberOfPrimaryVideoStreamEntries"], = struct.unpack(">B", fobj.read(1))
-    ans["NumberOfPrimaryAudioStreamEntries"], = struct.unpack(">B", fobj.read(1))
-    ans["NumberOfPrimaryPGStreamEntries"], = struct.unpack(">B", fobj.read(1))
-    ans["NumberOfPrimaryIGStreamEntries"], = struct.unpack(">B", fobj.read(1))
-    ans["NumberOfSecondaryAudioStreamEntries"], = struct.unpack(">B", fobj.read(1))
-    ans["NumberOfSecondaryVideoStreamEntries"], = struct.unpack(">B", fobj.read(1))
-    ans["NumberOfSecondaryPGStreamEntries"], = struct.unpack(">B", fobj.read(1))
-    ans["NumberOfDVStreamEntries"], = struct.unpack(">B", fobj.read(1))
-    fobj.read(4)
+    if ans["Length"] != 0:
+        fobj.read(2)
+        ans["NumberOfPrimaryVideoStreamEntries"], = struct.unpack(">B", fobj.read(1))
+        ans["NumberOfPrimaryAudioStreamEntries"], = struct.unpack(">B", fobj.read(1))
+        ans["NumberOfPrimaryPGStreamEntries"], = struct.unpack(">B", fobj.read(1))
+        ans["NumberOfPrimaryIGStreamEntries"], = struct.unpack(">B", fobj.read(1))
+        ans["NumberOfSecondaryAudioStreamEntries"], = struct.unpack(">B", fobj.read(1))
+        ans["NumberOfSecondaryVideoStreamEntries"], = struct.unpack(">B", fobj.read(1))
+        ans["NumberOfSecondaryPGStreamEntries"], = struct.unpack(">B", fobj.read(1))
+        ans["NumberOfDVStreamEntries"], = struct.unpack(">B", fobj.read(1))
+        fobj.read(4)
 
-    # Loop over stream list names ...
-    for name in ["PrimaryVideoStreamEntries", "PrimaryAudioStreamEntries", "PrimaryPGStreamEntries", "SecondaryPGStreamEntries", "PrimaryIGStreamEntries", "SecondaryAudioStreamEntries", "SecondaryVideoStreamEntries", "DVStreamEntries"]:
-        # Loop over entries and add to list ...
-        ans[name] = []
-        for i in range(ans["NumberOf{:s}".format(name)]):
-            tmp = {}
-            tmp["StreamEntry"] = load_StreamEntry(fobj, debug = debug, indent = indent + 1)
-            tmp["StreamAttributes"] = load_StreamAttributes(fobj, debug = debug, indent = indent + 1)
-            ans[name].append(tmp)
+        # Loop over stream list names ...
+        for name in ["PrimaryVideoStreamEntries", "PrimaryAudioStreamEntries", "PrimaryPGStreamEntries", "SecondaryPGStreamEntries", "PrimaryIGStreamEntries", "SecondaryAudioStreamEntries", "SecondaryVideoStreamEntries", "DVStreamEntries"]:
+            # Loop over entries and add to list ...
+            ans[name] = []
+            for i in range(ans["NumberOf{:s}".format(name)]):
+                tmp = {}
+                tmp["StreamEntry"] = load_StreamEntry(fobj, debug = debug, indent = indent + 1)
+                tmp["StreamAttributes"] = load_StreamAttributes(fobj, debug = debug, indent = indent + 1)
+                ans[name].append(tmp)
 
     # Skip ahead to the end of the data structure ...
     fobj.seek(pos + ans["Length"] + 2)

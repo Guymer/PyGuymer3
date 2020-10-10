@@ -14,14 +14,15 @@ def load_AppInfoPlayList(fobj, debug = False, indent = 0):
     ans["Length"], = struct.unpack(">I", fobj.read(4))                          # [B]
     if debug:
         print(" and is {:,d} bytes long".format(ans["Length"] + 4))
-    fobj.read(1)
-    ans["PlaybackType"], = struct.unpack(">B", fobj.read(1))
-    if ans["PlaybackType"] in [int(0x02), int(0x03)]:
-        ans["PlaybackCount"], = struct.unpack(">H", fobj.read(2))
-    else:
-        fobj.read(2)
-    ans["UOMaskTable"], = struct.unpack(">Q", fobj.read(8))
-    ans["MiscFlags"], = struct.unpack(">H", fobj.read(2))
+    if ans["Length"] != 0:
+        fobj.read(1)
+        ans["PlaybackType"], = struct.unpack(">B", fobj.read(1))
+        if ans["PlaybackType"] in [int(0x02), int(0x03)]:
+            ans["PlaybackCount"], = struct.unpack(">H", fobj.read(2))
+        else:
+            fobj.read(2)
+        ans["UOMaskTable"], = struct.unpack(">Q", fobj.read(8))
+        ans["MiscFlags"], = struct.unpack(">H", fobj.read(2))
 
     # Skip ahead to the end of the data structure ...
     fobj.seek(pos + ans["Length"] + 4)
