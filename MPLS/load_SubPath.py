@@ -1,5 +1,5 @@
-def load_SubPath(fobj, length2):
-    # NOTE: see https://github.com/lerks/BluRay/wiki/SubPath
+def load_SubPath(fobj, debug = False, indent = 0):
+    # NOTE: see https://github.com/lw/BluRay/wiki/SubPath
 
     # Import standard modules ...
     import struct
@@ -7,24 +7,25 @@ def load_SubPath(fobj, length2):
     # Load sub-functions ...
     from .load_SubPlayItem import load_SubPlayItem
 
-    # Initialize variables ...
+    # Initialize answer and find it current position ...
     ans = {}
-    length2a = 0                                                                                                        # [B]
+    pos = fobj.tell()                                                           # [B]
+    if debug:
+        print("DEBUG:{:s} {:s}() called at {:,d} bytes".format(indent * "  ", __name__, pos))
 
     # Read the binary data ...
-    ans["Length"], = struct.unpack(">I", fobj.read(4));                                                                 length2 += 4
-    fobj.read(1);                                                                                                       length2 += 1; length2a += 1
-    ans["SubPathType"], = struct.unpack(">B", fobj.read(1));                                                            length2 += 1; length2a += 1
-    ans["MiscFlags1"], = struct.unpack(">H", fobj.read(2));                                                             length2 += 2; length2a += 2
-    ans["NumberOfSubPlayItems"], = struct.unpack(">B", fobj.read(1));                                                   length2 += 1; length2a += 1
+    ans["Length"], = struct.unpack(">I", fobj.read(4))                          # [B]
+    fobj.read(1)
+    ans["SubPathType"], = struct.unpack(">B", fobj.read(1))
+    ans["MiscFlags1"], = struct.unpack(">H", fobj.read(2))
+    fobj.read(1)
+    ans["NumberOfSubPlayItems"], = struct.unpack(">B", fobj.read(1))
     ans["SubPlayItems"] = []
     for i in range(ans["NumberOfSubPlayItems"]):
-        res, length2, length2a, length2b = load_SubPlayItem(fobj, length2, length2a)
-        ans["SubPlayItems"].append(res)
+        ans["SubPlayItems"].append(load_SubPlayItem(fobj, debug = debug, indent = indent + 1))
 
-    # Pad out the read ...
-    if length2a != ans["Length"]:
-        l = ans["Length"] - length2a                                                                                    # [B]
-        fobj.read(l);                                                                                                   length2 += l; length2a += l
+    # Skip ahead to the end of the data structure ...
+    fobj.seek(pos + ans["Length"] + 4)
 
-    return ans, length2, length2a
+    # Return answer ...
+    return ans

@@ -1,22 +1,30 @@
-def load_SubPlayItem(fobj, length2, length2a):
-    # NOTE: see https://github.com/lerks/BluRay/wiki/SubPlayItem
+def load_SubPlayItem(fobj, debug = False, indent = 0):
+    # NOTE: see https://github.com/lw/BluRay/wiki/SubPlayItem
 
     # Import standard modules ...
     import struct
 
-    # Initialize variables ...
+    # Initialize answer and find it current position ...
     ans = {}
-    length2b = 0                                                                                                        # [B]
+    pos = fobj.tell()                                                           # [B]
+    if debug:
+        print("DEBUG:{:s} {:s}() called at {:,d} bytes".format(indent * "  ", __name__, pos))
 
     # Read the binary data ...
-    ans["Length"], = struct.unpack(">H", fobj.read(2));                                                                 length2 += 2; length2a += 2
+    ans["Length"], = struct.unpack(">H", fobj.read(2))                          # [B]
+    ans["ClipInformationFileName"] = fobj.read(5).decode("utf-8", errors = "ignore")
+    ans["ClipCodecIdentifier"] = fobj.read(4).decode("utf-8", errors = "ignore")
+    ans["MiscFlags1"], = struct.unpack(">I", fobj.read(4))
+    ans["RefToSTCID"], = struct.unpack(">B", fobj.read(1))
+    ans["INTime"], = struct.unpack(">I", fobj.read(4))
+    ans["OUTTime"], = struct.unpack(">I", fobj.read(4))
+    ans["SyncPlayItemID"], = struct.unpack(">H", fobj.read(2))
+    ans["SyncStartPTS"], = struct.unpack(">I", fobj.read(4))
 
-    # NOTE: SubPlayItem is not implemented
+    # NOTE: IsMultiClipEntries is not implemented
 
-    # Pad out the read ...
-    if length2b != ans["Length"]:
-        l = ans["Length"] - length2b                                                                                    # [B]
-        fobj.read(l);                                                                                                   length2 += l; length2a += l; length2b += l
+    # Skip ahead to the end of the data structure ...
+    fobj.seek(pos + ans["Length"] + 2)
 
     # Return answer ...
-    return ans, length2, length2a, length2b
+    return ans

@@ -1,5 +1,5 @@
-def load_PlayItem(fobj, length2):
-    # NOTE: see https://github.com/lerks/BluRay/wiki/PlayItem
+def load_PlayItem(fobj, debug = False, indent = 0):
+    # NOTE: see https://github.com/lw/BluRay/wiki/PlayItem
 
     # Import standard modules ...
     import struct
@@ -7,37 +7,44 @@ def load_PlayItem(fobj, length2):
     # Load sub-functions ...
     from .load_STNTable import load_STNTable
 
-    # Initialize variables ...
+    # Initialize answer and find it current position ...
     ans = {}
-    length2a = 0                                                                                                        # [B]
+    pos = fobj.tell()                                                           # [B]
+    if debug:
+        print("DEBUG:{:s} {:s}() called at {:,d} bytes".format(indent * "  ", __name__, pos))
 
     # Read the binary data ...
-    ans["Length"], = struct.unpack(">H", fobj.read(2));                                                                 length2 += 2
-    ans["ClipInformationFileName"] = fobj.read(5).decode("utf-8");                                                      length2 += 5; length2a += 5
-    ans["ClipCodecIdentifier"] = fobj.read(4).decode("utf-8");                                                          length2 += 4; length2a += 4
-    ans["MiscFlags1"], = struct.unpack(">H", fobj.read(2));                                                             length2 += 2; length2a += 2
+    ans["Length"], = struct.unpack(">H", fobj.read(2))                          # [B]
+    ans["ClipInformationFileName"] = fobj.read(5).decode("utf-8", errors = "ignore")
+    ans["ClipCodecIdentifier"] = fobj.read(4).decode("utf-8", errors = "ignore")
+    ans["MiscFlags1"], = struct.unpack(">H", fobj.read(2))
     ans["IsMultiAngle"] = bool(ans["MiscFlags1"]&(1<<11))
-    ans["RefToSTCID"], = struct.unpack(">B", fobj.read(1));                                                             length2 += 1; length2a += 1
-    ans["INTime"], = struct.unpack(">I", fobj.read(4));                                                                 length2 += 4; length2a += 4
-    ans["OUTTime"], = struct.unpack(">I", fobj.read(4));                                                                length2 += 4; length2a += 4
-    ans["UOMaskTable"], = struct.unpack(">Q", fobj.read(8));                                                            length2 += 8; length2a += 8
-    ans["MiscFlags2"], = struct.unpack(">B", fobj.read(1));                                                             length2 += 1; length2a += 1
-    ans["StillMode"], = struct.unpack(">B", fobj.read(1));                                                              length2 += 1; length2a += 1
-    if ans["StillMode"] == int(0x01):
-        ans["StillTime"], = struct.unpack(">H", fobj.read(2));                                                          length2 += 2; length2a += 2
+    ans["RefToSTCID"], = struct.unpack(">B", fobj.read(1))
+    ans["INTime"], = struct.unpack(">I", fobj.read(4))
+    ans["OUTTime"], = struct.unpack(">I", fobj.read(4))
+    ans["UOMaskTable"], = struct.unpack(">Q", fobj.read(8))
+    ans["MiscFlags2"], = struct.unpack(">B", fobj.read(1))
+    ans["StillMode"], = struct.unpack(">B", fobj.read(1))
+    if ans["StillMode"] in [int(0x01)]:
+        ans["StillTime"], = struct.unpack(">H", fobj.read(2))
     else:
-        fobj.read(2);                                                                                                   length2 += 2; length2a += 2
+        fobj.read(2)
     if ans["IsMultiAngle"]:
-        raise Exception("IsMultiAngle has not been implemented as the specification is not byte-aligned (IsDifferentAudios is 6-bit and IsSeamlessAngleChange is 1-bit)")
+        ans["NumberOfAngles"], = struct.unpack(">B", fobj.read(1))
+        ans["MiscFlags3"], = struct.unpack(">B", fobj.read(1))
+        ans["Angles"] = []
+        for i in range(ans["NumberOfAngles"]):
+            tmp = {}
+            tmp["ClipInformationFileName"] = fobj.read(5).decode("utf-8", errors = "ignore")
+            tmp["ClipCodecIdentifier"] = fobj.read(4).decode("utf-8", errors = "ignore")
+            tmp["RefToSTCID"], = struct.unpack(">B", fobj.read(1))
+            ans["Angles"].append(tmp)
 
     # Load STNTable section ...
-    res, length2, length2a, length2b = load_STNTable(fobj, length2, length2a)
-    ans["STNTable"] = res
+    ans["STNTable"] = load_STNTable(fobj, debug = debug, indent = indent + 1)
 
-    # Pad out the read ...
-    if length2a != ans["Length"]:
-        l = ans["Length"] - length2a                                                                                    # [B]
-        fobj.read(l);                                                                                                   length2 += l; length2a += l
+    # Skip ahead to the end of the data structure ...
+    fobj.seek(pos + ans["Length"] + 2)
 
     # Return answer ...
-    return ans, length2, length2a
+    return ans

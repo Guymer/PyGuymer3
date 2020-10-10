@@ -1,4 +1,4 @@
-def parse_MPLS_file(br, ip):
+def parse_MPLS_file(br, ip, debug = False):
     # Import standard modules ...
     import os
 
@@ -13,32 +13,27 @@ def parse_MPLS_file(br, ip):
     info = {}
 
     # Open file ...
-    with open(os.path.join(br, "BDMV/PLAYLIST/{0:05d}.mpls".format(ip)), "rb") as fobj:
+    with open(os.path.join(br, "BDMV/PLAYLIST/{:05d}.mpls".format(ip)), "rb") as fobj:
         # Load header ...
-        res, length0 = load_header(fobj)
-        info["header"] = res
+        info["header"] = load_header(fobj, debug = debug)
 
         # Load AppInfoPlayList section ...
-        res, length1 = load_AppInfoPlayList(fobj)
-        info["AppInfoPlayList"] = res
+        info["AppInfoPlayList"] = load_AppInfoPlayList(fobj, debug = debug)
 
         # Load PlayList section ...
         if info["header"]["PlayListStartAddress"] != 0:
-            fobj.seek(info["header"]["PlayListStartAddress"], os.SEEK_SET)
-            res, length2 = load_PlayList(fobj)
-            info["PlayList"] = res
+            fobj.seek(info["header"]["PlayListStartAddress"])
+            info["PlayList"] = load_PlayList(fobj, debug = debug)
 
         # Load PlayListMark section ...
         if info["header"]["PlayListMarkStartAddress"] != 0:
-            fobj.seek(info["header"]["PlayListMarkStartAddress"], os.SEEK_SET)
-            res, length3 = load_PlayListMark(fobj)
-            info["PlayListMark"] = res
+            fobj.seek(info["header"]["PlayListMarkStartAddress"])
+            info["PlayListMark"] = load_PlayListMark(fobj, debug = debug)
 
         # Load ExtensionData section ...
         if info["header"]["ExtensionDataStartAddress"] != 0:
-            fobj.seek(info["header"]["ExtensionDataStartAddress"], os.SEEK_SET)
-            res, length4 = load_ExtensionData(fobj)
-            info["ExtensionData"] = res
+            fobj.seek(info["header"]["ExtensionDataStartAddress"])
+            info["ExtensionData"] = load_ExtensionData(fobj, debug = debug)
 
     # Return answer ...
     return info

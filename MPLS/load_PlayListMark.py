@@ -1,31 +1,31 @@
-def load_PlayListMark(fobj):
-    # NOTE: see https://github.com/lerks/BluRay/wiki/PlayListMark
+def load_PlayListMark(fobj, debug = False, indent = 0):
+    # NOTE: see https://github.com/lw/BluRay/wiki/PlayListMark
 
     # Import standard modules ...
     import struct
 
-    # Initialize variables ...
+    # Initialize answer and find it current position ...
     ans = {}
-    length3 = 0                                                                                                         # [B]
+    pos = fobj.tell()                                                           # [B]
+    if debug:
+        print("DEBUG:{:s} {:s}() called at {:,d} bytes".format(indent * "  ", __name__, pos))
 
     # Read the binary data ...
-    ans["Length"], = struct.unpack(">I", fobj.read(4))
-    ans["NumberOfPlayListMarks"], = struct.unpack(">H", fobj.read(2));                                                  length3 += 2
+    ans["Length"], = struct.unpack(">I", fobj.read(4))                          # [B]
+    ans["NumberOfPlayListMarks"], = struct.unpack(">H", fobj.read(2))
     ans["PlayListMarks"] = []
     for i in range(ans["NumberOfPlayListMarks"]):
         tmp = {}
-        fobj.read(1);                                                                                                   length3 += 1
-        tmp["MarkType"], = struct.unpack(">B", fobj.read(1));                                                           length3 += 1
-        tmp["RefToPlayItemID"], = struct.unpack(">H", fobj.read(2));                                                    length3 += 2
-        tmp["MarkTimeStamp"], = struct.unpack(">I", fobj.read(4));                                                      length3 += 4
-        tmp["EntryESPID"], = struct.unpack(">H", fobj.read(2));                                                         length3 += 2
-        tmp["Duration"], = struct.unpack(">I", fobj.read(4));                                                           length3 += 4
+        fobj.read(1)
+        tmp["MarkType"], = struct.unpack(">B", fobj.read(1))
+        tmp["RefToPlayItemID"], = struct.unpack(">H", fobj.read(2))
+        tmp["MarkTimeStamp"], = struct.unpack(">I", fobj.read(4))
+        tmp["EntryESPID"], = struct.unpack(">H", fobj.read(2))
+        tmp["Duration"], = struct.unpack(">I", fobj.read(4))
         ans["PlayListMarks"].append(tmp)
 
-    # Pad out the read ...
-    if length3 != ans["Length"]:
-        l = ans["Length"] - length3                                                                                     # [B]
-        fobj.read(l);                                                                                                   length3 += l
+    # Skip ahead to the end of the data structure ...
+    fobj.seek(pos + ans["Length"] + 4)
 
     # Return answer ...
-    return ans, length3
+    return ans

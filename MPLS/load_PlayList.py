@@ -1,5 +1,5 @@
-def load_PlayList(fobj):
-    # NOTE: see https://github.com/lerks/BluRay/wiki/PlayList
+def load_PlayList(fobj, debug = False, indent = 0):
+    # NOTE: see https://github.com/lw/BluRay/wiki/PlayList
 
     # Import standard modules ...
     import struct
@@ -8,34 +8,32 @@ def load_PlayList(fobj):
     from .load_PlayItem import load_PlayItem
     from .load_SubPath import load_SubPath
 
-    # Initialize variables ...
+    # Initialize answer and find it current position ...
     ans = {}
-    length2 = 0                                                                                                         # [B]
+    pos = fobj.tell()                                                           # [B]
+    if debug:
+        print("DEBUG:{:s} {:s}() called at {:,d} bytes".format(indent * "  ", __name__, pos))
 
     # Read the binary data ...
-    ans["Length"], = struct.unpack(">I", fobj.read(4))
-    fobj.read(2);                                                                                                       length2 += 2
-    ans["NumberOfPlayItems"], = struct.unpack(">H", fobj.read(2));                                                      length2 += 2
-    ans["NumberOfSubPaths"], = struct.unpack(">H", fobj.read(2));                                                       length2 += 2
+    ans["Length"], = struct.unpack(">I", fobj.read(4))                          # [B]
+    fobj.read(2)
+    ans["NumberOfPlayItems"], = struct.unpack(">H", fobj.read(2))
+    ans["NumberOfSubPaths"], = struct.unpack(">H", fobj.read(2))
 
     # Loop over PlayItems ...
     ans["PlayItems"] = []
     for i in range(ans["NumberOfPlayItems"]):
         # Load PlayItem section and append to PlayItems list ...
-        res, length2, length2a = load_PlayItem(fobj, length2)
-        ans["PlayItems"].append(res)
+        ans["PlayItems"].append(load_PlayItem(fobj, debug = debug, indent = indent + 1))
 
     # Loop over SubPaths ...
     ans["SubPaths"] = []
     for i in range(ans["NumberOfSubPaths"]):
         # Load SubPath section and append to SubPaths list ...
-        res, length2, length2a = load_SubPath(fobj, length2)
-        ans["SubPaths"].append(res)
+        ans["SubPaths"].append(load_SubPath(fobj, debug = debug, indent = indent + 1))
 
-    # Pad out the read ...
-    if length2 != ans["Length"]:
-        l = ans["Length"] - length2                                                                                     # [B]
-        fobj.read(l);                                                                                                   length2 += l
+    # Skip ahead to the end of the data structure ...
+    fobj.seek(pos + ans["Length"] + 4)
 
     # Return answer ...
-    return ans, length2
+    return ans
