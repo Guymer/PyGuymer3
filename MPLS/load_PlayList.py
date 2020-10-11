@@ -1,4 +1,4 @@
-def load_PlayList(fobj, debug = False, indent = 0):
+def load_PlayList(fobj, debug = False, errors = "strict", indent = 0):
     # NOTE: see https://github.com/lw/BluRay/wiki/PlayList
 
     # Import standard modules ...
@@ -27,13 +27,13 @@ def load_PlayList(fobj, debug = False, indent = 0):
         ans["PlayItems"] = []
         for i in range(ans["NumberOfPlayItems"]):
             # Load PlayItem section and append to PlayItems list ...
-            ans["PlayItems"].append(load_PlayItem(fobj, debug = debug, indent = indent + 1))
+            ans["PlayItems"].append(load_PlayItem(fobj, debug = debug, errors = errors, indent = indent + 1))
 
         # Loop over SubPaths ...
         ans["SubPaths"] = []
         for i in range(ans["NumberOfSubPaths"]):
             # Load SubPath section and append to SubPaths list ...
-            ans["SubPaths"].append(load_SubPath(fobj, debug = debug, indent = indent + 1))
+            ans["SubPaths"].append(load_SubPath(fobj, debug = debug, errors = errors, indent = indent + 1))
 
     # Skip ahead to the end of the data structure ...
     fobj.seek(pos + ans["Length"] + 4)

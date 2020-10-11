@@ -1,4 +1,4 @@
-def load_header(fobj, debug = False, indent = 0):
+def load_header(fobj, debug = False, errors = "strict", indent = 0):
     # NOTE: see https://github.com/lw/BluRay/wiki/MPLS
 
     # Import standard modules ...
@@ -15,8 +15,8 @@ def load_header(fobj, debug = False, indent = 0):
         raise Exception("\"load_header()\" should only be called at the start of the MPLS file")
 
     # Read the binary data ...
-    ans["TypeIndicator"] = fobj.read(4).decode("utf-8")
-    ans["VersionNumber"] = fobj.read(4).decode("utf-8")
+    ans["TypeIndicator"] = fobj.read(4).decode("utf-8", errors = errors)
+    ans["VersionNumber"] = fobj.read(4).decode("utf-8", errors = errors)
     ans["PlayListStartAddress"], = struct.unpack(">I", fobj.read(4))
     ans["PlayListMarkStartAddress"], = struct.unpack(">I", fobj.read(4))
     ans["ExtensionDataStartAddress"], = struct.unpack(">I", fobj.read(4))

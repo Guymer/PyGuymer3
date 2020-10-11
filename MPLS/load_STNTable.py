@@ -1,4 +1,4 @@
-def load_STNTable(fobj, debug = False, indent = 0):
+def load_STNTable(fobj, debug = False, errors = "strict", indent = 0):
     # NOTE: see https://github.com/lw/BluRay/wiki/STNTable
 
     # Import standard modules ...
@@ -36,8 +36,8 @@ def load_STNTable(fobj, debug = False, indent = 0):
             ans[name] = []
             for i in range(ans["NumberOf{:s}".format(name)]):
                 tmp = {}
-                tmp["StreamEntry"] = load_StreamEntry(fobj, debug = debug, indent = indent + 1)
-                tmp["StreamAttributes"] = load_StreamAttributes(fobj, debug = debug, indent = indent + 1)
+                tmp["StreamEntry"] = load_StreamEntry(fobj, debug = debug, errors = errors, indent = indent + 1)
+                tmp["StreamAttributes"] = load_StreamAttributes(fobj, debug = debug, errors = errors, indent = indent + 1)
                 ans[name].append(tmp)
 
     # Skip ahead to the end of the data structure ...

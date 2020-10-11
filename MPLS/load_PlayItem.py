@@ -1,4 +1,4 @@
-def load_PlayItem(fobj, debug = False, indent = 0):
+def load_PlayItem(fobj, debug = False, errors = "strict", indent = 0):
     # NOTE: see https://github.com/lw/BluRay/wiki/PlayItem
 
     # Import standard modules ...
@@ -18,8 +18,8 @@ def load_PlayItem(fobj, debug = False, indent = 0):
     if debug:
         print(" and is {:,d} bytes long".format(ans["Length"] + 2))
     if ans["Length"] != 0:
-        ans["ClipInformationFileName"] = fobj.read(5).decode("utf-8")
-        ans["ClipCodecIdentifier"] = fobj.read(4).decode("utf-8")
+        ans["ClipInformationFileName"] = fobj.read(5).decode("utf-8", errors = errors)
+        ans["ClipCodecIdentifier"] = fobj.read(4).decode("utf-8", errors = errors)
         ans["MiscFlags1"], = struct.unpack(">H", fobj.read(2))
         ans["IsMultiAngle"] = bool(ans["MiscFlags1"]&(1<<16-1-11))
         ans["RefToSTCID"], = struct.unpack(">B", fobj.read(1))
@@ -38,13 +38,13 @@ def load_PlayItem(fobj, debug = False, indent = 0):
             ans["Angles"] = []
             for i in range(ans["NumberOfAngles"]):
                 tmp = {}
-                tmp["ClipInformationFileName"] = fobj.read(5).decode("utf-8")
-                tmp["ClipCodecIdentifier"] = fobj.read(4).decode("utf-8")
+                tmp["ClipInformationFileName"] = fobj.read(5).decode("utf-8", errors = errors)
+                tmp["ClipCodecIdentifier"] = fobj.read(4).decode("utf-8", errors = errors)
                 tmp["RefToSTCID"], = struct.unpack(">B", fobj.read(1))
                 ans["Angles"].append(tmp)
 
         # Load STNTable section ...
-        ans["STNTable"] = load_STNTable(fobj, debug = debug, indent = indent + 1)
+        ans["STNTable"] = load_STNTable(fobj, debug = debug, errors = errors, indent = indent + 1)
 
     # Skip ahead to the end of the data structure ...
     fobj.seek(pos + ans["Length"] + 2)

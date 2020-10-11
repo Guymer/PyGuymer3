@@ -1,4 +1,4 @@
-def load_StreamAttributes(fobj, debug = False, indent = 0):
+def load_StreamAttributes(fobj, debug = False, errors = "strict", indent = 0):
     # NOTE: see https://github.com/lw/BluRay/wiki/StreamAttributes
 
     # Import standard modules ...
@@ -24,26 +24,26 @@ def load_StreamAttributes(fobj, debug = False, indent = 0):
             ans["MiscFlags1"], = struct.unpack(">B", fobj.read(1))
         elif ans["StreamCodingType"] in [int(0x03), int(0x04), int(0x80), int(0x81), int(0x82), int(0x83), int(0x84), int(0x85), int(0x86), int(0xA1), int(0xA2)]:
             ans["AudioFormat+SampleRate"], = struct.unpack(">B", fobj.read(1))
-            ans["LanguageCode"] = fobj.read(3).decode("utf-8")
+            ans["LanguageCode"] = fobj.read(3).decode("utf-8", errors = errors)
         elif ans["StreamCodingType"] in [int(0x90), int(0x91)]:
-            ans["LanguageCode"] = fobj.read(3).decode("utf-8")
+            ans["LanguageCode"] = fobj.read(3).decode("utf-8", errors = errors)
         elif ans["StreamCodingType"] in [int(0x92)]:
             ans["CharacterCode"] = struct.unpack(">B", fobj.read(1))
             # NOTE: see https://github.com/lw/BluRay/wiki/StreamAttributes#charactercode
             if ans["CharacterCode"] in [int(0x01)]:
-                ans["LanguageCode"] = fobj.read(3).decode("utf-8")
+                ans["LanguageCode"] = fobj.read(3).decode("utf-8", errors = errors)
             elif ans["CharacterCode"] in [int(0x02)]:
-                ans["LanguageCode"] = fobj.read(3).decode("utf_16_be")
+                ans["LanguageCode"] = fobj.read(3).decode("utf_16_be", errors = errors)
             elif ans["CharacterCode"] in [int(0x03)]:
-                ans["LanguageCode"] = fobj.read(3).decode("shift_jis")
+                ans["LanguageCode"] = fobj.read(3).decode("shift_jis", errors = errors)
             elif ans["CharacterCode"] in [int(0x04)]:
-                ans["LanguageCode"] = fobj.read(3).decode("euc_kr")
+                ans["LanguageCode"] = fobj.read(3).decode("euc_kr", errors = errors)
             elif ans["CharacterCode"] in [int(0x05)]:
-                ans["LanguageCode"] = fobj.read(3).decode("gb18030")
+                ans["LanguageCode"] = fobj.read(3).decode("gb18030", errors = errors)
             elif ans["CharacterCode"] in [int(0x06)]:
-                ans["LanguageCode"] = fobj.read(3).decode("gb2312")
+                ans["LanguageCode"] = fobj.read(3).decode("gb2312", errors = errors)
             elif ans["CharacterCode"] in [int(0x07)]:
-                ans["LanguageCode"] = fobj.read(3).decode("big5")
+                ans["LanguageCode"] = fobj.read(3).decode("big5", errors = errors)
             else:
                 print("WARNING: \"CharacterCode\" was not a recognised value", ans["CharacterCode"])
                 ans["LanguageCode"] = fobj.read(3)

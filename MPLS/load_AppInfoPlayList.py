@@ -1,4 +1,4 @@
-def load_AppInfoPlayList(fobj, debug = False, indent = 0):
+def load_AppInfoPlayList(fobj, debug = False, errors = "strict", indent = 0):
     # NOTE: see https://github.com/lw/BluRay/wiki/AppInfoPlayList
 
     # Import standard modules ...

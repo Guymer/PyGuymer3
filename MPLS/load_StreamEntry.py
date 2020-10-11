@@ -1,4 +1,4 @@
-def load_StreamEntry(fobj, debug = False, indent = 0):
+def load_StreamEntry(fobj, debug = False, errors = "strict", indent = 0):
     # NOTE: see https://github.com/lw/BluRay/wiki/StreamEntry
 
     # Import standard modules ...

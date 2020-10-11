@@ -1,4 +1,4 @@
-def load_SubPath(fobj, debug = False, indent = 0):
+def load_SubPath(fobj, debug = False, errors = "strict", indent = 0):
     # NOTE: see https://github.com/lw/BluRay/wiki/SubPath
 
     # Import standard modules ...
@@ -25,7 +25,7 @@ def load_SubPath(fobj, debug = False, indent = 0):
         ans["NumberOfSubPlayItems"], = struct.unpack(">B", fobj.read(1))
         ans["SubPlayItems"] = []
         for i in range(ans["NumberOfSubPlayItems"]):
-            ans["SubPlayItems"].append(load_SubPlayItem(fobj, debug = debug, indent = indent + 1))
+            ans["SubPlayItems"].append(load_SubPlayItem(fobj, debug = debug, errors = errors, indent = indent + 1))
 
     # Skip ahead to the end of the data structure ...
     fobj.seek(pos + ans["Length"] + 4)
