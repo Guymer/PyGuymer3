@@ -21,7 +21,7 @@ def load_PlayItem(fobj, debug = False, indent = 0):
         ans["ClipInformationFileName"] = fobj.read(5).decode("utf-8")
         ans["ClipCodecIdentifier"] = fobj.read(4).decode("utf-8")
         ans["MiscFlags1"], = struct.unpack(">H", fobj.read(2))
-        ans["IsMultiAngle"] = bool(ans["MiscFlags1"]&(1<<11))
+        ans["IsMultiAngle"] = bool(ans["MiscFlags1"]&(1<<16-1-11))
         ans["RefToSTCID"], = struct.unpack(">B", fobj.read(1))
         ans["INTime"], = struct.unpack(">I", fobj.read(4))
         ans["OUTTime"], = struct.unpack(">I", fobj.read(4))
