@@ -36,7 +36,7 @@ def load_PlayItem(fobj, debug = False, errors = "strict", indent = 0):
             ans["NumberOfAngles"], = struct.unpack(">B", fobj.read(1))
             ans["MiscFlags3"], = struct.unpack(">B", fobj.read(1))
             ans["Angles"] = []
-            for i in range(ans["NumberOfAngles"]):
+            for i in range(ans["NumberOfAngles"] - 1):
                 tmp = {}
                 tmp["ClipInformationFileName"] = fobj.read(5).decode("utf-8", errors = errors)
                 tmp["ClipCodecIdentifier"] = fobj.read(4).decode("utf-8", errors = errors)
