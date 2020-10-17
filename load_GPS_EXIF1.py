@@ -99,7 +99,7 @@ def load_GPS_EXIF1(fname):
                 mi = int(tags["GPS GPSTimeStamp"].values[1].num)                                                            # [minute]
                 tmp2 = float(tags["GPS GPSTimeStamp"].values[2].num) / float(tags["GPS GPSTimeStamp"].values[2].den)        # [s]
                 se = int(math.floor(tmp2))                                                                                  # [s]
-                us = int(1.0e6 * (tmp2 - se))                                                                               # [us]
+                us = int(1.0e6 * (tmp2 - se))                                                                               # [μs]
                 if hr > 23:
                     # HACK: This particular gem is due to my Motorola Moto G3
                     #       smartphone.
@@ -243,5 +243,4 @@ def load_GPS_EXIF1(fname):
     # Return answer ...
     if ans == {}:
         return False
-    else:
-        return ans
+    return ans

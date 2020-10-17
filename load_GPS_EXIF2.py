@@ -35,13 +35,13 @@ def load_GPS_EXIF2(fname):
 
     # Populate dictionary ...
     if "GPSLongitude" in dat:
-        ans["lon"] = dat["GPSLongitude"]                                        # [deg]
+        ans["lon"] = float(dat["GPSLongitude"])                                 # [deg]
     if "GPSLatitude" in dat:
-        ans["lat"] = dat["GPSLatitude"]                                         # [deg]
+        ans["lat"] = float(dat["GPSLatitude"])                                  # [deg]
     if "GPSAltitude" in dat:
-        ans["alt"] = dat["GPSAltitude"]                                         # [m]
+        ans["alt"] = float(dat["GPSAltitude"])                                  # [m]
     if "GPSHPositioningError" in dat:
-        ans["loc_err"] = dat["GPSHPositioningError"]                            # [m]
+        ans["loc_err"] = float(dat["GPSHPositioningError"])                     # [m]
     if "GPSDateTime" in dat:
         date, time = dat["GPSDateTime"][:-1].split(" ")
         tmp1 = date.split(":")
@@ -52,7 +52,7 @@ def load_GPS_EXIF2(fname):
         hr = int(tmp2[0])                                                       # [hour]
         mi = int(tmp2[1])                                                       # [minute]
         se = int(math.floor(float(tmp2[2])))                                    # [s]
-        us = int(1.0e6 * (float(tmp2[2]) - se))                                 # [us]
+        us = int(1.0e6 * (float(tmp2[2]) - se))                                 # [μs]
         if hr > 23:
             # HACK: This particular gem is due to my Motorola Moto G3 smartphone.
             hr = hr % 24                                                        # [hour]
@@ -106,5 +106,4 @@ def load_GPS_EXIF2(fname):
     # Return answer ...
     if ans == {}:
         return False
-    else:
-        return ans
+    return ans
