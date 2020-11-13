@@ -18,19 +18,22 @@ def return_dict_of_ISO_audio_streams(fname, usr_track = -1):
         raise Exception("\"lsdvd\" is not installed")
 
     # Find track info ...
-    stderrout = subprocess.check_output(
+    # NOTE "lsdvd" specifies the output encoding in the XML header. Therefore,
+    #       do not assume that it is UTF-8 by using the "encoding" keyword
+    #       argument of subprocess.check_output() and instead just pass "lxml"
+    #       a byte sequence and let it handle it.
+    rawstderrout = subprocess.check_output(
         [
             "lsdvd",
             "-x",
             "-Ox",
             fname
         ],
-        encoding = "utf-8",
         stderr = subprocess.STDOUT
     )
 
     # Loop over all tracks ...
-    for track in lxml.etree.fromstring(stderrout).findall("track"):
+    for track in lxml.etree.fromstring(rawstderrout).findall("track"):
         # Skip if this track is not the chosen one ...
         if int(track.find("ix").text) != int(usr_track):
             continue
