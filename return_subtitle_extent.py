@@ -30,6 +30,8 @@ def return_subtitle_extent(fname, playlist = -1, subtitle = 0):
             [
                 "ffmpeg",
                 "-hide_banner",
+                "-probesize", "3G",
+                "-analyzeduration", "1800M",
                 "-f", "lavfi",
                 "-i", "color=color=black:size={0:d}x{1:d}:rate={2:f}:duration={3:f},format=yuv420p".format(width, height, fps, duration),
                 "-probesize", "3G",
@@ -55,6 +57,8 @@ def return_subtitle_extent(fname, playlist = -1, subtitle = 0):
                 [
                     "ffmpeg",
                     "-hide_banner",
+                    "-probesize", "3G",
+                    "-analyzeduration", "1800M",
                     "-f", "lavfi",
                     "-i", "color=color=black:size={0:d}x{1:d}:rate={2:f}:duration={3:f},format=yuv420p".format(width, height, fps, duration),
                     "-probesize", "3G",
@@ -76,6 +80,8 @@ def return_subtitle_extent(fname, playlist = -1, subtitle = 0):
                 [
                     "ffmpeg",
                     "-hide_banner",
+                    "-probesize", "3G",
+                    "-analyzeduration", "1800M",
                     "-f", "lavfi",
                     "-i", "color=color=black:size={0:d}x{1:d}:rate={2:f}:duration={3:f},format=yuv420p".format(width, height, fps, duration),
                     "-probesize", "3G",
