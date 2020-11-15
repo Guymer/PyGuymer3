@@ -1,5 +1,6 @@
 def return_ISO_palette(fname, usr_track = None):
     # Import standard modules ...
+    import os
     import shutil
     import subprocess
 
@@ -21,25 +22,27 @@ def return_ISO_palette(fname, usr_track = None):
         raise Exception("\"lsdvd\" is not installed")
 
     # Find track info ...
-    # NOTE "lsdvd" specifies the output encoding in the XML header. Therefore,
+    # NOTE: "lsdvd" specifies the output encoding in the XML header. Therefore,
     #       do not assume that it is UTF-8 by using the "encoding" keyword
     #       argument of subprocess.check_output() and instead just pass "lxml"
     #       a byte sequence and let it handle it.
-    rawstderrout = subprocess.check_output(
+    # NOTE: Don't merge standard out and standard error together as the result
+    #       will probably not be valid XML if standard error is not empty.
+    rawstdout = subprocess.check_output(
         [
             "lsdvd",
             "-x",
             "-Ox",
             fname
         ],
-        stderr = subprocess.STDOUT
+        stderr = open(os.devnull, "wt")
     )
 
     # Fix common errors ...
-    rawstderrout = rawstderrout.replace(b"<df>Pan&Scan</df>", b"<df>Pan&amp;Scan</df>")
+    rawstdout = rawstdout.replace(b"<df>Pan&Scan</df>", b"<df>Pan&amp;Scan</df>")
 
     # Loop over all tracks ...
-    for track in lxml.etree.fromstring(rawstderrout).findall("track"):
+    for track in lxml.etree.fromstring(rawstdout).findall("track"):
         # Skip if this track is not the chosen one ...
         if int(track.find("ix").text) != int(usr_track):
             continue
