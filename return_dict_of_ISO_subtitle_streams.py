@@ -32,6 +32,9 @@ def return_dict_of_ISO_subtitle_streams(fname, usr_track = -1):
         stderr = subprocess.STDOUT
     )
 
+    # Fix common errors ...
+    rawstderrout = rawstderrout.replace(b"<df>Pan&Scan</df>", b"<df>Pan&amp;Scan</df>")
+
     # Loop over all tracks ...
     for track in lxml.etree.fromstring(rawstderrout).findall("track"):
         # Skip if this track is not the chosen one ...

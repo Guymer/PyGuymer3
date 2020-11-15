@@ -28,6 +28,9 @@ def return_dict_of_ISO_tracks(fname):
         stderr = subprocess.STDOUT
     )
 
+    # Fix common errors ...
+    rawstderrout = rawstderrout.replace(b"<df>Pan&Scan</df>", b"<df>Pan&amp;Scan</df>")
+
     # Initialize dictionary ...
     ans = {}
 
