@@ -25,7 +25,7 @@ def return_dict_of_ISO_audio_streams(fname, usr_track = -1, errors = "replace"):
     #       that "lsdvd" does not perform any checks to make sure that the
     #       output is either valid XML or valid UTF-8. Therefore, I must load it
     #       as a byte sequence and manually convert it to a UTF-8 string whilst
-    #       replacing the invalid UTF-8 bytes.
+    #       replacing the invalid UTF-8 bytes (and remove the XML header).
     # NOTE: Don't merge standard out and standard error together as the result
     #       will probably not be valid XML if standard error is not empty.
     stdout = subprocess.check_output(
@@ -36,7 +36,9 @@ def return_dict_of_ISO_audio_streams(fname, usr_track = -1, errors = "replace"):
             fname
         ],
         stderr = open(os.devnull, "wt")
-    ).decode("utf-8", errors = errors)[len("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"):]
+    ).decode("utf-8", errors = errors)
+    tmp = stdout.index("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+    stdout = stdout[tmp + len("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"):]
 
     # Fix common errors ...
     stdout = stdout.replace("<df>Pan&Scan</df>", "<df>Pan&amp;Scan</df>")
