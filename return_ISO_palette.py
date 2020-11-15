@@ -18,6 +18,10 @@ def return_ISO_palette(fname, usr_track = -1, errors = "replace"):
     # Load sub-functions ...
     from .yuv2rgb import yuv2rgb
 
+    # Check input ...
+    if usr_track == -1:
+        raise Exception("no track was requested")
+
     # Check that "lsdvd" is installed ...
     if shutil.which("lsdvd") is None:
         raise Exception("\"lsdvd\" is not installed")
