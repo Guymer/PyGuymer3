@@ -32,7 +32,7 @@ def return_dict_of_ISO_tracks(fname, errors = "replace"):
             fname
         ],
         stderr = open(os.devnull, "wt")
-    ).decode("utf-8", errors = errors)
+    ).decode("utf-8", errors = errors)[len("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"):]
 
     # Fix common errors ...
     stdout = stdout.replace("<df>Pan&Scan</df>", "<df>Pan&amp;Scan</df>")
