@@ -38,6 +38,7 @@ def return_dict_of_ISO_tracks(fname, errors = "replace"):
 
     # Fix common errors ...
     stdout = stdout.replace("<df>Pan&Scan</df>", "<df>Pan&amp;Scan</df>")
+    stdout = stdout.replace("<df>P&S + Letter</df>", "<df>P&amp;S + Letter</df>")
 
     # Initialize dictionary ...
     ans = {}
