@@ -1,4 +1,4 @@
-def return_dict_of_ISO_tracks(fname):
+def return_dict_of_ISO_tracks(fname, errors = "replace"):
     # Import standard modules ...
     import os
     import shutil
@@ -15,13 +15,16 @@ def return_dict_of_ISO_tracks(fname):
         raise Exception("\"lsdvd\" is not installed")
 
     # Find track info ...
-    # NOTE: "lsdvd" specifies the output encoding in the XML header. Therefore,
-    #       do not assume that it is UTF-8 by using the "encoding" keyword
-    #       argument of subprocess.check_output() and instead just pass "lxml"
-    #       a byte sequence and let it handle it.
+    # NOTE: "lsdvd" specifies the output encoding in the accompanying XML
+    #       header, however, this is a lie. By inspection of "oxml.c" in the
+    #       "lsdvd" source code it appears that the XML header is hard-coded and
+    #       that "lsdvd" does not perform any checks to make sure that the
+    #       output is either valid XML or valid UTF-8. Therefore, I must load it
+    #       as a byte sequence and manually convert it to a UTF-8 string whilst
+    #       replacing the invalid UTF-8 bytes.
     # NOTE: Don't merge standard out and standard error together as the result
     #       will probably not be valid XML if standard error is not empty.
-    rawstdout = subprocess.check_output(
+    stdout = subprocess.check_output(
         [
             "lsdvd",
             "-x",
@@ -29,16 +32,16 @@ def return_dict_of_ISO_tracks(fname):
             fname
         ],
         stderr = open(os.devnull, "wt")
-    )
+    ).decode("utf-8", errors = errors)
 
     # Fix common errors ...
-    rawstdout = rawstdout.replace(b"<df>Pan&Scan</df>", b"<df>Pan&amp;Scan</df>")
+    stdout = stdout.replace("<df>Pan&Scan</df>", "<df>Pan&amp;Scan</df>")
 
     # Initialize dictionary ...
     ans = {}
 
     # Loop over all tracks ...
-    for track in lxml.etree.fromstring(rawstdout).findall("track"):
+    for track in lxml.etree.fromstring(stdout).findall("track"):
         # Append information ...
         ans[track.find("ix").text] = {
             "length" : float(track.find("length").text)                         # [s]
