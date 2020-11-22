@@ -14,7 +14,15 @@ def xz(fname, threads = 0):
 
     # Compress file ...
     subprocess.check_call(
-        ["xz", "--compress", "-9e", "--check=sha256", "--format=xz", "--threads={:d}".format(threads), fname],
+        [
+            "xz",
+            "--compress",
+            "-9e",
+            "--check=sha256",
+            "--format=xz",
+            "--threads={:d}".format(threads),
+            fname
+        ],
         encoding = "utf-8",
         stderr = open(os.devnull, "wt"),
         stdout = open(os.devnull, "wt")
