@@ -1,4 +1,14 @@
 def xz(fname, threads = 0):
+    """
+    Compress a file using "xz" (with SHA-256 integrity checks).
+
+    Arguments:
+    fname -- the name of the file to compress
+
+    Keyword arguments:
+    threads -- the number of threads to use (default 0)
+    """
+
     # Import standard modules ...
     import os
     import shutil
