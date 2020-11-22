@@ -1,4 +1,15 @@
 def tar(tarName, fnames, cwd = None):
+    """
+    Create a PAX formatted TAR file (without any frills or size limits).
+
+    Arguments:
+    tarName -- the name of the TAR file to create
+    fnames -- the list of files to put in the TAR file
+
+    Keyword arguments:
+    cwd -- the child working directory (default None)
+    """
+
     # Import standard modules ...
     import os
     import shutil
