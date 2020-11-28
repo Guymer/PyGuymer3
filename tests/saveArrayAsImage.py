@@ -12,7 +12,7 @@ except:
 try:
     import pyguymer3
 except:
-    raise Exception("\"pyguymer3\" is not installed; you need to have the Python module from https://github.com/Guymer/PyGuymer3 located somewhere in your $PYTHONPATH")
+    raise Exception("\"pyguymer3\" is not installed; you need to have the Python module from https://github.com/Guymer/PyGuymer3 located somewhere in your $PYTHONPATH") from None
 
 print("Testing \"{:s}\" ...".format(pyguymer3.__path__[0]))
 
