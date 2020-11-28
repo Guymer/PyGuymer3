@@ -15,7 +15,7 @@ def buffer_polygon(poly, dist, nang = 19, simp = 0.1, debug = False):
         import shapely.ops
         import shapely.validation
     except:
-        raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"")
+        raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Load sub-functions ...
     from .buffer_point import buffer_point
@@ -24,7 +24,7 @@ def buffer_polygon(poly, dist, nang = 19, simp = 0.1, debug = False):
     if not isinstance(poly, shapely.geometry.polygon.Polygon):
         raise TypeError("\"poly\" is not a Polygon")
     if not poly.is_valid:
-        raise Exception("\"poly\" is not a valid Polygon ({0:s})".format(shapely.validation.explain_validity(poly)))
+        raise Exception("\"poly\" is not a valid Polygon ({0:s})".format(shapely.validation.explain_validity(poly))) from None
 
     # Create pool of workers, create empty lists and append initial Polygon ...
     pool = multiprocessing.Pool()
@@ -50,7 +50,7 @@ def buffer_polygon(poly, dist, nang = 19, simp = 0.1, debug = False):
     # Convert list to (unified) Polygon and check it ...
     buff = shapely.ops.unary_union(buff)
     if not buff.is_valid:
-        raise Exception("\"buff\" is not a valid [Multi]Polygon ({0:s})".format(shapely.validation.explain_validity(buff)))
+        raise Exception("\"buff\" is not a valid [Multi]Polygon ({0:s})".format(shapely.validation.explain_validity(buff))) from None
 
     # Return answer ...
     return buff

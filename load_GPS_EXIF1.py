@@ -12,7 +12,7 @@ def load_GPS_EXIF1(fname):
     try:
         import exifread
     except:
-        raise Exception("\"exifread\" is not installed; run \"pip install --user ExifRead\"")
+        raise Exception("\"exifread\" is not installed; run \"pip install --user ExifRead\"") from None
 
     # Create default dictionary answer ...
     ans = {}
@@ -41,7 +41,7 @@ def load_GPS_EXIF1(fname):
                 if tags["GPS GPSLongitudeRef"].values[0] == "W":
                     ans["lon"] = 0.0 - ans["lon"]                                                                           # [deg]
                 elif tags["GPS GPSLongitudeRef"].values[0] != "E":
-                    raise Exception("the longitude reference is unexpected", tags["GPS GPSLongitudeRef"].values)
+                    raise Exception("the longitude reference is unexpected", tags["GPS GPSLongitudeRef"].values) from None
 
                 # Deduce longitude precision ...
                 ans["lon_prec"] = 0.0                                                                                       # [deg]
@@ -62,7 +62,7 @@ def load_GPS_EXIF1(fname):
                 if tags["GPS GPSLatitudeRef"].values[0] == "S":
                     ans["lat"] = 0.0 - ans["lat"]                                                                           # [deg]
                 elif tags["GPS GPSLatitudeRef"].values[0] != "N":
-                    raise Exception("the latitude reference is unexpected", tags["GPS GPSLatitudeRef"].values)
+                    raise Exception("the latitude reference is unexpected", tags["GPS GPSLatitudeRef"].values) from None
 
                 # Deduce latitude precision ...
                 ans["lat_prec"] = 0.0                                                                                       # [deg]
@@ -80,7 +80,7 @@ def load_GPS_EXIF1(fname):
                 if tags["GPS GPSAltitudeRef"].values[0] == 1:
                     ans["alt"] = 0.0 - ans["alt"]                                                                           # [m]
                 elif tags["GPS GPSAltitudeRef"].values[0] != 0:
-                    raise Exception("the altitude reference is unexpected", tags["GPS GPSAltitudeRef"].values)
+                    raise Exception("the altitude reference is unexpected", tags["GPS GPSAltitudeRef"].values) from None
 
                 # Deduce altitude precision ...
                 ans["alt_prec"] = 0.0                                                                                       # [m]
@@ -138,7 +138,7 @@ def load_GPS_EXIF1(fname):
                 elif tags["GPS GPSMeasureMode"].values[0] == "3":
                     ans["mode"] = "3D"
                 else:
-                    raise Exception("the mode is unexpected", tags["GPS GPSMeasureMode"].values)
+                    raise Exception("the mode is unexpected", tags["GPS GPSMeasureMode"].values) from None
 
             # Check that the required tags are preset ...
             if "GPS GPSDOP" in tags:

@@ -23,7 +23,7 @@ def save_array_as_PNG(img, fname, ftype_req = -1):
     try:
         import numpy
     except:
-        raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"")
+        raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
 
     # Load sub-functions ...
     from .paeth_filter import paeth_filter
@@ -35,7 +35,7 @@ def save_array_as_PNG(img, fname, ftype_req = -1):
     if not img.dtype == "uint8":
         raise TypeError("\"img\" must be a \"uint8\" array")
     if nc != 3:
-        raise Exception("\"img\" must be a 3-channel array")
+        raise Exception("\"img\" must be a 3-channel array") from None
 
     # Try opening the PNG ...
     with open(fname, "wb") as fobj:

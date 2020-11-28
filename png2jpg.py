@@ -3,7 +3,7 @@ def png2jpg(png, jpg, debug = False, strip = False):
     try:
         import PIL.Image
     except:
-        raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"")
+        raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None
 
     # Load sub-functions ...
     from .optimize_image import optimize_image

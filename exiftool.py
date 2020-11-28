@@ -12,11 +12,11 @@ def exiftool(fname):
 
     # Check that "exiftool" is installed ...
     if shutil.which("exiftool") is None:
-        raise Exception("\"exiftool\" is not installed")
+        raise Exception("\"exiftool\" is not installed") from None
 
     # Check that the image exists ...
     if not os.path.exists(fname):
-        raise Exception("\"{:s}\" does not exist".format(fname))
+        raise Exception("\"{:s}\" does not exist".format(fname)) from None
 
     # Strip all metadata ...
     subprocess.check_call(

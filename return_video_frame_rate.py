@@ -19,7 +19,7 @@ def return_video_frame_rate(fname, playlist = -1, debug = False):
 
         # Check format ...
         if "/" not in stream["avg_frame_rate"]:
-            raise Exception("\"avg_frame_rate\" did not contain a \"/\"")
+            raise Exception("\"avg_frame_rate\" did not contain a \"/\"") from None
 
         # Return frame rate ...
         a = stream["avg_frame_rate"].split("/")[0]                              # [#]

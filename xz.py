@@ -16,11 +16,11 @@ def xz(fname, threads = 0):
 
     # Check that "xz" is installed ...
     if shutil.which("xz") is None:
-        raise Exception("\"xz\" is not installed")
+        raise Exception("\"xz\" is not installed") from None
 
     # Check inputs ...
     if not isinstance(threads, int):
-        raise Exception("\"threads\" is not an integer")
+        raise Exception("\"threads\" is not an integer") from None
 
     # Compress file ...
     subprocess.check_call(

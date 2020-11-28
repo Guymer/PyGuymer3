@@ -9,7 +9,7 @@ def buffer_point_crudely(lon1, lat1, dist, nang):
     try:
         import numpy
     except:
-        raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"")
+        raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
 
     # Load sub-functions ...
     from .calc_loc_from_loc_and_bearing_and_dist import calc_loc_from_loc_and_bearing_and_dist

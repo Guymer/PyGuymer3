@@ -10,11 +10,11 @@ def return_video_crop_parameters(fname, playlist = -1, dt = 2.0):
 
     # Check input ...
     if fname.startswith("bluray:") and playlist < 0:
-        raise Exception("a Blu-ray was specified but no playlist was supplied")
+        raise Exception("a Blu-ray was specified but no playlist was supplied") from None
 
     # Check that "ffmpeg" is installed ...
     if shutil.which("ffmpeg") is None:
-        raise Exception("\"ffmpeg\" is not installed")
+        raise Exception("\"ffmpeg\" is not installed") from None
 
     # Initialize variables ...
     dur = return_media_duration(fname, playlist = playlist)                     # [s]
@@ -111,7 +111,7 @@ def return_video_crop_parameters(fname, playlist = -1, dt = 2.0):
                 elif keyvalue.count("=") == 1:
                     key, value = keyvalue.split("=")
                 else:
-                    raise Exception("an unexpected string format was encountered (\"{:s}\")".format(keyvalue))
+                    raise Exception("an unexpected string format was encountered (\"{:s}\")".format(keyvalue)) from None
                 db[key] = value
 
             # Update variables ...
@@ -125,9 +125,9 @@ def return_video_crop_parameters(fname, playlist = -1, dt = 2.0):
 
     # Check results ...
     if outW > inW or outW <= 0:
-        raise Exception("failed to find cropped width (inW = {:d}, inH = {:d}, outX = {:d}, outY = {:d}, outW = {:d}, outH = {:d})".format(inW, inH, outX, outY, outW, outH))
+        raise Exception("failed to find cropped width (inW = {:d}, inH = {:d}, outX = {:d}, outY = {:d}, outW = {:d}, outH = {:d})".format(inW, inH, outX, outY, outW, outH)) from None
     if outH > inH or outH <= 0:
-        raise Exception("failed to find cropped height (inW = {:d}, inH = {:d}, outX = {:d}, outY = {:d}, outW = {:d}, outH = {:d})".format(inW, inH, outX, outY, outW, outH))
+        raise Exception("failed to find cropped height (inW = {:d}, inH = {:d}, outX = {:d}, outY = {:d}, outW = {:d}, outH = {:d})".format(inW, inH, outX, outY, outW, outH)) from None
 
     # Return top-left corner, width, height and FFMPEG crop parameter string ...
     return outX, outY, outW, outH, cropParams

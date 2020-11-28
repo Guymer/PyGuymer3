@@ -23,11 +23,11 @@ def gifsicle(fname1, debug = False):
 
     # Check that "gifsicle" is installed ...
     if shutil.which("gifsicle") is None:
-        raise Exception("\"gifsicle\" is not installed")
+        raise Exception("\"gifsicle\" is not installed") from None
 
     # Check that the image exists ...
     if not os.path.exists(fname1):
-        raise Exception("\"{:s}\" does not exist".format(fname1))
+        raise Exception("\"{:s}\" does not exist".format(fname1)) from None
 
     # Create temporary directory ...
     with tempfile.TemporaryDirectory(prefix = "gifsicle.") as tname:

@@ -3,7 +3,7 @@ def start_session():
     try:
         import requests
     except:
-        raise Exception("\"requests\" is not installed; run \"pip install --user requests\"")
+        raise Exception("\"requests\" is not installed; run \"pip install --user requests\"") from None
 
     # Start session ...
     sess = requests.Session()

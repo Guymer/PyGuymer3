@@ -13,7 +13,7 @@ def save_array_as_PPM(img, fname):
     if not img.dtype == "uint8":
         raise TypeError("\"img\" must be a \"uint8\" array")
     if nc != 3:
-        raise Exception("\"img\" must be a 3-channel array")
+        raise Exception("\"img\" must be a 3-channel array") from None
 
     # Write out PPM ...
     with open(fname, "wb") as fobj:

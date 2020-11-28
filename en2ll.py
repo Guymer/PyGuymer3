@@ -10,12 +10,12 @@ def en2ll(poly1):
         import convertbng
         import convertbng.util
     except:
-        raise Exception("\"convertbng\" is not installed; run \"pip install --user convertbng\"")
+        raise Exception("\"convertbng\" is not installed; run \"pip install --user convertbng\"") from None
     try:
         import shapely
         import shapely.geometry
     except:
-        raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"")
+        raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Check argument ...
     if not isinstance(poly1, shapely.geometry.polygon.Polygon):

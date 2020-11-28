@@ -12,11 +12,11 @@ def return_subtitle_extent(fname, playlist = -1, subtitle = 0):
 
     # Check input ...
     if fname.startswith("bluray:") and playlist < 0:
-        raise Exception("a Blu-ray was specified but no playlist was supplied")
+        raise Exception("a Blu-ray was specified but no playlist was supplied") from None
 
     # Check that "ffmpeg" is installed ...
     if shutil.which("ffmpeg") is None:
-        raise Exception("\"ffmpeg\" is not installed")
+        raise Exception("\"ffmpeg\" is not installed") from None
 
     # Find out information about video ...
     duration = return_media_duration(fname, playlist = playlist)                # [s]

@@ -3,7 +3,7 @@ def download(sess, method, url, timeout = 10.0, verify = True):
     try:
         import requests
     except:
-        raise Exception("\"requests\" is not installed; run \"pip install --user requests\"")
+        raise Exception("\"requests\" is not installed; run \"pip install --user requests\"") from None
 
     # Try to download the URL and catch common errors ...
     try:

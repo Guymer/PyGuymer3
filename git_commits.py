@@ -6,7 +6,7 @@ def git_commits(cwd = None, fname = None):
 
     # Check that "git" is installed ...
     if shutil.which("git") is None:
-        raise Exception("\"git\" is not installed")
+        raise Exception("\"git\" is not installed") from None
 
     # Check if the user wants the commit for the whole repository or just a
     # single file ...

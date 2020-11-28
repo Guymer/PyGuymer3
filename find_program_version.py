@@ -32,7 +32,7 @@ def find_program_version(prog):
             stderr = subprocess.STDOUT
         )
     else:
-        raise Exception("neither \"pkg\" nor \"port\" nor \"zypper\" have been found")
+        raise Exception("neither \"pkg\" nor \"port\" nor \"zypper\" have been found") from None
 
     # Find clean string ...
     for line in stderrout.splitlines():
@@ -40,4 +40,4 @@ def find_program_version(prog):
             return line.strip().lower().split(":")[1].strip()
 
     # Create final catch-all ...
-    raise Exception("failed to extract version number for \"{0:s}\"".format(prog))
+    raise Exception("failed to extract version number for \"{0:s}\"".format(prog)) from None

@@ -53,11 +53,11 @@ def return_hash_of_MP4(fname, ignoreModificationTime = True):
 
             # Check that it matches the pattern ...
             if re.match(r"[a-z][a-z][a-z][a-z]", name) is None:
-                raise Exception("\"{0:s}\" is not an atom name in \"{1:s}\"".format(name, fname))
+                raise Exception("\"{0:s}\" is not an atom name in \"{1:s}\"".format(name, fname)) from None
 
             # Check that it is a MP4 file ...
             if not foundFTYP and name != "ftyp":
-                raise Exception("\"{0:s}\" is not a MP4".format(fname))
+                raise Exception("\"{0:s}\" is not a MP4".format(fname)) from None
             else:
                 foundFTYP = True
 
@@ -108,7 +108,7 @@ def return_hash_of_MP4(fname, ignoreModificationTime = True):
 
                     # Check that it matches the pattern ...
                     if re.match(r"[a-z][a-z][a-z][a-z]", name) is None:
-                        raise Exception("\"{0:s}\" is not an atom name in \"{1:s}\"".format(name, fname))
+                        raise Exception("\"{0:s}\" is not an atom name in \"{1:s}\"".format(name, fname)) from None
 
                     # Check the length ...
                     if val == 0:
@@ -139,7 +139,7 @@ def return_hash_of_MP4(fname, ignoreModificationTime = True):
 
                         # Check that it is the correct size ...
                         if rem2 != 100:
-                            raise Exception("the \"mvhd\" atom in \"{0:s}\" is not the correct size".format(fname))
+                            raise Exception("the \"mvhd\" atom in \"{0:s}\" is not the correct size".format(fname)) from None
 
                         # Pass the rest of the atom to the hash object (except
                         # the "Modification Time" for which instead pass 0 as a
@@ -161,9 +161,9 @@ def return_hash_of_MP4(fname, ignoreModificationTime = True):
 
     # Catch possible errors ...
     if not foundMOOV:
-        raise Exception("did not find moov atom in \"{0:s}\"".format(fname))
+        raise Exception("did not find moov atom in \"{0:s}\"".format(fname)) from None
     if not foundMVHD:
-        raise Exception("did not find mvhd atom in \"{0:s}\"".format(fname))
+        raise Exception("did not find mvhd atom in \"{0:s}\"".format(fname)) from None
 
     # Return hash hexdigest ...
     return hobj.hexdigest()

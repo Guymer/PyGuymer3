@@ -9,7 +9,7 @@ def dot2png(dot, png, debug = False, strip = False):
 
     # Check that "dot" is installed ...
     if shutil.which("dot") is None:
-        raise Exception("\"dot\" is not installed")
+        raise Exception("\"dot\" is not installed") from None
 
     # Create image ...
     subprocess.check_call(

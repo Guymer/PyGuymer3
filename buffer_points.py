@@ -14,7 +14,7 @@ def buffer_points(points, dist, nang = 19, simp = 0.1, debug = False):
         import shapely.ops
         import shapely.validation
     except:
-        raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"")
+        raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Load sub-functions ...
     from .buffer_point import buffer_point
@@ -43,7 +43,7 @@ def buffer_points(points, dist, nang = 19, simp = 0.1, debug = False):
     # Convert list to (unified) Polygon and check it ...
     buffs = shapely.ops.unary_union(buffs)
     if not buffs.is_valid:
-        raise Exception("\"buffs\" is not a valid [Multi]Polygon ({0:s})".format(shapely.validation.explain_validity(buffs)))
+        raise Exception("\"buffs\" is not a valid [Multi]Polygon ({0:s})".format(shapely.validation.explain_validity(buffs))) from None
 
     # Return answer ...
     return buffs

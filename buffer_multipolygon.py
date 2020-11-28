@@ -12,7 +12,7 @@ def buffer_multipolygon(multipoly, dist, nang = 19, simp = 0.1, debug = False):
         import shapely.ops
         import shapely.validation
     except:
-        raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"")
+        raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Load sub-functions ...
     from .buffer_polygon import buffer_polygon
@@ -21,7 +21,7 @@ def buffer_multipolygon(multipoly, dist, nang = 19, simp = 0.1, debug = False):
     if not isinstance(multipoly, shapely.geometry.multipolygon.MultiPolygon):
         raise TypeError("\"multipoly\" is not a MultiPolygon")
     if not multipoly.is_valid:
-        raise Exception("\"multipoly\" is not a valid MultiPolygon ({0:s})".format(shapely.validation.explain_validity(multipoly)))
+        raise Exception("\"multipoly\" is not a valid MultiPolygon ({0:s})".format(shapely.validation.explain_validity(multipoly))) from None
 
     # Create empty list ...
     buffs = []
@@ -36,7 +36,7 @@ def buffer_multipolygon(multipoly, dist, nang = 19, simp = 0.1, debug = False):
         if isinstance(buff, shapely.geometry.multipolygon.MultiPolygon):
             for tmp1 in buff.geoms:
                 if not tmp1.is_valid:
-                    raise Exception("\"tmp1\" is not a valid Polygon ({0:s})".format(shapely.validation.explain_validity(tmp1)))
+                    raise Exception("\"tmp1\" is not a valid Polygon ({0:s})".format(shapely.validation.explain_validity(tmp1))) from None
                 tmp2 = tmp1.simplify(simp)
                 if tmp2.is_valid:
                     buffs.append(tmp2)
@@ -44,19 +44,19 @@ def buffer_multipolygon(multipoly, dist, nang = 19, simp = 0.1, debug = False):
                     buffs.append(tmp1)
         elif isinstance(buff, shapely.geometry.polygon.Polygon):
             if not buff.is_valid:
-                raise Exception("\"buff\" is not a valid Polygon ({0:s})".format(shapely.validation.explain_validity(buff)))
+                raise Exception("\"buff\" is not a valid Polygon ({0:s})".format(shapely.validation.explain_validity(buff))) from None
             tmp1 = buff.simplify(simp)
             if tmp1.is_valid:
                 buffs.append(tmp1)
             else:
                 buffs.append(buff)
         else:
-            raise Exception("\"buff\" is an unexpected type")
+            raise Exception("\"buff\" is an unexpected type") from None
 
     # Convert list to (unified) Polygon and check it ...
     buffs = shapely.ops.unary_union(buffs)
     if not buffs.is_valid:
-        raise Exception("\"buffs\" is not a valid [Multi]Polygon ({0:s})".format(shapely.validation.explain_validity(buffs)))
+        raise Exception("\"buffs\" is not a valid [Multi]Polygon ({0:s})".format(shapely.validation.explain_validity(buffs))) from None
 
     # Return answer ...
     return buffs

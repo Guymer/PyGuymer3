@@ -24,7 +24,7 @@ def save_array_as_image(img0, fname, form = "png", scale = False, pc_bot = 0.0, 
     try:
         import numpy
     except:
-        raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"")
+        raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
 
     # Load sub-functions ...
     from .optimize_image import optimize_image
@@ -54,11 +54,11 @@ def save_array_as_image(img0, fname, form = "png", scale = False, pc_bot = 0.0, 
     if scale:
         # Check input values ...
         if pc_bot < 0.0:
-            raise Exception("pc_bot < 0.0")
+            raise Exception("pc_bot < 0.0") from None
         if pc_top < 0.0:
-            raise Exception("pc_top < 0.0")
+            raise Exception("pc_top < 0.0") from None
         if (pc_bot + pc_top) > 100.0:
-            raise Exception("(pc_bot + pc_top) > 100.0")
+            raise Exception("(pc_bot + pc_top) > 100.0") from None
 
         # Create copy and find the percentiles ...
         img1 = img0.astype(numpy.float64)
@@ -86,4 +86,4 @@ def save_array_as_image(img0, fname, form = "png", scale = False, pc_bot = 0.0, 
     elif form == "ppm":
         save_array_as_PPM(img2, fname)
     else:
-        raise Exception("an unknown image format was requested")
+        raise Exception("an unknown image format was requested") from None

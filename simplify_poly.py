@@ -10,7 +10,7 @@ def simplify_poly(poly1, simp = 0.1):
         import shapely.geometry
         import shapely.validation
     except:
-        raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"")
+        raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Create empty list ...
     poly2 = []
@@ -29,7 +29,7 @@ def simplify_poly(poly1, simp = 0.1):
     # Convert list to MultiPolygon ...
     poly2 = shapely.geometry.multipolygon.MultiPolygon(poly2)
     if not poly2.is_valid:
-        raise Exception("\"poly2\" is not a valid [Multi]Polygon ({0:s})".format(shapely.validation.explain_validity(poly2)))
+        raise Exception("\"poly2\" is not a valid [Multi]Polygon ({0:s})".format(shapely.validation.explain_validity(poly2))) from None
 
     # Return answer ...
     return poly2

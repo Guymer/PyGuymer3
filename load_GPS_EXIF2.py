@@ -8,7 +8,7 @@ def load_GPS_EXIF2(fname):
 
     # Check that "exiftool" is installed ...
     if shutil.which("exiftool") is None:
-        raise Exception("\"exiftool\" is not installed")
+        raise Exception("\"exiftool\" is not installed") from None
 
     # Create default dictionary answer ...
     ans = {}

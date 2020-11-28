@@ -15,11 +15,11 @@ def ffprobe(fname, playlist = -1):
 
     # Check input ...
     if fname.startswith("bluray:") and playlist < 0:
-        raise Exception("a Blu-ray was specified but no playlist was supplied")
+        raise Exception("a Blu-ray was specified but no playlist was supplied") from None
 
     # Check that "ffprobe" is installed ...
     if shutil.which("ffprobe") is None:
-        raise Exception("\"ffprobe\" is not installed")
+        raise Exception("\"ffprobe\" is not installed") from None
 
     # Check if it is a Blu-ray ...
     if fname.startswith("bluray:"):

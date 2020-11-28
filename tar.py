@@ -18,13 +18,13 @@ def tar(tarName, fnames, cwd = None):
 
     # Check that "tar" is installed ...
     if shutil.which("tar") is None:
-        raise Exception("\"tar\" is not installed")
+        raise Exception("\"tar\" is not installed") from None
 
     # Check inputs ...
     if not isinstance(fnames, list):
-        raise Exception("\"fnames\" is not a list")
+        raise Exception("\"fnames\" is not a list") from None
     if len(fnames) == 0:
-        raise Exception("\"fnames\" is empty")
+        raise Exception("\"fnames\" is empty") from None
 
     # Create temporary directory ...
     with tempfile.TemporaryDirectory(prefix = "tar.") as tname:

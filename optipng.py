@@ -12,11 +12,11 @@ def optipng(fname):
 
     # Check that "optipng" is installed ...
     if shutil.which("optipng") is None:
-        raise Exception("\"optipng\" is not installed")
+        raise Exception("\"optipng\" is not installed") from None
 
     # Check that the image exists ...
     if not os.path.exists(fname):
-        raise Exception("\"{:s}\" does not exist".format(fname))
+        raise Exception("\"{:s}\" does not exist".format(fname)) from None
 
     # Optimise PNG ...
     subprocess.check_call(

@@ -9,15 +9,15 @@ def return_dict_of_ISO_audio_streams(fname, usr_track = -1, errors = "replace"):
     try:
         import lxml.etree
     except:
-        raise Exception("\"lxml\" is not installed; run \"pip install --user lxml\"")
+        raise Exception("\"lxml\" is not installed; run \"pip install --user lxml\"") from None
 
     # Check input ...
     if usr_track == -1:
-        raise Exception("no track was requested")
+        raise Exception("no track was requested") from None
 
     # Check that "lsdvd" is installed ...
     if shutil.which("lsdvd") is None:
-        raise Exception("\"lsdvd\" is not installed")
+        raise Exception("\"lsdvd\" is not installed") from None
 
     # Find track info ...
     # NOTE: "lsdvd" specifies the output encoding in the accompanying XML

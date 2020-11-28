@@ -12,7 +12,7 @@ def load_header(fobj, debug = False, errors = "strict", indent = 0):
 
     # Check everything is going to be OK ...
     if pos != 0:
-        raise Exception("\"load_header()\" should only be called at the start of the MPLS file")
+        raise Exception("\"load_header()\" should only be called at the start of the MPLS file") from None
 
     # Read the binary data ...
     ans["TypeIndicator"] = fobj.read(4).decode("utf-8", errors = errors)

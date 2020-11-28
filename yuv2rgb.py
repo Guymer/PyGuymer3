@@ -18,7 +18,7 @@ def yuv2rgb(im, version = 'SDTV'):
     try:
         import numpy
     except:
-        raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"")
+        raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
 
     # check input
     if not im.dtype == 'uint8':
@@ -51,7 +51,7 @@ def yuv2rgb(im, version = 'SDTV'):
             dtype = numpy.float64
         )
     else:
-        raise Exception("unrecognised version (choose 'SDTV' or 'HDTV')")
+        raise Exception("unrecognised version (choose 'SDTV' or 'HDTV')") from None
 
     rgb = numpy.dot(yuv, A.T)
     result = rgb.clip(0, 255).astype('uint8')

@@ -15,7 +15,7 @@ def buffer_point(lon1, lat1, dist, nang = 19, debug = False):
         import shapely.geometry
         import shapely.validation
     except:
-        raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"")
+        raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Load sub-functions ...
     from .buffer_point_crudely import buffer_point_crudely
@@ -119,7 +119,7 @@ def buffer_point(lon1, lat1, dist, nang = 19, debug = False):
 
         # Check hemi-spheres ...
         if not north and not south:
-            raise Exception("the ring crossed the anti-meridian an odd number of times and exists in both hemi-spheres")
+            raise Exception("the ring crossed the anti-meridian an odd number of times and exists in both hemi-spheres") from None
 
         # Add vertical lines to the pole at both ends and over-write lists ...
         tmp = []
@@ -164,7 +164,7 @@ def buffer_point(lon1, lat1, dist, nang = 19, debug = False):
 
     # Check MultiPolygon ...
     if not ans.is_valid:
-        raise Exception("\"ans\" is not a valid [Multi]Polygon ({0:s})".format(shapely.validation.explain_validity(ans)))
+        raise Exception("\"ans\" is not a valid [Multi]Polygon ({0:s})".format(shapely.validation.explain_validity(ans))) from None
 
     # Return answer ...
     return ans

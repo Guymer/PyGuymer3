@@ -28,7 +28,7 @@ def print_FLAC_blocks(fname):
 
         # Read magic marker and raise exception if it is not expected ...
         if fobj.read(4).decode("utf-8") != "fLaC":
-            raise Exception("\"{0:s}\" is not a FLAC".format(fname))
+            raise Exception("\"{0:s}\" is not a FLAC".format(fname)) from None
 
         # Initialize flag ...
         last = False

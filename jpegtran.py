@@ -16,11 +16,11 @@ def jpegtran(fname1, debug = False):
 
     # Check that "jpegtran" is installed ...
     if shutil.which("jpegtran") is None:
-        raise Exception("\"jpegtran\" is not installed")
+        raise Exception("\"jpegtran\" is not installed") from None
 
     # Check that the image exists ...
     if not os.path.exists(fname1):
-        raise Exception("\"{0:s}\" does not exist".format(fname1))
+        raise Exception("\"{0:s}\" does not exist".format(fname1)) from None
 
     # Create temporary directory ...
     with tempfile.TemporaryDirectory(prefix = "jpegtran.") as tname:
