@@ -3,7 +3,6 @@ def load_CPI(fobj):
     # and https://patents.google.com/patent/US20090238539
 
     # Import standard modules ...
-    import os
     import struct
 
     # Initialize variables ...
