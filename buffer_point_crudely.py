@@ -15,7 +15,7 @@ def buffer_point_crudely(lon1, lat1, dist, nang):
     from .calc_loc_from_loc_and_bearing_and_dist import calc_loc_from_loc_and_bearing_and_dist
 
     # Create empty array ...
-    ring = numpy.zeros((nang, 2), dtype = numpy.float64)                        # [deg]
+    ring = numpy.zeros((nang, 2), dtype = numpy.float64)                        # [°]
 
     # Loop over angles ...
     # NOTE: The first and last angles will *always* be exactly North.
@@ -26,8 +26,8 @@ def buffer_point_crudely(lon1, lat1, dist, nang):
         # list ...
         ang1 = 360.0 * float(iang) / float(nang - 1)
         lon2, lat2, ang2 = calc_loc_from_loc_and_bearing_and_dist(lon1, lat1, ang1, dist)
-        ring[iang, 0] = lon2                                                    # [deg]
-        ring[iang, 1] = lat2                                                    # [deg]
+        ring[iang, 0] = lon2                                                    # [°]
+        ring[iang, 1] = lat2                                                    # [°]
 
     # Return answer ...
     return ring

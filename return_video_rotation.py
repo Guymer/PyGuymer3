@@ -19,7 +19,7 @@ def return_video_rotation(fname, playlist = -1, debug = False):
 
         # Return rotation ...
         if "tags" in stream and "rotate" in stream["tags"]:
-            return int(stream["tags"]["rotate"])                                # [deg]
+            return int(stream["tags"]["rotate"])                                # [°]
 
     # Return default ...
-    return 0                                                                    # [deg]
+    return 0                                                                    # [°]

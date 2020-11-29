@@ -34,44 +34,44 @@ def load_GPS_EXIF1(fname):
             # Check that the required tags are preset ...
             if "GPS GPSLongitude" in tags and "GPS GPSLongitudeRef" in tags:
                 # Extract longitude ...
-                d = float(tags["GPS GPSLongitude"].values[0].num) / float(tags["GPS GPSLongitude"].values[0].den)           # [deg]
+                d = float(tags["GPS GPSLongitude"].values[0].num) / float(tags["GPS GPSLongitude"].values[0].den)           # [°]
                 m = float(tags["GPS GPSLongitude"].values[1].num) / float(tags["GPS GPSLongitude"].values[1].den)           # [min]
                 s = float(tags["GPS GPSLongitude"].values[2].num) / float(tags["GPS GPSLongitude"].values[2].den)           # [sec]
-                ans["lon"] = d + (m / 60.0) + (s / 3600.0)                                                                  # [deg]
+                ans["lon"] = d + (m / 60.0) + (s / 3600.0)                                                                  # [°]
                 if tags["GPS GPSLongitudeRef"].values[0] == "W":
-                    ans["lon"] = 0.0 - ans["lon"]                                                                           # [deg]
+                    ans["lon"] = 0.0 - ans["lon"]                                                                           # [°]
                 elif tags["GPS GPSLongitudeRef"].values[0] != "E":
                     raise Exception("the longitude reference is unexpected", tags["GPS GPSLongitudeRef"].values) from None
 
                 # Deduce longitude precision ...
-                ans["lon_prec"] = 0.0                                                                                       # [deg]
+                ans["lon_prec"] = 0.0                                                                                       # [°]
                 if tags["GPS GPSLongitude"].values[0].den != 1:
-                    ans["lon_prec"] += 1.0 / float(tags["GPS GPSLongitude"].values[0].den)                                  # [deg]
+                    ans["lon_prec"] += 1.0 / float(tags["GPS GPSLongitude"].values[0].den)                                  # [°]
                 if tags["GPS GPSLongitude"].values[1].den != 1:
-                    ans["lon_prec"] += 1.0 / float(tags["GPS GPSLongitude"].values[1].den) / 60.0                           # [deg]
+                    ans["lon_prec"] += 1.0 / float(tags["GPS GPSLongitude"].values[1].den) / 60.0                           # [°]
                 if tags["GPS GPSLongitude"].values[2].den != 1:
-                    ans["lon_prec"] += 1.0 / float(tags["GPS GPSLongitude"].values[2].den) / 3600.0                         # [deg]
+                    ans["lon_prec"] += 1.0 / float(tags["GPS GPSLongitude"].values[2].den) / 3600.0                         # [°]
 
             # Check that the required tags are preset ...
             if "GPS GPSLatitude" in tags and "GPS GPSLatitudeRef" in tags:
                 # Extract latitude ...
-                d = float(tags["GPS GPSLatitude"].values[0].num) / float(tags["GPS GPSLatitude"].values[0].den)             # [deg]
+                d = float(tags["GPS GPSLatitude"].values[0].num) / float(tags["GPS GPSLatitude"].values[0].den)             # [°]
                 m = float(tags["GPS GPSLatitude"].values[1].num) / float(tags["GPS GPSLatitude"].values[1].den)             # [min]
                 s = float(tags["GPS GPSLatitude"].values[2].num) / float(tags["GPS GPSLatitude"].values[2].den)             # [sec]
-                ans["lat"] = d + (m / 60.0) + (s / 3600.0)                                                                  # [deg]
+                ans["lat"] = d + (m / 60.0) + (s / 3600.0)                                                                  # [°]
                 if tags["GPS GPSLatitudeRef"].values[0] == "S":
-                    ans["lat"] = 0.0 - ans["lat"]                                                                           # [deg]
+                    ans["lat"] = 0.0 - ans["lat"]                                                                           # [°]
                 elif tags["GPS GPSLatitudeRef"].values[0] != "N":
                     raise Exception("the latitude reference is unexpected", tags["GPS GPSLatitudeRef"].values) from None
 
                 # Deduce latitude precision ...
-                ans["lat_prec"] = 0.0                                                                                       # [deg]
+                ans["lat_prec"] = 0.0                                                                                       # [°]
                 if tags["GPS GPSLatitude"].values[0].den != 1:
-                    ans["lat_prec"] += 1.0 / float(tags["GPS GPSLatitude"].values[0].den)                                   # [deg]
+                    ans["lat_prec"] += 1.0 / float(tags["GPS GPSLatitude"].values[0].den)                                   # [°]
                 if tags["GPS GPSLatitude"].values[1].den != 1:
-                    ans["lat_prec"] += 1.0 / float(tags["GPS GPSLatitude"].values[1].den) / 60.0                            # [deg]
+                    ans["lat_prec"] += 1.0 / float(tags["GPS GPSLatitude"].values[1].den) / 60.0                            # [°]
                 if tags["GPS GPSLatitude"].values[2].den != 1:
-                    ans["lat_prec"] += 1.0 / float(tags["GPS GPSLatitude"].values[2].den) / 3600.0                          # [deg]
+                    ans["lat_prec"] += 1.0 / float(tags["GPS GPSLatitude"].values[2].den) / 3600.0                          # [°]
 
             # Check that the required tags are preset ...
             if "GPS GPSAltitude" in tags and "GPS GPSAltitudeRef" in tags:
@@ -153,7 +153,7 @@ def load_GPS_EXIF1(fname):
                 #       fraction around a circle. Assuming the Earth is a
                 #       perfect sphere then the fraction can be converted to a
                 #       distance around its circumference.
-                ans["loc_err"] = ans["dop"] * math.hypot(ans["lon_prec"], ans["lat_prec"])                                  # [deg]
+                ans["loc_err"] = ans["dop"] * math.hypot(ans["lon_prec"], ans["lat_prec"])                                  # [°]
                 ans["loc_err"] /= 360.0                                                                                     # [frac]
                 ans["loc_err"] *= 2.0 * math.pi * 6371009.0                                                                 # [m]
 

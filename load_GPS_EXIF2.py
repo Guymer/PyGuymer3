@@ -35,9 +35,9 @@ def load_GPS_EXIF2(fname):
 
     # Populate dictionary ...
     if "GPSLongitude" in dat:
-        ans["lon"] = float(dat["GPSLongitude"])                                 # [deg]
+        ans["lon"] = float(dat["GPSLongitude"])                                 # [°]
     if "GPSLatitude" in dat:
-        ans["lat"] = float(dat["GPSLatitude"])                                  # [deg]
+        ans["lat"] = float(dat["GPSLatitude"])                                  # [°]
     if "GPSAltitude" in dat:
         ans["alt"] = float(dat["GPSAltitude"])                                  # [m]
     if "GPSHPositioningError" in dat:
