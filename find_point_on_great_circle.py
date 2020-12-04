@@ -18,7 +18,7 @@ def find_point_on_great_circle(frac, lon1_deg, lat1_deg, lon2_deg, lat2_deg):
     lat2_rad = math.radians(lat2_deg)                                           # [rad]
 
     # Calculate mid-point ...
-    rad = math.radians(calc_angle_between_two_locs(lon1_deg, lat1_deg, lon2_deg, lat2_deg))  # [rad]
+    rad = math.radians(calc_angle_between_two_locs(lon1_deg, lat1_deg, lon2_deg, lat2_deg)) # [rad]
     a = math.sin((1.0 - frac) * rad) / math.sin(rad)
     b = math.sin(frac * rad) / math.sin(rad)
     x = a * math.cos(lat1_rad) * math.cos(lon1_rad) + b * math.cos(lat2_rad) * math.cos(lon2_rad)
