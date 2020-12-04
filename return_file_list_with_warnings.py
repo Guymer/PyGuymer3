@@ -19,12 +19,16 @@ def return_file_list_with_warnings(path):
             # Test if this part is illegal and print the full path for
             # identification ...
             if not child.startswith(".") and child != make_path_safe(child):
-                print("\"{0:s}\" is illegal".format(item))
+                print("\"{:s}\" is illegal".format(item))
 
             # Check what to do ...
             if os.path.isdir(item):
-                # Recursively run this function again and add to list ...
-                contents += return_file_list_with_warnings(item)
+                # Check that the directory is list-able ...
+                if os.access(item, os.X_OK):
+                    # Recursively run this function again and add to list ...
+                    contents += return_file_list_with_warnings(item)
+                else:
+                    print("\"{:s}\" cannot be listed".format(item))
             else:
                 # Add to list ...
                 contents.append(item)
