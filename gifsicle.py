@@ -57,7 +57,7 @@ def gifsicle(fname1, debug = False):
 
         # Find the two hashes and don't replace the original if the new one is
         # the same ...
-        if sha512(fname1).hexdigest() == sha512(fname2).hexdigest():
+        if sha512(fname1) == sha512(fname2):
             if debug:
                 print("INFO: Skipping because \"{:s}\" is the same as \"{:s}\"".format(fname2, fname1))
             return
