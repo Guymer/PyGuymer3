@@ -8,6 +8,7 @@ import sys
 
 # Import sub-functions ...
 from .add_map_background import add_map_background
+from .buffer import buffer
 from .buffer_multipolygon import buffer_multipolygon
 from .buffer_point import buffer_point
 from .buffer_point_crudely import buffer_point_crudely
