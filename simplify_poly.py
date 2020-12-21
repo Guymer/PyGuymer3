@@ -24,7 +24,7 @@ def simplify_poly(poly1, simp = 0.1):
         # Add simplified copy to the list ...
         poly2.append(poly1.simplify(simp))
     else:
-        raise TypeError("\"poly1\" is an unexpected type")
+        raise TypeError("\"poly1\" is an unexpected type") from None
 
     # Convert list to MultiPolygon ...
     poly2 = shapely.geometry.multipolygon.MultiPolygon(poly2)

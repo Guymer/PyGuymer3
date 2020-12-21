@@ -9,7 +9,7 @@ def save_file_if_needed(fname, fcontent, debug = False):
     elif isinstance(fcontent, str):
         mode = "t"
     else:
-        raise TypeError("\"fcontent\" is an unexpected type")
+        raise TypeError("\"fcontent\" is an unexpected type") from None
 
     # Initizalize trigger ...
     save = False

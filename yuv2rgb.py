@@ -22,7 +22,7 @@ def yuv2rgb(im, version = 'SDTV'):
 
     # check input
     if not im.dtype == 'uint8':
-        raise TypeError('yuv2rgb only implemented for uint8 arrays')
+        raise TypeError('yuv2rgb only implemented for uint8 arrays') from None
 
     # clip input to the valid range
     yuv = numpy.zeros(im.shape, dtype = numpy.float64)

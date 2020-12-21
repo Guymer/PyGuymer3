@@ -19,7 +19,7 @@ def en2ll(poly1):
 
     # Check argument ...
     if not isinstance(poly1, shapely.geometry.polygon.Polygon):
-        raise TypeError("\"poly1\" is not a Polygon")
+        raise TypeError("\"poly1\" is not a Polygon") from None
     if not poly1.is_valid:
         return False
 

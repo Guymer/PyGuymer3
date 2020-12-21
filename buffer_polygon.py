@@ -22,7 +22,7 @@ def buffer_polygon(poly, dist, nang = 19, simp = 0.1, debug = False):
 
     # Check argument ...
     if not isinstance(poly, shapely.geometry.polygon.Polygon):
-        raise TypeError("\"poly\" is not a Polygon")
+        raise TypeError("\"poly\" is not a Polygon") from None
     if not poly.is_valid:
         raise Exception("\"poly\" is not a valid Polygon ({0:s})".format(shapely.validation.explain_validity(poly))) from None
 

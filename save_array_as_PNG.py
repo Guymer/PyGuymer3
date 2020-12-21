@@ -33,7 +33,7 @@ def save_array_as_PNG(img, fname, ftype_req = -1):
 
     # Check image ...
     if not img.dtype == "uint8":
-        raise TypeError("\"img\" must be a \"uint8\" array")
+        raise TypeError("\"img\" must be a \"uint8\" array") from None
     if nc != 3:
         raise Exception("\"img\" must be a 3-channel array") from None
 

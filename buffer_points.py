@@ -21,7 +21,7 @@ def buffer_points(points, dist, nang = 19, simp = 0.1, debug = False):
 
     # Check argument ...
     if not isinstance(points, list):
-        raise TypeError("\"points\" is not a list")
+        raise TypeError("\"points\" is not a list") from None
 
     # Create pool of workers and create empty lists ...
     pool = multiprocessing.Pool()

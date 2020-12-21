@@ -19,7 +19,7 @@ def buffer_multipolygon(multipoly, dist, nang = 19, simp = 0.1, debug = False):
 
     # Check argument ...
     if not isinstance(multipoly, shapely.geometry.multipolygon.MultiPolygon):
-        raise TypeError("\"multipoly\" is not a MultiPolygon")
+        raise TypeError("\"multipoly\" is not a MultiPolygon") from None
     if not multipoly.is_valid:
         raise Exception("\"multipoly\" is not a valid MultiPolygon ({0:s})".format(shapely.validation.explain_validity(multipoly))) from None
 
@@ -51,7 +51,7 @@ def buffer_multipolygon(multipoly, dist, nang = 19, simp = 0.1, debug = False):
             else:
                 buffs.append(buff)
         else:
-            raise Exception("\"buff\" is an unexpected type") from None
+            raise TypeError("\"buff\" is an unexpected type") from None
 
     # Convert list to (unified) Polygon and check it ...
     buffs = shapely.ops.unary_union(buffs)
