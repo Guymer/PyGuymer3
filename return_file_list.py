@@ -34,6 +34,8 @@ def return_file_list(path, debug = False):
             else:
                 # Add to list ...
                 contents.append(item)
+    elif debug:
+        print("WARNING: \"{:s}\" does not exist".format(path))
 
     # Return sorted list ...
     contents.sort()

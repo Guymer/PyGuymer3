@@ -34,6 +34,8 @@ def return_folder_list(path, debug = False):
                     contents += return_folder_list(item, debug = debug)
                 elif debug:
                     print("WARNING: \"{:s}\" cannot be listed".format(item))
+    elif debug:
+        print("WARNING: \"{:s}\" does not exist".format(path))
 
     # Return sorted list ...
     contents.sort()
