@@ -1,8 +1,9 @@
-def return_file_list(path):
+def return_file_list(path, debug = False):
     # Import standard modules ...
     import os
 
     # Load sub-functions ...
+    from .make_path_safe import make_path_safe
     from .return_file_list import return_file_list
 
     # Create empty list ...
@@ -15,12 +16,21 @@ def return_file_list(path):
             # Make file name ...
             item = os.path.join(path, child)
 
+            # Check if the user wants to perform debugging ...
+            if debug:
+                # Test if this part is illegal and print the full path for
+                # identification ...
+                if not child.startswith(".") and child != make_path_safe(child):
+                    print("WARNING: \"{:s}\" is illegal".format(item))
+
             # Check what to do ...
             if os.path.isdir(item):
                 # Check that the directory is list-able ...
                 if os.access(item, os.X_OK):
                     # Recursively run this function again and add to list ...
-                    contents += return_file_list(item)
+                    contents += return_file_list(item, debug = debug)
+                elif debug:
+                    print("WARNING: \"{:s}\" cannot be listed".format(item))
             else:
                 # Add to list ...
                 contents.append(item)
