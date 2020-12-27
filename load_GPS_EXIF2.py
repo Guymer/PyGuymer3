@@ -3,6 +3,7 @@ def load_GPS_EXIF2(fname):
     import datetime
     import json
     import math
+    import os
     import shutil
     import subprocess
 
@@ -19,7 +20,10 @@ def load_GPS_EXIF2(fname):
             [
                 "exiftool",
                 "-json",
-                "-dateFormat", "%Y:%m:%d %H:%M:%S.%f",
+                "-coordFormat", "%+.12f",
+                "-dateFormat", "%Y-%m-%dT%H:%M:%S.%.6f",                        # should be the same as datetime.isoformat()
+                "-groupNames",
+                "-struct",
                 "--printConv",
                 "-GPSDateTime",
                 "-GPSAltitude",
@@ -29,7 +33,7 @@ def load_GPS_EXIF2(fname):
                 fname
             ],
             encoding = "utf-8",
-            stderr = subprocess.STDOUT
+            stderr = open(os.devnull, "wt")
         )
     )[0]
 
