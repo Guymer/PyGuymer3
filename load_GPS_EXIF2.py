@@ -38,15 +38,15 @@ def load_GPS_EXIF2(fname):
     )[0]
 
     # Populate dictionary ...
-    if "GPSLongitude" in dat:
+    if "Composite:GPSLongitude" in dat:
         ans["lon"] = float(dat["Composite:GPSLongitude"])                       # [°]
-    if "GPSLatitude" in dat:
+    if "Composite:GPSLatitude" in dat:
         ans["lat"] = float(dat["Composite:GPSLatitude"])                        # [°]
-    if "GPSAltitude" in dat:
+    if "Composite:GPSAltitude" in dat:
         ans["alt"] = float(dat["Composite:GPSAltitude"])                        # [m]
-    if "GPSHPositioningError" in dat:
+    if "Composite:GPSHPositioningError" in dat:
         ans["loc_err"] = float(dat["Composite:GPSHPositioningError"])           # [m]
-    if "GPSDateTime" in dat:
+    if "Composite:GPSDateTime" in dat:
         date, time = dat["Composite:GPSDateTime"][:-1].split(" ")
         tmp1 = date.split(":")
         tmp2 = time.split(":")
