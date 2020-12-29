@@ -14,6 +14,7 @@ def load_EXIF2(fname):
         subprocess.check_output(
             [
                 "exiftool",
+                "-api", "largefilesupport=1",
                 "-json",
                 "-coordFormat", "%+.12f",
                 "-dateFormat", "%Y-%m-%dT%H:%M:%S.%.6f",                        # should be the same as datetime.isoformat()
