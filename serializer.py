@@ -23,6 +23,8 @@ def serializer(obj, evaluate = False):
     except:
         raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
 
+    # **************************************************************************
+
     # Check type ...
     if isinstance(obj, datetime.date):
         # Return serializable answer ...
@@ -42,6 +44,8 @@ def serializer(obj, evaluate = False):
     if isinstance(obj, datetime.timedelta):
         # Return serializable answer ...
         return obj.total_seconds()
+
+    # **************************************************************************
 
     # Check type ...
     if isinstance(obj, exifread.utils.Ratio):
@@ -66,6 +70,8 @@ def serializer(obj, evaluate = False):
 
         # Return serializable answer ...
         return "{:d}/{:d}".format(obj.num, obj.den)
+
+    # **************************************************************************
 
     # Check type ...
     if isinstance(obj, numpy.int8):
@@ -121,6 +127,8 @@ def serializer(obj, evaluate = False):
     if isinstance(obj, numpy.float64):
         # Return serializable answer ...
         return float(obj)
+
+    # **************************************************************************
 
     # Catch errors ...
     raise TypeError("\"obj\" is an unexpected type", type(obj)) from None
