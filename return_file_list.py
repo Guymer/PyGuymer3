@@ -1,4 +1,4 @@
-def return_file_list(path, debug = False, follow_symlinks = True):
+def return_file_list(path, debug = False, follow_symlinks = True, return_symlinks = True):
     """
     Return a recursive list of files in a directory.
 
@@ -8,6 +8,7 @@ def return_file_list(path, debug = False, follow_symlinks = True):
     Keyword Arguments:
     debug -- print debug messages (default False)
     follow_symlinks -- follow symbolic links (default True)
+    return_symlinks -- include symbolic links in the returned list (default True)
     """
 
     # Import standard modules ...
@@ -49,8 +50,10 @@ def return_file_list(path, debug = False, follow_symlinks = True):
 
             # Check if it should be added to the list ...
             if os.path.isfile(item):
-                # Add to list ...
-                contents.append(item)
+                # Check if it is allowed to be added to the list ...
+                if return_symlinks or not os.path.islink(item):
+                    # Add to list ...
+                    contents.append(item)
     elif debug:
         print("WARNING: \"{:s}\" does not exist".format(path))
 
