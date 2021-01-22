@@ -1,4 +1,15 @@
 def return_file_list(path, debug = False, follow_symlinks = True):
+    """
+    Return a recursive list of files in a directory.
+
+    Arguments:
+    path -- the directory to search
+
+    Keyword Arguments:
+    debug -- print debug messages (default False)
+    follow_symlinks -- follow symbolic links (default True)
+    """
+
     # Import standard modules ...
     import os
 
