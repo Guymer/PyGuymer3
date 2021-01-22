@@ -81,6 +81,7 @@ from .return_file_list import return_file_list
 from .return_folder_list import return_folder_list
 from .return_hash_of_MP4 import return_hash_of_MP4
 from .return_ISO_palette import return_ISO_palette
+from .return_link_list import return_link_list
 from .return_media_bit_rate import return_media_bit_rate
 from .return_media_duration import return_media_duration
 from .return_MP4_audio_profile import return_MP4_audio_profile
