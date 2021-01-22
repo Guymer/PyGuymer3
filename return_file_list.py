@@ -35,7 +35,7 @@ def return_file_list(path, debug = False, follow_symlinks = True):
                         print("WARNING: \"{:s}\" cannot be followed".format(item))
                 elif debug:
                     print("WARNING: \"{:s}\" cannot be listed".format(item))
-            else:
+            elif os.path.isfile(item):
                 # Add to list ...
                 contents.append(item)
     elif debug:
