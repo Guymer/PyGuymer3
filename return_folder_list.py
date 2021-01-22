@@ -34,11 +34,8 @@ def return_folder_list(path, debug = False, follow_symlinks = True):
                 if not child.startswith(".") and child != make_path_safe(child):
                     print("WARNING: \"{:s}\" is illegal".format(item))
 
-            # Check what to do ...
+            # Check if it might need searching ...
             if os.path.isdir(item):
-                # Add to list ...
-                contents.append(item)
-
                 # Check that the directory is list-able ...
                 if os.access(item, os.X_OK):
                     # Check if the directory is allowed to be followed ...
@@ -49,6 +46,11 @@ def return_folder_list(path, debug = False, follow_symlinks = True):
                         print("WARNING: \"{:s}\" cannot be followed".format(item))
                 elif debug:
                     print("WARNING: \"{:s}\" cannot be listed".format(item))
+
+            # Check if it should be added to the list ...
+            if os.path.isdir(item):
+                # Add to list ...
+                contents.append(item)
     elif debug:
         print("WARNING: \"{:s}\" does not exist".format(path))
 
