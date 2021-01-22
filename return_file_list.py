@@ -55,5 +55,4 @@ def return_file_list(path, debug = False, follow_symlinks = True):
         print("WARNING: \"{:s}\" does not exist".format(path))
 
     # Return sorted list ...
-    contents.sort()
-    return contents
+    return sorted(contents)
