@@ -1,4 +1,4 @@
-def return_file_list(path, debug = False):
+def return_file_list(path, debug = False, follow_symlinks = True):
     # Import standard modules ...
     import os
 
@@ -27,8 +27,12 @@ def return_file_list(path, debug = False):
             if os.path.isdir(item):
                 # Check that the directory is list-able ...
                 if os.access(item, os.X_OK):
-                    # Recursively run this function again and add to list ...
-                    contents += return_file_list(item, debug = debug)
+                    # Check if the directory is allowed to be followed ...
+                    if follow_symlinks or not os.path.islink(item):
+                        # Recursively run this function again and add to list ...
+                        contents += return_file_list(item, debug = debug, follow_symlinks = follow_symlinks)
+                    elif debug:
+                        print("WARNING: \"{:s}\" cannot be followed".format(item))
                 elif debug:
                     print("WARNING: \"{:s}\" cannot be listed".format(item))
             else:
