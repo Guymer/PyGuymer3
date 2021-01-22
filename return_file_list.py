@@ -42,7 +42,7 @@ def return_file_list(path, debug = False, follow_symlinks = True, return_symlink
                     # Check if the directory is allowed to be followed ...
                     if follow_symlinks or not os.path.islink(item):
                         # Recursively run this function again and add to list ...
-                        contents += return_file_list(item, debug = debug, follow_symlinks = follow_symlinks)
+                        contents += return_file_list(item, debug = debug, follow_symlinks = follow_symlinks, return_symlinks = return_symlinks)
                     elif debug:
                         print("WARNING: \"{:s}\" cannot be followed".format(item))
                 elif debug:
