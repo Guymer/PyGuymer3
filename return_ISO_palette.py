@@ -7,6 +7,7 @@ def return_ISO_palette(fname, usr_track = -1, errors = "replace"):
 
     # Import special modules ...
     try:
+        import lxml
         import lxml.etree
     except:
         raise Exception("\"lxml\" is not installed; run \"pip install --user lxml\"") from None

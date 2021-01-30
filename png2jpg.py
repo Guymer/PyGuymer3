@@ -1,6 +1,7 @@
 def png2jpg(png, jpg, debug = False, strip = False):
     # Import special modules ...
     try:
+        import PIL
         import PIL.Image
     except:
         raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None
