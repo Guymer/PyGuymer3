@@ -9,6 +9,7 @@ RM   := $(shell which rm       2> /dev/null || echo "ERROR")
 # Set defaults ...
 DEBUG  ?= false
 FTNLIB ?= fortranlib
+LIBDIR ?= /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib
 
 # ******************************************************************************
 
@@ -88,7 +89,7 @@ f90.cpython-38m-darwin.so:	$(FC1)												\
 							$(FTNLIB)/mod_safe.o								\
 							f90.F90												\
 							src/*.f90
-	$(FC1) -c --f77exec=$(FC2) --f90exec=$(FC2) --opt="$(LANG_OPTS) $(WARN_OPTS) $(OPTM_OPTS)" --arch="$(MACH_OPTS)" -m f90 -I$(FTNLIB) f90.F90 $(FTNLIB)/mod_safe.o -L/usr/lib
+	$(FC1) -c --f77exec=$(FC2) --f90exec=$(FC2) --opt="$(LANG_OPTS) $(WARN_OPTS) $(OPTM_OPTS)" --arch="$(MACH_OPTS)" -m f90 -I$(FTNLIB) f90.F90 $(FTNLIB)/mod_safe.o -L$(LIBDIR)
 
 f90.so:						$(LN)												\
 							f90.cpython-38m-darwin.so
