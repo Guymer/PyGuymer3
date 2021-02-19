@@ -74,4 +74,4 @@ for i, ndiv in enumerate(ndivs):
 # Save figure ...
 fg.savefig("greatCircle.png", bbox_inches = "tight", dpi = 150, pad_inches = 0.1)
 pyguymer3.optimize_image("greatCircle.png", strip = True)
-matplotlib.pyplot.close("all")
+matplotlib.pyplot.close(fg)
