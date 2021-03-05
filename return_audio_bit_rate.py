@@ -1,4 +1,8 @@
 def return_audio_bit_rate(fname, playlist = -1, debug = False):
+    """
+    Return the bit rate of the first audio stream in the media file.
+    """
+
     # Load sub-functions ...
     from . import __ffprobe__
     from .ffprobe import ffprobe
