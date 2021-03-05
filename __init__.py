@@ -88,6 +88,7 @@ from .return_media_duration import return_media_duration
 from .return_MP4_audio_profile import return_MP4_audio_profile
 from .return_MP4_video_level import return_MP4_video_level
 from .return_MP4_video_profile import return_MP4_video_profile
+from .return_subtitle_bit_rate import return_subtitle_bit_rate
 from .return_subtitle_extent import return_subtitle_extent
 from .return_video_bit_depth import return_video_bit_depth
 from .return_video_bit_rate import return_video_bit_rate
