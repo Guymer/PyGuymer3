@@ -1,6 +1,6 @@
 def return_video_width(fname, playlist = -1, debug = False):
     # Load sub-functions ...
-    from . import __ffprobe__
+    from .__ffprobe__ import __ffprobe__
     from .ffprobe import ffprobe
     from .return_video_rotation import return_video_rotation
 

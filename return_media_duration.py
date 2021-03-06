@@ -1,6 +1,6 @@
 def return_media_duration(fname, playlist = -1, debug = False):
     # Load sub-functions ...
-    from . import __ffprobe__
+    from .__ffprobe__ import __ffprobe__
     from .ffprobe import ffprobe
 
     # Make sure that this fname/playlist combination is in the global dictionary ...

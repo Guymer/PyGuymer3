@@ -1,6 +1,6 @@
 def return_dict_of_media_audio_streams(fname, playlist = -1, debug = False):
     # Load sub-functions ...
-    from . import __ffprobe__
+    from .__ffprobe__ import __ffprobe__
     from .ffprobe import ffprobe
     from .parse_MPLS_file import parse_MPLS_file
 

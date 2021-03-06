@@ -4,7 +4,7 @@ def return_dict_of_bluray_playlists(dname, size_threshold = 1073741824, time_thr
     import os
 
     # Load sub-functions ...
-    from . import __ffprobe__
+    from .__ffprobe__ import __ffprobe__
     from .ffprobe import ffprobe
 
     # Create short-hand ...
