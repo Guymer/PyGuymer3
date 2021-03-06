@@ -7,6 +7,7 @@ the years.
 import sys
 
 # Import sub-functions ...
+from .__ffprobe__ import __ffprobe__
 from .add_map_background import add_map_background
 from .buffer import buffer
 from .buffer_multipolygon import buffer_multipolygon
@@ -118,6 +119,3 @@ from .yuv2rgb import yuv2rgb
 # Ensure that this module is only imported by Python 3.x ...
 if sys.version_info.major != 3:
     raise Exception("the Python module \"pyguymer3\" must only be used with Python 3.x, if you want a Python 2.x version then use \"pyguymer\" instead") from None
-
-# Initialize global dictionary ...
-__ffprobe__ = {}
