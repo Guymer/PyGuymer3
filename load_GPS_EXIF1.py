@@ -24,7 +24,7 @@ def load_GPS_EXIF1(fname):
 
         # Check that there are EXIF tags ...
         gps = False
-        for key in tags.keys():
+        for key in tags:
             if key.startswith("GPS "):
                 gps = True
                 break

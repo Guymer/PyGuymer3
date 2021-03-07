@@ -51,7 +51,7 @@ def return_dict_of_media_subtitle_streams(fname, playlist = -1, debug = False):
                                 # Check keys ...
                                 if "RefToStreamPID" in PGStreamEntry["StreamEntry"] and "LanguageCode" in PGStreamEntry["StreamAttributes"]:
                                     # Loop over streams ...
-                                    for stream in ans.keys():
+                                    for stream in ans:
                                         # Check if this is the stream ...
                                         if PGStreamEntry["StreamEntry"]["RefToStreamPID"] == ans[stream]["id"]:
                                             # Add language code to the stream
@@ -59,7 +59,7 @@ def return_dict_of_media_subtitle_streams(fname, playlist = -1, debug = False):
                                             ans[stream]["langcode"] = PGStreamEntry["StreamAttributes"]["LanguageCode"]
 
     # Make sure that each stream has a language code ...
-    for stream in ans.keys():
+    for stream in ans:
         if "langcode" not in ans[stream]:
             ans[stream]["langcode"] = "?"
 
