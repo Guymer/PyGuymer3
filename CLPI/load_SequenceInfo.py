@@ -29,7 +29,7 @@ def load_SequenceInfo(fobj):
     BytesPassed = BytesEnd - BytesStart
     if BytesPassed < ans["Length"]:
         l = ans["Length"] - BytesPassed
-        fobj.read(l);
+        fobj.read(l)
     elif BytesPassed > ans["Length"]:
         print("load_SequenceInfo: incorrect length")
 
