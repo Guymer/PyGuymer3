@@ -19,13 +19,18 @@ def save_file_if_needed(fname, fcontent, debug = False):
         # Set trigger ...
         save = True
 
-        # Check if the target directory does not exist ...
-        if not os.path.exists(os.path.dirname(fname)):
-            # Make directory ...
-            os.makedirs(os.path.dirname(fname))
+        # Create short-hand for the parent directory ...
+        dname = os.path.dirname(fname)
+
+        # Check that there is a parent directory in the provided file name path ...
+        if dname != "":
+            # Check if the parent directory does not exist ...
+            if not os.path.exists(dname):
+                # Make the parent directory ...
+                os.makedirs(dname)
     else:
         # Check the old content ...
-        if open(fname, "r" + mode).read() != fcontent:
+        if open(fname, f"r{mode}").read() != fcontent:
             # Set trigger ...
             save = True
 
@@ -33,4 +38,4 @@ def save_file_if_needed(fname, fcontent, debug = False):
     if save:
         if debug:
             print("INFO: Saving \"{:s}\" ...".format(fname))
-        open(fname, "w" + mode).write(fcontent)
+        open(fname, f"w{mode}").write(fcontent)
