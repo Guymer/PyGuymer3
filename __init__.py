@@ -80,6 +80,7 @@ from .return_dict_of_media_subtitle_streams import return_dict_of_media_subtitle
 from .return_dict_of_media_video_streams import return_dict_of_media_video_streams
 from .return_file_list import return_file_list
 from .return_folder_list import return_folder_list
+from .return_folder_size import return_folder_size
 from .return_hash_of_GZ import return_hash_of_GZ
 from .return_hash_of_MP4 import return_hash_of_MP4
 from .return_ISO_palette import return_ISO_palette
