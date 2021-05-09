@@ -1,8 +1,27 @@
 def buffer_point(lon1, lat1, dist, nang = 19, debug = False):
-    """
+    """Buffer a point
+
     This function reads in coordinates (in degrees) that exist on the surface of
     the Earth and returns a [Multi]Polygon of it buffered by a constant distance
     (in metres).
+
+    Parameters
+    ----------
+    lon1 : float
+            the longitude of the point
+    lat1 : float
+            the latitude of the point
+    dist : float
+            the distance to buffer the point by
+    nang : int, optional
+            the number of angles around the point that are calculated
+    debug : bool, optional
+            print debug messages
+
+    Returns
+    -------
+    ans : shapely.geometry.multipolygon.MultiPolygon
+            the polygon around the point
     """
 
     # Import standard modules ...
