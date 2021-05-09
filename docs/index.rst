@@ -10,7 +10,17 @@ Welcome to PyGuymer3's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+Some text
 
+.. include:: ../README.md
+
+Some text
+
+.. autosummary::
+   :toctree: _autosummary
+   :recursive:
+
+   pyguymer3
 
 Indices and tables
 ==================

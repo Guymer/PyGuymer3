@@ -5,6 +5,7 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
 # See https://samnicholls.net/2016/06/15/how-to-sphinx-readthedocs/
+# See https://stackoverflow.com/a/62613202
 
 # -- Path setup --------------------------------------------------------------
 
@@ -30,8 +31,12 @@ author = 'Thomas Guymer'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.autodoc'
+    'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary',
+    'sphinx.ext.napoleon',
 ]
+autosummary_generate = True
+napoleon_google_docstring = False
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
