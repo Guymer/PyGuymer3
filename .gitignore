@@ -18,3 +18,5 @@ shellcheck.log
 # Ignore compiler generated files ...
 *.so
 *.so.dSYM
+docs/_autosummary
+docs/_build
