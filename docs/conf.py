@@ -1,3 +1,9 @@
+# NOTE: The following pages are useful guides and references:
+#         * https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html
+#         * https://github.com/ralsina/rst-cheatsheet/blob/master/rst-cheatsheet.rst
+#         * https://sphinx-tutorial.readthedocs.io
+#         * https://www.ericholscher.com/blog/2016/jul/1/sphinx-and-rtd-for-writers/
+
 # Import standard modules ...
 import os
 import sys
