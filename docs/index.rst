@@ -13,8 +13,8 @@ This is a Python 3.X port of `my Python 2.X module <https://github.com/Guymer/Py
 
 .. include:: bugs.rst
 
-Reference
----------
+Module Reference
+----------------
 
 .. autosummary::
    :toctree: _autosummary
