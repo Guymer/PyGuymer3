@@ -9,6 +9,8 @@ This is a Python 3.X port of `my Python 2.X module <https://github.com/Guymer/Py
 
 .. include:: dependencies.rst
 
+.. include:: testing.rst
+
 .. include:: todo.rst
 
 .. include:: bugs.rst
