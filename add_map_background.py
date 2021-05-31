@@ -1,4 +1,27 @@
 def add_map_background(axis, debug = False, name = "natural-earth-1", resolution = "medium0512px", extent = None):
+    """Add an image of a map as a background to a plot.
+
+    Parameters
+    ----------
+    axis : cartopy.mpl.geoaxes.GeoAxesSubplot
+        the axis to add the background image to
+    debug : bool, optional
+        print debug statements
+    name : str, optional
+        the name of the image in the database
+    resolution : str, optional
+        the resolution of the image in the database
+    extent : list of floats
+        for high-resolution images, save time by specifying the extent that is
+        to be added
+
+    Notes
+    -----
+    If the specified image cannot be found then a default map will be used
+    instead. See the `Cartopy documentation of background_img() <https://scitools.org.uk/cartopy/docs/latest/matplotlib/geoaxes.html#cartopy.mpl.geoaxes.GeoAxes.background_img>`_
+    and the `Cartopy documentation of stock_img() <https://scitools.org.uk/cartopy/docs/latest/matplotlib/geoaxes.html#cartopy.mpl.geoaxes.GeoAxes.stock_img>`_.
+    """
+
     # Import standard modules ...
     import json
     import os
