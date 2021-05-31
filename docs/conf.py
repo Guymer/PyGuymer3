@@ -1,8 +1,14 @@
-# NOTE: The following pages are useful guides and references:
+# NOTE: The following pages are useful guides and references for Sphinx:
 #         * https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html
 #         * https://github.com/ralsina/rst-cheatsheet/blob/master/rst-cheatsheet.rst
 #         * https://sphinx-tutorial.readthedocs.io
 #         * https://www.ericholscher.com/blog/2016/jul/1/sphinx-and-rtd-for-writers/
+
+# NOTE: The following pages are useful guides and references for NumPy-style
+#       documentation:
+#         * https://numpydoc.readthedocs.io/en/latest/format.html#docstring-standard
+#       To see examples of documentation syntax see:
+#         * https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_numpy.html
 
 # Import standard modules ...
 import os
