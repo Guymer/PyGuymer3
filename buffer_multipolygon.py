@@ -48,34 +48,36 @@ def buffer_multipolygon(multipoly, dist, nang = 19, simp = 0.1, debug = False):
     # Loop over Polygons ...
     for poly in multipoly.geoms:
         # Buffer Polygon ...
-        buff = buffer_polygon(poly, dist, nang, simp, debug)
+        buff = buffer_polygon(poly, dist, nang = nang, simp = simp, debug = debug)
 
         # Check how many polygons describe the buffer and append them to the
         # list ...
         if isinstance(buff, shapely.geometry.multipolygon.MultiPolygon):
-            for tmp1 in buff.geoms:
-                if not tmp1.is_valid:
-                    raise Exception("\"tmp1\" is not a valid Polygon ({0:s})".format(shapely.validation.explain_validity(tmp1))) from None
-                tmp2 = tmp1.simplify(simp)
-                if tmp2.is_valid:
-                    buffs.append(tmp2)
-                else:
-                    buffs.append(tmp1)
+            for geom in buff.geoms:
+                if not geom.is_valid:
+                    raise Exception("\"geom\" is not a valid Polygon ({0:s})".format(shapely.validation.explain_validity(geom))) from None
+                buffs.append(geom)
         elif isinstance(buff, shapely.geometry.polygon.Polygon):
             if not buff.is_valid:
                 raise Exception("\"buff\" is not a valid Polygon ({0:s})".format(shapely.validation.explain_validity(buff))) from None
-            tmp1 = buff.simplify(simp)
-            if tmp1.is_valid:
-                buffs.append(tmp1)
-            else:
-                buffs.append(buff)
+            buffs.append(buff)
         else:
             raise TypeError("\"buff\" is an unexpected type") from None
 
-    # Convert list to (unified) Polygon and check it ...
+    # Convert list of Polygons to (unified) MultiPolygon ...
     buffs = shapely.ops.unary_union(buffs)
+
+    # Check MultiPolygon ...
     if not buffs.is_valid:
         raise Exception("\"buffs\" is not a valid [Multi]Polygon ({0:s})".format(shapely.validation.explain_validity(buffs))) from None
 
-    # Return simplified answer ...
-    return buffs.simplify(simp)
+    # Simplify MultiPolygon ...
+    buffsSimp = buffs.simplify(simp)
+
+    # Check simplified MultiPolygon ...
+    if buffsSimp.is_valid:
+        # Return simplified answer ...
+        return buffsSimp
+
+    # Return answer ...
+    return buffs
