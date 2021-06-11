@@ -1,4 +1,4 @@
-def return_folder_size(path, debug = False, follow_symlinks = True, return_symlinks = True):
+def return_folder_size(path, kwArgCheck = None, debug = False, follow_symlinks = True, return_symlinks = True):
     """
     Return the total size of all files in a directory.
 
@@ -17,6 +17,10 @@ def return_folder_size(path, debug = False, follow_symlinks = True, return_symli
     # Load sub-functions ...
     from .make_path_safe import make_path_safe
     from .return_folder_size import return_folder_size
+
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Initialize total ...
     size = 0                                                                    # [B]

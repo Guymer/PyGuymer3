@@ -1,4 +1,4 @@
-def buffer_points(points, dist, nang = 19, simp = 0.1, debug = False):
+def buffer_points(points, dist, kwArgCheck = None, nang = 19, simp = 0.1, debug = False):
     """Buffer some points
 
     This function reads in a list of (lon,lat)-tuples representing coordinates
@@ -37,6 +37,10 @@ def buffer_points(points, dist, nang = 19, simp = 0.1, debug = False):
 
     # Load sub-functions ...
     from .buffer_point import buffer_point
+
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check argument ...
     if not isinstance(points, list):

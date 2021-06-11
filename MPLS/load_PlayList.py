@@ -1,4 +1,4 @@
-def load_PlayList(fobj, debug = False, errors = "strict", indent = 0):
+def load_PlayList(fobj, kwArgCheck = None, debug = False, errors = "strict", indent = 0):
     # NOTE: see https://github.com/lw/BluRay/wiki/PlayList
 
     # Import standard modules ...
@@ -7,6 +7,10 @@ def load_PlayList(fobj, debug = False, errors = "strict", indent = 0):
     # Load sub-functions ...
     from .load_PlayItem import load_PlayItem
     from .load_SubPath import load_SubPath
+
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Initialize answer and find it current position ...
     ans = {}

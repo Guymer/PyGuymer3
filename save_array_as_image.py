@@ -1,4 +1,4 @@
-def save_array_as_image(img0, fname, form = "png", scale = False, pc_bot = 0.0, pc_top = 0.0, ct = "grey"):
+def save_array_as_image(img0, fname, kwArgCheck = None, form = "png", scale = False, pc_bot = 0.0, pc_top = 0.0, ct = "grey"):
     """
     Saves an array as an image with optional scaling and/or colour mapping.
     Currently only "png" and "ppm" formats are available.
@@ -30,6 +30,10 @@ def save_array_as_image(img0, fname, form = "png", scale = False, pc_bot = 0.0, 
     from .optimize_image import optimize_image
     from .save_array_as_PPM import save_array_as_PPM
     from .save_array_as_PNG import save_array_as_PNG
+
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Find image size ...
     ny, nx = img0.shape                                                         # [px], [px]

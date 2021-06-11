@@ -1,4 +1,4 @@
-def return_hash_of_MP4(fname, ignoreModificationTime = True):
+def return_hash_of_MP4(fname, kwArgCheck = None, ignoreModificationTime = True):
     """
     This function returns the SHA512 hash of the passed MP4 file as if the
     "Modification Time" field (in the "mvhd" atom in the "moov" atom) is set to
@@ -22,6 +22,10 @@ def return_hash_of_MP4(fname, ignoreModificationTime = True):
     import os
     import re
     import struct
+
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Open MP4 read-only ...
     with open(fname, "rb") as fobj:

@@ -1,4 +1,4 @@
-def download_file(sess, url, fname, timeout = 10.0, verify = True):
+def download_file(sess, url, fname, kwArgCheck = None, timeout = 10.0, verify = True):
     # Import standard modules ...
     import email
     import email.utils
@@ -6,6 +6,10 @@ def download_file(sess, url, fname, timeout = 10.0, verify = True):
 
     # Load sub-functions ...
     from .download import download
+
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Try to download the file and catch common errors ...
     resp = download(sess, "get", url, timeout = timeout, verify = verify)

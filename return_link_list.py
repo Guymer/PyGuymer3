@@ -1,4 +1,4 @@
-def return_link_list(path, debug = False, follow_symlinks = True):
+def return_link_list(path, kwArgCheck = None, debug = False, follow_symlinks = True):
     """
     Return a recursive list of links in a directory.
 
@@ -16,6 +16,10 @@ def return_link_list(path, debug = False, follow_symlinks = True):
     # Load sub-functions ...
     from .make_path_safe import make_path_safe
     from .return_link_list import return_link_list
+
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Create empty list ...
     contents = []

@@ -1,4 +1,4 @@
-def return_file_list(path, debug = False, follow_symlinks = True, return_symlinks = True):
+def return_file_list(path, kwArgCheck = None, debug = False, follow_symlinks = True, return_symlinks = True):
     """
     Return a recursive list of files in a directory.
 
@@ -17,6 +17,10 @@ def return_file_list(path, debug = False, follow_symlinks = True, return_symlink
     # Load sub-functions ...
     from .make_path_safe import make_path_safe
     from .return_file_list import return_file_list
+
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Create empty list ...
     contents = []

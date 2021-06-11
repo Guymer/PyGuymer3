@@ -1,4 +1,4 @@
-def parse_MPLS_file(br, ip, debug = False, errors = "strict", indent = 0):
+def parse_MPLS_file(br, ip, kwArgCheck = None, debug = False, errors = "strict", indent = 0):
     # Import standard modules ...
     import os
 
@@ -8,6 +8,10 @@ def parse_MPLS_file(br, ip, debug = False, errors = "strict", indent = 0):
     from .MPLS.load_ExtensionData import load_ExtensionData
     from .MPLS.load_PlayList import load_PlayList
     from .MPLS.load_PlayListMark import load_PlayListMark
+
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Create dictionary to hold information ...
     info = {}

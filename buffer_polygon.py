@@ -1,4 +1,4 @@
-def buffer_polygon(poly, dist, nang = 19, simp = 0.1, debug = False):
+def buffer_polygon(poly, dist, kwArgCheck = None, nang = 19, simp = 0.1, debug = False):
     """Buffer a Polygon
 
     This function reads in a Polygon (with an exterior and any number of
@@ -38,6 +38,10 @@ def buffer_polygon(poly, dist, nang = 19, simp = 0.1, debug = False):
 
     # Load sub-functions ...
     from .buffer_point import buffer_point
+
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check argument ...
     if not isinstance(poly, shapely.geometry.polygon.Polygon):

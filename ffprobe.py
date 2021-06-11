@@ -1,4 +1,4 @@
-def ffprobe(fname, playlist = -1):
+def ffprobe(fname, kwArgCheck = None, playlist = -1):
     """
     This function will run "ffprobe" on a file and return the format and stream
     information as a dictionary.
@@ -12,6 +12,10 @@ def ffprobe(fname, playlist = -1):
     import os
     import shutil
     import subprocess
+
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check input ...
     if fname.startswith("bluray:") and playlist < 0:

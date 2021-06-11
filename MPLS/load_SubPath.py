@@ -1,4 +1,4 @@
-def load_SubPath(fobj, debug = False, errors = "strict", indent = 0):
+def load_SubPath(fobj, kwArgCheck = None, debug = False, errors = "strict", indent = 0):
     # NOTE: see https://github.com/lw/BluRay/wiki/SubPath
 
     # Import standard modules ...
@@ -6,6 +6,10 @@ def load_SubPath(fobj, debug = False, errors = "strict", indent = 0):
 
     # Load sub-functions ...
     from .load_SubPlayItem import load_SubPlayItem
+
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Initialize answer and find it current position ...
     ans = {}

@@ -1,4 +1,4 @@
-def serializer(obj, evaluate = False):
+def serializer(obj, kwArgCheck = None, evaluate = False):
     """
     Serializer for objects not serializable by Python's default json code.
 
@@ -22,6 +22,10 @@ def serializer(obj, evaluate = False):
         import numpy
     except:
         raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
+
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # **************************************************************************
 

@@ -1,8 +1,12 @@
-def load_header(fobj, debug = False, errors = "strict", indent = 0):
+def load_header(fobj, kwArgCheck = None, debug = False, errors = "strict", indent = 0):
     # NOTE: see https://github.com/lw/BluRay/wiki/MPLS
 
     # Import standard modules ...
     import struct
+
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Initialize answer and find it current position ...
     ans = {}

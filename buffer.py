@@ -1,4 +1,4 @@
-def buffer(shape, dist, nang = 19, simp = 0.1, debug = False):
+def buffer(shape, dist, kwArgCheck = None, nang = 19, simp = 0.1, debug = False):
     """Buffer a shape
 
     This function reads in a shape that exists on the surface of the Earth and
@@ -35,6 +35,10 @@ def buffer(shape, dist, nang = 19, simp = 0.1, debug = False):
     from .buffer_multipolygon import buffer_multipolygon
     from .buffer_point import buffer_point
     from .buffer_polygon import buffer_polygon
+
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check user input ...
     if not shape.is_valid:

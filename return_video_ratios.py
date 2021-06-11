@@ -1,4 +1,4 @@
-def return_video_ratios(fname, playlist = -1, debug = False):
+def return_video_ratios(fname, kwArgCheck = None, playlist = -1, debug = False):
     # Load sub-functions ...
     from .__ffprobe__ import __ffprobe__
     from .ffprobe import ffprobe
@@ -7,6 +7,10 @@ def return_video_ratios(fname, playlist = -1, debug = False):
     from .return_video_height import return_video_height
     from .return_video_pixel_aspect_ratio import return_video_pixel_aspect_ratio
     from .return_video_width import return_video_width
+
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Make sure that this fname/playlist combination is in the global dictionary ...
     if fname not in __ffprobe__:

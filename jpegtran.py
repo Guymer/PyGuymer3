@@ -1,4 +1,4 @@
-def jpegtran(fname1, debug = False):
+def jpegtran(fname1, kwArgCheck = None, debug = False):
     """
     "jpegtran" does not modify, but it does touch, the image if it cannot make
     it smaller, therefore it is NOT safe to keep on running "jpegtran" on the
@@ -13,6 +13,10 @@ def jpegtran(fname1, debug = False):
 
     # Load sub-functions ...
     from .sha512 import sha512
+
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check that "jpegtran" is installed ...
     if shutil.which("jpegtran") is None:

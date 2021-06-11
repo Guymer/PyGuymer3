@@ -1,4 +1,4 @@
-def calc_loc_from_loc_and_bearing_and_dist(lon1_deg, lat1_deg, alpha1_deg, s_m, nmax = 100, eps = 1.0e-12):
+def calc_loc_from_loc_and_bearing_and_dist(lon1_deg, lat1_deg, alpha1_deg, s_m, kwArgCheck = None, nmax = 100, eps = 1.0e-12):
     """
     This function reads in coordinates (in degrees) on the surface of Earth
     and a heading (in degrees) and a distance (in metres) it then calculates the
@@ -12,6 +12,10 @@ def calc_loc_from_loc_and_bearing_and_dist(lon1_deg, lat1_deg, alpha1_deg, s_m, 
 
     # Import standard modules ...
     import math
+
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Convert to radians ...
     lon1 = math.radians(lon1_deg)                                               # [rad]

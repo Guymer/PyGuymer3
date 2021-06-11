@@ -1,4 +1,4 @@
-def buffer_multipolygon(multipoly, dist, nang = 19, simp = 0.1, debug = False):
+def buffer_multipolygon(multipoly, dist, kwArgCheck = None, nang = 19, simp = 0.1, debug = False):
     """Buffer a MultiPolygon
 
     This function reads in a MultiPolygon, made up of Polygons (with an exterior
@@ -35,6 +35,10 @@ def buffer_multipolygon(multipoly, dist, nang = 19, simp = 0.1, debug = False):
 
     # Load sub-functions ...
     from .buffer_polygon import buffer_polygon
+
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check argument ...
     if not isinstance(multipoly, shapely.geometry.multipolygon.MultiPolygon):

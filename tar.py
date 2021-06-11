@@ -1,4 +1,4 @@
-def tar(tarName, fnames, cwd = None):
+def tar(tarName, fnames, kwArgCheck = None, cwd = None):
     """
     Create a PAX formatted TAR file (without any frills or size limits).
 
@@ -15,6 +15,10 @@ def tar(tarName, fnames, cwd = None):
     import shutil
     import subprocess
     import tempfile
+
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check that "tar" is installed ...
     if shutil.which("tar") is None:

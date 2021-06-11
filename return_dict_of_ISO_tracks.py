@@ -1,4 +1,4 @@
-def return_dict_of_ISO_tracks(fname, errors = "replace"):
+def return_dict_of_ISO_tracks(fname, kwArgCheck = None, errors = "replace"):
     # Import standard modules ...
     import html
     import os
@@ -11,6 +11,10 @@ def return_dict_of_ISO_tracks(fname, errors = "replace"):
         import lxml.etree
     except:
         raise Exception("\"lxml\" is not installed; run \"pip install --user lxml\"") from None
+
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check that "lsdvd" is installed ...
     if shutil.which("lsdvd") is None:

@@ -1,4 +1,4 @@
-def xz(fname, threads = 0):
+def xz(fname, kwArgCheck = None, threads = 0):
     """
     Compress a file using "xz" (with SHA-256 integrity checks).
 
@@ -13,6 +13,10 @@ def xz(fname, threads = 0):
     import os
     import shutil
     import subprocess
+
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check that "xz" is installed ...
     if shutil.which("xz") is None:

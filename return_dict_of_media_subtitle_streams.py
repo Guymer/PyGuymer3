@@ -1,8 +1,12 @@
-def return_dict_of_media_subtitle_streams(fname, playlist = -1, debug = False):
+def return_dict_of_media_subtitle_streams(fname, kwArgCheck = None, playlist = -1, debug = False):
     # Load sub-functions ...
     from .__ffprobe__ import __ffprobe__
     from .ffprobe import ffprobe
     from .parse_MPLS_file import parse_MPLS_file
+
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Make sure that this fname/playlist combination is in the global dictionary ...
     if fname not in __ffprobe__:

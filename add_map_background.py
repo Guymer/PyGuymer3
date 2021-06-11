@@ -1,4 +1,4 @@
-def add_map_background(axis, debug = False, name = "natural-earth-1", resolution = "medium0512px", extent = None):
+def add_map_background(axis, kwArgCheck = None, debug = False, name = "natural-earth-1", resolution = "medium0512px", extent = None):
     """Add an image of a map as a background to a plot.
 
     Parameters
@@ -25,6 +25,10 @@ def add_map_background(axis, debug = False, name = "natural-earth-1", resolution
     # Import standard modules ...
     import json
     import os
+
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Initialize trigger ...
     default = True

@@ -1,9 +1,13 @@
-def download(sess, method, url, timeout = 10.0, verify = True):
+def download(sess, method, url, kwArgCheck = None, timeout = 10.0, verify = True):
     # Import special modules ...
     try:
         import requests
     except:
         raise Exception("\"requests\" is not installed; run \"pip install --user requests\"") from None
+
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Try to download the URL and catch common errors ...
     try:

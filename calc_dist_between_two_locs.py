@@ -1,4 +1,4 @@
-def calc_dist_between_two_locs(lon1_deg, lat1_deg, lon2_deg, lat2_deg, nmax = 100, eps = 1.0e-12):
+def calc_dist_between_two_locs(lon1_deg, lat1_deg, lon2_deg, lat2_deg, kwArgCheck = None, nmax = 100, eps = 1.0e-12):
     """
     This function reads in two coordinates (in degrees) on the surface of Earth
     and calculates the distance (in metres) between them and the headings (in
@@ -12,6 +12,10 @@ def calc_dist_between_two_locs(lon1_deg, lat1_deg, lon2_deg, lat2_deg, nmax = 10
 
     # Import standard modules ...
     import math
+
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Skip if the start- and end-points are the same ...
     if lon1_deg == lon2_deg and lat1_deg == lat2_deg:

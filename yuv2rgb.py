@@ -5,7 +5,7 @@
 #       for future readers to use:". I have copied the code and use it for
 #       personal use only.
 
-def yuv2rgb(im, version = 'SDTV'):
+def yuv2rgb(im, kwArgCheck = None, version = 'SDTV'):
     """
     Convert array-like YUV image to RGB colourspace
 
@@ -19,6 +19,10 @@ def yuv2rgb(im, version = 'SDTV'):
         import numpy
     except:
         raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
+
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # check input
     if not im.dtype == 'uint8':

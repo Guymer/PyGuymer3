@@ -1,4 +1,4 @@
-def dot2png(dot, png, debug = False, strip = False):
+def dot2png(dot, png, kwArgCheck = None, debug = False, strip = False):
     # Import standard modules ...
     import os
     import shutil
@@ -6,6 +6,10 @@ def dot2png(dot, png, debug = False, strip = False):
 
     # Load sub-functions ...
     from .optimize_image import optimize_image
+
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check that "dot" is installed ...
     if shutil.which("dot") is None:

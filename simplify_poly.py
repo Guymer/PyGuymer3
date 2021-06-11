@@ -1,4 +1,4 @@
-def simplify_poly(poly1, simp = 0.1):
+def simplify_poly(poly1, kwArgCheck = None, simp = 0.1):
     """Simplify a [Multi]Polygon
 
     This function accepts either a Polygon or a MultiPolygon and creates a
@@ -25,6 +25,10 @@ def simplify_poly(poly1, simp = 0.1):
         import shapely.validation
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
+
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Create empty list ...
     poly2 = []

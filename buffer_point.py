@@ -1,4 +1,4 @@
-def buffer_point(lon1, lat1, dist, nang = 19, simp = 0.1, debug = False):
+def buffer_point(lon1, lat1, dist, kwArgCheck = None, nang = 19, simp = 0.1, debug = False):
     """Buffer a point
 
     This function reads in coordinates (in degrees) that exist on the surface of
@@ -42,6 +42,10 @@ def buffer_point(lon1, lat1, dist, nang = 19, simp = 0.1, debug = False):
     # Load sub-functions ...
     from .buffer_point_crudely import buffer_point_crudely
     from .interpolate import interpolate
+
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Correct inputs ...
     lon1 = max(-180.0, min(180.0, lon1))                                        # NOTE: Limit longitude to -180 <--> +180

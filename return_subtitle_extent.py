@@ -1,4 +1,4 @@
-def return_subtitle_extent(fname, playlist = -1, subtitle = 0):
+def return_subtitle_extent(fname, kwArgCheck = None, playlist = -1, subtitle = 0):
     # Import standard modules ...
     import re
     import shutil
@@ -9,6 +9,10 @@ def return_subtitle_extent(fname, playlist = -1, subtitle = 0):
     from .return_video_frame_rate import return_video_frame_rate
     from .return_video_height import return_video_height
     from .return_video_width import return_video_width
+
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check input ...
     if fname.startswith("bluray:") and playlist < 0:

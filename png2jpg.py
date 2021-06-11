@@ -1,4 +1,4 @@
-def png2jpg(png, jpg, debug = False, strip = False):
+def png2jpg(png, jpg, kwArgCheck = None, debug = False, strip = False):
     # Import special modules ...
     try:
         import PIL
@@ -8,6 +8,10 @@ def png2jpg(png, jpg, debug = False, strip = False):
 
     # Load sub-functions ...
     from .optimize_image import optimize_image
+
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Configure PIL to open images up to 1 GiP ...
     PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                             # [px]

@@ -1,4 +1,4 @@
-def sha256(fname, chunksize = 1048576):
+def sha256(fname, kwArgCheck = None, chunksize = 1048576):
     """
     This function runs hashlib.sha256() on a file using chunks to ensure that
     too much RAM is not used.
@@ -6,6 +6,10 @@ def sha256(fname, chunksize = 1048576):
 
     # Import standard modules ...
     import hashlib
+
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Create hash object ...
     hobj = hashlib.sha256()
