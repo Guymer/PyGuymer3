@@ -42,15 +42,15 @@ def buffer(shape, dist, nang = 19, simp = 0.1, debug = False):
 
     # Check if it is a Point and return it buffered ...
     if isinstance(shape, shapely.geometry.point.Point):
-        return buffer_point(shape.x, shape.y, dist, debug = debug, nang = nang)
+        return buffer_point(shape.x, shape.y, dist, nang = nang, simp = simp, debug = debug)
 
     # Check if it is a Polygon and return it buffered ...
     if isinstance(shape, shapely.geometry.polygon.Polygon):
-        return buffer_polygon(shape, dist, debug = debug, nang = nang, simp = simp)
+        return buffer_polygon(shape, dist, nang = nang, simp = simp, debug = debug)
 
     # Check if it is a MultiPolygon and return it buffered ...
     if isinstance(shape, shapely.geometry.multipolygon.MultiPolygon):
-        return buffer_multipolygon(shape, dist, debug = debug, nang = nang, simp = simp)
+        return buffer_multipolygon(shape, dist, nang = nang, simp = simp, debug = debug)
 
     # Crash ...
     raise TypeError("\"shape\" is an unexpected type") from None
