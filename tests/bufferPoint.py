@@ -67,7 +67,7 @@ if __name__ == "__main__":
         ax2.coastlines(resolution = "110m", color = "black", linewidth = 0.1)
 
         # Buffer point and plot it twice ...
-        poly = pyguymer3.buffer_point(pnt[0], pnt[1], pnt[2], nang = 91)
+        poly = pyguymer3.buffer_point(pnt[0], pnt[1], pnt[2], nang = 91, simp = -1.0)
         ax1.add_geometries([poly], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = (1, 0.0, 0.0, 0.5), linewidth = 1.0)
         ax2.add_geometries([poly], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = (1, 0.0, 0.0, 0.5), linewidth = 1.0)
 
