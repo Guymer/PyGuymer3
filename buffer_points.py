@@ -1,8 +1,27 @@
 def buffer_points(points, dist, nang = 19, simp = 0.1, debug = False):
-    """
+    """Buffer some points
+
     This function reads in a list of (lon,lat)-tuples representing coordinates
     (in degrees) that exist on the surface of the Earth and returns a
     [Multi]Polygon of them buffered by a constant distance (in metres).
+
+    Parameters
+    ----------
+    points : list of tuples of floats
+            the (lon,lat)-tuples of the points
+    dist : float
+            the distance to buffer the points by
+    nang : int, optional
+            the number of angles around each point that are calculated
+    simp : float, optional
+            how much intermediary [Multi]Polygons are simplified by (in degrees)
+    debug : bool, optional
+            print debug messages
+
+    Returns
+    -------
+    buffs : shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
+            the buffered points
     """
 
     # Import standard modules ...
@@ -45,5 +64,5 @@ def buffer_points(points, dist, nang = 19, simp = 0.1, debug = False):
     if not buffs.is_valid:
         raise Exception("\"buffs\" is not a valid [Multi]Polygon ({0:s})".format(shapely.validation.explain_validity(buffs))) from None
 
-    # Return answer ...
-    return buffs
+    # Return simplified answer ...
+    return buffs.simplify(simp)

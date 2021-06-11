@@ -1,8 +1,25 @@
 def buffer_point_crudely(lon1, lat1, dist, nang):
-    """
+    """Buffer a point
+
     This function reads in coordinates (in degrees) that exist on the surface of
     the Earth and returns a list of coordinates that are a ring around the input
     coordinates buffered by a constant distance (in metres).
+
+    Parameters
+    ----------
+    lon1 : float
+            the longitude of the point (in degrees)
+    lat1 : float
+            the latitude of the point (in degrees)
+    dist : float
+            the distance to buffer the point by (in metres)
+    nang : int
+            the number of angles around the point that are calculated
+
+    Returns
+    -------
+    ring : numpy.array
+            the list of points around the buffered point
     """
 
     # Import special modules ...

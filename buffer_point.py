@@ -1,4 +1,4 @@
-def buffer_point(lon1, lat1, dist, nang = 19, debug = False):
+def buffer_point(lon1, lat1, dist, nang = 19, simp = 0.1, debug = False):
     """Buffer a point
 
     This function reads in coordinates (in degrees) that exist on the surface of
@@ -8,20 +8,22 @@ def buffer_point(lon1, lat1, dist, nang = 19, debug = False):
     Parameters
     ----------
     lon1 : float
-            the longitude of the point
+            the longitude of the point (in degrees)
     lat1 : float
-            the latitude of the point
+            the latitude of the point (in degrees)
     dist : float
-            the distance to buffer the point by
+            the distance to buffer the point by (in metres)
     nang : int, optional
             the number of angles around the point that are calculated
+    simp : float, optional
+            how much intermediary [Multi]Polygons are simplified by (in degrees)
     debug : bool, optional
             print debug messages
 
     Returns
     -------
-    ans : shapely.geometry.multipolygon.MultiPolygon
-            the polygon around the point
+    buff : shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
+            the buffered point
     """
 
     # Import standard modules ...
@@ -162,28 +164,28 @@ def buffer_point(lon1, lat1, dist, nang = 19, debug = False):
 
     # Create a list of Polygons if there are enough unique points to make a
     # Polygon ...
-    ans = []
+    buff = []
     if len(set(part1)) >= 3:
         tmp = shapely.geometry.polygon.Polygon(part1)
         if not tmp.is_valid:
             if debug:
                 print("DEBUG: \"tmp\" is not a valid Polygon ({0:s})".format(shapely.validation.explain_validity(tmp)))
         else:
-            ans.append(tmp)
+            buff.append(tmp)
     if len(set(part2)) >= 3:
         tmp = shapely.geometry.polygon.Polygon(part2)
         if not tmp.is_valid:
             if debug:
                 print("DEBUG: \"tmp\" is not a valid Polygon ({0:s})".format(shapely.validation.explain_validity(tmp)))
         else:
-            ans.append(tmp)
+            buff.append(tmp)
 
     # Convert list of Polygons to MultiPolygon ...
-    ans = shapely.geometry.multipolygon.MultiPolygon(ans)
+    buff = shapely.geometry.multipolygon.MultiPolygon(buff)
 
     # Check MultiPolygon ...
-    if not ans.is_valid:
-        raise Exception("\"ans\" is not a valid [Multi]Polygon ({0:s})".format(shapely.validation.explain_validity(ans))) from None
+    if not buff.is_valid:
+        raise Exception("\"buff\" is not a valid [Multi]Polygon ({0:s})".format(shapely.validation.explain_validity(buff))) from None
 
-    # Return answer ...
-    return ans
+    # Return simplified answer ...
+    return buff.simplify(simp)

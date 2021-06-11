@@ -1,8 +1,27 @@
 def buffer_multipolygon(multipoly, dist, nang = 19, simp = 0.1, debug = False):
-    """
+    """Buffer a MultiPolygon
+
     This function reads in a MultiPolygon, made up of Polygons (with an exterior
     and any number of interiors), that exists on the surface of the Earth and
     returns the same [Multi]Polygon buffered by a constant distance (in metres).
+
+    Parameters
+    ----------
+    multipoly : shapely.geometry.multipolygon.MultiPolygon
+            the MultiPolygon
+    dist : float
+            the distance to buffer each point within the MultiPolygon by (in metres)
+    nang : int, optional
+            the number of angles around each point within the MultiPolygon that are calculated when buffering
+    simp : float, optional
+            how much intermediary [Multi]Polygons are simplified by (in degrees)
+    debug : bool, optional
+            print debug messages
+
+    Returns
+    -------
+    buffs : shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
+            the buffered MultiPolygon
     """
 
     # Import special modules ...
@@ -58,5 +77,5 @@ def buffer_multipolygon(multipoly, dist, nang = 19, simp = 0.1, debug = False):
     if not buffs.is_valid:
         raise Exception("\"buffs\" is not a valid [Multi]Polygon ({0:s})".format(shapely.validation.explain_validity(buffs))) from None
 
-    # Return answer ...
-    return buffs
+    # Return simplified answer ...
+    return buffs.simplify(simp)

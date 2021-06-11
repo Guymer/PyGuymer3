@@ -1,8 +1,27 @@
 def buffer_polygon(poly, dist, nang = 19, simp = 0.1, debug = False):
-    """
+    """Buffer a Polygon
+
     This function reads in a Polygon (with an exterior and any number of
     interiors) that exists on the surface of the Earth and returns the same
     [Multi]Polygon buffered by a constant distance (in metres).
+
+    Parameters
+    ----------
+    poly : shapely.geometry.polygon.Polygon
+            the Polygon
+    dist : float
+            the distance to buffer each point within the Polygon by (in metres)
+    nang : int, optional
+            the number of angles around each point within the Polygon that are calculated when buffering
+    simp : float, optional
+            how much intermediary [Multi]Polygons are simplified by (in degrees)
+    debug : bool, optional
+            print debug messages
+
+    Returns
+    -------
+    buffs : shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
+            the buffered Polygon
     """
 
     # Import standard modules ...
@@ -29,8 +48,8 @@ def buffer_polygon(poly, dist, nang = 19, simp = 0.1, debug = False):
     # Create pool of workers, create empty lists and append initial Polygon ...
     pool = multiprocessing.Pool()
     results = []
-    buff = []
-    buff.append(poly)
+    buffs = []
+    buffs.append(poly)
 
     # Loop over coordinates in initial Polygon and add buffer job to worker pool...
     for coord in poly.exterior.coords:
@@ -41,16 +60,16 @@ def buffer_polygon(poly, dist, nang = 19, simp = 0.1, debug = False):
 
     # Loop over parallel jobs and append simplified results to list ...
     for result in results:
-        buff.append(result.get().simplify(simp))
+        buffs.append(result.get().simplify(simp))
 
     # Destroy pool of workers ...
     pool.close()
     pool.join()
 
     # Convert list to (unified) Polygon and check it ...
-    buff = shapely.ops.unary_union(buff)
-    if not buff.is_valid:
-        raise Exception("\"buff\" is not a valid [Multi]Polygon ({0:s})".format(shapely.validation.explain_validity(buff))) from None
+    buffs = shapely.ops.unary_union(buffs)
+    if not buffs.is_valid:
+        raise Exception("\"buffs\" is not a valid [Multi]Polygon ({0:s})".format(shapely.validation.explain_validity(buffs))) from None
 
-    # Return answer ...
-    return buff
+    # Return simplified answer ...
+    return buffs.simplify(simp)

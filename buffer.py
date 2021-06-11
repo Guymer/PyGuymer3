@@ -1,7 +1,26 @@
 def buffer(shape, dist, nang = 19, simp = 0.1, debug = False):
-    """
+    """Buffer a shape
+
     This function reads in a shape that exists on the surface of the Earth and
     returns the same shape buffered by a constant distance (in metres).
+
+    Parameters
+    ----------
+    shape : shapely.geometry.point.Point, shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
+            the shape
+    dist : float
+            the distance to buffer each point within the shape by (in metres)
+    nang : int, optional
+            the number of angles around each point within the shape that are calculated when buffering
+    simp : float, optional
+            how much intermediary [Multi]Polygons are simplified by (in degrees)
+    debug : bool, optional
+            print debug messages
+
+    Returns
+    -------
+    ans : shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
+            the buffered shape
     """
 
     # Import special modules ...
