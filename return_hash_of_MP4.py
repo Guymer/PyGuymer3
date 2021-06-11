@@ -62,8 +62,9 @@ def return_hash_of_MP4(fname, kwArgCheck = None, ignoreModificationTime = True):
             # Check that it is a MP4 file ...
             if not foundFTYP and name != "ftyp":
                 raise Exception("\"{0:s}\" is not a MP4".format(fname)) from None
-            else:
-                foundFTYP = True
+
+            # Set trigger ...
+            foundFTYP = True
 
             # Check the length ...
             if val == 0:
@@ -74,7 +75,9 @@ def return_hash_of_MP4(fname, kwArgCheck = None, ignoreModificationTime = True):
 
                 # Stop looping ...
                 break
-            elif val == 1:
+
+            # Check the length ...
+            if val == 1:
                 # NOTE: This atom has 64-bit sizes.
 
                 # Attempt to read 8 bytes as a big-endian un-signed 64-bit
@@ -123,7 +126,9 @@ def return_hash_of_MP4(fname, kwArgCheck = None, ignoreModificationTime = True):
 
                         # Stop looping ...
                         break
-                    elif val == 1:
+
+                    # Check the length ...
+                    if val == 1:
                         # NOTE: This atom has 64-bit sizes.
 
                         # Attempt to read 8 bytes as a big-endian un-signed

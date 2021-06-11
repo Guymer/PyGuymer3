@@ -11,6 +11,6 @@ def load_EXIF(fname, kwArgCheck = None, python = True):
     if python:
         # Will use the Python module "exifread" ...
         return load_EXIF1(fname)
-    else:
-        # Will use the binary "exiftool" ...
-        return load_EXIF2(fname)
+
+    # Will use the binary "exiftool" ...
+    return load_EXIF2(fname)
