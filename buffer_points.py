@@ -14,7 +14,7 @@ def buffer_points(points, dist, nang = 19, simp = 0.1, debug = False):
     nang : int, optional
             the number of angles around each point that are calculated
     simp : float, optional
-            how much intermediary [Multi]Polygons are simplified by (in degrees)
+            how much intermediary [Multi]Polygons are simplified by; negative values disable simplification (in degrees)
     debug : bool, optional
             print debug messages
 
