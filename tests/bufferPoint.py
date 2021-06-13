@@ -57,17 +57,17 @@ if __name__ == "__main__":
         # Create first subplot ...
         ax1 = matplotlib.pyplot.subplot(1, 2, 1, projection = cartopy.crs.Robinson())
         ax1.set_global()
-        pyguymer3.add_map_background(ax1)
+        pyguymer3.geo.add_map_background(ax1)
         ax1.coastlines(resolution = "110m", color = "black", linewidth = 0.1)
 
         # Create second subplot ...
         ax2 = matplotlib.pyplot.subplot(1, 2, 2, projection = cartopy.crs.Orthographic(central_longitude = pnt[0], central_latitude = pnt[1]))
         ax2.set_global()
-        pyguymer3.add_map_background(ax2)
+        pyguymer3.geo.add_map_background(ax2)
         ax2.coastlines(resolution = "110m", color = "black", linewidth = 0.1)
 
         # Buffer point and plot it twice ...
-        buff = pyguymer3.buffer_point(pnt[0], pnt[1], pnt[2], debug = True, nang = 91, simp = -1.0)
+        buff = pyguymer3.geo.buffer_point(pnt[0], pnt[1], pnt[2], debug = True, nang = 91, simp = -1.0)
         ax1.add_geometries([buff], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = (1, 0.0, 0.0, 0.5), linewidth = 1.0)
         ax2.add_geometries([buff], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = (1, 0.0, 0.0, 0.5), linewidth = 1.0)
 

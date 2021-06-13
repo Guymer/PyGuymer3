@@ -42,7 +42,7 @@ if __name__ == "__main__":
     # Create plot ...
     ax = matplotlib.pyplot.axes(projection = cartopy.crs.Robinson())
     ax.set_global()
-    pyguymer3.add_map_background(ax)
+    pyguymer3.geo.add_map_background(ax)
     ax.coastlines(resolution = "110m", color = "black", linewidth = 0.1)
 
     # Loop over number of sub-divisions ...
@@ -65,7 +65,7 @@ if __name__ == "__main__":
                 lat[j] = p2[1]
             else:
                 # Set intermediate point ...
-                lon[j], lat[j] = pyguymer3.find_point_on_great_circle(frac[j], p1[0], p1[1], p2[0], p2[1])
+                lon[j], lat[j] = pyguymer3.geo.find_point_on_great_circle(frac[j], p1[0], p1[1], p2[0], p2[1])
 
             # Transform point ...
             # NOTE: See https://stackoverflow.com/a/52861074
