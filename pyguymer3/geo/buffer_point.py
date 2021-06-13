@@ -41,7 +41,7 @@ def buffer_point(lon1, lat1, dist, kwArgCheck = None, nang = 19, simp = 0.1, deb
 
     # Load sub-functions ...
     from .buffer_point_crudely import buffer_point_crudely
-    from .interpolate import interpolate
+    from ..interpolate import interpolate
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
@@ -55,7 +55,7 @@ def buffer_point(lon1, lat1, dist, kwArgCheck = None, nang = 19, simp = 0.1, deb
 
     # Buffer the point crudely ...
     try:
-        from .f90 import f90
+        from ..f90 import f90
         if debug:
             print("DEBUG: finding the ring using FORTRAN")
         ring = f90.buffer_point_crudely(lon1, lat1, dist, nang)
