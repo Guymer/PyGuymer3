@@ -1,3 +1,7 @@
+"""
+This sub-module is a native Python implementation of a parser for Blu-ray MPLS files.
+"""
+
 # Load sub-functions ...
 from .load_AppInfoPlayList import load_AppInfoPlayList
 from .load_ExtensionData import load_ExtensionData

@@ -1,3 +1,7 @@
+"""
+This sub-module is a native Python implementation of a parser for Blu-ray CLPI files.
+"""
+
 # Load sub-functions ...
 from .load_ATCSequence import load_ATCSequence
 from .load_ClipInfo import load_ClipInfo
