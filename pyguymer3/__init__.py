@@ -8,16 +8,6 @@ import sys
 
 # Import sub-functions ...
 from .__ffprobe__ import __ffprobe__
-from .add_map_background import add_map_background
-from .buffer import buffer
-from .buffer_multipolygon import buffer_multipolygon
-from .buffer_point import buffer_point
-from .buffer_point_crudely import buffer_point_crudely
-from .buffer_points import buffer_points
-from .buffer_polygon import buffer_polygon
-from .calc_angle_between_two_locs import calc_angle_between_two_locs
-from .calc_dist_between_two_locs import calc_dist_between_two_locs
-from .calc_loc_from_loc_and_bearing_and_dist import calc_loc_from_loc_and_bearing_and_dist
 from .convert_bytes_to_pretty_bytes import convert_bytes_to_pretty_bytes
 from .convert_pretty_bytes_to_bytes import convert_pretty_bytes_to_bytes
 from .convert_spreadsheet_to_datetime import convert_spreadsheet_to_datetime
@@ -31,13 +21,10 @@ from .download_file import download_file
 from .download_header import download_header
 from .download_stream import download_stream
 from .download_text import download_text
-from .en2ll import en2ll
 from .exiftool import exiftool
 from .ffprobe import ffprobe
 from .find_instances_of_a_file import find_instances_of_a_file
 from .find_integer_divisors import find_integer_divisors
-from .find_middle_of_great_circle import find_middle_of_great_circle
-from .find_point_on_great_circle import find_point_on_great_circle
 from .find_program_version import find_program_version
 from .generate_password import generate_password
 from .generate_random_stub import generate_random_stub
@@ -110,7 +97,6 @@ from .save_file_if_needed import save_file_if_needed
 from .serializer import serializer
 from .sha256 import sha256
 from .sha512 import sha512
-from .simplify_poly import simplify_poly
 from .start_session import start_session
 from .stat import stat
 from .tar import tar
