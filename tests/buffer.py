@@ -28,6 +28,7 @@ if __name__ == "__main__":
     # Import my modules ...
     try:
         import pyguymer3
+        import pyguymer3.geo
     except:
         raise Exception("\"pyguymer3\" is not installed; you need to have the Python module from https://github.com/Guymer/PyGuymer3 located somewhere in your $PYTHONPATH") from None
 
