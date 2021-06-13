@@ -49,26 +49,25 @@ def buffer_polygon(poly, dist, kwArgCheck = None, nang = 19, simp = 0.1, debug =
     if not poly.is_valid:
         raise Exception("\"poly\" is not a valid Polygon ({0:s})".format(shapely.validation.explain_validity(poly))) from None
 
-    # Create pool of workers, create empty lists and append initial Polygon ...
-    pool = multiprocessing.Pool()
-    results = []
-    buffs = []
-    buffs.append(poly)
+    # Create pool of workers ...
+    with multiprocessing.Pool() as pool:
+        # Initialize list ...
+        results = []
 
-    # Loop over coordinates in initial Polygon and add buffer job to worker pool...
-    for coord in poly.exterior.coords:
-        results.append(pool.apply_async(buffer_point, (coord[0], coord[1], dist,), {"nang" : nang, "simp" : simp, "debug" : debug,}))
-    for interior in poly.interiors:
-        for coord in interior.coords:
+        # Loop over coordinates in initial Polygon and add buffer job to worker pool...
+        for coord in poly.exterior.coords:
             results.append(pool.apply_async(buffer_point, (coord[0], coord[1], dist,), {"nang" : nang, "simp" : simp, "debug" : debug,}))
+        for interior in poly.interiors:
+            for coord in interior.coords:
+                results.append(pool.apply_async(buffer_point, (coord[0], coord[1], dist,), {"nang" : nang, "simp" : simp, "debug" : debug,}))
 
-    # Loop over parallel jobs and append results to list ...
-    for result in results:
-        buffs.append(result.get())
+        # Initialize list ...
+        buffs = []
+        buffs.append(poly)
 
-    # Destroy pool of workers ...
-    pool.close()
-    pool.join()
+        # Loop over parallel jobs and append results to list ...
+        for result in results:
+            buffs.append(result.get())
 
     # Convert list of Polygons to (unified) MultiPolygon ...
     buffs = shapely.ops.unary_union(buffs)

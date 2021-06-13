@@ -46,22 +46,21 @@ def buffer_points(points, dist, kwArgCheck = None, nang = 19, simp = 0.1, debug 
     if not isinstance(points, list):
         raise TypeError("\"points\" is not a list") from None
 
-    # Create pool of workers and create empty lists ...
-    pool = multiprocessing.Pool()
-    results = []
-    buffs = []
+    # Create pool of workers ...
+    with multiprocessing.Pool() as pool:
+        # Initialize list ...
+        results = []
 
-    # Loop over points in points list and add buffer job to worker pool...
-    for point in points:
-        results.append(pool.apply_async(buffer_point, (point[0], point[1], dist,), {"nang" : nang, "simp" : simp, "debug" : debug,}))
+        # Loop over points in points list and add buffer job to worker pool...
+        for point in points:
+            results.append(pool.apply_async(buffer_point, (point[0], point[1], dist,), {"nang" : nang, "simp" : simp, "debug" : debug,}))
 
-    # Loop over parallel jobs and append results to list ...
-    for result in results:
-        buffs.append(result.get())
+        # Initialize list ...
+        buffs = []
 
-    # Destroy pool of workers ...
-    pool.close()
-    pool.join()
+        # Loop over parallel jobs and append results to list ...
+        for result in results:
+            buffs.append(result.get())
 
     # Convert list of Polygons to (unified) MultiPolygon ...
     buffs = shapely.ops.unary_union(buffs)
