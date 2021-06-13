@@ -8,6 +8,7 @@ This is a Python 3.X port of [my Python 2.X module](https://github.com/Guymer/Py
 
 PyGuymer3 requires the following Python modules to be installed and available in your `PYTHONPATH`:
 
+* [cartopy](https://pypi.org/project/Cartopy/)
 * [convertbng](https://pypi.org/project/convertbng/)
 * [exifread](https://pypi.org/project/ExifRead/)
 * [lxml](https://pypi.org/project/lxml/)
@@ -18,7 +19,6 @@ PyGuymer3 requires the following Python modules to be installed and available in
 
 Furthermore, if you wish to run the [test scripts](tests) then the following additional Python modules need to be installed and available in your `PYTHONPATH` too:
 
-* [cartopy](https://pypi.org/project/Cartopy/)
 * [matplotlib](https://pypi.org/project/matplotlib/)
 
 Similarly, PyGuymer3 requires the following binaries to be installed and available in your `PATH`:
