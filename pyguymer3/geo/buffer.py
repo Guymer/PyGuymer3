@@ -6,7 +6,7 @@ def buffer(shape, dist, kwArgCheck = None, nang = 19, simp = 0.1, debug = False)
 
     Parameters
     ----------
-    shape : shapely.geometry.point.Point, shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
+    shape : shapely.geometry.point.Point, shapely.geometry.polygon.LinearRing, shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
             the shape
     dist : float
             the distance to buffer each point within the shape by (in metres)
@@ -32,6 +32,7 @@ def buffer(shape, dist, kwArgCheck = None, nang = 19, simp = 0.1, debug = False)
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Load sub-functions ...
+    from .buffer_linearring import buffer_linearring
     from .buffer_multipolygon import buffer_multipolygon
     from .buffer_point import buffer_point
     from .buffer_polygon import buffer_polygon
@@ -47,6 +48,10 @@ def buffer(shape, dist, kwArgCheck = None, nang = 19, simp = 0.1, debug = False)
     # Check if it is a Point and return it buffered ...
     if isinstance(shape, shapely.geometry.point.Point):
         return buffer_point(shape.x, shape.y, dist, nang = nang, simp = simp, debug = debug)
+
+    # Check if it is a LinearRing and return it buffered ...
+    if isinstance(shape, shapely.geometry.polygon.LinearRing):
+        return buffer_linearring(shape, dist, nang = nang, simp = simp, debug = debug)
 
     # Check if it is a Polygon and return it buffered ...
     if isinstance(shape, shapely.geometry.polygon.Polygon):
