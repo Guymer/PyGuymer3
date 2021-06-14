@@ -37,7 +37,7 @@ def buffer_polygon(poly, dist, kwArgCheck = None, nang = 19, simp = 0.1, debug =
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Load sub-functions ...
-    from .buffer_point import buffer_point
+    from .buffer_linearring import buffer_linearring
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
@@ -54,12 +54,13 @@ def buffer_polygon(poly, dist, kwArgCheck = None, nang = 19, simp = 0.1, debug =
         # Initialize list ...
         results = []
 
-        # Loop over coordinates in initial Polygon and add buffer job to worker pool...
-        for coord in poly.exterior.coords:
-            results.append(pool.apply_async(buffer_point, (coord[0], coord[1], dist,), {"nang" : nang, "simp" : simp, "debug" : debug,}))
+        # Buffer exterior ring ...
+        results.append(pool.apply_async(buffer_linearring, (poly.exterior, dist,), {"nang" : nang, "simp" : simp, "debug" : debug,}))
+
+        # Loop over interior rings ...
         for interior in poly.interiors:
-            for coord in interior.coords:
-                results.append(pool.apply_async(buffer_point, (coord[0], coord[1], dist,), {"nang" : nang, "simp" : simp, "debug" : debug,}))
+            # Buffer interior ring ...
+            results.append(pool.apply_async(buffer_linearring, (interior, dist,), {"nang" : nang, "simp" : simp, "debug" : debug,}))
 
         # Initialize list ...
         buffs = []
