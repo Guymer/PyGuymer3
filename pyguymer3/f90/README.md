@@ -84,3 +84,24 @@ Returns
 -------
 ring : rank-2 array('d') with bounds (nang,2)
 ```
+
+```
+points2 = buffer_points_crudely(points1,dist,nang,[npoint])
+
+Wrapper for ``buffer_points_crudely``.
+
+Parameters
+----------
+points1 : input rank-2 array('d') with bounds (npoint,2)
+dist : input float
+nang : input long
+
+Other Parameters
+----------------
+npoint : input long, optional
+    Default: shape(points1,0)
+
+Returns
+-------
+points2 : rank-3 array('d') with bounds (npoint,nang,2)
+```
