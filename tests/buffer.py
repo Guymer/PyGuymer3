@@ -24,6 +24,11 @@ if __name__ == "__main__":
         import matplotlib.pyplot
     except:
         raise Exception("\"matplotlib\" is not installed; run \"pip install --user matplotlib\"") from None
+    try:
+        import shapely
+        import shapely.geometry
+    except:
+        raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import my modules ...
     try:
@@ -36,17 +41,17 @@ if __name__ == "__main__":
 
     # Define polygons ...
     polys = [
-        (pyguymer3.geo.buffer_point(-180.0, +90.0, 1000000.0, debug = True, nang = 91, simp = -1.0), 1000000.0), # Satisfies test A, C, D, F
-        (pyguymer3.geo.buffer_point( -90.0, +45.0, 1000000.0, debug = True, nang = 91, simp = -1.0), 1000000.0), # Satisfies test A
-        (pyguymer3.geo.buffer_point(   0.0,   0.0, 1000000.0, debug = True, nang = 91, simp = -1.0), 1000000.0), # Satisfies test A, B
-        (pyguymer3.geo.buffer_point( +90.0, -45.0, 1000000.0, debug = True, nang = 91, simp = -1.0), 1000000.0), # Satisfies test A
-        (pyguymer3.geo.buffer_point(+180.0, -90.0, 1000000.0, debug = True, nang = 91, simp = -1.0), 1000000.0), # Satisfies test A, C, D, F
-        (pyguymer3.geo.buffer_point(+170.0, +10.0, 1000000.0, debug = True, nang = 91, simp = -1.0), 4000000.0), # Satisfies test B, C, E
-        (pyguymer3.geo.buffer_point(+170.0, +80.0, 1000000.0, debug = True, nang = 91, simp = -1.0), 4000000.0), # Satisfies test C, D, F
+        (pyguymer3.geo.buffer(shapely.geometry.point.Point(-180.0, +90.0), 1000000.0, debug = True, nang = 361, simp = -1.0),  900000.0), # Satisfies test A, C, D, F
+        (pyguymer3.geo.buffer(shapely.geometry.point.Point( -90.0, +45.0), 1000000.0, debug = True, nang = 361, simp = -1.0),  900000.0), # Satisfies test A
+        (pyguymer3.geo.buffer(shapely.geometry.point.Point(   0.0,   0.0), 1000000.0, debug = True, nang = 361, simp = -1.0),  900000.0), # Satisfies test A, B
+        (pyguymer3.geo.buffer(shapely.geometry.point.Point( +90.0, -45.0), 1000000.0, debug = True, nang = 361, simp = -1.0),  900000.0), # Satisfies test A
+        (pyguymer3.geo.buffer(shapely.geometry.point.Point(+180.0, -90.0), 1000000.0, debug = True, nang = 361, simp = -1.0),  900000.0), # Satisfies test A, C, D, F
+        (pyguymer3.geo.buffer(shapely.geometry.point.Point(+170.0, +10.0), 1000000.0, debug = True, nang = 361, simp = -1.0), 4000000.0), # Satisfies test B, C, E
+        (pyguymer3.geo.buffer(shapely.geometry.point.Point(+170.0, +80.0), 1000000.0, debug = True, nang = 361, simp = -1.0), 4000000.0), # Satisfies test C, D, F
     ]
 
     # Loop over polygons ...
-    for i, poly in enumerate(polys):
+    for i, (poly, dist) in enumerate(polys):
         # Determine file name ...
         fname = f"buffer{i:d}.png"
 
@@ -62,18 +67,18 @@ if __name__ == "__main__":
         ax1.coastlines(resolution = "110m", color = "black", linewidth = 0.1)
 
         # Create second subplot ...
-        ax2 = matplotlib.pyplot.subplot(1, 2, 2, projection = cartopy.crs.Orthographic(central_longitude = poly[0].centroid.x, central_latitude = poly[0].centroid.y))
+        ax2 = matplotlib.pyplot.subplot(1, 2, 2, projection = cartopy.crs.Orthographic(central_longitude = poly.centroid.x, central_latitude = poly.centroid.y))
         ax2.set_global()
         pyguymer3.geo.add_map_background(ax2)
         ax2.coastlines(resolution = "110m", color = "black", linewidth = 0.1)
 
         # Buffer polygon and plot it twice ...
-        buff = pyguymer3.geo.buffer(poly[0], poly[1], debug = True, nang = 91, simp = -1.0)
+        buff = pyguymer3.geo.buffer(poly, dist, debug = True, nang = 361, simp = -1.0)
         ax1.add_geometries([buff], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = (1, 0.0, 0.0, 0.5), linewidth = 1.0)
         ax2.add_geometries([buff], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = (1, 0.0, 0.0, 0.5), linewidth = 1.0)
 
         # Save figure ...
-        fg.suptitle("({:.1f},{:.1f}) buffered by {:,.1f}km".format(poly[0].centroid.x, poly[0].centroid.y, 2.0 * poly[1] / 1000.0))
+        fg.suptitle("({:.1f},{:.1f}) buffered by {:,.1f}km".format(poly.centroid.x, poly.centroid.y, 0.001 * (1000000.0 + dist)))
         fg.savefig(fname, bbox_inches = "tight", dpi = 150, pad_inches = 0.1)
         pyguymer3.optimize_image(fname, strip = True)
         matplotlib.pyplot.close(fg)
