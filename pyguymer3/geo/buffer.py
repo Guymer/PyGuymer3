@@ -1,4 +1,4 @@
-def buffer(shape, dist, kwArgCheck = None, nang = 19, simp = 0.1, debug = False):
+def buffer(shape, dist, kwArgCheck = None, debug = False, nang = 19, simp = 0.1):
     """Buffer a shape
 
     This function reads in a shape that exists on the surface of the Earth and
@@ -6,20 +6,20 @@ def buffer(shape, dist, kwArgCheck = None, nang = 19, simp = 0.1, debug = False)
 
     Parameters
     ----------
-    shape : shapely.geometry.point.Point, shapely.geometry.polygon.LinearRing, shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
+    shape : shapely.coords.CoordinateSequence, shapely.geometry.point.Point, shapely.geometry.polygon.LinearRing, shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
             the shape
     dist : float
             the distance to buffer each point within the shape by (in metres)
+    debug : bool, optional
+            print debug messages
     nang : int, optional
             the number of angles around each point within the shape that are calculated when buffering
     simp : float, optional
             how much intermediary [Multi]Polygons are simplified by; negative values disable simplification (in degrees)
-    debug : bool, optional
-            print debug messages
 
     Returns
     -------
-    ans : shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
+    buff : shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
             the buffered shape
     """
 
@@ -32,10 +32,11 @@ def buffer(shape, dist, kwArgCheck = None, nang = 19, simp = 0.1, debug = False)
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Load sub-functions ...
-    from .buffer_linearring import buffer_linearring
-    from .buffer_multipolygon import buffer_multipolygon
-    from .buffer_point import buffer_point
-    from .buffer_polygon import buffer_polygon
+    from .buffer_CoordinateSequence import buffer_CoordinateSequence
+    from .buffer_LinearRing import buffer_LinearRing
+    from .buffer_MultiPolygon import buffer_MultiPolygon
+    from .buffer_Point import buffer_Point
+    from .buffer_Polygon import buffer_Polygon
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
@@ -43,23 +44,27 @@ def buffer(shape, dist, kwArgCheck = None, nang = 19, simp = 0.1, debug = False)
 
     # Check user input ...
     if not shape.is_valid:
-        raise Exception("\"shape\" is not a valid shape ({:s})".format(shapely.validation.explain_validity(shape))) from None
+        raise Exception(f"\"shape\" is not a valid shape ({shapely.validation.explain_validity(shape)})") from None
+
+    # Check if it is a CoordinateSequence and return it buffered ...
+    if isinstance(shape, shapely.coords.CoordinateSequence):
+        return buffer_CoordinateSequence(shape, dist, debug = debug, nang = nang, simp = simp)
 
     # Check if it is a Point and return it buffered ...
     if isinstance(shape, shapely.geometry.point.Point):
-        return buffer_point(shape.x, shape.y, dist, nang = nang, simp = simp, debug = debug)
+        return buffer_Point(shape, dist, debug = debug, nang = nang, simp = simp)
 
     # Check if it is a LinearRing and return it buffered ...
     if isinstance(shape, shapely.geometry.polygon.LinearRing):
-        return buffer_linearring(shape, dist, nang = nang, simp = simp, debug = debug)
+        return buffer_LinearRing(shape, dist, debug = debug, nang = nang, simp = simp)
 
     # Check if it is a Polygon and return it buffered ...
     if isinstance(shape, shapely.geometry.polygon.Polygon):
-        return buffer_polygon(shape, dist, nang = nang, simp = simp, debug = debug)
+        return buffer_Polygon(shape, dist, debug = debug, nang = nang, simp = simp)
 
     # Check if it is a MultiPolygon and return it buffered ...
     if isinstance(shape, shapely.geometry.multipolygon.MultiPolygon):
-        return buffer_multipolygon(shape, dist, nang = nang, simp = simp, debug = debug)
+        return buffer_MultiPolygon(shape, dist, debug = debug, nang = nang, simp = simp)
 
     # Crash ...
     raise TypeError("\"shape\" is an unexpected type") from None

@@ -1,4 +1,4 @@
-def buffer_multipolygon(multipoly, dist, kwArgCheck = None, nang = 19, simp = 0.1, debug = False):
+def buffer_MultiPolygon(multipoly, dist, kwArgCheck = None, debug = False, nang = 19, simp = 0.1):
     """Buffer a MultiPolygon
 
     This function reads in a MultiPolygon, made up of Polygons (with an exterior
@@ -11,12 +11,12 @@ def buffer_multipolygon(multipoly, dist, kwArgCheck = None, nang = 19, simp = 0.
             the MultiPolygon
     dist : float
             the distance to buffer each point within the MultiPolygon by (in metres)
+    debug : bool, optional
+            print debug messages
     nang : int, optional
             the number of angles around each point within the MultiPolygon that are calculated when buffering
     simp : float, optional
             how much intermediary [Multi]Polygons are simplified by; negative values disable simplification (in degrees)
-    debug : bool, optional
-            print debug messages
 
     Returns
     -------
@@ -34,7 +34,7 @@ def buffer_multipolygon(multipoly, dist, kwArgCheck = None, nang = 19, simp = 0.
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Load sub-functions ...
-    from .buffer_polygon import buffer_polygon
+    from .buffer_Polygon import buffer_Polygon
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
@@ -44,46 +44,49 @@ def buffer_multipolygon(multipoly, dist, kwArgCheck = None, nang = 19, simp = 0.
     if not isinstance(multipoly, shapely.geometry.multipolygon.MultiPolygon):
         raise TypeError("\"multipoly\" is not a MultiPolygon") from None
     if not multipoly.is_valid:
-        raise Exception("\"multipoly\" is not a valid MultiPolygon ({0:s})".format(shapely.validation.explain_validity(multipoly))) from None
+        raise Exception(f"\"multipoly\" is not a valid MultiPolygon ({shapely.validation.explain_validity(multipoly)})") from None
 
-    # Create empty list ...
+    # Initialize list ...
     buffs = []
 
     # Loop over Polygons ...
     for poly in multipoly.geoms:
         # Buffer Polygon ...
-        buff = buffer_polygon(poly, dist, nang = nang, simp = simp, debug = debug)
+        buff = buffer_Polygon(poly, dist, debug = debug, nang = nang, simp = simp)
 
-        # Check how many polygons describe the buffer and append them to the
+        # Check how many Polygons describe the buffer and append them to the
         # list ...
-        if isinstance(buff, shapely.geometry.multipolygon.MultiPolygon):
+        if isinstance(buff, shapely.geometry.polygon.Polygon):
+            if not buff.is_valid:
+                raise Exception(f"\"buff\" is not a valid Polygon ({shapely.validation.explain_validity(buff)})") from None
+            buffs.append(buff)
+        elif isinstance(buff, shapely.geometry.multipolygon.MultiPolygon):
             for geom in buff.geoms:
                 if not geom.is_valid:
-                    raise Exception("\"geom\" is not a valid Polygon ({0:s})".format(shapely.validation.explain_validity(geom))) from None
+                    raise Exception(f"\"geom\" is not a valid MultiPolygon ({shapely.validation.explain_validity(geom)})") from None
                 buffs.append(geom)
-        elif isinstance(buff, shapely.geometry.polygon.Polygon):
-            if not buff.is_valid:
-                raise Exception("\"buff\" is not a valid Polygon ({0:s})".format(shapely.validation.explain_validity(buff))) from None
-            buffs.append(buff)
         else:
-            raise TypeError("\"buff\" is an unexpected type") from None
+            raise TypeError(f"\"buff\" is an unexpected type {repr(type(buff))}") from None
 
-    # Convert list of Polygons to (unified) MultiPolygon ...
+    # Convert list of [Multi]Polygons to (unified) [Multi]Polygon ...
     buffs = shapely.ops.unary_union(buffs)
 
-    # Check MultiPolygon ...
+    # Check [Multi]Polygon ...
     if not buffs.is_valid:
-        raise Exception("\"buffs\" is not a valid [Multi]Polygon ({0:s})".format(shapely.validation.explain_validity(buffs))) from None
+        raise Exception(f"\"buffs\" is not a valid [Multi]Polygon ({shapely.validation.explain_validity(buffs)})") from None
 
-    # Check if the user wants to simplify the MultiPolygon ...
+    # Check if the user wants to simplify the [Multi]Polygon ...
     if simp > 0.0:
-        # Simplify MultiPolygon ...
+        # Simplify [Multi]Polygon ...
         buffsSimp = buffs.simplify(simp)
 
-        # Check simplified MultiPolygon ...
+        # Check simplified [Multi]Polygon ...
         if buffsSimp.is_valid:
             # Return simplified answer ...
             return buffsSimp
+
+        if debug:
+            print(f"WARNING: \"buffsSimp\" is not a valid [Multi]Polygon ({shapely.validation.explain_validity(buffsSimp)}), will return \"buffs\" instead")
 
     # Return answer ...
     return buffs

@@ -4,13 +4,16 @@ written over the years.
 """
 
 # Import sub-functions ...
+from ._buffer_points import _buffer_points
+from ._buffer_points_crudely import _buffer_points_crudely
+from ._fix_ring import _fix_ring
 from .add_map_background import add_map_background
 from .buffer import buffer
-from .buffer_multipolygon import buffer_multipolygon
-from .buffer_point import buffer_point
-from .buffer_point_crudely import buffer_point_crudely
-from .buffer_points import buffer_points
-from .buffer_polygon import buffer_polygon
+from .buffer_CoordinateSequence import buffer_CoordinateSequence
+from .buffer_LinearRing import buffer_LinearRing
+from .buffer_MultiPolygon import buffer_MultiPolygon
+from .buffer_Point import buffer_Point
+from .buffer_Polygon import buffer_Polygon
 from .calc_angle_between_two_locs import calc_angle_between_two_locs
 from .calc_dist_between_two_locs import calc_dist_between_two_locs
 from .calc_loc_from_loc_and_bearing_and_dist import calc_loc_from_loc_and_bearing_and_dist
