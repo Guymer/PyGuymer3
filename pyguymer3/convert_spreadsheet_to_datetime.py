@@ -7,8 +7,11 @@ def convert_spreadsheet_to_datetime(val):
     # Import standard modules ...
     import datetime
 
+    # Import sub-functions ...
+    from .convert_spreadsheet_to_unix import convert_spreadsheet_to_unix
+
     # Return answer ..
     return datetime.datetime.fromtimestamp(
-        86400 * (val - 25569),
+        convert_spreadsheet_to_unix(val),
         tz = datetime.timezone.utc,
     )
