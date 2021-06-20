@@ -203,7 +203,7 @@ def _fix_ring(ring, kwArgCheck = None, debug = False, simp = 0.1):
     # Create a list of Polygons if there are enough unique points to make a
     # Polygon ...
     buffs = []
-    if len(set(part1)) >= 3:
+    if len(part1) >= 3:
         tmp = shapely.geometry.polygon.Polygon(part1)
         if not tmp.is_valid:
             with open(f"{os.path.dirname(__file__)}/_fix_ring.debug.ring.csv", "wt") as fobj:
@@ -220,7 +220,7 @@ def _fix_ring(ring, kwArgCheck = None, debug = False, simp = 0.1):
                     fobj.write(f"{x:.15e},{y:.15e}\n")
             raise Exception(f"\"tmp\" is not a valid Polygon ({shapely.validation.explain_validity(tmp)})") from None
         buffs.append(tmp)
-    if len(set(part2)) >= 3:
+    if len(part2) >= 3:
         tmp = shapely.geometry.polygon.Polygon(part2)
         if not tmp.is_valid:
             with open(f"{os.path.dirname(__file__)}/_fix_ring.debug.ring.csv", "wt") as fobj:
