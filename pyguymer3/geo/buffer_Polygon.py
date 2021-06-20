@@ -51,40 +51,13 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, nang = 19, simp
     buffs = []
     buffs.append(poly)
 
-    # Buffer exterior LinearRing ...
-    buff = buffer_LinearRing(poly.exterior, dist, debug = debug, nang = nang, simp = simp)
-
-    # Check how many Polygons describe the buffer and append them to the list ...
-    if isinstance(buff, shapely.geometry.polygon.Polygon):
-        if not buff.is_valid:
-            raise Exception(f"\"buff\" is not a valid Polygon ({shapely.validation.explain_validity(buff)})") from None
-        buffs.append(buff)
-    elif isinstance(buff, shapely.geometry.multipolygon.MultiPolygon):
-        for geom in buff.geoms:
-            if not geom.is_valid:
-                raise Exception(f"\"geom\" is not a valid Polygon ({shapely.validation.explain_validity(geom)})") from None
-            buffs.append(geom)
-    else:
-        raise TypeError(f"\"buff\" is an unexpected type {repr(type(buff))}") from None
+    # Append buffer of exterior LinearRing to list ...
+    buffs.append(buffer_LinearRing(poly.exterior, dist, debug = debug, nang = nang, simp = simp))
 
     # Loop over interior LinearRings ...
     for ring in poly.interiors:
-        # Buffer interior LinearRing ...
-        buff = buffer_LinearRing(ring, dist, debug = debug, nang = nang, simp = simp)
-
-        # Check how many Polygons describe the buffer and append them to the
-        # list ...
-        if isinstance(buff, shapely.geometry.polygon.Polygon):
-            if not buff.is_valid:
-                raise Exception(f"\"buff\" is not a valid Polygon ({shapely.validation.explain_validity(buff)})") from None
-            buffs.append(buff)
-        elif isinstance(buff, shapely.geometry.multipolygon.MultiPolygon):
-            for geom in buff.geoms:
-                if not geom.is_valid:
-                    raise Exception(f"\"geom\" is not a valid Polygon ({shapely.validation.explain_validity(geom)})") from None
-                buffs.append(geom)
-        else:
-            raise TypeError(f"\"buff\" is an unexpected type {repr(type(buff))}") from None
+        # Append buffer of interior LinearRing to list ...
+        buffs.append(buffer_LinearRing(ring, dist, debug = debug, nang = nang, simp = simp))
 
     # Convert list of [Multi]Polygons to (unified) [Multi]Polygon ...
     buffs = shapely.ops.unary_union(buffs)
