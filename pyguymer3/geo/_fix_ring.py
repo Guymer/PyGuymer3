@@ -1,4 +1,4 @@
-def _fix_ring(ring, kwArgCheck = None, debug = False):
+def _fix_ring(ring, kwArgCheck = None, debug = False, simp = 0.1):
     """Fix a ring of points
 
     This function reads in an array of coordinates (in degrees) that exist as a
@@ -11,6 +11,8 @@ def _fix_ring(ring, kwArgCheck = None, debug = False):
             the (npoints, 2) array of (lon,lat) coordinates of the ring (in degrees)
     debug : bool, optional
             print debug messages
+    simp : float, optional
+            how much intermediary [Multi]Polygons are simplified by; negative values disable simplification (in degrees)
 
     Returns
     -------
@@ -182,28 +184,41 @@ def _fix_ring(ring, kwArgCheck = None, debug = False):
 
     # **************************************************************************
 
-    # Create a list of [Multi]Polygons if there are enough unique points to make
-    # a [Multi]Polygon ...
-    buff = []
+    # Create a list of Polygons if there are enough unique points to make a
+    # Polygon ...
+    buffs = []
     if len(set(part1)) >= 3:
         tmp = shapely.geometry.polygon.Polygon(part1)
         if not tmp.is_valid:
             raise Exception(f"\"tmp\" is not a valid Polygon ({shapely.validation.explain_validity(tmp)})") from None
-        buff.append(tmp)
+        buffs.append(tmp)
     if len(set(part2)) >= 3:
         tmp = shapely.geometry.polygon.Polygon(part2)
         if not tmp.is_valid:
             raise Exception(f"\"tmp\" is not a valid Polygon ({shapely.validation.explain_validity(tmp)})") from None
-        buff.append(tmp)
+        buffs.append(tmp)
 
     # **************************************************************************
 
-    # Convert list of [Multi]Polygons to (unified) [Multi]Polygon ...
-    buff = shapely.ops.unary_union(buff)
+    # Convert list of Polygons to (unified) [Multi]Polygon ...
+    buffs = shapely.ops.unary_union(buffs)
 
     # Check [Multi]Polygon ...
-    if not buff.is_valid:
-        raise Exception(f"\"buff\" is not a valid [Multi]Polygon ({shapely.validation.explain_validity(buff)})") from None
+    if not buffs.is_valid:
+        raise Exception(f"\"buffs\" is not a valid [Multi]Polygon ({shapely.validation.explain_validity(buffs)})") from None
+
+    # Check if the user wants to simplify the [Multi]Polygon ...
+    if simp > 0.0:
+        # Simplify [Multi]Polygon ...
+        buffsSimp = buffs.simplify(simp)
+
+        # Check simplified [Multi]Polygon ...
+        if buffsSimp.is_valid:
+            # Return simplified answer ...
+            return buffsSimp
+
+        if debug:
+            print(f"WARNING: \"buffsSimp\" is not a valid [Multi]Polygon ({shapely.validation.explain_validity(buffsSimp)}), will return \"buffs\" instead")
 
     # Return answer ...
-    return buff
+    return buffs
