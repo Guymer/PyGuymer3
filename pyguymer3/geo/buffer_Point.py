@@ -46,25 +46,5 @@ def buffer_Point(point, dist, kwArgCheck = None, debug = False, nang = 19, simp 
     if not point.is_valid:
         raise Exception(f"\"point\" is not a valid Point ({shapely.validation.explain_validity(point)})") from None
 
-    # Buffer CoordinateSequence ...
-    buff = buffer_CoordinateSequence(point.coords, dist, debug = debug, nang = nang, simp = simp)
-
-    # Check [Multi]Polygon ...
-    if not buff.is_valid:
-        raise Exception(f"\"buff\" is not a valid [Multi]Polygon ({shapely.validation.explain_validity(buff)})") from None
-
-    # Check if the user wants to simplify the [Multi]Polygon ...
-    if simp > 0.0:
-        # Simplify [Multi]Polygon ...
-        buffSimp = buff.simplify(simp)
-
-        # Check simplified [Multi]Polygon ...
-        if buffSimp.is_valid:
-            # Return simplified answer ...
-            return buffSimp
-
-        if debug:
-            print(f"WARNING: \"buffSimp\" is not a valid [Multi]Polygon ({shapely.validation.explain_validity(buffSimp)}), will return \"buff\" instead")
-
-    # Return answer ...
-    return buff
+    # Return buffered Point ...
+    return buffer_CoordinateSequence(point.coords, dist, debug = debug, nang = nang, simp = simp)
