@@ -8,6 +8,10 @@ def find_middle_of_great_circle(lon1_deg, lat1_deg, lon2_deg, lat2_deg):
     # Import standard modules ...
     import math
 
+    # Check arguments ...
+    if lon1_deg == lon2_deg and lat1_deg == lat2_deg:
+        return lon1_deg, lat1_deg
+
     # Convert to radians ...
     lon1_rad = math.radians(lon1_deg)                                           # [rad]
     lat1_rad = math.radians(lat1_deg)                                           # [rad]
