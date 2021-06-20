@@ -165,23 +165,37 @@ def _fix_ring(ring, kwArgCheck = None, debug = False, simp = 0.1):
 
     # **************************************************************************
 
-    # Remove sequential duplicate points ...
-    if len(part1) >= 2:
-        newPart1 = []
-        newPart1.append(part1[0])
-        for i in range(1, len(part1)):
-            if part1[i - 1][0] == part1[i][0] and part1[i - 1][1] == part1[i][1]:
-                continue
-            newPart1.append(part1[i])
-        part1 = copy.copy(newPart1)
-    if len(part2) >= 2:
-        newPart2 = []
-        newPart2.append(part2[0])
-        for i in range(1, len(part2)):
-            if part2[i - 1][0] == part2[i][0] and part2[i - 1][1] == part2[i][1]:
-                continue
-            newPart2.append(part2[i])
-        part2 = copy.copy(newPart2)
+    # Check if the user wants to simplify the [Multi]Polygon ...
+    if simp > 0.0:
+        # Remove sequential ~duplicate points ...
+        # NOTE: These loops calculate the Euclidean distance (rather than the
+        #       geodesic distance) between points and ignore points that are so
+        #       close together that they will be simplified/removed later.
+        if len(part1) >= 2:
+            newPart1 = []
+            newPart1.append(part1[0])
+            for i in range(1, len(part1)):
+                if numpy.hypot(newPart1[-1][0] - part1[i][0], newPart1[-1][1] - part1[i][1]) < 0.01 * simp:
+                    continue
+                newPart1.append(part1[i])
+            part1 = copy.copy(newPart1)
+        if len(part2) >= 2:
+            newPart2 = []
+            newPart2.append(part2[0])
+            for i in range(1, len(part2)):
+                if numpy.hypot(newPart2[-1][0] - part2[i][0], newPart2[-1][1] - part2[i][1]) < 0.01 * simp:
+                    continue
+                newPart2.append(part2[i])
+            part2 = copy.copy(newPart2)
+
+        # Do a final check between the first and the last points (as both the 0°
+        # point and the 360° point might be in the same ring) ...
+        if len(part1) >= 2:
+            if numpy.hypot(part1[0][0] - part1[-1][0], part1[0][1] - part1[-1][1]) < 0.01 * simp:
+                part1 = part1[:-1]
+        if len(part2) >= 2:
+            if numpy.hypot(part2[0][0] - part2[-1][0], part2[0][1] - part2[-1][1]) < 0.01 * simp:
+                part2 = part2[:-1]
 
     # **************************************************************************
 
