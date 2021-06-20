@@ -26,6 +26,7 @@ def _buffer_points(points1, dist, kwArgCheck = None, debug = False, nang = 19, s
 
     # Import standard modules ...
     import math
+    import multiprocessing
 
     # Import special modules ...
     try:
@@ -68,11 +69,15 @@ def _buffer_points(points1, dist, kwArgCheck = None, debug = False, nang = 19, s
     dist = max(1.0, min(math.pi * 6371008.8, dist))                             # NOTE: Limit distance to 1m <--> (half-circumference)
     nang = max(9, nang)                                                         # NOTE: Must do at least 9 points around the compass
 
+    # **************************************************************************
+
     # Buffer the points ...
     if fortran:
         points2 = f90.buffer_points_crudely(points1, dist, nang)                # [°]
     else:
         points2 = _buffer_points_crudely(points1, dist, nang)                   # [°]
+
+    # **************************************************************************
 
     # Loop over points ...
     for ipoint in range(points1.shape[0]):
@@ -98,14 +103,27 @@ def _buffer_points(points1, dist, kwArgCheck = None, debug = False, nang = 19, s
         #       of 0°).
         points2[ipoint, -1, :] = points2[ipoint, 0, :]                          # [°]
 
+    # **************************************************************************
+
     # Initialize list ...
     buffs = []
 
-    # Loop over points ...
-    for ipoint in range(points1.shape[0]):
-        # Convert the array of coordinates to a [Multi]Polygon and append to
-        # list ...
-        buffs.append(_fix_ring(points2[ipoint, :, :], debug = debug, simp = simp))
+    # Create pool of workers ...
+    with multiprocessing.Pool() as pool:
+        # Initialize list ...
+        results = []
+
+        # Loop over points ...
+        for ipoint in range(points1.shape[0]):
+            # Add an asynchronous parallel job to the pool to convert the array
+            # of coordinates to a [Multi]Polygon ...
+            results.append(pool.apply_async(_fix_ring, (points2[ipoint, :, :],), {"debug" : debug, "simp" : simp}))
+
+        # Loop over parallel jobs and append results to list ...
+        for result in results:
+            buffs.append(result.get())
+
+    # **************************************************************************
 
     # Convert list of [Multi]Polygons to (unified) [Multi]Polygon ...
     buffs = shapely.ops.unary_union(buffs)
