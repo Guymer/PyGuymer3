@@ -2,8 +2,8 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, na
     """Buffer a CoordinateSequence
 
     This function reads in a CoordinateSequence that exists on the surface of
-    the Earth and returns the same CoordinateSequence buffered by a constant
-    distance (in metres).
+    the Earth and returns a [Multi]Polygon of the same CoordinateSequence
+    buffered by a constant distance (in metres).
 
     Parameters
     ----------

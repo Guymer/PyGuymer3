@@ -67,4 +67,4 @@ def buffer(shape, dist, kwArgCheck = None, debug = False, nang = 19, simp = 0.1)
         return buffer_MultiPolygon(shape, dist, debug = debug, nang = nang, simp = simp)
 
     # Crash ...
-    raise TypeError("\"shape\" is an unexpected type") from None
+    raise TypeError(f"\"shape\" is an unexpected type ({repr(type(shape))})") from None

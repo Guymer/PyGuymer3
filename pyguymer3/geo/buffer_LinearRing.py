@@ -1,9 +1,9 @@
 def buffer_LinearRing(ring, dist, kwArgCheck = None, debug = False, nang = 19, simp = 0.1):
     """Buffer a LinearRing
 
-    This function reads in a LinearRing that exist on the surface of the Earth
-    and returns the same [Multi]Polygon buffered by a constant distance (in
-    metres).
+    This function reads in a LinearRing that exists on the surface of the Earth
+    and returns a [Multi]Polygon of the same LinearRing buffered by a constant
+    distance (in metres).
 
     Parameters
     ----------

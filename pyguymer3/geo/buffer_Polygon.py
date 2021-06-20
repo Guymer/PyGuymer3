@@ -2,8 +2,9 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, nang = 19, simp
     """Buffer a Polygon
 
     This function reads in a Polygon (with an exterior and any number of
-    interiors) that exists on the surface of the Earth and returns the same
-    [Multi]Polygon buffered by a constant distance (in metres).
+    interiors) that exists on the surface of the Earth and returns a
+    [Multi]Polygon of the same Polygon buffered by a constant distance (in
+    metres).
 
     Parameters
     ----------
@@ -61,7 +62,7 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, nang = 19, simp
     elif isinstance(buff, shapely.geometry.multipolygon.MultiPolygon):
         for geom in buff.geoms:
             if not geom.is_valid:
-                raise Exception(f"\"geom\" is not a valid MultiPolygon ({shapely.validation.explain_validity(geom)})") from None
+                raise Exception(f"\"geom\" is not a valid Polygon ({shapely.validation.explain_validity(geom)})") from None
             buffs.append(geom)
     else:
         raise TypeError(f"\"buff\" is an unexpected type {repr(type(buff))}") from None
@@ -80,7 +81,7 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, nang = 19, simp
         elif isinstance(buff, shapely.geometry.multipolygon.MultiPolygon):
             for geom in buff.geoms:
                 if not geom.is_valid:
-                    raise Exception(f"\"geom\" is not a valid MultiPolygon ({shapely.validation.explain_validity(geom)})") from None
+                    raise Exception(f"\"geom\" is not a valid Polygon ({shapely.validation.explain_validity(geom)})") from None
                 buffs.append(geom)
         else:
             raise TypeError(f"\"buff\" is an unexpected type {repr(type(buff))}") from None

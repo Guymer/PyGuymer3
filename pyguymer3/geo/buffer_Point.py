@@ -1,8 +1,9 @@
 def buffer_Point(point, dist, kwArgCheck = None, debug = False, nang = 19, simp = 0.1):
     """Buffer a Point
 
-    This function reads in a Point that exist on the surface of the Earth and
-    returns the same [Multi]Polygon buffered by a constant distance (in metres).
+    This function reads in a Point that exists on the surface of the Earth and
+    returns a [Multi]Polygon of the same Point buffered by a constant distance
+    (in metres).
 
     Parameters
     ----------
@@ -13,7 +14,7 @@ def buffer_Point(point, dist, kwArgCheck = None, debug = False, nang = 19, simp 
     debug : bool, optional
             print debug messages
     nang : int, optional
-            the number of angles around the Point that are calculated
+            the number of angles around the Point that are calculated when buffering
     simp : float, optional
             how much intermediary [Multi]Polygons are simplified by; negative values disable simplification (in degrees)
 
