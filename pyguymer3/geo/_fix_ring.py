@@ -188,8 +188,9 @@ def _fix_ring(ring, kwArgCheck = None, debug = False, simp = 0.1):
                 newPart2.append(part2[i])
             part2 = copy.copy(newPart2)
 
-        # Do a final check between the first and the last points (as both the 0°
-        # point and the 360° point might be in the same ring) ...
+        # Do a final check between the first and the last points (as the
+        # interpolation used, when crossing the anti-meridian, might mean that
+        # these two points are very close to each other) ...
         if len(part1) >= 2:
             if numpy.hypot(part1[0][0] - part1[-1][0], part1[0][1] - part1[-1][1]) < 0.01 * simp:
                 part1 = part1[:-1]
