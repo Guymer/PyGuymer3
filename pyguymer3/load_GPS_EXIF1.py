@@ -155,7 +155,7 @@ def load_GPS_EXIF1(fname):
                 #       distance around its circumference.
                 ans["loc_err"] = ans["dop"] * math.hypot(ans["lon_prec"], ans["lat_prec"])                                  # [°]
                 ans["loc_err"] /= 360.0                                                                                     # [frac]
-                ans["loc_err"] *= 2.0 * math.pi * 6371009.0                                                                 # [m]
+                ans["loc_err"] *= 2.0 * math.pi * 6371008.8                                                                 # [m]
 
                 # Estimate the time error ...
                 # NOTE: The time precision is multiplied by the dilution of

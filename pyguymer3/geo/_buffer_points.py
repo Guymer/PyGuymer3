@@ -65,7 +65,7 @@ def _buffer_points(points1, dist, kwArgCheck = None, debug = False, nang = 19, s
         raise TypeError("\"points1\" is not (N,2)") from None
 
     # Correct inputs ...
-    dist = max(1.0, min(math.pi * 6371009.0, dist))                             # NOTE: Limit distance to 1m <--> (half-circumference)
+    dist = max(1.0, min(math.pi * 6371008.8, dist))                             # NOTE: Limit distance to 1m <--> (half-circumference)
     nang = max(9, nang)                                                         # NOTE: Must do at least 9 points around the compass
 
     # Buffer the points ...
