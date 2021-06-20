@@ -28,7 +28,6 @@ def buffer_LinearRing(ring, dist, kwArgCheck = None, debug = False, nang = 19, s
     try:
         import shapely
         import shapely.geometry
-        import shapely.ops
         import shapely.validation
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None

@@ -31,9 +31,6 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, na
         raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
     try:
         import shapely
-        import shapely.geometry
-        import shapely.ops
-        import shapely.validation
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 

@@ -28,7 +28,6 @@ def buffer_Point(point, dist, kwArgCheck = None, debug = False, nang = 19, simp 
     try:
         import shapely
         import shapely.geometry
-        import shapely.ops
         import shapely.validation
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
