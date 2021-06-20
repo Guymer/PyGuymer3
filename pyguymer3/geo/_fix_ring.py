@@ -22,6 +22,7 @@ def _fix_ring(ring, kwArgCheck = None, debug = False, simp = 0.1):
 
     # Import standard modules ...
     import copy
+    import os
 
     # Import special modules ...
     try:
@@ -190,11 +191,35 @@ def _fix_ring(ring, kwArgCheck = None, debug = False, simp = 0.1):
     if len(set(part1)) >= 3:
         tmp = shapely.geometry.polygon.Polygon(part1)
         if not tmp.is_valid:
+            with open(f"{os.path.dirname(__file__)}/_fix_ring.debug.ring.csv", "wt") as fobj:
+                fobj.write("lon [°],lat [°]\n")
+                for x, y in ring:
+                    fobj.write(f"{x:.15e},{y:.15e}\n")
+            with open(f"{os.path.dirname(__file__)}/_fix_ring.debug.part1.csv", "wt") as fobj:
+                fobj.write("lon [°],lat [°]\n")
+                for x, y in part1:
+                    fobj.write(f"{x:.15e},{y:.15e}\n")
+            with open(f"{os.path.dirname(__file__)}/_fix_ring.debug.part2.csv", "wt") as fobj:
+                fobj.write("lon [°],lat [°]\n")
+                for x, y in part2:
+                    fobj.write(f"{x:.15e},{y:.15e}\n")
             raise Exception(f"\"tmp\" is not a valid Polygon ({shapely.validation.explain_validity(tmp)})") from None
         buffs.append(tmp)
     if len(set(part2)) >= 3:
         tmp = shapely.geometry.polygon.Polygon(part2)
         if not tmp.is_valid:
+            with open(f"{os.path.dirname(__file__)}/_fix_ring.debug.ring.csv", "wt") as fobj:
+                fobj.write("lon [°],lat [°]\n")
+                for x, y in ring:
+                    fobj.write(f"{x:.15e},{y:.15e}\n")
+            with open(f"{os.path.dirname(__file__)}/_fix_ring.debug.part1.csv", "wt") as fobj:
+                fobj.write("lon [°],lat [°]\n")
+                for x, y in part1:
+                    fobj.write(f"{x:.15e},{y:.15e}\n")
+            with open(f"{os.path.dirname(__file__)}/_fix_ring.debug.part2.csv", "wt") as fobj:
+                fobj.write("lon [°],lat [°]\n")
+                for x, y in part2:
+                    fobj.write(f"{x:.15e},{y:.15e}\n")
             raise Exception(f"\"tmp\" is not a valid Polygon ({shapely.validation.explain_validity(tmp)})") from None
         buffs.append(tmp)
 
