@@ -89,7 +89,7 @@ f90.cpython-39m-darwin.so:	$(FC1)												\
 							$(FTNLIB)/mod_safe.o								\
 							f90.F90												\
 							src/*.f90
-	$(FC1) -c --f77exec=$(FC2) --f90exec=$(FC2) --opt="$(LANG_OPTS) $(WARN_OPTS) $(OPTM_OPTS)" --arch="$(MACH_OPTS)" -m f90 -I$(FTNLIB) f90.F90 $(FTNLIB)/mod_safe.o -L$(LIBDIR)
+	$(FC1) -c --f77exec=$(FC2) --f90exec=$(FC2) --opt="-fopenmp $(LANG_OPTS) $(WARN_OPTS) $(OPTM_OPTS)" --arch="$(MACH_OPTS)" -lgomp -m f90 -I$(FTNLIB) f90.F90 $(FTNLIB)/mod_safe.o -L$(LIBDIR)
 
 f90.so:						$(LN)												\
 							f90.cpython-39m-darwin.so

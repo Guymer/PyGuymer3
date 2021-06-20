@@ -1,4 +1,4 @@
-PURE SUBROUTINE buffer_points_crudely(points1, dist, nang, npoint, points2)
+SUBROUTINE buffer_points_crudely(points1, dist, nang, npoint, points2)
     ! Import standard modules ...
     USE ISO_C_BINDING
 
@@ -20,18 +20,33 @@ PURE SUBROUTINE buffer_points_crudely(points1, dist, nang, npoint, points2)
     REAL(kind = C_DOUBLE)                                                       :: ang1
     REAL(kind = C_DOUBLE)                                                       :: ang2
 
-    ! Loop over angles ...
-    ! NOTE: The first and last angles will *always* be exactly North.
-    ! NOTE: The most two subsequent points can be apart is ~45 degrees (with
-    !       nang >= 9).
-    DO iang = 1_C_LONG_LONG, nang
-        ! Calculate initial angle ...
-        ang1 = 360.0e0_C_DOUBLE * REAL(iang - 1_C_LONG_LONG, kind = C_DOUBLE) / REAL(nang - 1_C_LONG_LONG, kind = C_DOUBLE)
+    !$omp parallel                                                              &
+    !$omp default(none)                                                         &
+    !$omp private(ang1)                                                         &
+    !$omp private(ang2)                                                         &
+    !$omp private(iang)                                                         &
+    !$omp private(ipoint)                                                       &
+    !$omp shared(dist)                                                          &
+    !$omp shared(nang)                                                          &
+    !$omp shared(npoint)                                                        &
+    !$omp shared(points1)                                                       &
+    !$omp shared(points2)
+        !$omp do                                                                &
+        !$omp schedule(dynamic)
+            ! Loop over angles ...
+            ! NOTE: The first and last angles will *always* be exactly North.
+            ! NOTE: The most two subsequent points can be apart is ~45 degrees
+            !       (with nang >= 9).
+            DO iang = 1_C_LONG_LONG, nang
+                ! Calculate initial angle ...
+                ang1 = 360.0e0_C_DOUBLE * REAL(iang - 1_C_LONG_LONG, kind = C_DOUBLE) / REAL(nang - 1_C_LONG_LONG, kind = C_DOUBLE)
 
-        ! Loop over points ...
-        DO ipoint = 1_C_LONG_LONG, npoint
-            ! Calculate the ring coordinates and add them to the array ...
-            CALL sub_calc_loc_from_loc_and_bearing_and_dist(points1(ipoint, 1), points1(ipoint, 2), ang1, dist, points2(ipoint, iang, 1), points2(ipoint, iang, 2), ang2)
-        END DO
-    END DO
+                ! Loop over points ...
+                DO ipoint = 1_C_LONG_LONG, npoint
+                    ! Calculate the ring coordinates and add them to the array ...
+                    CALL sub_calc_loc_from_loc_and_bearing_and_dist(points1(ipoint, 1), points1(ipoint, 2), ang1, dist, points2(ipoint, iang, 1), points2(ipoint, iang, 2), ang2)
+                END DO
+            END DO
+        !$omp end do
+    !$omp end parallel
 END SUBROUTINE buffer_points_crudely
