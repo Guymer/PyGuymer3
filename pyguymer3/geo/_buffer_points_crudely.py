@@ -13,7 +13,7 @@ def _buffer_points_crudely(points1, dist, nang):
     dist : float
             the distance to buffer the (lon,lat) coordinates by (in metres)
     nang : int
-            the number of angles around the (lon,lat) coordinates that are calculated
+            the number of angles around the (lon,lat) coordinates that are calculated when buffering
 
     Returns
     -------
