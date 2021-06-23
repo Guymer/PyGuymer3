@@ -200,8 +200,7 @@ def _fix_ring(ring, kwArgCheck = None, debug = False, simp = 0.1):
 
     # **************************************************************************
 
-    # Create a list of Polygons if there are enough unique points to make a
-    # Polygon ...
+    # Create a list of Polygons if there are enough points to make a Polygon ...
     buffs = []
     if len(part1) >= 3:
         tmp = shapely.geometry.polygon.Polygon(part1)

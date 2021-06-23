@@ -24,11 +24,11 @@ Public functions:
 * `buffer_Polygon()`
     * `buffer_LinearRing()`
     * `shapely.ops.unary_union()`
-    * `shapely.geometry.multipolygon.MultiPolygonsimplify()`
+    * `shapely.geometry.multipolygon.MultiPolygon.simplify()`
 * `buffer_MultiPolygon()`
     * `buffer_Polygon()`
     * `shapely.ops.unary_union()`
-    * `shapely.geometry.multipolygon.MultiPolygonsimplify()`
+    * `shapely.geometry.multipolygon.MultiPolygon.simplify()`
 
 Private functions:
 
@@ -36,7 +36,7 @@ Private functions:
     * `f90.buffer_points_crudely()` or `_buffer_points_crudely()`
     * `_fix_ring()`
     * `shapely.ops.unary_union()`
-    * `shapely.geometry.multipolygon.MultiPolygonsimplify()`
+    * `shapely.geometry.multipolygon.MultiPolygon.simplify()`
 * `_fix_ring()` (returns a [Multi]Polygon made up of the simplified union of 1 or 2 Polygons)
     * `shapely.ops.unary_union()`
-    * `shapely.geometry.multipolygon.MultiPolygonsimplify()`
+    * `shapely.geometry.multipolygon.MultiPolygon.simplify()`
