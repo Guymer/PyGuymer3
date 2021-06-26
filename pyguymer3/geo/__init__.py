@@ -1,6 +1,6 @@
 """
-A Python module containing a bunch of random geo-related functions that I have
-written over the years.
+A Python sub-module containing a bunch of random geo-related functions that I
+have written over the years.
 """
 
 # Import sub-functions ...

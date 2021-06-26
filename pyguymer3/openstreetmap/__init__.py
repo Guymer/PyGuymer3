@@ -1,5 +1,5 @@
 """
-A Python module containing functions relating to openstreetmap.org
+A Python sub-module containing functions relating to openstreetmap.org
 """
 
 # Load sub-functions ...
