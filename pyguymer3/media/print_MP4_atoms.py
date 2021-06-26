@@ -12,7 +12,7 @@ def print_MP4_atoms(fname):
     import struct
 
     # Load sub-functions ...
-    from .convert_bytes_to_pretty_bytes import convert_bytes_to_pretty_bytes
+    from ..convert_bytes_to_pretty_bytes import convert_bytes_to_pretty_bytes
 
     # Open MP4 read-only ...
     with open(fname, "rb") as fobj:

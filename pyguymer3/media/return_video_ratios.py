@@ -2,7 +2,7 @@ def return_video_ratios(fname, kwArgCheck = None, playlist = -1, debug = False):
     # Load sub-functions ...
     from .__ffprobe__ import __ffprobe__
     from .ffprobe import ffprobe
-    from .find_integer_divisors import find_integer_divisors
+    from ..find_integer_divisors import find_integer_divisors
     from .return_video_display_aspect_ratio import return_video_display_aspect_ratio
     from .return_video_height import return_video_height
     from .return_video_pixel_aspect_ratio import return_video_pixel_aspect_ratio
