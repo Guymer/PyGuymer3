@@ -34,6 +34,7 @@ if __name__ == "__main__":
     try:
         import pyguymer3
         import pyguymer3.geo
+        import pyguymer3.image
     except:
         raise Exception("\"pyguymer3\" is not installed; you need to have the Python module from https://github.com/Guymer/PyGuymer3 located somewhere in your $PYTHONPATH") from None
 
@@ -80,5 +81,5 @@ if __name__ == "__main__":
         # Save figure ...
         fg.suptitle("({:.1f},{:.1f}) buffered by {:,.1f}km".format(lon, lat, 0.001 * dist))
         fg.savefig(fname, bbox_inches = "tight", dpi = 150, pad_inches = 0.1)
-        pyguymer3.optimize_image(fname, strip = True)
+        pyguymer3.image.optimize_image(fname, strip = True)
         matplotlib.pyplot.close(fg)

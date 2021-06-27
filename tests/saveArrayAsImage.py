@@ -14,6 +14,7 @@ if __name__ == "__main__":
     # Import my modules ...
     try:
         import pyguymer3
+        import pyguymer3.image
     except:
         raise Exception("\"pyguymer3\" is not installed; you need to have the Python module from https://github.com/Guymer/PyGuymer3 located somewhere in your $PYTHONPATH") from None
 
@@ -29,8 +30,8 @@ if __name__ == "__main__":
             arr[iy, ix] = 0.5 * float(ix * iy)
 
     # Save array as PNGs ...
-    pyguymer3.save_array_as_image(arr, "saveArrayAsImage0.png")
-    pyguymer3.save_array_as_image(arr, "saveArrayAsImage1.png", scale = True)
-    pyguymer3.save_array_as_image(arr, "saveArrayAsImage2.png", scale = True, pc_bot = 5.0, pc_top = 5.0)
-    pyguymer3.save_array_as_image(arr, "saveArrayAsImage3.png", scale = True, pc_bot = 5.0, pc_top = 5.0, ct = "fire")
-    pyguymer3.save_array_as_image(arr, "saveArrayAsImage4.png", scale = True, pc_bot = 5.0, pc_top = 5.0, ct = "rainbow")
+    pyguymer3.image.save_array_as_image(arr, "saveArrayAsImage0.png")
+    pyguymer3.image.save_array_as_image(arr, "saveArrayAsImage1.png", scale = True)
+    pyguymer3.image.save_array_as_image(arr, "saveArrayAsImage2.png", scale = True, pc_bot = 5.0, pc_top = 5.0)
+    pyguymer3.image.save_array_as_image(arr, "saveArrayAsImage3.png", scale = True, pc_bot = 5.0, pc_top = 5.0, ct = "fire")
+    pyguymer3.image.save_array_as_image(arr, "saveArrayAsImage4.png", scale = True, pc_bot = 5.0, pc_top = 5.0, ct = "rainbow")
