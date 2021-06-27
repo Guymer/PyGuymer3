@@ -1,8 +1,15 @@
-def jpegtran(fname1, kwArgCheck = None, debug = False):
+def gifsicle(fname1, kwArgCheck = None, debug = False):
     """
-    "jpegtran" does not modify, but it does touch, the image if it cannot make
-    it smaller, therefore it is NOT safe to keep on running "jpegtran" on the
-    same JPG over and over again.
+    "gifsicle" does modify, and it does touch, the image if it cannot make
+    it smaller, therefore it is NOT safe to keep on running "gifsicle" on the
+    same GIF over and over again.
+
+    In my own testing (August 2020) I have found that "gifsicle" switches
+    between two different images when it is run repeatadly (try finding the MD5
+    hash of the images) and that the only differences between these identically
+    sized images is the order of the colours in the colour map (try running
+    "gifsicle --color-info file.gif" yourself after each call and then "diff"
+    the output).
     """
 
     # Import standard modules ...
@@ -12,33 +19,32 @@ def jpegtran(fname1, kwArgCheck = None, debug = False):
     import tempfile
 
     # Load sub-functions ...
-    from .sha512 import sha512
+    from ..sha512 import sha512
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
         print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
-    # Check that "jpegtran" is installed ...
-    if shutil.which("jpegtran") is None:
-        raise Exception("\"jpegtran\" is not installed") from None
+    # Check that "gifsicle" is installed ...
+    if shutil.which("gifsicle") is None:
+        raise Exception("\"gifsicle\" is not installed") from None
 
     # Check that the image exists ...
     if not os.path.exists(fname1):
-        raise Exception("\"{0:s}\" does not exist".format(fname1)) from None
+        raise Exception("\"{:s}\" does not exist".format(fname1)) from None
 
     # Create temporary directory ...
-    with tempfile.TemporaryDirectory(prefix = "jpegtran.") as tname:
+    with tempfile.TemporaryDirectory(prefix = "gifsicle.") as tname:
         # Create temporary name ...
-        fname2 = os.path.join(tname, "image.jpg")
+        fname2 = os.path.join(tname, "image.gif")
 
-        # Optimise JP[E]G ...
+        # Optimise GIF ...
         subprocess.check_call(
             [
-                "jpegtran",
-                "-copy", "all",
-                "-optimise",
-                "-outfile", fname2,
-                "-perfect",
+                "gifsicle",
+                "--unoptimize",
+                "--optimize=3",
+                "--output", fname2,
                 fname1
             ],
             encoding = "utf-8",
