@@ -46,6 +46,8 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, nang = 19, simp
         raise TypeError("\"poly\" is not a Polygon") from None
     if not poly.is_valid:
         raise Exception(f"\"poly\" is not a valid Polygon ({shapely.validation.explain_validity(poly)})") from None
+    if poly.is_empty:
+        raise Exception("\"poly\" is an empty Polygon") from None
 
     # Initialize list ...
     buffs = []

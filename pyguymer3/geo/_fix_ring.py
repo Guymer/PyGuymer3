@@ -246,13 +246,17 @@ def _fix_ring(ring, kwArgCheck = None, debug = False, simp = 0.1):
     if not buffs.is_valid:
         raise Exception(f"\"buffs\" is not a valid [Multi]Polygon ({shapely.validation.explain_validity(buffs)})") from None
 
+    # Check [Multi]Polygon ...
+    if buffs.is_empty:
+        raise Exception("\"buffs\" is an empty [Multi]Polygon") from None
+
     # Check if the user wants to simplify the [Multi]Polygon ...
     if simp > 0.0:
         # Simplify [Multi]Polygon ...
         buffsSimp = buffs.simplify(simp)
 
         # Check simplified [Multi]Polygon ...
-        if buffsSimp.is_valid:
+        if buffsSimp.is_valid and not buffsSimp.is_empty:
             # Return simplified answer ...
             return buffsSimp
 

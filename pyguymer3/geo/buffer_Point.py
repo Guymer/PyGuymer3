@@ -44,6 +44,8 @@ def buffer_Point(point, dist, kwArgCheck = None, debug = False, nang = 19, simp 
         raise TypeError("\"point\" is not a Point") from None
     if not point.is_valid:
         raise Exception(f"\"point\" is not a valid Point ({shapely.validation.explain_validity(point)})") from None
+    if point.is_empty:
+        raise Exception("\"point\" is an empty Point") from None
 
     # Return buffered Point ...
     return buffer_CoordinateSequence(point.coords, dist, debug = debug, nang = nang, simp = simp)

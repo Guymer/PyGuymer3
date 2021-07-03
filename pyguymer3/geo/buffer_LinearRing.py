@@ -44,6 +44,8 @@ def buffer_LinearRing(ring, dist, kwArgCheck = None, debug = False, nang = 19, s
         raise TypeError("\"ring\" is not a LinearRing") from None
     if not ring.is_valid:
         raise Exception(f"\"ring\" is not a valid LinearRing ({shapely.validation.explain_validity(ring)})") from None
+    if ring.is_empty:
+        raise Exception("\"ring\" is an empty LinearRing") from None
 
     # Return buffered LinearRing ...
     return buffer_CoordinateSequence(ring.coords, dist, debug = debug, nang = nang, simp = simp)

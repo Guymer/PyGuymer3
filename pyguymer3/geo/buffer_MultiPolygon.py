@@ -46,6 +46,8 @@ def buffer_MultiPolygon(multipoly, dist, kwArgCheck = None, debug = False, nang 
         raise TypeError("\"multipoly\" is not a MultiPolygon") from None
     if not multipoly.is_valid:
         raise Exception(f"\"multipoly\" is not a valid MultiPolygon ({shapely.validation.explain_validity(multipoly)})") from None
+    if multipoly.is_empty:
+        raise Exception("\"multipoly\" is an empty MultiPolygon") from None
 
     # Initialize list ...
     buffs = []
