@@ -5,7 +5,7 @@ This directory contains some basic tests to (hopefully):
 
 ### `buffer_point()`
 
-The function [buffer_point](../pyguymer3/geo/buffer_point.py) is tested by the script [bufferPoint.py](bufferPoint.py) which produces the images below.
+The function [buffer_Point](../pyguymer3/geo/buffer_Point.py) is tested by the script [bufferPoint.py](bufferPoint.py) which produces the images below.
 
 ![bufferPoint output image](bufferPoint0.png)
 

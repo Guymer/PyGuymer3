@@ -3,7 +3,7 @@
 # Use the proper idiom in the main module ...
 # NOTE: See https://docs.python.org/3.8/library/multiprocessing.html#multiprocessing-programming
 if __name__ == "__main__":
-    # This is a test suite for “buffer_point()” with:
+    # This is a test suite for "buffer_Point()” with:
     #     A) a point that span the whole numerical range;
     #     B) a point that cross the equator;
     #     C) a point that cross the anti-meridian;
