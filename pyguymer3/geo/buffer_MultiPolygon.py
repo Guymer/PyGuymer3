@@ -1,4 +1,4 @@
-def buffer_MultiPolygon(multipoly, dist, kwArgCheck = None, debug = False, nang = 19, simp = 0.1):
+def buffer_MultiPolygon(multipoly, dist, kwArgCheck = None, debug = False, fill = -1.0, nang = 19, simp = 0.1):
     """Buffer a MultiPolygon
 
     This function reads in a MultiPolygon, made up of Polygons (with an exterior
@@ -14,6 +14,8 @@ def buffer_MultiPolygon(multipoly, dist, kwArgCheck = None, debug = False, nang 
             the distance to buffer each point within the MultiPolygon by (in metres)
     debug : bool, optional
             print debug messages
+    fill : float, optional
+            how many intermediary points are added to fill in the straight lines which connect the points; negative values disable filling
     nang : int, optional
             the number of angles around each point within the MultiPolygon that are calculated when buffering
     simp : float, optional
@@ -55,7 +57,7 @@ def buffer_MultiPolygon(multipoly, dist, kwArgCheck = None, debug = False, nang 
     # Loop over Polygons ...
     for poly in multipoly.geoms:
         # Append buffer of Polygon to list ...
-        buffs.append(buffer_Polygon(poly, dist, debug = debug, nang = nang, simp = simp))
+        buffs.append(buffer_Polygon(poly, dist, debug = debug, fill = fill, nang = nang, simp = simp))
 
     # Convert list of [Multi]Polygons to (unified) [Multi]Polygon ...
     buffs = shapely.ops.unary_union(buffs)
@@ -64,13 +66,17 @@ def buffer_MultiPolygon(multipoly, dist, kwArgCheck = None, debug = False, nang 
     if not buffs.is_valid:
         raise Exception(f"\"buffs\" is not a valid [Multi]Polygon ({shapely.validation.explain_validity(buffs)})") from None
 
+    # Check [Multi]Polygon ...
+    if buffs.is_empty:
+        raise Exception("\"buffs\" is an empty [Multi]Polygon") from None
+
     # Check if the user wants to simplify the [Multi]Polygon ...
     if simp > 0.0:
         # Simplify [Multi]Polygon ...
         buffsSimp = buffs.simplify(simp)
 
         # Check simplified [Multi]Polygon ...
-        if buffsSimp.is_valid:
+        if buffsSimp.is_valid and not buffsSimp.is_empty:
             # Return simplified answer ...
             return buffsSimp
 

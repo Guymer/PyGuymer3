@@ -1,4 +1,4 @@
-def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, nang = 19, simp = 0.1):
+def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fill = -1.0, nang = 19, simp = 0.1):
     """Buffer a CoordinateSequence
 
     This function reads in a CoordinateSequence that exists on the surface of
@@ -13,6 +13,8 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, na
             the distance to buffer each point within the CoordinateSequence by (in metres)
     debug : bool, optional
             print debug messages
+    fill : float, optional
+            how many intermediary points are added to fill in the straight lines which connect the points; negative values disable filling
     nang : int, optional
             the number of angles around each point within the CoordinateSequence that are calculated when buffering
     simp : float, optional
