@@ -47,5 +47,49 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     if not isinstance(coords, shapely.coords.CoordinateSequence):
         raise TypeError("\"coords\" is not a CoordinateSequence") from None
 
+    # Convert the CoordinateSequence to a NumPy array ...
+    raw = numpy.array(coords)                                                   # [°]
+
+    # Check if the user wants to fill in the straight lines which connect the
+    # points ...
+    if fill > 0.0 and simp > 0.0:
+        # Find the Euclidean distance between each raw point ...
+        dr = numpy.hypot(numpy.diff(raw[:, 0]), numpy.diff(raw[:, 1]))          # [°]
+
+        # Find the number of filled segments required between each raw point ...
+        # NOTE: This is the number of fence panels, not the number of fence
+        #       posts.
+        ns = (fill * dr / simp).astype(numpy.uint64)                            # [#]
+        numpy.place(ns, ns < numpy.uint64(2), numpy.uint64(2))                  # [#]
+
+        # Find the total number of filled points required ...
+        # NOTE: This is the total number of fence posts, not the total number of
+        #       fence panels.
+        nsTot = ns.sum() + numpy.uint64(1)                                      # [#]
+
+        # Create empty array ...
+        fill = numpy.zeros((nsTot, 2), dtype = numpy.float64)                   # [°]
+
+        if debug:
+            print(f"INFO: There are x{fill.shape[0] / raw.shape[0]:,.1f} more points due to filling.")
+
+        # Initialize index ...
+        ifill = numpy.uint64(0)                                                 # [#]
+
+        # Loop over raw points ...
+        for iraw in range(ns.size):
+            # Fill in points ...
+            fill[ifill:ifill + ns[iraw], 0] = numpy.linspace(raw[iraw, 0], raw[iraw + 1, 0], endpoint = False, num = ns[iraw])  # [°]
+            fill[ifill:ifill + ns[iraw], 1] = numpy.linspace(raw[iraw, 1], raw[iraw + 1, 1], endpoint = False, num = ns[iraw])  # [°]
+
+            # Increment index ...
+            ifill += ns[iraw]                                                   # [#]
+
+        # Fill in last point ...
+        fill[-1, :] = raw[-1, :]                                                # [°]
+
+        # Return buffered filled CoordinateSequence ...
+        return _buffer_points(fill, dist, debug = debug, nang = nang, simp = simp)
+
     # Return buffered CoordinateSequence ...
-    return _buffer_points(numpy.array(coords), dist, debug = debug, nang = nang, simp = simp)
+    return _buffer_points(raw, dist, debug = debug, nang = nang, simp = simp)
