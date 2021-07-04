@@ -8,6 +8,8 @@ import os
 try:
     import PIL
     import PIL.Image
+    import PIL.ImageDraw
+    import PIL.ImageFont
     import PIL.ImageOps
 except:
     raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None
@@ -42,19 +44,38 @@ flippedEarth = earth.transpose(PIL.Image.FLIP_TOP_BOTTOM).transpose(PIL.Image.FL
 earths = PIL.Image.new("RGB", (3 * earth.width, 3 * earth.height), color = (255, 255, 255))
 
 # Loop over columns ...
-for i in range(4):
+for i in range(2):
     # Draw first row ...
-    earths.paste(flippedEarth, box = (i * earth.width - earth.width // 2, 0))
+    earths.paste(flippedEarth, box = (i * earth.width + earth.width // 2,               0))
 
 # Loop over columns ...
 for i in range(3):
     # Draw second row ...
-    earths.paste(earth, box = (i * earth.width, earth.height))
+    earths.paste(earth       , box = (i * earth.width                   ,    earth.height))
 
 # Loop over columns ...
-for i in range(4):
+for i in range(2):
     # Draw third row ...
-    earths.paste(flippedEarth, box = (i * earth.width - earth.width // 2, 2 * earth.height))
+    earths.paste(flippedEarth, box = (i * earth.width + earth.width // 2, 2 * earth.height))
+
+# Create a drawing object ...
+draw = PIL.ImageDraw.Draw(earths)
+
+# Create a font object ...
+font = PIL.ImageFont.truetype(font = "Arial Unicode.ttf", size = 40)
+
+# Label first row ...
+draw.text((    earth.width                   ,                    earth.height // 2), "A", anchor = "mm", fill = (255, 0, 0), font = font)
+draw.text((2 * earth.width                   ,                    earth.height // 2), "B", anchor = "mm", fill = (255, 0, 0), font = font)
+
+# Label second row ...
+draw.text((                  earth.width // 2,     earth.height + earth.height // 2), "C", anchor = "mm", fill = (255, 0, 0), font = font)
+draw.text((    earth.width + earth.width // 2,     earth.height + earth.height // 2), "D", anchor = "mm", fill = (255, 0, 0), font = font)
+draw.text((2 * earth.width + earth.width // 2,     earth.height + earth.height // 2), "E", anchor = "mm", fill = (255, 0, 0), font = font)
+
+# Label third row ...
+draw.text((    earth.width                   , 2 * earth.height + earth.height // 2), "F", anchor = "mm", fill = (255, 0, 0), font = font)
+draw.text((2 * earth.width                   , 2 * earth.height + earth.height // 2), "G", anchor = "mm", fill = (255, 0, 0), font = font)
 
 # ******************************************************************************
 
