@@ -71,6 +71,54 @@ if __name__ == "__main__":
         points2 = pyguymer3.geo._buffer_points_crudely(points1, dist, nang = 19)
 
         wedges = []
+
+        ring = shapely.geometry.LineString(points2[0, :, :])
+        minLon, minLat, maxLon, maxLat = ring.bounds
+        if minLon > lon:
+            print(f"longitude: {minLon:.1f}° > {lon:.1f}°")
+        if maxLon < lon:
+            print(f"longitude: {maxLon:.1f}° < {lon:.1f}°")
+        if minLat > lat:
+            print(f"latitude: {minLat:.1f}° > {lat:.1f}°")
+            wedge = shapely.geometry.polygon.Polygon(
+                [
+                    (-360.0, -90.0),
+                    (+360.0, -90.0),
+                    (+360.0, minLat),
+                    (-360.0, minLat),
+                    (-360.0, -90.0),
+                ]
+            )
+            if not isinstance(wedge, shapely.geometry.polygon.Polygon):
+                raise Exception("\"wedge\" is not a Polygon") from None
+            if not wedge.is_valid:
+                raise Exception(f"\"wedge\" is not a valid Polygon ({shapely.validation.explain_validity(wedge)})") from None
+            if wedge.is_empty:
+                raise Exception("\"wedge\" is an empty Polygon") from None
+            wedges.append(wedge)
+            ring = numpy.array(wedge.exterior)
+            ax.plot(ring[:, 0], ring[:, 1], color = "C0", marker = "d")
+        if maxLat < lat:
+            print(f"latitude: {maxLat:.1f}° < {lat:.1f}°")
+            wedge = shapely.geometry.polygon.Polygon(
+                [
+                    (-360.0, 90.0),
+                    (+360.0, 90.0),
+                    (+360.0, maxLat),
+                    (-360.0, maxLat),
+                    (-360.0, 90.0),
+                ]
+            )
+            if not isinstance(wedge, shapely.geometry.polygon.Polygon):
+                raise Exception("\"wedge\" is not a Polygon") from None
+            if not wedge.is_valid:
+                raise Exception(f"\"wedge\" is not a valid Polygon ({shapely.validation.explain_validity(wedge)})") from None
+            if wedge.is_empty:
+                raise Exception("\"wedge\" is an empty Polygon") from None
+            wedges.append(wedge)
+            ring = numpy.array(wedge.exterior)
+            ax.plot(ring[:, 0], ring[:, 1], color = "C0", marker = "d")
+
         for iang in range(18):
             wedge = shapely.geometry.polygon.Polygon(
                 [
@@ -88,7 +136,7 @@ if __name__ == "__main__":
                 raise Exception("\"wedge\" is an empty Polygon") from None
             wedges.append(wedge)
             ring = numpy.array(wedge.exterior)
-            ax.plot(ring[:, 0], ring[:, 1], color = "C0", marker = "d")
+            ax.plot(ring[:, 0], ring[:, 1], color = "C1", marker = "d")
         wedges = shapely.ops.unary_union(wedges)
         if not isinstance(wedges, shapely.geometry.polygon.Polygon):
             raise Exception("\"wedges\" is not a Polygon") from None
@@ -98,32 +146,7 @@ if __name__ == "__main__":
             raise Exception("\"wedges\" is an empty Polygon") from None
 
         # Plot data ..
-        ax.plot(points2[0, :, 0], points2[0, :, 1], color = "C1", marker = "d")
-
-        # TODO: The ring must contain the point. If it does not, then the ring
-        #       crosses the [anti]meridian and more points need adding to the
-        #       ring to fully describe that.
-
-        # # Buffer point ...
-        # buff = pyguymer3.geo.buffer(shapely.geometry.point.Point(lon, lat), dist, debug = True, nang = 19, simp = -1.0)
-        #
-        # # Check type ...
-        # if isinstance(buff, shapely.geometry.polygon.Polygon):
-        #     # Plot data ..
-        #     ring = numpy.array(buff.exterior)                                   # [°], [°]
-        #     ax.plot(ring[:, 0], ring[:, 1], marker = "d")
-        # elif isinstance(buff, shapely.geometry.multipolygon.MultiPolygon):
-        #     # Loop over geometries ...
-        #     for geom in buff.geoms:
-        #         # Check type ...
-        #         if isinstance(geom, shapely.geometry.polygon.Polygon):
-        #             # Plot data ..
-        #             ring = numpy.array(geom.exterior)                           # [°], [°]
-        #             ax.plot(ring[:, 0], ring[:, 1], marker = "d")
-        #         else:
-        #             raise TypeError(f"\"geom\" is an unexpected type ({repr(type(geom))})") from None
-        # else:
-        #     raise TypeError(f"\"buff\" is an unexpected type ({repr(type(buff))})") from None
+        ax.plot(points2[0, :, 0], points2[0, :, 1], color = "C2", marker = "d")
 
         # Configure figure ...
         fg.suptitle(f"({lon:.1f}°,{lat:.1f}°) buffered by {0.001 * dist:,.1f}km")
