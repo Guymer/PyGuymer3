@@ -71,8 +71,14 @@ def calc_dist_between_two_locs(lon1_deg, lat1_deg, lon2_deg, lat2_deg, kwArgChec
         # Only check the solution after at least 3 function calls ...
         if i >= 3:
             if lamNew == lam:
+                # Replace old lambda with new lambda ...
+                lam = lamNew
+
                 break
             if abs(lamNew - lam) / abs(lamNew) <= eps:
+                # Replace old lambda with new lambda ...
+                lam = lamNew
+
                 break
 
         # Replace old lambda with new lambda ...
