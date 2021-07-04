@@ -134,14 +134,16 @@ if __name__ == "__main__":
 
     # Buffer polygon and plot it twice ...
     buff = pyguymer3.geo.buffer(poly, dist, debug = True, fill = -1.0, nang = 361, simp = 0.1)
-    ax1.add_geometries([buff], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = (1, 0.0, 0.0, 0.5), linewidth = 1.0)
-    ax2.add_geometries([buff], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = (1, 0.0, 0.0, 0.5), linewidth = 1.0)
+    ax1.add_geometries([buff.convex_hull], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = (1, 0.0, 0.0, 0.5), linewidth = 1.0)
+    ax2.add_geometries([buff.convex_hull], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = (1, 0.0, 0.0, 0.5), linewidth = 1.0)
 
     # Save figure ...
     fg.suptitle(f"Simple Polygon buffered by {0.001 * dist:,.1f}km\n(no filling; simp=0.1°)")
     fg.savefig(fname, bbox_inches = "tight", dpi = 150, pad_inches = 0.1)
     pyguymer3.image.optimize_image(fname, strip = True)
     matplotlib.pyplot.close(fg)
+
+    exit()
 
     # **************************************************************************
 
