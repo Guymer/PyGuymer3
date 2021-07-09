@@ -41,6 +41,6 @@ Public functions:
 
 ## Multiple Earths
 
-To take account of the looping nature of the longitude/latitude Geodesic coordinate system of planet Earth, `buffer_CoordinateSequence()` has multiple copies of Earth which are then collapsed down on to one Earth: Earth-D.
+To take account of the looping nature of the longitude/latitude Geodesic coordinate system of planet Earth, `buffer_CoordinateSequence()` has multiple copies of Earth which are then collapsed down on to one Earth: "Earth-D".
 
 ![multiple Earths](earths.png)
