@@ -1,4 +1,4 @@
-def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fill = -1.0, nang = 19, simp = 0.1):
+def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, nang = 19, simp = 0.1):
     """Buffer a CoordinateSequence
 
     This function reads in a CoordinateSequence that exists on the surface of
@@ -13,8 +13,6 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
             the distance to buffer each point within the CoordinateSequence by (in metres)
     debug : bool, optional
             print debug messages
-    fill : float, optional
-            how many intermediary points are added to fill in the straight lines which connect the points; negative values disable filling
     nang : int, optional
             the number of angles around each point within the CoordinateSequence that are calculated when buffering
     simp : float, optional
@@ -27,7 +25,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     """
 
     # Import standard modules ...
-    import os
+    import math
 
     # Import special modules ...
     try:
@@ -40,10 +38,23 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Load sub-functions ...
-    from ._buffer_points import _buffer_points
-    from .calc_dist_between_two_locs import calc_dist_between_two_locs
-    from .calc_loc_from_loc_and_bearing_and_dist import calc_loc_from_loc_and_bearing_and_dist
-    # from .find_point_on_great_circle import find_point_on_great_circle
+    from ._buffer_points_crudely import _buffer_points_crudely
+    from ._earthA import _earthA
+    from ._earthB import _earthB
+    from ._earthC import _earthC
+    from ._earthD import _earthD
+    from ._earthE import _earthE
+    from ._earthF import _earthF
+    from ._earthG import _earthG
+    try:
+        from ..f90 import f90
+        if debug:
+            print("INFO: Will find the rings using FORTRAN.")
+        fortran = True
+    except:
+        if debug:
+            print("INFO: Will find the rings using Python.")
+        fortran = False
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
@@ -53,101 +64,212 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     if not isinstance(coords, shapely.coords.CoordinateSequence):
         raise TypeError("\"coords\" is not a CoordinateSequence") from None
 
+    # Correct inputs ...
+    # NOTE: Limit the buffering distance to be between 10m and a quarter of
+    #       Earth's circumference.
+    # NOTE: Must do at least 9 points around the compass.
+    dist = max(10.0, min(0.5 * math.pi * 6371008.8, dist))                      # [m]
+    nang = max(9, nang)
+
+    # **************************************************************************
+    # Step 1: Convert the CoordinateSequence to a NumPy array of the original  #
+    #         points                                                           #
+    # **************************************************************************
+
     # Convert the CoordinateSequence to a NumPy array ...
-    raw = numpy.array(coords)                                                   # [°], [°]
+    points1 = numpy.array(coords)                                               # [°]
 
-    # Buffer the CoordinateSequence ...
-    poly = _buffer_points(raw, dist, debug = debug, nang = nang, simp = simp)
+    # Check inputs ...
+    if points1[:, 0].min() < -180.0:
+        raise Exception(f"a point exists off the W-edge of Earth ({points1[:, 0].min():.1f}° < -180°)") from None
+    if points1[:, 0].max() > +180.0:
+        raise Exception(f"a point exists off the E-edge of Earth ({points1[:, 0].max():.1f}° > +180°)") from None
+    if points1[:, 1].min() < -90.0:
+        raise Exception(f"a point exists off the S-edge of Earth ({points1[:, 1].min():.1f}° < -90°)") from None
+    if points1[:, 1].max() > +90.0:
+        raise Exception(f"a point exists off the N-edge of Earth ({points1[:, 1].max():.1f}° > +90°)") from None
 
-    # Check if the user doesn't want to fill in the straight lines which connect
-    # the raw points ...
-    if fill <= 0.0:
-        # Return buffered CoordinateSequence ...
-        return poly
+    # **************************************************************************
+    # Step 2: Buffer the NumPy array of the original points to get a NumPy     #
+    #         array of the rings around them                                   #
+    # **************************************************************************
+
+    # Buffer (in Geodesic space) the CoordinateSequence ...
+    if fortran:
+        points2 = f90.buffer_points_crudely(points1, dist, nang)                # [°]
+    else:
+        points2 = _buffer_points_crudely(points1, dist, nang)                   # [°]
+
+    # **************************************************************************
+    # Step 3: Convert the NumPy array of the rings around the original points  #
+    #         to a list of Polygons of the buffered original points            #
+    # **************************************************************************
+
+    # Initialize list ...
+    polys = []
+
+    # Loop over points ...
+    for ipoint in range(points1.shape[0]):
+        # Initialize list ...
+        wedges = []
+
+        # Check that the ring encompasses the original point ...
+        if points2[ipoint, :, 0].min() > points1[ipoint, 0]:
+            raise Exception(f"the W-edge of the ring does not encompass the original point ({points2[ipoint, :, 0].min():.1f}° > {points1[ipoint, 0]:.1f}°)")
+        if points2[ipoint, :, 0].max() < points1[ipoint, 0]:
+            raise Exception(f"the E-edge of the ring does not encompass the original point ({points2[ipoint, :, 0].max():.1f}° < {points1[ipoint, 0]:.1f}°)")
+        if points2[ipoint, :, 1].min() > points1[ipoint, 1]:
+            # Create a Polygon from the lower extent of the ring down to the
+            # South Pole ...
+            wedge = shapely.geometry.polygon.Polygon(
+                [
+                    (-360.0, -90.0),
+                    (+360.0, -90.0),
+                    (+360.0, points2[ipoint, :, 1].min()),
+                    (-360.0, points2[ipoint, :, 1].min()),
+                    (-360.0, -90.0),
+                ]
+            )
+            if not isinstance(wedge, shapely.geometry.polygon.Polygon):
+                raise Exception("\"wedge\" is not a Polygon") from None
+            if not wedge.is_valid:
+                raise Exception(f"\"wedge\" is not a valid Polygon ({shapely.validation.explain_validity(wedge)})") from None
+            if wedge.is_empty:
+                raise Exception("\"wedge\" is an empty Polygon") from None
+
+            # Append Polygon to list ...
+            wedges.append(wedge)
+        if points2[ipoint, :, 1].max() < points1[ipoint, 1]:
+            # Create a Polygon from the upper extent of the ring up to the
+            # North Pole ...
+            wedge = shapely.geometry.polygon.Polygon(
+                [
+                    (-360.0, 90.0),
+                    (+360.0, 90.0),
+                    (+360.0, points2[ipoint, :, 1].max()),
+                    (-360.0, points2[ipoint, :, 1].max()),
+                    (-360.0, 90.0),
+                ]
+            )
+            if not isinstance(wedge, shapely.geometry.polygon.Polygon):
+                raise Exception("\"wedge\" is not a Polygon") from None
+            if not wedge.is_valid:
+                raise Exception(f"\"wedge\" is not a valid Polygon ({shapely.validation.explain_validity(wedge)})") from None
+            if wedge.is_empty:
+                raise Exception("\"wedge\" is an empty Polygon") from None
+
+            # Append Polygon to list ...
+            wedges.append(wedge)
+
+        # Loop over angles ...
+        for iang in range(nang - 1):
+            # Create a Polygon from the original point to this segment of the
+            # ring ...
+            wedge = shapely.geometry.polygon.Polygon(
+                [
+                    (points1[ipoint,           0], points1[ipoint,           1]),
+                    (points2[ipoint, iang    , 0], points2[ipoint, iang    , 1]),
+                    (points2[ipoint, iang + 1, 0], points2[ipoint, iang + 1, 1]),
+                    (points1[ipoint,           0], points1[ipoint,           1]),
+                ]
+            )
+            if not isinstance(wedge, shapely.geometry.polygon.Polygon):
+                raise Exception("\"wedge\" is not a Polygon") from None
+            if not wedge.is_valid:
+                raise Exception(f"\"wedge\" is not a valid Polygon ({shapely.validation.explain_validity(wedge)})") from None
+            if wedge.is_empty:
+                raise Exception("\"wedge\" is an empty Polygon") from None
+
+            # Append Polygon to list ...
+            wedges.append(wedge)
+
+        # Convert list of Polygons to (unified) Polygon ...
+        wedges = shapely.ops.unary_union(wedges)
+        if not isinstance(wedges, shapely.geometry.polygon.Polygon):
+            raise Exception("\"wedges\" is not a Polygon") from None
+        if not wedges.is_valid:
+            raise Exception(f"\"wedges\" is not a valid Polygon ({shapely.validation.explain_validity(wedges)})") from None
+        if wedges.is_empty:
+            raise Exception("\"wedges\" is an empty Polygon") from None
+
+        # Append (unified) Polygon to list ...
+        polys.append(wedges)
+
+    # **************************************************************************
+    # Step 4: Append Polygons of the buffered connections between the original #
+    #         points to the list of Polygons of the buffered original points   #
+    # **************************************************************************
+
+    # Check that there are some connections ...
+    if points1.shape[0] > 1:
+        # Loop over points ...
+        for ipoint in range(points1.shape[0] - 1):
+            # Create a line connecting the two original points ...
+            line = shapely.geometry.linestring.LineString([points1[ipoint, :], points1[ipoint + 1, :]])
+            if not isinstance(line, shapely.geometry.linestring.LineString):
+                raise Exception("\"line\" is not a LineString") from None
+            if not line.is_valid:
+                raise Exception(f"\"line\" is not a valid LineString ({shapely.validation.explain_validity(line)})") from None
+            if line.is_empty:
+                raise Exception("\"line\" is an empty LineString") from None
+
+            # Find the minimum distance from an original point to any point on
+            # its ring ...
+            minDist = min(
+                numpy.hypot(points2[ipoint    , :, 0] - points1[ipoint    , 0], points2[ipoint    , :, 1] - points1[ipoint    , 1]).min(),
+                numpy.hypot(points2[ipoint + 1, :, 0] - points1[ipoint + 1, 0], points2[ipoint + 1, :, 1] - points1[ipoint + 1, 1]).min(),
+            )                                                                   # [°]
+
+            # Add conservatism ...
+            minDist *= 0.1                                                      # [°]
+
+            # Buffer (in Euclidean space) the line connecting the two original
+            # points...
+            line = line.buffer(minDist)
+            if not isinstance(line, shapely.geometry.polygon.Polygon):
+                raise Exception("\"line\" is not a Polygon") from None
+            if not line.is_valid:
+                raise Exception(f"\"line\" is not a valid Polygon ({shapely.validation.explain_validity(line)})") from None
+            if line.is_empty:
+                raise Exception("\"line\" is an empty Polygon") from None
+
+            # Append Polygon to list ...
+            polys.append(line)
+
+    # **************************************************************************
+    # Step 5: Create a single [Multi]Polygon that is the union of all of the   #
+    #         Polygons and re-map it so that it does not extend off the edge   #
+    #         of Earth                                                         #
+    # **************************************************************************
+
+    # Convert list of Polygons to (unified) Polygon ...
+    polys = shapely.ops.unary_union(polys)
+    if not isinstance(polys, shapely.geometry.polygon.Polygon):
+        raise Exception("\"polys\" is not a Polygon") from None
+    if not polys.is_valid:
+        raise Exception(f"\"polys\" is not a valid Polygon ({shapely.validation.explain_validity(polys)})") from None
+    if polys.is_empty:
+        raise Exception("\"polys\" is an empty Polygon") from None
 
     # Initialize list ...
     buffs = []
-    buffs.append(poly)
 
-    # Loop over raw points ...
-    for iraw in range(raw.shape[0] - 1):
-        # Create short-hands ...
-        a = raw[iraw, :]                                                        # [°], [°]
-        b = raw[iraw + 1, :]                                                    # [°], [°]
+    # Append the Polygon, which is the subset of the (unified) Polygon that
+    # intersects with Earth-A that has been re-mapped on to Earth-D, to list ...
+    buffs += _earthA(polys)
 
-        # Find the Geodesic distance between A and B, as well as the bearing
-        # from A to B and from B to A ...
-        geodesicDist, a2b, b2a = calc_dist_between_two_locs(a[0], a[1], b[0], b[1]) # [m], [°], [°]
+    print(buffs)
+    exit()
 
-        # # Find the number of filled segments required between A and B ...
-        # # NOTE: This is the number of fence panels, not the number of fence
-        # #       posts.
-        # ns = max(2, round(fill * geodesicDist / dist))                          # [#]
+    print(type(earthA))
+    print(type(polys))
+    print(type(inter))
+    exit()
 
-        # Calculate the two points port and starboard (C and D) when going from
-        # A to B ...
-        c = calc_loc_from_loc_and_bearing_and_dist(a[0], a[1], (a2b - 90.0) % 360.0, dist)[:2]  # [°], [°]
-        d = calc_loc_from_loc_and_bearing_and_dist(a[0], a[1], (a2b + 90.0) % 360.0, dist)[:2]  # [°], [°]
 
-        # Calculate the two points port and starboard (E and F) when going from
-        # B to A ...
-        e = calc_loc_from_loc_and_bearing_and_dist(b[0], b[1], (b2a - 90.0) % 360.0, dist)[:2]  # [°], [°]
-        f = calc_loc_from_loc_and_bearing_and_dist(b[0], b[1], (b2a + 90.0) % 360.0, dist)[:2]  # [°], [°]
 
-        poly = shapely.geometry.MultiPoint([a, b, c, d, e, f]).convex_hull
-
-        # # Swap E and F around if the Polygon will be a bowtie ...
-        # tmp1 = calc_dist_between_two_locs(c[0], c[1], e[0], e[1])[1]
-        # tmp2 = calc_dist_between_two_locs(c[0], c[1], f[0], f[1])[1]
-        # if tmp1 > tmp2:
-        #     e, f = f, e
-        #
-        # # Find the fractions along the route from A to B of each filled point ...
-        # fracs = numpy.linspace(0.0, 1.0, endpoint = False, num = ns)[1:]
-        #
-        # # Initialize arrays ...
-        # c2e = numpy.zeros((fracs.size, 2), dtype = numpy.float64)               # [°], [°]
-        # f2d = numpy.zeros((fracs.size, 2), dtype = numpy.float64)               # [°], [°]
-        #
-        # # Loop over filled points ...
-        # for ifill in range(ns - 1):
-        #     # Calculate the filled point from C to E for this fraction ...
-        #     c2e[ifill, 0], c2e[ifill, 1] = find_point_on_great_circle(fracs[ifill], c[0], c[1], e[0], e[1]) # [°], [°]
-        #
-        #     # Calculate the filled point from F to D for this fraction ...
-        #     f2d[ifill, 0], f2d[ifill, 1] = find_point_on_great_circle(fracs[ifill], f[0], f[1], d[0], d[1]) # [°], [°]
-        #
-        # # Create a ring that "goes from A to C to E to B to F to D to A" ...
-        # ring = []                                                               # [°], [°]
-        # ring.append(a)                                                          # [°], [°]
-        # ring.append(c)                                                          # [°], [°]
-        # for ifill in range(ns - 1):
-        #     ring.append(c2e[ifill, :])                                          # [°], [°]
-        # ring.append(e)                                                          # [°], [°]
-        # ring.append(b)                                                          # [°], [°]
-        # ring.append(f)                                                          # [°], [°]
-        # for ifill in range(ns - 1):
-        #     ring.append(f2d[ifill, :])                                          # [°], [°]
-        # ring.append(d)                                                          # [°], [°]
-        # ring.append(a)                                                          # [°], [°]
-        #
-        # # Create a Polygon from the ring and append it to the list ...
-        # poly = shapely.geometry.polygon.Polygon(ring)
-
-        # Check [Multi]Polygon ...
-        if not poly.is_valid:
-            with open(f"{os.path.dirname(__file__)}/buffer_CoordinateSequence.debug.ring.csv", "wt") as fobj:
-                fobj.write("lon [°],lat [°]\n")
-                for x, y in poly.exterior:
-                    fobj.write(f"{x:.15e},{y:.15e}\n")
-            raise Exception(f"\"poly\" is not a valid [Multi]Polygon ({shapely.validation.explain_validity(poly)})") from None
-
-        # Check [Multi]Polygon ...
-        if poly.is_empty:
-            raise Exception("\"poly\" is an empty [Multi]Polygon") from None
-
-        # Append the Polygon to the list ...
-        buffs.append(poly)
+    print(polys)
+    exit()
 
     # Convert list of [Multi]Polygons to (unified) [Multi]Polygon ...
     buffs = shapely.ops.unary_union(buffs)
