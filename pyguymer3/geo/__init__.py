@@ -6,7 +6,15 @@ have written over the years.
 # Import sub-functions ...
 from ._buffer_points import _buffer_points
 from ._buffer_points_crudely import _buffer_points_crudely
+from ._earthA import _earthA
+from ._earthB import _earthB
+from ._earthC import _earthC
+from ._earthD import _earthD
+from ._earthE import _earthE
+from ._earthF import _earthF
+from ._earthG import _earthG
 from ._fix_ring import _fix_ring
+from ._polys import _polys
 from .add_map_background import add_map_background
 from .buffer import buffer
 from .buffer_CoordinateSequence import buffer_CoordinateSequence
