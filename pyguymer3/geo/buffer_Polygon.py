@@ -1,4 +1,4 @@
-def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = -1.0, nang = 19, simp = 0.1):
+def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, nang = 19, simp = 0.1):
     """Buffer a Polygon
 
     This function reads in a Polygon (with an exterior and any number of
@@ -14,8 +14,6 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = -1.0, na
             the distance to buffer each point within the Polygon by (in metres)
     debug : bool, optional
             print debug messages
-    fill : float, optional
-            how many intermediary points are added to fill in the straight lines which connect the points; negative values disable filling
     nang : int, optional
             the number of angles around each point within the Polygon that are calculated when buffering
     simp : float, optional
@@ -56,12 +54,12 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = -1.0, na
     buffs.append(poly)
 
     # Append buffer of exterior LinearRing to list ...
-    buffs.append(buffer_LinearRing(poly.exterior, dist, debug = debug, fill = fill, nang = nang, simp = simp))
+    buffs.append(buffer_LinearRing(poly.exterior, dist, debug = debug, nang = nang, simp = simp))
 
     # Loop over interior LinearRings ...
     for ring in poly.interiors:
         # Append buffer of interior LinearRing to list ...
-        buffs.append(buffer_LinearRing(ring, dist, debug = debug, fill = fill, nang = nang, simp = simp))
+        buffs.append(buffer_LinearRing(ring, dist, debug = debug, nang = nang, simp = simp))
 
     # Convert list of [Multi]Polygons to (unified) [Multi]Polygon ...
     buffs = shapely.ops.unary_union(buffs)
