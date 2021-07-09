@@ -34,6 +34,9 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, na
         raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
     try:
         import shapely
+        import shapely.geometry
+        import shapely.ops
+        import shapely.validation
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
@@ -254,24 +257,35 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, na
     # Initialize list ...
     buffs = []
 
-    # Append the Polygon, which is the subset of the (unified) Polygon that
+    # Append the Polygons, which are the subset of the (unified) Polygon that
     # intersects with Earth-A that has been re-mapped on to Earth-D, to list ...
     buffs += _earthA(polys)
 
-    print(buffs)
-    exit()
+    # Append the Polygons, which are the subset of the (unified) Polygon that
+    # intersects with Earth-B that has been re-mapped on to Earth-D, to list ...
+    buffs += _earthB(polys)
 
-    print(type(earthA))
-    print(type(polys))
-    print(type(inter))
-    exit()
+    # Append the Polygons, which are the subset of the (unified) Polygon that
+    # intersects with Earth-C that has been re-mapped on to Earth-D, to list ...
+    buffs += _earthC(polys)
 
+    # Append the Polygons, which are the subset of the (unified) Polygon that
+    # intersects with Earth-D that has been re-mapped on to Earth-D, to list ...
+    buffs += _earthD(polys)
 
+    # Append the Polygons, which are the subset of the (unified) Polygon that
+    # intersects with Earth-E that has been re-mapped on to Earth-D, to list ...
+    buffs += _earthE(polys)
 
-    print(polys)
-    exit()
+    # Append the Polygons, which are the subset of the (unified) Polygon that
+    # intersects with Earth-F that has been re-mapped on to Earth-D, to list ...
+    buffs += _earthF(polys)
 
-    # Convert list of [Multi]Polygons to (unified) [Multi]Polygon ...
+    # Append the Polygons, which are the subset of the (unified) Polygon that
+    # intersects with Earth-G that has been re-mapped on to Earth-D, to list ...
+    buffs += _earthG(polys)
+
+    # Convert list of Polygons to (unified) [Multi]Polygon ...
     buffs = shapely.ops.unary_union(buffs)
 
     # Check [Multi]Polygon ...
