@@ -2,6 +2,8 @@ def _earthB(shape):
     # Import special modules ...
     try:
         import shapely
+        import shapely.geometry
+        import shapely.validation
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
