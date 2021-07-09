@@ -38,7 +38,16 @@ def _polys(shape):
     polys = []
 
     # Check type ...
-    if isinstance(shape, shapely.geometry.collection.GeometryCollection):
+    if isinstance(shape, shapely.geometry.multipolygon.MultiPolygon):
+        # Loop over Polygons ...
+        for poly in shape:
+            # Check type ...
+            if isinstance(poly, shapely.geometry.polygon.Polygon):
+                # Append to list ...
+                polys.append(poly)
+            else:
+                raise TypeError(f"\"poly\" is an unexpected type ({repr(type(poly))})") from None
+    elif isinstance(shape, shapely.geometry.collection.GeometryCollection):
         # Loop over geometries ...
         for geom in shape:
             # Check type ...
@@ -53,10 +62,19 @@ def _polys(shape):
             if isinstance(geom, shapely.geometry.polygon.Polygon):
                 # Append to list ...
                 polys.append(geom)
+            elif isinstance(geom, shapely.geometry.multipolygon.MultiPolygon):
+                # Loop over Polygons ...
+                for poly in geom:
+                    # Check type ...
+                    if isinstance(poly, shapely.geometry.polygon.Polygon):
+                        # Append to list ...
+                        polys.append(poly)
+                    else:
+                        raise TypeError(f"\"poly\" is an unexpected type ({repr(type(poly))})") from None
             else:
                 raise TypeError(f"\"geom\" is an unexpected type ({repr(type(geom))})") from None
     else:
-        raise Exception(f"\"shape\" is an unexpected type ({repr(type(shape))})") from None
+        raise TypeError(f"\"shape\" is an unexpected type ({repr(type(shape))})") from None
 
     # Return answer ...
     return polys
