@@ -19,6 +19,10 @@ if __name__ == "__main__":
     except:
         raise Exception("\"cartopy\" is not installed; run \"pip install --user Cartopy\"") from None
     try:
+        import geojson
+    except:
+        raise Exception("\"geojson\" is not installed; run \"pip install --user geojson\"") from None
+    try:
         import matplotlib
         matplotlib.use("Agg")                                                   # NOTE: See https://matplotlib.org/stable/gallery/user_interfaces/canvasagg.html
         import matplotlib.pyplot
@@ -55,8 +59,9 @@ if __name__ == "__main__":
     for i, (poly, dist) in enumerate(polys):
         # Determine file name ...
         fname = f"buffer{i:d}.png"
+        jname = f"buffer{i:d}.geojson"
 
-        print(" > Making \"{:s}\" ...".format(fname))
+        print(f" > Making \"{jname}\" and \"{fname}\" ...")
 
         # Create figure ...
         fg = matplotlib.pyplot.figure(figsize = (6, 3), dpi = 150)
@@ -77,6 +82,9 @@ if __name__ == "__main__":
         buff = pyguymer3.geo.buffer(poly, dist, debug = True, nang = 361, simp = -1.0)
         ax1.add_geometries([buff], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = (1, 0.0, 0.0, 0.5), linewidth = 1.0)
         ax2.add_geometries([buff], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = (1, 0.0, 0.0, 0.5), linewidth = 1.0)
+
+        # Save GeoJSON ...
+        geojson.dump(buff, open(jname, "wt"), indent = 4, sort_keys = True)
 
         # Save figure ...
         fg.suptitle("({:.1f},{:.1f}) buffered by {:,.1f}km".format(poly.centroid.x, poly.centroid.y, 0.001 * (1000000.0 + dist)))
