@@ -20,10 +20,3 @@ shellcheck.log
 *.so.dSYM
 docs/_autosummary
 docs/_build
-
-# Ignore debug output ...
-pyguymer3/geo/_fix_ring.debug.part1.csv
-pyguymer3/geo/_fix_ring.debug.part2.csv
-pyguymer3/geo/_fix_ring.debug.ring.csv
-pyguymer3/geo/_fix_ring.debug.png
-pyguymer3/geo/buffer_CoordinateSequence.debug.ring.csv
