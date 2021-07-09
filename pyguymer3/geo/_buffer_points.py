@@ -35,6 +35,7 @@ def _buffer_points(points1, dist, kwArgCheck = None, debug = False, nang = 19, s
         raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
     try:
         import shapely
+        import shapely.geometry
         import shapely.ops
         import shapely.validation
     except:
