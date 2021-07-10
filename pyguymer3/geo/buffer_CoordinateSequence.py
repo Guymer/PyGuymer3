@@ -98,14 +98,14 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     points1 = numpy.array(coords)                                               # [°]
 
     # Check inputs ...
-    if points1[:, 0].min() < -180.0:
-        raise Exception(f"a point exists off the W-edge of Earth ({points1[:, 0].min():.1f}° < -180°)") from None
-    if points1[:, 0].max() > +180.0:
-        raise Exception(f"a point exists off the E-edge of Earth ({points1[:, 0].max():.1f}° > +180°)") from None
-    if points1[:, 1].min() < -90.0:
-        raise Exception(f"a point exists off the S-edge of Earth ({points1[:, 1].min():.1f}° < -90°)") from None
-    if points1[:, 1].max() > +90.0:
-        raise Exception(f"a point exists off the N-edge of Earth ({points1[:, 1].max():.1f}° > +90°)") from None
+    if points1[:, 0].min() < -181.0:
+        raise Exception(f"a point exists a long way off the W-edge of Earth ({points1[:, 0].min():.6f}° < -181°)") from None
+    if points1[:, 0].max() > +181.0:
+        raise Exception(f"a point exists a long way off the E-edge of Earth ({points1[:, 0].max():.6f}° > +181°)") from None
+    if points1[:, 1].min() < -91.0:
+        raise Exception(f"a point exists a long way off the S-edge of Earth ({points1[:, 1].min():.6f}° < -91°)") from None
+    if points1[:, 1].max() > +91.0:
+        raise Exception(f"a point exists a long way off the N-edge of Earth ({points1[:, 1].max():.6f}° > +91°)") from None
 
     # **************************************************************************
     # Step 2: Buffer the NumPy array of the original points to get a NumPy     #
@@ -133,9 +133,9 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
 
         # Check that the ring encompasses the original point ...
         if points2[ipoint, :, 0].min() > points1[ipoint, 0]:
-            raise Exception(f"the W-edge of the ring does not encompass the original point ({points2[ipoint, :, 0].min():.1f}° > {points1[ipoint, 0]:.1f}°)")
+            raise Exception(f"the W-edge of the ring does not encompass the original point ({points2[ipoint, :, 0].min():.6f}° > {points1[ipoint, 0]:.6f}°)")
         if points2[ipoint, :, 0].max() < points1[ipoint, 0]:
-            raise Exception(f"the E-edge of the ring does not encompass the original point ({points2[ipoint, :, 0].max():.1f}° < {points1[ipoint, 0]:.1f}°)")
+            raise Exception(f"the E-edge of the ring does not encompass the original point ({points2[ipoint, :, 0].max():.6f}° < {points1[ipoint, 0]:.6f}°)")
         if points2[ipoint, :, 1].min() > points1[ipoint, 1]:
             # Create a correctly oriented Polygon from the lower extent of the
             # ring down to the South Pole ...
