@@ -30,7 +30,7 @@ def _earthD(shape):
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
-    from ._polys import _polys
+    from .extract_polys import extract_polys
 
     # Check argument ...
     if not isinstance(shape, shapely.geometry.polygon.Polygon):
@@ -58,7 +58,7 @@ def _earthD(shape):
         raise Exception("\"earthD\" is an empty Polygon") from None
 
     # Find the intersection of the Polygon with Earth-D as a list of Polygons ...
-    polys = _polys(earthD.intersection(shape))
+    polys = extract_polys(earthD.intersection(shape))
 
     # Initialize list ...
     buffs = []

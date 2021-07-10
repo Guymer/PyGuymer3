@@ -30,7 +30,7 @@ def _earthE(shape):
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
-    from ._polys import _polys
+    from .extract_polys import extract_polys
 
     # Check argument ...
     if not isinstance(shape, shapely.geometry.polygon.Polygon):
@@ -58,7 +58,7 @@ def _earthE(shape):
         raise Exception("\"earthE\" is an empty Polygon") from None
 
     # Find the intersection of the Polygon with Earth-E as a list of Polygons ...
-    polys = _polys(earthE.intersection(shape))
+    polys = extract_polys(earthE.intersection(shape))
 
     # Initialize list ...
     buffs = []

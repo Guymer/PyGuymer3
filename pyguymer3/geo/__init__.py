@@ -12,7 +12,6 @@ from ._earthD import _earthD
 from ._earthE import _earthE
 from ._earthF import _earthF
 from ._earthG import _earthG
-from ._polys import _polys
 from .add_map_background import add_map_background
 from .buffer import buffer
 from .buffer_CoordinateSequence import buffer_CoordinateSequence
@@ -24,5 +23,6 @@ from .calc_angle_between_two_locs import calc_angle_between_two_locs
 from .calc_dist_between_two_locs import calc_dist_between_two_locs
 from .calc_loc_from_loc_and_bearing_and_dist import calc_loc_from_loc_and_bearing_and_dist
 from .en2ll import en2ll
+from .extract_polys import extract_polys
 from .find_middle_of_great_circle import find_middle_of_great_circle
 from .find_point_on_great_circle import find_point_on_great_circle
