@@ -53,6 +53,8 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, tol = 1.0e-10):
     for interior in poly.interiors:
         # Skip if it doesn't contain any area ...
         if interior.area <= 0.0:
+            if debug:
+                print(f"INFO: Removing a zero-area interior at ({interior.centroid.x:.6f}°,{interior.centroid.y:.6f}°).")
             continue
 
         # Append filled in interior LinearRing to list ...
