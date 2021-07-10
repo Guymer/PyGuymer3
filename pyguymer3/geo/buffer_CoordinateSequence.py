@@ -16,12 +16,22 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, na
     nang : int, optional
             the number of angles around each point within the CoordinateSequence that are calculated when buffering
     simp : float, optional
-            how much intermediary [Multi]Polygons are simplified by; negative values disable simplification (in degrees)
+            how much the final [Multi]Polygons is simplified by; negative values disable simplification (in degrees)
 
     Returns
     -------
     buff : shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
             the buffered CoordinateSequence
+
+    Notes
+    -----
+    According to the Shapely documentation for the method object.buffer():
+
+        "Passed a distance of 0, buffer() can sometimes be used to “clean” self-touching or self-crossing polygons such as the classic “bowtie”. Users have reported that very small distance values sometimes produce cleaner results than 0. Your mileage may vary when cleaning surfaces."
+
+    According to the Shapely documentation for the function shapely.geometry.polygon.orient():
+
+        "A sign of 1.0 means that the coordinates of the product’s exterior ring will be oriented counter-clockwise."
     """
 
     # Import standard modules ...
@@ -122,8 +132,8 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, na
         if points2[ipoint, :, 0].max() < points1[ipoint, 0]:
             raise Exception(f"the E-edge of the ring does not encompass the original point ({points2[ipoint, :, 0].max():.1f}° < {points1[ipoint, 0]:.1f}°)")
         if points2[ipoint, :, 1].min() > points1[ipoint, 1]:
-            # Create a Polygon from the lower extent of the ring down to the
-            # South Pole ...
+            # Create a correctly oriented Polygon from the lower extent of the
+            # ring down to the South Pole ...
             wedge = shapely.geometry.polygon.Polygon(
                 [
                     (-360.0, -90.0),
@@ -143,15 +153,15 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, na
             # Append Polygon to list ...
             wedges.append(wedge)
         if points2[ipoint, :, 1].max() < points1[ipoint, 1]:
-            # Create a Polygon from the upper extent of the ring up to the
-            # North Pole ...
+            # Create a correctly oriented Polygon from the upper extent of the
+            # ring up to the North Pole ...
             wedge = shapely.geometry.polygon.Polygon(
                 [
-                    (-360.0, 90.0),
-                    (+360.0, 90.0),
-                    (+360.0, points2[ipoint, :, 1].max()),
                     (-360.0, points2[ipoint, :, 1].max()),
+                    (+360.0, points2[ipoint, :, 1].max()),
+                    (+360.0, 90.0),
                     (-360.0, 90.0),
+                    (-360.0, points2[ipoint, :, 1].max()),
                 ]
             )
             if not isinstance(wedge, shapely.geometry.polygon.Polygon):
@@ -166,15 +176,17 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, na
 
         # Loop over angles ...
         for iang in range(nang - 1):
-            # Create a Polygon from the original point to this segment of the
-            # ring ...
-            wedge = shapely.geometry.polygon.Polygon(
-                [
-                    (points1[ipoint,           0], points1[ipoint,           1]),
-                    (points2[ipoint, iang    , 0], points2[ipoint, iang    , 1]),
-                    (points2[ipoint, iang + 1, 0], points2[ipoint, iang + 1, 1]),
-                    (points1[ipoint,           0], points1[ipoint,           1]),
-                ]
+            # Create a correctly oriented Polygon from the original point to
+            # this segment of the ring ...
+            wedge = shapely.geometry.polygon.orient(
+                shapely.geometry.polygon.Polygon(
+                    [
+                        (points1[ipoint,           0], points1[ipoint,           1]),
+                        (points2[ipoint, iang    , 0], points2[ipoint, iang    , 1]),
+                        (points2[ipoint, iang + 1, 0], points2[ipoint, iang + 1, 1]),
+                        (points1[ipoint,           0], points1[ipoint,           1]),
+                    ]
+                )
             )
             if not isinstance(wedge, shapely.geometry.polygon.Polygon):
                 raise Exception("\"wedge\" is not a Polygon") from None
@@ -186,8 +198,8 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, na
             # Append Polygon to list ...
             wedges.append(wedge)
 
-        # Convert list of Polygons to (unified) Polygon ...
-        wedges = shapely.ops.unary_union(wedges)
+        # Convert list of Polygons to a correctly oriented (unified) Polygon ...
+        wedges = shapely.geometry.polygon.orient(shapely.ops.unary_union(wedges).simplify(0))
         if not isinstance(wedges, shapely.geometry.polygon.Polygon):
             raise Exception("\"wedges\" is not a Polygon") from None
         if not wedges.is_valid:
@@ -199,12 +211,18 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, na
         polys.append(wedges)
 
     # **************************************************************************
-    # Step 4: Append Polygons of the buffered connections between the original #
-    #         points to the list of Polygons of the buffered original points   #
+    # Step 4: Append Polygons of the convex hulls of adjacent buffered         #
+    #         original points and the lines that connects them                 #
     # **************************************************************************
 
-    # Check that there are some connections ...
-    if points1.shape[0] > 1:
+    # Initialize list ...
+    finalPolys = []
+
+    # Check if there are some connections ...
+    if points1.shape[0] == 1:
+        # Append Polygon to list ...
+        finalPolys.append(polys[0])
+    else:
         # Loop over points ...
         for ipoint in range(points1.shape[0] - 1):
             # Create a line connecting the two original points ...
@@ -236,8 +254,49 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, na
             if line.is_empty:
                 raise Exception("\"line\" is an empty Polygon") from None
 
-            # Append Polygon to list ...
-            polys.append(line)
+            # Find the correctly oriented convex hull of the unification of the
+            # two Polygons and the buffered line that connects them ...
+            finalPoly = shapely.geometry.polygon.orient(
+                shapely.ops.unary_union(
+                    [
+                        polys[ipoint],
+                        line,
+                        polys[ipoint + 1]
+                    ]
+                ).simplify(0).convex_hull
+            )
+            if not isinstance(finalPoly, shapely.geometry.polygon.Polygon):
+                raise Exception("\"finalPoly\" is not a Polygon") from None
+            if not finalPoly.is_valid:
+                # import matplotlib
+                # import matplotlib.pyplot
+                # fg = matplotlib.pyplot.figure(figsize = (8, 6))
+                # ax = fg.subplots(2, 2)
+                # ext1 = numpy.array(polys[ipoint].exterior)
+                # ax[0, 0].grid()
+                # ax[0, 0].plot(ext1[:, 0], ext1[:, 1], marker = "d")
+                # ax[0, 0].set_title("polys[ipoint]")
+                # ext2 = numpy.array(line.exterior)
+                # ax[0, 1].grid()
+                # ax[0, 1].plot(ext2[:, 0], ext2[:, 1], marker = "d")
+                # ax[0, 1].set_title("line")
+                # ext3 = numpy.array(polys[ipoint + 1].exterior)
+                # ax[1, 0].grid()
+                # ax[1, 0].plot(ext3[:, 0], ext3[:, 1], marker = "d")
+                # ax[1, 0].set_title("polys[ipoint + 1]")
+                # ext4 = numpy.array(finalPoly.exterior)
+                # ax[1, 1].grid()
+                # ax[1, 1].plot(ext4[:, 0], ext4[:, 1], marker = "d")
+                # ax[1, 1].set_title("finalPoly")
+                # fg.savefig("zzz.png")
+                # print(ext4)
+                raise Exception(f"\"finalPoly\" is not a valid Polygon ({shapely.validation.explain_validity(finalPoly)})") from None
+            if finalPoly.is_empty:
+                raise Exception("\"finalPoly\" is an empty Polygon") from None
+
+            # Append the convex hull of the two Polygons and the buffered line
+            # that connects them to list ...
+            finalPolys.append(finalPoly)
 
     # **************************************************************************
     # Step 5: Create a single [Multi]Polygon that is the union of all of the   #
@@ -245,48 +304,48 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, na
     #         of Earth                                                         #
     # **************************************************************************
 
-    # Convert list of Polygons to (unified) Polygon ...
-    polys = shapely.ops.unary_union(polys)
-    if not isinstance(polys, shapely.geometry.polygon.Polygon):
-        raise Exception("\"polys\" is not a Polygon") from None
-    if not polys.is_valid:
-        raise Exception(f"\"polys\" is not a valid Polygon ({shapely.validation.explain_validity(polys)})") from None
-    if polys.is_empty:
-        raise Exception("\"polys\" is an empty Polygon") from None
+    # Convert list of Polygons to a correctly oriented (unified) Polygon ...
+    finalPolys = shapely.geometry.polygon.orient(shapely.ops.unary_union(finalPolys).simplify(0))
+    if not isinstance(finalPolys, shapely.geometry.polygon.Polygon):
+        raise Exception("\"finalPolys\" is not a Polygon") from None
+    if not finalPolys.is_valid:
+        raise Exception(f"\"finalPolys\" is not a valid Polygon ({shapely.validation.explain_validity(finalPolys)})") from None
+    if finalPolys.is_empty:
+        raise Exception("\"finalPolys\" is an empty Polygon") from None
 
     # Initialize list ...
     buffs = []
 
     # Append the Polygons, which are the subset of the (unified) Polygon that
     # intersects with Earth-A that has been re-mapped on to Earth-D, to list ...
-    buffs += _earthA(polys)
+    buffs += _earthA(finalPolys)
 
     # Append the Polygons, which are the subset of the (unified) Polygon that
     # intersects with Earth-B that has been re-mapped on to Earth-D, to list ...
-    buffs += _earthB(polys)
+    buffs += _earthB(finalPolys)
 
     # Append the Polygons, which are the subset of the (unified) Polygon that
     # intersects with Earth-C that has been re-mapped on to Earth-D, to list ...
-    buffs += _earthC(polys)
+    buffs += _earthC(finalPolys)
 
     # Append the Polygons, which are the subset of the (unified) Polygon that
     # intersects with Earth-D that has been re-mapped on to Earth-D, to list ...
-    buffs += _earthD(polys)
+    buffs += _earthD(finalPolys)
 
     # Append the Polygons, which are the subset of the (unified) Polygon that
     # intersects with Earth-E that has been re-mapped on to Earth-D, to list ...
-    buffs += _earthE(polys)
+    buffs += _earthE(finalPolys)
 
     # Append the Polygons, which are the subset of the (unified) Polygon that
     # intersects with Earth-F that has been re-mapped on to Earth-D, to list ...
-    buffs += _earthF(polys)
+    buffs += _earthF(finalPolys)
 
     # Append the Polygons, which are the subset of the (unified) Polygon that
     # intersects with Earth-G that has been re-mapped on to Earth-D, to list ...
-    buffs += _earthG(polys)
+    buffs += _earthG(finalPolys)
 
     # Convert list of Polygons to (unified) [Multi]Polygon ...
-    buffs = shapely.ops.unary_union(buffs)
+    buffs = shapely.ops.unary_union(buffs).simplify(0)
 
     # Check [Multi]Polygon ...
     if not buffs.is_valid:
