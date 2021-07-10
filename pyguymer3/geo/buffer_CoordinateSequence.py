@@ -1,4 +1,4 @@
-def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fill = 1.0, nang = 19, simp = 0.1):
+def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fill = 1.0, nang = 19, simp = 0.1, tol = 1.0e-10):
     """Buffer a CoordinateSequence
 
     This function reads in a CoordinateSequence that exists on the surface of
@@ -19,6 +19,8 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
             the number of angles around each point within the CoordinateSequence that are calculated when buffering
     simp : float, optional
             how much the final [Multi]Polygons is simplified by; negative values disable simplification (in degrees)
+    tol : float, optional
+            the Euclidean distance that defines two points as being the same (in degrees)
 
     Returns
     -------
@@ -357,7 +359,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     # Check if the user wants to fill in the [Multi]Polygon ...
     if fill > 0.0:
         # Fill in [Multi]Polygon ...
-        buffs = fillin(buffs, fill, debug = debug)
+        buffs = fillin(buffs, fill, debug = debug, tol = tol)
 
     # Check if the user wants to simplify the [Multi]Polygon ...
     if simp > 0.0:

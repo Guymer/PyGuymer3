@@ -1,4 +1,4 @@
-def buffer_Point(point, dist, kwArgCheck = None, debug = False, fill = 1.0, nang = 19, simp = 0.1):
+def buffer_Point(point, dist, kwArgCheck = None, debug = False, fill = 1.0, nang = 19, simp = 0.1, tol = 1.0e-10):
     """Buffer a Point
 
     This function reads in a Point that exists on the surface of the Earth and
@@ -19,6 +19,8 @@ def buffer_Point(point, dist, kwArgCheck = None, debug = False, fill = 1.0, nang
             the number of angles around the Point that are calculated when buffering
     simp : float, optional
             how much intermediary [Multi]Polygons are simplified by; negative values disable simplification (in degrees)
+    tol : float, optional
+            the Euclidean distance that defines two points as being the same (in degrees)
 
     Returns
     -------
@@ -50,4 +52,4 @@ def buffer_Point(point, dist, kwArgCheck = None, debug = False, fill = 1.0, nang
         raise Exception("\"point\" is an empty Point") from None
 
     # Return buffered Point ...
-    return buffer_CoordinateSequence(point.coords, dist, debug = debug, fill = fill, nang = nang, simp = simp)
+    return buffer_CoordinateSequence(point.coords, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol)
