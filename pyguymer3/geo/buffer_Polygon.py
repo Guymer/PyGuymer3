@@ -66,8 +66,7 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, nan
         # Append buffer of interior LinearRing to list ...
         buffs.append(buffer(ring, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol))
 
-    # Convert list of [Multi]Polygons to a correctly oriented (unified)
-    # [Multi]Polygon ...
+    # Convert list of [Multi]Polygons to a (unified) [Multi]Polygon ...
     buffs = shapely.ops.unary_union(buffs).simplify(tol)
     if not buffs.is_valid:
         raise Exception(f"\"buffs\" is not a valid [Multi]Polygon ({shapely.validation.explain_validity(buffs)})") from None
