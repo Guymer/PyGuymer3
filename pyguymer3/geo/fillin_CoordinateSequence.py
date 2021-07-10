@@ -28,7 +28,6 @@ def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, debug = False):
     try:
         import shapely
         import shapely.geometry
-        import shapely.ops
         import shapely.validation
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
