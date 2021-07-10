@@ -9,11 +9,11 @@ def buffer(shape, dist, kwArgCheck = None, debug = False, fill = 1.0, nang = 19,
     shape : shapely.coords.CoordinateSequence, shapely.geometry.point.Point, shapely.geometry.polygon.LinearRing, shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
             the shape
     dist : float
-            the distance to buffer each point within the shape by (in metres)
+            the Geodesic distance to buffer each point within the shape by (in metres)
     debug : bool, optional
             print debug messages
     fill : float, optional
-            the distance to fill in between each point within the shape by (in degrees)
+            the Euclidean distance to fill in between each point within the shape by (in degrees)
     nang : int, optional
             the number of angles around each point within the shape that are calculated when buffering
     simp : float, optional

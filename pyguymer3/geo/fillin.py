@@ -9,7 +9,7 @@ def fillin(shape, fill, kwArgCheck = None, debug = False, tol = 1.0e-10):
     shape : shapely.coords.CoordinateSequence, shapely.geometry.point.Point, shapely.geometry.polygon.LinearRing, shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
             the shape
     fill : float
-            the distance to fill in between each point within the shape by (in degrees)
+            the Euclidean distance to fill in between each point within the shape by (in degrees)
     debug : bool, optional
             print debug messages
     tol : float, optional

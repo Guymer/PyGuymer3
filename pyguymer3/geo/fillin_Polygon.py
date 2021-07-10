@@ -10,7 +10,7 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, tol = 1.0e-10):
     poly : shapely.geometry.polygon.Polygon
             the Polygon
     fill : float
-            the distance to fill in between each point within the shape by (in degrees)
+            the Euclidean distance to fill in between each point within the shape by (in degrees)
     debug : bool, optional
             print debug messages
     tol : float, optional

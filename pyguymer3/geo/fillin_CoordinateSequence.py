@@ -10,7 +10,7 @@ def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, debug = False):
     coords : shapely.coords.CoordinateSequence
             the CoordinateSequence
     fill : float
-            the distance to fill in between each point within the shape by (in degrees)
+            the Euclidean distance to fill in between each point within the shape by (in degrees)
     debug : bool, optional
             print debug messages
 

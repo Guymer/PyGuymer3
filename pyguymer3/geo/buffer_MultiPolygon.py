@@ -11,11 +11,11 @@ def buffer_MultiPolygon(multipoly, dist, kwArgCheck = None, debug = False, fill 
     multipoly : shapely.geometry.multipolygon.MultiPolygon
             the MultiPolygon
     dist : float
-            the distance to buffer each point within the MultiPolygon by (in metres)
+            the Geodesic distance to buffer each point within the MultiPolygon by (in metres)
     debug : bool, optional
             print debug messages
     fill : float, optional
-            the distance to fill in between each point within the [Multi]Polygon by (in degrees)
+            the Euclidean distance to fill in between each point within the [Multi]Polygon by (in degrees)
     nang : int, optional
             the number of angles around each point within the MultiPolygon that are calculated when buffering
     simp : float, optional

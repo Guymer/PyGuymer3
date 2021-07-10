@@ -11,7 +11,7 @@ def fillin_MultiPolygon(multipoly, fill, kwArgCheck = None, debug = False, tol =
     multipoly : shapely.geometry.multipolygon.MultiPolygon
             the MultiPolygon
     fill : float
-            the distance to fill in between each point within the shape by (in degrees)
+            the Euclidean distance to fill in between each point within the shape by (in degrees)
     debug : bool, optional
             print debug messages
     tol : float, optional

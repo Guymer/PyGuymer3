@@ -10,11 +10,11 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     coords : shapely.coords.CoordinateSequence
             the CoordinateSequence
     dist : float
-            the distance to buffer each point within the CoordinateSequence by (in metres)
+            the Geodesic distance to buffer each point within the CoordinateSequence by (in metres)
     debug : bool, optional
             print debug messages
     fill : float, optional
-            the distance to fill in between each point within the [Multi]Polygon by (in degrees)
+            the Euclidean distance to fill in between each point within the [Multi]Polygon by (in degrees)
     nang : int, optional
             the number of angles around each point within the CoordinateSequence that are calculated when buffering
     simp : float, optional
