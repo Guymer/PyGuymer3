@@ -26,6 +26,8 @@ Public functions:
     * `_earthG()`
     * `shapely.ops.unary_union()`
     * `shapely.geometry.multipolygon.MultiPolygon.simplify()`
+    * `shapely.geometry.polygon.orient()`
+    * `shapely.geometry.polygon.Polygon.buffer()`
 * `buffer_Point()`
     * `buffer()`
 * `buffer_LinearRing()`
@@ -48,6 +50,7 @@ Public functions:
     * `fillin()`
 * `fillin_Polygon()`
     * `fillin()`
+    * `shapely.geometry.polygon.orient()`
 * `fillin_MultiPolygon()`
     * `fillin()`
     * `shapely.ops.unary_union()`
