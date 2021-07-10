@@ -204,7 +204,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
             wedges.append(wedge)
 
         # Convert list of Polygons to a correctly oriented (unified) Polygon ...
-        wedges = shapely.geometry.polygon.orient(shapely.ops.unary_union(wedges).simplify(0))
+        wedges = shapely.geometry.polygon.orient(shapely.ops.unary_union(wedges).simplify(tol))
         if not isinstance(wedges, shapely.geometry.polygon.Polygon):
             raise Exception("\"wedges\" is not a Polygon") from None
         if not wedges.is_valid:
@@ -268,33 +268,11 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
                         line,
                         polys[ipoint + 1]
                     ]
-                ).simplify(0).convex_hull
+                ).simplify(tol).convex_hull
             )
             if not isinstance(finalPoly, shapely.geometry.polygon.Polygon):
                 raise Exception("\"finalPoly\" is not a Polygon") from None
             if not finalPoly.is_valid:
-                # import matplotlib
-                # import matplotlib.pyplot
-                # fg = matplotlib.pyplot.figure(figsize = (8, 6))
-                # ax = fg.subplots(2, 2)
-                # ext1 = numpy.array(polys[ipoint].exterior)
-                # ax[0, 0].grid()
-                # ax[0, 0].plot(ext1[:, 0], ext1[:, 1], marker = "d")
-                # ax[0, 0].set_title("polys[ipoint]")
-                # ext2 = numpy.array(line.exterior)
-                # ax[0, 1].grid()
-                # ax[0, 1].plot(ext2[:, 0], ext2[:, 1], marker = "d")
-                # ax[0, 1].set_title("line")
-                # ext3 = numpy.array(polys[ipoint + 1].exterior)
-                # ax[1, 0].grid()
-                # ax[1, 0].plot(ext3[:, 0], ext3[:, 1], marker = "d")
-                # ax[1, 0].set_title("polys[ipoint + 1]")
-                # ext4 = numpy.array(finalPoly.exterior)
-                # ax[1, 1].grid()
-                # ax[1, 1].plot(ext4[:, 0], ext4[:, 1], marker = "d")
-                # ax[1, 1].set_title("finalPoly")
-                # fg.savefig("zzz.png")
-                # print(ext4)
                 raise Exception(f"\"finalPoly\" is not a valid Polygon ({shapely.validation.explain_validity(finalPoly)})") from None
             if finalPoly.is_empty:
                 raise Exception("\"finalPoly\" is an empty Polygon") from None
@@ -310,7 +288,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     # **************************************************************************
 
     # Convert list of Polygons to a correctly oriented (unified) Polygon ...
-    finalPolys = shapely.geometry.polygon.orient(shapely.ops.unary_union(finalPolys).simplify(0))
+    finalPolys = shapely.geometry.polygon.orient(shapely.ops.unary_union(finalPolys).simplify(tol))
     if not isinstance(finalPolys, shapely.geometry.polygon.Polygon):
         raise Exception("\"finalPolys\" is not a Polygon") from None
     if not finalPolys.is_valid:
@@ -350,7 +328,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     buffs += _earthG(finalPolys)
 
     # Convert list of Polygons to (unified) [Multi]Polygon ...
-    buffs = shapely.ops.unary_union(buffs).simplify(0)
+    buffs = shapely.ops.unary_union(buffs).simplify(tol)
     if not buffs.is_valid:
         raise Exception(f"\"buffs\" is not a valid [Multi]Polygon ({shapely.validation.explain_validity(buffs)})") from None
     if buffs.is_empty:

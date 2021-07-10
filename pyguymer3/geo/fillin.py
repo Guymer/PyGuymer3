@@ -25,7 +25,6 @@ def fillin(shape, fill, kwArgCheck = None, debug = False, tol = 1.0e-10):
     try:
         import shapely
         import shapely.geometry
-        import shapely.validation
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
@@ -38,12 +37,6 @@ def fillin(shape, fill, kwArgCheck = None, debug = False, tol = 1.0e-10):
     # Check keyword arguments ...
     if kwArgCheck is not None:
         print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
-
-    # Check user input ...
-    if not shape.is_valid:
-        raise Exception(f"\"shape\" is not a valid shape ({shapely.validation.explain_validity(shape)})") from None
-    if shape.is_empty:
-        raise Exception("\"shape\" is an empty shape") from None
 
     # Check if it is a CoordinateSequence and return it filled ...
     if isinstance(shape, shapely.coords.CoordinateSequence):

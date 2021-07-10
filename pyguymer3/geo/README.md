@@ -27,15 +27,15 @@ Public functions:
     * `shapely.ops.unary_union()`
     * `shapely.geometry.multipolygon.MultiPolygon.simplify()`
 * `buffer_Point()`
-    * `buffer_CoordinateSequence()`
+    * `buffer()`
 * `buffer_LinearRing()`
-    * `buffer_CoordinateSequence()`
+    * `buffer()`
 * `buffer_Polygon()`
-    * `buffer_LinearRing()`
+    * `buffer()`
     * `shapely.ops.unary_union()`
     * `shapely.geometry.multipolygon.MultiPolygon.simplify()`
 * `buffer_MultiPolygon()`
-    * `buffer_Polygon()`
+    * `buffer()`
     * `shapely.ops.unary_union()`
     * `shapely.geometry.multipolygon.MultiPolygon.simplify()`
 * `fillin()`
@@ -45,11 +45,11 @@ Public functions:
     * `fillin_MultiPolygon()`
 * `fillin_CoordinateSequence()` (this is the only function that actually does any filling in)
 * `fillin_LinearRing()`
-    * `fillin_CoordinateSequence()`
+    * `fillin()`
 * `fillin_Polygon()`
-    * `fillin_LinearRing()`
+    * `fillin()`
 * `fillin_MultiPolygon()`
-    * `fillin_Polygon()`
+    * `fillin()`
     * `shapely.ops.unary_union()`
 
 ## Multiple Earths

@@ -33,7 +33,7 @@ def fillin_MultiPolygon(multipoly, fill, kwArgCheck = None, debug = False, tol =
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Load sub-functions ...
-    from .fillin_Polygon import fillin_Polygon
+    from .fillin import fillin
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
@@ -53,7 +53,7 @@ def fillin_MultiPolygon(multipoly, fill, kwArgCheck = None, debug = False, tol =
     # Loop over Polygons ...
     for poly in multipoly.geoms:
         # Append filled in Polygon to list ...
-        polys.append(fillin_Polygon(poly, fill, debug = debug, tol = tol))
+        polys.append(fillin(poly, fill, debug = debug, tol = tol))
 
     # Convert list of Polygons to a (unified) MultiPolygon ...
     fills = shapely.ops.unary_union(polys)

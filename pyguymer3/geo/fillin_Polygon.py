@@ -32,7 +32,7 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, tol = 1.0e-10):
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Load sub-functions ...
-    from .fillin_LinearRing import fillin_LinearRing
+    from .fillin import fillin
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
@@ -56,11 +56,11 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, tol = 1.0e-10):
             continue
 
         # Append filled in interior LinearRing to list ...
-        interiors.append(fillin_LinearRing(interior, fill, debug = debug, tol = tol))
+        interiors.append(fillin(interior, fill, debug = debug, tol = tol))
 
     # Convert exterior LinearRing and list of interior LinearRings to a
     # correctly oriented Polygon ...
-    fills = shapely.geometry.polygon.orient(shapely.geometry.polygon.Polygon(fillin_LinearRing(poly.exterior, fill, debug = debug, tol = tol), interiors))
+    fills = shapely.geometry.polygon.orient(shapely.geometry.polygon.Polygon(fillin(poly.exterior, fill, debug = debug, tol = tol), interiors))
     if not isinstance(fills, shapely.geometry.polygon.Polygon):
         raise TypeError("\"fills\" is not a Polygon") from None
     if not fills.is_valid:

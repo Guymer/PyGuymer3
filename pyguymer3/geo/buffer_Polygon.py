@@ -39,7 +39,7 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, nan
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Load sub-functions ...
-    from .buffer_LinearRing import buffer_LinearRing
+    from .buffer import buffer
     from .fillin import fillin
 
     # Check keyword arguments ...
@@ -59,16 +59,16 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, nan
     buffs.append(poly)
 
     # Append buffer of exterior LinearRing to list ...
-    buffs.append(buffer_LinearRing(poly.exterior, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol))
+    buffs.append(buffer(poly.exterior, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol))
 
     # Loop over interior LinearRings ...
     for ring in poly.interiors:
         # Append buffer of interior LinearRing to list ...
-        buffs.append(buffer_LinearRing(ring, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol))
+        buffs.append(buffer(ring, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol))
 
     # Convert list of [Multi]Polygons to a correctly oriented (unified)
     # [Multi]Polygon ...
-    buffs = shapely.geometry.polygon.orient(shapely.ops.unary_union(buffs).simplify(0))
+    buffs = shapely.ops.unary_union(buffs).simplify(tol)
     if not buffs.is_valid:
         raise Exception(f"\"buffs\" is not a valid [Multi]Polygon ({shapely.validation.explain_validity(buffs)})") from None
     if buffs.is_empty:

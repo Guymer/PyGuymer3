@@ -31,7 +31,6 @@ def buffer(shape, dist, kwArgCheck = None, debug = False, fill = 1.0, nang = 19,
     try:
         import shapely
         import shapely.geometry
-        import shapely.validation
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
@@ -46,31 +45,25 @@ def buffer(shape, dist, kwArgCheck = None, debug = False, fill = 1.0, nang = 19,
     if kwArgCheck is not None:
         print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
-    # Check user input ...
-    if not shape.is_valid:
-        raise Exception(f"\"shape\" is not a valid shape ({shapely.validation.explain_validity(shape)})") from None
-    if shape.is_empty:
-        raise Exception("\"shape\" is an empty shape") from None
-
     # Check if it is a CoordinateSequence and return it buffered ...
     if isinstance(shape, shapely.coords.CoordinateSequence):
         return buffer_CoordinateSequence(shape, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol)
 
     # Check if it is a Point and return it buffered ...
     if isinstance(shape, shapely.geometry.point.Point):
-        return buffer_Point(shape, dist, debug = debug, nang = nang, fill = fill, simp = simp, tol = tol)
+        return buffer_Point(shape.simplify(tol), dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol)
 
     # Check if it is a LinearRing and return it buffered ...
     if isinstance(shape, shapely.geometry.polygon.LinearRing):
-        return buffer_LinearRing(shape, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol)
+        return buffer_LinearRing(shape.simplify(tol), dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol)
 
     # Check if it is a Polygon and return it buffered ...
     if isinstance(shape, shapely.geometry.polygon.Polygon):
-        return buffer_Polygon(shape, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol)
+        return buffer_Polygon(shape.simplify(tol), dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol)
 
     # Check if it is a MultiPolygon and return it buffered ...
     if isinstance(shape, shapely.geometry.multipolygon.MultiPolygon):
-        return buffer_MultiPolygon(shape, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol)
+        return buffer_MultiPolygon(shape.simplify(tol), dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol)
 
     # Crash ...
     raise TypeError(f"\"shape\" is an unexpected type ({repr(type(shape))})") from None

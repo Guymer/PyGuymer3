@@ -37,7 +37,7 @@ def buffer_LinearRing(ring, dist, kwArgCheck = None, debug = False, fill = 1.0, 
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Load sub-functions ...
-    from .buffer_CoordinateSequence import buffer_CoordinateSequence
+    from .buffer import buffer
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
@@ -52,4 +52,4 @@ def buffer_LinearRing(ring, dist, kwArgCheck = None, debug = False, fill = 1.0, 
         raise Exception("\"ring\" is an empty LinearRing") from None
 
     # Return buffered LinearRing ...
-    return buffer_CoordinateSequence(ring.coords, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol)
+    return buffer(ring.coords, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol)

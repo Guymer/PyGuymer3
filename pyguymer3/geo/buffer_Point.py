@@ -37,7 +37,7 @@ def buffer_Point(point, dist, kwArgCheck = None, debug = False, fill = 1.0, nang
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Load sub-functions ...
-    from .buffer_CoordinateSequence import buffer_CoordinateSequence
+    from .buffer import buffer
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
@@ -52,4 +52,4 @@ def buffer_Point(point, dist, kwArgCheck = None, debug = False, fill = 1.0, nang
         raise Exception("\"point\" is an empty Point") from None
 
     # Return buffered Point ...
-    return buffer_CoordinateSequence(point.coords, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol)
+    return buffer(point.coords, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol)

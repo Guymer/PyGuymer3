@@ -35,7 +35,7 @@ def fillin_LinearRing(ring, fill, kwArgCheck = None, debug = False, tol = 1.0e-1
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Load sub-functions ...
-    from .fillin_CoordinateSequence import fillin_CoordinateSequence
+    from .fillin import fillin
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
@@ -103,4 +103,4 @@ def fillin_LinearRing(ring, fill, kwArgCheck = None, debug = False, tol = 1.0e-1
     # **************************************************************************
 
     # Return filled in LinearRing ...
-    return fillin_CoordinateSequence(coords.coords, fill, debug = debug)
+    return fillin(coords.coords, fill, debug = debug)

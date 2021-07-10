@@ -39,7 +39,7 @@ def buffer_MultiPolygon(multipoly, dist, kwArgCheck = None, debug = False, fill 
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Load sub-functions ...
-    from .buffer_Polygon import buffer_Polygon
+    from .buffer import buffer
     from .fillin import fillin
 
     # Check keyword arguments ...
@@ -60,11 +60,11 @@ def buffer_MultiPolygon(multipoly, dist, kwArgCheck = None, debug = False, fill 
     # Loop over Polygons ...
     for poly in multipoly.geoms:
         # Append buffer of Polygon to list ...
-        buffs.append(buffer_Polygon(poly, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol))
+        buffs.append(buffer(poly, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol))
 
     # Convert list of [Multi]Polygons to a correctly oriented (unified)
     # [Multi]Polygon ...
-    buffs = shapely.geometry.polygon.orient(shapely.ops.unary_union(buffs).simplify(0))
+    buffs = shapely.ops.unary_union(buffs).simplify(tol)
     if not buffs.is_valid:
         raise Exception(f"\"buffs\" is not a valid [Multi]Polygon ({shapely.validation.explain_validity(buffs)})") from None
     if buffs.is_empty:
