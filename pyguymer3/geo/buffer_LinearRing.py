@@ -14,7 +14,7 @@ def buffer_LinearRing(ring, dist, kwArgCheck = None, debug = False, fill = 1.0, 
     debug : bool, optional
             print debug messages
     fill : float, optional
-            the Euclidean distance to fill in between each point within the [Multi]Polygon by (in degrees)
+            the Euclidean distance to fill in between each point within the [Multi]Polygon by; negative values disable filling in (in degrees)
     nang : int, optional
             the number of angles around each point within the LinearRing that are calculated when buffering
     simp : float, optional

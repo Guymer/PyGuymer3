@@ -13,7 +13,7 @@ def buffer(shape, dist, kwArgCheck = None, debug = False, fill = 1.0, nang = 19,
     debug : bool, optional
             print debug messages
     fill : float, optional
-            the Euclidean distance to fill in between each point within the shape by (in degrees)
+            the Euclidean distance to fill in between each point within the shape by; negative values disable filling in (in degrees)
     nang : int, optional
             the number of angles around each point within the shape that are calculated when buffering
     simp : float, optional
