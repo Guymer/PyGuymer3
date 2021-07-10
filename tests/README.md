@@ -47,22 +47,6 @@ The function [buffer](../pyguymer3/geo/buffer.py) is tested by the script [buffe
 
 ![buffer output image](buffer6.png)
 
-### `buffer()`
-
-The `fill` and `simp` keyword arguments to the function [buffer](../pyguymer3/geo/buffer.py) are tested by the script [filledBuffer.py](filledBuffer.py) which produces the images below.
-
-![filledBuffer output image](filledBuffer0.png)
-
-![filledBuffer output image](filledBuffer1.png)
-
-![filledBuffer output image](filledBuffer2.png)
-
-![filledBuffer output image](filledBuffer3.png)
-
-![filledBuffer output image](filledBuffer4.png)
-
-![filledBuffer output image](filledBuffer5.png)
-
 ### `find_point_on_great_circle()`
 
 The function [find_point_on_great_circle](../pyguymer3/geo/find_point_on_great_circle.py) is tested by the script [greatCircle.py](greatCircle.py) which produces the image below.
