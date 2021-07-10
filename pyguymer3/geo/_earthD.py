@@ -40,13 +40,13 @@ def _earthD(shape):
     if shape.is_empty:
         raise Exception("\"shape\" is an empty Polygon") from None
 
-    # Define Earth-D ...
+    # Define Earth-D (as a correctly oriented Polygon) ...
     earthD = shapely.geometry.polygon.Polygon(
         [
             (-180.0,  +90.0),
-            (+180.0,  +90.0),
-            (+180.0,  -90.0),
             (-180.0,  -90.0),
+            (+180.0,  -90.0),
+            (+180.0,  +90.0),
             (-180.0,  +90.0),
         ]
     )

@@ -40,13 +40,13 @@ def _earthB(shape):
     if shape.is_empty:
         raise Exception("\"shape\" is an empty Polygon") from None
 
-    # Define Earth-B ...
+    # Define Earth-B (as a correctly oriented Polygon) ...
     earthB = shapely.geometry.polygon.Polygon(
         [
             (   0.0, +270.0),
-            (+360.0, +270.0),
-            (+360.0,  +90.0),
             (   0.0,  +90.0),
+            (+360.0,  +90.0),
+            (+360.0, +270.0),
             (   0.0, +270.0),
         ]
     )

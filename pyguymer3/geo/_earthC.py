@@ -40,13 +40,13 @@ def _earthC(shape):
     if shape.is_empty:
         raise Exception("\"shape\" is an empty Polygon") from None
 
-    # Define Earth-C ...
+    # Define Earth-C (as a correctly oriented Polygon) ...
     earthC = shapely.geometry.polygon.Polygon(
         [
             (-540.0,  +90.0),
-            (-180.0,  +90.0),
-            (-180.0,  -90.0),
             (-540.0,  -90.0),
+            (-180.0,  -90.0),
+            (-180.0,  +90.0),
             (-540.0,  +90.0),
         ]
     )

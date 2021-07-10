@@ -40,13 +40,13 @@ def _earthA(shape):
     if shape.is_empty:
         raise Exception("\"shape\" is an empty Polygon") from None
 
-    # Define Earth-A ...
+    # Define Earth-A (as a correctly oriented Polygon) ...
     earthA = shapely.geometry.polygon.Polygon(
         [
             (-360.0, +270.0),
-            (   0.0, +270.0),
-            (   0.0,  +90.0),
             (-360.0,  +90.0),
+            (   0.0,  +90.0),
+            (   0.0, +270.0),
             (-360.0, +270.0),
         ]
     )
