@@ -56,14 +56,8 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
 
     # Load sub-functions ...
     from ._buffer_points_crudely import _buffer_points_crudely
-    from ._earthA import _earthA
-    from ._earthB import _earthB
-    from ._earthC import _earthC
-    from ._earthD import _earthD
-    from ._earthE import _earthE
-    from ._earthF import _earthF
-    from ._earthG import _earthG
     from .fillin import fillin
+    from .remap import remap
     try:
         from ..f90 import f90
         if debug:
@@ -296,43 +290,8 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     if finalPolys.is_empty:
         raise Exception("\"finalPolys\" is an empty Polygon") from None
 
-    # Initialize list ...
-    buffs = []
-
-    # Append the Polygons, which are the subset of the (unified) Polygon that
-    # intersects with Earth-A that has been re-mapped on to Earth-D, to list ...
-    buffs += _earthA(finalPolys)
-
-    # Append the Polygons, which are the subset of the (unified) Polygon that
-    # intersects with Earth-B that has been re-mapped on to Earth-D, to list ...
-    buffs += _earthB(finalPolys)
-
-    # Append the Polygons, which are the subset of the (unified) Polygon that
-    # intersects with Earth-C that has been re-mapped on to Earth-D, to list ...
-    buffs += _earthC(finalPolys)
-
-    # Append the Polygons, which are the subset of the (unified) Polygon that
-    # intersects with Earth-D that has been re-mapped on to Earth-D, to list ...
-    buffs += _earthD(finalPolys)
-
-    # Append the Polygons, which are the subset of the (unified) Polygon that
-    # intersects with Earth-E that has been re-mapped on to Earth-D, to list ...
-    buffs += _earthE(finalPolys)
-
-    # Append the Polygons, which are the subset of the (unified) Polygon that
-    # intersects with Earth-F that has been re-mapped on to Earth-D, to list ...
-    buffs += _earthF(finalPolys)
-
-    # Append the Polygons, which are the subset of the (unified) Polygon that
-    # intersects with Earth-G that has been re-mapped on to Earth-D, to list ...
-    buffs += _earthG(finalPolys)
-
-    # Convert list of Polygons to (unified) [Multi]Polygon ...
-    buffs = shapely.ops.unary_union(buffs).simplify(tol)
-    if not buffs.is_valid:
-        raise Exception(f"\"buffs\" is not a valid [Multi]Polygon ({shapely.validation.explain_validity(buffs)})") from None
-    if buffs.is_empty:
-        raise Exception("\"buffs\" is an empty [Multi]Polygon") from None
+    # Re-map the Polygon on to Earth ...
+    buffs = remap(finalPolys, tol = tol)
 
     # Check if the user wants to fill in the [Multi]Polygon ...
     if fill > 0.0:

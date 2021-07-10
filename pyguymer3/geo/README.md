@@ -17,13 +17,7 @@ Public functions:
     * `buffer_MultiPolygon()`
 * `buffer_CoordinateSequence()` (this is the only function that actually does any buffering)
     * `f90.buffer_points_crudely()` or `_buffer_points_crudely()`
-    * `_earthA()`
-    * `_earthB()`
-    * `_earthC()`
-    * `_earthD()`
-    * `_earthE()`
-    * `_earthF()`
-    * `_earthG()`
+    * `remap()`
     * `shapely.ops.unary_union()`
     * `shapely.geometry.multipolygon.MultiPolygon.simplify()`
     * `shapely.geometry.polygon.orient()`
@@ -54,9 +48,17 @@ Public functions:
 * `fillin_MultiPolygon()`
     * `fillin()`
     * `shapely.ops.unary_union()`
+* `remap()`
+    * `_earthA()`
+    * `_earthB()`
+    * `_earthC()`
+    * `_earthD()`
+    * `_earthE()`
+    * `_earthF()`
+    * `_earthG()`
 
 ## Multiple Earths
 
-To take account of the looping nature of the longitude/latitude Geodesic coordinate system of planet Earth, `buffer_CoordinateSequence()` uses the `_earth?()` functions which have multiple copies of Earth which are then collapsed down on to one Earth: "Earth-D".
+To take account of the looping nature of the longitude/latitude Geodesic coordinate system of planet Earth, `buffer_CoordinateSequence()` uses the `remap()` function, which uses the `_earth?()` functions which have multiple copies of Earth which are then collapsed down on to one Earth: "Earth-D".
 
 ![multiple Earths](earths.png)
