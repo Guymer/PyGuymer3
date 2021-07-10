@@ -58,23 +58,38 @@ def fillin_LinearRing(ring, fill, kwArgCheck = None, debug = False, tol = 1.0e-1
     points2 = []                                                                # [°]
     points2.append(points1[0, :])                                               # [°]
 
+    # Initialize flag ...
+    skip = False
+
     # Loop over points ...
     for ipoint in range(1, points1.shape[0] - 1):
+        # Skip this point if it needs skipping ...
+        if skip:
+            # Re-set flag ...
+            skip = False
+
+            continue
+
         # Find the Euclidean distance between the points either side of this
         # point ...
         dr = numpy.hypot(points1[ipoint - 1, 0] - points1[ipoint + 1, 0], points1[ipoint - 1, 1] - points1[ipoint + 1, 1])  # [°]
 
-        # Skip this point if it is a bad spike ...
+        # Skip this point (and the next one) if it is a bad spike ...
         if dr < tol:
             if debug:
-                print(f"INFO: Removing spike at ({points1[ipoint, 0]:.6f}°,{points1[ipoint, 1]:.6f}°).")
+                print(f"INFO: Removing spike between ({points1[ipoint, 0]:.6f}°,{points1[ipoint, 1]:.6f}°) and ({points1[ipoint + 1, 0]:.6f}°,{points1[ipoint + 1, 1]:.6f}°).")
+
+            # Set flag ...
+            skip = True
+
             continue
 
         # Append point to list ...
         points2.append(points1[ipoint, :])                                      # [°]
 
-    # Append last point to list ...
-    points2.append(points1[-1, :])                                              # [°]
+    # Append last point to list (if it shouldn't be skipped) ...
+    if not skip:
+        points2.append(points1[-1, :])                                          # [°]
 
     # Convert list of points in to a LinearRing ...
     coords = shapely.geometry.polygon.LinearRing(points2)
