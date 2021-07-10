@@ -1,29 +1,23 @@
-def buffer_LinearRing(ring, dist, kwArgCheck = None, debug = False, fill = 1.0, nang = 19, simp = 0.1):
-    """Buffer a LinearRing
+def fillin_LinearRing(ring, fill, kwArgCheck = None, debug = False):
+    """Fill in a LinearRing
 
     This function reads in a LinearRing that exists on the surface of the Earth
-    and returns a [Multi]Polygon of the same LinearRing buffered by a constant
-    distance (in metres).
+    and returns a LinearRing of the same LinearRing filled in by a constant
+    distance (in degrees).
 
     Parameters
     ----------
     ring : shapely.geometry.polygon.LinearRing
             the LinearRing
-    dist : float
-            the distance to buffer each point within the LinearRing by (in metres)
+    fill : float
+            the distance to fill in between each point within the shape by (in degrees)
     debug : bool, optional
             print debug messages
-    fill : float, optional
-            the distance to fill in between each point within the [Multi]Polygon by (in degrees)
-    nang : int, optional
-            the number of angles around each point within the LinearRing that are calculated when buffering
-    simp : float, optional
-            how much intermediary [Multi]Polygons are simplified by; negative values disable simplification (in degrees)
 
     Returns
     -------
-    buff : shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
-            the buffered LinearRing
+    fills : shapely.geometry.linestring.LineString
+            the filled in LinearRing
     """
 
     # Import special modules ...
@@ -35,7 +29,7 @@ def buffer_LinearRing(ring, dist, kwArgCheck = None, debug = False, fill = 1.0, 
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Load sub-functions ...
-    from .buffer_CoordinateSequence import buffer_CoordinateSequence
+    from .fillin_CoordinateSequence import fillin_CoordinateSequence
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
@@ -49,5 +43,5 @@ def buffer_LinearRing(ring, dist, kwArgCheck = None, debug = False, fill = 1.0, 
     if ring.is_empty:
         raise Exception("\"ring\" is an empty LinearRing") from None
 
-    # Return buffered LinearRing ...
-    return buffer_CoordinateSequence(ring.coords, dist, debug = debug, fill = fill, nang = nang, simp = simp)
+    # Return filled in LinearRing ...
+    return fillin_CoordinateSequence(ring.coords, fill, debug = debug)

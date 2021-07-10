@@ -1,4 +1,4 @@
-def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, nang = 19, simp = 0.1):
+def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, nang = 19, simp = 0.1):
     """Buffer a Polygon
 
     This function reads in a Polygon (with an exterior and any number of
@@ -14,6 +14,8 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, nang = 19, simp
             the distance to buffer each point within the Polygon by (in metres)
     debug : bool, optional
             print debug messages
+    fill : float, optional
+            the distance to fill in between each point within the [Multi]Polygon by (in degrees)
     nang : int, optional
             the number of angles around each point within the Polygon that are calculated when buffering
     simp : float, optional
@@ -36,6 +38,7 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, nang = 19, simp
 
     # Load sub-functions ...
     from .buffer_LinearRing import buffer_LinearRing
+    from .fillin import fillin
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
@@ -54,12 +57,12 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, nang = 19, simp
     buffs.append(poly)
 
     # Append buffer of exterior LinearRing to list ...
-    buffs.append(buffer_LinearRing(poly.exterior, dist, debug = debug, nang = nang, simp = simp))
+    buffs.append(buffer_LinearRing(poly.exterior, dist, debug = debug, fill = fill, nang = nang, simp = simp))
 
     # Loop over interior LinearRings ...
     for ring in poly.interiors:
         # Append buffer of interior LinearRing to list ...
-        buffs.append(buffer_LinearRing(ring, dist, debug = debug, nang = nang, simp = simp))
+        buffs.append(buffer_LinearRing(ring, dist, debug = debug, fill = fill, nang = nang, simp = simp))
 
     # Convert list of [Multi]Polygons to a correctly oriented (unified)
     # [Multi]Polygon ...
@@ -68,6 +71,11 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, nang = 19, simp
         raise Exception(f"\"buffs\" is not a valid [Multi]Polygon ({shapely.validation.explain_validity(buffs)})") from None
     if buffs.is_empty:
         raise Exception("\"buffs\" is an empty [Multi]Polygon") from None
+
+    # Check if the user wants to fill in the [Multi]Polygon ...
+    if fill > 0.0:
+        # Fill in [Multi]Polygon ...
+        buffs = fillin(buffs, fill, debug = debug)
 
     # Check if the user wants to simplify the [Multi]Polygon ...
     if simp > 0.0:

@@ -1,4 +1,4 @@
-def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, nang = 19, simp = 0.1):
+def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fill = 1.0, nang = 19, simp = 0.1):
     """Buffer a CoordinateSequence
 
     This function reads in a CoordinateSequence that exists on the surface of
@@ -13,6 +13,8 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, na
             the distance to buffer each point within the CoordinateSequence by (in metres)
     debug : bool, optional
             print debug messages
+    fill : float, optional
+            the distance to fill in between each point within the [Multi]Polygon by (in degrees)
     nang : int, optional
             the number of angles around each point within the CoordinateSequence that are calculated when buffering
     simp : float, optional
@@ -59,6 +61,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, na
     from ._earthE import _earthE
     from ._earthF import _earthF
     from ._earthG import _earthG
+    from .fillin import fillin
     try:
         from ..f90 import f90
         if debug:
@@ -346,14 +349,15 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, na
 
     # Convert list of Polygons to (unified) [Multi]Polygon ...
     buffs = shapely.ops.unary_union(buffs).simplify(0)
-
-    # Check [Multi]Polygon ...
     if not buffs.is_valid:
         raise Exception(f"\"buffs\" is not a valid [Multi]Polygon ({shapely.validation.explain_validity(buffs)})") from None
-
-    # Check [Multi]Polygon ...
     if buffs.is_empty:
         raise Exception("\"buffs\" is an empty [Multi]Polygon") from None
+
+    # Check if the user wants to fill in the [Multi]Polygon ...
+    if fill > 0.0:
+        # Fill in [Multi]Polygon ...
+        buffs = fillin(buffs, fill, debug = debug)
 
     # Check if the user wants to simplify the [Multi]Polygon ...
     if simp > 0.0:

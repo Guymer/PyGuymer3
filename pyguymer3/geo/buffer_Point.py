@@ -1,4 +1,4 @@
-def buffer_Point(point, dist, kwArgCheck = None, debug = False, nang = 19, simp = 0.1):
+def buffer_Point(point, dist, kwArgCheck = None, debug = False, fill = 1.0, nang = 19, simp = 0.1):
     """Buffer a Point
 
     This function reads in a Point that exists on the surface of the Earth and
@@ -13,6 +13,8 @@ def buffer_Point(point, dist, kwArgCheck = None, debug = False, nang = 19, simp 
             the distance to buffer the Point by (in metres)
     debug : bool, optional
             print debug messages
+    fill : float, optional
+            the distance to fill in between each point within the [Multi]Polygon by (in degrees)
     nang : int, optional
             the number of angles around the Point that are calculated when buffering
     simp : float, optional
@@ -48,4 +50,4 @@ def buffer_Point(point, dist, kwArgCheck = None, debug = False, nang = 19, simp 
         raise Exception("\"point\" is an empty Point") from None
 
     # Return buffered Point ...
-    return buffer_CoordinateSequence(point.coords, dist, debug = debug, nang = nang, simp = simp)
+    return buffer_CoordinateSequence(point.coords, dist, debug = debug, fill = fill, nang = nang, simp = simp)
