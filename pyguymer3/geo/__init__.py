@@ -12,6 +12,10 @@ fill in the gaps between the points to keep the Geodesic shape
 Simplify example: a rectangle with multiple points on one edge, even if the
 points are all on the same line, if they are not in the correct order then it
 will break, so they need to be removed with .simplify(0)
+
+Spike example: a rectangle with a re-entrant spike, that is valid, becomes
+invalid if there are multiple points on the spike (a Polygon can only touch
+itself once)
 """
 
 # Import sub-functions ...
