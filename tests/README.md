@@ -3,6 +3,14 @@ This directory contains some basic tests to (hopefully):
 * find any simple bugs that I might have introduced; and
 * demonstrate some simple programming techniques.
 
+To compare the images with a previous version, try something like:
+
+```sh
+ver1="/path/to/version-1/pyguymer3/tests"
+ver2="/path/to/version-2/pyguymer3/tests"
+for p1 in ${ver1}/*.png; do p0="$(basename "${p1}")"; p2="${ver2}/${p0}"; h1="$(md5 -q "${p1}")"; h2="$(md5 -q "${p2}")"; [[ $h1 == $h2 ]] && continue; echo "${p0} ..."; compare "${p1}" "${p2}" "${p0}"; done
+```
+
 ### `buffer_point()`
 
 The function [buffer_Point](../pyguymer3/geo/buffer_Point.py) is tested by the script [bufferPoint.py](bufferPoint.py) which produces the images below.
