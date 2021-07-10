@@ -60,7 +60,7 @@ def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, debug = False):
     points2 = numpy.zeros((nsTot, 2), dtype = numpy.float64)                    # [°]
 
     if debug:
-        print(f"INFO: There are x{points2.shape[0] / points1.shape[0]:,.1f} more points due to filling.")
+        print(f"INFO: There are x{points2.shape[0] / points1.shape[0]:,.1f} more points due to filling in.")
 
     # Initialize index ...
     ifill = numpy.uint64(0)                                                     # [#]
