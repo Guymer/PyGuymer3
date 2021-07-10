@@ -57,14 +57,11 @@ def buffer_MultiPolygon(multipoly, dist, kwArgCheck = None, debug = False, nang 
         # Append buffer of Polygon to list ...
         buffs.append(buffer_Polygon(poly, dist, debug = debug, nang = nang, simp = simp))
 
-    # Convert list of [Multi]Polygons to (unified) [Multi]Polygon ...
-    buffs = shapely.ops.unary_union(buffs)
-
-    # Check [Multi]Polygon ...
+    # Convert list of [Multi]Polygons to a correctly oriented (unified)
+    # [Multi]Polygon ...
+    buffs = shapely.geometry.polygon.orient(shapely.ops.unary_union(buffs).simplify(0))
     if not buffs.is_valid:
         raise Exception(f"\"buffs\" is not a valid [Multi]Polygon ({shapely.validation.explain_validity(buffs)})") from None
-
-    # Check [Multi]Polygon ...
     if buffs.is_empty:
         raise Exception("\"buffs\" is an empty [Multi]Polygon") from None
 
