@@ -38,6 +38,19 @@ Public functions:
     * `buffer_Polygon()`
     * `shapely.ops.unary_union()`
     * `shapely.geometry.multipolygon.MultiPolygon.simplify()`
+* `fillin()`
+    * `fillin_CoordinateSequence()`
+    * `fillin_LinearRing()`
+    * `fillin_Polygon()`
+    * `fillin_MultiPolygon()`
+* `fillin_CoordinateSequence()` (this is the only function that actually does any filling in)
+* `fillin_LinearRing()`
+    * `fillin_CoordinateSequence()`
+* `fillin_Polygon()`
+    * `fillin_LinearRing()`
+* `fillin_MultiPolygon()`
+    * `fillin_Polygon()`
+    * `shapely.ops.unary_union()`
 
 ## Multiple Earths
 
