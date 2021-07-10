@@ -48,9 +48,13 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False):
     interiors = []
 
     # Loop over interior LinearRings ...
-    for ring in poly.interiors:
+    for interior in poly.interiors:
+        # Skip if it doesn't contain any area ...
+        if interior.area <= 0.0:
+            continue
+
         # Append filled in interior LinearRing to list ...
-        interiors.append(fillin_LinearRing(ring, fill, debug = debug))
+        interiors.append(fillin_LinearRing(interior, fill, debug = debug))
 
     # Convert exterior LinearRing and list of interior LinearRings to a
     # correctly oriented Polygon ...
