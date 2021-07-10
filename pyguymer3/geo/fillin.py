@@ -1,4 +1,4 @@
-def fillin(shape, fill, kwArgCheck = None, debug = False):
+def fillin(shape, fill, kwArgCheck = None, debug = False, tol = 1.0e-10):
     """Fill in a shape
 
     This function reads in a shape that exists on the surface of the Earth and
@@ -12,6 +12,8 @@ def fillin(shape, fill, kwArgCheck = None, debug = False):
             the distance to fill in between each point within the shape by (in degrees)
     debug : bool, optional
             print debug messages
+    tol : float, optional
+            the Euclidean distance that defines two points as being the same (in degrees)
 
     Returns
     -------
@@ -49,15 +51,15 @@ def fillin(shape, fill, kwArgCheck = None, debug = False):
 
     # Check if it is a LinearRing and return it filled ...
     if isinstance(shape, shapely.geometry.polygon.LinearRing):
-        return fillin_LinearRing(shape, fill, debug = debug)
+        return fillin_LinearRing(shape, fill, debug = debug, tol = tol)
 
     # Check if it is a Polygon and return it filled ...
     if isinstance(shape, shapely.geometry.polygon.Polygon):
-        return fillin_Polygon(shape, fill, debug = debug)
+        return fillin_Polygon(shape, fill, debug = debug, tol = tol)
 
     # Check if it is a MultiPolygon and return it filled ...
     if isinstance(shape, shapely.geometry.multipolygon.MultiPolygon):
-        return fillin_MultiPolygon(shape, fill, debug = debug)
+        return fillin_MultiPolygon(shape, fill, debug = debug, tol = tol)
 
     # Crash ...
     raise TypeError(f"\"shape\" is an unexpected type ({repr(type(shape))})") from None

@@ -1,4 +1,4 @@
-def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False):
+def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, tol = 1.0e-10):
     """Fill in a Polygon
 
     This function reads in a Polygon (with an exterior and any number of
@@ -13,6 +13,8 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False):
             the distance to fill in between each point within the shape by (in degrees)
     debug : bool, optional
             print debug messages
+    tol : float, optional
+            the Euclidean distance that defines two points as being the same (in degrees)
 
     Returns
     -------
@@ -54,11 +56,11 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False):
             continue
 
         # Append filled in interior LinearRing to list ...
-        interiors.append(fillin_LinearRing(interior, fill, debug = debug))
+        interiors.append(fillin_LinearRing(interior, fill, debug = debug, tol = tol))
 
     # Convert exterior LinearRing and list of interior LinearRings to a
     # correctly oriented Polygon ...
-    fills = shapely.geometry.polygon.orient(shapely.geometry.polygon.Polygon(fillin_LinearRing(poly.exterior, fill, debug = debug), interiors))
+    fills = shapely.geometry.polygon.orient(shapely.geometry.polygon.Polygon(fillin_LinearRing(poly.exterior, fill, debug = debug, tol = tol), interiors))
     if not isinstance(fills, shapely.geometry.polygon.Polygon):
         raise TypeError("\"fills\" is not a Polygon") from None
     if not fills.is_valid:
