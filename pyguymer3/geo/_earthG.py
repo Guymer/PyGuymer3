@@ -1,4 +1,26 @@
 def _earthG(shape):
+    """Re-map Polygon from Earth-G to Earth-D
+
+    This function finds the extent of the input Polygon that exists on Earth-G
+    and re-maps it to Earth-D.
+
+    Parameters
+    ----------
+    shape : shapely.geometry.polygon.Polygon
+            the Polygon
+
+    Returns
+    -------
+    buffs : list of shapely.geometry.polygon.Polygon
+            the list of Polygons that now exist on Earth-D
+
+    Notes
+    -----
+    According to the Shapely documentation for the function shapely.geometry.polygon.orient():
+
+        "A sign of 1.0 means that the coordinates of the product’s exterior ring will be oriented counter-clockwise."
+    """
+
     # Import special modules ...
     try:
         import shapely
