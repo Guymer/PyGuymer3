@@ -15,28 +15,48 @@ Public functions:
     * `buffer_LinearRing()`
     * `buffer_Polygon()`
     * `buffer_MultiPolygon()`
-* `buffer_CoordinateSequence()`
-    * `_buffer_points()` (this is the only function that actually does any buffering)
+* `buffer_CoordinateSequence()` (this is the only function that actually does any buffering)
+    * `f90.buffer_points_crudely()` or `_buffer_points_crudely()`
+    * `_earthA()`
+    * `_earthB()`
+    * `_earthC()`
+    * `_earthD()`
+    * `_earthE()`
+    * `_earthF()`
+    * `_earthG()`
+    * `shapely.ops.unary_union()`
+    * `shapely.geometry.multipolygon.MultiPolygon.simplify()`
+    * `shapely.geometry.polygon.orient()`
+    * `shapely.geometry.polygon.Polygon.buffer()`
 * `buffer_Point()`
-    * `buffer_CoordinateSequence()`
+    * `buffer()`
 * `buffer_LinearRing()`
-    * `buffer_CoordinateSequence()`
+    * `buffer()`
 * `buffer_Polygon()`
-    * `buffer_LinearRing()`
+    * `buffer()`
     * `shapely.ops.unary_union()`
     * `shapely.geometry.multipolygon.MultiPolygon.simplify()`
 * `buffer_MultiPolygon()`
-    * `buffer_Polygon()`
+    * `buffer()`
     * `shapely.ops.unary_union()`
     * `shapely.geometry.multipolygon.MultiPolygon.simplify()`
+* `fillin()`
+    * `fillin_CoordinateSequence()`
+    * `fillin_LinearRing()`
+    * `fillin_Polygon()`
+    * `fillin_MultiPolygon()`
+* `fillin_CoordinateSequence()` (this is the only function that actually does any filling in)
+* `fillin_LinearRing()`
+    * `fillin()`
+* `fillin_Polygon()`
+    * `fillin()`
+    * `shapely.geometry.polygon.orient()`
+* `fillin_MultiPolygon()`
+    * `fillin()`
+    * `shapely.ops.unary_union()`
 
-Private functions:
+## Multiple Earths
 
-* `_buffer_points()` (returns a [Multi]Polygon made up of the simplified union of N [Multi]Polygons)
-    * `f90.buffer_points_crudely()` or `_buffer_points_crudely()`
-    * `_fix_ring()`
-    * `shapely.ops.unary_union()`
-    * `shapely.geometry.multipolygon.MultiPolygon.simplify()`
-* `_fix_ring()` (returns a [Multi]Polygon made up of the simplified union of 1 or 2 Polygons)
-    * `shapely.ops.unary_union()`
-    * `shapely.geometry.multipolygon.MultiPolygon.simplify()`
+To take account of the looping nature of the longitude/latitude Geodesic coordinate system of planet Earth, `buffer_CoordinateSequence()` uses the `_earth?()` functions which have multiple copies of Earth which are then collapsed down on to one Earth: "Earth-D".
+
+![multiple Earths](earths.png)

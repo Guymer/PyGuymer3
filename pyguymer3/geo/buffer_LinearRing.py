@@ -1,4 +1,4 @@
-def buffer_LinearRing(ring, dist, kwArgCheck = None, debug = False, fill = -1.0, nang = 19, simp = 0.1):
+def buffer_LinearRing(ring, dist, kwArgCheck = None, debug = False, fill = 1.0, nang = 19, simp = 0.1, tol = 1.0e-10):
     """Buffer a LinearRing
 
     This function reads in a LinearRing that exists on the surface of the Earth
@@ -10,15 +10,17 @@ def buffer_LinearRing(ring, dist, kwArgCheck = None, debug = False, fill = -1.0,
     ring : shapely.geometry.polygon.LinearRing
             the LinearRing
     dist : float
-            the distance to buffer each point within the LinearRing by (in metres)
+            the Geodesic distance to buffer each point within the LinearRing by (in metres)
     debug : bool, optional
             print debug messages
     fill : float, optional
-            how many intermediary points are added to fill in the straight lines which connect the points; negative values disable filling
+            the Euclidean distance to fill in between each point within the [Multi]Polygon by; negative values disable filling in (in degrees)
     nang : int, optional
             the number of angles around each point within the LinearRing that are calculated when buffering
     simp : float, optional
             how much intermediary [Multi]Polygons are simplified by; negative values disable simplification (in degrees)
+    tol : float, optional
+            the Euclidean distance that defines two points as being the same (in degrees)
 
     Returns
     -------
@@ -35,7 +37,7 @@ def buffer_LinearRing(ring, dist, kwArgCheck = None, debug = False, fill = -1.0,
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Load sub-functions ...
-    from .buffer_CoordinateSequence import buffer_CoordinateSequence
+    from .buffer import buffer
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
@@ -50,4 +52,4 @@ def buffer_LinearRing(ring, dist, kwArgCheck = None, debug = False, fill = -1.0,
         raise Exception("\"ring\" is an empty LinearRing") from None
 
     # Return buffered LinearRing ...
-    return buffer_CoordinateSequence(ring.coords, dist, debug = debug, fill = fill, nang = nang, simp = simp)
+    return buffer(ring.coords, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol)

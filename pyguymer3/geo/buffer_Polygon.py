@@ -1,4 +1,4 @@
-def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = -1.0, nang = 19, simp = 0.1):
+def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, nang = 19, simp = 0.1, tol = 1.0e-10):
     """Buffer a Polygon
 
     This function reads in a Polygon (with an exterior and any number of
@@ -11,15 +11,17 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = -1.0, na
     poly : shapely.geometry.polygon.Polygon
             the Polygon
     dist : float
-            the distance to buffer each point within the Polygon by (in metres)
+            the Geodesic distance to buffer each point within the Polygon by (in metres)
     debug : bool, optional
             print debug messages
     fill : float, optional
-            how many intermediary points are added to fill in the straight lines which connect the points; negative values disable filling
+            the Euclidean distance to fill in between each point within the [Multi]Polygon by; negative values disable filling in (in degrees)
     nang : int, optional
             the number of angles around each point within the Polygon that are calculated when buffering
     simp : float, optional
             how much intermediary [Multi]Polygons are simplified by; negative values disable simplification (in degrees)
+    tol : float, optional
+            the Euclidean distance that defines two points as being the same (in degrees)
 
     Returns
     -------
@@ -37,7 +39,8 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = -1.0, na
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Load sub-functions ...
-    from .buffer_LinearRing import buffer_LinearRing
+    from .buffer import buffer
+    from .fillin import fillin
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
@@ -56,23 +59,24 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = -1.0, na
     buffs.append(poly)
 
     # Append buffer of exterior LinearRing to list ...
-    buffs.append(buffer_LinearRing(poly.exterior, dist, debug = debug, fill = fill, nang = nang, simp = simp))
+    buffs.append(buffer(poly.exterior, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol))
 
     # Loop over interior LinearRings ...
     for ring in poly.interiors:
         # Append buffer of interior LinearRing to list ...
-        buffs.append(buffer_LinearRing(ring, dist, debug = debug, fill = fill, nang = nang, simp = simp))
+        buffs.append(buffer(ring, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol))
 
-    # Convert list of [Multi]Polygons to (unified) [Multi]Polygon ...
-    buffs = shapely.ops.unary_union(buffs)
-
-    # Check [Multi]Polygon ...
+    # Convert list of [Multi]Polygons to a (unified) [Multi]Polygon ...
+    buffs = shapely.ops.unary_union(buffs).simplify(tol)
     if not buffs.is_valid:
         raise Exception(f"\"buffs\" is not a valid [Multi]Polygon ({shapely.validation.explain_validity(buffs)})") from None
-
-    # Check [Multi]Polygon ...
     if buffs.is_empty:
         raise Exception("\"buffs\" is an empty [Multi]Polygon") from None
+
+    # Check if the user wants to fill in the [Multi]Polygon ...
+    if fill > 0.0:
+        # Fill in [Multi]Polygon ...
+        buffs = fillin(buffs, fill, debug = debug, tol = tol)
 
     # Check if the user wants to simplify the [Multi]Polygon ...
     if simp > 0.0:
