@@ -23,6 +23,14 @@ def extract_polys(shape):
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Check type ...
+    if isinstance(shape, shapely.geometry.point.Point):
+        return []
+
+    # Check type ...
+    if isinstance(shape, shapely.geometry.multipoint.MultiPoint):
+        return []
+
+    # Check type ...
     if isinstance(shape, shapely.geometry.linestring.LineString):
         return []
 
