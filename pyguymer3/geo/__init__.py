@@ -27,7 +27,9 @@ from ._earthD import _earthD
 from ._earthE import _earthE
 from ._earthF import _earthF
 from ._earthG import _earthG
+from .add_horizontal_gridlines import add_horizontal_gridlines
 from .add_map_background import add_map_background
+from .add_vertical_gridlines import add_vertical_gridlines
 from .buffer import buffer
 from .buffer_CoordinateSequence import buffer_CoordinateSequence
 from .buffer_LinearRing import buffer_LinearRing
