@@ -51,6 +51,9 @@ def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, debug = False):
     ns = (dr / fill).astype(numpy.uint64)                                       # [#]
     numpy.place(ns, ns < numpy.uint64(2), numpy.uint64(2))                      # [#]
 
+    # Clean up ...
+    del dr
+
     # Find the total number of filled points required ...
     # NOTE: This is the total number of fence posts, not the total number of
     #       fence panels.
@@ -84,11 +87,22 @@ def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, debug = False):
         # Increment index ...
         ifill += ns[ipoint]                                                     # [#]
 
+    # Clean up ...
+    del ns
+
     # Fill in last point ...
     points2[-1, :] = points1[-1, :]                                             # [°]
 
+    # Clean up ...
+    del points1
+
     # Convert array of points to a LineString ...
     fills = shapely.geometry.linestring.LineString(points2)
+
+    # Clean up ...
+    del points2
+
+    # Check LineString ...
     if not isinstance(fills, shapely.geometry.linestring.LineString):
         raise TypeError("\"fills\" is not a LineString") from None
     if not fills.is_valid:

@@ -76,12 +76,13 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     if not isinstance(coords, shapely.coords.CoordinateSequence):
         raise TypeError("\"coords\" is not a CoordinateSequence") from None
 
-    # Correct inputs ...
-    # NOTE: Limit the buffering distance to be between 10m and a quarter of
-    #       Earth's circumference.
-    # NOTE: Must do at least 9 points around the compass.
-    dist = max(10.0, min(0.5 * math.pi * 6371008.8, dist))                      # [m]
-    nang = max(9, nang)
+    # Check inputs ...
+    if dist < 10.0:
+        raise Exception(f"the buffering distance is too small ({dist:,.1f}m < {10.0:,.1f}m)") from None
+    if dist > 0.5 * math.pi * 6371008.8:
+        raise Exception(f"the buffering distance is too small ({dist:,.1f}m > {0.5 * math.pi * 6371008.8:,.1f}m)") from None
+    if nang < 9:
+        raise Exception(f"the number of angles is too small ({nang:,d} < {9:,d})") from None
 
     # **************************************************************************
     # Step 1: Convert the CoordinateSequence to a NumPy array of the original  #
@@ -156,6 +157,9 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
 
             # Append Polygon to list ...
             wedges.append(wedge)
+
+            # Clean up ...
+            del wedge
         if points2[ipoint, :, 1].max() < points1[ipoint, 1]:
             # Create a correctly oriented Polygon from the upper extent of the
             # ring up to the North Pole ...
@@ -177,6 +181,9 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
 
             # Append Polygon to list ...
             wedges.append(wedge)
+
+            # Clean up ...
+            del wedge
 
         # Loop over angles ...
         for iang in range(nang - 1):
@@ -202,6 +209,9 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
             # Append Polygon to list ...
             wedges.append(wedge)
 
+            # Clean up ...
+            del wedge
+
         # Convert list of Polygons to a correctly oriented (unified) Polygon ...
         wedges = shapely.geometry.polygon.orient(shapely.ops.unary_union(wedges).simplify(tol))
         if not isinstance(wedges, shapely.geometry.polygon.Polygon):
@@ -213,6 +223,9 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
 
         # Append (unified) Polygon to list ...
         polys.append(wedges)
+
+        # Clean up ...
+        del wedges
 
     # **************************************************************************
     # Step 4: Append Polygons of the convex hulls of adjacent buffered         #
@@ -269,6 +282,11 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
                     ]
                 ).simplify(tol).convex_hull
             )
+
+            # Clean up ...
+            del line
+
+            # Check Polygon ...
             if not isinstance(finalPoly, shapely.geometry.polygon.Polygon):
                 raise Exception("\"finalPoly\" is not a Polygon") from None
             if not finalPoly.is_valid:
@@ -279,6 +297,12 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
             # Append the convex hull of the two Polygons and the buffered line
             # that connects them to list ...
             finalPolys.append(finalPoly)
+
+            # Clean up ...
+            del finalPoly
+
+    # Clean up ...
+    del points1, points2, polys
 
     # **************************************************************************
     # Step 5: Create a single [Multi]Polygon that is the union of all of the   #
@@ -298,6 +322,9 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     # Re-map the Polygon on to Earth ...
     buffs = remap(finalPolys, tol = tol)
 
+    # Clean up ...
+    del finalPolys
+
     # Check if the user wants to fill in the [Multi]Polygon ...
     if fill > 0.0:
         # Fill in [Multi]Polygon ...
@@ -310,6 +337,9 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
 
         # Check simplified [Multi]Polygon ...
         if buffsSimp.is_valid and not buffsSimp.is_empty:
+            # Clean up ...
+            del buffs
+
             # Return simplified answer ...
             return buffsSimp
 
