@@ -14,6 +14,7 @@ def en2ll(poly1):
     try:
         import shapely
         import shapely.geometry
+        import shapely.validation
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
@@ -57,10 +58,20 @@ def en2ll(poly1):
         # Append LinearRing to list ...
         interiorRings.append(interiorRing)
 
+        # Clean up ...
+        del interiorRing
+
     # Convert LinearRings to Polygon ...
     poly2 = shapely.geometry.polygon.Polygon(exteriorRing, interiorRings)
+
+    # Clean up ...
+    del exteriorRing, interiorRings
+
+    # Check Polygon ...
     if not poly2.is_valid:
-        return False
+        raise Exception(f"\"poly2\" is not a valid Polygon ({shapely.validation.explain_validity(poly2)})") from None
+    if poly2.is_empty:
+        raise Exception("\"poly2\" is an empty Polygon") from None
 
     # Return answer ...
     return poly2

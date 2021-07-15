@@ -47,6 +47,9 @@ def add_map_background(axis, kwArgCheck = None, debug = False, name = "natural-e
                     if os.path.exists(ipath):
                         default = False
 
+            # Clean up ...
+            del info
+
     # Draw background image ...
     if default:
         if debug:

@@ -85,6 +85,9 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, nan
 
         # Check simplified [Multi]Polygon ...
         if buffsSimp.is_valid and not buffsSimp.is_empty:
+            # Clean up ...
+            del buffs
+
             # Return simplified answer ...
             return buffsSimp
 

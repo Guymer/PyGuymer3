@@ -91,8 +91,16 @@ def fillin_LinearRing(ring, fill, kwArgCheck = None, debug = False, tol = 1.0e-1
     if not skip:
         points2.append(points1[-1, :])                                          # [°]
 
+    # Clean up ...
+    del points1
+
     # Convert list of points in to a LinearRing ...
     coords = shapely.geometry.polygon.LinearRing(points2)
+
+    # Clean up ...
+    del points2
+
+    # Check LinearRing ...
     if not isinstance(coords, shapely.geometry.polygon.LinearRing):
         raise TypeError("\"coords\" is not a LinearRing") from None
     if not coords.is_valid:
