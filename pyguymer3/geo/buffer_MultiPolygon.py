@@ -87,6 +87,9 @@ def buffer_MultiPolygon(multipoly, dist, kwArgCheck = None, debug = False, fill 
             # Return simplified answer ...
             return buffsSimp
 
+        # Clean up ...
+        del buffsSimp
+
         if debug:
             print(f"WARNING: \"buffsSimp\" is not a valid [Multi]Polygon ({shapely.validation.explain_validity(buffsSimp)}), will return \"buffs\" instead")
 
