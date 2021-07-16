@@ -13,14 +13,26 @@ def download(sess, method, url, kwArgCheck = None, timeout = 10.0, verify = True
     try:
         resp = sess.request(method, url, timeout = timeout, verify = verify)
     except requests.exceptions.TooManyRedirects:
+        # Clean up ...
+        del resp
+
         return False
     except requests.exceptions.ConnectionError:
+        # Clean up ...
+        del resp
+
         return False
     except requests.exceptions.Timeout:
+        # Clean up ...
+        del resp
+
         return False
 
     # Exit if the response was bad ...
     if resp.status_code != 200:
+        # Clean up ...
+        del resp
+
         return False
 
     return resp

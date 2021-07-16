@@ -11,9 +11,14 @@ def download_file(sess, url, fname, kwArgCheck = None, timeout = 10.0, verify = 
     if kwArgCheck is not None:
         print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
-    # Try to download the file and catch common errors ...
+    # Try to download the file ...
     resp = download(sess, "get", url, timeout = timeout, verify = verify)
+
+    # Check response ...
     if resp is False:
+        # Clean up ...
+        del resp
+
         return False
 
     # Save file to disk ...
@@ -27,5 +32,8 @@ def download_file(sess, url, fname, kwArgCheck = None, timeout = 10.0, verify = 
     if "Last-Modified" in resp.headers:
         modtime = email.utils.mktime_tz(email.utils.parsedate_tz(resp.headers["Last-Modified"]))
         os.utime(fname, (modtime, modtime))
+
+    # Clean up ...
+    del resp
 
     return True
