@@ -20,6 +20,7 @@ itself once)
 
 # Import sub-functions ...
 from ._buffer_points_crudely import _buffer_points_crudely
+from ._debug import _debug
 from ._earthA import _earthA
 from ._earthB import _earthB
 from ._earthC import _earthC
