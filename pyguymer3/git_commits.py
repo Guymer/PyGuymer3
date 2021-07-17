@@ -37,5 +37,8 @@ def git_commits(kwArgCheck = None, cwd = None, fname = None):
     for stamp in stamps:
         commits.append(datetime.datetime.fromtimestamp(int(stamp), tz = datetime.timezone.utc))
 
+    # Clean up ...
+    del stamps
+
     # Return answer ...
     return commits

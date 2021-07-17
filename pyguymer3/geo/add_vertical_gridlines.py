@@ -48,3 +48,6 @@ def add_vertical_gridlines(ax, ext, kwArgCheck = None, color = "black", linestyl
             linestyle = linestyle,
             linewidth = linewidth
         )
+
+    # Clean up ...
+    del xlocs

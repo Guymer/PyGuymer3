@@ -48,3 +48,6 @@ def add_horizontal_gridlines(ax, ext, kwArgCheck = None, color = "black", linest
             linestyle = linestyle,
             linewidth = linewidth
         )
+
+    # Clean up ...
+    del ylocs

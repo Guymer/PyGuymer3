@@ -25,6 +25,9 @@ def stat(fname, kwArgCheck = None, follow_symlinks = True):
         if key.startswith("st_"):
             ans[key] = getattr(info, key)
 
+    # Clean up ...
+    del info
+
     # Add helpful short-hands for user and group information ...
     if "st_uid" in ans:
         ans["user"] = pwd.getpwuid(ans["st_uid"]).pw_name

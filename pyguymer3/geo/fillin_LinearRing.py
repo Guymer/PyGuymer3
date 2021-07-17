@@ -54,6 +54,9 @@ def fillin_LinearRing(ring, fill, kwArgCheck = None, debug = False, tol = 1.0e-1
     # Convert the CoordinateSequence to a NumPy array ...
     points1 = numpy.array(ring.coords)                                          # [°]
 
+    # Create short-hand ...
+    npoint = points1.shape[0]
+
     # Initialize list ...
     points2 = []                                                                # [°]
     points2.append(points1[0, :])                                               # [°]
@@ -62,7 +65,7 @@ def fillin_LinearRing(ring, fill, kwArgCheck = None, debug = False, tol = 1.0e-1
     skip = False
 
     # Loop over points ...
-    for ipoint in range(1, points1.shape[0] - 1):
+    for ipoint in range(1, npoint - 1):
         # Skip this point if it needs skipping ...
         if skip:
             # Re-set flag ...
@@ -91,8 +94,16 @@ def fillin_LinearRing(ring, fill, kwArgCheck = None, debug = False, tol = 1.0e-1
     if not skip:
         points2.append(points1[-1, :])                                          # [°]
 
+    # Clean up ...
+    del points1
+
     # Convert list of points in to a LinearRing ...
     coords = shapely.geometry.polygon.LinearRing(points2)
+
+    # Clean up ...
+    del points2
+
+    # Check LinearRing ...
     if not isinstance(coords, shapely.geometry.polygon.LinearRing):
         raise TypeError("\"coords\" is not a LinearRing") from None
     if not coords.is_valid:

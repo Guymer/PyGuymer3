@@ -116,14 +116,14 @@ def load_GPS_EXIF1(fname):
                 )
 
                 # Deduce time precision ...
-                foo = 0.0                                                                                                   # [s]
+                tmp = 0.0                                                                                                   # [s]
                 if tags["GPS GPSTimeStamp"].values[0].den != 1:
-                    foo += 3600.0 / float(tags["GPS GPSTimeStamp"].values[0].den)                                           # [s]
+                    tmp += 3600.0 / float(tags["GPS GPSTimeStamp"].values[0].den)                                           # [s]
                 if tags["GPS GPSTimeStamp"].values[1].den != 1:
-                    foo += 60.0 / float(tags["GPS GPSTimeStamp"].values[1].den)                                             # [s]
+                    tmp += 60.0 / float(tags["GPS GPSTimeStamp"].values[1].den)                                             # [s]
                 if tags["GPS GPSTimeStamp"].values[2].den != 1:
-                    foo += 1.0 / float(tags["GPS GPSTimeStamp"].values[2].den)                                              # [s]
-                ans["time_prec"] = datetime.timedelta(seconds = foo)
+                    tmp += 1.0 / float(tags["GPS GPSTimeStamp"].values[2].den)                                              # [s]
+                ans["time_prec"] = datetime.timedelta(seconds = tmp)
 
             # Check that the required tags are preset ...
             if "GPS GPSMapDatum" in tags:

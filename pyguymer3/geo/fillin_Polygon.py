@@ -46,6 +46,9 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, tol = 1.0e-10):
     if poly.is_empty:
         raise Exception("\"poly\" is an empty Polygon") from None
 
+    # Filled in exterior LinearRing ...
+    exterior = fillin(poly.exterior, fill, debug = debug, tol = tol)
+
     # Initialize list ...
     interiors = []
 
@@ -62,7 +65,12 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, tol = 1.0e-10):
 
     # Convert exterior LinearRing and list of interior LinearRings to a
     # correctly oriented Polygon ...
-    fills = shapely.geometry.polygon.orient(shapely.geometry.polygon.Polygon(fillin(poly.exterior, fill, debug = debug, tol = tol), interiors))
+    fills = shapely.geometry.polygon.orient(shapely.geometry.polygon.Polygon(exterior, interiors))
+
+    # Clean up ...
+    del exterior, interiors
+
+    # Check Polygon ...
     if not isinstance(fills, shapely.geometry.polygon.Polygon):
         raise TypeError("\"fills\" is not a Polygon") from None
     if not fills.is_valid:

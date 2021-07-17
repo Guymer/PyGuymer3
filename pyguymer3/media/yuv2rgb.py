@@ -58,6 +58,8 @@ def yuv2rgb(im, kwArgCheck = None, version = 'SDTV'):
         raise Exception("unrecognised version (choose 'SDTV' or 'HDTV')") from None
 
     rgb = numpy.dot(yuv, A.T)
+    del yuv, A
     result = rgb.clip(0, 255).astype('uint8')
+    del rgb
 
     return result

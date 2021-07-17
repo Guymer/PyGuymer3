@@ -30,8 +30,11 @@ def _buffer_points_crudely(points1, dist, nang):
     # Load sub-functions ...
     from .calc_loc_from_loc_and_bearing_and_dist import calc_loc_from_loc_and_bearing_and_dist
 
+    # Create short-hand ...
+    npoint = points1.shape[0]
+
     # Initialize array ...
-    points2 = numpy.zeros((points1.shape[0], nang, 2), dtype = numpy.float64)   # [°]
+    points2 = numpy.zeros((npoint, nang, 2), dtype = numpy.float64)             # [°]
 
     # Loop over angles ...
     # NOTE: The first and last angles will *always* be exactly North.
@@ -42,9 +45,9 @@ def _buffer_points_crudely(points1, dist, nang):
         ang1 = 360.0 * float(iang) / float(nang - 1)                            # [°]
 
         # Loop over points ...
-        for ipoint in range(points1.shape[0]):
+        for ipoint in range(npoint):
             # Calculate the ring coordinates and add them to the array ...
-            points2[ipoint, iang, 0], points2[ipoint, iang, 1], ang2 = calc_loc_from_loc_and_bearing_and_dist(points1[ipoint, 0], points1[ipoint, 1], ang1, dist)
+            points2[ipoint, iang, 0], points2[ipoint, iang, 1] = calc_loc_from_loc_and_bearing_and_dist(points1[ipoint, 0], points1[ipoint, 1], ang1, dist)[:2]
 
     # Return answer ...
     return points2
