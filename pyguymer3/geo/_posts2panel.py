@@ -65,12 +65,23 @@ def _posts2panel(pointA, pointB, pointsA, pointsB, polyA, polyB, kwArgCheck = No
     if line.is_empty:
         raise Exception("\"line\" is an empty Polygon") from None
 
-    # Find the correctly oriented convex hull of the unification of the two
-    # Polygons and the buffered line that connects them ...
-    finalPoly = shapely.geometry.polygon.orient(shapely.ops.unary_union([polyA, line, polyB]).simplify(tol).convex_hull)
+    # Convert the two Polygons and the buffered line that connects them to a
+    # correctly oriented (unified) Polygon ...
+    finalPoly = shapely.geometry.polygon.orient(shapely.ops.unary_union([polyA, line, polyB]).simplify(tol))
 
     # Clean up ...
     del line
+
+    # Check Polygon ...
+    if not isinstance(finalPoly, shapely.geometry.polygon.Polygon):
+        raise Exception("\"finalPoly\" is not a Polygon") from None
+    if not finalPoly.is_valid:
+        raise Exception(f"\"finalPoly\" is not a valid Polygon ({shapely.validation.explain_validity(finalPoly)})") from None
+    if finalPoly.is_empty:
+        raise Exception("\"finalPoly\" is an empty Polygon") from None
+
+    # Find the correctly oriented convex hull of the Polygon ...
+    finalPoly = shapely.geometry.polygon.orient(finalPoly.convex_hull.simplify(tol))
 
     # Check Polygon ...
     if not isinstance(finalPoly, shapely.geometry.polygon.Polygon):
