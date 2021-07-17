@@ -57,6 +57,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     # Load sub-functions ...
     from ._buffer_points_crudely import _buffer_points_crudely
     from ._points2poly import _points2poly
+    from ._posts2panel import _posts2panel
     from .fillin import fillin
     from .remap import remap
     try:
@@ -150,64 +151,9 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     else:
         # Loop over points ...
         for ipoint in range(npoint - 1):
-            # Create a line connecting the two original points ...
-            line = shapely.geometry.linestring.LineString([points1[ipoint, :], points1[ipoint + 1, :]])
-            if not isinstance(line, shapely.geometry.linestring.LineString):
-                raise Exception("\"line\" is not a LineString") from None
-            if not line.is_valid:
-                raise Exception(f"\"line\" is not a valid LineString ({shapely.validation.explain_validity(line)})") from None
-            if line.is_empty:
-                raise Exception("\"line\" is an empty LineString") from None
-
-            # Find the minimum distance from an original point to any point on
-            # its ring ...
-            minDist = min(
-                numpy.hypot(points2[ipoint    , :, 0] - points1[ipoint    , 0], points2[ipoint    , :, 1] - points1[ipoint    , 1]).min(),
-                numpy.hypot(points2[ipoint + 1, :, 0] - points1[ipoint + 1, 0], points2[ipoint + 1, :, 1] - points1[ipoint + 1, 1]).min(),
-            )                                                                   # [°]
-
-            # Add conservatism ...
-            minDist *= 0.1                                                      # [°]
-
-            # Buffer (in Euclidean space) the line connecting the two original
-            # points...
-            line = line.buffer(minDist)
-            if not isinstance(line, shapely.geometry.polygon.Polygon):
-                raise Exception("\"line\" is not a Polygon") from None
-            if not line.is_valid:
-                raise Exception(f"\"line\" is not a valid Polygon ({shapely.validation.explain_validity(line)})") from None
-            if line.is_empty:
-                raise Exception("\"line\" is an empty Polygon") from None
-
-            # Find the correctly oriented convex hull of the unification of the
-            # two Polygons and the buffered line that connects them ...
-            finalPoly = shapely.geometry.polygon.orient(
-                shapely.ops.unary_union(
-                    [
-                        polys[ipoint],
-                        line,
-                        polys[ipoint + 1]
-                    ]
-                ).simplify(tol).convex_hull
-            )
-
-            # Clean up ...
-            del line
-
-            # Check Polygon ...
-            if not isinstance(finalPoly, shapely.geometry.polygon.Polygon):
-                raise Exception("\"finalPoly\" is not a Polygon") from None
-            if not finalPoly.is_valid:
-                raise Exception(f"\"finalPoly\" is not a valid Polygon ({shapely.validation.explain_validity(finalPoly)})") from None
-            if finalPoly.is_empty:
-                raise Exception("\"finalPoly\" is an empty Polygon") from None
-
             # Append the convex hull of the two Polygons and the buffered line
             # that connects them to list ...
-            finalPolys.append(finalPoly)
-
-            # Clean up ...
-            del finalPoly
+            finalPolys.append(_posts2panel(points1[ipoint, :], points1[ipoint + 1, :], points2[ipoint, :, :], points2[ipoint + 1, :, :], polys[ipoint], polys[ipoint + 1], tol = tol))
 
     # Clean up ...
     del points1, points2, polys
