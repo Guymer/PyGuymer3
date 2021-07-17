@@ -56,7 +56,7 @@ def fillin_MultiPolygon(multipoly, fill, kwArgCheck = None, debug = False, tol =
         polys.append(fillin(poly, fill, debug = debug, tol = tol))
 
     # Convert list of Polygons to a (unified) MultiPolygon ...
-    fills = shapely.ops.unary_union(polys).simplify(tol)
+    fills = shapely.ops.unary_union(polys)
 
     # Clean up ...
     del polys
