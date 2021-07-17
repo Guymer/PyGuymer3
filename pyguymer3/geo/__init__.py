@@ -27,6 +27,7 @@ from ._earthD import _earthD
 from ._earthE import _earthE
 from ._earthF import _earthF
 from ._earthG import _earthG
+from ._points2poly import _points2poly
 from .add_horizontal_gridlines import add_horizontal_gridlines
 from .add_map_background import add_map_background
 from .add_vertical_gridlines import add_vertical_gridlines
