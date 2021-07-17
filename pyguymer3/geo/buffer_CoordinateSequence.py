@@ -97,6 +97,9 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
         # Convert the CoordinateSequence to a NumPy array ...
         points1 = numpy.array(coords)                                           # [°]
 
+    # Create short-hand ...
+    npoint = points1.shape[0]
+
     # Check inputs ...
     if points1[:, 0].min() < -180.0:
         raise Exception(f"a point exists a long way off the W-edge of Earth ({points1[:, 0].min():.6f}° < -180°)") from None
@@ -127,7 +130,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     polys = []
 
     # Loop over points ...
-    for ipoint in range(points1.shape[0]):
+    for ipoint in range(npoint):
         # Initialize list ...
         wedges = []
 
@@ -236,12 +239,12 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     finalPolys = []
 
     # Check if there are some connections ...
-    if points1.shape[0] == 1:
+    if npoint == 1:
         # Append Polygon to list ...
         finalPolys.append(polys[0])
     else:
         # Loop over points ...
-        for ipoint in range(points1.shape[0] - 1):
+        for ipoint in range(npoint - 1):
             # Create a line connecting the two original points ...
             line = shapely.geometry.linestring.LineString([points1[ipoint, :], points1[ipoint + 1, :]])
             if not isinstance(line, shapely.geometry.linestring.LineString):
