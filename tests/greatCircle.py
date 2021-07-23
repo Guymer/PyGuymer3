@@ -42,7 +42,7 @@ if __name__ == "__main__":
     fg = matplotlib.pyplot.figure(figsize = (6, 3), dpi = 150)
 
     # Create plot ...
-    ax = matplotlib.pyplot.axes(projection = cartopy.crs.Robinson())
+    ax = fg.add_subplot(1, 1, 1, projection = cartopy.crs.Robinson())
     ax.set_global()
     pyguymer3.geo.add_map_background(ax)
     ax.coastlines(resolution = "110m", color = "black", linewidth = 0.1)
