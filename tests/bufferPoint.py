@@ -42,7 +42,7 @@ if __name__ == "__main__":
     except:
         raise Exception("\"pyguymer3\" is not installed; you need to have the Python module from https://github.com/Guymer/PyGuymer3 located somewhere in your $PYTHONPATH") from None
 
-    print("Testing \"{:s}\" ...".format(pyguymer3.__path__[0]))
+    print(f"Testing \"{pyguymer3.__path__[0]}\" ...")
 
     # Define points ...
     points = [
@@ -86,8 +86,11 @@ if __name__ == "__main__":
         # Save GeoJSON ...
         geojson.dump(buff, open(jname, "wt"), indent = 4, sort_keys = True)
 
+        # Clean up ...
+        del buff
+
         # Save figure ...
-        fg.suptitle("({:.1f},{:.1f}) buffered by {:,.1f}km".format(lon, lat, 0.001 * dist))
+        fg.suptitle(f"({lon:.1f},{lat:.1f}) buffered by {0.001 * dist:,.1f}km")
         fg.savefig(fname, bbox_inches = "tight", dpi = 150, pad_inches = 0.1)
         pyguymer3.image.optimize_image(fname, strip = True)
         matplotlib.pyplot.close(fg)
