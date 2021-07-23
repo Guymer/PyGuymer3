@@ -88,16 +88,18 @@ if __name__ == "__main__":
         ax3.set_aspect("equal")
         ax3.set_xlabel("Longitude [°]")
         ax3.set_xlim(-180, +180)
+        ax3.set_xticks([-180, -135, -90, -45, 0, +45, +90, +135, +180])
         ax3.set_ylabel("Latitude [°]")
         ax3.set_ylim(-90, +90)
+        ax3.set_yticks([-90, -45, 0, +45, +90])
 
         # Buffer Point and plot it thrice ...
         buff0 = pyguymer3.geo.buffer(shapely.geometry.point.Point(lon, lat), dist1 + dist2, debug = True, nang = 361, simp = -1.0)
-        ax1.add_geometries([buff0], cartopy.crs.PlateCarree(), edgecolor = (0.0, 1.0, 0.0, 1.0), facecolor = "none", linewidth = 1.0)
-        ax2.add_geometries([buff0], cartopy.crs.PlateCarree(), edgecolor = (0.0, 1.0, 0.0, 1.0), facecolor = "none", linewidth = 1.0)
+        ax1.add_geometries([buff0], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = "none", linewidth = 1.0)
+        ax2.add_geometries([buff0], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = "none", linewidth = 1.0)
         for poly in pyguymer3.geo.extract_polys(buff0):
             coords = numpy.array(poly.exterior.coords)
-            ax3.plot(coords[:, 0], coords[:, 1], color = (0.0, 1.0, 0.0, 1.0))
+            ax3.plot(coords[:, 0], coords[:, 1], color = (1.0, 0.0, 0.0, 1.0))
             del coords
 
         # Clean up ...
@@ -105,16 +107,20 @@ if __name__ == "__main__":
 
         # Buffer Point and plot it twice ...
         buff1 = pyguymer3.geo.buffer(shapely.geometry.point.Point(lon, lat), dist1, debug = True, nang = 361, simp = -1.0)
-        ax1.add_geometries([buff1], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = "none", linewidth = 1.0)
-        ax2.add_geometries([buff1], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = "none", linewidth = 1.0)
+        ax1.add_geometries([buff1], cartopy.crs.PlateCarree(), edgecolor = (0.0, 1.0, 0.0, 1.0), facecolor = "none", linewidth = 1.0)
+        ax2.add_geometries([buff1], cartopy.crs.PlateCarree(), edgecolor = (0.0, 1.0, 0.0, 1.0), facecolor = "none", linewidth = 1.0)
+        for poly in pyguymer3.geo.extract_polys(buff1):
+            coords = numpy.array(poly.exterior.coords)
+            ax3.plot(coords[:, 0], coords[:, 1], color = (0.0, 1.0, 0.0, 1.0))
+            del coords
 
         # Buffer Polygon and plot it thrice ...
         buff2 = pyguymer3.geo.buffer(buff1, dist2, debug = True, nang = 361, simp = -1.0)
-        ax1.add_geometries([buff2], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = (1, 0.0, 0.0, 0.5), linewidth = 1.0)
-        ax2.add_geometries([buff2], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = (1, 0.0, 0.0, 0.5), linewidth = 1.0)
+        ax1.add_geometries([buff2], cartopy.crs.PlateCarree(), edgecolor = (0.0, 0.0, 1.0, 1.0), facecolor = (0.0, 0.0, 1.0, 0.5), linewidth = 1.0)
+        ax2.add_geometries([buff2], cartopy.crs.PlateCarree(), edgecolor = (0.0, 0.0, 1.0, 1.0), facecolor = (0.0, 0.0, 1.0, 0.5), linewidth = 1.0)
         for poly in pyguymer3.geo.extract_polys(buff2):
             coords = numpy.array(poly.exterior.coords)
-            ax3.plot(coords[:, 0], coords[:, 1], color = (1.0, 0.0, 0.0, 1.0))
+            ax3.plot(coords[:, 0], coords[:, 1], color = (0.0, 0.0, 1.0, 1.0))
             del coords
 
         # Clean up ...

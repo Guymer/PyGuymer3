@@ -88,8 +88,10 @@ if __name__ == "__main__":
         ax3.set_aspect("equal")
         ax3.set_xlabel("Longitude [°]")
         ax3.set_xlim(-180, +180)
+        ax3.set_xticks([-180, -135, -90, -45, 0, +45, +90, +135, +180])
         ax3.set_ylabel("Latitude [°]")
         ax3.set_ylim(-90, +90)
+        ax3.set_yticks([-90, -45, 0, +45, +90])
 
         # Buffer point and plot it thrice ...
         buff0 = pyguymer3.geo.buffer(shapely.geometry.point.Point(lon, lat), dist, debug = True, nang = 361, simp = -1.0)
