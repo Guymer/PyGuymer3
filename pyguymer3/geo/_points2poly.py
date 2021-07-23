@@ -146,5 +146,16 @@ def _points2poly(point, points, kwArgCheck = None, tol = 1.0e-10):
     if wedges.is_empty:
         raise Exception("\"wedges\" is an empty Polygon") from None
 
+    # Remake the Polygon to remove any interiors ...
+    # HACK: Sometimes "wedges" has zero-area interiors.
+    wedges = shapely.geometry.polygon.orient(shapely.geometry.polygon.Polygon(wedges.exterior))
+    if not isinstance(wedges, shapely.geometry.polygon.Polygon):
+        raise Exception("\"wedges\" is not a Polygon") from None
+    if not wedges.is_valid:
+        _debug(wedges)
+        raise Exception(f"\"wedges\" is not a valid Polygon ({shapely.validation.explain_validity(wedges)})") from None
+    if wedges.is_empty:
+        raise Exception("\"wedges\" is an empty Polygon") from None
+
     # Return answer ...
     return wedges
