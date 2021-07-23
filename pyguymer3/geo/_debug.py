@@ -1,4 +1,12 @@
 def _debug(badPolys):
+    """Save CSVs for debugging
+
+    Parameters
+    ----------
+    badPolys : shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
+        the bad [Multi]Polygon
+    """
+
     # Import sub-functions ...
     from .extract_polys import extract_polys
 

@@ -1,4 +1,25 @@
 def _points2poly(point, points, kwArgCheck = None, tol = 1.0e-10):
+    """Convert a buffered point to a Polygon
+
+    This function reads in a coordinate that exists on the surface of the Earth,
+    and an array of coordinates that are the ring around the coordinate buffered
+    by a constant distance, and returns a Polygon which describes the buffer.
+
+    Parameters
+    ----------
+    point : numpy.array
+            the (2) array of (lon,lat) coordinate (in degrees)
+    points : numpy.array
+            the (nang, 2) array of (lon,lat) coordinates around the (lon,lat) coordinate (in degrees)
+    tol : float, optional
+            the Euclidean distance that defines two points as being the same (in degrees)
+
+    Returns
+    -------
+    wedges : shapely.geometry.polygon.Polygon
+            the buffered (lon,lat) coordinate
+    """
+
     # Import special modules ...
     try:
         import numpy

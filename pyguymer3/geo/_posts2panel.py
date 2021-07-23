@@ -1,4 +1,35 @@
 def _posts2panel(pointA, pointB, pointsA, pointsB, polyA, polyB, kwArgCheck = None, tol = 1.0e-10):
+    """Convert two buffered points to a Polygon
+
+    This function reads in two coordinates that exists on the surface of the
+    Earth, two arrays of coordinates that are the rings around the coordinates
+    buffered by a constant distance and two Polygons that are the rings around
+    the coordinates buffered by a constant distance, and returns a Polygon which
+    describes the buffer of the points and the line that connects them.
+
+    Parameters
+    ----------
+    pointA : numpy.array
+            the first (2) array of (lon,lat) coordinate (in degrees)
+    pointB : numpy.array
+            the second (2) array of (lon,lat) coordinate (in degrees)
+    pointsA : numpy.array
+            the (nang, 2) array of (lon,lat) coordinates around the first (lon,lat) coordinate (in degrees)
+    pointsB : numpy.array
+            the (nang, 2) array of (lon,lat) coordinates around the second (lon,lat) coordinate (in degrees)
+    polyA : shapely.geometry.polygon.Polygon
+            the Polygon around the first (lon,lat) coordinate
+    polyB : shapely.geometry.polygon.Polygon
+            the Polygon around the second (lon,lat) coordinate
+    tol : float, optional
+            the Euclidean distance that defines two points as being the same (in degrees)
+
+    Returns
+    -------
+    finalPoly : shapely.geometry.polygon.Polygon
+            the buffer around the two points and the line that connects them
+    """
+
     # Import special modules ...
     try:
         import numpy
