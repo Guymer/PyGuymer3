@@ -114,4 +114,4 @@ def fillin_LinearRing(ring, fill, kwArgCheck = None, debug = False, tol = 1.0e-1
     # **************************************************************************
 
     # Return filled in LinearRing ...
-    return fillin(coords.coords, fill, debug = debug)
+    return fillin(coords.coords, fill, debug = debug, tol = tol)
