@@ -1,4 +1,4 @@
-def remap(poly, kwArgCheck = None, tol = 1.0e-10):
+def remap(poly):
     """Re-map a Polygon
 
     This function reads in a Polygon that should exist on the surface of
@@ -9,8 +9,6 @@ def remap(poly, kwArgCheck = None, tol = 1.0e-10):
     ----------
     poly : shapely.geometry.polygon.Polygon
             the Polygon
-    tol : float, optional
-            the Euclidean distance that defines two points as being the same (in degrees)
 
     Returns
     -------
@@ -27,7 +25,7 @@ def remap(poly, kwArgCheck = None, tol = 1.0e-10):
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
-    # Load sub-functions ...
+    # Import sub-functions ...
     from ._earthA import _earthA
     from ._earthB import _earthB
     from ._earthC import _earthC
@@ -35,10 +33,6 @@ def remap(poly, kwArgCheck = None, tol = 1.0e-10):
     from ._earthE import _earthE
     from ._earthF import _earthF
     from ._earthG import _earthG
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check argument ...
     if not isinstance(poly, shapely.geometry.polygon.Polygon):
@@ -80,7 +74,7 @@ def remap(poly, kwArgCheck = None, tol = 1.0e-10):
     polys += _earthG(poly)
 
     # Convert list of Polygons to (unified) [Multi]Polygon ...
-    polys = shapely.ops.unary_union(polys).simplify(tol)
+    polys = shapely.ops.unary_union(polys)
     if not polys.is_valid:
         raise Exception(f"\"polys\" is not a valid [Multi]Polygon ({shapely.validation.explain_validity(polys)})") from None
     if polys.is_empty:
