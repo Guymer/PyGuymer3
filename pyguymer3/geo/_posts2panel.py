@@ -61,8 +61,8 @@ def _posts2panel(pointA, pointB, pointsA, pointsB, polyA, polyB, kwArgCheck = No
     # Add conservatism ...
     minDist *= 0.1                                                              # [°]
 
-    # Buffer (in Euclidean space) the line connecting the two original points...
-    line = line.buffer(minDist)
+    # Buffer (in Euclidean space) the line connecting the two original points ...
+    line = shapely.geometry.polygon.orient(line.buffer(minDist))
     if not isinstance(line, shapely.geometry.polygon.Polygon):
         raise Exception("\"line\" is not a Polygon") from None
     if not line.is_valid:
