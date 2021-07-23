@@ -1,5 +1,5 @@
 def load_EXIF(fname, kwArgCheck = None, python = True):
-    # Load sub-functions ...
+    # Import sub-functions ...
     from .load_EXIF1 import load_EXIF1
     from .load_EXIF2 import load_EXIF2
 

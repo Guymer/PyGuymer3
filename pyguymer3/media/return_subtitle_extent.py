@@ -4,7 +4,7 @@ def return_subtitle_extent(fname, kwArgCheck = None, playlist = -1, subtitle = 0
     import shutil
     import subprocess
 
-    # Load sub-functions ...
+    # Import sub-functions ...
     from .return_media_duration import return_media_duration
     from .return_video_frame_rate import return_video_frame_rate
     from .return_video_height import return_video_height

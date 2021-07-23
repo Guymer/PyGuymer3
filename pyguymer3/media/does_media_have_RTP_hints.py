@@ -1,5 +1,5 @@
 def does_media_have_RTP_hints(fname, kwArgCheck = None, playlist = -1, debug = False):
-    # Load sub-functions ...
+    # Import sub-functions ...
     from .__ffprobe__ import __ffprobe__
     from .ffprobe import ffprobe
 

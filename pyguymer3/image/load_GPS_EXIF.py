@@ -1,5 +1,5 @@
 def load_GPS_EXIF(fname, kwArgCheck = None, python = True):
-    # Load sub-functions ...
+    # Import sub-functions ...
     from .load_GPS_EXIF1 import load_GPS_EXIF1
     from .load_GPS_EXIF2 import load_GPS_EXIF2
 

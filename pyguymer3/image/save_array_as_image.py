@@ -26,7 +26,7 @@ def save_array_as_image(img0, fname, kwArgCheck = None, form = "png", scale = Fa
     except:
         raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
 
-    # Load sub-functions ...
+    # Import sub-functions ...
     from .optimize_image import optimize_image
     from .save_array_as_PPM import save_array_as_PPM
     from .save_array_as_PNG import save_array_as_PNG

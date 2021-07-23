@@ -1,5 +1,5 @@
 def return_MP4_video_profile(fname, kwArgCheck = None, playlist = -1, debug = False):
-    # Load sub-functions ...
+    # Import sub-functions ...
     from .__ffprobe__ import __ffprobe__
     from .ffprobe import ffprobe
 
