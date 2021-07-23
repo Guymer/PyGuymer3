@@ -1,4 +1,4 @@
-def remap(poly):
+def remap(poly, kwArgCheck = None, tol = 1.0e-10):
     """Re-map a Polygon
 
     This function reads in a Polygon that should exist on the surface of
@@ -9,6 +9,8 @@ def remap(poly):
     ----------
     poly : shapely.geometry.polygon.Polygon
             the Polygon
+    tol : float, optional
+            the Euclidean distance that defines two points as being the same (in degrees)
 
     Returns
     -------
@@ -34,6 +36,10 @@ def remap(poly):
     from ._earthE import _earthE
     from ._earthF import _earthF
     from ._earthG import _earthG
+
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check argument ...
     if not isinstance(poly, shapely.geometry.polygon.Polygon):
@@ -76,7 +82,7 @@ def remap(poly):
     polys += _earthG(poly)
 
     # Convert list of Polygons to (unified) [Multi]Polygon ...
-    polys = shapely.ops.unary_union(polys)
+    polys = shapely.ops.unary_union(polys).simplify(tol)
     if not polys.is_valid:
         _debug(polys)
         raise Exception(f"\"polys\" is not a valid [Multi]Polygon ({shapely.validation.explain_validity(polys)})") from None

@@ -176,7 +176,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
         raise Exception("\"finalPolys\" is an empty Polygon") from None
 
     # Re-map the Polygon on to Earth ...
-    buffs = remap(finalPolys)
+    buffs = remap(finalPolys, tol = tol)
 
     # Clean up ...
     del finalPolys
