@@ -37,11 +37,11 @@ def _points2poly(point, points):
         # down to the South Pole ...
         wedge = shapely.geometry.polygon.Polygon(
             [
-                (-360.0, -90.0),
-                (+360.0, -90.0),
-                (+360.0, points[:, 1].min()),
-                (-360.0, points[:, 1].min()),
-                (-360.0, -90.0),
+                (points[:, 0].min(), -90.0),
+                (points[:, 0].max(), -90.0),
+                (points[:, 0].max(), points[:, 1].min()),
+                (points[:, 0].min(), points[:, 1].min()),
+                (points[:, 0].min(), -90.0),
             ]
         )
         if not isinstance(wedge, shapely.geometry.polygon.Polygon):
@@ -62,11 +62,11 @@ def _points2poly(point, points):
         # up to the North Pole ...
         wedge = shapely.geometry.polygon.Polygon(
             [
-                (-360.0, points[:, 1].max()),
-                (+360.0, points[:, 1].max()),
-                (+360.0, 90.0),
-                (-360.0, 90.0),
-                (-360.0, points[:, 1].max()),
+                (points[:, 0].min(), points[:, 1].max()),
+                (points[:, 0].max(), points[:, 1].max()),
+                (points[:, 0].max(), 90.0),
+                (points[:, 0].min(), 90.0),
+                (points[:, 0].min(), points[:, 1].max()),
             ]
         )
         if not isinstance(wedge, shapely.geometry.polygon.Polygon):
