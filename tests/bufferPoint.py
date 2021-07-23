@@ -79,15 +79,15 @@ if __name__ == "__main__":
         ax2.coastlines(resolution = "110m", color = "black", linewidth = 0.1)
 
         # Buffer point and plot it twice ...
-        buff = pyguymer3.geo.buffer(shapely.geometry.point.Point(lon, lat), dist, debug = True, nang = 361, simp = -1.0)
-        ax1.add_geometries([buff], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = (1, 0.0, 0.0, 0.5), linewidth = 1.0)
-        ax2.add_geometries([buff], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = (1, 0.0, 0.0, 0.5), linewidth = 1.0)
+        buff0 = pyguymer3.geo.buffer(shapely.geometry.point.Point(lon, lat), dist, debug = True, nang = 361, simp = -1.0)
+        ax1.add_geometries([buff0], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = (1, 0.0, 0.0, 0.5), linewidth = 1.0)
+        ax2.add_geometries([buff0], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = (1, 0.0, 0.0, 0.5), linewidth = 1.0)
 
         # Save GeoJSON ...
-        geojson.dump(buff, open(jname, "wt"), indent = 4, sort_keys = True)
+        geojson.dump(buff0, open(jname, "wt"), indent = 4, sort_keys = True)
 
         # Clean up ...
-        del buff
+        del buff0
 
         # Save figure ...
         fg.suptitle(f"({lon:.1f},{lat:.1f}) buffered by {0.001 * dist:,.1f}km")
