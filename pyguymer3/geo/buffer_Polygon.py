@@ -38,7 +38,8 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, nan
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
-    # Load sub-functions ...
+    # Import sub-functions ...
+    from ._debug import _debug
     from .buffer import buffer
     from .fillin import fillin
 
@@ -50,6 +51,7 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, nan
     if not isinstance(poly, shapely.geometry.polygon.Polygon):
         raise TypeError("\"poly\" is not a Polygon") from None
     if not poly.is_valid:
+        _debug(poly)
         raise Exception(f"\"poly\" is not a valid Polygon ({shapely.validation.explain_validity(poly)})") from None
     if poly.is_empty:
         raise Exception("\"poly\" is an empty Polygon") from None
@@ -69,6 +71,7 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, nan
     # Convert list of [Multi]Polygons to a (unified) [Multi]Polygon ...
     buffs = shapely.ops.unary_union(buffs).simplify(tol)
     if not buffs.is_valid:
+        _debug(buffs)
         raise Exception(f"\"buffs\" is not a valid [Multi]Polygon ({shapely.validation.explain_validity(buffs)})") from None
     if buffs.is_empty:
         raise Exception("\"buffs\" is an empty [Multi]Polygon") from None

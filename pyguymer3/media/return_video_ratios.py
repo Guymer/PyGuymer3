@@ -1,5 +1,5 @@
 def return_video_ratios(fname, kwArgCheck = None, playlist = -1, debug = False):
-    # Load sub-functions ...
+    # Import sub-functions ...
     from .__ffprobe__ import __ffprobe__
     from .ffprobe import ffprobe
     from ..find_integer_divisors import find_integer_divisors

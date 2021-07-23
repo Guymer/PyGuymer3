@@ -34,7 +34,7 @@ def buffer(shape, dist, kwArgCheck = None, debug = False, fill = 1.0, nang = 19,
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
-    # Load sub-functions ...
+    # Import sub-functions ...
     from .buffer_CoordinateSequence import buffer_CoordinateSequence
     from .buffer_LinearRing import buffer_LinearRing
     from .buffer_MultiPolygon import buffer_MultiPolygon
@@ -51,19 +51,19 @@ def buffer(shape, dist, kwArgCheck = None, debug = False, fill = 1.0, nang = 19,
 
     # Check if it is a Point and return it buffered ...
     if isinstance(shape, shapely.geometry.point.Point):
-        return buffer_Point(shape.simplify(tol), dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol)
+        return buffer_Point(shape, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol)
 
     # Check if it is a LinearRing and return it buffered ...
     if isinstance(shape, shapely.geometry.polygon.LinearRing):
-        return buffer_LinearRing(shape.simplify(tol), dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol)
+        return buffer_LinearRing(shape, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol)
 
     # Check if it is a Polygon and return it buffered ...
     if isinstance(shape, shapely.geometry.polygon.Polygon):
-        return buffer_Polygon(shape.simplify(tol), dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol)
+        return buffer_Polygon(shape, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol)
 
     # Check if it is a MultiPolygon and return it buffered ...
     if isinstance(shape, shapely.geometry.multipolygon.MultiPolygon):
-        return buffer_MultiPolygon(shape.simplify(tol), dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol)
+        return buffer_MultiPolygon(shape, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol)
 
     # Crash ...
     raise TypeError(f"\"shape\" is an unexpected type ({repr(type(shape))})") from None

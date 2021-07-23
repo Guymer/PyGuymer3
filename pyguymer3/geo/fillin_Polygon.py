@@ -31,7 +31,8 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, tol = 1.0e-10):
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
-    # Load sub-functions ...
+    # Import sub-functions ...
+    from ._debug import _debug
     from .fillin import fillin
 
     # Check keyword arguments ...
@@ -42,6 +43,7 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, tol = 1.0e-10):
     if not isinstance(poly, shapely.geometry.polygon.Polygon):
         raise TypeError("\"poly\" is not a Polygon") from None
     if not poly.is_valid:
+        _debug(poly)
         raise Exception(f"\"poly\" is not a valid Polygon ({shapely.validation.explain_validity(poly)})") from None
     if poly.is_empty:
         raise Exception("\"poly\" is an empty Polygon") from None
@@ -74,6 +76,7 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, tol = 1.0e-10):
     if not isinstance(fills, shapely.geometry.polygon.Polygon):
         raise TypeError("\"fills\" is not a Polygon") from None
     if not fills.is_valid:
+        _debug(fills)
         raise Exception(f"\"fills\" is not a valid Polygon ({shapely.validation.explain_validity(fills)})") from None
     if fills.is_empty:
         raise Exception("\"fills\" is an empty Polygon") from None

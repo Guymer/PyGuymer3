@@ -3,7 +3,7 @@ def return_video_crop_parameters(fname, kwArgCheck = None, playlist = -1, dt = 2
     import shutil
     import subprocess
 
-    # Load sub-functions ...
+    # Import sub-functions ...
     from .return_media_duration import return_media_duration
     from .return_video_height import return_video_height
     from .return_video_width import return_video_width

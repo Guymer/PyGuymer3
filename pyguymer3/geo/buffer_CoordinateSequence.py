@@ -40,6 +40,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
 
     # Import standard modules ...
     import math
+    import multiprocessing
 
     # Import special modules ...
     try:
@@ -54,8 +55,11 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
-    # Load sub-functions ...
+    # Import sub-functions ...
     from ._buffer_points_crudely import _buffer_points_crudely
+    from ._debug import _debug
+    from ._points2poly import _points2poly
+    from ._posts2panel import _posts2panel
     from .fillin import fillin
     from .remap import remap
     try:
@@ -126,109 +130,26 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     #         to a list of Polygons of the buffered original points            #
     # **************************************************************************
 
-    # Initialize list ...
-    polys = []
-
-    # Loop over points ...
-    for ipoint in range(npoint):
+    # Create a pool of workers ...
+    with multiprocessing.Pool() as pool:
         # Initialize list ...
-        wedges = []
+        results = []
 
-        # Check that the ring encompasses the original point ...
-        if points2[ipoint, :, 0].min() > points1[ipoint, 0]:
-            raise Exception(f"the W-edge of the ring does not encompass the original point ({points2[ipoint, :, 0].min():.6f}° > {points1[ipoint, 0]:.6f}°)")
-        if points2[ipoint, :, 0].max() < points1[ipoint, 0]:
-            raise Exception(f"the E-edge of the ring does not encompass the original point ({points2[ipoint, :, 0].max():.6f}° < {points1[ipoint, 0]:.6f}°)")
-        if points2[ipoint, :, 1].min() > points1[ipoint, 1]:
-            # Create a correctly oriented Polygon from the lower extent of the
-            # ring down to the South Pole ...
-            wedge = shapely.geometry.polygon.Polygon(
-                [
-                    (-360.0, -90.0),
-                    (+360.0, -90.0),
-                    (+360.0, points2[ipoint, :, 1].min()),
-                    (-360.0, points2[ipoint, :, 1].min()),
-                    (-360.0, -90.0),
-                ]
-            )
-            if not isinstance(wedge, shapely.geometry.polygon.Polygon):
-                raise Exception("\"wedge\" is not a Polygon") from None
-            if not wedge.is_valid:
-                raise Exception(f"\"wedge\" is not a valid Polygon ({shapely.validation.explain_validity(wedge)})") from None
-            if wedge.is_empty:
-                raise Exception("\"wedge\" is an empty Polygon") from None
+        # Loop over points ...
+        for ipoint in range(npoint):
+            # Add job to pool ...
+            results.append(pool.apply_async(_points2poly, (points1[ipoint, :], points2[ipoint, :, :]), {"tol" : tol}))
 
-            # Append Polygon to list ...
-            wedges.append(wedge)
+        # Initialize list ...
+        polys = []
 
-            # Clean up ...
-            del wedge
-        if points2[ipoint, :, 1].max() < points1[ipoint, 1]:
-            # Create a correctly oriented Polygon from the upper extent of the
-            # ring up to the North Pole ...
-            wedge = shapely.geometry.polygon.Polygon(
-                [
-                    (-360.0, points2[ipoint, :, 1].max()),
-                    (+360.0, points2[ipoint, :, 1].max()),
-                    (+360.0, 90.0),
-                    (-360.0, 90.0),
-                    (-360.0, points2[ipoint, :, 1].max()),
-                ]
-            )
-            if not isinstance(wedge, shapely.geometry.polygon.Polygon):
-                raise Exception("\"wedge\" is not a Polygon") from None
-            if not wedge.is_valid:
-                raise Exception(f"\"wedge\" is not a valid Polygon ({shapely.validation.explain_validity(wedge)})") from None
-            if wedge.is_empty:
-                raise Exception("\"wedge\" is an empty Polygon") from None
-
-            # Append Polygon to list ...
-            wedges.append(wedge)
-
-            # Clean up ...
-            del wedge
-
-        # Loop over angles ...
-        for iang in range(nang - 1):
-            # Create a correctly oriented Polygon from the original point to
-            # this segment of the ring ...
-            wedge = shapely.geometry.polygon.orient(
-                shapely.geometry.polygon.Polygon(
-                    [
-                        (points1[ipoint,           0], points1[ipoint,           1]),
-                        (points2[ipoint, iang    , 0], points2[ipoint, iang    , 1]),
-                        (points2[ipoint, iang + 1, 0], points2[ipoint, iang + 1, 1]),
-                        (points1[ipoint,           0], points1[ipoint,           1]),
-                    ]
-                )
-            )
-            if not isinstance(wedge, shapely.geometry.polygon.Polygon):
-                raise Exception("\"wedge\" is not a Polygon") from None
-            if not wedge.is_valid:
-                raise Exception(f"\"wedge\" is not a valid Polygon ({shapely.validation.explain_validity(wedge)})") from None
-            if wedge.is_empty:
-                raise Exception("\"wedge\" is an empty Polygon") from None
-
-            # Append Polygon to list ...
-            wedges.append(wedge)
-
-            # Clean up ...
-            del wedge
-
-        # Convert list of Polygons to a correctly oriented (unified) Polygon ...
-        wedges = shapely.geometry.polygon.orient(shapely.ops.unary_union(wedges).simplify(tol))
-        if not isinstance(wedges, shapely.geometry.polygon.Polygon):
-            raise Exception("\"wedges\" is not a Polygon") from None
-        if not wedges.is_valid:
-            raise Exception(f"\"wedges\" is not a valid Polygon ({shapely.validation.explain_validity(wedges)})") from None
-        if wedges.is_empty:
-            raise Exception("\"wedges\" is an empty Polygon") from None
-
-        # Append (unified) Polygon to list ...
-        polys.append(wedges)
+        # Loop over results ...
+        for result in results:
+            # Append (unified) Polygon to list ...
+            polys.append(result.get())
 
         # Clean up ...
-        del wedges
+        del results
 
     # **************************************************************************
     # Step 4: Append Polygons of the convex hulls of adjacent buffered         #
@@ -243,66 +164,24 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
         # Append Polygon to list ...
         finalPolys.append(polys[0])
     else:
-        # Loop over points ...
-        for ipoint in range(npoint - 1):
-            # Create a line connecting the two original points ...
-            line = shapely.geometry.linestring.LineString([points1[ipoint, :], points1[ipoint + 1, :]])
-            if not isinstance(line, shapely.geometry.linestring.LineString):
-                raise Exception("\"line\" is not a LineString") from None
-            if not line.is_valid:
-                raise Exception(f"\"line\" is not a valid LineString ({shapely.validation.explain_validity(line)})") from None
-            if line.is_empty:
-                raise Exception("\"line\" is an empty LineString") from None
+        # Create a pool of workers ...
+        with multiprocessing.Pool() as pool:
+            # Initialize list ...
+            results = []
 
-            # Find the minimum distance from an original point to any point on
-            # its ring ...
-            minDist = min(
-                numpy.hypot(points2[ipoint    , :, 0] - points1[ipoint    , 0], points2[ipoint    , :, 1] - points1[ipoint    , 1]).min(),
-                numpy.hypot(points2[ipoint + 1, :, 0] - points1[ipoint + 1, 0], points2[ipoint + 1, :, 1] - points1[ipoint + 1, 1]).min(),
-            )                                                                   # [°]
+            # Loop over points ...
+            for ipoint in range(npoint - 1):
+                # Add job to pool ...
+                results.append(pool.apply_async(_posts2panel, (points1[ipoint, :], points1[ipoint + 1, :], points2[ipoint, :, :], points2[ipoint + 1, :, :], polys[ipoint], polys[ipoint + 1]), {"tol" : tol}))
 
-            # Add conservatism ...
-            minDist *= 0.1                                                      # [°]
-
-            # Buffer (in Euclidean space) the line connecting the two original
-            # points...
-            line = line.buffer(minDist)
-            if not isinstance(line, shapely.geometry.polygon.Polygon):
-                raise Exception("\"line\" is not a Polygon") from None
-            if not line.is_valid:
-                raise Exception(f"\"line\" is not a valid Polygon ({shapely.validation.explain_validity(line)})") from None
-            if line.is_empty:
-                raise Exception("\"line\" is an empty Polygon") from None
-
-            # Find the correctly oriented convex hull of the unification of the
-            # two Polygons and the buffered line that connects them ...
-            finalPoly = shapely.geometry.polygon.orient(
-                shapely.ops.unary_union(
-                    [
-                        polys[ipoint],
-                        line,
-                        polys[ipoint + 1]
-                    ]
-                ).simplify(tol).convex_hull
-            )
+            # Loop over results ...
+            for result in results:
+                # Append the convex hull of the two Polygons and the buffered
+                # line that connects them to list ...
+                finalPolys.append(result.get())
 
             # Clean up ...
-            del line
-
-            # Check Polygon ...
-            if not isinstance(finalPoly, shapely.geometry.polygon.Polygon):
-                raise Exception("\"finalPoly\" is not a Polygon") from None
-            if not finalPoly.is_valid:
-                raise Exception(f"\"finalPoly\" is not a valid Polygon ({shapely.validation.explain_validity(finalPoly)})") from None
-            if finalPoly.is_empty:
-                raise Exception("\"finalPoly\" is an empty Polygon") from None
-
-            # Append the convex hull of the two Polygons and the buffered line
-            # that connects them to list ...
-            finalPolys.append(finalPoly)
-
-            # Clean up ...
-            del finalPoly
+            del results
 
     # Clean up ...
     del points1, points2, polys
@@ -318,6 +197,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     if not isinstance(finalPolys, shapely.geometry.polygon.Polygon):
         raise Exception("\"finalPolys\" is not a Polygon") from None
     if not finalPolys.is_valid:
+        _debug(finalPolys)
         raise Exception(f"\"finalPolys\" is not a valid Polygon ({shapely.validation.explain_validity(finalPolys)})") from None
     if finalPolys.is_empty:
         raise Exception("\"finalPolys\" is an empty Polygon") from None

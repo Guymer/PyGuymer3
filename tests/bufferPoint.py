@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 # Use the proper idiom in the main module ...
-# NOTE: See https://docs.python.org/3.8/library/multiprocessing.html#multiprocessing-programming
+# NOTE: See https://docs.python.org/3.9/library/multiprocessing.html#multiprocessing-programming
 if __name__ == "__main__":
-    # This is a test suite for "buffer_Point()” with:
+    # This is a test suite for "geo.buffer()” with:
     #     A) a point that span the whole numerical range;
     #     B) a point that cross the equator;
     #     C) a point that cross the anti-meridian;
@@ -11,7 +11,7 @@ if __name__ == "__main__":
     #     E) a point that cross both the equator and the anti-meridian; and
     #     F) a point that cross both a pole and the anti-meridian.
     # Each point has a plot with both a top-down projection and a Robinson
-    # projection so that you can check it.
+    # projection so that you can check it, along with an equirectangular plot.
 
     # Import special modules ...
     try:
@@ -29,6 +29,10 @@ if __name__ == "__main__":
     except:
         raise Exception("\"matplotlib\" is not installed; run \"pip install --user matplotlib\"") from None
     try:
+        import numpy
+    except:
+        raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
+    try:
         import shapely
         import shapely.geometry
     except:
@@ -42,7 +46,7 @@ if __name__ == "__main__":
     except:
         raise Exception("\"pyguymer3\" is not installed; you need to have the Python module from https://github.com/Guymer/PyGuymer3 located somewhere in your $PYTHONPATH") from None
 
-    print("Testing \"{:s}\" ...".format(pyguymer3.__path__[0]))
+    print(f"Testing \"{pyguymer3.__path__[0]}\" ...")
 
     # Define points ...
     points = [
@@ -64,30 +68,48 @@ if __name__ == "__main__":
         print(f" > Making \"{jname}\" and \"{fname}\" ...")
 
         # Create figure ...
-        fg = matplotlib.pyplot.figure(figsize = (6, 3), dpi = 150)
+        fg = matplotlib.pyplot.figure(figsize = (6, 6), dpi = 150)
 
         # Create first subplot ...
-        ax1 = matplotlib.pyplot.subplot(1, 2, 1, projection = cartopy.crs.Robinson())
+        ax1 = fg.add_subplot(2, 2, 1, projection = cartopy.crs.Robinson())
         ax1.set_global()
         pyguymer3.geo.add_map_background(ax1)
         ax1.coastlines(resolution = "110m", color = "black", linewidth = 0.1)
 
         # Create second subplot ...
-        ax2 = matplotlib.pyplot.subplot(1, 2, 2, projection = cartopy.crs.Orthographic(central_longitude = lon, central_latitude = lat))
+        ax2 = fg.add_subplot(2, 2, 2, projection = cartopy.crs.Orthographic(central_longitude = lon, central_latitude = lat))
         ax2.set_global()
         pyguymer3.geo.add_map_background(ax2)
         ax2.coastlines(resolution = "110m", color = "black", linewidth = 0.1)
 
-        # Buffer point and plot it twice ...
-        buff = pyguymer3.geo.buffer(shapely.geometry.point.Point(lon, lat), dist, debug = True, nang = 361, simp = -1.0)
-        ax1.add_geometries([buff], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = (1, 0.0, 0.0, 0.5), linewidth = 1.0)
-        ax2.add_geometries([buff], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = (1, 0.0, 0.0, 0.5), linewidth = 1.0)
+        # Create third subplot ...
+        ax3 = fg.add_subplot(2, 2, (3, 4))
+        ax3.grid()
+        ax3.set_aspect("equal")
+        ax3.set_xlabel("Longitude [°]")
+        ax3.set_xlim(-180, +180)
+        ax3.set_xticks([-180, -135, -90, -45, 0, +45, +90, +135, +180])
+        ax3.set_ylabel("Latitude [°]")
+        ax3.set_ylim(-90, +90)
+        ax3.set_yticks([-90, -45, 0, +45, +90])
+
+        # Buffer Point and plot it thrice ...
+        buff0 = pyguymer3.geo.buffer(shapely.geometry.point.Point(lon, lat), dist, debug = True, nang = 361, simp = -1.0)
+        ax1.add_geometries([buff0], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = (1.0, 0.0, 0.0, 0.5), linewidth = 1.0)
+        ax2.add_geometries([buff0], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = (1.0, 0.0, 0.0, 0.5), linewidth = 1.0)
+        for poly in pyguymer3.geo.extract_polys(buff0):
+            coords = numpy.array(poly.exterior.coords)
+            ax3.plot(coords[:, 0], coords[:, 1], color = (1.0, 0.0, 0.0, 1.0))
+            del coords
 
         # Save GeoJSON ...
-        geojson.dump(buff, open(jname, "wt"), indent = 4, sort_keys = True)
+        geojson.dump(buff0, open(jname, "wt"), indent = 4, sort_keys = True)
+
+        # Clean up ...
+        del buff0
 
         # Save figure ...
-        fg.suptitle("({:.1f},{:.1f}) buffered by {:,.1f}km".format(lon, lat, 0.001 * dist))
+        fg.suptitle(f"({lon:.1f},{lat:.1f}) buffered by {0.001 * dist:,.1f}km")
         fg.savefig(fname, bbox_inches = "tight", dpi = 150, pad_inches = 0.1)
         pyguymer3.image.optimize_image(fname, strip = True)
         matplotlib.pyplot.close(fg)

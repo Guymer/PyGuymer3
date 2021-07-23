@@ -28,7 +28,7 @@ def fillin(shape, fill, kwArgCheck = None, debug = False, tol = 1.0e-10):
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
-    # Load sub-functions ...
+    # Import sub-functions ...
     from .fillin_CoordinateSequence import fillin_CoordinateSequence
     from .fillin_LinearRing import fillin_LinearRing
     from .fillin_MultiPolygon import fillin_MultiPolygon

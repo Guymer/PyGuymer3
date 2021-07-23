@@ -32,7 +32,8 @@ def fillin_MultiPolygon(multipoly, fill, kwArgCheck = None, debug = False, tol =
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
-    # Load sub-functions ...
+    # Import sub-functions ...
+    from ._debug import _debug
     from .fillin import fillin
 
     # Check keyword arguments ...
@@ -43,6 +44,7 @@ def fillin_MultiPolygon(multipoly, fill, kwArgCheck = None, debug = False, tol =
     if not isinstance(multipoly, shapely.geometry.multipolygon.MultiPolygon):
         raise TypeError("\"multipoly\" is not a MultiPolygon") from None
     if not multipoly.is_valid:
+        _debug(multipoly)
         raise Exception(f"\"multipoly\" is not a valid MultiPolygon ({shapely.validation.explain_validity(multipoly)})") from None
     if multipoly.is_empty:
         raise Exception("\"multipoly\" is an empty MultiPolygon") from None
@@ -65,6 +67,7 @@ def fillin_MultiPolygon(multipoly, fill, kwArgCheck = None, debug = False, tol =
     if not isinstance(fills, shapely.geometry.multipolygon.MultiPolygon):
         raise TypeError("\"fills\" is not a MultiPolygon") from None
     if not fills.is_valid:
+        _debug(fills)
         raise Exception(f"\"fills\" is not a valid MultiPolygon ({shapely.validation.explain_validity(fills)})") from None
     if fills.is_empty:
         raise Exception("\"fills\" is an empty MultiPolygon") from None

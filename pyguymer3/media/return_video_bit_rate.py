@@ -3,7 +3,7 @@ def return_video_bit_rate(fname, kwArgCheck = None, playlist = -1, debug = False
     Return the bit rate of the first video stream in the media file.
     """
 
-    # Load sub-functions ...
+    # Import sub-functions ...
     from .__ffprobe__ import __ffprobe__
     from .ffprobe import ffprobe
 

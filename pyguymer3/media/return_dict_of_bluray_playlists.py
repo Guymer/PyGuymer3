@@ -3,7 +3,7 @@ def return_dict_of_bluray_playlists(dname, kwArgCheck = None, size_threshold = 1
     import glob
     import os
 
-    # Load sub-functions ...
+    # Import sub-functions ...
     from .__ffprobe__ import __ffprobe__
     from .ffprobe import ffprobe
 

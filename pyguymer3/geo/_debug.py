@@ -1,0 +1,30 @@
+def _debug(badPolys):
+    """Save CSVs for debugging
+
+    Parameters
+    ----------
+    badPolys : shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
+        the bad [Multi]Polygon
+    """
+
+    # Import sub-functions ...
+    from .extract_polys import extract_polys
+
+    # Loop over all the bad Polygons in this [Multi]Polygon ...
+    for i, badPoly in enumerate(extract_polys(badPolys)):
+        # Open output file ...
+        with open(f"debug.{i:d}.exterior.csv", "wt") as fobj:
+            # Loop over bad coordinates in the exterior ring of this bad Polygon ...
+            for badCoord in badPoly.exterior.coords:
+                # Write output ...
+                fobj.write(f"{badCoord[0]:e},{badCoord[1]:e}\n")
+
+        # Loop over bad interior rings of this bad Polygon ...
+        for j, interior in enumerate(badPoly.interiors):
+            # Open output file ...
+            with open(f"debug.{i:d}.interior.{j:d}.csv", "wt") as fobj:
+                # Loop over bad coordinates in this interior ring of this bad
+                # Polygon ...
+                for badCoord in interior.coords:
+                    # Write output ...
+                    fobj.write(f"{badCoord[0]:e},{badCoord[1]:e}\n")
