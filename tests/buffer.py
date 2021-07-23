@@ -29,6 +29,10 @@ if __name__ == "__main__":
     except:
         raise Exception("\"matplotlib\" is not installed; run \"pip install --user matplotlib\"") from None
     try:
+        import numpy
+    except:
+        raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
+    try:
         import shapely
         import shapely.geometry
     except:
@@ -64,29 +68,54 @@ if __name__ == "__main__":
         print(f" > Making \"{jname}\" and \"{fname}\" ...")
 
         # Create figure ...
-        fg = matplotlib.pyplot.figure(figsize = (6, 3), dpi = 150)
+        fg = matplotlib.pyplot.figure(figsize = (6, 6), dpi = 150)
 
         # Create first subplot ...
-        ax1 = matplotlib.pyplot.subplot(1, 2, 1, projection = cartopy.crs.Robinson())
+        ax1 = fg.add_subplot(2, 2, 1, projection = cartopy.crs.Robinson())
         ax1.set_global()
         pyguymer3.geo.add_map_background(ax1)
         ax1.coastlines(resolution = "110m", color = "black", linewidth = 0.1)
 
         # Create second subplot ...
-        ax2 = matplotlib.pyplot.subplot(1, 2, 2, projection = cartopy.crs.Orthographic(central_longitude = lon, central_latitude = lat))
+        ax2 = fg.add_subplot(2, 2, 2, projection = cartopy.crs.Orthographic(central_longitude = lon, central_latitude = lat))
         ax2.set_global()
         pyguymer3.geo.add_map_background(ax2)
         ax2.coastlines(resolution = "110m", color = "black", linewidth = 0.1)
+
+        # Create third subplot ...
+        ax3 = fg.add_subplot(2, 2, (3, 4))
+        ax3.grid()
+        ax3.set_aspect("equal")
+        ax3.set_xlabel("Longitude [°]")
+        ax3.set_xlim(-180, +180)
+        ax3.set_ylabel("Latitude [°]")
+        ax3.set_ylim(-90, +90)
+
+        # Buffer Point and plot it thrice ...
+        buff0 = pyguymer3.geo.buffer(shapely.geometry.point.Point(lon, lat), dist1 + dist2, debug = True, nang = 361, simp = -1.0)
+        ax1.add_geometries([buff0], cartopy.crs.PlateCarree(), edgecolor = (0.0, 1.0, 0.0, 1.0), facecolor = "none", linewidth = 1.0)
+        ax2.add_geometries([buff0], cartopy.crs.PlateCarree(), edgecolor = (0.0, 1.0, 0.0, 1.0), facecolor = "none", linewidth = 1.0)
+        for poly in pyguymer3.geo.extract_polys(buff0):
+            coords = numpy.array(poly.exterior.coords)
+            ax3.plot(coords[:, 0], coords[:, 1], color = (0.0, 1.0, 0.0, 1.0))
+            del coords
+
+        # Clean up ...
+        del buff0
 
         # Buffer Point and plot it twice ...
         buff1 = pyguymer3.geo.buffer(shapely.geometry.point.Point(lon, lat), dist1, debug = True, nang = 361, simp = -1.0)
         ax1.add_geometries([buff1], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = "none", linewidth = 1.0)
         ax2.add_geometries([buff1], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = "none", linewidth = 1.0)
 
-        # Buffer Polygon and plot it twice ...
+        # Buffer Polygon and plot it thrice ...
         buff2 = pyguymer3.geo.buffer(buff1, dist2, debug = True, nang = 361, simp = -1.0)
         ax1.add_geometries([buff2], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = (1, 0.0, 0.0, 0.5), linewidth = 1.0)
         ax2.add_geometries([buff2], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = (1, 0.0, 0.0, 0.5), linewidth = 1.0)
+        for poly in pyguymer3.geo.extract_polys(buff2):
+            coords = numpy.array(poly.exterior.coords)
+            ax3.plot(coords[:, 0], coords[:, 1], color = (1.0, 0.0, 0.0, 1.0))
+            del coords
 
         # Clean up ...
         del buff1
