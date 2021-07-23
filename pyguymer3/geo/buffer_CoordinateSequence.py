@@ -135,7 +135,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     # Loop over points ...
     for ipoint in range(npoint):
         # Append (unified) Polygon to list ...
-        polys.append(_points2poly(points1[ipoint, :], points2[ipoint, :, :]))
+        polys.append(_points2poly(points1[ipoint, :], points2[ipoint, :, :], tol = tol))
 
     # **************************************************************************
     # Step 4: Append Polygons of the convex hulls of adjacent buffered         #
