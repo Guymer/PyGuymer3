@@ -1,4 +1,4 @@
-def _points2poly(point, points, kwArgCheck = None, tol = 1.0e-10):
+def _points2poly(point, points):
     # Import special modules ...
     try:
         import numpy
@@ -11,10 +11,6 @@ def _points2poly(point, points, kwArgCheck = None, tol = 1.0e-10):
         import shapely.validation
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check argument ...
     if not isinstance(point, numpy.ndarray):
@@ -110,7 +106,7 @@ def _points2poly(point, points, kwArgCheck = None, tol = 1.0e-10):
         del wedge
 
     # Convert list of Polygons to a correctly oriented (unified) Polygon ...
-    wedges = shapely.geometry.polygon.orient(shapely.ops.unary_union(wedges).simplify(tol))
+    wedges = shapely.geometry.polygon.orient(shapely.ops.unary_union(wedges))
     if not isinstance(wedges, shapely.geometry.polygon.Polygon):
         raise Exception("\"wedges\" is not a Polygon") from None
     if not wedges.is_valid:
