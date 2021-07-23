@@ -12,6 +12,9 @@ def _points2poly(point, points):
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
+    # Import sub-functions ...
+    from ._debug import _debug
+
     # Check argument ...
     if not isinstance(point, numpy.ndarray):
         raise TypeError("\"point\" is not a NumPy array") from None
@@ -44,6 +47,7 @@ def _points2poly(point, points):
         if not isinstance(wedge, shapely.geometry.polygon.Polygon):
             raise Exception("\"wedge\" is not a Polygon") from None
         if not wedge.is_valid:
+            _debug(wedge)
             raise Exception(f"\"wedge\" is not a valid Polygon ({shapely.validation.explain_validity(wedge)})") from None
         if wedge.is_empty:
             raise Exception("\"wedge\" is an empty Polygon") from None
@@ -68,6 +72,7 @@ def _points2poly(point, points):
         if not isinstance(wedge, shapely.geometry.polygon.Polygon):
             raise Exception("\"wedge\" is not a Polygon") from None
         if not wedge.is_valid:
+            _debug(wedge)
             raise Exception(f"\"wedge\" is not a valid Polygon ({shapely.validation.explain_validity(wedge)})") from None
         if wedge.is_empty:
             raise Exception("\"wedge\" is an empty Polygon") from None
@@ -95,6 +100,7 @@ def _points2poly(point, points):
         if not isinstance(wedge, shapely.geometry.polygon.Polygon):
             raise Exception("\"wedge\" is not a Polygon") from None
         if not wedge.is_valid:
+            _debug(wedge)
             raise Exception(f"\"wedge\" is not a valid Polygon ({shapely.validation.explain_validity(wedge)})") from None
         if wedge.is_empty:
             raise Exception("\"wedge\" is an empty Polygon") from None
@@ -110,6 +116,7 @@ def _points2poly(point, points):
     if not isinstance(wedges, shapely.geometry.polygon.Polygon):
         raise Exception("\"wedges\" is not a Polygon") from None
     if not wedges.is_valid:
+        _debug(wedges)
         raise Exception(f"\"wedges\" is not a valid Polygon ({shapely.validation.explain_validity(wedges)})") from None
     if wedges.is_empty:
         raise Exception("\"wedges\" is an empty Polygon") from None

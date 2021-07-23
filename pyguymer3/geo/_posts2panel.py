@@ -12,6 +12,9 @@ def _posts2panel(pointA, pointB, pointsA, pointsB, polyA, polyB, kwArgCheck = No
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
+    # Import sub-functions ...
+    from ._debug import _debug
+
     # Check keyword arguments ...
     if kwArgCheck is not None:
         print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
@@ -28,12 +31,14 @@ def _posts2panel(pointA, pointB, pointsA, pointsB, polyA, polyB, kwArgCheck = No
     if not isinstance(polyA, shapely.geometry.polygon.Polygon):
         raise TypeError("\"polyA\" is not a Polygon") from None
     if not polyA.is_valid:
+        _debug(polyA)
         raise Exception(f"\"polyA\" is not a valid Polygon ({shapely.validation.explain_validity(polyA)})") from None
     if polyA.is_empty:
         raise Exception("\"polyA\" is an empty Polygon") from None
     if not isinstance(polyB, shapely.geometry.polygon.Polygon):
         raise TypeError("\"polyB\" is not a Polygon") from None
     if not polyB.is_valid:
+        _debug(polyB)
         raise Exception(f"\"polyB\" is not a valid Polygon ({shapely.validation.explain_validity(polyB)})") from None
     if polyB.is_empty:
         raise Exception("\"polyB\" is an empty Polygon") from None
@@ -61,6 +66,7 @@ def _posts2panel(pointA, pointB, pointsA, pointsB, polyA, polyB, kwArgCheck = No
     if not isinstance(line, shapely.geometry.polygon.Polygon):
         raise Exception("\"line\" is not a Polygon") from None
     if not line.is_valid:
+        _debug(line)
         raise Exception(f"\"line\" is not a valid Polygon ({shapely.validation.explain_validity(line)})") from None
     if line.is_empty:
         raise Exception("\"line\" is an empty Polygon") from None
@@ -76,6 +82,7 @@ def _posts2panel(pointA, pointB, pointsA, pointsB, polyA, polyB, kwArgCheck = No
     if not isinstance(finalPoly, shapely.geometry.polygon.Polygon):
         raise Exception("\"finalPoly\" is not a Polygon") from None
     if not finalPoly.is_valid:
+        _debug(finalPoly)
         raise Exception(f"\"finalPoly\" is not a valid Polygon ({shapely.validation.explain_validity(finalPoly)})") from None
     if finalPoly.is_empty:
         raise Exception("\"finalPoly\" is an empty Polygon") from None
@@ -87,6 +94,7 @@ def _posts2panel(pointA, pointB, pointsA, pointsB, polyA, polyB, kwArgCheck = No
     if not isinstance(finalPoly, shapely.geometry.polygon.Polygon):
         raise Exception("\"finalPoly\" is not a Polygon") from None
     if not finalPoly.is_valid:
+        _debug(finalPoly)
         raise Exception(f"\"finalPoly\" is not a valid Polygon ({shapely.validation.explain_validity(finalPoly)})") from None
     if finalPoly.is_empty:
         raise Exception("\"finalPoly\" is an empty Polygon") from None
