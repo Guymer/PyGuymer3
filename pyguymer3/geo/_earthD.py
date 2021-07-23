@@ -30,12 +30,14 @@ def _earthD(shape):
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
+    from ._debug import _debug
     from .extract_polys import extract_polys
 
     # Check argument ...
     if not isinstance(shape, shapely.geometry.polygon.Polygon):
         raise TypeError("\"shape\" is not a Polygon") from None
     if not shape.is_valid:
+        _debug(shape)
         raise Exception(f"\"shape\" is not a valid Polygon ({shapely.validation.explain_validity(shape)})") from None
     if shape.is_empty:
         raise Exception("\"shape\" is an empty Polygon") from None
@@ -53,6 +55,7 @@ def _earthD(shape):
     if not isinstance(earthD, shapely.geometry.polygon.Polygon):
         raise Exception("\"earthD\" is not a Polygon") from None
     if not earthD.is_valid:
+        _debug(earthD)
         raise Exception(f"\"earthD\" is not a valid Polygon ({shapely.validation.explain_validity(earthD)})") from None
     if earthD.is_empty:
         raise Exception("\"earthD\" is an empty Polygon") from None
@@ -69,6 +72,7 @@ def _earthD(shape):
         if not isinstance(poly, shapely.geometry.polygon.Polygon):
             raise Exception("\"poly\" is not a Polygon") from None
         if not poly.is_valid:
+            _debug(poly)
             raise Exception(f"\"poly\" is not a valid Polygon ({shapely.validation.explain_validity(poly)})") from None
         if poly.is_empty:
             continue
