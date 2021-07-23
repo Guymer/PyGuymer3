@@ -93,10 +93,10 @@ if __name__ == "__main__":
         ax3.set_ylim(-90, +90)
         ax3.set_yticks([-90, -45, 0, +45, +90])
 
-        # Buffer point and plot it thrice ...
+        # Buffer Point and plot it thrice ...
         buff0 = pyguymer3.geo.buffer(shapely.geometry.point.Point(lon, lat), dist, debug = True, nang = 361, simp = -1.0)
-        ax1.add_geometries([buff0], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = (1, 0.0, 0.0, 0.5), linewidth = 1.0)
-        ax2.add_geometries([buff0], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = (1, 0.0, 0.0, 0.5), linewidth = 1.0)
+        ax1.add_geometries([buff0], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = (1.0, 0.0, 0.0, 0.5), linewidth = 1.0)
+        ax2.add_geometries([buff0], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = (1.0, 0.0, 0.0, 0.5), linewidth = 1.0)
         for poly in pyguymer3.geo.extract_polys(buff0):
             coords = numpy.array(poly.exterior.coords)
             ax3.plot(coords[:, 0], coords[:, 1], color = (1.0, 0.0, 0.0, 1.0))
