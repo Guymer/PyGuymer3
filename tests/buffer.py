@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 # Use the proper idiom in the main module ...
-# NOTE: See https://docs.python.org/3.8/library/multiprocessing.html#multiprocessing-programming
+# NOTE: See https://docs.python.org/3.9/library/multiprocessing.html#multiprocessing-programming
 if __name__ == "__main__":
-    # This is a test suite for “buffer()” with:
+    # This is a test suite for “geo.buffer()” with:
     #     A) a polygon that span the whole numerical range;
     #     B) a polygon that cross the equator;
     #     C) a polygon that cross the anti-meridian;
@@ -11,7 +11,7 @@ if __name__ == "__main__":
     #     E) a polygon that cross both the equator and the anti-meridian; and
     #     F) a polygon that cross both a pole and the anti-meridian.
     # Each polygon has a plot with both a top-down projection and a Robinson
-    # projection so that you can check it.
+    # projection so that you can check it, along with an equirectangular plot.
 
     # Import special modules ...
     try:

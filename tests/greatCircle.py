@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 # Use the proper idiom in the main module ...
-# NOTE: See https://docs.python.org/3.8/library/multiprocessing.html#multiprocessing-programming
+# NOTE: See https://docs.python.org/3.9/library/multiprocessing.html#multiprocessing-programming
 if __name__ == "__main__":
-    # This is a test suite for "find_point_on_great_circle()”.
+    # This is a test suite for "geo.find_point_on_great_circle()”.
 
     # Import special modules ...
     try:
