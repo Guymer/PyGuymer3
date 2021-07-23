@@ -34,7 +34,7 @@ def buffer(shape, dist, kwArgCheck = None, debug = False, fill = 1.0, nang = 19,
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
-    # Load sub-functions ...
+    # Import sub-functions ...
     from .buffer_CoordinateSequence import buffer_CoordinateSequence
     from .buffer_LinearRing import buffer_LinearRing
     from .buffer_MultiPolygon import buffer_MultiPolygon

@@ -54,8 +54,9 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
-    # Load sub-functions ...
+    # Import sub-functions ...
     from ._buffer_points_crudely import _buffer_points_crudely
+    from ._debug import _debug
     from ._points2poly import _points2poly
     from ._posts2panel import _posts2panel
     from .fillin import fillin
@@ -134,7 +135,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     # Loop over points ...
     for ipoint in range(npoint):
         # Append (unified) Polygon to list ...
-        polys.append(_points2poly(points1[ipoint, :], points2[ipoint, :, :], tol = tol))
+        polys.append(_points2poly(points1[ipoint, :], points2[ipoint, :, :]))
 
     # **************************************************************************
     # Step 4: Append Polygons of the convex hulls of adjacent buffered         #
@@ -169,12 +170,13 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     if not isinstance(finalPolys, shapely.geometry.polygon.Polygon):
         raise Exception("\"finalPolys\" is not a Polygon") from None
     if not finalPolys.is_valid:
+        _debug(finalPolys)
         raise Exception(f"\"finalPolys\" is not a valid Polygon ({shapely.validation.explain_validity(finalPolys)})") from None
     if finalPolys.is_empty:
         raise Exception("\"finalPolys\" is an empty Polygon") from None
 
     # Re-map the Polygon on to Earth ...
-    buffs = remap(finalPolys, tol = tol)
+    buffs = remap(finalPolys)
 
     # Clean up ...
     del finalPolys
