@@ -37,6 +37,7 @@ from .buffer import buffer
 from .buffer_CoordinateSequence import buffer_CoordinateSequence
 from .buffer_LinearRing import buffer_LinearRing
 from .buffer_LineString import buffer_LineString
+from .buffer_MultiLineString import buffer_MultiLineString
 from .buffer_MultiPolygon import buffer_MultiPolygon
 from .buffer_Point import buffer_Point
 from .buffer_Polygon import buffer_Polygon
