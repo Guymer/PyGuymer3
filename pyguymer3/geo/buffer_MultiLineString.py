@@ -1,0 +1,97 @@
+def buffer_MultiLineString(multiline, dist, kwArgCheck = None, debug = False, fill = 1.0, nang = 19, simp = 0.1, tol = 1.0e-10):
+    """Buffer a MultiLineString
+
+    This function reads in a MultiLineString that exists on the surface of the
+    Earth and returns a [Multi]Polygon of the same MultiLineString buffered by a
+    constant distance (in metres).
+
+    Parameters
+    ----------
+    multiline : shapely.geometry.multilinestring.MultiLineString
+            the MultiLineString
+    dist : float
+            the Geodesic distance to buffer each point within the MultiLineString by (in metres)
+    debug : bool, optional
+            print debug messages
+    fill : float, optional
+            the Euclidean distance to fill in between each point within the [Multi]Polygon by; negative values disable filling in (in degrees)
+    nang : int, optional
+            the number of angles around each point within the MultiLineString that are calculated when buffering
+    simp : float, optional
+            how much intermediary [Multi]Polygons are simplified by; negative values disable simplification (in degrees)
+    tol : float, optional
+            the Euclidean distance that defines two points as being the same (in degrees)
+
+    Returns
+    -------
+    buffs : shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
+            the buffered MultiLineString
+    """
+
+    # Import special modules ...
+    try:
+        import shapely
+        import shapely.geometry
+        import shapely.validation
+    except:
+        raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
+
+    # Import sub-functions ...
+    from ._debug import _debug
+    from .buffer import buffer
+    from .fillin import fillin
+
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
+
+    # Check argument ...
+    if not isinstance(multiline, shapely.geometry.multilinestring.MultiLineString):
+        raise TypeError("\"multiline\" is not a MultiLineString") from None
+    if not multiline.is_valid:
+        raise Exception(f"\"multiline\" is not a valid MultiLineString ({shapely.validation.explain_validity(multiline)})") from None
+    if multiline.is_empty:
+        raise Exception("\"multiline\" is an empty MultiLineString") from None
+
+    # Initialize list ...
+    buffs = []
+
+    # Loop over LineString ...
+    for line in multiline.geoms:
+        # Append buffer of LineString to list ...
+        buffs.append(buffer(line, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol))
+
+    # Convert list of [Multi]Polygons to a (unified) [Multi]Polygon ...
+    buffs = shapely.ops.unary_union(buffs).simplify(tol)
+    if not buffs.is_valid:
+        _debug(buffs)
+        raise Exception(f"\"buffs\" is not a valid [Multi]Polygon ({shapely.validation.explain_validity(buffs)})") from None
+    if buffs.is_empty:
+        raise Exception("\"buffs\" is an empty [Multi]Polygon") from None
+
+    # Check if the user wants to fill in the [Multi]Polygon ...
+    if fill > 0.0:
+        # Fill in [Multi]Polygon ...
+        buffs = fillin(buffs, fill, debug = debug, tol = tol)
+
+    # Check if the user wants to simplify the [Multi]Polygon ...
+    if simp > 0.0:
+        # Simplify [Multi]Polygon ...
+        buffsSimp = buffs.simplify(simp)
+
+        # Check simplified [Multi]Polygon ...
+        if buffsSimp.is_valid and not buffsSimp.is_empty:
+            # Clean up ...
+            del buffs
+
+            # Return simplified answer ...
+            return buffsSimp
+
+        # Clean up ...
+        del buffsSimp
+
+        if debug:
+            print(f"WARNING: \"buffsSimp\" is not a valid [Multi]Polygon ({shapely.validation.explain_validity(buffsSimp)}), will return \"buffs\" instead")
+
+    # Return answer ...
+    return buffs
