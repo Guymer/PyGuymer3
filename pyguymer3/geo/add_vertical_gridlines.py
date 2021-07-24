@@ -1,22 +1,28 @@
-def add_vertical_gridlines(ax, ext, kwArgCheck = None, color = "black", linestyle = ":", linewidth = 0.5, ngrid = 5, npoint = 50):
+def add_vertical_gridlines(ax, kwArgCheck = None, color = "black", ext = [], linestyle = ":", linewidth = 0.5, locs = [], ngrid = -1, npoint = 50):
     """Add vertical gridlines to a plot.
 
     Parameters
     ----------
     ax : cartopy.mpl.geoaxes.GeoAxesSubplot
         the axis to add the gridlines to
-    ext : list of float
-        the extent of the axis (in degrees)
     color : str, optional
         the colour of the gridlines
+    ext : list of float, optional
+        the extent of the axis (in degrees)
     linestyle : str, optional
         the style of the gridlines
     linewidth : float, optional
         the width of the gridlines
+    locs : list of float, optional
+        the locations of the gridlines (in degrees)
     ngrid : int, optional
-        the number of gridlines to draw
+        the number of gridlines to draw (requires "ext")
     npoint : int, optional
         the number of points along each gridline to draw
+
+    Notes
+    -----
+    If "ngrid" is more than "1" then it is used to create the gridline locations, along with "ext". If it is not, then the gridline locations will attempt to be made from "locs" instead.
     """
 
     # Import special modules ...
@@ -34,8 +40,17 @@ def add_vertical_gridlines(ax, ext, kwArgCheck = None, color = "black", linestyl
     if kwArgCheck is not None:
         print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
-    # Determine x-locations ...
-    xlocs = numpy.linspace(ext[0], ext[1], num = ngrid)                         # [°]
+    # Check inputs ...
+    if ngrid > 1 and len(ext) != 4:
+        raise Exception("\"ngrid > 1\" but \"len(ext) != 4\"") from None
+
+    # Determine x-locations depending on inputs ...
+    if ngrid > 1:
+        xlocs = numpy.linspace(ext[0], ext[1], num = ngrid)                     # [°]
+    elif len(locs) > 0:
+        xlocs = numpy.array(locs)                                               # [°]
+    else:
+        raise Exception("\"ngrid > 1\" is not True and \"len(locs) > 0\" is not True") from None
 
     # Loop over x-locations ...
     for xloc in xlocs:
