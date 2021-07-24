@@ -1,4 +1,4 @@
-def add_vertical_gridlines(ax, ext, kwArgCheck = None, color = "black", linestyle = ":", linewidth = 0.5, nx = 5, ny = 50):
+def add_vertical_gridlines(ax, ext, kwArgCheck = None, color = "black", linestyle = ":", linewidth = 0.5, ngrid = 5, npoint = 50):
     """Add vertical gridlines to a plot.
 
     Parameters
@@ -13,9 +13,9 @@ def add_vertical_gridlines(ax, ext, kwArgCheck = None, color = "black", linestyl
         the style of the gridlines
     linewidth : float, optional
         the width of the gridlines
-    nx : int, optional
+    ngrid : int, optional
         the number of gridlines to draw
-    ny : int, optional
+    npoint : int, optional
         the number of points along each gridline to draw
     """
 
@@ -35,14 +35,14 @@ def add_vertical_gridlines(ax, ext, kwArgCheck = None, color = "black", linestyl
         print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Determine x-locations ...
-    xlocs = numpy.linspace(ext[0], ext[1], num = nx)                            # [°]
+    xlocs = numpy.linspace(ext[0], ext[1], num = ngrid)                         # [°]
 
     # Loop over x-locations ...
-    for ix in range(nx):
+    for xloc in xlocs:
         # Add gridline to axis ...
         ax.plot(
-            xlocs[ix] * numpy.ones(ny),
-            numpy.linspace(ext[2], ext[3], num = ny),
+            xloc * numpy.ones(npoint),
+            numpy.linspace(ext[2], ext[3], num = npoint),
             transform = cartopy.crs.PlateCarree(),
                 color = color,
             linestyle = linestyle,
