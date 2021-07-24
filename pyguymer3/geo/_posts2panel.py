@@ -79,6 +79,10 @@ def _posts2panel(pointA, pointB, pointsA, pointsB, polyA, polyB, kwArgCheck = No
     if not isinstance(line, shapely.geometry.linestring.LineString):
         raise Exception("\"line\" is not a LineString") from None
     if not line.is_valid:
+        print(pointA)
+        print(pointB)
+        print(pointA == pointB)
+        print(numpy.all(pointA == pointB))
         raise Exception(f"\"line\" is not a valid LineString ({shapely.validation.explain_validity(line)})") from None
     if line.is_empty:
         raise Exception("\"line\" is an empty LineString") from None
