@@ -1,4 +1,4 @@
-def buffer_LineString(ring, dist, kwArgCheck = None, debug = False, fill = 1.0, nang = 19, simp = 0.1, tol = 1.0e-10):
+def buffer_LineString(line, dist, kwArgCheck = None, debug = False, fill = 1.0, nang = 19, simp = 0.1, tol = 1.0e-10):
     """Buffer a LineString
 
     This function reads in a LineString that exists on the surface of the Earth
@@ -7,7 +7,7 @@ def buffer_LineString(ring, dist, kwArgCheck = None, debug = False, fill = 1.0, 
 
     Parameters
     ----------
-    ring : shapely.geometry.linestring.LineString
+    line : shapely.geometry.linestring.LineString
             the LineString
     dist : float
             the Geodesic distance to buffer each point within the LineString by (in metres)
@@ -44,12 +44,12 @@ def buffer_LineString(ring, dist, kwArgCheck = None, debug = False, fill = 1.0, 
         print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check argument ...
-    if not isinstance(ring, shapely.geometry.linestring.LineString):
-        raise TypeError("\"ring\" is not a LineString") from None
-    if not ring.is_valid:
-        raise Exception(f"\"ring\" is not a valid LineString ({shapely.validation.explain_validity(ring)})") from None
-    if ring.is_empty:
-        raise Exception("\"ring\" is an empty LineString") from None
+    if not isinstance(line, shapely.geometry.linestring.LineString):
+        raise TypeError("\"line\" is not a LineString") from None
+    if not line.is_valid:
+        raise Exception(f"\"line\" is not a valid LineString ({shapely.validation.explain_validity(line)})") from None
+    if line.is_empty:
+        raise Exception("\"line\" is an empty LineString") from None
 
     # Return buffered LineString ...
-    return buffer(ring.coords, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol)
+    return buffer(line.coords, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol)
