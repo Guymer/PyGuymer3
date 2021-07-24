@@ -74,15 +74,28 @@ def _posts2panel(pointA, pointB, pointsA, pointsB, polyA, polyB, kwArgCheck = No
     if polyB.is_empty:
         raise Exception("\"polyB\" is an empty Polygon") from None
 
+    # Check if the two points are the same ...
+    if numpy.all(pointA == pointB):
+        # Find the correctly oriented Polygon ...
+        finalPoly = shapely.geometry.polygon.orient(polyA.simplify(tol))
+
+        # Check Polygon ...
+        if not isinstance(finalPoly, shapely.geometry.polygon.Polygon):
+            raise Exception("\"finalPoly\" is not a Polygon") from None
+        if not finalPoly.is_valid:
+            _debug(finalPoly)
+            raise Exception(f"\"finalPoly\" is not a valid Polygon ({shapely.validation.explain_validity(finalPoly)})") from None
+        if finalPoly.is_empty:
+            raise Exception("\"finalPoly\" is an empty Polygon") from None
+
+        # Return answer ...
+        return finalPoly
+
     # Create a line connecting the two original points ...
     line = shapely.geometry.linestring.LineString([pointA, pointB])
     if not isinstance(line, shapely.geometry.linestring.LineString):
         raise Exception("\"line\" is not a LineString") from None
     if not line.is_valid:
-        print(pointA)
-        print(pointB)
-        print(pointA == pointB)
-        print(numpy.all(pointA == pointB))
         raise Exception(f"\"line\" is not a valid LineString ({shapely.validation.explain_validity(line)})") from None
     if line.is_empty:
         raise Exception("\"line\" is an empty LineString") from None
