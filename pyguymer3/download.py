@@ -12,17 +12,22 @@ def download(sess, method, url, kwArgCheck = None, timeout = 10.0, verify = True
     # Try to download the URL and catch common errors ...
     try:
         resp = sess.request(method, url, timeout = timeout, verify = verify)
-    except requests.exceptions.TooManyRedirects:
-        # Clean up ...
-        del resp
-
-        return False
     except requests.exceptions.ConnectionError:
         # Clean up ...
         del resp
 
         return False
+    except requests.exceptions.ReadTimeout:
+        # Clean up ...
+        del resp
+
+        return False
     except requests.exceptions.Timeout:
+        # Clean up ...
+        del resp
+
+        return False
+    except requests.exceptions.TooManyRedirects:
         # Clean up ...
         del resp
 
