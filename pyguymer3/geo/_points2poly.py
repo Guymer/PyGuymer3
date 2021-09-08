@@ -54,9 +54,9 @@ def _points2poly(point, points, kwArgCheck = None, tol = 1.0e-10):
 
     # Check that the ring encompasses the original point ...
     if points[:, 0].min() > point[0]:
-        raise NotImplementedError(f"the W-edge of the ring does not encompass the original point ({points[:, 0].min():.6f}° > {point[0]:.6f}°)")
+        raise NotImplementedError(f"the W-edge of the ring does not encompass the original point ({points[:, 0].min():.6f}° > {point[0]:.6f}°)") from None
     if points[:, 0].max() < point[0]:
-        raise NotImplementedError(f"the E-edge of the ring does not encompass the original point ({points[:, 0].max():.6f}° < {point[0]:.6f}°)")
+        raise NotImplementedError(f"the E-edge of the ring does not encompass the original point ({points[:, 0].max():.6f}° < {point[0]:.6f}°)") from None
     if points[:, 1].min() > point[1]:
         # Create a correctly oriented Polygon from the lower extent of the ring
         # down to the South Pole ...
