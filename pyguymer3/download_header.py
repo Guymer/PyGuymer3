@@ -11,9 +11,6 @@ def download_header(sess, url, kwArgCheck = None, timeout = 10.0, verify = True)
 
     # Check response ...
     if resp is False:
-        # Clean up ...
-        del resp
-
         return False
 
     return resp.headers
