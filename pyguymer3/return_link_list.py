@@ -15,7 +15,6 @@ def return_link_list(path, kwArgCheck = None, debug = False, follow_symlinks = T
 
     # Import sub-functions ...
     from .make_path_safe import make_path_safe
-    from .return_link_list import return_link_list
 
     # Check keyword arguments ...
     if kwArgCheck is not None:

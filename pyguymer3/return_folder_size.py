@@ -16,7 +16,6 @@ def return_folder_size(path, kwArgCheck = None, debug = False, follow_symlinks =
 
     # Import sub-functions ...
     from .make_path_safe import make_path_safe
-    from .return_folder_size import return_folder_size
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
