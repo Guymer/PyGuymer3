@@ -27,11 +27,15 @@ def extract_polys(shape):
         return []
 
     # Check type ...
-    if isinstance(shape, shapely.geometry.multipoint.MultiPoint):
+    if isinstance(shape, shapely.geometry.linestring.LineString):
         return []
 
     # Check type ...
-    if isinstance(shape, shapely.geometry.linestring.LineString):
+    if isinstance(shape, shapely.geometry.polygon.Polygon):
+        return [shape]
+
+    # Check type ...
+    if isinstance(shape, shapely.geometry.multipoint.MultiPoint):
         return []
 
     # Check type ...
@@ -39,25 +43,29 @@ def extract_polys(shape):
         return []
 
     # Check type ...
-    if isinstance(shape, shapely.geometry.polygon.Polygon):
-        return [shape]
-
-    # Initialize list ...
-    polys = []
-
-    # Check type ...
     if isinstance(shape, shapely.geometry.multipolygon.MultiPolygon):
+        # Initialize list ...
+        polys = []
+
         # Loop over Polygons ...
         for poly in shape:
-            # Add lists together ...
-            polys += extract_polys(poly)
-    elif isinstance(shape, shapely.geometry.collection.GeometryCollection):
+            # Append Polygon to list ...
+            polys.append(poly)
+
+        # Return answer ...
+        return polys
+
+    # Check type ...
+    if isinstance(shape, shapely.geometry.collection.GeometryCollection):
+        # Initialize list ...
+        polys = []
+
         # Loop over geometries ...
         for geom in shape:
             # Add lists together ...
             polys += extract_polys(geom)
-    else:
-        raise TypeError(f"\"shape\" is an unexpected type ({repr(type(shape))})") from None
 
-    # Return answer ...
-    return polys
+        # Return answer ...
+        return polys
+
+    raise TypeError(f"\"shape\" is an unexpected type ({repr(type(shape))})") from None
