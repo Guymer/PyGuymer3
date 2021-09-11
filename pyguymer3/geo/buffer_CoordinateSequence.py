@@ -81,12 +81,22 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
         raise TypeError("\"coords\" is not a CoordinateSequence") from None
 
     # Check inputs ...
+    # NOTE: By clipping "dist" to be less than a quarter of the circumference of
+    #       Earth, it ensures that the buffer of a Point cannot cross *both* the
+    #       North Pole *and* the South Pole. Only Points in the Northern
+    #       Hemisphere can cross the North Pole and only Points in the Southern
+    #       Hemisphere can cross the South Pole.
     if dist < 10.0:
-        raise Exception(f"the buffering distance is too small ({dist:,.1f}m < {10.0:,.1f}m)") from None
+        raise Exception(f"the buffering distance is too small ({dist:,.1f}m < 10.0m)") from None
     if dist > 0.5 * math.pi * 6371008.8:
         raise Exception(f"the buffering distance is too large ({dist:,.1f}m > {0.5 * math.pi * 6371008.8:,.1f}m)") from None
     if nang < 9:
-        raise Exception(f"the number of angles is too small ({nang:,d} < {9:,d})") from None
+        raise Exception(f"the number of angles is too small ({nang:,d} < 9)") from None
+    if (nang - 1) % 4 != 0:
+        raise Exception(f"the number of angles must be \"a multiple of 4, plus 1\", for example: 9, 13, 17, 21, ... (({nang:,d} - 1) % 4 != 0)") from None
+
+    # Create short-hand ...
+    midang = (nang - 1) // 2
 
     # **************************************************************************
     # Step 1: Convert the CoordinateSequence to a NumPy array of the original  #
@@ -124,6 +134,88 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
         points2 = f90.buffer_points_crudely(points1, dist, nang)                # [°]
     else:
         points2 = _buffer_points_crudely(points1, dist, nang)                   # [°]
+
+    # Loop over points ...
+    for ipoint in range(npoint):
+        # Check if it is in the Northern Hemisphere ...
+        if points1[ipoint, 1] >= 0.0:
+            # Check if the Northern tip is not due North ...
+            if abs(numpy.arctan2(points2[ipoint, 0, 1] - points1[ipoint, 1], points2[ipoint, 0, 0] - points1[ipoint, 0]) - 0.5 * numpy.pi) > tol:
+                if debug:
+                    print("INFO: The Northern tip of the ring has crossed over the North Pole.")
+
+                # Loop over the North-Eastern quarter of the ring ...
+                for iang1 in range(0, midang // 2 + 1):
+                    # Identify the corresponding point on the North-Western
+                    # quarter of the ring ...
+                    iang2 = nang - 1 - iang1
+
+                    # Calculate the longitude of the mid-point ...
+                    midLon = points2[ipoint, iang1, 0] + points2[ipoint, iang2, 0] - points1[ipoint, 0] # [°]
+
+                    # Check if the points on the ring are too far from the
+                    # central point ...
+                    if abs(midLon - points1[ipoint, 0]) > tol:
+                        # Correct the North-East point ...
+                        newLon = 180.0 - points2[ipoint, iang1, 0]              # [°]
+                        newLon = (newLon + 540.0) % 360.0 - 180.0               # NOTE: Normalize to -180 <--> +180
+                        newLat = 180.0 - points2[ipoint, iang1, 1]              # [°]
+                        if debug:
+                            print(f"INFO: Moving ({points2[ipoint, iang1, 0]:.6f}°,{points2[ipoint, iang1, 1]:.6f}°) on Earth Row C/D/E to ({newLon:.6f}°,{newLat:.6f}°) on Earth Row A/B.")
+                        points2[ipoint, iang1, 0] = newLon                      # [°]
+                        points2[ipoint, iang1, 1] = newLat                      # [°]
+
+                        # Make sure that I don't move the same point a second
+                        # time ...
+                        if iang1 != iang2:
+                            # Correct the North-West point ...
+                            newLon = 180.0 - points2[ipoint, iang2, 0]          # [°]
+                            newLon = (newLon + 540.0) % 360.0 - 180.0           # NOTE: Normalize to -180 <--> +180
+                            newLat = 180.0 - points2[ipoint, iang2, 1]          # [°]
+                            if debug:
+                                print(f"INFO: Moving ({points2[ipoint, iang2, 0]:.6f}°,{points2[ipoint, iang2, 1]:.6f}°) on Earth Row C/D/E to ({newLon:.6f}°,{newLat:.6f}°) on Earth Row A/B.")
+                            points2[ipoint, iang2, 0] = newLon                  # [°]
+                            points2[ipoint, iang2, 1] = newLat                  # [°]
+
+        # Check if it is in the Southern Hemisphere ...
+        if points1[ipoint, 1] <= 0.0:
+            # Check if the Southern tip is not due Sorth ...
+            if abs(numpy.arctan2(points2[ipoint, midang, 1] - points1[ipoint, 1], points2[ipoint, midang, 0] - points1[ipoint, 0]) + 0.5 * numpy.pi) > tol:
+                if debug:
+                    print("INFO: The Southern tip has crossed over the South Pole.")
+
+                # Loop over the South-Eastern quarter of the ring ...
+                for iang1 in range(midang // 2, midang + 1):
+                    # Identify the corresponding point on the South-Western
+                    # quarter of the ring ...
+                    iang2 = nang - 1 - iang1
+
+                    # Calculate the longitude of the mid-point ...
+                    midLon = points2[ipoint, iang1, 0] + points2[ipoint, iang2, 0] - points1[ipoint, 0] # [°]
+
+                    # Check if the points on the ring are too far from the
+                    # central point ...
+                    if abs(midLon - points1[ipoint, 0]) > tol:
+                        # Correct the North-East point ...
+                        newLon = 180.0 - points2[ipoint, iang1, 0]              # [°]
+                        newLon = (newLon + 540.0) % 360.0 - 180.0               # NOTE: Normalize to -180 <--> +180
+                        newLat = -180.0 - points2[ipoint, iang1, 1]             # [°]
+                        if debug:
+                            print(f"INFO: Moving ({points2[ipoint, iang1, 0]:.6f}°,{points2[ipoint, iang1, 1]:.6f}°) on Earth Row C/D/E to ({newLon:.6f}°,{newLat:.6f}°) on Earth Row F/G.")
+                        points2[ipoint, iang1, 0] = newLon                      # [°]
+                        points2[ipoint, iang1, 1] = newLat                      # [°]
+
+                        # Make sure that I don't move the same point a second
+                        # time ...
+                        if iang1 != iang2:
+                            # Correct the North-West point ...
+                            newLon = 180.0 - points2[ipoint, iang2, 0]          # [°]
+                            newLon = (newLon + 540.0) % 360.0 - 180.0           # NOTE: Normalize to -180 <--> +180
+                            newLat = -180.0 - points2[ipoint, iang2, 1]         # [°]
+                            if debug:
+                                print(f"INFO: Moving ({points2[ipoint, iang2, 0]:.6f}°,{points2[ipoint, iang2, 1]:.6f}°) on Earth Row C/D/E to ({newLon:.6f}°,{newLat:.6f}°) on Earth Row F/G.")
+                            points2[ipoint, iang2, 0] = newLon                  # [°]
+                            points2[ipoint, iang2, 1] = newLat                  # [°]
 
     # **************************************************************************
     # Step 3: Convert the NumPy array of the rings around the original points  #
