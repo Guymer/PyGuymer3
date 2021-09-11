@@ -54,19 +54,65 @@ def _points2poly(point, points, kwArgCheck = None, tol = 1.0e-10):
 
     # Check that the ring encompasses the original point ...
     if points[:, 0].min() > point[0]:
-        raise NotImplementedError(f"the W-edge of the ring does not encompass the original point ({points[:, 0].min():.6f}° > {point[0]:.6f}°)") from None
-    if points[:, 0].max() < point[0]:
-        raise NotImplementedError(f"the E-edge of the ring does not encompass the original point ({points[:, 0].max():.6f}° < {point[0]:.6f}°)") from None
-    if points[:, 1].min() > point[1]:
-        # Create a correctly oriented Polygon from the lower extent of the ring
-        # down to the South Pole ...
+        # Create a correctly oriented Polygon from the western limit of the ring
+        # left to the anti-meridian ...
         wedge = shapely.geometry.polygon.Polygon(
             [
-                (points[:, 0].min(), -90.0),
-                (points[:, 0].max(), -90.0),
+                (            -180.0, points[:, 1].max()),
+                (            -180.0, points[:, 1].min()),
+                (points[:, 0].min(), points[:, 1].min()),
+                (points[:, 0].min(), points[:, 1].max()),
+                (            -180.0, points[:, 1].max()),
+            ]
+        )
+        if not isinstance(wedge, shapely.geometry.polygon.Polygon):
+            raise Exception("\"wedge\" is not a Polygon") from None
+        if not wedge.is_valid:
+            _debug(wedge)
+            raise Exception(f"\"wedge\" is not a valid Polygon ({shapely.validation.explain_validity(wedge)})") from None
+        if wedge.is_empty:
+            raise Exception("\"wedge\" is an empty Polygon") from None
+
+        # Append Polygon to list ...
+        wedges.append(wedge)
+
+        # Clean up ...
+        del wedge
+    if points[:, 0].max() < point[0]:
+        # Create a correctly oriented Polygon from the eastern limit of the ring
+        # right to the anti-meridian ...
+        wedge = shapely.geometry.polygon.Polygon(
+            [
+                (            +180.0, points[:, 1].min()),
+                (            +180.0, points[:, 1].max()),
+                (points[:, 0].max(), points[:, 1].max()),
+                (points[:, 0].max(), points[:, 1].min()),
+                (            +180.0, points[:, 1].min()),
+            ]
+        )
+        if not isinstance(wedge, shapely.geometry.polygon.Polygon):
+            raise Exception("\"wedge\" is not a Polygon") from None
+        if not wedge.is_valid:
+            _debug(wedge)
+            raise Exception(f"\"wedge\" is not a valid Polygon ({shapely.validation.explain_validity(wedge)})") from None
+        if wedge.is_empty:
+            raise Exception("\"wedge\" is an empty Polygon") from None
+
+        # Append Polygon to list ...
+        wedges.append(wedge)
+
+        # Clean up ...
+        del wedge
+    if points[:, 1].min() > point[1]:
+        # Create a correctly oriented Polygon from the southern limit of the
+        # ring down to the South Pole ...
+        wedge = shapely.geometry.polygon.Polygon(
+            [
+                (points[:, 0].min(),              -90.0),
+                (points[:, 0].max(),              -90.0),
                 (points[:, 0].max(), points[:, 1].min()),
                 (points[:, 0].min(), points[:, 1].min()),
-                (points[:, 0].min(), -90.0),
+                (points[:, 0].min(),              -90.0),
             ]
         )
         if not isinstance(wedge, shapely.geometry.polygon.Polygon):
@@ -83,14 +129,14 @@ def _points2poly(point, points, kwArgCheck = None, tol = 1.0e-10):
         # Clean up ...
         del wedge
     if points[:, 1].max() < point[1]:
-        # Create a correctly oriented Polygon from the upper extent of the ring
-        # up to the North Pole ...
+        # Create a correctly oriented Polygon from the northern limit of the
+        # ring up to the North Pole ...
         wedge = shapely.geometry.polygon.Polygon(
             [
                 (points[:, 0].min(), points[:, 1].max()),
                 (points[:, 0].max(), points[:, 1].max()),
-                (points[:, 0].max(), 90.0),
-                (points[:, 0].min(), 90.0),
+                (points[:, 0].max(),               90.0),
+                (points[:, 0].min(),               90.0),
                 (points[:, 0].min(), points[:, 1].max()),
             ]
         )
