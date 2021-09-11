@@ -29,6 +29,8 @@ The function [buffer_Point](../pyguymer3/geo/buffer_Point.py) is tested by the s
 
 ![bufferPoint output image](bufferPoint6.png)
 
+![bufferPoint output image](bufferPoint7.png)
+
 ### `buffer()`
 
 The function [buffer](../pyguymer3/geo/buffer.py) is tested by the script [buffer.py](buffer.py) which produces the images below.
