@@ -61,6 +61,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     from ._points2poly import _points2poly
     from ._posts2panel import _posts2panel
     from .fillin import fillin
+    from .normLon import normLon
     from .remap import remap
     try:
         from ..f90 import f90
@@ -137,85 +138,77 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
 
     # Loop over points ...
     for ipoint in range(npoint):
-        # Check if it is in the Northern Hemisphere ...
-        if points1[ipoint, 1] >= 0.0:
-            # Check if the Northern tip is not due North ...
-            if abs(numpy.arctan2(points2[ipoint, 0, 1] - points1[ipoint, 1], points2[ipoint, 0, 0] - points1[ipoint, 0]) - 0.5 * numpy.pi) > tol:
-                if debug:
-                    print("INFO: The Northern tip of the ring has crossed over the North Pole.")
+        # Loop over the Eastern half of the ring (including both the Northern
+        # tips and the Southern tip) ...
+        for iangE in list(range(midang + 1)) + [nang - 1]:
+            # Check if this is a Northern tip or a Southern tip ...
+            if iangE in [0, midang, nang - 1]:
+                # Create short-hand ...
+                oldLonE = points2[ipoint, iangE, 0]                             # [°]
 
-                # Loop over the North-Eastern quarter of the ring ...
-                for iang1 in range(0, midang // 2 + 1):
-                    # Identify the corresponding point on the North-Western
-                    # quarter of the ring ...
-                    iang2 = nang - 1 - iang1
+                # Skip this point if the longitude aligns with the central point ...
+                if abs(oldLonE - points1[ipoint, 0]) <= tol:
+                    continue
 
-                    # Calculate the longitude of the mid-point ...
-                    midLon = points2[ipoint, iang1, 0] + points2[ipoint, iang2, 0] - points1[ipoint, 0] # [°]
+                # Correct the Eastern point ...
+                newLonE = normLon(180.0 - oldLonE)                              # [°]
+                if points1[ipoint, 1] >= 0.0:
+                    newLatE = 180.0 - points2[ipoint, iangE, 1]                 # [°]
+                    if debug:
+                        print(f"INFO: Moving ({points2[ipoint, iangE, 0]:.6f}°,{points2[ipoint, iangE, 1]:.6f}°) on Earth Row C/D/E to ({newLonE:.6f}°,{newLatE:.6f}°) on Earth Row A/B.")
+                else:
+                    newLatE = -180.0 - points2[ipoint, iangE, 1]                # [°]
+                    if debug:
+                        print(f"INFO: Moving ({points2[ipoint, iangE, 0]:.6f}°,{points2[ipoint, iangE, 1]:.6f}°) on Earth Row C/D/E to ({newLonE:.6f}°,{newLatE:.6f}°) on Earth Row F/G.")
+                points2[ipoint, iangE, 0] = newLonE                             # [°]
+                points2[ipoint, iangE, 1] = newLatE                             # [°]
+            else:
+                # Identify the corresponding point in the Western half of the
+                # ring ...
+                iangW = nang - 1 - iangE
 
-                    # Check if the points on the ring are too far from the
-                    # central point ...
-                    if abs(midLon - points1[ipoint, 0]) > tol:
-                        # Correct the North-East point ...
-                        newLon = 180.0 - points2[ipoint, iang1, 0]              # [°]
-                        newLon = (newLon + 540.0) % 360.0 - 180.0               # NOTE: Normalize to -180 <--> +180
-                        newLat = 180.0 - points2[ipoint, iang1, 1]              # [°]
-                        if debug:
-                            print(f"INFO: Moving ({points2[ipoint, iang1, 0]:.6f}°,{points2[ipoint, iang1, 1]:.6f}°) on Earth Row C/D/E to ({newLon:.6f}°,{newLat:.6f}°) on Earth Row A/B.")
-                        points2[ipoint, iang1, 0] = newLon                      # [°]
-                        points2[ipoint, iang1, 1] = newLat                      # [°]
+                # Create short-hands ...
+                oldLonE = normLon(points2[ipoint, iangE, 0])                    # [°]
+                oldLonW = normLon(points2[ipoint, iangW, 0])                    # [°]
 
-                        # Make sure that I don't move the same point a second
-                        # time ...
-                        if iang1 != iang2:
-                            # Correct the North-West point ...
-                            newLon = 180.0 - points2[ipoint, iang2, 0]          # [°]
-                            newLon = (newLon + 540.0) % 360.0 - 180.0           # NOTE: Normalize to -180 <--> +180
-                            newLat = 180.0 - points2[ipoint, iang2, 1]          # [°]
-                            if debug:
-                                print(f"INFO: Moving ({points2[ipoint, iang2, 0]:.6f}°,{points2[ipoint, iang2, 1]:.6f}°) on Earth Row C/D/E to ({newLon:.6f}°,{newLat:.6f}°) on Earth Row A/B.")
-                            points2[ipoint, iang2, 0] = newLon                  # [°]
-                            points2[ipoint, iang2, 1] = newLat                  # [°]
+                # Ensure that the Eastern point is to the East of the Western
+                # point ...
+                if oldLonW > oldLonE:
+                    oldLonE += 360.0                                            # [°]
 
-        # Check if it is in the Southern Hemisphere ...
-        if points1[ipoint, 1] <= 0.0:
-            # Check if the Southern tip is not due Sorth ...
-            if abs(numpy.arctan2(points2[ipoint, midang, 1] - points1[ipoint, 1], points2[ipoint, midang, 0] - points1[ipoint, 0]) + 0.5 * numpy.pi) > tol:
-                if debug:
-                    print("INFO: The Southern tip has crossed over the South Pole.")
+                # Calculate the longitude of the mid-point ...
+                midLon = 0.5 * (oldLonW + oldLonE)                              # [°]
 
-                # Loop over the South-Eastern quarter of the ring ...
-                for iang1 in range(midang // 2, midang + 1):
-                    # Identify the corresponding point on the South-Western
-                    # quarter of the ring ...
-                    iang2 = nang - 1 - iang1
+                # Skip this pair of points if the longitude of the mid-point
+                # aligns with the central point ...
+                if abs(midLon - points1[ipoint, 0]) <= tol:
+                    continue
 
-                    # Calculate the longitude of the mid-point ...
-                    midLon = points2[ipoint, iang1, 0] + points2[ipoint, iang2, 0] - points1[ipoint, 0] # [°]
+                # Correct the Eastern point ...
+                newLonE = normLon(180.0 - oldLonE)                              # [°]
+                if points1[ipoint, 1] >= 0.0:
+                    newLatE = 180.0 - points2[ipoint, iangE, 1]                 # [°]
+                    if debug:
+                        print(f"INFO: Moving ({points2[ipoint, iangE, 0]:.6f}°,{points2[ipoint, iangE, 1]:.6f}°) on Earth Row C/D/E to ({newLonE:.6f}°,{newLatE:.6f}°) on Earth Row A/B.")
+                else:
+                    newLatE = -180.0 - points2[ipoint, iangE, 1]                # [°]
+                    if debug:
+                        print(f"INFO: Moving ({points2[ipoint, iangE, 0]:.6f}°,{points2[ipoint, iangE, 1]:.6f}°) on Earth Row C/D/E to ({newLonE:.6f}°,{newLatE:.6f}°) on Earth Row F/G.")
+                points2[ipoint, iangE, 0] = newLonE                             # [°]
+                points2[ipoint, iangE, 1] = newLatE                             # [°]
 
-                    # Check if the points on the ring are too far from the
-                    # central point ...
-                    if abs(midLon - points1[ipoint, 0]) > tol:
-                        # Correct the North-East point ...
-                        newLon = 180.0 - points2[ipoint, iang1, 0]              # [°]
-                        newLon = (newLon + 540.0) % 360.0 - 180.0               # NOTE: Normalize to -180 <--> +180
-                        newLat = -180.0 - points2[ipoint, iang1, 1]             # [°]
-                        if debug:
-                            print(f"INFO: Moving ({points2[ipoint, iang1, 0]:.6f}°,{points2[ipoint, iang1, 1]:.6f}°) on Earth Row C/D/E to ({newLon:.6f}°,{newLat:.6f}°) on Earth Row F/G.")
-                        points2[ipoint, iang1, 0] = newLon                      # [°]
-                        points2[ipoint, iang1, 1] = newLat                      # [°]
-
-                        # Make sure that I don't move the same point a second
-                        # time ...
-                        if iang1 != iang2:
-                            # Correct the North-West point ...
-                            newLon = 180.0 - points2[ipoint, iang2, 0]          # [°]
-                            newLon = (newLon + 540.0) % 360.0 - 180.0           # NOTE: Normalize to -180 <--> +180
-                            newLat = -180.0 - points2[ipoint, iang2, 1]         # [°]
-                            if debug:
-                                print(f"INFO: Moving ({points2[ipoint, iang2, 0]:.6f}°,{points2[ipoint, iang2, 1]:.6f}°) on Earth Row C/D/E to ({newLon:.6f}°,{newLat:.6f}°) on Earth Row F/G.")
-                            points2[ipoint, iang2, 0] = newLon                  # [°]
-                            points2[ipoint, iang2, 1] = newLat                  # [°]
+                # Correct the Western point ...
+                newLonW = normLon(180.0 - oldLonW)                              # [°]
+                if points1[ipoint, 1] >= 0.0:
+                    newLatW = 180.0 - points2[ipoint, iangW, 1]                 # [°]
+                    if debug:
+                        print(f"INFO: Moving ({points2[ipoint, iangW, 0]:.6f}°,{points2[ipoint, iangW, 1]:.6f}°) on Earth Row C/D/E to ({newLonW:.6f}°,{newLatW:.6f}°) on Earth Row A/B.")
+                else:
+                    newLatW = -180.0 - points2[ipoint, iangW, 1]                # [°]
+                    if debug:
+                        print(f"INFO: Moving ({points2[ipoint, iangW, 0]:.6f}°,{points2[ipoint, iangW, 1]:.6f}°) on Earth Row C/D/E to ({newLonW:.6f}°,{newLatW:.6f}°) on Earth Row F/G.")
+                points2[ipoint, iangW, 0] = newLonW                             # [°]
+                points2[ipoint, iangW, 1] = newLatW                             # [°]
 
     # **************************************************************************
     # Step 3: Convert the NumPy array of the rings around the original points  #
