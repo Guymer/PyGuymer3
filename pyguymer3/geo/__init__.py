@@ -45,6 +45,7 @@ from .calc_angle_between_two_locs import calc_angle_between_two_locs
 from .calc_dist_between_two_locs import calc_dist_between_two_locs
 from .calc_loc_from_loc_and_bearing_and_dist import calc_loc_from_loc_and_bearing_and_dist
 from .en2ll import en2ll
+from .extract_lines import extract_lines
 from .extract_polys import extract_polys
 from .fillin import fillin
 from .fillin_CoordinateSequence import fillin_CoordinateSequence
