@@ -16,6 +16,10 @@ if __name__ == "__main__":
         import matplotlib.pyplot
     except:
         raise Exception("\"matplotlib\" is not installed; run \"pip install --user matplotlib\"") from None
+    try:
+        import numpy
+    except:
+        raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
 
     # Import my modules ...
     try:
@@ -31,14 +35,18 @@ if __name__ == "__main__":
     coords1 = [
         ( -90.0, +15.0),                                                        # [°], [°]
         (  +1.0, +50.7),                                                        # [°], [°]
+        (-122.4, +37.6),                                                        # [°], [°]
+        ( +91.0, +15.0),                                                        # [°], [°]
     ]
     coords2 = [
         ( +90.0, +15.0),                                                        # [°], [°]
         (-178.0, -88.0),                                                        # [°], [°]
+        (+140.4, +35.8),                                                        # [°], [°]
+        ( -91.0, +15.0),                                                        # [°], [°]
     ]
 
     # Define number of points ...
-    npoints = [2, 3, 4, 8, 16, 1000]                                            # [#]
+    npoints = [3, 4, 8, 16, 1000]                                               # [#]
 
     # Loop over tests ...
     for i, (coord1, coord2) in enumerate(zip(coords1, coords2)):
@@ -60,17 +68,36 @@ if __name__ == "__main__":
 
         # Loop over number of points ...
         for c, npoint in enumerate(npoints):
-            # Find all the points on the great circle ...
-            circle = pyguymer3.geo.great_circle(coord1[0], coord1[1], coord2[0], coord2[1], npoint = npoint)    # [°]
+            # Find the great circle ...
+            circle = pyguymer3.geo.great_circle(coord1[0], coord1[1], coord2[0], coord2[1], debug = True, npoint = npoint)
 
-            # Loop over points ...
-            for ipoint in range(npoint):
-                # Transform point ...
+            # Loop over lines in the great circle ...
+            for line in pyguymer3.geo.extract_lines(circle):
+                # Extract the coordinates from this line ...
+                coords = numpy.array(line.coords)                               # [°]
+
+                # Transform coordinates ...
                 # NOTE: See https://stackoverflow.com/a/52861074
-                circle[ipoint, 0], circle[ipoint, 1] = cartopy.crs.Robinson().transform_point(circle[ipoint, 0], circle[ipoint, 1], cartopy.crs.Geodetic())
+                points = cartopy.crs.Robinson().transform_points(cartopy.crs.Geodetic(), coords[:, 0], coords[:, 1])
 
-            # Plot great circle ...
-            ax.plot(circle[:, 0], circle[:, 1], transform = cartopy.crs.Robinson(), linewidth = 1.0, color = matplotlib.pyplot.cm.rainbow(float(c) / float(len(npoints) - 1)))
+                # Plot great circle ...
+                ax.plot(
+                    points[:, 0],
+                    points[:, 1],
+                    transform = cartopy.crs.Robinson(),
+                    linewidth = 1.0,
+                        color = matplotlib.pyplot.cm.rainbow(float(c) / float(len(npoints) - 1)),
+                )
+
+        # Plot great circle ...
+        # NOTE: This allows comparison between great_circle() and Cartopy.
+        # ax.plot(
+        #     [coord1[0], coord2[0]],
+        #     [coord1[1], coord2[1]],
+        #     transform = cartopy.crs.Geodetic(),
+        #     linewidth = 1.0,
+        #         color = "black"
+        # )
 
         # Save figure ...
         fg.savefig(fname, bbox_inches = "tight", dpi = 150, pad_inches = 0.1)

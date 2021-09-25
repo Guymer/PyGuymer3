@@ -57,6 +57,10 @@ The function [great_circle](../pyguymer3/geo/great_circle.py) is tested by the s
 
 ![greatCircle output image](greatCircle1.png)
 
+![greatCircle output image](greatCircle2.png)
+
+![greatCircle output image](greatCircle3.png)
+
 ### `save_array_as_image()`
 
 The function [save_array_as_image](../pyguymer3/image/save_array_as_image.py) is tested by the script [saveArrayAsImage.py](saveArrayAsImage.py) which produces the images below.
