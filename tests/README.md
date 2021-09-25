@@ -49,11 +49,13 @@ The function [buffer](../pyguymer3/geo/buffer.py) is tested by the script [buffe
 
 ![buffer output image](buffer6.png)
 
-### `find_point_on_great_circle()`
+### `great_circle()`
 
-The function [find_point_on_great_circle](../pyguymer3/geo/find_point_on_great_circle.py) is tested by the script [greatCircle.py](greatCircle.py) which produces the image below.
+The function [great_circle](../pyguymer3/geo/great_circle.py) is tested by the script [greatCircle.py](greatCircle.py) which produces the image below.
 
-![greatCircle output image](greatCircle.png)
+![greatCircle output image](greatCircle0.png)
+
+![greatCircle output image](greatCircle1.png)
 
 ### `save_array_as_image()`
 
