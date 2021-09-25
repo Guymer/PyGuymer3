@@ -53,4 +53,5 @@ from .fillin_MultiPolygon import fillin_MultiPolygon
 from .fillin_Polygon import fillin_Polygon
 from .find_middle_of_great_circle import find_middle_of_great_circle
 from .find_point_on_great_circle import find_point_on_great_circle
+from .great_circle import great_circle
 from .remap import remap
