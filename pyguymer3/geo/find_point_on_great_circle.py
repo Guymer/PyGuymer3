@@ -14,6 +14,10 @@ def find_point_on_great_circle(frac, lon1_deg, lat1_deg, lon2_deg, lat2_deg):
     # Check arguments ...
     if lon1_deg == lon2_deg and lat1_deg == lat2_deg:
         return lon1_deg, lat1_deg
+    if frac <= 0.0:
+        return lon1_deg, lat1_deg
+    if frac >= 1.0:
+        return lon2_deg, lat2_deg
 
     # Convert to radians ...
     lon1_rad = math.radians(lon1_deg)                                           # [rad]
@@ -21,7 +25,7 @@ def find_point_on_great_circle(frac, lon1_deg, lat1_deg, lon2_deg, lat2_deg):
     lon2_rad = math.radians(lon2_deg)                                           # [rad]
     lat2_rad = math.radians(lat2_deg)                                           # [rad]
 
-    # Calculate mid-point ...
+    # Calculate point ...
     rad = math.radians(calc_angle_between_two_locs(lon1_deg, lat1_deg, lon2_deg, lat2_deg)) # [rad]
     a = math.sin((1.0 - frac) * rad) / math.sin(rad)
     b = math.sin(frac * rad) / math.sin(rad)
@@ -40,5 +44,5 @@ def find_point_on_great_circle(frac, lon1_deg, lat1_deg, lon2_deg, lat2_deg):
         x
     )                                                                           # [rad]
 
-    # Return point point ...
+    # Return point ...
     return math.degrees(lon3_rad), math.degrees(lat3_rad)
