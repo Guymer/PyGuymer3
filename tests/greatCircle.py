@@ -61,16 +61,16 @@ if __name__ == "__main__":
         # Loop over number of points ...
         for c, npoint in enumerate(npoints):
             # Find all the points on the great circle ...
-            lon, lat = pyguymer3.geo.great_circle(coord1[0], coord1[1], coord2[0], coord2[1], npoint = npoint)  # [°], [°]
+            circle = pyguymer3.geo.great_circle(coord1[0], coord1[1], coord2[0], coord2[1], npoint = npoint)    # [°]
 
             # Loop over points ...
             for ipoint in range(npoint):
                 # Transform point ...
                 # NOTE: See https://stackoverflow.com/a/52861074
-                lon[ipoint], lat[ipoint] = cartopy.crs.Robinson().transform_point(lon[ipoint], lat[ipoint], cartopy.crs.Geodetic())
+                circle[ipoint, 0], circle[ipoint, 1] = cartopy.crs.Robinson().transform_point(circle[ipoint, 0], circle[ipoint, 1], cartopy.crs.Geodetic())
 
             # Plot great circle ...
-            ax.plot(lon, lat, transform = cartopy.crs.Robinson(), linewidth = 1.0, color = matplotlib.pyplot.cm.rainbow(float(c) / float(len(npoints) - 1)))
+            ax.plot(circle[:, 0], circle[:, 1], transform = cartopy.crs.Robinson(), linewidth = 1.0, color = matplotlib.pyplot.cm.rainbow(float(c) / float(len(npoints) - 1)))
 
         # Save figure ...
         fg.savefig(fname, bbox_inches = "tight", dpi = 150, pad_inches = 0.1)

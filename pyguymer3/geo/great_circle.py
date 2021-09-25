@@ -18,14 +18,13 @@ def great_circle(lon1, lat1, lon2, lat2, kwArgCheck = None, npoint = 5):
     if kwArgCheck is not None:
         print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
-    # Initialize arrays ...
-    lon = numpy.zeros(npoint, dtype = numpy.float64)                            # [°]
-    lat = numpy.zeros(npoint, dtype = numpy.float64)                            # [°]
+    # Initialize array ...
+    circle = numpy.zeros((npoint, 2), dtype = numpy.float64)                    # [°]
 
     # Loop over points ...
     for ipoint in range(npoint):
         # Set point ...
-        lon[ipoint], lat[ipoint] = find_point_on_great_circle(ipoint / float(npoint - 1), lon1, lat1, lon2, lat2)   # [°], [°]
+        circle[ipoint, :] = find_point_on_great_circle(ipoint / float(npoint - 1), lon1, lat1, lon2, lat2)  # [°]
 
     # Return answer ...
-    return lon, lat
+    return circle
