@@ -27,5 +27,5 @@ def find_middle_of_great_circle(lon1_deg, lat1_deg, lon2_deg, lat2_deg):
     )                                                                           # [rad]
     lon3_rad = lon1_rad + math.atan2(By, math.cos(lat1_rad) + Bx)               # [rad]
 
-    # Return middle point ...
+    # Return mid-point ...
     return math.degrees(lon3_rad), math.degrees(lat3_rad)
