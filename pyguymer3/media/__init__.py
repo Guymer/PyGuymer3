@@ -10,6 +10,7 @@ from .does_media_have_RTP_hints import does_media_have_RTP_hints
 from .does_MP4_have_free import does_MP4_have_free
 from .ffprobe import ffprobe
 from .is_moov_at_beginning_of_MP4 import is_moov_at_beginning_of_MP4
+from .optimize_MP4 import optimize_MP4
 from .parse_CLPI_file import parse_CLPI_file
 from .parse_MPLS_file import parse_MPLS_file
 from .print_FLAC_blocks import print_FLAC_blocks
