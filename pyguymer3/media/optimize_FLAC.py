@@ -48,7 +48,7 @@ def optimize_FLAC(fname1, kwArgCheck = None, debug = False):
                 "--dont-use-padding",
                 "--remove",
                 "--block-type=PADDING",
-                fname1
+                fname2
             ],
             encoding = "utf-8",
             stderr = open(os.devnull, "wt"),
