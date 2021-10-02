@@ -1,6 +1,6 @@
 def gifsicle(fname1, kwArgCheck = None, debug = False):
     """
-    "gifsicle" does modify, and it does touch, the image if it cannot make
+    "gifsicle" does modify, and it does touch, the image even if it cannot make
     it smaller, therefore it is NOT safe to keep on running "gifsicle" on the
     same GIF over and over again.
 

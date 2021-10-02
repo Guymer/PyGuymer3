@@ -1,8 +1,8 @@
 def jpegtran(fname1, kwArgCheck = None, debug = False):
     """
-    "jpegtran" does not modify, but it does touch, the image if it cannot make
-    it smaller, therefore it is NOT safe to keep on running "jpegtran" on the
-    same JPG over and over again.
+    "jpegtran" does not modify, but it does touch, the image even if it cannot
+    make it smaller, therefore it is NOT safe to keep on running "jpegtran" on
+    the same JPG over and over again.
     """
 
     # Import standard modules ...
