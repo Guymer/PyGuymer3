@@ -1,8 +1,8 @@
 def optimize_MP4(fname1, kwArgCheck = None, debug = False):
     """
-    "mp4file" does modify, and it does touch, the MP4 if it cannot make it
-    smaller, therefore it is NOT safe to keep on running "mp4file" on the same
-    MP4 over and over again.
+    "mp4file" does modify, and it does touch, the MP4 even if it cannot optimize
+    it, therefore it is NOT safe to keep on running "mp4file" on the same MP4
+    over and over again.
     """
 
     # Import standard modules ...
@@ -28,16 +28,11 @@ def optimize_MP4(fname1, kwArgCheck = None, debug = False):
     if not os.path.exists(fname1):
         raise Exception("\"{:s}\" does not exist".format(fname1)) from None
 
-    # Skip the MP4 if it does not have any free atoms ...
-    if not does_MP4_have_free(fname1):
+    # Skip this MP4 if it does not have any "free" atoms and if the "moov" atom
+    # is before the "mdat" atom ...
+    if not does_MP4_have_free(fname1) and is_moov_at_beginning_of_MP4(fname1):
         if debug:
-            print("INFO: Skipping because \"{:s}\" does not have any free atoms".format(fname1))
-        return
-
-    # Skip the MP4 if the moov atom is before the mdat atom ...
-    if is_moov_at_beginning_of_MP4(fname1):
-        if debug:
-            print("INFO: Skipping because the moov atom is before the mdat atom in \"{:s}\"".format(fname1))
+            print(f"INFO: Skipping because \"{fname1}\" does not have any \"free\" atoms and the \"moov\" atom is before the \"mdat\" atom")
         return
 
     # Create temporary directory ...
