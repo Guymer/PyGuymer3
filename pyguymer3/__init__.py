@@ -16,6 +16,7 @@ from .download_file import download_file
 from .download_header import download_header
 from .download_stream import download_stream
 from .download_text import download_text
+from .elem2dict import elem2dict
 from .find_instances_of_a_file import find_instances_of_a_file
 from .find_integer_divisors import find_integer_divisors
 from .find_program_version import find_program_version
