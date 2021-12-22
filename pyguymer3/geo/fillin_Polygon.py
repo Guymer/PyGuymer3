@@ -33,7 +33,7 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, tol = 1.0e-10):
 
     # Import sub-functions ...
     from ._debug import _debug
-    from .fillin import fillin
+    from .fillin_LinearRing import fillin_LinearRing
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
@@ -49,7 +49,7 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, tol = 1.0e-10):
         raise Exception("\"poly\" is an empty Polygon") from None
 
     # Filled in exterior LinearRing ...
-    exterior = fillin(poly.exterior, fill, debug = debug, tol = tol)
+    exterior = fillin_LinearRing(poly.exterior, fill, debug = debug, tol = tol)
 
     # Initialize list ...
     interiors = []
@@ -63,7 +63,7 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, tol = 1.0e-10):
             continue
 
         # Append filled in interior LinearRing to list ...
-        interiors.append(fillin(interior, fill, debug = debug, tol = tol))
+        interiors.append(fillin_LinearRing(interior, fill, debug = debug, tol = tol))
 
     # Convert exterior LinearRing and list of interior LinearRings to a
     # correctly oriented Polygon ...

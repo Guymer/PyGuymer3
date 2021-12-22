@@ -40,7 +40,7 @@ def buffer_MultiPolygon(multipoly, dist, kwArgCheck = None, debug = False, fill 
 
     # Import sub-functions ...
     from ._debug import _debug
-    from .buffer import buffer
+    from .buffer_Polygon import buffer_Polygon
     from .fillin import fillin
 
     # Check keyword arguments ...
@@ -62,7 +62,7 @@ def buffer_MultiPolygon(multipoly, dist, kwArgCheck = None, debug = False, fill 
     # Loop over Polygons ...
     for poly in multipoly.geoms:
         # Append buffer of Polygon to list ...
-        buffs.append(buffer(poly, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol))
+        buffs.append(buffer_Polygon(poly, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol))
 
     # Convert list of [Multi]Polygons to a (unified) [Multi]Polygon ...
     buffs = shapely.ops.unary_union(buffs).simplify(tol)

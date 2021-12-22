@@ -37,7 +37,7 @@ def buffer_LineString(line, dist, kwArgCheck = None, debug = False, fill = 1.0, 
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
-    from .buffer import buffer
+    from .buffer_CoordinateSequence import buffer_CoordinateSequence
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
@@ -52,4 +52,4 @@ def buffer_LineString(line, dist, kwArgCheck = None, debug = False, fill = 1.0, 
         raise Exception("\"line\" is an empty LineString") from None
 
     # Return buffered LineString ...
-    return buffer(line.coords, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol)
+    return buffer_CoordinateSequence(line.coords, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol)

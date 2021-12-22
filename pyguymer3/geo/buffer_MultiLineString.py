@@ -38,7 +38,7 @@ def buffer_MultiLineString(multiline, dist, kwArgCheck = None, debug = False, fi
 
     # Import sub-functions ...
     from ._debug import _debug
-    from .buffer import buffer
+    from .buffer_LineString import buffer_LineString
     from .fillin import fillin
 
     # Check keyword arguments ...
@@ -59,7 +59,7 @@ def buffer_MultiLineString(multiline, dist, kwArgCheck = None, debug = False, fi
     # Loop over LineString ...
     for line in multiline.geoms:
         # Append buffer of LineString to list ...
-        buffs.append(buffer(line, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol))
+        buffs.append(buffer_LineString(line, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol))
 
     # Convert list of [Multi]Polygons to a (unified) [Multi]Polygon ...
     buffs = shapely.ops.unary_union(buffs).simplify(tol)

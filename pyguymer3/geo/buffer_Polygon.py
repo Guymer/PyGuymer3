@@ -40,7 +40,7 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, nan
 
     # Import sub-functions ...
     from ._debug import _debug
-    from .buffer import buffer
+    from .buffer_LinearRing import buffer_LinearRing
     from .fillin import fillin
 
     # Check keyword arguments ...
@@ -61,12 +61,12 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, nan
     buffs.append(poly)
 
     # Append buffer of exterior LinearRing to list ...
-    buffs.append(buffer(poly.exterior, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol))
+    buffs.append(buffer_LinearRing(poly.exterior, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol))
 
     # Loop over interior LinearRings ...
     for ring in poly.interiors:
         # Append buffer of interior LinearRing to list ...
-        buffs.append(buffer(ring, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol))
+        buffs.append(buffer_LinearRing(ring, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol))
 
     # Convert list of [Multi]Polygons to a (unified) [Multi]Polygon ...
     buffs = shapely.ops.unary_union(buffs).simplify(tol)
