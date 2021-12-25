@@ -1,4 +1,4 @@
-def download_text(sess, url, kwArgCheck = None, timeout = 10.0, verify = True):
+def download_text(sess, url, kwArgCheck = None, cookies = {}, timeout = 10.0, verify = True):
     # Import standard modules ...
     import html
 
@@ -10,7 +10,7 @@ def download_text(sess, url, kwArgCheck = None, timeout = 10.0, verify = True):
         print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Try to download the page ...
-    resp = download(sess, "get", url, timeout = timeout, verify = verify)
+    resp = download(sess, "get", url, cookies = cookies, timeout = timeout, verify = verify)
 
     # Check response ...
     if resp is False:
