@@ -1,11 +1,11 @@
-def download(sess, method, url, kwArgCheck = None, cookies = {}, timeout = 10.0, verify = True):
+def download(sess, method, url, kwArgCheck = None, cookies = {}, headers = {}, timeout = 10.0, verify = True):
     # Check keyword arguments ...
     if kwArgCheck is not None:
         print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Try to download the URL and catch common errors ...
     try:
-        resp = sess.request(method, url, cookies = cookies, timeout = timeout, verify = verify)
+        resp = sess.request(method, url, cookies = cookies, headers = headers, timeout = timeout, verify = verify)
     except:
         return False
 
