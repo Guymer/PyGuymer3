@@ -16,17 +16,18 @@ def exiftool(fname):
 
     # Check that the image exists ...
     if not os.path.exists(fname):
-        raise Exception("\"{:s}\" does not exist".format(fname)) from None
+        raise Exception(f"\"{fname}\" does not exist") from None
 
     # Strip all metadata ...
-    subprocess.check_call(
+    subprocess.run(
         [
             "exiftool",
             "-overwrite_original",
             "-all=",
             fname
         ],
+           check = True,
         encoding = "utf-8",
-        stderr = open(os.devnull, "wt"),
-        stdout = open(os.devnull, "wt")
+          stderr = subprocess.DEVNULL,
+          stdout = subprocess.DEVNULL,
     )

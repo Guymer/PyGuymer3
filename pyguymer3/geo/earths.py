@@ -30,7 +30,8 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Load image metadata ...
-    meta = json.load(open(f'{os.environ["CARTOPY_USER_BACKGROUNDS"]}/images.json', "rt"))
+    with open(f'{os.environ["CARTOPY_USER_BACKGROUNDS"]}/images.json', "rt", encoding = "utf-8") as fobj:
+        meta = json.load(fobj)
 
     # Find the path to the lowest resolution image ...
     path = f'{os.environ["CARTOPY_USER_BACKGROUNDS"]}/{meta["natural-earth-1"]["large0512px"]}'

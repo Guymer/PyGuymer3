@@ -1,7 +1,6 @@
 def return_ISO_palette(fname, kwArgCheck = None, usr_track = -1, errors = "replace"):
     # Import standard modules ...
     import html
-    import os
     import shutil
     import subprocess
 
@@ -48,13 +47,13 @@ def return_ISO_palette(fname, kwArgCheck = None, usr_track = -1, errors = "repla
             "-Ox",
             fname
         ],
-        stderr = open(os.devnull, "wt")
+        stderr = subprocess.DEVNULL,
     ).decode("utf-8", errors = errors)
     tmp = stdout.index("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
     stdout = stdout[tmp + len("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"):]
 
     # Fix the file name itself ...
-    stdout = stdout.replace("<device>{:s}</device>".format(fname), "<device>{:s}</device>".format(html.escape(fname)))
+    stdout = stdout.replace(f"<device>{fname}</device>", f"<device>{html.escape(fname)}</device>")
 
     # Fix common errors ...
     stdout = stdout.replace("<df>Pan&Scan</df>", "<df>Pan&amp;Scan</df>")

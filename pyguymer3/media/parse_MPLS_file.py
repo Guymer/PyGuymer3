@@ -1,7 +1,4 @@
 def parse_MPLS_file(br, ip, kwArgCheck = None, debug = False, errors = "strict", indent = 0):
-    # Import standard modules ...
-    import os
-
     # Import sub-functions ...
     from .MPLS.load_header import load_header
     from .MPLS.load_AppInfoPlayList import load_AppInfoPlayList
@@ -17,7 +14,7 @@ def parse_MPLS_file(br, ip, kwArgCheck = None, debug = False, errors = "strict",
     info = {}
 
     # Open file ...
-    with open(os.path.join(br, "BDMV/PLAYLIST/{:05d}.mpls".format(ip)), "rb") as fobj:
+    with open(f"{br}/BDMV/PLAYLIST/{ip:05d}.mpls", "rb") as fobj:
         # Load header ...
         info["header"] = load_header(fobj, debug = debug, errors = errors, indent = indent)
 

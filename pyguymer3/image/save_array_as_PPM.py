@@ -17,5 +17,5 @@ def save_array_as_PPM(img, fname):
 
     # Write out PPM ...
     with open(fname, "wb") as fobj:
-        fobj.write("P6 {0:d} {1:d} 255 ".format(nx, ny))
+        fobj.write(f"P6 {nx:d} {ny:d} 255 ")
         img.tofile(fobj)

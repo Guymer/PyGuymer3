@@ -10,7 +10,6 @@ def xz(fname, kwArgCheck = None, threads = 0):
     """
 
     # Import standard modules ...
-    import os
     import shutil
     import subprocess
 
@@ -27,17 +26,18 @@ def xz(fname, kwArgCheck = None, threads = 0):
         raise Exception("\"threads\" is not an integer") from None
 
     # Compress file ...
-    subprocess.check_call(
+    subprocess.run(
         [
             "xz",
             "--compress",
             "-9e",
             "--check=sha256",
             "--format=xz",
-            "--threads={:d}".format(threads),
+            f"--threads={threads:d}",
             fname
         ],
+           check = True,
         encoding = "utf-8",
-        stderr = open(os.devnull, "wt"),
-        stdout = open(os.devnull, "wt")
+          stderr = subprocess.DEVNULL,
+          stdout = subprocess.DEVNULL,
     )

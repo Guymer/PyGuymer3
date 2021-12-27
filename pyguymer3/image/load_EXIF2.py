@@ -1,7 +1,6 @@
 def load_EXIF2(fname):
     # Import standard modules ...
     import json
-    import os
     import shutil
     import subprocess
 
@@ -24,7 +23,7 @@ def load_EXIF2(fname):
                 fname
             ],
             encoding = "utf-8",
-            stderr = open(os.devnull, "wt")
+              stderr = subprocess.DEVNULL,
         )
     )[0]
 

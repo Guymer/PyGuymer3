@@ -73,7 +73,7 @@ def return_subtitle_extent(fname, kwArgCheck = None, playlist = -1, subtitle = 0
                     "/dev/null"
                 ],
                 encoding = "utf-8",
-                stderr = subprocess.STDOUT
+                  stderr = subprocess.STDOUT,
             )
         except:
             stderrout = subprocess.check_output(
@@ -95,7 +95,7 @@ def return_subtitle_extent(fname, kwArgCheck = None, playlist = -1, subtitle = 0
                     "/dev/null"
                 ],
                 encoding = "utf-8",
-                stderr = subprocess.STDOUT
+                  stderr = subprocess.STDOUT,
             )
 
     # Initialize values ...

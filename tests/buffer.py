@@ -127,7 +127,14 @@ if __name__ == "__main__":
         del buff1
 
         # Save GeoJSON ...
-        geojson.dump(buff2, open(jname, "wt"), indent = 4, sort_keys = True)
+        with open(jname, "wt", encoding = "utf-8") as fobj:
+            geojson.dump(
+                buff2,
+                fobj,
+                ensure_ascii = False,
+                      indent = 4,
+                   sort_keys = True,
+            )
 
         # Clean up ...
         del buff2

@@ -1,6 +1,5 @@
 def dot2png(dot, png, kwArgCheck = None, debug = False, strip = False):
     # Import standard modules ...
-    import os
     import shutil
     import subprocess
 
@@ -16,11 +15,12 @@ def dot2png(dot, png, kwArgCheck = None, debug = False, strip = False):
         raise Exception("\"dot\" is not installed") from None
 
     # Create image ...
-    subprocess.check_call(
+    subprocess.run(
         ["dot", "-Tpng", dot, "-o", png],
+           check = True,
         encoding = "utf-8",
-        stderr = open(os.devnull, "wt"),
-        stdout = open(os.devnull, "wt")
+          stderr = subprocess.DEVNULL,
+          stdout = subprocess.DEVNULL,
     )
 
     # Optimize PNG ...

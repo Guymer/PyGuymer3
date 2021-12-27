@@ -31,11 +31,11 @@ def does_MP4_have_free(fname):
 
             # Check that it matches the pattern ...
             if re.match(r"[a-z][a-z][a-z][a-z]", name) is None:
-                raise Exception("\"{0:s}\" is not an atom name in \"{1:s}\"".format(name, fname)) from None
+                raise Exception(f"\"{name}\" is not an atom name in \"{fname}\"") from None
 
             # Check that it is a MP4 file ...
             if not foundFTYP and name != "ftyp":
-                raise Exception("\"{0:s}\" is not a MP4".format(fname)) from None
+                raise Exception(f"\"{fname}\" is not a MP4") from None
 
             # Set trigger ...
             foundFTYP = True

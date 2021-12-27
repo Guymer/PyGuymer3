@@ -26,7 +26,7 @@ def optimize_MP4(fname1, kwArgCheck = None, debug = False):
 
     # Check that the MP4 exists ...
     if not os.path.exists(fname1):
-        raise Exception("\"{:s}\" does not exist".format(fname1)) from None
+        raise Exception(f"\"{fname1}\" does not exist") from None
 
     # Skip this MP4 if it does not have any "free" atoms and if the "moov" atom
     # is before the "mdat" atom ...
@@ -44,22 +44,23 @@ def optimize_MP4(fname1, kwArgCheck = None, debug = False):
         fname2 = os.path.join(tname, os.path.basename(fname1))
 
         # Optimize MP4 ...
-        subprocess.check_call(
+        subprocess.run(
             [
                 "mp4file",
                 "--optimize",
                 fname2
             ],
+               check = True,
             encoding = "utf-8",
-            stderr = open(os.devnull, "wt"),
-            stdout = open(os.devnull, "wt")
+              stderr = subprocess.DEVNULL,
+              stdout = subprocess.DEVNULL,
         )
 
         # Find the two hashes and don't replace the original if the new one is
         # the same ...
         if return_hash_of_MP4(fname1) == return_hash_of_MP4(fname2):
             if debug:
-                print("INFO: Skipping because \"{:s}\" is the same as \"{:s}\"".format(fname2, fname1))
+                print(f"INFO: Skipping because \"{fname2}\" is the same as \"{fname1}\"")
             return
 
         # Replace the original ...

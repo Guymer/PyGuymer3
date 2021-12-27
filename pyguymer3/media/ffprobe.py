@@ -9,7 +9,6 @@ def ffprobe(fname, kwArgCheck = None, playlist = -1):
 
     # Import standard modules ...
     import json
-    import os
     import shutil
     import subprocess
 
@@ -46,11 +45,11 @@ def ffprobe(fname, kwArgCheck = None, playlist = -1):
                 "-print_format", "json",
                 "-show_format",
                 "-show_streams",
-                "-playlist", "{0:d}".format(playlist),
+                "-playlist", f"{playlist:d}",
                 fname
             ],
             encoding = "utf-8",
-            stderr = open(os.devnull, "wt")
+              stderr = subprocess.DEVNULL,
         )
     else:
         # Attempt to survey the file ...
@@ -77,7 +76,7 @@ def ffprobe(fname, kwArgCheck = None, playlist = -1):
                     fname
                 ],
                 encoding = "utf-8",
-                stderr = open(os.devnull, "wt")
+                  stderr = subprocess.DEVNULL,
             )
         except subprocess.CalledProcessError:
             # Fallback and attempt to find stream info as a raw M-JPEG stream ...
@@ -103,7 +102,7 @@ def ffprobe(fname, kwArgCheck = None, playlist = -1):
                     fname
                 ],
                 encoding = "utf-8",
-                stderr = open(os.devnull, "wt")
+                  stderr = subprocess.DEVNULL,
             )
 
     # Return ffprobe output as dictionary ...

@@ -1,7 +1,4 @@
 def parse_CLPI_file(br, ip):
-    # Import standard modules ...
-    import os
-
     # Import sub-functions ...
     from .CLPI.load_header import load_header
     from .CLPI.load_ClipInfo import load_ClipInfo
@@ -15,7 +12,7 @@ def parse_CLPI_file(br, ip):
     info = {}
 
     # Open file ...
-    with open(os.path.join(br, "BDMV/CLIPINF/{0:05d}.clpi".format(ip)), "rb") as fobj:
+    with open(f"{br}/BDMV/CLIPINF/{ip:05d}.clpi", "rb") as fobj:
         # Load header ...
         res = load_header(fobj)
         info["header"] = res

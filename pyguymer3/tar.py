@@ -36,12 +36,12 @@ def tar(tarName, fnames, kwArgCheck = None, cwd = None):
         tmpName = os.path.join(tname, "fnames.txt")
 
         # Make list of files to archive ...
-        with open(tmpName, "wt") as fobj:
+        with open(tmpName, "wt", encoding = "utf-8") as fobj:
             for fname in fnames:
-                fobj.write("{:s}\n".format(fname))
+                fobj.write(f"{fname}\n")
 
         # Make archive ...
-        subprocess.check_call(
+        subprocess.run(
             [
                 "tar",
                 "--create",
@@ -52,8 +52,9 @@ def tar(tarName, fnames, kwArgCheck = None, cwd = None):
                 "--no-fflags",
                 "--no-xattrs"
             ],
-            cwd = cwd,
+               check = True,
+                 cwd = cwd,
             encoding = "utf-8",
-            stderr = open(os.devnull, "wt"),
-            stdout = open(os.devnull, "wt")
+              stderr = subprocess.DEVNULL,
+              stdout = subprocess.DEVNULL,
         )

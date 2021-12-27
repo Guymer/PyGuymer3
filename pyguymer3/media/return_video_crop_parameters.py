@@ -75,7 +75,7 @@ def return_video_crop_parameters(fname, kwArgCheck = None, playlist = -1, dt = 2
                         "/dev/null"
                     ],
                     encoding = "utf-8",
-                    stderr = subprocess.STDOUT
+                      stderr = subprocess.STDOUT,
                 )
             except:
                 stderrout = subprocess.check_output(
@@ -96,7 +96,7 @@ def return_video_crop_parameters(fname, kwArgCheck = None, playlist = -1, dt = 2
                         "/dev/null"
                     ],
                     encoding = "utf-8",
-                    stderr = subprocess.STDOUT
+                      stderr = subprocess.STDOUT,
                 )
 
         # Loop over lines ...

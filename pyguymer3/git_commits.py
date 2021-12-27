@@ -18,17 +18,17 @@ def git_commits(kwArgCheck = None, cwd = None, fname = None):
         # Find the UNIX timestamps of all of the commits in the repository ...
         stamps = subprocess.check_output(
             ["git", "log", "--format=format:%ct"],
-            cwd = cwd,
+                 cwd = cwd,
             encoding = "utf-8",
-            stderr = subprocess.STDOUT
+              stderr = subprocess.STDOUT,
         ).splitlines()
     else:
         # Find the UNIX timestamps of all of the commits for the file ...
         stamps = subprocess.check_output(
             ["git", "log", "--follow", "--format=format:%ct", fname],
-            cwd = cwd,
+                 cwd = cwd,
             encoding = "utf-8",
-            stderr = subprocess.STDOUT
+              stderr = subprocess.STDOUT,
         ).splitlines()
 
     # Convert list of UNIX timestamps (as strings) to list of aware datetime

@@ -28,7 +28,7 @@ def print_FLAC_blocks(fname):
 
         # Read magic marker and raise exception if it is not expected ...
         if fobj.read(4).decode("utf-8") != "fLaC":
-            raise Exception("\"{0:s}\" is not a FLAC".format(fname)) from None
+            raise Exception(f"\"{fname}\" is not a FLAC") from None
 
         # Initialize flag ...
         last = False
@@ -49,7 +49,7 @@ def print_FLAC_blocks(fname):
 
             # Print summary ...
             size, units = convert_bytes_to_pretty_bytes(val + 4)
-            print("{0:s} is {1:6.1f} {2:3s} long".format(blocks.get(name, "RESERVED"), size, units))
+            print(f'{blocks.get(name, "RESERVED")} is {size:6.1f} {units:3s} long')
 
             # Check if this is the last block before the frames ...
             if last:

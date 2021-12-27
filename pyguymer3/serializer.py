@@ -73,7 +73,7 @@ def serializer(obj, kwArgCheck = None, evaluate = False):
             return float(obj.num) / float(obj.den)
 
         # Return serializable answer ...
-        return "{:d}/{:d}".format(obj.num, obj.den)
+        return f"{obj.num:d}/{obj.den:d}"
 
     # **************************************************************************
 

@@ -25,7 +25,7 @@ def optimize_FLAC(fname1, kwArgCheck = None, debug = False):
 
     # Check that the FLAC exists ...
     if not os.path.exists(fname1):
-        raise Exception("\"{0:s}\" does not exist".format(fname1)) from None
+        raise Exception(f"\"{fname1}\" does not exist") from None
 
     # Skip this FLAC if it does not have any padding ...
     if not does_FLAC_have_padding(fname1):
@@ -42,7 +42,7 @@ def optimize_FLAC(fname1, kwArgCheck = None, debug = False):
         fname2 = os.path.join(tname, os.path.basename(fname1))
 
         # Optimise FLAC ...
-        subprocess.check_call(
+        subprocess.run(
             [
                 "metaflac",
                 "--dont-use-padding",
@@ -50,16 +50,17 @@ def optimize_FLAC(fname1, kwArgCheck = None, debug = False):
                 "--block-type=PADDING",
                 fname2
             ],
+               check = True,
             encoding = "utf-8",
-            stderr = open(os.devnull, "wt"),
-            stdout = open(os.devnull, "wt")
+              stderr = subprocess.DEVNULL,
+              stdout = subprocess.DEVNULL,
         )
 
         # Find the two hashes and don't replace the original if the new one is
         # the same ...
         if sha512(fname1) == sha512(fname2):
             if debug:
-                print("INFO: Skipping because \"{:s}\" is the same as \"{:s}\"".format(fname2, fname1))
+                print(f"INFO: Skipping because \"{fname2}\" is the same as \"{fname1}\"")
             return
 
         # Replace the original ...

@@ -39,7 +39,8 @@ def save_array_as_image(img0, fname, kwArgCheck = None, form = "png", scale = Fa
     ny, nx = img0.shape                                                         # [px], [px]
 
     # Load colour tables ...
-    cts = json.load(open(f"{os.path.dirname(__file__)}/../data/json/colour_tables.json", "rt"))
+    with open(f"{os.path.dirname(__file__)}/../data/json/colour_tables.json", "rt", encoding = "utf-8") as fobj:
+        cts = json.load(fobj)
 
     # Create uint8 image that will be passed to the external function ...
     img2 = numpy.empty((ny, nx, 3), dtype = numpy.uint8)

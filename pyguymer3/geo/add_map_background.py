@@ -39,7 +39,8 @@ def add_map_background(axis, kwArgCheck = None, debug = False, name = "natural-e
         jpath = os.path.join(os.environ["CARTOPY_USER_BACKGROUNDS"], "images.json")
         if os.path.exists(jpath):
             # Load JSON and check keys exist ...
-            info = json.load(open(jpath, "rt"))
+            with open(jpath, "rt", encoding = "utf-8") as fobj:
+                info = json.load(fobj)
             if name in info:
                 if resolution in info[name]:
                     # Determine image path and check it exists ...
