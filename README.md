@@ -11,6 +11,7 @@ PyGuymer3 requires the following Python modules to be installed and available in
 * [cartopy](https://pypi.org/project/Cartopy/)
 * [convertbng](https://pypi.org/project/convertbng/)
 * [exifread](https://pypi.org/project/ExifRead/)
+* [geojson](https://pypi.org/project/geojson/)
 * [lxml](https://pypi.org/project/lxml/)
 * [numpy](https://pypi.org/project/numpy/)
 * [PIL](https://pypi.org/project/Pillow/)
