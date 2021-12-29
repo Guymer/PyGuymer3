@@ -11,7 +11,6 @@ def tar(tarName, fnames, kwArgCheck = None, cwd = None):
     """
 
     # Import standard modules ...
-    import os
     import shutil
     import subprocess
     import tempfile
@@ -33,7 +32,7 @@ def tar(tarName, fnames, kwArgCheck = None, cwd = None):
     # Create temporary directory ...
     with tempfile.TemporaryDirectory(prefix = "tar.") as tname:
         # Deduce temporary name ...
-        tmpName = os.path.join(tname, "fnames.txt")
+        tmpName = f"{tname}/fnames.txt"
 
         # Make list of files to archive ...
         with open(tmpName, "wt", encoding = "utf-8") as fobj:
