@@ -1,4 +1,4 @@
-def xz(fname, kwArgCheck = None, threads = 0):
+def xz(fname, kwArgCheck = None, cwd = None, threads = 0):
     """
     Compress a file using "xz" (with SHA-256 integrity checks).
 
@@ -6,6 +6,7 @@ def xz(fname, kwArgCheck = None, threads = 0):
     fname -- the name of the file to compress
 
     Keyword arguments:
+    cwd -- the child working directory (default None)
     threads -- the number of threads to use (default 0)
     """
 
@@ -37,6 +38,7 @@ def xz(fname, kwArgCheck = None, threads = 0):
             fname
         ],
            check = True,
+             cwd = cwd,
         encoding = "utf-8",
           stderr = subprocess.DEVNULL,
           stdout = subprocess.DEVNULL,
