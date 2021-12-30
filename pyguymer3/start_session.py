@@ -11,8 +11,8 @@ def start_session():
     sess.headers.update(
         {
                                "Accept" : "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-                      "Accept-Language" : "en-GB,en;q=0.5",
                       "Accept-Encoding" : "gzip, deflate",
+                      "Accept-Language" : "en-GB,en;q=0.5",
                                   "DNT" : "1",
             "Upgrade-Insecure-Requests" : "1",
                            "User-Agent" : "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:68.0) Gecko/20100101 Firefox/68.0",
