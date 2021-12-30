@@ -5,7 +5,7 @@ def make_path_safe(path):
         path = path.replace(badChar, "")
 
     # Check if the path is hidden ...
-    if path[:1] == ".":
+    if path[0] == ".":
         # Make the path visible ...
         path = f" {path}"
 
