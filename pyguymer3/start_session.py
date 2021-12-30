@@ -12,10 +12,10 @@ def start_session():
         {
                                "Accept" : "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
                       "Accept-Encoding" : "gzip, deflate",
-                      "Accept-Language" : "en-GB,en;q=0.5",
+                      "Accept-Language" : "en-GB,en;q=0.9",
                                   "DNT" : "1",
             "Upgrade-Insecure-Requests" : "1",
-                           "User-Agent" : "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:68.0) Gecko/20100101 Firefox/68.0",
+                           "User-Agent" : "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.2 Safari/605.1.15",
         }
     )
     sess.max_redirects = 5
