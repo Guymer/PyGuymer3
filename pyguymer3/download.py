@@ -3,6 +3,10 @@ def download(sess, method, url, kwArgCheck = None, cookies = {}, headers = {}, t
     if kwArgCheck is not None:
         print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
+    # Catch common errors ...
+    if "&amp;" in url:
+        raise Exception("the URL contains \"&amp;\"") from None
+
     # Try to download the URL and catch common errors ...
     try:
         resp = sess.request(method, url, cookies = cookies, headers = headers, timeout = timeout, verify = verify)
