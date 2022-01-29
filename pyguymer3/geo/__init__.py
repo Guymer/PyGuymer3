@@ -19,6 +19,7 @@ itself once)
 """
 
 # Import sub-functions ...
+from ._add_antarcticIceShelves import _add_antarcticIceShelves
 from ._add_bathymetry import _add_bathymetry
 from ._add_glaciatedAreas import _add_glaciatedAreas
 from ._add_lakes import _add_lakes
