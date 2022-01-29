@@ -24,7 +24,7 @@ def _add_minorIslands(axis, kwArgCheck = None, debug = False, resolution = "10m"
     # Create suitable colour ...
     facecolor = matplotlib.colors.to_rgba(matplotlib.colors.CSS4_COLORS["darkkhaki"])
     if debug:
-        print(f"INFO: \"minorIslands\" is ({facecolor[0]:.6f},{facecolor[1]:.6f},{facecolor[2]:.6f},{facecolor[3]:.6f}).")
+        print(f"INFO: \"minor_islands\" is ({facecolor[0]:.6f},{facecolor[1]:.6f},{facecolor[2]:.6f},{facecolor[3]:.6f}).")
 
     # Find file containing the shapes ...
     sfile = cartopy.io.shapereader.natural_earth(
@@ -33,7 +33,7 @@ def _add_minorIslands(axis, kwArgCheck = None, debug = False, resolution = "10m"
               name = "minor_islands",
     )
     if debug:
-        print(f"INFO: \"minorIslands\" is \"{sfile}\".")
+        print(f"INFO: \"minor_islands\" is \"{sfile}\".")
 
     # Loop over records ...
     for record in cartopy.io.shapereader.Reader(sfile).records():
