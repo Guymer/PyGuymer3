@@ -24,7 +24,7 @@ def _add_lakes(axis, kwArgCheck = None, debug = False, resolution = "10m"):
     # Create suitable colour ...
     facecolor = matplotlib.colors.to_rgba(matplotlib.colors.CSS4_COLORS["lightblue"])
     if debug:
-        print(f"INFO: \"glaciated_areas\" is ({facecolor[0]:.6f},{facecolor[1]:.6f},{facecolor[2]:.6f},{facecolor[3]:.6f}).")
+        print(f"INFO: \"lakes\" is ({facecolor[0]:.6f},{facecolor[1]:.6f},{facecolor[2]:.6f},{facecolor[3]:.6f}).")
 
     # Define names ...
     names = [
