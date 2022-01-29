@@ -22,9 +22,9 @@ def _add_land(axis, kwArgCheck = None, debug = False, resolution = "10m"):
     # **************************************************************************
 
     # Create suitable colour ...
-    color = matplotlib.colors.to_rgba(matplotlib.colors.CSS4_COLORS["darkkhaki"])
+    facecolor = matplotlib.colors.to_rgba(matplotlib.colors.CSS4_COLORS["darkkhaki"])
     if debug:
-        print(f"INFO: \"land\" is ({color[0]:.6f},{color[1]:.6f},{color[2]:.6f},{color[3]:.6f}).")
+        print(f"INFO: \"land\" is ({facecolor[0]:.6f},{facecolor[1]:.6f},{facecolor[2]:.6f},{facecolor[3]:.6f}).")
 
     # Find file containing the shapes ...
     sfile = cartopy.io.shapereader.natural_earth(
@@ -42,5 +42,5 @@ def _add_land(axis, kwArgCheck = None, debug = False, resolution = "10m"):
             extract_polys(record.geometry),
             cartopy.crs.PlateCarree(),
             edgecolor = "none",
-            facecolor = color,
+            facecolor = facecolor,
         )

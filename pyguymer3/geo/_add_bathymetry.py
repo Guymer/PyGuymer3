@@ -49,9 +49,9 @@ def _add_bathymetry(axis, kwArgCheck = None, debug = False, resolution = "10m"):
     # Loop over depths ...
     for depth, name in depths:
         # Create suitable colour ...
-        color = cmap(float(depth) / 10000.0)
+        facecolor = cmap(float(depth) / 10000.0)
         if debug:
-            print(f"INFO: \"{name}\" is ({color[0]:.6f},{color[1]:.6f},{color[2]:.6f},{color[3]:.6f}).")
+            print(f"INFO: \"{name}\" is ({facecolor[0]:.6f},{facecolor[1]:.6f},{facecolor[2]:.6f},{facecolor[3]:.6f}).")
 
         # Find file containing the shapes ...
         sfile = cartopy.io.shapereader.natural_earth(
@@ -69,5 +69,5 @@ def _add_bathymetry(axis, kwArgCheck = None, debug = False, resolution = "10m"):
                 extract_polys(record.geometry),
                 cartopy.crs.PlateCarree(),
                 edgecolor = "none",
-                facecolor = color,
+                facecolor = facecolor,
             )
