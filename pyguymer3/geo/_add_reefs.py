@@ -1,4 +1,4 @@
-def _add_reefs(axis, kwArgCheck = None, debug = False, resolution = "10m"):
+def _add_reefs(axis, kwArgCheck = None, debug = False, linestyle = "dashed", linewidth = 0.5, resolution = "10m"):
     # NOTE: This function uses CSS4 named colours, see:
     #         * https://matplotlib.org/stable/gallery/color/named_colors.html
 
@@ -44,4 +44,6 @@ def _add_reefs(axis, kwArgCheck = None, debug = False, resolution = "10m"):
             cartopy.crs.PlateCarree(),
             edgecolor = edgecolor,
             facecolor = facecolor,
+            linewidth = linewidth,
+            linestyle = linestyle,
         )

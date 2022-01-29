@@ -44,6 +44,6 @@ def _add_playas(axis, kwArgCheck = None, debug = False, linestyle = "dashed", li
             cartopy.crs.PlateCarree(),
             edgecolor = edgecolor,
             facecolor = facecolor,
-            linewidth = linewidth,
             linestyle = linestyle,
+            linewidth = linewidth,
         )
