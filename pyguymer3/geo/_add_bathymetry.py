@@ -51,7 +51,7 @@ def _add_bathymetry(axis, kwArgCheck = None, debug = False, resolution = "10m"):
         # Create suitable colour ...
         color = cmap(float(depth) / 10000.0)
         if debug:
-            print(f"INFO: \"bathymetry {depth:5d}m\" is ({color[0]:.6f},{color[1]:.6f},{color[2]:.6f},{color[3]:.6f}).")
+            print(f"INFO: \"{name}\" is ({color[0]:.6f},{color[1]:.6f},{color[2]:.6f},{color[3]:.6f}).")
 
         # Find file containing the shapes ...
         sfile = cartopy.io.shapereader.natural_earth(
@@ -60,7 +60,7 @@ def _add_bathymetry(axis, kwArgCheck = None, debug = False, resolution = "10m"):
                   name = name,
         )
         if debug:
-            print(f"INFO: \"bathymetry {depth:5d}m\" is \"{sfile}\".")
+            print(f"INFO: \"{name}\" is \"{sfile}\".")
 
         # Loop over records ...
         for record in cartopy.io.shapereader.Reader(sfile).records():
