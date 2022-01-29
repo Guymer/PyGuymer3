@@ -22,9 +22,10 @@ def _add_reefs(axis, kwArgCheck = None, debug = False, resolution = "10m"):
     # **************************************************************************
 
     # Create suitable colour ...
+    edgecolor = matplotlib.colors.to_rgba(matplotlib.colors.CSS4_COLORS["cornflowerblue"])
     facecolor = matplotlib.colors.to_rgba(matplotlib.colors.CSS4_COLORS["aquamarine"])
     if debug:
-        print(f"INFO: \"reefs\" is ({facecolor[0]:.6f},{facecolor[1]:.6f},{facecolor[2]:.6f},{facecolor[3]:.6f}).")
+        print(f"INFO: \"reefs\" is ({edgecolor[0]:.6f},{edgecolor[1]:.6f},{edgecolor[2]:.6f},{edgecolor[3]:.6f}) and ({facecolor[0]:.6f},{facecolor[1]:.6f},{facecolor[2]:.6f},{facecolor[3]:.6f}).")
 
     # Find file containing the shapes ...
     sfile = cartopy.io.shapereader.natural_earth(
@@ -41,6 +42,6 @@ def _add_reefs(axis, kwArgCheck = None, debug = False, resolution = "10m"):
         axis.add_geometries(
             extract_polys(record.geometry),
             cartopy.crs.PlateCarree(),
-            edgecolor = "none",
+            edgecolor = edgecolor,
             facecolor = facecolor,
         )
