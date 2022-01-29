@@ -20,6 +20,7 @@ itself once)
 
 # Import sub-functions ...
 from ._add_bathymetry import _add_bathymetry
+from ._add_glaciatedAreas import _add_glaciatedAreas
 from ._add_land import _add_land
 from ._add_minorIslands import _add_minorIslands
 from ._add_reefs import _add_reefs
