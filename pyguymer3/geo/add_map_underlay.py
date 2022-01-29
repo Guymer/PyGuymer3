@@ -1,4 +1,4 @@
-def add_map_underlay(axis, kwArgCheck = None, cultural = True, debug = False, physical = True, resolution = "10m"):
+def add_map_underlay(axis, kwArgCheck = None, cultural = True, debug = False, linestyle = "solid", linewidth = 0.5, physical = True, resolution = "10m"):
     # Import sub-functions ...
     from ._add_antarcticIceShelves import _add_antarcticIceShelves
     from ._add_bathymetry import _add_bathymetry
@@ -23,7 +23,7 @@ def add_map_underlay(axis, kwArgCheck = None, cultural = True, debug = False, ph
 
         # Water overlays ...
         _add_antarcticIceShelves(axis, debug = debug, resolution = resolution)
-        _add_reefs(axis, debug = debug, resolution = resolution)                # NOTE: This has edgecolour too.
+        _add_reefs(axis, debug = debug, linestyle = linestyle, linewidth = linewidth, resolution = resolution)
 
         # Land ...
         _add_land(axis, debug = debug, resolution = resolution)
@@ -32,8 +32,8 @@ def add_map_underlay(axis, kwArgCheck = None, cultural = True, debug = False, ph
         # Land overlays ...
         _add_glaciatedAreas(axis, debug = debug, resolution = resolution)
         _add_lakes(axis, debug = debug, resolution = resolution)
-        _add_playas(axis, debug = debug, resolution = resolution)               # NOTE: This has edgecolour too.
-        _add_rivers(axis, debug = debug, resolution = resolution)               # NOTE: This has edgecolour only.
+        _add_playas(axis, debug = debug, linestyle = linestyle, linewidth = linewidth, resolution = resolution)
+        _add_rivers(axis, debug = debug, linestyle = linestyle, linewidth = linewidth, resolution = resolution)
 
     # Add cultural datasets ...
     if cultural:
