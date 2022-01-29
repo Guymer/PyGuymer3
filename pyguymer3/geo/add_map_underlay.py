@@ -3,7 +3,6 @@ def add_map_underlay(axis, kwArgCheck = None, cultural = True, debug = False, ph
     #         * https://www.naturalearthdata.com/downloads/10m-cultural-vectors/
     # TODO: Physical datasets:
     #         * https://www.naturalearthdata.com/downloads/10m-physical-vectors/10m-rivers-lake-centerlines/
-    #         * https://www.naturalearthdata.com/downloads/10m-physical-vectors/10m-playas/
     #         * https://www.naturalearthdata.com/downloads/10m-physical-vectors/10m-antarctic-ice-shelves/
 
     # Import sub-functions ...
@@ -12,6 +11,7 @@ def add_map_underlay(axis, kwArgCheck = None, cultural = True, debug = False, ph
     from ._add_lakes import _add_lakes
     from ._add_land import _add_land
     from ._add_minorIslands import _add_minorIslands
+    from ._add_playas import _add_playas
     from ._add_reefs import _add_reefs
 
     # Check keyword arguments ...
@@ -33,8 +33,9 @@ def add_map_underlay(axis, kwArgCheck = None, cultural = True, debug = False, ph
         _add_minorIslands(axis, debug = debug, resolution = resolution)
 
         # Land overlays ...
-        _add_lakes(axis, debug = debug, resolution = resolution)
         _add_glaciatedAreas(axis, debug = debug, resolution = resolution)
+        _add_lakes(axis, debug = debug, resolution = resolution)
+        _add_playas(axis, debug = debug, resolution = resolution)
 
     # Add cultural datasets ...
     if cultural:

@@ -21,9 +21,10 @@ itself once)
 # Import sub-functions ...
 from ._add_bathymetry import _add_bathymetry
 from ._add_glaciatedAreas import _add_glaciatedAreas
-from ._add_land import _add_land
 from ._add_lakes import _add_lakes
+from ._add_land import _add_land
 from ._add_minorIslands import _add_minorIslands
+from ._add_playas import _add_playas
 from ._add_reefs import _add_reefs
 from ._buffer_points_crudely import _buffer_points_crudely
 from ._debug import _debug
