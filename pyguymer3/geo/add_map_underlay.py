@@ -27,7 +27,7 @@ def add_map_underlay(axis, kwArgCheck = None, cultural = True, debug = False, ph
 
         # Water overlays ...
         _add_antarcticIceShelves(axis, debug = debug, resolution = resolution)
-        _add_reefs(axis, debug = debug, resolution = resolution)                # NOTE: Has edgecolour too.
+        _add_reefs(axis, debug = debug, resolution = resolution)                # NOTE: This has edgecolour too.
 
         # Land ...
         _add_land(axis, debug = debug, resolution = resolution)
@@ -36,7 +36,7 @@ def add_map_underlay(axis, kwArgCheck = None, cultural = True, debug = False, ph
         # Land overlays ...
         _add_glaciatedAreas(axis, debug = debug, resolution = resolution)
         _add_lakes(axis, debug = debug, resolution = resolution)
-        _add_playas(axis, debug = debug, resolution = resolution)               # NOTE: Has edgecolour too.
+        _add_playas(axis, debug = debug, resolution = resolution)               # NOTE: This has edgecolour too.
 
     # Add cultural datasets ...
     if cultural:
