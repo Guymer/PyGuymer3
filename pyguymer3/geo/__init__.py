@@ -19,6 +19,8 @@ itself once)
 """
 
 # Import sub-functions ...
+from ._add_bathymetry import _add_bathymetry
+from ._add_land import _add_land
 from ._buffer_points_crudely import _buffer_points_crudely
 from ._debug import _debug
 from ._earthA import _earthA
@@ -32,6 +34,7 @@ from ._points2poly import _points2poly
 from ._posts2panel import _posts2panel
 from .add_horizontal_gridlines import add_horizontal_gridlines
 from .add_map_background import add_map_background
+from .add_map_underlay import add_map_underlay
 from .add_vertical_gridlines import add_vertical_gridlines
 from .buffer import buffer
 from .buffer_CoordinateSequence import buffer_CoordinateSequence
