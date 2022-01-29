@@ -21,6 +21,7 @@ itself once)
 # Import sub-functions ...
 from ._add_bathymetry import _add_bathymetry
 from ._add_land import _add_land
+from ._add_minorIslands import _add_minorIslands
 from ._buffer_points_crudely import _buffer_points_crudely
 from ._debug import _debug
 from ._earthA import _earthA
