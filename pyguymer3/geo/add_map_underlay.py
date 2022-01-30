@@ -12,6 +12,7 @@ def add_map_underlay(axis, kwArgCheck = None, background = True, cultural = True
     from ._add_reefs import _add_reefs
     from ._add_rivers import _add_rivers
     from ._add_roads import _add_roads
+    from ._add_urbanAreas import _add_urbanAreas
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
@@ -45,6 +46,9 @@ def add_map_underlay(axis, kwArgCheck = None, background = True, cultural = True
 
     # Add cultural datasets ...
     if cultural:
+        # Land ...
+        _add_urbanAreas(axis, debug = debug, resolution = resolution)
+
         # Land overlays ...
         _add_railroads(axis, debug = debug, resolution = resolution)
         _add_roads(axis, debug = debug, resolution = resolution)

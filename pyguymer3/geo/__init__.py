@@ -31,6 +31,7 @@ from ._add_railroads import _add_railroads
 from ._add_reefs import _add_reefs
 from ._add_rivers import _add_rivers
 from ._add_roads import _add_roads
+from ._add_urbanAreas import _add_urbanAreas
 from ._buffer_points_crudely import _buffer_points_crudely
 from ._debug import _debug
 from ._earthA import _earthA
