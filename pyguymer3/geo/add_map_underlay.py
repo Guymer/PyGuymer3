@@ -1,6 +1,7 @@
-def add_map_underlay(axis, kwArgCheck = None, cultural = True, debug = False, linestyle = "solid", linewidth = 0.5, physical = True, resolution = "10m"):
+def add_map_underlay(axis, kwArgCheck = None, background = True, cultural = True, debug = False, linestyle = "solid", linewidth = 0.5, physical = True, resolution = "10m"):
     # Import sub-functions ...
     from ._add_antarcticIceShelves import _add_antarcticIceShelves
+    from ._add_background import _add_background
     from ._add_bathymetry import _add_bathymetry
     from ._add_glaciatedAreas import _add_glaciatedAreas
     from ._add_lakes import _add_lakes
@@ -15,6 +16,11 @@ def add_map_underlay(axis, kwArgCheck = None, cultural = True, debug = False, li
         print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # **************************************************************************
+
+    # Add background ...
+    if background:
+        # Background ...
+        _add_background(axis, debug = debug)
 
     # Add physical datasets ...
     if physical:
