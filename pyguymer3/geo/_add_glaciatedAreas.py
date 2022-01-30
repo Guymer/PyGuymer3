@@ -1,4 +1,4 @@
-def _add_glaciatedAreas(axis, kwArgCheck = None, debug = False, resolution = "10m"):
+def _add_glaciatedAreas(axis, kwArgCheck = None, debug = False, resolution = "110m"):
     # NOTE: This function uses CSS4 named colours, see:
     #         * https://matplotlib.org/stable/gallery/color/named_colors.html
 

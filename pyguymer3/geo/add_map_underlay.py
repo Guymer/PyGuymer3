@@ -1,4 +1,4 @@
-def add_map_underlay(axis, kwArgCheck = None, background = True, cultural = True, debug = False, linestyle = "solid", linewidth = 0.5, physical = True, resolution = "10m"):
+def add_map_underlay(axis, kwArgCheck = None, background = True, cultural = True, debug = False, linestyle = "solid", linewidth = 0.5, physical = True, resolution = "110m"):
     # Import sub-functions ...
     from ._add_antarcticIceShelves import _add_antarcticIceShelves
     from ._add_background import _add_background
