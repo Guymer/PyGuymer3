@@ -47,7 +47,7 @@ if __name__ == "__main__":
 
     # Configure axis ...
     ax.set_global()
-    pyguymer3.geo.add_map_underlay(ax, linewidth = 0.0)
+    pyguymer3.geo.add_map_underlay(ax, cultural = False, linewidth = 0.0, resolution = "10m")
 
     # Save figure ...
     fg.savefig(fname, bbox_inches = "tight", dpi = 150, pad_inches = 0.1)
@@ -86,7 +86,46 @@ if __name__ == "__main__":
              50.0, # top
         ]
     )
-    pyguymer3.geo.add_map_underlay(ax)
+    pyguymer3.geo.add_map_underlay(ax, cultural = False, resolution = "10m")
+
+    # Save figure ...
+    fg.savefig(fname, bbox_inches = "tight", dpi = 150, pad_inches = 0.1)
+    matplotlib.pyplot.close(fg)
+
+    # Optimize PNG ...
+    pyguymer3.image.optimize_image(fname, strip = True)
+
+    # **************************************************************************
+
+    # Determine file names ...
+    fname = "mapUnderlay2.png"
+
+    print(f" > Making \"{fname}\" ...")
+
+    # Create figure ...
+    fg = matplotlib.pyplot.figure(figsize = (6, 6), dpi = 150)
+
+    # Create axis ...
+    ax = fg.add_subplot(
+        1,
+        1,
+        1,
+        projection = cartopy.crs.Orthographic(
+            central_longitude =  0.0,
+             central_latitude = 51.5,
+        ),
+    )
+
+    # Configure axis ...
+    ax.set_extent(
+        [
+            -0.3, # left
+             0.3, # right
+            51.3, # bottom
+            51.7, # top
+        ]
+    )
+    pyguymer3.geo.add_map_underlay(ax, resolution = "10m")
 
     # Save figure ...
     fg.savefig(fname, bbox_inches = "tight", dpi = 150, pad_inches = 0.1)
