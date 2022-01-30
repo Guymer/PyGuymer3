@@ -36,7 +36,7 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
-    # Determine file names ...
+    # Determine file name ...
     fname = "mapUnderlay0.png"
 
     print(f" > Making \"{fname}\" ...")
@@ -68,13 +68,13 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
-    # Determine file names ...
+    # Determine file name ...
     fname = "mapUnderlay1.png"
 
     print(f" > Making \"{fname}\" ...")
 
     # Create figure ...
-    fg = matplotlib.pyplot.figure(figsize = (6, 15), dpi = 150)
+    fg = matplotlib.pyplot.figure(figsize = (6, 18), dpi = 150)
 
     # Loop over resolutions ...
     for iresolution, resolution in enumerate(resolutions):
@@ -92,8 +92,8 @@ if __name__ == "__main__":
         # Configure axis ...
         ax.set_extent(
             [
-                -10.0, # left
-                 10.0, # right
+                -15.0, # left
+                 15.0, # right
                  30.0, # bottom
                  50.0, # top
             ]
@@ -110,13 +110,13 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
-    # Determine file names ...
+    # Determine file name ...
     fname = "mapUnderlay2.png"
 
     print(f" > Making \"{fname}\" ...")
 
     # Create figure ...
-    fg = matplotlib.pyplot.figure(figsize = (6, 15), dpi = 150)
+    fg = matplotlib.pyplot.figure(figsize = (6, 18), dpi = 150)
 
     # Loop over resolutions ...
     for iresolution, resolution in enumerate(resolutions):
@@ -134,10 +134,52 @@ if __name__ == "__main__":
         # Configure axis ...
         ax.set_extent(
             [
-                -0.3, # left
-                 0.3, # right
+                -0.4, # left
+                 0.4, # right
                 51.3, # bottom
                 51.7, # top
+            ]
+        )
+        ax.set_title(resolution)
+        pyguymer3.geo.add_map_underlay(ax, resolution = resolution)
+
+    # Save figure ...
+    fg.savefig(fname, bbox_inches = "tight", dpi = 150, pad_inches = 0.1)
+    matplotlib.pyplot.close(fg)
+
+    # Optimize PNG ...
+    pyguymer3.image.optimize_image(fname, strip = True)
+
+    # **************************************************************************
+
+    # Determine file name ...
+    fname = "mapUnderlay3.png"
+
+    print(f" > Making \"{fname}\" ...")
+
+    # Create figure ...
+    fg = matplotlib.pyplot.figure(figsize = (6, 18), dpi = 150)
+
+    # Loop over resolutions ...
+    for iresolution, resolution in enumerate(resolutions):
+        # Create axis ...
+        ax = fg.add_subplot(
+            3,
+            1,
+            iresolution + 1,
+            projection = cartopy.crs.Orthographic(
+                central_longitude =  7.5,
+                 central_latitude = 60.6,
+            ),
+        )
+
+        # Configure axis ...
+        ax.set_extent(
+            [
+                 6.5, # left
+                 8.5, # right
+                60.1, # bottom
+                61.1, # top
             ]
         )
         ax.set_title(resolution)

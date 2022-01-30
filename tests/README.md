@@ -21,6 +21,8 @@ The function [add_map_underlay](../pyguymer3/geo/add_map_underlay.py) is tested 
 
 ![mapUnderlay2 output image](mapUnderlay2.png)
 
+![mapUnderlay3 output image](mapUnderlay3.png)
+
 ### `buffer_point()`
 
 The function [buffer_Point](../pyguymer3/geo/buffer_Point.py) is tested by the script [bufferPoint.py](bufferPoint.py) which produces the images below.
