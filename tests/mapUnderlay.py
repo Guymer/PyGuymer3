@@ -27,6 +27,13 @@ if __name__ == "__main__":
 
     print(f"Testing \"{pyguymer3.__path__[0]}\" ...")
 
+    # Define resolutions ...
+    resolutions = [
+         "10m",
+         "50m",
+        "110m",
+    ]
+
     # **************************************************************************
 
     # Determine file names ...
@@ -35,19 +42,22 @@ if __name__ == "__main__":
     print(f" > Making \"{fname}\" ...")
 
     # Create figure ...
-    fg = matplotlib.pyplot.figure(figsize = (6, 3), dpi = 150)
+    fg = matplotlib.pyplot.figure(figsize = (6, 9), dpi = 150)
 
-    # Create axis ...
-    ax = fg.add_subplot(
-        1,
-        1,
-        1,
-        projection = cartopy.crs.Robinson(),
-    )
+    # Loop over resolutions ...
+    for iresolution, resolution in enumerate(resolutions):
+        # Create axis ...
+        ax = fg.add_subplot(
+            3,
+            1,
+            iresolution + 1,
+            projection = cartopy.crs.Robinson(),
+        )
 
-    # Configure axis ...
-    ax.set_global()
-    pyguymer3.geo.add_map_underlay(ax, cultural = False, linewidth = 0.0, resolution = "10m")
+        # Configure axis ...
+        ax.set_global()
+        ax.set_title(resolution)
+        pyguymer3.geo.add_map_underlay(ax, cultural = False, linewidth = 0.0, resolution = resolution)
 
     # Save figure ...
     fg.savefig(fname, bbox_inches = "tight", dpi = 150, pad_inches = 0.1)
@@ -64,29 +74,32 @@ if __name__ == "__main__":
     print(f" > Making \"{fname}\" ...")
 
     # Create figure ...
-    fg = matplotlib.pyplot.figure(figsize = (6, 6), dpi = 150)
+    fg = matplotlib.pyplot.figure(figsize = (6, 15), dpi = 150)
 
-    # Create axis ...
-    ax = fg.add_subplot(
-        1,
-        1,
-        1,
-        projection = cartopy.crs.Orthographic(
-            central_longitude =  0.0,
-             central_latitude = 40.0,
-        ),
-    )
+    # Loop over resolutions ...
+    for iresolution, resolution in enumerate(resolutions):
+        # Create axis ...
+        ax = fg.add_subplot(
+            3,
+            1,
+            iresolution + 1,
+            projection = cartopy.crs.Orthographic(
+                central_longitude =  0.0,
+                 central_latitude = 40.0,
+            ),
+        )
 
-    # Configure axis ...
-    ax.set_extent(
-        [
-            -10.0, # left
-             10.0, # right
-             30.0, # bottom
-             50.0, # top
-        ]
-    )
-    pyguymer3.geo.add_map_underlay(ax, cultural = False, resolution = "10m")
+        # Configure axis ...
+        ax.set_extent(
+            [
+                -10.0, # left
+                 10.0, # right
+                 30.0, # bottom
+                 50.0, # top
+            ]
+        )
+        ax.set_title(resolution)
+        pyguymer3.geo.add_map_underlay(ax, cultural = False, resolution = resolution)
 
     # Save figure ...
     fg.savefig(fname, bbox_inches = "tight", dpi = 150, pad_inches = 0.1)
@@ -103,29 +116,32 @@ if __name__ == "__main__":
     print(f" > Making \"{fname}\" ...")
 
     # Create figure ...
-    fg = matplotlib.pyplot.figure(figsize = (6, 6), dpi = 150)
+    fg = matplotlib.pyplot.figure(figsize = (6, 15), dpi = 150)
 
-    # Create axis ...
-    ax = fg.add_subplot(
-        1,
-        1,
-        1,
-        projection = cartopy.crs.Orthographic(
-            central_longitude =  0.0,
-             central_latitude = 51.5,
-        ),
-    )
+    # Loop over resolutions ...
+    for iresolution, resolution in enumerate(resolutions):
+        # Create axis ...
+        ax = fg.add_subplot(
+            3,
+            1,
+            iresolution + 1,
+            projection = cartopy.crs.Orthographic(
+                central_longitude =  0.0,
+                 central_latitude = 51.5,
+            ),
+        )
 
-    # Configure axis ...
-    ax.set_extent(
-        [
-            -0.3, # left
-             0.3, # right
-            51.3, # bottom
-            51.7, # top
-        ]
-    )
-    pyguymer3.geo.add_map_underlay(ax, resolution = "10m")
+        # Configure axis ...
+        ax.set_extent(
+            [
+                -0.3, # left
+                 0.3, # right
+                51.3, # bottom
+                51.7, # top
+            ]
+        )
+        ax.set_title(resolution)
+        pyguymer3.geo.add_map_underlay(ax, resolution = resolution)
 
     # Save figure ...
     fg.savefig(fname, bbox_inches = "tight", dpi = 150, pad_inches = 0.1)
