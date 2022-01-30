@@ -60,7 +60,7 @@ def extract_lines(shape):
         lines = []
 
         # Loop over LineStrings ...
-        for line in shape:
+        for line in shape.geoms:
             # Append LineString to list ...
             lines.append(line)
 
@@ -73,7 +73,7 @@ def extract_lines(shape):
         lines = []
 
         # Loop over Polygons ...
-        for poly in shape:
+        for poly in shape.geoms:
             # Add lists together ...
             lines += extract_lines(poly)
 
@@ -86,7 +86,7 @@ def extract_lines(shape):
         lines = []
 
         # Loop over geometries ...
-        for geom in shape:
+        for geom in shape.geoms:
             # Add lists together ...
             lines += extract_lines(geom)
 

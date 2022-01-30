@@ -52,7 +52,7 @@ def extract_polys(shape):
         polys = []
 
         # Loop over Polygons ...
-        for poly in shape:
+        for poly in shape.geoms:
             # Append Polygon to list ...
             polys.append(poly)
 
@@ -65,7 +65,7 @@ def extract_polys(shape):
         polys = []
 
         # Loop over geometries ...
-        for geom in shape:
+        for geom in shape.geoms:
             # Add lists together ...
             polys += extract_polys(geom)
 
