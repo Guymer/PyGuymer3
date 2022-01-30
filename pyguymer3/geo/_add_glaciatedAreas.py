@@ -2,6 +2,9 @@ def _add_glaciatedAreas(axis, kwArgCheck = None, debug = False, resolution = "10
     # NOTE: This function uses CSS4 named colours, see:
     #         * https://matplotlib.org/stable/gallery/color/named_colors.html
 
+    # Import standard modules ...
+    import urllib
+
     # Import special modules ...
     try:
         import cartopy
@@ -27,11 +30,14 @@ def _add_glaciatedAreas(axis, kwArgCheck = None, debug = False, resolution = "10
         print(f"INFO: \"glaciated_areas\" is ({facecolor[0]:.6f},{facecolor[1]:.6f},{facecolor[2]:.6f},{facecolor[3]:.6f}).")
 
     # Find file containing the shapes ...
-    sfile = cartopy.io.shapereader.natural_earth(
-        resolution = resolution,
-          category = "physical",
-              name = "glaciated_areas",
-    )
+    try:
+        sfile = cartopy.io.shapereader.natural_earth(
+            resolution = resolution,
+              category = "physical",
+                  name = "glaciated_areas",
+        )
+    except urllib.error.HTTPError:
+        return
     if debug:
         print(f"INFO: \"glaciated_areas\" is \"{sfile}\".")
 

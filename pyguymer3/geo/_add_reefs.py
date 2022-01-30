@@ -2,6 +2,9 @@ def _add_reefs(axis, kwArgCheck = None, debug = False, linestyle = "solid", line
     # NOTE: This function uses CSS4 named colours, see:
     #         * https://matplotlib.org/stable/gallery/color/named_colors.html
 
+    # Import standard modules ...
+    import urllib
+
     # Import special modules ...
     try:
         import cartopy
@@ -28,11 +31,14 @@ def _add_reefs(axis, kwArgCheck = None, debug = False, linestyle = "solid", line
         print(f"INFO: \"reefs\" is ({edgecolor[0]:.6f},{edgecolor[1]:.6f},{edgecolor[2]:.6f},{edgecolor[3]:.6f}) and ({facecolor[0]:.6f},{facecolor[1]:.6f},{facecolor[2]:.6f},{facecolor[3]:.6f}).")
 
     # Find file containing the shapes ...
-    sfile = cartopy.io.shapereader.natural_earth(
-        resolution = resolution,
-          category = "physical",
-              name = "reefs",
-    )
+    try:
+        sfile = cartopy.io.shapereader.natural_earth(
+            resolution = resolution,
+              category = "physical",
+                  name = "reefs",
+        )
+    except urllib.error.HTTPError:
+        return
     if debug:
         print(f"INFO: \"reefs\" is \"{sfile}\".")
 

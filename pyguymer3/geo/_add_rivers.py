@@ -2,6 +2,9 @@ def _add_rivers(axis, kwArgCheck = None, debug = False, linestyle = "solid", lin
     # NOTE: This function uses CSS4 named colours, see:
     #         * https://matplotlib.org/stable/gallery/color/named_colors.html
 
+    # Import standard modules ...
+    import urllib
+
     # Import special modules ...
     try:
         import cartopy
@@ -37,11 +40,14 @@ def _add_rivers(axis, kwArgCheck = None, debug = False, linestyle = "solid", lin
     # Loop over names ...
     for name in names:
         # Find file containing the shapes ...
-        sfile = cartopy.io.shapereader.natural_earth(
-            resolution = resolution,
-              category = "physical",
-                  name = name,
-        )
+        try:
+            sfile = cartopy.io.shapereader.natural_earth(
+                resolution = resolution,
+                  category = "physical",
+                      name = name,
+            )
+        except urllib.error.HTTPError:
+            continue
         if debug:
             print(f"INFO: \"{name}\" is \"{sfile}\".")
 

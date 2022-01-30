@@ -2,6 +2,9 @@ def _add_minorIslands(axis, kwArgCheck = None, debug = False, resolution = "10m"
     # NOTE: This function uses CSS4 named colours, see:
     #         * https://matplotlib.org/stable/gallery/color/named_colors.html
 
+    # Import standard modules ...
+    import urllib
+
     # Import special modules ...
     try:
         import cartopy
@@ -27,11 +30,14 @@ def _add_minorIslands(axis, kwArgCheck = None, debug = False, resolution = "10m"
         print(f"INFO: \"minor_islands\" is ({facecolor[0]:.6f},{facecolor[1]:.6f},{facecolor[2]:.6f},{facecolor[3]:.6f}).")
 
     # Find file containing the shapes ...
-    sfile = cartopy.io.shapereader.natural_earth(
-        resolution = resolution,
-          category = "physical",
-              name = "minor_islands",
-    )
+    try:
+        sfile = cartopy.io.shapereader.natural_earth(
+            resolution = resolution,
+              category = "physical",
+                  name = "minor_islands",
+        )
+    except urllib.error.HTTPError:
+        return
     if debug:
         print(f"INFO: \"minor_islands\" is \"{sfile}\".")
 

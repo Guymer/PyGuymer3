@@ -2,6 +2,9 @@ def _add_antarcticIceShelves(axis, kwArgCheck = None, debug = False, resolution 
     # NOTE: This function uses CSS4 named colours, see:
     #         * https://matplotlib.org/stable/gallery/color/named_colors.html
 
+    # Import standard modules ...
+    import urllib
+
     # Import special modules ...
     try:
         import cartopy
@@ -27,11 +30,14 @@ def _add_antarcticIceShelves(axis, kwArgCheck = None, debug = False, resolution 
         print(f"INFO: \"antarctic_ice_shelves_polys\" is ({facecolor[0]:.6f},{facecolor[1]:.6f},{facecolor[2]:.6f},{facecolor[3]:.6f}).")
 
     # Find file containing the shapes ...
-    sfile = cartopy.io.shapereader.natural_earth(
-        resolution = resolution,
-          category = "physical",
-              name = "antarctic_ice_shelves_polys",
-    )
+    try:
+        sfile = cartopy.io.shapereader.natural_earth(
+            resolution = resolution,
+              category = "physical",
+                  name = "antarctic_ice_shelves_polys",
+        )
+    except urllib.error.HTTPError:
+        return
     if debug:
         print(f"INFO: \"antarctic_ice_shelves_polys\" is \"{sfile}\".")
 
