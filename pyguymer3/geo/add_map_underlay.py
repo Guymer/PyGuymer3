@@ -8,6 +8,7 @@ def add_map_underlay(axis, kwArgCheck = None, background = True, cultural = True
     from ._add_land import _add_land
     from ._add_minorIslands import _add_minorIslands
     from ._add_playas import _add_playas
+    from ._add_railroads import _add_railroads
     from ._add_reefs import _add_reefs
     from ._add_rivers import _add_rivers
     from ._add_roads import _add_roads
@@ -45,4 +46,5 @@ def add_map_underlay(axis, kwArgCheck = None, background = True, cultural = True
     # Add cultural datasets ...
     if cultural:
         # Land overlays ...
+        _add_railroads(axis, debug = debug, resolution = resolution)
         _add_roads(axis, debug = debug, resolution = resolution)

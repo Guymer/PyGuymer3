@@ -27,6 +27,7 @@ from ._add_lakes import _add_lakes
 from ._add_land import _add_land
 from ._add_minorIslands import _add_minorIslands
 from ._add_playas import _add_playas
+from ._add_railroads import _add_railroads
 from ._add_reefs import _add_reefs
 from ._add_rivers import _add_rivers
 from ._add_roads import _add_roads
