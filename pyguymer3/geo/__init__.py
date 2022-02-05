@@ -22,6 +22,7 @@ itself once)
 from ._add_antarcticIceShelves import _add_antarcticIceShelves
 from ._add_background import _add_background
 from ._add_bathymetry import _add_bathymetry
+from ._add_elevation import _add_elevation
 from ._add_glaciatedAreas import _add_glaciatedAreas
 from ._add_lakes import _add_lakes
 from ._add_land import _add_land
