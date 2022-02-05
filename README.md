@@ -13,14 +13,11 @@ PyGuymer3 requires the following Python modules to be installed and available in
 * [exifread](https://pypi.org/project/ExifRead/)
 * [geojson](https://pypi.org/project/geojson/)
 * [lxml](https://pypi.org/project/lxml/)
+* [matplotlib](https://pypi.org/project/matplotlib/)
 * [numpy](https://pypi.org/project/numpy/)
 * [PIL](https://pypi.org/project/Pillow/)
 * [requests](https://pypi.org/project/requests/)
 * [shapely](https://pypi.org/project/Shapely/)
-
-Furthermore, if you wish to run the [test scripts](tests) then the following additional Python modules need to be installed and available in your `PYTHONPATH` too:
-
-* [matplotlib](https://pypi.org/project/matplotlib/)
 
 Similarly, PyGuymer3 requires the following binaries to be installed and available in your `PATH`:
 
