@@ -1,4 +1,4 @@
-def _add_elevation(axis, kwArgCheck = None, debug = False, resolution = "110m"):
+def _add_elevation(axis, kwArgCheck = None, debug = False, maxElev = 8850.0, resolution = "110m"):
     # NOTE: This function uses CSS4 named colours, see:
     #         * https://matplotlib.org/stable/gallery/color/named_colors.html
 
@@ -59,7 +59,7 @@ def _add_elevation(axis, kwArgCheck = None, debug = False, resolution = "110m"):
 
         # Create suitable colour ...
         # NOTE: Rounded to the nearest integer, Mount Everest is 8,849m ASL.
-        facecolor = cmap(float(elevation) / 8850.0)
+        facecolor = cmap(float(elevation) / maxElev)
         if debug:
             print(f"INFO: \"{name}\" is ({facecolor[0]:.6f},{facecolor[1]:.6f},{facecolor[2]:.6f},{facecolor[3]:.6f}).")
 
