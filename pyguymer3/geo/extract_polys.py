@@ -13,6 +13,11 @@ def extract_polys(shape):
     -------
     polys : list of shapely.geometry.polygon.Polygon
             a flat list of all of the Polygons
+
+    Note
+    ----
+    To pass GeoJSON objects you must first convert them to Shapely objects by
+    doing something like "shape = shapely.geometry.shape(shape)".
     """
 
     # Import special modules ...
@@ -22,9 +27,13 @@ def extract_polys(shape):
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
+    # **************************************************************************
+
     # Check type ...
     if shape is None:
         return []
+
+    # **************************************************************************
 
     # Check type ...
     if isinstance(shape, shapely.geometry.point.Point):
@@ -71,5 +80,7 @@ def extract_polys(shape):
 
         # Return answer ...
         return polys
+
+    # **************************************************************************
 
     raise TypeError(f"\"shape\" is an unexpected type ({repr(type(shape))})") from None
