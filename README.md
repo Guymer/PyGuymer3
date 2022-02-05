@@ -28,6 +28,8 @@ Similarly, PyGuymer3 requires the following binaries to be installed and availab
 * `git`
 * `jpegtran`
 * `lsdvd`
+* `metaflac`
+* `mp4file`
 * `optipng`
 * `tar`
 * `xz`
