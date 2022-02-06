@@ -1,10 +1,10 @@
 # Find executables ...
-CUT  := $(shell which cut      2> /dev/null || echo "ERROR")
-FC1  := $(shell which f2py-3.9 2> /dev/null || echo "ERROR")
-FC2  := $(shell which mpif90   2> /dev/null || echo "ERROR")
-GREP := $(shell which grep     2> /dev/null || echo "ERROR")
-LN   := $(shell which ln       2> /dev/null || echo "ERROR")
-RM   := $(shell which rm       2> /dev/null || echo "ERROR")
+CUT  := $(shell which cut               2> /dev/null || echo "ERROR")
+FC1  := $(shell which f2py-3.9          2> /dev/null || echo "ERROR")
+FC2  := $(shell which gfortran-mp-devel 2> /dev/null || echo "ERROR")
+GREP := $(shell which grep              2> /dev/null || echo "ERROR")
+LN   := $(shell which ln                2> /dev/null || echo "ERROR")
+RM   := $(shell which rm                2> /dev/null || echo "ERROR")
 
 # Set defaults ...
 DEBUG  ?= false
@@ -51,15 +51,19 @@ endif
     # $(error The Python module "numpy" is not installed)
 # endif
 
+# Define source files ...
+MOD_F90_SRC := $(sort f90.F90 $(wildcard src/*.f90))
+
 # ******************************************************************************
 
 # "gmake -r [all]"   = "make compile" (default)
 all:		compile
 
 # "gmake -r clean"   = removes the compiled code
-clean:		$(RM)
+clean:		$(RM)																\
+			$(FC2)
 	$(RM) -f *.mod *.o *.so
-	$(MAKE) -r -C $(FTNLIB) clean
+	$(MAKE) -r -C $(FTNLIB) FC=$(FC2) clean
 
 # "gmake -r compile" = compiles the code
 compile:	f90.so
@@ -84,18 +88,21 @@ help:		$(GREP)																\
 #         * https://gcc.gnu.org/bugzilla/show_bug.cgi?id=90835
 #         * https://stackoverflow.com/a/58081934
 
+$(FTNLIB)/%.mod																	\
+$(FTNLIB)/%.o:				$(FC2)												\
+							Makefile											\
+							$(FTNLIB)/Makefile									\
+							$(FTNLIB)/%.F90
+	$(MAKE) -r -C $(FTNLIB) DEBUG=$(DEBUG) FC=$(FC2) $*.o
+
 f90.cpython-39m-darwin.so:	$(FC1)												\
 							$(FC2)												\
+							Makefile											\
 							$(FTNLIB)/mod_safe.o								\
-							f90.F90												\
-							src/*.f90
+							$(MOD_F90_SRC)
 	$(FC1) -c --f77exec=$(FC2) --f90exec=$(FC2) --opt="-fopenmp $(LANG_OPTS) $(WARN_OPTS) $(OPTM_OPTS)" --arch="$(MACH_OPTS)" -lgomp -m f90 -I$(FTNLIB) f90.F90 $(FTNLIB)/mod_safe.o -L$(LIBDIR)
 
 f90.so:						$(LN)												\
+							Makefile											\
 							f90.cpython-39m-darwin.so
 	$(LN) -sf f90.cpython-39m-darwin.so f90.so
-
-$(FTNLIB)/%.mod																	\
-$(FTNLIB)/%.o:				$(FTNLIB)/Makefile									\
-							$(FTNLIB)/%.F90
-	$(MAKE) -r -C $(FTNLIB) DEBUG=$(DEBUG) $*.o
