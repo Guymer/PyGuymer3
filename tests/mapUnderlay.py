@@ -183,7 +183,7 @@ if __name__ == "__main__":
             ]
         )
         ax.set_title(resolution)
-        pyguymer3.geo.add_map_underlay(ax, maxElev = 2500.0, resolution = resolution)
+        pyguymer3.geo.add_map_underlay(ax, maxElev = 2000.0, resolution = resolution)
 
     # Save figure ...
     fg.savefig(fname, bbox_inches = "tight", dpi = 150, pad_inches = 0.1)
