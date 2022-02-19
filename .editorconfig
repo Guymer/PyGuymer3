@@ -1,0 +1,16 @@
+# This is the top-most EditorConfig file ...
+root = true
+
+# Configure all files ...
+[*]
+charset = utf-8
+end_of_line = lf
+indent_size = 4
+indent_style = space
+insert_final_newline = true
+tab_width = 4
+trim_trailing_whitespace = true
+
+# Configure Makefiles ...
+[Makefile]
+indent_style = tab
