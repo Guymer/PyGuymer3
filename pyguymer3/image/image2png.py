@@ -1,4 +1,26 @@
 def image2png(img, png, kwArgCheck = None, debug = False, exif = None, mode = "RGB", optimize = True, strip = False):
+    """Save an image as a PNG
+
+    This function accepts a file path and saves the image as a PNG.
+
+    Parameters
+    ----------
+    img : str
+            the path to the input image
+    png : str
+            the path to the output PNG
+    debug : bool, optional
+            print debug messages (default False)
+    exif : dict, optional
+            a dictionary of EXIF data to save in the output PNG (default None)
+    mode : str, optional
+            the mode of the outout PNG (default "RGB")
+    optimize : bool, optional
+            optimize the output PNG (default True)
+    strip : bool, optional
+            strip metadata from the output PNG (default False)
+    """
+
     # Import special modules ...
     try:
         import PIL
