@@ -1,4 +1,4 @@
-def image2png(img, png, kwArgCheck = None, debug = False, exif = None, optimize = True, strip = False):
+def image2png(img, png, kwArgCheck = None, debug = False, exif = None, mode = "RGB", optimize = True, strip = False):
     # Import special modules ...
     try:
         import PIL
@@ -19,7 +19,7 @@ def image2png(img, png, kwArgCheck = None, debug = False, exif = None, optimize 
 
     # Open image and save it as a PNG ...
     # NOTE: See https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html#png
-    PIL.Image.open(img).convert("RGB").save(png, exif = dict2exif(exif), optimize = optimize)
+    PIL.Image.open(img).convert(mode).save(png, exif = dict2exif(exif, mode = mode), optimize = optimize)
 
     # Optimize PNG ...
     optimize_image(png, debug = debug, strip = strip)
