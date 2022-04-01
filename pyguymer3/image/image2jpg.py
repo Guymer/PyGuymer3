@@ -41,6 +41,10 @@ def image2jpg(img, jpg, kwArgCheck = None, debug = False, exif = None, mode = "R
     if kwArgCheck is not None:
         print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
+    # Check input ...
+    if exif is not None and strip:
+        print("WARNING: You have provided EXIF data but then asked to strip metadata.")
+
     # Configure PIL to open images up to 1 GiP ...
     PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                             # [px]
 
