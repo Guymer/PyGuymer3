@@ -9,6 +9,7 @@ from .exiftool import exiftool
 from .gifsicle import gifsicle
 from .image2jpg import image2jpg
 from .image2png import image2png
+from .image2webp import image2webp
 from .jpegtran import jpegtran
 from .load_EXIF import load_EXIF
 from .load_EXIF1 import load_EXIF1
