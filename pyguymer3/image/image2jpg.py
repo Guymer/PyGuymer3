@@ -1,12 +1,13 @@
 def image2jpg(img, jpg, kwArgCheck = None, debug = False, exif = None, mode = "RGB", optimize = True, progressive = False, quality = 95, strip = False):
     """Save an image as a JPG
 
-    This function accepts a file path and saves the image as a JPG.
+    This function accepts either a PIL Image or a file path and saves the image
+    as a JPG.
 
     Parameters
     ----------
-    img : str
-            the path to the input image
+    img : PIL.Image.Image or str
+            the input PIL Image or path to the input image
     jpg : str
             the path to the output JPG
     debug : bool, optional
@@ -43,9 +44,18 @@ def image2jpg(img, jpg, kwArgCheck = None, debug = False, exif = None, mode = "R
     # Configure PIL to open images up to 1 GiP ...
     PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                             # [px]
 
-    # Open image and save it as a JPG ...
+    # Create a PIL Image class ...
+    if isinstance(img, str):
+        tmpImg = PIL.Image.open(img)
+    elif isinstance(img, PIL.Image.Image):
+        tmpImg = img.copy()
+    else:
+        raise TypeError(f"\"img\" is an unexpected type ({repr(type(img))})") from None
+
+    # Convert image and save it as a JPG ...
     # NOTE: See https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html#jpeg
-    PIL.Image.open(img).convert(mode).save(jpg, exif = dict2exif(exif, mode = mode), optimize = optimize, progressive = progressive, quality = quality)
+    tmpImg.convert(mode).save(jpg, exif = dict2exif(exif, mode = mode), optimize = optimize, progressive = progressive, quality = quality)
 
     # Optimize JPG ...
-    optimize_image(jpg, debug = debug, strip = strip)
+    if optimize:
+        optimize_image(jpg, debug = debug, strip = strip)

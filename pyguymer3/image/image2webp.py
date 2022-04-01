@@ -1,12 +1,13 @@
 def image2webp(img, webp, kwArgCheck = None, exif = None, lossless = False, method = 6, mode = "RGB", quality = 100):
     """Save an image as a WEBP
 
-    This function accepts a file path and saves the image as a WEBP.
+    This function accepts either a PIL Image or a file path and saves the image
+    as a WEBP.
 
     Parameters
     ----------
-    img : str
-            the path to the input image
+    img : PIL.Image.Image or str
+            the input PIL Image or path to the input image
     webp : str
             the path to the output WEBP
     exif : dict, optional
@@ -38,6 +39,14 @@ def image2webp(img, webp, kwArgCheck = None, exif = None, lossless = False, meth
     # Configure PIL to open images up to 1 GiP ...
     PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                             # [px]
 
-    # Open image and save it as a WEBP ...
+    # Create a PIL Image class ...
+    if isinstance(img, str):
+        tmpImg = PIL.Image.open(img)
+    elif isinstance(img, PIL.Image.Image):
+        tmpImg = img.copy()
+    else:
+        raise TypeError(f"\"img\" is an unexpected type ({repr(type(img))})") from None
+
+    # Convert image and save it as a JPG ...
     # NOTE: See https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html#webp
-    PIL.Image.open(img).convert(mode).save(webp, exif = dict2exif(exif, mode = mode), lossless = lossless, method = method, quality = quality)
+    tmpImg.convert(mode).save(webp, exif = dict2exif(exif, mode = mode), lossless = lossless, method = method, quality = quality)
