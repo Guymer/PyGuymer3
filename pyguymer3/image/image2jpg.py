@@ -17,6 +17,7 @@ def image2jpg(img, jpg, kwArgCheck = None, debug = False, optimize = True, progr
     PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                             # [px]
 
     # Open image and save it as a JPG ...
+    # NOTE: See https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html#jpeg
     PIL.Image.open(img).convert("RGB").save(jpg, optimize = optimize, progressive = progressive, quality = quality)
 
     # Optimize JPG ...

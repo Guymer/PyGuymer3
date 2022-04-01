@@ -17,6 +17,7 @@ def image2png(img, png, kwArgCheck = None, debug = False, optimize = True, strip
     PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                             # [px]
 
     # Open image and save it as a PNG ...
+    # NOTE: See https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html#png
     PIL.Image.open(img).convert("RGB").save(png, optimize = optimize)
 
     # Optimize PNG ...
