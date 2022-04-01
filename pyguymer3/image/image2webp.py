@@ -1,10 +1,13 @@
-def image2webp(img, webp, kwArgCheck = None, lossless = False, method = 6, quality = 100):
+def image2webp(img, webp, kwArgCheck = None, exif = None, lossless = False, method = 6, quality = 100):
     # Import special modules ...
     try:
         import PIL
         import PIL.Image
     except:
         raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None
+
+    # Import sub-functions ...
+    from .dict2exif import dict2exif
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
@@ -15,4 +18,4 @@ def image2webp(img, webp, kwArgCheck = None, lossless = False, method = 6, quali
 
     # Open image and save it as a WEBP ...
     # NOTE: See https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html#webp
-    PIL.Image.open(img).convert("RGB").save(webp, lossless = lossless, method = method, quality = quality)
+    PIL.Image.open(img).convert("RGB").save(webp, exif = dict2exif(exif), lossless = lossless, method = method, quality = quality)
