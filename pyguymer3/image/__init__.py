@@ -4,6 +4,7 @@ have written over the years.
 """
 
 # Import sub-functions ...
+from .dict2exif import dict2exif
 from .dot2png import dot2png
 from .exiftool import exiftool
 from .gifsicle import gifsicle
