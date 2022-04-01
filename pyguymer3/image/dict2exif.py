@@ -8,6 +8,8 @@ def dict2exif(exif, kwArgCheck = None, mode = "RGB"):
     ----------
     exif : dict
             the dictionary
+    mode : str, optional
+            the mode of the temporary image that is created to initialize the EXIF class
 
     Returns
     -------
