@@ -1,4 +1,4 @@
-def jpg2png(jpg, png, kwArgCheck = None, debug = False, strip = False):
+def image2png(img, png, kwArgCheck = None, debug = False, strip = False):
     # Import special modules ...
     try:
         import PIL
@@ -16,8 +16,8 @@ def jpg2png(jpg, png, kwArgCheck = None, debug = False, strip = False):
     # Configure PIL to open images up to 1 GiP ...
     PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                             # [px]
 
-    # Open JPG and save it as a PNG ...
-    PIL.Image.open(jpg).convert("RGB").save(png, optimize = True)
+    # Open image and save it as a PNG ...
+    PIL.Image.open(img).convert("RGB").save(png, optimize = True)
 
     # Optimize PNG ...
     optimize_image(png, debug = debug, strip = strip)
