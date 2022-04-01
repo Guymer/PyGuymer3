@@ -57,5 +57,5 @@ def image2jpg(img, jpg, kwArgCheck = None, debug = False, exif = None, mode = "R
     tmpImg.convert(mode).save(jpg, exif = dict2exif(exif, mode = mode), optimize = optimize, progressive = progressive, quality = quality)
 
     # Optimize JPG ...
-    if optimize:
+    if optimize or strip:
         optimize_image(jpg, debug = debug, strip = strip)

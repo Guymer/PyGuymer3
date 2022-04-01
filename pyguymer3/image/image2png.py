@@ -53,5 +53,5 @@ def image2png(img, png, kwArgCheck = None, debug = False, exif = None, mode = "R
     tmpImg.convert(mode).save(png, exif = dict2exif(exif, mode = mode), optimize = optimize)
 
     # Optimize PNG ...
-    if optimize:
+    if optimize or strip:
         optimize_image(png, debug = debug, strip = strip)

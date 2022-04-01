@@ -1,4 +1,4 @@
-def image2webp(img, webp, kwArgCheck = None, exif = None, lossless = False, method = 6, mode = "RGB", quality = 100):
+def image2webp(img, webp, kwArgCheck = None, debug = False, exif = None, lossless = False, method = 6, mode = "RGB", quality = 100, strip = False):
     """Save an image as a WEBP
 
     This function accepts either a PIL Image or a file path and saves the image
@@ -10,6 +10,8 @@ def image2webp(img, webp, kwArgCheck = None, exif = None, lossless = False, meth
             the input PIL Image or path to the input image
     webp : str
             the path to the output WEBP
+    debug : bool, optional
+            print debug messages (default False)
     exif : dict, optional
             a dictionary of EXIF data to save in the output WEBP (default None)
     lossless : bool, optional
@@ -20,6 +22,8 @@ def image2webp(img, webp, kwArgCheck = None, exif = None, lossless = False, meth
             the mode of the outout WEBP (default "RGB")
     quality : int, optional
             the quality of the output WEBP (default 100)
+    strip : bool, optional
+            strip metadata from the output WEBP (default False)
     """
 
     # Import special modules ...
@@ -31,6 +35,7 @@ def image2webp(img, webp, kwArgCheck = None, exif = None, lossless = False, meth
 
     # Import sub-functions ...
     from .dict2exif import dict2exif
+    from .optimize_image import optimize_image
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
@@ -50,3 +55,7 @@ def image2webp(img, webp, kwArgCheck = None, exif = None, lossless = False, meth
     # Convert image and save it as a WEBP ...
     # NOTE: See https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html#webp
     tmpImg.convert(mode).save(webp, exif = dict2exif(exif, mode = mode), lossless = lossless, method = method, quality = quality)
+
+    # Optimize PNG ...
+    if strip:
+        optimize_image(webp, debug = debug, strip = strip)

@@ -50,5 +50,5 @@ def image2gif(img, gif, kwArgCheck = None, debug = False, mode = "RGB", optimize
     tmpImg.convert(mode).save(gif, optimize = optimize)
 
     # Optimize GIF ...
-    if optimize:
+    if optimize or strip:
         optimize_image(gif, debug = debug, strip = strip)
