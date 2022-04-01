@@ -29,6 +29,7 @@ from .git_commits import git_commits
 from .hostname import hostname
 from .interpolate import interpolate
 from .make_path_safe import make_path_safe
+from .nlines import nlines
 from .now import now
 from .remove_almost_empty_directories import remove_almost_empty_directories
 from .return_file_list import return_file_list
