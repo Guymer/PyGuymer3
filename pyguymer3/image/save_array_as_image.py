@@ -1,19 +1,30 @@
 def save_array_as_image(img0, fname, kwArgCheck = None, form = "png", scale = False, pc_bot = 0.0, pc_top = 0.0, ct = "grey"):
-    """
-    Saves an array as an image with optional scaling and/or colour mapping.
-    Currently only "png" and "ppm" formats are available.
+    """Save an array as an image
 
-    img0 -- a 2D NumPy array of any type with shape (ny,nx)
-    fname -- output file name
-    form -- output image format
-    scale -- does the input need scaling? (if not, then the input array must be
-        >= 0 and <= 255)
-    pc_bot -- the percentage to clip off the bottom of the histogram (if scaling
-        is requested)
-    pc_top -- the percentage to clip off the top of the histogram (if scaling is
-        requested)
-    ct -- the colour table to apply (the default is no colour mapping, i.e.,
-        greyscale)
+    This function accepts a NumPy array, with optional scaling and/or colour
+    mapping, and saves it as an image.Currently only "png" and "ppm" formats are
+    available.
+
+    Parameters
+    ----------
+    img0 : numpy.ndarray
+            a 2D NumPy array of any type with shape (ny,nx)
+    fname : str
+            output file name
+    form : str, optional
+            output image format (default "png")
+    scale : bool, optional
+            Does the input need scaling? If not, then the input array must be
+            >= 0 and <= 255. (default False)
+    pc_bot : float, optional
+            the percentage to clip off the bottom of the histogram, if scaling
+            is requested (default 0.0)
+    pc_top : float, optional
+            the percentage to clip off the top of the histogram, if scaling is
+            requested (default 0.0)
+    ct : str, optional
+            the colour table to apply (the default is no colour mapping, i.e.,
+            greyscale)
     """
 
     # Import modules ...
