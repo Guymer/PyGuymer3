@@ -8,6 +8,7 @@ from .dict2exif import dict2exif
 from .dot2png import dot2png
 from .exiftool import exiftool
 from .gifsicle import gifsicle
+from .image2gif import image2gif
 from .image2jpg import image2jpg
 from .image2png import image2png
 from .image2webp import image2webp
