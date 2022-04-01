@@ -47,6 +47,6 @@ def image2webp(img, webp, kwArgCheck = None, exif = None, lossless = False, meth
     else:
         raise TypeError(f"\"img\" is an unexpected type ({repr(type(img))})") from None
 
-    # Convert image and save it as a JPG ...
+    # Convert image and save it as a WEBP ...
     # NOTE: See https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html#webp
     tmpImg.convert(mode).save(webp, exif = dict2exif(exif, mode = mode), lossless = lossless, method = method, quality = quality)

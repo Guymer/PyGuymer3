@@ -48,7 +48,7 @@ def image2png(img, png, kwArgCheck = None, debug = False, exif = None, mode = "R
     else:
         raise TypeError(f"\"img\" is an unexpected type ({repr(type(img))})") from None
 
-    # Convert image and save it as a JPG ...
+    # Convert image and save it as a PNG ...
     # NOTE: See https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html#png
     tmpImg.convert(mode).save(png, exif = dict2exif(exif, mode = mode), optimize = optimize)
 
