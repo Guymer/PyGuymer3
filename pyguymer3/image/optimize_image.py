@@ -21,7 +21,7 @@ def optimize_image(fname, kwArgCheck = None, debug = False, strip = False):
 
     # Check that the image exists ...
     if not os.path.exists(fname):
-        raise Exception("\"{:s}\" does not exist".format(fname)) from None
+        raise Exception(f"\"{fname}\" does not exist") from None
 
     # Extract file extension ...
     ext = os.path.splitext(fname)[1]
@@ -34,7 +34,8 @@ def optimize_image(fname, kwArgCheck = None, debug = False, strip = False):
     elif ext.lower() in [".png"]:
         optipng(fname)
     else:
-        raise Exception("\"{:s}\" is not a recognised file extension".format(ext)) from None
+        if debug:
+            print(f"WARNING: \"{ext}\" is not a recognised file extension, no optimization will take place.")
 
     # Strip metadata ...
     if strip:
