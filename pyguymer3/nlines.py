@@ -8,7 +8,7 @@ def nlines(fname):
         src = fobj.read().strip()
 
         # Set answer ...
-        n = len(src.splitlines())
+        n = len(src.splitlines())                                               # [#]
 
     # Return answer ...
     return n
