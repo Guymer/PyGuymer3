@@ -1,10 +1,10 @@
 # Find executables ...
-CUT  := $(shell which cut               2> /dev/null || echo "ERROR")
-FC1  := $(shell which f2py-3.9          2> /dev/null || echo "ERROR")
-FC2  := $(shell which gfortran-mp-devel 2> /dev/null || echo "ERROR")
-GREP := $(shell which grep              2> /dev/null || echo "ERROR")
-LN   := $(shell which ln                2> /dev/null || echo "ERROR")
-RM   := $(shell which rm                2> /dev/null || echo "ERROR")
+CUT  := $(shell which cut            2> /dev/null || echo "ERROR")
+FC1  := $(shell which f2py-3.10      2> /dev/null || echo "ERROR")
+FC2  := $(shell which gfortran-mp-11 2> /dev/null || echo "ERROR")
+GREP := $(shell which grep           2> /dev/null || echo "ERROR")
+LN   := $(shell which ln             2> /dev/null || echo "ERROR")
+RM   := $(shell which rm             2> /dev/null || echo "ERROR")
 
 # Set defaults ...
 DEBUG  ?= false
