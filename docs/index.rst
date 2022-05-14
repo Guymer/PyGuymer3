@@ -18,13 +18,15 @@ This is a Python 3.X port of `my Python 2.X module <https://github.com/Guymer/Py
 Module Reference
 ----------------
 
+Below is the reference documentation for the Python module.
+
 .. autosummary::
    :toctree: _autosummary
    :recursive:
 
    pyguymer3
 
-Indices and tables
+Indices And Tables
 ==================
 
 * :ref:`genindex`
