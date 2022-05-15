@@ -13,7 +13,7 @@ def var(arr, kwArgCheck = None, dof = 0):
 
     Returns
     -------
-    var : float
+    ans : float
             the variance of the array
 
     Notes

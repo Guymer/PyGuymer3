@@ -13,7 +13,7 @@ def stderr(arr, kwArgCheck = None, dof = 1):
 
     Returns
     -------
-    stderr : float
+    ans : float
             the standard error of the array
 
     Notes

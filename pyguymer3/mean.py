@@ -13,7 +13,7 @@ def mean(arr, kwArgCheck = None, dof = 0):
 
     Returns
     -------
-    mean : float
+    ans : float
             the arithmetic mean of the array
 
     Notes

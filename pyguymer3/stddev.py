@@ -13,7 +13,7 @@ def stddev(arr, kwArgCheck = None, dof = 0):
 
     Returns
     -------
-    stddev : float
+    ans : float
             the standard deviation of the array
 
     Notes
