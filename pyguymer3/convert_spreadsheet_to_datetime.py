@@ -1,7 +1,18 @@
 def convert_spreadsheet_to_datetime(val):
-    """
-    This function converts a date from an Excel spreadsheet (which is an
-    integer) into a timezone-aware datetime object.
+    """Convert an Excel spreadsheet date to a timezone-aware datetime object.
+
+    This function converts an Excel spreadsheet date (which is an integer) to a
+    timezone-aware datetime object.
+
+    Parameters
+    ----------
+    val : int
+            the Excel spreadsheet date
+
+    Returns
+    -------
+    ans : datetime.datetime
+            the timezone-aware datetime object
     """
 
     # Import standard modules ...
