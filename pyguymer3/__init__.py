@@ -29,6 +29,7 @@ from .git_commits import git_commits
 from .hostname import hostname
 from .interpolate import interpolate
 from .make_path_safe import make_path_safe
+from .mean import mean
 from .nlines import nlines
 from .now import now
 from .remove_almost_empty_directories import remove_almost_empty_directories
@@ -44,7 +45,10 @@ from .sha256 import sha256
 from .sha512 import sha512
 from .start_session import start_session
 from .stat import stat
+from .stddev import stddev
+from .stderr import stderr
 from .tar import tar
+from .var import var
 from .xz import xz
 
 # Ensure that this module is only imported by Python 3.x ...
