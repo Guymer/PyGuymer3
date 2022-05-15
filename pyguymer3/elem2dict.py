@@ -8,7 +8,7 @@ def elem2dict(elem, kwArgCheck = None, debug = False):
     ----------
     elem : lxml.etree._Element
         the XML element
-    debug : bool, optional
+    debug : bool, default=False
         print debug messages
 
     Returns
