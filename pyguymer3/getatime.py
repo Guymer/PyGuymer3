@@ -1,8 +1,8 @@
 def getatime(fname):
-    """Get the access time of a file as a timezone-aware datetime object.
+    """Get the access time of a file as a timezone-aware ``datetime`` object.
 
-    This function aims to mimic os.path.getatime() but instead of returning a
-    int or float it returns a timezone-aware datetime object.
+    This function aims to mimic ``os.path.getatime()`` but instead of returning
+    a integer or float it returns a timezone-aware ``datetime`` object.
 
     Parameters
     ----------
@@ -12,7 +12,7 @@ def getatime(fname):
     Returns
     -------
     ans : datetime.datetime
-            the timezone-aware datetime object
+            the timezone-aware ``datetime`` object
     """
 
     # Import standard modules ...
