@@ -1,13 +1,21 @@
 def return_link_list(path, kwArgCheck = None, debug = False, follow_symlinks = True):
-    """
-    Return a recursive list of links in a directory.
+    """Return a recursive list of link names in a directory.
 
-    Arguments:
-    path -- the directory to search
+    This function returns a sorted list of link names recursively in a directory.
 
-    Keyword Arguments:
-    debug -- print debug messages (default False)
-    follow_symlinks -- follow symbolic links (default True)
+    Parameters
+    ----------
+    path : str
+        the directory to search
+    debug : bool, default=False
+        print debug messages
+    follow_symlinks : bool, default=True
+        follow symbolic links
+
+    Returns
+    -------
+    ans : list of str
+            the sorted list of link names
     """
 
     # Import standard modules ...
@@ -35,7 +43,7 @@ def return_link_list(path, kwArgCheck = None, debug = False, follow_symlinks = T
                 # Test if this part is illegal and print the full path for
                 # identification ...
                 if not child.startswith(".") and child != make_path_safe(child):
-                    print("WARNING: \"{:s}\" is illegal".format(item))
+                    print(f"WARNING: \"{item}\" is illegal")
 
             # Check if it might need searching ...
             if os.path.isdir(item):
@@ -46,16 +54,16 @@ def return_link_list(path, kwArgCheck = None, debug = False, follow_symlinks = T
                         # Recursively run this function again and add to list ...
                         contents += return_link_list(item, debug = debug, follow_symlinks = follow_symlinks)
                     elif debug:
-                        print("WARNING: \"{:s}\" cannot be followed".format(item))
+                        print(f"WARNING: \"{item}\" cannot be followed")
                 elif debug:
-                    print("WARNING: \"{:s}\" cannot be listed".format(item))
+                    print(f"WARNING: \"{item}\" cannot be listed")
 
             # Check if it should be added to the list ...
             if os.path.islink(item):
                 # Add to list ...
                 contents.append(item)
     elif debug:
-        print("WARNING: \"{:s}\" does not exist".format(path))
+        print(f"WARNING: \"{path}\" does not exist")
 
     # Return sorted list ...
     return sorted(contents)
