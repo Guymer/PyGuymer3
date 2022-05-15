@@ -1,14 +1,23 @@
 def return_folder_size(path, kwArgCheck = None, debug = False, follow_symlinks = True, return_symlinks = True):
-    """
-    Return the total size of all files in a directory.
+    """Return the total size of all files in a directory.
 
-    Arguments:
-    path -- the directory to search
+    This function returns the total size of all files recursively in a directory.
 
-    Keyword Arguments:
-    debug -- print debug messages (default False)
-    follow_symlinks -- follow symbolic links (default True)
-    return_symlinks -- include symbolic links in the returned list (default True)
+    Parameters
+    ----------
+    path : str
+        the directory to search
+    debug : bool, default=False
+        print debug messages
+    follow_symlinks : bool, default=True
+        follow symbolic links
+    return_symlinks : bool, default=True
+        include symbolic links in the returned list
+
+    Returns
+    -------
+    ans : int
+            the total size
     """
 
     # Import standard modules ...
@@ -36,7 +45,7 @@ def return_folder_size(path, kwArgCheck = None, debug = False, follow_symlinks =
                 # Test if this part is illegal and print the full path for
                 # identification ...
                 if not child.startswith(".") and child != make_path_safe(child):
-                    print("WARNING: \"{:s}\" is illegal".format(item))
+                    print(f"WARNING: \"{item}\" is illegal")
 
             # Check if it might need searching ...
             if os.path.isdir(item):
@@ -48,9 +57,9 @@ def return_folder_size(path, kwArgCheck = None, debug = False, follow_symlinks =
                         # total ...
                         size += return_folder_size(item, debug = debug, follow_symlinks = follow_symlinks, return_symlinks = return_symlinks)   # [#]
                     elif debug:
-                        print("WARNING: \"{:s}\" cannot be followed".format(item))
+                        print(f"WARNING: \"{item}\" cannot be followed")
                 elif debug:
-                    print("WARNING: \"{:s}\" cannot be listed".format(item))
+                    print(f"WARNING: \"{item}\" cannot be listed")
 
             # Check if it should be added to the list ...
             if os.path.isfile(item):
@@ -59,7 +68,7 @@ def return_folder_size(path, kwArgCheck = None, debug = False, follow_symlinks =
                     # Increment total ...
                     size += os.path.getsize(item)                               # [B]
     elif debug:
-        print("WARNING: \"{:s}\" does not exist".format(path))
+        print(f"WARNING: \"{path}\" does not exist")
 
     # Return total ...
     return size
