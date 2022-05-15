@@ -9,13 +9,13 @@ def _posts2panel(pointA, pointB, pointsA, pointsB, polyA, polyB, kwArgCheck = No
 
     Parameters
     ----------
-    pointA : numpy.array
+    pointA : numpy.ndarray
             the first (2) array of (lon,lat) coordinate (in degrees)
-    pointB : numpy.array
+    pointB : numpy.ndarray
             the second (2) array of (lon,lat) coordinate (in degrees)
-    pointsA : numpy.array
+    pointsA : numpy.ndarray
             the (nang, 2) array of (lon,lat) coordinates around the first (lon,lat) coordinate (in degrees)
-    pointsB : numpy.array
+    pointsB : numpy.ndarray
             the (nang, 2) array of (lon,lat) coordinates around the second (lon,lat) coordinate (in degrees)
     polyA : shapely.geometry.polygon.Polygon
             the Polygon around the first (lon,lat) coordinate

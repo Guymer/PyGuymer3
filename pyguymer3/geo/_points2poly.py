@@ -7,9 +7,9 @@ def _points2poly(point, points, kwArgCheck = None, tol = 1.0e-10):
 
     Parameters
     ----------
-    point : numpy.array
+    point : numpy.ndarray
             the (2) array of (lon,lat) coordinate (in degrees)
-    points : numpy.array
+    points : numpy.ndarray
             the (nang, 2) array of (lon,lat) coordinates around the (lon,lat) coordinate (in degrees)
     tol : float, optional
             the Euclidean distance that defines two points as being the same (in degrees)

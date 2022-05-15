@@ -8,7 +8,7 @@ def _buffer_points_crudely(points1, dist, nang):
 
     Parameters
     ----------
-    points1 : numpy.array
+    points1 : numpy.ndarray
             the (npoints, 2) array of (lon,lat) coordinates (in degrees)
     dist : float
             the distance to buffer the (lon,lat) coordinates by (in metres)
@@ -17,7 +17,7 @@ def _buffer_points_crudely(points1, dist, nang):
 
     Returns
     -------
-    points2 : numpy.array
+    points2 : numpy.ndarray
             the (npoints, nang, 2) array of (lon,lat) coordinates around the (lon,lat) coordinates (in degrees)
     """
 
