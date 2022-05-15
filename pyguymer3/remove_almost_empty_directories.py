@@ -1,16 +1,19 @@
 def remove_almost_empty_directories(path, kwArgCheck = None, debug = True, ignorableFiles = (".directory", ".DS_Store", "._.DS_Store", "Thumbs.db"), remove = False):
     """Remove directories which are almost empty.
 
+    This function removes directories which are *almost* empty, based on a tuple
+    of ignorable file names.
+
     Parameters
     ----------
     path : str
         the directory to search
-    debug : bool, optional
-        print debug messages, default True
-    ignorableFiles : tuple of str, optional
-        the tuple of files which can safely be ignored, default (".directory", ".DS_Store", "._.DS_Store", "Thumbs.db")
-    remove : bool, optional
-        remove almost empty directories, default False
+    debug : bool, default=True
+        print debug messages
+    ignorableFiles : tuple of str, default=(".directory", ".DS_Store", "._.DS_Store", "Thumbs.db")
+        the tuple of file names which can safely be ignored
+    remove : bool, default=False
+        remove almost empty directories
     """
 
     # Import standard modules ...
