@@ -1,7 +1,18 @@
 def getmtime(fname):
-    """
+    """Get the modification time of a file as a timezone-aware datetime object.
+
     This function aims to mimic os.path.getmtime() but instead of returning a
     int or float it returns a timezone-aware datetime object.
+
+    Parameters
+    ----------
+    fname : str
+            the file name
+
+    Returns
+    -------
+    ans : datetime.datetime
+            the timezone-aware datetime object
     """
 
     # Import standard modules ...
