@@ -10,6 +10,7 @@ def ffprobe(fname, kwArgCheck = None, playlist = -1):
     # Import standard modules ...
     import json
     import shutil
+    import subprocess
 
     # Check keyword arguments ...
     if kwArgCheck is not None:

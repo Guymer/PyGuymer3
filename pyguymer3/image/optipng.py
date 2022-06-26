@@ -8,6 +8,7 @@ def optipng(fname):
     # Import standard modules ...
     import os
     import shutil
+    import subprocess
 
     # Check that "optipng" is installed ...
     if shutil.which("optipng") is None:

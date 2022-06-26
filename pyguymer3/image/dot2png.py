@@ -1,6 +1,7 @@
 def dot2png(dot, png, kwArgCheck = None, debug = False, strip = False):
     # Import standard modules ...
     import shutil
+    import subprocess
 
     # Import sub-functions ...
     from .optimize_image import optimize_image

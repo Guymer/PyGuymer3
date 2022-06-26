@@ -2,6 +2,7 @@ def return_dict_of_ISO_tracks(fname, kwArgCheck = None, errors = "replace"):
     # Import standard modules ...
     import html
     import shutil
+    import subprocess
 
     # Import special modules ...
     try:

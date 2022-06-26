@@ -1,4 +1,4 @@
-def tar(tarName, fnames, kwArgCheck = None, cwd = None, stderr = subprocess.DEVNULL, stdout = subprocess.DEVNULL):
+def tar(tarName, fnames, kwArgCheck = None, cwd = None, stderr = None, stdout = None):
     """
     Create a PAX formatted TAR file (without any frills or size limits).
 
@@ -8,12 +8,13 @@ def tar(tarName, fnames, kwArgCheck = None, cwd = None, stderr = subprocess.DEVN
 
     Keyword arguments:
     cwd -- the child working directory (default None)
-    stderr -- the destination of STDERR (default subprocess.DEVNULL)
-    stdout -- the destination of STDOUT (default subprocess.DEVNULL)
+    stderr -- the destination of STDERR (default None)
+    stdout -- the destination of STDOUT (default None)
     """
 
     # Import standard modules ...
     import shutil
+    import subprocess
     import tempfile
 
     # Check keyword arguments ...

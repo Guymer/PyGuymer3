@@ -3,10 +3,6 @@ A Python module containing a bunch of random functions that I have written over
 the years.
 """
 
-# Import standard modules ...
-import subprocess
-import sys
-
 # Import sub-functions ...
 from .convert_bytes_to_pretty_bytes import convert_bytes_to_pretty_bytes
 from .convert_pretty_bytes_to_bytes import convert_pretty_bytes_to_bytes
@@ -51,7 +47,3 @@ from .stderr import stderr
 from .tar import tar
 from .var import var
 from .xz import xz
-
-# Ensure that this module is only imported by Python 3.x ...
-if sys.version_info.major != 3:
-    raise Exception("the Python module \"pyguymer3\" must only be used with Python 3.x, if you want a Python 2.x version then use \"pyguymer\" instead") from None

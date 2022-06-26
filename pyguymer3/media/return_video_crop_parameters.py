@@ -1,6 +1,7 @@
 def return_video_crop_parameters(fname, kwArgCheck = None, playlist = -1, dt = 2.0):
     # Import standard modules ...
     import shutil
+    import subprocess
 
     # Import sub-functions ...
     from .return_media_duration import return_media_duration

@@ -1,6 +1,7 @@
 def find_program_version(prog):
     # Import standard modules ...
     import shutil
+    import subprocess
 
     # Try lots of different package managers ...
     if shutil.which("pkg") is not None:

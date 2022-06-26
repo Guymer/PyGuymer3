@@ -2,6 +2,7 @@ def git_commits(kwArgCheck = None, cwd = None, fname = None):
     # Import standard modules ...
     import datetime
     import shutil
+    import subprocess
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
