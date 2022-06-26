@@ -11,7 +11,7 @@ def find_program_version(prog):
         stderrout = subprocess.check_output(
             ["pkg", "info", prog],
             encoding = "utf-8",
-            stderr = subprocess.STDOUT
+            stderr = subprocess.STDOUT,
         )
     elif shutil.which("port") is not None:
         # NOTE: It is MacPorts.
@@ -20,7 +20,7 @@ def find_program_version(prog):
         stderrout = subprocess.check_output(
             ["port", "info", "--version", prog],
             encoding = "utf-8",
-            stderr = subprocess.STDOUT
+            stderr = subprocess.STDOUT,
         )
     elif shutil.which("zypper") is not None:
         # NOTE: It is OpenSUSE.
@@ -29,7 +29,7 @@ def find_program_version(prog):
         stderrout = subprocess.check_output(
             ["zypper", "--disable-repositories", "info", prog],
             encoding = "utf-8",
-            stderr = subprocess.STDOUT
+            stderr = subprocess.STDOUT,
         )
     else:
         raise Exception("neither \"pkg\" nor \"port\" nor \"zypper\" have been found") from None

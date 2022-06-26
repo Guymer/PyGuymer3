@@ -52,7 +52,7 @@ def return_video_crop_parameters(fname, kwArgCheck = None, playlist = -1, dt = 2
                     "/dev/null"
                 ],
                 encoding = "utf-8",
-                stderr = subprocess.STDOUT
+                stderr = subprocess.STDOUT,
             )
         else:
             # Try to analyze it properly first, if it fails then attempt to
