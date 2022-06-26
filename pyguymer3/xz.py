@@ -1,4 +1,4 @@
-def xz(fname, kwArgCheck = None, cwd = None, threads = 0):
+def xz(fname, kwArgCheck = None, cwd = None, stderr = subprocess.DEVNULL, stdout = subprocess.DEVNULL, threads = 0):
     """
     Compress a file using "xz" (with SHA-256 integrity checks).
 
@@ -7,12 +7,13 @@ def xz(fname, kwArgCheck = None, cwd = None, threads = 0):
 
     Keyword arguments:
     cwd -- the child working directory (default None)
+    stderr -- the destination of STDERR (default subprocess.DEVNULL)
+    stdout -- the destination of STDOUT (default subprocess.DEVNULL)
     threads -- the number of threads to use (default 0)
     """
 
     # Import standard modules ...
     import shutil
-    import subprocess
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
@@ -40,6 +41,6 @@ def xz(fname, kwArgCheck = None, cwd = None, threads = 0):
            check = True,
              cwd = cwd,
         encoding = "utf-8",
-          stderr = subprocess.DEVNULL,
-          stdout = subprocess.DEVNULL,
+          stderr = stderr,
+          stdout = stdout,
     )

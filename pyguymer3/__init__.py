@@ -4,6 +4,7 @@ the years.
 """
 
 # Import standard modules ...
+import subprocess
 import sys
 
 # Import sub-functions ...

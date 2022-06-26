@@ -4,7 +4,6 @@ def load_GPS_EXIF2(fname):
     import json
     import math
     import shutil
-    import subprocess
 
     # Check that "exiftool" is installed ...
     if shutil.which("exiftool") is None:

@@ -8,7 +8,6 @@ def optimize_FLAC(fname1, kwArgCheck = None, debug = False):
     # Import standard modules ...
     import os
     import shutil
-    import subprocess
     import tempfile
 
     # Import sub-functions ...

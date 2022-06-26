@@ -2,7 +2,6 @@ def return_ISO_palette(fname, kwArgCheck = None, usr_track = -1, errors = "repla
     # Import standard modules ...
     import html
     import shutil
-    import subprocess
 
     # Import special modules ...
     try:
