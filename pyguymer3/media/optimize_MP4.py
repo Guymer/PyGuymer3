@@ -41,7 +41,7 @@ def optimize_MP4(fname1, kwArgCheck = None, debug = False):
         shutil.copy(fname1, tname)
 
         # Deduce the MP4 name in the temporary directory ...
-        fname2 = os.path.join(tname, os.path.basename(fname1))
+        fname2 = f"{tname}/{os.path.basename(fname1)}"
 
         # Optimize MP4 ...
         subprocess.run(

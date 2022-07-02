@@ -39,7 +39,7 @@ def optimize_FLAC(fname1, kwArgCheck = None, debug = False):
         shutil.copy(fname1, tname)
 
         # Deduce the FLAC name in the temporary directory ...
-        fname2 = os.path.join(tname, os.path.basename(fname1))
+        fname2 = f"{tname}/{os.path.basename(fname1)}"
 
         # Optimise FLAC ...
         subprocess.run(

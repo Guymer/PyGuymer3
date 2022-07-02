@@ -36,7 +36,7 @@ def add_map_background(axis, kwArgCheck = None, debug = False, name = "natural-e
     # Check if the environment variable has been defined ...
     if "CARTOPY_USER_BACKGROUNDS" in os.environ:
         # Determine JSON path and check it exists ...
-        jpath = os.path.join(os.environ["CARTOPY_USER_BACKGROUNDS"], "images.json")
+        jpath = f'{os.environ["CARTOPY_USER_BACKGROUNDS"]}/images.json'
         if os.path.exists(jpath):
             # Load JSON and check keys exist ...
             with open(jpath, "rt", encoding = "utf-8") as fobj:
@@ -44,7 +44,7 @@ def add_map_background(axis, kwArgCheck = None, debug = False, name = "natural-e
             if name in info:
                 if resolution in info[name]:
                     # Determine image path and check it exists ...
-                    ipath = os.path.join(os.environ["CARTOPY_USER_BACKGROUNDS"], info[name][resolution])
+                    ipath = f'{os.environ["CARTOPY_USER_BACKGROUNDS"]}/{info[name][resolution]}'
                     if os.path.exists(ipath):
                         default = False
 

@@ -12,13 +12,13 @@ def return_dict_of_bluray_playlists(dname, kwArgCheck = None, size_threshold = 1
         print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Create short-hand ...
-    fname = "bluray:{:s}".format(dname)
+    fname = f"bluray:{dname}"
 
     # Initialize dictionary ...
     ans = {}
 
     # Loop over playlist files ...
-    for mpls in glob.glob(os.path.join(dname, "BDMV", "PLAYLIST", "*.mpls")):
+    for mpls in glob.glob(f"{dname}/BDMV/PLAYLIST/*.mpls"):
         # Extract playlist number ...
         playlist = int(os.path.basename(mpls).split(".")[0])
 
