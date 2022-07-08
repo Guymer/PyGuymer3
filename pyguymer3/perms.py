@@ -51,14 +51,14 @@ def perms(path, kwArgCheck = None, debug = False, filePerms = None, folderPerms 
         if group is not None:
             if info["group"] != group:
                 if debug:
-                    print(f'INFO: Changing group owner of \"{name}\" to \"{group}\" (is is \"{info["group"]}\").')
+                    print(f'INFO: Changing group owner of \"{name}\" to \"{group}\" (it is \"{info["group"]}\").')
                 shutil.chown(name, group = group)
 
         # Set user owner if it is wrong ...
         if user is not None:
             if info["user"] != user:
                 if debug:
-                    print(f'INFO: Changing user owner of \"{name}\" to \"{user}\" (is is \"{info["user"]}\").')
+                    print(f'INFO: Changing user owner of \"{name}\" to \"{user}\" (it is \"{info["user"]}\").')
                 shutil.chown(name, user = user)
 
         # Set file permissions if it is wrong ...
@@ -66,7 +66,7 @@ def perms(path, kwArgCheck = None, debug = False, filePerms = None, folderPerms 
             if filePerms is not None:
                 if stat.S_IMODE(info["st_mode"]) != filePerms:
                     if debug:
-                        print(f'INFO: Changing file permissions of \"{name}\" to \"{oct(filePerms)}\" (is is \"{oct(stat.S_IMODE(info["st_mode"]))}\").')
+                        print(f'INFO: Changing file permissions of \"{name}\" to \"{oct(filePerms)}\" (it is \"{oct(stat.S_IMODE(info["st_mode"]))}\").')
                     os.chmod(name, filePerms)
 
         # Set folder permissions if it is wrong ...
@@ -74,5 +74,5 @@ def perms(path, kwArgCheck = None, debug = False, filePerms = None, folderPerms 
             if folderPerms is not None:
                 if stat.S_IMODE(info["st_mode"]) != folderPerms:
                     if debug:
-                        print(f'INFO: Changing folder permissions of \"{name}\" to \"{oct(folderPerms)}\" (is is \"{oct(stat.S_IMODE(info["st_mode"]))}\").')
+                        print(f'INFO: Changing folder permissions of \"{name}\" to \"{oct(folderPerms)}\" (it is \"{oct(stat.S_IMODE(info["st_mode"]))}\").')
                     os.chmod(name, folderPerms)
