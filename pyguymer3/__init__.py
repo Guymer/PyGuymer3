@@ -29,6 +29,7 @@ from .make_path_safe import make_path_safe
 from .mean import mean
 from .nlines import nlines
 from .now import now
+from .perms import perms
 from .remove_almost_empty_directories import remove_almost_empty_directories
 from .return_file_list import return_file_list
 from .return_folder_list import return_folder_list
