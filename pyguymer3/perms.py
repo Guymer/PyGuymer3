@@ -1,4 +1,4 @@
-def perms(path, kwArgCheck = None, debug = False, filePerms = None, folderPerms = None, group = None, user = None, follow_symlinks = True, return_symlinks = False):
+def perms(path, kwArgCheck = None, debug = False, filePerms = None, folderPerms = None, group = None, user = None, follow_symlinks = True, return_symlinks = False, skips = []):
     """Set permissions within a path.
 
     This function sets the file/folder mode and group/user owner of all files
@@ -22,6 +22,8 @@ def perms(path, kwArgCheck = None, debug = False, filePerms = None, folderPerms 
         follow symbolic links
     return_symlinks : bool, default=False
         set permissions on symbolic links
+    skips : list of str, default=[]
+        a list of strings which, if any are present in a file/folder name, result in the file/folder being skipped
     """
 
     # Import standard modules ...
@@ -44,6 +46,15 @@ def perms(path, kwArgCheck = None, debug = False, filePerms = None, folderPerms 
 
     # Loop over files and folders ...
     for name in flist + dlist:
+        # Skip if it needs to be skipped ...
+        toSkip = False
+        for skip in skips:
+            if skip in name:
+                toSkip = True
+                break
+        if toSkip:
+            continue
+
         # Fetch information ...
         info = myStat(name)
 
