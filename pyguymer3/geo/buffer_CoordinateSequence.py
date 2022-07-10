@@ -63,7 +63,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     from .fillin import fillin
     from .remap import remap
     try:
-        from ..f90 import f90
+        from ..f90 import funcs
         if debug:
             print("INFO: Will find the rings using FORTRAN.")
         fortran = True
@@ -121,7 +121,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
 
     # Buffer (in Geodesic space) the CoordinateSequence ...
     if fortran:
-        points2 = f90.buffer_points_crudely(points1, dist, nang)                # [°]
+        points2 = funcs.buffer_points_crudely(points1, dist, nang)              # [°]
     else:
         points2 = _buffer_points_crudely(points1, dist, nang)                   # [°]
 

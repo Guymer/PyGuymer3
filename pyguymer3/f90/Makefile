@@ -51,9 +51,6 @@ endif
     # $(error The Python module "numpy" is not installed)
 # endif
 
-# Define source files ...
-MOD_F90_SRC := $(sort f90.F90 $(wildcard src/*.f90))
-
 # ******************************************************************************
 
 # "gmake -r [all]"   = "make compile" (default)
@@ -66,7 +63,7 @@ clean:		$(RM)																\
 	$(MAKE) -r -C $(FTNLIB) FC=$(FC2) clean
 
 # "gmake -r compile" = compiles the code
-compile:	f90.so
+compile:	funcs.so
 
 # "gmake -r help"    = print this help
 help:		$(GREP)																\
@@ -89,20 +86,21 @@ help:		$(GREP)																\
 #         * https://stackoverflow.com/a/58081934
 
 $(FTNLIB)/%.mod																	\
-$(FTNLIB)/%.o:				$(FC2)												\
-							Makefile											\
-							$(FTNLIB)/Makefile									\
-							$(FTNLIB)/%.F90
+$(FTNLIB)/%.o:					$(FC2)											\
+								Makefile										\
+								$(FTNLIB)/Makefile								\
+								$(FTNLIB)/%.F90
 	$(MAKE) -r -C $(FTNLIB) DEBUG=$(DEBUG) FC=$(FC2) $*.o
 
-f90.cpython-39m-darwin.so:	$(FC1)												\
-							$(FC2)												\
-							Makefile											\
-							$(FTNLIB)/mod_safe.o								\
-							$(MOD_F90_SRC)
-	$(FC1) -c --f77exec=$(FC2) --f90exec=$(FC2) --opt="-fopenmp $(LANG_OPTS) $(WARN_OPTS) $(OPTM_OPTS)" --arch="$(MACH_OPTS)" -lgomp -m f90 -I$(FTNLIB) f90.F90 $(FTNLIB)/mod_safe.o -L$(LIBDIR)
+funcs.cpython-310-darwin.so:	$(FC1)											\
+								$(FC2)											\
+								Makefile										\
+								$(FTNLIB)/mod_safe.o							\
+								funcs.F90										\
+								src/*.f90
+	$(FC1) -c --f77exec=$(FC2) --f90exec=$(FC2) --opt="-fopenmp $(LANG_OPTS) $(WARN_OPTS) $(OPTM_OPTS)" --arch="$(MACH_OPTS)" -lgomp -m funcs -I$(FTNLIB) funcs.F90 $(FTNLIB)/mod_safe.o -L$(LIBDIR)
 
-f90.so:						$(LN)												\
-							Makefile											\
-							f90.cpython-39m-darwin.so
-	$(LN) -sf f90.cpython-39m-darwin.so f90.so
+funcs.so:						$(LN)											\
+								Makefile										\
+								funcs.cpython-310-darwin.so
+	$(LN) -sf funcs.cpython-310-darwin.so funcs.so
