@@ -47,12 +47,7 @@ if __name__ == "__main__":
     # Loop over resolutions ...
     for iresolution, resolution in enumerate(resolutions):
         # Create axis ...
-        ax = fg.add_subplot(
-            3,
-            1,
-            iresolution + 1,
-            projection = cartopy.crs.Robinson(),
-        )
+        ax = fg.add_subplot(3, 1, iresolution + 1, projection = cartopy.crs.Robinson())
 
         # Configure axis ...
         ax.set_global()
@@ -79,15 +74,7 @@ if __name__ == "__main__":
     # Loop over resolutions ...
     for iresolution, resolution in enumerate(resolutions):
         # Create axis ...
-        ax = fg.add_subplot(
-            3,
-            1,
-            iresolution + 1,
-            projection = cartopy.crs.Orthographic(
-                central_longitude =  0.0,
-                 central_latitude = 40.0,
-            ),
-        )
+        ax = fg.add_subplot(3, 1, iresolution + 1, projection = cartopy.crs.Orthographic(central_longitude = 0.0, central_latitude = 40.0))
 
         # Configure axis ...
         ax.set_extent(
@@ -121,15 +108,7 @@ if __name__ == "__main__":
     # Loop over resolutions ...
     for iresolution, resolution in enumerate(resolutions):
         # Create axis ...
-        ax = fg.add_subplot(
-            3,
-            1,
-            iresolution + 1,
-            projection = cartopy.crs.Orthographic(
-                central_longitude =  0.0,
-                 central_latitude = 51.5,
-            ),
-        )
+        ax = fg.add_subplot(3, 1, iresolution + 1, projection = cartopy.crs.Orthographic(central_longitude = 0.0, central_latitude = 51.5))
 
         # Configure axis ...
         ax.set_extent(
@@ -163,15 +142,7 @@ if __name__ == "__main__":
     # Loop over resolutions ...
     for iresolution, resolution in enumerate(resolutions):
         # Create axis ...
-        ax = fg.add_subplot(
-            3,
-            1,
-            iresolution + 1,
-            projection = cartopy.crs.Orthographic(
-                central_longitude =  7.5,
-                 central_latitude = 60.6,
-            ),
-        )
+        ax = fg.add_subplot(3, 1, iresolution + 1, projection = cartopy.crs.Orthographic(central_longitude = 7.5, central_latitude = 60.6))
 
         # Configure axis ...
         ax.set_extent(

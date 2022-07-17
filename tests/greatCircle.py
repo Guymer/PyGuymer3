@@ -59,7 +59,7 @@ if __name__ == "__main__":
         fg = matplotlib.pyplot.figure(figsize = (6, 3), dpi = 150)
 
         # Create axis ...
-        ax = fg.add_subplot(1, 1, 1, projection = cartopy.crs.Robinson())
+        ax = fg.add_subplot(projection = cartopy.crs.Robinson())
 
         # Configure axis ...
         ax.set_global()
