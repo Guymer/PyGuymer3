@@ -1,18 +1,21 @@
-def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, debug = False):
+def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, fillSpace = "EuclideanSpace", debug = False):
     """Fill in a CoordinateSequence
 
     This function reads in a CoordinateSequence that exists on the surface of
     the Earth and returns a LineString of the same CoordinateSequence filled in
-    by a constant distance (in degrees).
+    by a constant distance: either in degrees in Euclidean space; or in metres
+    in Geodesic space.
 
     Parameters
     ----------
     coords : shapely.coords.CoordinateSequence
             the CoordinateSequence
     fill : float
-            the Euclidean distance to fill in between each point within the shape by (in degrees)
+            the Euclidean or Geodesic distance to fill in between each point within the shape by (in degrees or metres)
     debug : bool, optional
             print debug messages
+    fillSpace : str, optional
+            the geometric space to perform the filling in (either "EuclideanSpace" or "GeodesicSpace")
 
     Returns
     -------
@@ -32,6 +35,10 @@ def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, debug = False):
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
+    # Import sub-functions ...
+    from .calc_dist_between_two_locs import calc_dist_between_two_locs
+    from .great_circle import great_circle
+
     # Check keyword arguments ...
     if kwArgCheck is not None:
         print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
@@ -43,8 +50,22 @@ def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, debug = False):
     # Convert the CoordinateSequence to a NumPy array ...
     points1 = numpy.array(coords)                                               # [°]
 
-    # Find the Euclidean distance between each original point ...
-    dr = numpy.hypot(numpy.diff(points1[:, 0]), numpy.diff(points1[:, 1]))      # [°]
+    # Check what space the user wants to fill in ...
+    if fillSpace == "EuclideanSpace":
+        # Find the Euclidean distance between each original point ...
+        dr = numpy.hypot(numpy.diff(points1[:, 0]), numpy.diff(points1[:, 1]))  # [°]
+    elif fillSpace == "GeodesicSpace":
+        # Find the Geodesic distance between each original point ...
+        dr = numpy.zeros(points1.shape[0] - 1, dtype = numpy.float64)           # [m]
+        for ipoint in range(dr.size):
+            dr[ipoint], _alpha1, _alpha1 = calc_dist_between_two_locs(
+                points1[ipoint    , 0],
+                points1[ipoint    , 1],
+                points1[ipoint + 1, 0],
+                points1[ipoint + 1, 1],
+            )                                                                   # [m], [°], [°]
+    else:
+        raise Exception(f"unrecognised value of \"fillSpace\" ({fillSpace})") from None
 
     # Find the number of filled segments required between each original point ...
     # NOTE: This is the number of fence panels, not the number of fence posts.
@@ -68,24 +89,55 @@ def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, debug = False):
     # Initialize index ...
     ifill = numpy.uint64(0)                                                     # [#]
 
-    # Loop over original points ...
-    for ipoint in range(ns.size):
-        # Fill in points ...
-        points2[ifill:ifill + ns[ipoint], 0] = numpy.linspace(
-            points1[ipoint, 0],
-            points1[ipoint + 1, 0],
-            endpoint = False,
-            num = ns[ipoint]
-        )                                                                       # [°]
-        points2[ifill:ifill + ns[ipoint], 1] = numpy.linspace(
-            points1[ipoint, 1],
-            points1[ipoint + 1, 1],
-            endpoint = False,
-            num = ns[ipoint]
-        )                                                                       # [°]
+    # Check what space the user wants to fill in ...
+    if fillSpace == "EuclideanSpace":
+        # Loop over original points ...
+        for ipoint in range(ns.size):
+            # Fill in points ...
+            points2[ifill:ifill + ns[ipoint], 0] = numpy.linspace(
+                points1[ipoint, 0],
+                points1[ipoint + 1, 0],
+                endpoint = False,
+                     num = ns[ipoint],
+            )                                                                   # [°]
+            points2[ifill:ifill + ns[ipoint], 1] = numpy.linspace(
+                points1[ipoint, 1],
+                points1[ipoint + 1, 1],
+                endpoint = False,
+                     num = ns[ipoint],
+            )                                                                   # [°]
 
-        # Increment index ...
-        ifill += ns[ipoint]                                                     # [#]
+            # Increment index ...
+            ifill += ns[ipoint]                                                 # [#]
+    elif fillSpace == "GeodesicSpace":
+        # Loop over original points ...
+        for ipoint in range(ns.size):
+            # Find the great circle connecting the two original points and
+            # convert the LineString to a NumPy array ...
+            arc = great_circle(
+                points1[ipoint    , 0],
+                points1[ipoint    , 1],
+                points1[ipoint + 1, 0],
+                points1[ipoint + 1, 1],
+                 debug = debug,
+                npoint = ns[ipoint] + numpy.uint64(1),
+            )
+            arcCoords = numpy.array(arc.coords)                                 # [°]
+
+            # Clean up ...
+            del arc
+
+            # Fill in points ...
+            points2[ifill:ifill + ns[ipoint], 0] = arcCoords[:-1, 0]            # [°]
+            points2[ifill:ifill + ns[ipoint], 1] = arcCoords[:-1, 1]            # [°]
+
+            # Clean up ...
+            del arcCoords
+
+            # Increment index ...
+            ifill += ns[ipoint]                                                 # [#]
+    else:
+        raise Exception(f"unrecognised value of \"fillSpace\" ({fillSpace})") from None
 
     # Clean up ...
     del ns
