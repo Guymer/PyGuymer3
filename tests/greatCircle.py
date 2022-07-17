@@ -11,6 +11,10 @@ if __name__ == "__main__":
     except:
         raise Exception("\"cartopy\" is not installed; run \"pip install --user Cartopy\"") from None
     try:
+        import geojson
+    except:
+        raise Exception("\"geojson\" is not installed; run \"pip install --user geojson\"") from None
+    try:
         import matplotlib
         matplotlib.use("Agg")                                                   # NOTE: See https://matplotlib.org/stable/gallery/user_interfaces/canvasagg.html
         import matplotlib.pyplot
@@ -52,8 +56,9 @@ if __name__ == "__main__":
     for i, (coord1, coord2) in enumerate(zip(coords1, coords2)):
         # Determine file names ...
         fname = f"greatCircle{i:d}.png"
+        jname = f"greatCircle{i:d}.geojson"
 
-        print(f" > Making \"{fname}\" ...")
+        print(f" > Making \"{jname}\" and \"{fname}\" ...")
 
         # Create figure ...
         fg = matplotlib.pyplot.figure(figsize = (6, 3), dpi = 150)
@@ -70,6 +75,16 @@ if __name__ == "__main__":
         for c, npoint in enumerate(npoints):
             # Find the great circle ...
             circle = pyguymer3.geo.great_circle(coord1[0], coord1[1], coord2[0], coord2[1], debug = True, npoint = npoint)
+
+            # Save GeoJSON ...
+            with open(jname, "wt", encoding = "utf-8") as fobj:
+                geojson.dump(
+                    circle,
+                    fobj,
+                    ensure_ascii = False,
+                          indent = 4,
+                       sort_keys = True,
+                )
 
             # Loop over lines in the great circle ...
             for line in pyguymer3.geo.extract_lines(circle):

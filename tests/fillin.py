@@ -83,9 +83,9 @@ if __name__ == "__main__":
     # Loop over rings ...
     for i, ring in enumerate(rings):
         # Determine file names ...
-        fname = f"filling{i:d}.png"
-        jname1 = f"filling{i:d}Euclidean.geojson"
-        jname2 = f"filling{i:d}Geodesic.geojson"
+        fname = f"fillin{i:d}.png"
+        jname1 = f"fillin{i:d}Euclidean.geojson"
+        jname2 = f"fillin{i:d}Geodesic.geojson"
 
         print(f" > Making \"{jname1}\", \"{jname2}\" and \"{fname}\" ...")
 
