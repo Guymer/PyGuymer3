@@ -1,8 +1,8 @@
 def calc_dist_between_two_locs(lon1_deg, lat1_deg, lon2_deg, lat2_deg, kwArgCheck = None, nmax = 100, eps = 1.0e-12):
     """
     This function reads in two coordinates (in degrees) on the surface of Earth
-    and calculates the distance (in metres) between them and the headings (in
-    degrees) from each coordinate to the other one.
+    and calculates the Geodesic distance (in metres) between them and the
+    headings (in degrees) from each coordinate to the other one.
     """
 
     # NOTE: https://en.wikipedia.org/wiki/Vincenty%27s_formulae
