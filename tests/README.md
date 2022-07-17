@@ -61,6 +61,18 @@ The function [buffer](../pyguymer3/geo/buffer.py) is tested by the script [buffe
 
 ![buffer output image](buffer6.png)
 
+### `fillin()`
+
+The function [fillin](../pyguymer3/geo/fillin.py) is tested by the script [fillin.py](fillin.py) which produces the images below.
+
+![fillin output image](fillin0.png)
+
+![fillin output image](fillin1.png)
+
+![fillin output image](fillin2.png)
+
+![fillin output image](fillin3.png)
+
 ### `great_circle()`
 
 The function [great_circle](../pyguymer3/geo/great_circle.py) is tested by the script [greatCircle.py](greatCircle.py) which produces the image below.
