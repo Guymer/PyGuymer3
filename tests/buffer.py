@@ -57,6 +57,7 @@ if __name__ == "__main__":
         (+180.0, -90.0, 1000000.0,  900000.0), # Satisfies test A, C, D, F
         (+170.0, +10.0, 1000000.0, 4000000.0), # Satisfies test B, C, E
         (+170.0, +80.0, 1000000.0, 4000000.0), # Satisfies test C, D, F
+        (   0.0, +83.0, 1000000.0,  900000.0), # Satisfies test D
     ]
 
     # Loop over polygons ...
