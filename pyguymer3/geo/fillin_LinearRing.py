@@ -38,6 +38,7 @@ def fillin_LinearRing(ring, fill, kwArgCheck = None, debug = False, fillSpace = 
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
+    from ._debug import _debug
     from .fillin_CoordinateSequence import fillin_CoordinateSequence
 
     # Check keyword arguments ...
@@ -48,6 +49,7 @@ def fillin_LinearRing(ring, fill, kwArgCheck = None, debug = False, fillSpace = 
     if not isinstance(ring, shapely.geometry.polygon.LinearRing):
         raise TypeError("\"ring\" is not a LinearRing") from None
     if not ring.is_valid:
+        _debug(ring)
         raise Exception(f"\"ring\" is not a valid LinearRing ({shapely.validation.explain_validity(ring)})") from None
     if ring.is_empty:
         raise Exception("\"ring\" is an empty LinearRing") from None
@@ -110,6 +112,7 @@ def fillin_LinearRing(ring, fill, kwArgCheck = None, debug = False, fillSpace = 
     if not isinstance(coords, shapely.geometry.polygon.LinearRing):
         raise TypeError("\"coords\" is not a LinearRing") from None
     if not coords.is_valid:
+        _debug(coords)
         raise Exception(f"\"coords\" is not a valid LinearRing ({shapely.validation.explain_validity(coords)})") from None
     if coords.is_empty:
         raise Exception("\"coords\" is an empty LinearRing") from None

@@ -37,6 +37,7 @@ def buffer_Point(point, dist, kwArgCheck = None, debug = False, fill = 1.0, nang
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
+    from ._debug import _debug
     from .buffer_CoordinateSequence import buffer_CoordinateSequence
 
     # Check keyword arguments ...
@@ -47,6 +48,7 @@ def buffer_Point(point, dist, kwArgCheck = None, debug = False, fill = 1.0, nang
     if not isinstance(point, shapely.geometry.point.Point):
         raise TypeError("\"point\" is not a Point") from None
     if not point.is_valid:
+        _debug(point)
         raise Exception(f"\"point\" is not a valid Point ({shapely.validation.explain_validity(point)})") from None
     if point.is_empty:
         raise Exception("\"point\" is an empty Point") from None

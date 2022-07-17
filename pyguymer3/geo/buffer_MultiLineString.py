@@ -49,6 +49,7 @@ def buffer_MultiLineString(multiline, dist, kwArgCheck = None, debug = False, fi
     if not isinstance(multiline, shapely.geometry.multilinestring.MultiLineString):
         raise TypeError("\"multiline\" is not a MultiLineString") from None
     if not multiline.is_valid:
+        _debug(multiline)
         raise Exception(f"\"multiline\" is not a valid MultiLineString ({shapely.validation.explain_validity(multiline)})") from None
     if multiline.is_empty:
         raise Exception("\"multiline\" is an empty MultiLineString") from None

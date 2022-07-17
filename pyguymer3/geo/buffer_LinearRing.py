@@ -37,6 +37,7 @@ def buffer_LinearRing(ring, dist, kwArgCheck = None, debug = False, fill = 1.0, 
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
+    from ._debug import _debug
     from .buffer_CoordinateSequence import buffer_CoordinateSequence
 
     # Check keyword arguments ...
@@ -47,6 +48,7 @@ def buffer_LinearRing(ring, dist, kwArgCheck = None, debug = False, fill = 1.0, 
     if not isinstance(ring, shapely.geometry.polygon.LinearRing):
         raise TypeError("\"ring\" is not a LinearRing") from None
     if not ring.is_valid:
+        _debug(ring)
         raise Exception(f"\"ring\" is not a valid LinearRing ({shapely.validation.explain_validity(ring)})") from None
     if ring.is_empty:
         raise Exception("\"ring\" is an empty LinearRing") from None
