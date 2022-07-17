@@ -1,18 +1,21 @@
-def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, tol = 1.0e-10):
+def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, fillSpace = "EuclideanSpace", tol = 1.0e-10):
     """Fill in a Polygon
 
     This function reads in a Polygon (with an exterior and any number of
     interiors) that exists on the surface of the Earth and returns a
-    Polygon of the same Polygon filled in by a constant distance (in degrees).
+    Polygon of the same Polygon filled in by a constant distance: either in
+    degrees in Euclidean space; or in metres in Geodesic space.
 
     Parameters
     ----------
     poly : shapely.geometry.polygon.Polygon
             the Polygon
     fill : float
-            the Euclidean distance to fill in between each point within the shape by (in degrees)
+            the Euclidean or Geodesic distance to fill in between each point within the shape by (in degrees or metres)
     debug : bool, optional
             print debug messages
+    fillSpace : str, optional
+            the geometric space to perform the filling in (either "EuclideanSpace" or "GeodesicSpace")
     tol : float, optional
             the Euclidean distance that defines two points as being the same (in degrees)
 
@@ -49,7 +52,7 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, tol = 1.0e-10):
         raise Exception("\"poly\" is an empty Polygon") from None
 
     # Filled in exterior LinearRing ...
-    exterior = fillin_LinearRing(poly.exterior, fill, debug = debug, tol = tol)
+    exterior = fillin_LinearRing(poly.exterior, fill, debug = debug, fillSpace = fillSpace, tol = tol)
 
     # Initialize list ...
     interiors = []
@@ -63,7 +66,7 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, tol = 1.0e-10):
             continue
 
         # Append filled in interior LinearRing to list ...
-        interiors.append(fillin_LinearRing(interior, fill, debug = debug, tol = tol))
+        interiors.append(fillin_LinearRing(interior, fill, debug = debug, fillSpace = fillSpace, tol = tol))
 
     # Convert exterior LinearRing and list of interior LinearRings to a
     # correctly oriented Polygon ...

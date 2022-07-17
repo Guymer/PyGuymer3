@@ -1,18 +1,21 @@
-def fillin_LinearRing(ring, fill, kwArgCheck = None, debug = False, tol = 1.0e-10):
+def fillin_LinearRing(ring, fill, kwArgCheck = None, debug = False, fillSpace = "EuclideanSpace", tol = 1.0e-10):
     """Fill in a LinearRing
 
     This function reads in a LinearRing that exists on the surface of the Earth
     and returns a LinearRing of the same LinearRing filled in by a constant
-    distance (in degrees).
+    distance: either in degrees in Euclidean space; or in metres in Geodesic
+    space.
 
     Parameters
     ----------
     ring : shapely.geometry.polygon.LinearRing
             the LinearRing
     fill : float
-            the Euclidean distance to fill in between each point within the shape by (in degrees)
+            the Euclidean or Geodesic distance to fill in between each point within the shape by (in degrees or metres)
     debug : bool, optional
             print debug messages
+    fillSpace : str, optional
+            the geometric space to perform the filling in (either "EuclideanSpace" or "GeodesicSpace")
     tol : float, optional
             the Euclidean distance that defines two points as being the same (in degrees)
 
@@ -114,4 +117,4 @@ def fillin_LinearRing(ring, fill, kwArgCheck = None, debug = False, tol = 1.0e-1
     # **************************************************************************
 
     # Return filled in LinearRing ...
-    return fillin_CoordinateSequence(coords.coords, fill, debug = debug)
+    return fillin_CoordinateSequence(coords.coords, fill, debug = debug, fillSpace = fillSpace)
