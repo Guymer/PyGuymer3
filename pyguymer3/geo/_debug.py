@@ -1,28 +1,38 @@
-def _debug(badPolys):
+def _debug(badGeoms):
     """Save CSVs for debugging
 
     Parameters
     ----------
-    badPolys : shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
-        the bad [Multi]Polygon
+    badGeoms : shapely.geometry.multilinestring.LineString, shapely.geometry.multilinestring.MultiLineString, shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
+        the bad [Multi]LineString or [Multi]Polygon
     """
 
     # Import sub-functions ...
+    from .extract_lines import extract_lines
     from .extract_polys import extract_polys
 
-    # Loop over all the bad Polygons in this [Multi]Polygon ...
-    for i, badPoly in enumerate(extract_polys(badPolys)):
+    # Loop over all the bad LineStrings in this [Multi]LineString ...
+    for i, badGeom in enumerate(extract_lines(badGeoms)):
         # Open output file ...
-        with open(f"debug.{i:d}.exterior.csv", "wt", encoding = "utf-8") as fobj:
+        with open(f"debug.LineString{i:d}.csv", "wt", encoding = "utf-8") as fobj:
+            # Loop over bad coordinates of this bad LineString ...
+            for badCoord in badGeom.coords:
+                # Write output ...
+                fobj.write(f"{badCoord[0]:e},{badCoord[1]:e}\n")
+
+    # Loop over all the bad Polygons in this [Multi]Polygon ...
+    for i, badGeom in enumerate(extract_polys(badGeoms)):
+        # Open output file ...
+        with open(f"debug.Polygon{i:d}.exterior.csv", "wt", encoding = "utf-8") as fobj:
             # Loop over bad coordinates in the exterior ring of this bad Polygon ...
-            for badCoord in badPoly.exterior.coords:
+            for badCoord in badGeom.exterior.coords:
                 # Write output ...
                 fobj.write(f"{badCoord[0]:e},{badCoord[1]:e}\n")
 
         # Loop over bad interior rings of this bad Polygon ...
-        for j, interior in enumerate(badPoly.interiors):
+        for j, interior in enumerate(badGeom.interiors):
             # Open output file ...
-            with open(f"debug.{i:d}.interior.{j:d}.csv", "wt", encoding = "utf-8") as fobj:
+            with open(f"debug.Polygon{i:d}.interior{j:d}.csv", "wt", encoding = "utf-8") as fobj:
                 # Loop over bad coordinates in this interior ring of this bad
                 # Polygon ...
                 for badCoord in interior.coords:
