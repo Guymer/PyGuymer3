@@ -29,12 +29,11 @@ def _points2poly(point, points, kwArgCheck = None, tol = 1.0e-10):
         import shapely
         import shapely.geometry
         import shapely.ops
-        import shapely.validation
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
-    from ._debug import _debug
+    from .check import check
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
@@ -65,13 +64,7 @@ def _points2poly(point, points, kwArgCheck = None, tol = 1.0e-10):
                 (            -180.0, points[:, 1].max()),
             ]
         )
-        if not isinstance(wedge, shapely.geometry.polygon.Polygon):
-            raise Exception("\"wedge\" is not a Polygon") from None
-        if not wedge.is_valid:
-            _debug(wedge)
-            raise Exception(f"\"wedge\" is not a valid Polygon ({shapely.validation.explain_validity(wedge)})") from None
-        if wedge.is_empty:
-            raise Exception("\"wedge\" is an empty Polygon") from None
+        check(wedge)
 
         # Append Polygon to list ...
         wedges.append(wedge)
@@ -90,13 +83,7 @@ def _points2poly(point, points, kwArgCheck = None, tol = 1.0e-10):
                 (            +180.0, points[:, 1].min()),
             ]
         )
-        if not isinstance(wedge, shapely.geometry.polygon.Polygon):
-            raise Exception("\"wedge\" is not a Polygon") from None
-        if not wedge.is_valid:
-            _debug(wedge)
-            raise Exception(f"\"wedge\" is not a valid Polygon ({shapely.validation.explain_validity(wedge)})") from None
-        if wedge.is_empty:
-            raise Exception("\"wedge\" is an empty Polygon") from None
+        check(wedge)
 
         # Append Polygon to list ...
         wedges.append(wedge)
@@ -115,13 +102,7 @@ def _points2poly(point, points, kwArgCheck = None, tol = 1.0e-10):
                 (points[:, 0].min(),              -90.0),
             ]
         )
-        if not isinstance(wedge, shapely.geometry.polygon.Polygon):
-            raise Exception("\"wedge\" is not a Polygon") from None
-        if not wedge.is_valid:
-            _debug(wedge)
-            raise Exception(f"\"wedge\" is not a valid Polygon ({shapely.validation.explain_validity(wedge)})") from None
-        if wedge.is_empty:
-            raise Exception("\"wedge\" is an empty Polygon") from None
+        check(wedge)
 
         # Append Polygon to list ...
         wedges.append(wedge)
@@ -140,13 +121,7 @@ def _points2poly(point, points, kwArgCheck = None, tol = 1.0e-10):
                 (points[:, 0].min(), points[:, 1].max()),
             ]
         )
-        if not isinstance(wedge, shapely.geometry.polygon.Polygon):
-            raise Exception("\"wedge\" is not a Polygon") from None
-        if not wedge.is_valid:
-            _debug(wedge)
-            raise Exception(f"\"wedge\" is not a valid Polygon ({shapely.validation.explain_validity(wedge)})") from None
-        if wedge.is_empty:
-            raise Exception("\"wedge\" is an empty Polygon") from None
+        check(wedge)
 
         # Append Polygon to list ...
         wedges.append(wedge)
@@ -168,13 +143,7 @@ def _points2poly(point, points, kwArgCheck = None, tol = 1.0e-10):
                 ]
             )
         )
-        if not isinstance(wedge, shapely.geometry.polygon.Polygon):
-            raise Exception("\"wedge\" is not a Polygon") from None
-        if not wedge.is_valid:
-            _debug(wedge)
-            raise Exception(f"\"wedge\" is not a valid Polygon ({shapely.validation.explain_validity(wedge)})") from None
-        if wedge.is_empty:
-            raise Exception("\"wedge\" is an empty Polygon") from None
+        check(wedge)
 
         # Append Polygon to list ...
         wedges.append(wedge)
@@ -184,24 +153,12 @@ def _points2poly(point, points, kwArgCheck = None, tol = 1.0e-10):
 
     # Convert list of Polygons to a correctly oriented (unified) Polygon ...
     wedges = shapely.geometry.polygon.orient(shapely.ops.unary_union(wedges).simplify(tol))
-    if not isinstance(wedges, shapely.geometry.polygon.Polygon):
-        raise Exception("\"wedges\" is not a Polygon") from None
-    if not wedges.is_valid:
-        _debug(wedges)
-        raise Exception(f"\"wedges\" is not a valid Polygon ({shapely.validation.explain_validity(wedges)})") from None
-    if wedges.is_empty:
-        raise Exception("\"wedges\" is an empty Polygon") from None
+    check(wedges)
 
     # Remake the Polygon to remove any interiors ...
     # HACK: Sometimes "wedges" has zero-area interiors.
     wedges = shapely.geometry.polygon.orient(shapely.geometry.polygon.Polygon(wedges.exterior))
-    if not isinstance(wedges, shapely.geometry.polygon.Polygon):
-        raise Exception("\"wedges\" is not a Polygon") from None
-    if not wedges.is_valid:
-        _debug(wedges)
-        raise Exception(f"\"wedges\" is not a valid Polygon ({shapely.validation.explain_validity(wedges)})") from None
-    if wedges.is_empty:
-        raise Exception("\"wedges\" is an empty Polygon") from None
+    check(wedges)
 
     # Return answer ...
     return wedges
