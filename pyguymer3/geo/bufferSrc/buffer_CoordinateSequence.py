@@ -53,15 +53,14 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
         import shapely
         import shapely.geometry
         import shapely.ops
-        import shapely.validation
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
     from .._buffer_points_crudely import _buffer_points_crudely
-    from .._debug import _debug
     from .._points2poly import _points2poly
     from .._posts2panel import _posts2panel
+    from ..check import check
     from ..fillin import fillin
     from ..remap import remap
     try:
@@ -81,6 +80,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     # Check argument ...
     if not isinstance(coords, shapely.coords.CoordinateSequence):
         raise TypeError("\"coords\" is not a CoordinateSequence") from None
+    check(coords)
 
     # Check inputs ...
     if dist < 10.0:
@@ -98,7 +98,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     # Check if the user wants to fill in the CoordinateSequence ...
     if fill > 0.0 and len(coords) > 1:
         # Convert the filled in CoordinateSequence to a NumPy array ...
-        points1 = numpy.array(fillin(coords, fill, fillSpace = fillSpace, debug = debug, tol = tol).coords) # [°]
+        points1 = numpy.array(fillin(coords, fill, fillSpace = fillSpace, debug = debug).coords)    # [°]
     else:
         # Convert the CoordinateSequence to a NumPy array ...
         points1 = numpy.array(coords)                                           # [°]
@@ -196,13 +196,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
 
     # Convert list of Polygons to a correctly oriented (unified) Polygon ...
     finalPolys = shapely.geometry.polygon.orient(shapely.ops.unary_union(finalPolys).simplify(tol))
-    if not isinstance(finalPolys, shapely.geometry.polygon.Polygon):
-        raise Exception("\"finalPolys\" is not a Polygon") from None
-    if not finalPolys.is_valid:
-        _debug(finalPolys)
-        raise Exception(f"\"finalPolys\" is not a valid Polygon ({shapely.validation.explain_validity(finalPolys)})") from None
-    if finalPolys.is_empty:
-        raise Exception("\"finalPolys\" is an empty Polygon") from None
+    check(finalPolys)
 
     # Re-map the Polygon on to Earth ...
     buffs = remap(finalPolys, tol = tol)
@@ -213,26 +207,16 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     # Check if the user wants to fill in the [Multi]Polygon ...
     if fill > 0.0:
         # Fill in [Multi]Polygon ...
-        buffs = fillin(buffs, fill, debug = debug, tol = tol)
+        buffs = fillin(buffs, fill, debug = debug)
 
     # Check if the user wants to simplify the [Multi]Polygon ...
     if simp > 0.0:
         # Simplify [Multi]Polygon ...
         buffsSimp = buffs.simplify(simp)
+        check(buffsSimp)
 
-        # Check simplified [Multi]Polygon ...
-        if buffsSimp.is_valid and not buffsSimp.is_empty:
-            # Clean up ...
-            del buffs
-
-            # Return simplified answer ...
-            return buffsSimp
-
-        # Clean up ...
-        del buffsSimp
-
-        if debug:
-            print(f"WARNING: \"buffsSimp\" is not a valid [Multi]Polygon ({shapely.validation.explain_validity(buffsSimp)}), will return \"buffs\" instead")
+        # Return simplified answer ...
+        return buffsSimp
 
     # Return answer ...
     return buffs

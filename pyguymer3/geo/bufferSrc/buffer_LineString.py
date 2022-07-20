@@ -34,12 +34,11 @@ def buffer_LineString(line, dist, kwArgCheck = None, debug = False, fill = 1.0, 
     try:
         import shapely
         import shapely.geometry
-        import shapely.validation
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
-    from .._debug import _debug
+    from ..check import check
     from .buffer_CoordinateSequence import buffer_CoordinateSequence
 
     # Check keyword arguments ...
@@ -49,11 +48,7 @@ def buffer_LineString(line, dist, kwArgCheck = None, debug = False, fill = 1.0, 
     # Check argument ...
     if not isinstance(line, shapely.geometry.linestring.LineString):
         raise TypeError("\"line\" is not a LineString") from None
-    if not line.is_valid:
-        _debug(line)
-        raise Exception(f"\"line\" is not a valid LineString ({shapely.validation.explain_validity(line)})") from None
-    if line.is_empty:
-        raise Exception("\"line\" is an empty LineString") from None
+    check(line)
 
     # Return buffered LineString ...
     return buffer_CoordinateSequence(line.coords, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, simp = simp, tol = tol)

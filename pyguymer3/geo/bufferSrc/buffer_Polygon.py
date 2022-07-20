@@ -36,12 +36,11 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, fil
         import shapely
         import shapely.geometry
         import shapely.ops
-        import shapely.validation
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
-    from .._debug import _debug
+    from ..check import check
     from ..fillin import fillin
     from .buffer_LinearRing import buffer_LinearRing
 
@@ -52,11 +51,7 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, fil
     # Check argument ...
     if not isinstance(poly, shapely.geometry.polygon.Polygon):
         raise TypeError("\"poly\" is not a Polygon") from None
-    if not poly.is_valid:
-        _debug(poly)
-        raise Exception(f"\"poly\" is not a valid Polygon ({shapely.validation.explain_validity(poly)})") from None
-    if poly.is_empty:
-        raise Exception("\"poly\" is an empty Polygon") from None
+    check(poly)
 
     # Initialize list ...
     buffs = []
@@ -72,35 +67,21 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, fil
 
     # Convert list of [Multi]Polygons to a (unified) [Multi]Polygon ...
     buffs = shapely.ops.unary_union(buffs).simplify(tol)
-    if not buffs.is_valid:
-        _debug(buffs)
-        raise Exception(f"\"buffs\" is not a valid [Multi]Polygon ({shapely.validation.explain_validity(buffs)})") from None
-    if buffs.is_empty:
-        raise Exception("\"buffs\" is an empty [Multi]Polygon") from None
+    check(buffs)
 
     # Check if the user wants to fill in the [Multi]Polygon ...
     if fill > 0.0:
         # Fill in [Multi]Polygon ...
-        buffs = fillin(buffs, fill, debug = debug, fillSpace = fillSpace, tol = tol)
+        buffs = fillin(buffs, fill, debug = debug, fillSpace = fillSpace)
 
     # Check if the user wants to simplify the [Multi]Polygon ...
     if simp > 0.0:
         # Simplify [Multi]Polygon ...
         buffsSimp = buffs.simplify(simp)
+        check(buffsSimp)
 
-        # Check simplified [Multi]Polygon ...
-        if buffsSimp.is_valid and not buffsSimp.is_empty:
-            # Clean up ...
-            del buffs
-
-            # Return simplified answer ...
-            return buffsSimp
-
-        # Clean up ...
-        del buffsSimp
-
-        if debug:
-            print(f"WARNING: \"buffsSimp\" is not a valid [Multi]Polygon ({shapely.validation.explain_validity(buffsSimp)}), will return \"buffs\" instead")
+        # Return simplified answer ...
+        return buffsSimp
 
     # Return answer ...
     return buffs
