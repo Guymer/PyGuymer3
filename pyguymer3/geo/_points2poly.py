@@ -1,4 +1,4 @@
-def _points2poly(point, points, kwArgCheck = None, tol = 1.0e-10):
+def _points2poly(point, points, kwArgCheck = None, debug = False, tol = 1.0e-10):
     """Convert a buffered point to a Polygon
 
     This function reads in a coordinate that exists on the surface of the Earth,
@@ -11,6 +11,8 @@ def _points2poly(point, points, kwArgCheck = None, tol = 1.0e-10):
             the (2) array of (lon,lat) coordinate (in degrees)
     points : numpy.ndarray
             the (nang, 2) array of (lon,lat) coordinates around the (lon,lat) coordinate (in degrees)
+    debug : bool, optional
+            print debug messages
     tol : float, optional
             the Euclidean distance that defines two points as being the same (in degrees)
 
@@ -34,6 +36,7 @@ def _points2poly(point, points, kwArgCheck = None, tol = 1.0e-10):
 
     # Import sub-functions ...
     from .check import check
+    from .clean import clean
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
@@ -161,4 +164,4 @@ def _points2poly(point, points, kwArgCheck = None, tol = 1.0e-10):
     check(wedges)
 
     # Return answer ...
-    return wedges
+    return clean(wedges, debug = debug, tol = tol)
