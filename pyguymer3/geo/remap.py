@@ -23,12 +23,11 @@ def remap(poly, kwArgCheck = None, tol = 1.0e-10):
         import shapely
         import shapely.geometry
         import shapely.ops
-        import shapely.validation
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
-    from ._debug import _debug
+    from .check import check
     from .remapSrc import earthA
     from .remapSrc import earthB
     from .remapSrc import earthC
@@ -44,11 +43,7 @@ def remap(poly, kwArgCheck = None, tol = 1.0e-10):
     # Check argument ...
     if not isinstance(poly, shapely.geometry.polygon.Polygon):
         raise TypeError("\"poly\" is not a Polygon") from None
-    if not poly.is_valid:
-        _debug(poly)
-        raise Exception(f"\"poly\" is not a valid Polygon ({shapely.validation.explain_validity(poly)})") from None
-    if poly.is_empty:
-        raise Exception("\"poly\" is an empty Polygon") from None
+    check(poly)
 
     # Initialize list ...
     polys = []
@@ -83,11 +78,7 @@ def remap(poly, kwArgCheck = None, tol = 1.0e-10):
 
     # Convert list of Polygons to (unified) [Multi]Polygon ...
     polys = shapely.ops.unary_union(polys).simplify(tol)
-    if not polys.is_valid:
-        _debug(polys)
-        raise Exception(f"\"polys\" is not a valid [Multi]Polygon ({shapely.validation.explain_validity(polys)})") from None
-    if polys.is_empty:
-        raise Exception("\"polys\" is an empty [Multi]Polygon") from None
+    check(polys)
 
     # Return answer ...
     return polys
