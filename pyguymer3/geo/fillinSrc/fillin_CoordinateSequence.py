@@ -36,9 +36,9 @@ def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, fillSpace = "Eucl
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
-    from ._debug import _debug
-    from .calc_dist_between_two_locs import calc_dist_between_two_locs
-    from .great_circle import great_circle
+    from .._debug import _debug
+    from ..calc_dist_between_two_locs import calc_dist_between_two_locs
+    from ..great_circle import great_circle
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
