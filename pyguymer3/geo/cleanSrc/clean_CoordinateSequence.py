@@ -46,10 +46,14 @@ def clean_CoordinateSequence(coords, kwArgCheck = None, debug = False, tol = 1.0
         raise TypeError("\"coords\" is not a CoordinateSequence") from None
 
     # Convert the CoordinateSequence to a NumPy array ...
-    points1 = numpy.array(coords.coords)                                        # [°]
+    points1 = numpy.array(coords)                                               # [°]
 
     # Create short-hand ...
     npoint = points1.shape[0]
+
+    # Don't clean points ...
+    if npoint == 1:
+        return shapely.geometry.point.Point(coords)
 
     # Initialize list ...
     points2 = []                                                                # [°]
