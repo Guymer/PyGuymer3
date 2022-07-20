@@ -29,13 +29,13 @@ def remap(poly, kwArgCheck = None, tol = 1.0e-10):
 
     # Import sub-functions ...
     from ._debug import _debug
-    from ._earthA import _earthA
-    from ._earthB import _earthB
-    from ._earthC import _earthC
-    from ._earthD import _earthD
-    from ._earthE import _earthE
-    from ._earthF import _earthF
-    from ._earthG import _earthG
+    from .remapSrc import earthA
+    from .remapSrc import earthB
+    from .remapSrc import earthC
+    from .remapSrc import earthD
+    from .remapSrc import earthE
+    from .remapSrc import earthF
+    from .remapSrc import earthG
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
@@ -55,31 +55,31 @@ def remap(poly, kwArgCheck = None, tol = 1.0e-10):
 
     # Append the Polygons, which are the subset of the Polygon that intersects
     # with Earth-A that has been re-mapped on to Earth-D, to list ...
-    polys += _earthA(poly)
+    polys += earthA(poly)
 
     # Append the Polygons, which are the subset of the Polygon that intersects
     # with Earth-B that has been re-mapped on to Earth-D, to list ...
-    polys += _earthB(poly)
+    polys += earthB(poly)
 
     # Append the Polygons, which are the subset of the Polygon that intersects
     # with Earth-C that has been re-mapped on to Earth-D, to list ...
-    polys += _earthC(poly)
+    polys += earthC(poly)
 
     # Append the Polygons, which are the subset of the Polygon that intersects
     # with Earth-D that has been re-mapped on to Earth-D, to list ...
-    polys += _earthD(poly)
+    polys += earthD(poly)
 
     # Append the Polygons, which are the subset of the Polygon that intersects
     # with Earth-E that has been re-mapped on to Earth-D, to list ...
-    polys += _earthE(poly)
+    polys += earthE(poly)
 
     # Append the Polygons, which are the subset of the Polygon that intersects
     # with Earth-F that has been re-mapped on to Earth-D, to list ...
-    polys += _earthF(poly)
+    polys += earthF(poly)
 
     # Append the Polygons, which are the subset of the Polygon that intersects
     # with Earth-G that has been re-mapped on to Earth-D, to list ...
-    polys += _earthG(poly)
+    polys += earthG(poly)
 
     # Convert list of Polygons to (unified) [Multi]Polygon ...
     polys = shapely.ops.unary_union(polys).simplify(tol)

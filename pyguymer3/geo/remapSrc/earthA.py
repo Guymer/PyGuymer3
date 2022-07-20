@@ -1,7 +1,7 @@
-def _earthF(shape):
-    """Re-map Polygon from Earth-F to Earth-D
+def earthA(shape):
+    """Re-map Polygon from Earth-A to Earth-D
 
-    This function finds the extent of the input Polygon that exists on Earth-F
+    This function finds the extent of the input Polygon that exists on Earth-A
     and re-maps it to Earth-D.
 
     Parameters
@@ -30,8 +30,8 @@ def _earthF(shape):
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
-    from ._debug import _debug
-    from .extract_polys import extract_polys
+    from .._debug import _debug
+    from ..extract_polys import extract_polys
 
     # Check argument ...
     if not isinstance(shape, shapely.geometry.polygon.Polygon):
@@ -42,26 +42,26 @@ def _earthF(shape):
     if shape.is_empty:
         raise Exception("\"shape\" is an empty Polygon") from None
 
-    # Define Earth-F (as a correctly oriented Polygon) ...
-    earthF = shapely.geometry.polygon.Polygon(
+    # Define Earth-A (as a correctly oriented Polygon) ...
+    earth = shapely.geometry.polygon.Polygon(
         [
-            (-360.0,  -90.0),
-            (-360.0, -270.0),
-            (   0.0, -270.0),
-            (   0.0,  -90.0),
-            (-360.0,  -90.0),
+            (-360.0, +270.0),
+            (-360.0,  +90.0),
+            (   0.0,  +90.0),
+            (   0.0, +270.0),
+            (-360.0, +270.0),
         ]
     )
-    if not isinstance(earthF, shapely.geometry.polygon.Polygon):
-        raise Exception("\"earthF\" is not a Polygon") from None
-    if not earthF.is_valid:
-        _debug(earthF)
-        raise Exception(f"\"earthF\" is not a valid Polygon ({shapely.validation.explain_validity(earthF)})") from None
-    if earthF.is_empty:
-        raise Exception("\"earthF\" is an empty Polygon") from None
+    if not isinstance(earth, shapely.geometry.polygon.Polygon):
+        raise Exception("\"earth\" is not a Polygon") from None
+    if not earth.is_valid:
+        _debug(earth)
+        raise Exception(f"\"earth\" is not a valid Polygon ({shapely.validation.explain_validity(earth)})") from None
+    if earth.is_empty:
+        raise Exception("\"earth\" is an empty Polygon") from None
 
-    # Find the intersection of the Polygon with Earth-F as a list of Polygons ...
-    polys = extract_polys(earthF.intersection(shape))
+    # Find the intersection of the Polygon with Earth-A as a list of Polygons ...
+    polys = extract_polys(earth.intersection(shape))
 
     # Initialize list ...
     buffs = []
@@ -77,8 +77,8 @@ def _earthF(shape):
         if poly.is_empty:
             continue
 
-        # Re-map the Polygon of the intersection from Earth-F to Earth-D ...
-        buff = shapely.affinity.scale(shapely.affinity.translate(poly, xoff = +180.0, yoff = +180.0), xfact = -1.0, yfact = -1.0, origin = (0.0, 0.0))
+        # Re-map the Polygon of the intersection from Earth-A to Earth-D ...
+        buff = shapely.affinity.scale(shapely.affinity.translate(poly, xoff = +180.0, yoff = -180.0), xfact = -1.0, yfact = -1.0, origin = (0.0, 0.0))
         if not isinstance(buff, shapely.geometry.polygon.Polygon):
             raise Exception("\"buff\" is not a Polygon") from None
         if not buff.is_valid:
