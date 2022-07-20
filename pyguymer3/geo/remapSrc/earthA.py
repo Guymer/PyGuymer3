@@ -29,7 +29,6 @@ def earthA(shape):
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
-    from .._debug import _debug
     from ..check import check
     from ..extract_polys import extract_polys
 
