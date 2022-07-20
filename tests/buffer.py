@@ -48,6 +48,14 @@ if __name__ == "__main__":
 
     print(f"Testing \"{pyguymer3.__path__[0]}\" ...")
 
+    # Configure functions ...
+    debug = True
+    fill = -1.0                                                                 # [°]
+    fillSpace = "EuclideanSpace"
+    nang = 361                                                                  # [#]
+    simp = -1.0                                                                 # [°]
+    tol = 1.0e-10                                                               # [°]
+
     # Define polygons ...
     polys = [
         (-180.0, +90.0, 1000000.0,  900000.0), # Satisfies test A, C, D, F
@@ -95,7 +103,7 @@ if __name__ == "__main__":
         ax3.set_yticks([-90, -45, 0, +45, +90])
 
         # Buffer Point and plot it thrice ...
-        buff0 = pyguymer3.geo.buffer(shapely.geometry.point.Point(lon, lat), dist1 + dist2, debug = True, nang = 361, simp = -1.0)
+        buff0 = pyguymer3.geo.buffer(shapely.geometry.point.Point(lon, lat), dist1 + dist2, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, simp = simp, tol = tol)
         ax1.add_geometries([buff0], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = "none", linewidth = 1.0)
         ax2.add_geometries([buff0], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = "none", linewidth = 1.0)
         for poly in pyguymer3.geo.extract_polys(buff0):
@@ -107,7 +115,7 @@ if __name__ == "__main__":
         del buff0
 
         # Buffer Point and plot it twice ...
-        buff1 = pyguymer3.geo.buffer(shapely.geometry.point.Point(lon, lat), dist1, debug = True, nang = 361, simp = -1.0)
+        buff1 = pyguymer3.geo.buffer(shapely.geometry.point.Point(lon, lat), dist1, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, simp = simp, tol = tol)
         ax1.add_geometries([buff1], cartopy.crs.PlateCarree(), edgecolor = (0.0, 1.0, 0.0, 1.0), facecolor = "none", linewidth = 1.0)
         ax2.add_geometries([buff1], cartopy.crs.PlateCarree(), edgecolor = (0.0, 1.0, 0.0, 1.0), facecolor = "none", linewidth = 1.0)
         for poly in pyguymer3.geo.extract_polys(buff1):
@@ -116,7 +124,7 @@ if __name__ == "__main__":
             del coords
 
         # Buffer Polygon and plot it thrice ...
-        buff2 = pyguymer3.geo.buffer(buff1, dist2, debug = True, nang = 361, simp = -1.0)
+        buff2 = pyguymer3.geo.buffer(buff1, dist2, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, simp = simp, tol = tol)
         ax1.add_geometries([buff2], cartopy.crs.PlateCarree(), edgecolor = (0.0, 0.0, 1.0, 1.0), facecolor = (0.0, 0.0, 1.0, 0.5), linewidth = 1.0)
         ax2.add_geometries([buff2], cartopy.crs.PlateCarree(), edgecolor = (0.0, 0.0, 1.0, 1.0), facecolor = (0.0, 0.0, 1.0, 0.5), linewidth = 1.0)
         for poly in pyguymer3.geo.extract_polys(buff2):

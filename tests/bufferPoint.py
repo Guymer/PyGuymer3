@@ -48,6 +48,14 @@ if __name__ == "__main__":
 
     print(f"Testing \"{pyguymer3.__path__[0]}\" ...")
 
+    # Configure functions ...
+    debug = True
+    fill = -1.0                                                                 # [°]
+    fillSpace = "EuclideanSpace"
+    nang = 361                                                                  # [#]
+    simp = -1.0                                                                 # [°]
+    tol = 1.0e-10                                                               # [°]
+
     # Define points ...
     points = [
         (-180.0, +90.0, 1000000.0), # Satisfies test A, C, D, F
@@ -95,7 +103,7 @@ if __name__ == "__main__":
         ax3.set_yticks([-90, -45, 0, +45, +90])
 
         # Buffer Point and plot it thrice ...
-        buff0 = pyguymer3.geo.buffer(shapely.geometry.point.Point(lon, lat), dist, debug = True, nang = 361, simp = -1.0)
+        buff0 = pyguymer3.geo.buffer(shapely.geometry.point.Point(lon, lat), dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, simp = simp, tol = tol)
         ax1.add_geometries([buff0], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = (1.0, 0.0, 0.0, 0.5), linewidth = 1.0)
         ax2.add_geometries([buff0], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = (1.0, 0.0, 0.0, 0.5), linewidth = 1.0)
         for poly in pyguymer3.geo.extract_polys(buff0):
