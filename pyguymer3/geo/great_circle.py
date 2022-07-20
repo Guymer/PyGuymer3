@@ -13,12 +13,11 @@ def great_circle(lon1, lat1, lon2, lat2, kwArgCheck = None, debug = False, npoin
     try:
         import shapely
         import shapely.geometry
-        import shapely.validation
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
-    from ._debug import _debug
+    from .check import check
     from .find_point_on_great_circle import find_point_on_great_circle
     from ..interpolate import interpolate
 
@@ -50,23 +49,17 @@ def great_circle(lon1, lat1, lon2, lat2, kwArgCheck = None, debug = False, npoin
         x = -180.0                                                              # [°]
         y = interpolate(circle[i, 0], circle[i + 1, 0] - 360.0, circle[i, 1], circle[i + 1, 1], x)  # [°]
         line1 = shapely.geometry.linestring.LineString(numpy.append(circle[:i + 1, :], [[x, y]], axis = 0))
+        check(line1)
 
         # Calculate the second intersection and convert to a LineString ...
         x = +180.0                                                              # [°]
         y = interpolate(circle[i, 0] + 360.0, circle[i + 1, 0], circle[i, 1], circle[i + 1, 1], x)  # [°]
         line2 = shapely.geometry.linestring.LineString(numpy.append([[x, y]], circle[i + 1:, :], axis = 0))
+        check(line2)
 
         # Convert to a MultiLineString ...
         multiline = shapely.geometry.multilinestring.MultiLineString([line1, line2])
-
-        # Check MultiLineString ...
-        if not isinstance(multiline, shapely.geometry.multilinestring.MultiLineString):
-            raise TypeError("\"multiline\" is not a MultiLineString") from None
-        if not multiline.is_valid:
-            _debug(multiline)
-            raise Exception(f"\"multiline\" is not a valid MultiLineString ({shapely.validation.explain_validity(multiline)})") from None
-        if multiline.is_empty:
-            raise Exception("\"multiline\" is an empty MultiLineString") from None
+        check(multiline)
 
         # Return answer ...
         return multiline
@@ -83,38 +76,24 @@ def great_circle(lon1, lat1, lon2, lat2, kwArgCheck = None, debug = False, npoin
         x = +180.0                                                              # [°]
         y = interpolate(circle[i, 0], circle[i + 1, 0] + 360.0, circle[i, 1], circle[i + 1, 1], x)  # [°]
         line1 = shapely.geometry.linestring.LineString(numpy.append(circle[:i + 1, :], [[x, y]], axis = 0))
+        check(line1)
 
         # Calculate the second intersection and convert to a LineString ...
         x = -180.0                                                              # [°]
         y = interpolate(circle[i, 0] - 360.0, circle[i + 1, 0], circle[i, 1], circle[i + 1, 1], x)  # [°]
         line2 = shapely.geometry.linestring.LineString(numpy.append([[x, y]], circle[i + 1:, :], axis = 0))
+        check(line2)
 
         # Convert to a MultiLineString ...
         multiline = shapely.geometry.multilinestring.MultiLineString([line1, line2])
-
-        # Check MultiLineString ...
-        if not isinstance(multiline, shapely.geometry.multilinestring.MultiLineString):
-            raise TypeError("\"multiline\" is not a MultiLineString") from None
-        if not multiline.is_valid:
-            _debug(multiline)
-            raise Exception(f"\"multiline\" is not a valid MultiLineString ({shapely.validation.explain_validity(multiline)})") from None
-        if multiline.is_empty:
-            raise Exception("\"multiline\" is an empty MultiLineString") from None
+        check(multiline)
 
         # Return answer ...
         return multiline
 
     # Convert to a LineString ...
     line = shapely.geometry.linestring.LineString(circle)
-
-    # Check LineString ...
-    if not isinstance(line, shapely.geometry.linestring.LineString):
-        raise TypeError("\"line\" is not a LineString") from None
-    if not line.is_valid:
-        _debug(line)
-        raise Exception(f"\"line\" is not a valid LineString ({shapely.validation.explain_validity(line)})") from None
-    if line.is_empty:
-        raise Exception("\"line\" is an empty LineString") from None
+    check(line)
 
     # Return answer ...
     return line
