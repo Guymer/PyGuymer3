@@ -1,4 +1,4 @@
-def _posts2panel(pointA, pointB, pointsA, pointsB, polyA, polyB, kwArgCheck = None, tol = 1.0e-10):
+def _posts2panel(pointA, pointB, pointsA, pointsB, polyA, polyB, kwArgCheck = None, debug = False, tol = 1.0e-10):
     """Convert two buffered points to a Polygon
 
     This function reads in two coordinates that exists on the surface of the
@@ -21,6 +21,8 @@ def _posts2panel(pointA, pointB, pointsA, pointsB, polyA, polyB, kwArgCheck = No
             the Polygon around the first (lon,lat) coordinate
     polyB : shapely.geometry.polygon.Polygon
             the Polygon around the second (lon,lat) coordinate
+    debug : bool, optional
+            print debug messages
     tol : float, optional
             the Euclidean distance that defines two points as being the same (in degrees)
 
@@ -44,6 +46,7 @@ def _posts2panel(pointA, pointB, pointsA, pointsB, polyA, polyB, kwArgCheck = No
 
     # Import sub-functions ...
     from .check import check
+    from .clean import clean
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
@@ -104,4 +107,4 @@ def _posts2panel(pointA, pointB, pointsA, pointsB, polyA, polyB, kwArgCheck = No
     check(finalPoly)
 
     # Return answer ...
-    return finalPoly
+    return clean(finalPoly, debug = debug, tol = tol)
