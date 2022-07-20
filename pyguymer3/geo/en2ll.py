@@ -19,16 +19,12 @@ def en2ll(poly1):
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
-    from ._debug import _debug
+    from .check import check
 
     # Check argument ...
     if not isinstance(poly1, shapely.geometry.polygon.Polygon):
         raise TypeError("\"poly1\" is not a Polygon") from None
-    if not poly1.is_valid:
-        _debug(poly1)
-        raise Exception(f"\"poly1\" is not a valid Polygon ({shapely.validation.explain_validity(poly1)})") from None
-    if poly1.is_empty:
-        raise Exception("\"poly1\" is an empty Polygon") from None
+    check(poly1)
 
     # Initialize lists ...
     exteriorRing = []
@@ -42,8 +38,7 @@ def en2ll(poly1):
 
     # Convert ring to LinearRing ...
     exteriorRing = shapely.geometry.polygon.LinearRing(exteriorRing)
-    if not exteriorRing.is_valid:
-        return False
+    check(exteriorRing)
 
     # Loop over interior rings ...
     for interior in poly1.interiors:
@@ -58,8 +53,7 @@ def en2ll(poly1):
 
         # Convert ring to LinearRing ...
         interiorRing = shapely.geometry.polygon.LinearRing(interiorRing)
-        if not interiorRing.is_valid:
-            return False
+        check(interiorRing)
 
         # Append LinearRing to list ...
         interiorRings.append(interiorRing)
@@ -69,16 +63,10 @@ def en2ll(poly1):
 
     # Convert LinearRings to Polygon ...
     poly2 = shapely.geometry.polygon.Polygon(exteriorRing, interiorRings)
+    check(poly2)
 
     # Clean up ...
     del exteriorRing, interiorRings
-
-    # Check Polygon ...
-    if not poly2.is_valid:
-        _debug(poly2)
-        raise Exception(f"\"poly2\" is not a valid Polygon ({shapely.validation.explain_validity(poly2)})") from None
-    if poly2.is_empty:
-        raise Exception("\"poly2\" is an empty Polygon") from None
 
     # Return answer ...
     return poly2
