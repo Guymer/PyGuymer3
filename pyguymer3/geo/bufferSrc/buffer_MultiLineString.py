@@ -39,9 +39,9 @@ def buffer_MultiLineString(multiline, dist, kwArgCheck = None, debug = False, fi
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
-    from ._debug import _debug
+    from .._debug import _debug
+    from ..fillin import fillin
     from .buffer_LineString import buffer_LineString
-    from .fillin import fillin
 
     # Check keyword arguments ...
     if kwArgCheck is not None:

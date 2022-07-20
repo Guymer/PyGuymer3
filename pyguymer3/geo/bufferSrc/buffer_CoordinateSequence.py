@@ -58,14 +58,14 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
-    from ._buffer_points_crudely import _buffer_points_crudely
-    from ._debug import _debug
-    from ._points2poly import _points2poly
-    from ._posts2panel import _posts2panel
-    from .fillin import fillin
-    from .remap import remap
+    from .._buffer_points_crudely import _buffer_points_crudely
+    from .._debug import _debug
+    from .._points2poly import _points2poly
+    from .._posts2panel import _posts2panel
+    from ..fillin import fillin
+    from ..remap import remap
     try:
-        from ..f90 import funcs
+        from ...f90 import funcs
         if debug:
             print("INFO: Will find the rings using FORTRAN.")
         fortran = True

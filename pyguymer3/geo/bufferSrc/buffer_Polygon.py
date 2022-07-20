@@ -41,9 +41,9 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, fil
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
-    from ._debug import _debug
+    from .._debug import _debug
+    from ..fillin import fillin
     from .buffer_LinearRing import buffer_LinearRing
-    from .fillin import fillin
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
