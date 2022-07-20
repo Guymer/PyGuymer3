@@ -23,13 +23,13 @@ def check(shape):
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
-    from .checkSrc.check_CoordinateSequence import check_CoordinateSequence
-    from .checkSrc.check_LinearRing import check_LinearRing
-    from .checkSrc.check_LineString import check_LineString
-    from .checkSrc.check_MultiLineString import check_MultiLineString
-    from .checkSrc.check_MultiPolygon import check_MultiPolygon
-    from .checkSrc.check_Point import check_Point
-    from .checkSrc.check_Polygon import check_Polygon
+    from .checkSrc import check_CoordinateSequence
+    from .checkSrc import check_Point
+    from .checkSrc import check_LinearRing
+    from .checkSrc import check_LineString
+    from .checkSrc import check_MultiLineString
+    from .checkSrc import check_Polygon
+    from .checkSrc import check_MultiPolygon
 
     # Check if it is a CoordinateSequence and return it checked ...
     if isinstance(shape, shapely.coords.CoordinateSequence):
