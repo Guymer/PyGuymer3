@@ -29,12 +29,11 @@ def fillin_MultiPolygon(multipoly, fill, kwArgCheck = None, debug = False, fillS
         import shapely
         import shapely.geometry
         import shapely.ops
-        import shapely.validation
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
-    from .._debug import _debug
+    from ..check import check
     from .fillin_Polygon import fillin_Polygon
 
     # Check keyword arguments ...
@@ -44,11 +43,7 @@ def fillin_MultiPolygon(multipoly, fill, kwArgCheck = None, debug = False, fillS
     # Check argument ...
     if not isinstance(multipoly, shapely.geometry.multipolygon.MultiPolygon):
         raise TypeError("\"multipoly\" is not a MultiPolygon") from None
-    if not multipoly.is_valid:
-        _debug(multipoly)
-        raise Exception(f"\"multipoly\" is not a valid MultiPolygon ({shapely.validation.explain_validity(multipoly)})") from None
-    if multipoly.is_empty:
-        raise Exception("\"multipoly\" is an empty MultiPolygon") from None
+    check(multipoly)
 
     # Initialize list ...
     polys = []
@@ -60,18 +55,10 @@ def fillin_MultiPolygon(multipoly, fill, kwArgCheck = None, debug = False, fillS
 
     # Convert list of Polygons to a (unified) MultiPolygon ...
     fills = shapely.ops.unary_union(polys)
+    check(fills)
 
     # Clean up ...
     del polys
-
-    # Check MultiPolygon ...
-    if not isinstance(fills, shapely.geometry.multipolygon.MultiPolygon):
-        raise TypeError("\"fills\" is not a MultiPolygon") from None
-    if not fills.is_valid:
-        _debug(fills)
-        raise Exception(f"\"fills\" is not a valid MultiPolygon ({shapely.validation.explain_validity(fills)})") from None
-    if fills.is_empty:
-        raise Exception("\"fills\" is an empty MultiPolygon") from None
 
     # Return answer ...
     return fills

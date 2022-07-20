@@ -31,13 +31,12 @@ def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, fillSpace = "Eucl
     try:
         import shapely
         import shapely.geometry
-        import shapely.validation
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
-    from .._debug import _debug
     from ..calc_dist_between_two_locs import calc_dist_between_two_locs
+    from ..check import check
     from ..great_circle import great_circle
 
     # Check keyword arguments ...
@@ -47,6 +46,7 @@ def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, fillSpace = "Eucl
     # Check argument ...
     if not isinstance(coords, shapely.coords.CoordinateSequence):
         raise TypeError("\"coords\" is not a CoordinateSequence") from None
+    check(coords)
 
     # Convert the CoordinateSequence to a NumPy array ...
     points1 = numpy.array(coords)                                               # [°]
@@ -151,18 +151,10 @@ def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, fillSpace = "Eucl
 
     # Convert array of points to a LineString ...
     fills = shapely.geometry.linestring.LineString(points2)
+    check(fills)
 
     # Clean up ...
     del points2
-
-    # Check LineString ...
-    if not isinstance(fills, shapely.geometry.linestring.LineString):
-        raise TypeError("\"fills\" is not a LineString") from None
-    if not fills.is_valid:
-        _debug(fills)
-        raise Exception(f"\"fills\" is not a valid LineString ({shapely.validation.explain_validity(fills)})") from None
-    if fills.is_empty:
-        raise Exception("\"fills\" is an empty LineString") from None
 
     # Return answer ...
     return fills

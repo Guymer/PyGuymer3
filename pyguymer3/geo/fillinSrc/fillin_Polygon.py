@@ -28,12 +28,11 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, fillSpace = "Eu
         import shapely
         import shapely.geometry
         import shapely.ops
-        import shapely.validation
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
-    from .._debug import _debug
+    from ..check import check
     from .fillin_LinearRing import fillin_LinearRing
 
     # Check keyword arguments ...
@@ -43,11 +42,7 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, fillSpace = "Eu
     # Check argument ...
     if not isinstance(poly, shapely.geometry.polygon.Polygon):
         raise TypeError("\"poly\" is not a Polygon") from None
-    if not poly.is_valid:
-        _debug(poly)
-        raise Exception(f"\"poly\" is not a valid Polygon ({shapely.validation.explain_validity(poly)})") from None
-    if poly.is_empty:
-        raise Exception("\"poly\" is an empty Polygon") from None
+    check(poly)
 
     # Filled in exterior LinearRing ...
     exterior = fillin_LinearRing(poly.exterior, fill, debug = debug, fillSpace = fillSpace)
@@ -69,18 +64,10 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, fillSpace = "Eu
     # Convert exterior LinearRing and list of interior LinearRings to a
     # correctly oriented Polygon ...
     fills = shapely.geometry.polygon.orient(shapely.geometry.polygon.Polygon(exterior, interiors))
+    check(fills)
 
     # Clean up ...
     del exterior, interiors
-
-    # Check Polygon ...
-    if not isinstance(fills, shapely.geometry.polygon.Polygon):
-        raise TypeError("\"fills\" is not a Polygon") from None
-    if not fills.is_valid:
-        _debug(fills)
-        raise Exception(f"\"fills\" is not a valid Polygon ({shapely.validation.explain_validity(fills)})") from None
-    if fills.is_empty:
-        raise Exception("\"fills\" is an empty Polygon") from None
 
     # Return answer ...
     return fills

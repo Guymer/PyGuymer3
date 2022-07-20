@@ -27,12 +27,11 @@ def fillin_LineString(line, fill, kwArgCheck = None, debug = False, fillSpace = 
     try:
         import shapely
         import shapely.geometry
-        import shapely.validation
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
-    from .._debug import _debug
+    from ..check import check
     from .fillin_CoordinateSequence import fillin_CoordinateSequence
 
     # Check keyword arguments ...
@@ -42,11 +41,7 @@ def fillin_LineString(line, fill, kwArgCheck = None, debug = False, fillSpace = 
     # Check argument ...
     if not isinstance(line, shapely.geometry.linestring.LineString):
         raise TypeError("\"line\" is not a LineString") from None
-    if not line.is_valid:
-        _debug(line)
-        raise Exception(f"\"line\" is not a valid LineString ({shapely.validation.explain_validity(line)})") from None
-    if line.is_empty:
-        raise Exception("\"line\" is an empty LineString") from None
+    check(line)
 
     # Return filled in LineString ...
     return fillin_CoordinateSequence(line.coords, fill, debug = debug, fillSpace = fillSpace)

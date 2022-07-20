@@ -27,12 +27,11 @@ def fillin_MultiLineString(multiline, fill, kwArgCheck = None, debug = False, fi
     try:
         import shapely
         import shapely.geometry
-        import shapely.validation
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
-    from .._debug import _debug
+    from ..check import check
     from .fillin_LineString import fillin_LineString
 
     # Check keyword arguments ...
@@ -42,11 +41,7 @@ def fillin_MultiLineString(multiline, fill, kwArgCheck = None, debug = False, fi
     # Check argument ...
     if not isinstance(multiline, shapely.geometry.multilinestring.MultiLineString):
         raise TypeError("\"multiline\" is not a MultiLineString") from None
-    if not multiline.is_valid:
-        _debug(multiline)
-        raise Exception(f"\"multiline\" is not a valid MultiLineString ({shapely.validation.explain_validity(multiline)})") from None
-    if multiline.is_empty:
-        raise Exception("\"multiline\" is an empty MultiLineString") from None
+    check(multiline)
 
     # Initialize list ...
     lines = []
@@ -58,18 +53,10 @@ def fillin_MultiLineString(multiline, fill, kwArgCheck = None, debug = False, fi
 
     # Convert list of LineStrings to a MultiLineString ...
     fills = shapely.geometry.multilinestring.MultiLineString(lines)
+    check(fills)
 
     # Clean up ...
     del lines
-
-    # Check MultiLineString ...
-    if not isinstance(fills, shapely.geometry.multilinestring.MultiLineString):
-        raise TypeError("\"fills\" is not a MultiLineString") from None
-    if not fills.is_valid:
-        _debug(fills)
-        raise Exception(f"\"fills\" is not a valid MultiLineString ({shapely.validation.explain_validity(fills)})") from None
-    if fills.is_empty:
-        raise Exception("\"fills\" is an empty MultiLineString") from None
 
     # Return answer ...
     return fills
