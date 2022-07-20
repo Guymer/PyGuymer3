@@ -35,13 +35,6 @@ from ._add_roads import _add_roads
 from ._add_urbanAreas import _add_urbanAreas
 from ._buffer_points_crudely import _buffer_points_crudely
 from ._debug import _debug
-from ._earthA import _earthA
-from ._earthB import _earthB
-from ._earthC import _earthC
-from ._earthD import _earthD
-from ._earthE import _earthE
-from ._earthF import _earthF
-from ._earthG import _earthG
 from ._points2poly import _points2poly
 from ._posts2panel import _posts2panel
 from .add_horizontal_gridlines import add_horizontal_gridlines
