@@ -1,4 +1,4 @@
-def fillin(shape, fill, kwArgCheck = None, debug = False, fillSpace = "EuclideanSpace", tol = 1.0e-10):
+def fillin(shape, fill, kwArgCheck = None, debug = False, fillSpace = "EuclideanSpace"):
     """Fill in a shape
 
     This function reads in a shape that exists on the surface of the Earth and
@@ -7,7 +7,7 @@ def fillin(shape, fill, kwArgCheck = None, debug = False, fillSpace = "Euclidean
 
     Parameters
     ----------
-    shape : shapely.coords.CoordinateSequence, shapely.geometry.point.Point, shapely.geometry.polygon.LinearRing, shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
+    shape : shapely.coords.CoordinateSequence, shapely.geometry.polygon.LinearRing, shapely.geometry.linestring.LineString, shapely.geometry.multilinestring.MultiLineString, shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
             the shape
     fill : float
             the Euclidean or Geodesic distance to fill in between each point within the shape by (in degrees or metres)
@@ -15,12 +15,10 @@ def fillin(shape, fill, kwArgCheck = None, debug = False, fillSpace = "Euclidean
             print debug messages
     fillSpace : str, optional
             the geometric space to perform the filling in (either "EuclideanSpace" or "GeodesicSpace")
-    tol : float, optional
-            the Euclidean distance that defines two points as being the same (in degrees)
 
     Returns
     -------
-    fills : shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
+    fills : shapely.coords.CoordinateSequence, shapely.geometry.polygon.LinearRing, shapely.geometry.linestring.LineString, shapely.geometry.multilinestring.MultiLineString, shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
             the filled in shape
     """
 
@@ -34,6 +32,8 @@ def fillin(shape, fill, kwArgCheck = None, debug = False, fillSpace = "Euclidean
     # Import sub-functions ...
     from .fillinSrc.fillin_CoordinateSequence import fillin_CoordinateSequence
     from .fillinSrc.fillin_LinearRing import fillin_LinearRing
+    from .fillinSrc.fillin_LineString import fillin_LineString
+    from .fillinSrc.fillin_MultiLineString import fillin_MultiLineString
     from .fillinSrc.fillin_MultiPolygon import fillin_MultiPolygon
     from .fillinSrc.fillin_Polygon import fillin_Polygon
 
@@ -47,15 +47,23 @@ def fillin(shape, fill, kwArgCheck = None, debug = False, fillSpace = "Euclidean
 
     # Check if it is a LinearRing and return it filled ...
     if isinstance(shape, shapely.geometry.polygon.LinearRing):
-        return fillin_LinearRing(shape, fill, debug = debug, fillSpace = fillSpace, tol = tol)
+        return fillin_LinearRing(shape, fill, debug = debug, fillSpace = fillSpace)
+
+    # Check if it is a LineString and return it filled ...
+    if isinstance(shape, shapely.geometry.linestring.LineString):
+        return fillin_LineString(shape, fill, debug = debug, fillSpace = fillSpace)
+
+    # Check if it is a MultiLineString and return it filled ...
+    if isinstance(shape, shapely.geometry.multilinestring.MultiLineString):
+        return fillin_MultiLineString(shape, fill, debug = debug, fillSpace = fillSpace)
 
     # Check if it is a Polygon and return it filled ...
     if isinstance(shape, shapely.geometry.polygon.Polygon):
-        return fillin_Polygon(shape, fill, debug = debug, fillSpace = fillSpace, tol = tol)
+        return fillin_Polygon(shape, fill, debug = debug, fillSpace = fillSpace)
 
     # Check if it is a MultiPolygon and return it filled ...
     if isinstance(shape, shapely.geometry.multipolygon.MultiPolygon):
-        return fillin_MultiPolygon(shape, fill, debug = debug, fillSpace = fillSpace, tol = tol)
+        return fillin_MultiPolygon(shape, fill, debug = debug, fillSpace = fillSpace)
 
     # Crash ...
     raise TypeError(f"\"shape\" is an unexpected type ({repr(type(shape))})") from None
