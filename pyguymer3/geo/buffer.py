@@ -1,4 +1,4 @@
-def buffer(shape, dist, kwArgCheck = None, debug = False, fill = 1.0, nang = 19, simp = 0.1, tol = 1.0e-10):
+def buffer(shape, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", nang = 19, simp = 0.1, tol = 1.0e-10):
     """Buffer a shape
 
     This function reads in a shape that exists on the surface of the Earth and
@@ -13,7 +13,9 @@ def buffer(shape, dist, kwArgCheck = None, debug = False, fill = 1.0, nang = 19,
     debug : bool, optional
             print debug messages
     fill : float, optional
-            the Euclidean distance to fill in between each point within the shape by; negative values disable filling in (in degrees)
+            the Euclidean or Geodesic distance to fill in between each point within the shape by (in degrees or metres)
+    fillSpace : str, optional
+            the geometric space to perform the filling in (either "EuclideanSpace" or "GeodesicSpace")
     nang : int, optional
             the number of angles around each point within the shape that are calculated when buffering
     simp : float, optional

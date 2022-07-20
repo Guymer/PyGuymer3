@@ -1,4 +1,4 @@
-def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fill = 1.0, nang = 19, simp = 0.1, tol = 1.0e-10):
+def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", nang = 19, simp = 0.1, tol = 1.0e-10):
     """Buffer a CoordinateSequence
 
     This function reads in a CoordinateSequence that exists on the surface of
@@ -14,7 +14,9 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     debug : bool, optional
             print debug messages
     fill : float, optional
-            the Euclidean distance to fill in between each point within the [Multi]Polygon by; negative values disable filling in (in degrees)
+            the Euclidean or Geodesic distance to fill in between each point within the shape by (in degrees or metres)
+    fillSpace : str, optional
+            the geometric space to perform the filling in (either "EuclideanSpace" or "GeodesicSpace")
     nang : int, optional
             the number of angles around each point within the CoordinateSequence that are calculated when buffering
     simp : float, optional
