@@ -39,12 +39,11 @@ def _posts2panel(pointA, pointB, pointsA, pointsB, polyA, polyB, kwArgCheck = No
         import shapely
         import shapely.geometry
         import shapely.ops
-        import shapely.validation
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
-    from ._debug import _debug
+    from .check import check
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
@@ -61,45 +60,23 @@ def _posts2panel(pointA, pointB, pointsA, pointsB, polyA, polyB, kwArgCheck = No
         raise TypeError("\"pointsB\" is not a NumPy array") from None
     if not isinstance(polyA, shapely.geometry.polygon.Polygon):
         raise TypeError("\"polyA\" is not a Polygon") from None
-    if not polyA.is_valid:
-        _debug(polyA)
-        raise Exception(f"\"polyA\" is not a valid Polygon ({shapely.validation.explain_validity(polyA)})") from None
-    if polyA.is_empty:
-        raise Exception("\"polyA\" is an empty Polygon") from None
+    check(polyA)
     if not isinstance(polyB, shapely.geometry.polygon.Polygon):
         raise TypeError("\"polyB\" is not a Polygon") from None
-    if not polyB.is_valid:
-        _debug(polyB)
-        raise Exception(f"\"polyB\" is not a valid Polygon ({shapely.validation.explain_validity(polyB)})") from None
-    if polyB.is_empty:
-        raise Exception("\"polyB\" is an empty Polygon") from None
+    check(polyB)
 
     # Check if the two points are the same ...
     if numpy.all(pointA == pointB):
         # Find the correctly oriented Polygon ...
         finalPoly = shapely.geometry.polygon.orient(polyA.simplify(tol))
-
-        # Check Polygon ...
-        if not isinstance(finalPoly, shapely.geometry.polygon.Polygon):
-            raise Exception("\"finalPoly\" is not a Polygon") from None
-        if not finalPoly.is_valid:
-            _debug(finalPoly)
-            raise Exception(f"\"finalPoly\" is not a valid Polygon ({shapely.validation.explain_validity(finalPoly)})") from None
-        if finalPoly.is_empty:
-            raise Exception("\"finalPoly\" is an empty Polygon") from None
+        check(finalPoly)
 
         # Return answer ...
         return finalPoly
 
     # Create a line connecting the two original points ...
     line = shapely.geometry.linestring.LineString([pointA, pointB])
-    if not isinstance(line, shapely.geometry.linestring.LineString):
-        raise Exception("\"line\" is not a LineString") from None
-    if not line.is_valid:
-        _debug(line)
-        raise Exception(f"\"line\" is not a valid LineString ({shapely.validation.explain_validity(line)})") from None
-    if line.is_empty:
-        raise Exception("\"line\" is an empty LineString") from None
+    check(line)
 
     # Find the minimum distance from an original point to any point on its ring ...
     minDist = min(
@@ -112,41 +89,19 @@ def _posts2panel(pointA, pointB, pointsA, pointsB, polyA, polyB, kwArgCheck = No
 
     # Buffer (in Euclidean space) the line connecting the two original points ...
     line = shapely.geometry.polygon.orient(line.buffer(minDist))
-    if not isinstance(line, shapely.geometry.polygon.Polygon):
-        raise Exception("\"line\" is not a Polygon") from None
-    if not line.is_valid:
-        _debug(line)
-        raise Exception(f"\"line\" is not a valid Polygon ({shapely.validation.explain_validity(line)})") from None
-    if line.is_empty:
-        raise Exception("\"line\" is an empty Polygon") from None
+    check(line)
 
     # Convert the two Polygons and the buffered line that connects them to a
     # correctly oriented (unified) Polygon ...
     finalPoly = shapely.geometry.polygon.orient(shapely.ops.unary_union([polyA, line, polyB]).simplify(tol))
+    check(finalPoly)
 
     # Clean up ...
     del line
 
-    # Check Polygon ...
-    if not isinstance(finalPoly, shapely.geometry.polygon.Polygon):
-        raise Exception("\"finalPoly\" is not a Polygon") from None
-    if not finalPoly.is_valid:
-        _debug(finalPoly)
-        raise Exception(f"\"finalPoly\" is not a valid Polygon ({shapely.validation.explain_validity(finalPoly)})") from None
-    if finalPoly.is_empty:
-        raise Exception("\"finalPoly\" is an empty Polygon") from None
-
     # Find the correctly oriented convex hull of the Polygon ...
     finalPoly = shapely.geometry.polygon.orient(finalPoly.convex_hull.simplify(tol))
-
-    # Check Polygon ...
-    if not isinstance(finalPoly, shapely.geometry.polygon.Polygon):
-        raise Exception("\"finalPoly\" is not a Polygon") from None
-    if not finalPoly.is_valid:
-        _debug(finalPoly)
-        raise Exception(f"\"finalPoly\" is not a valid Polygon ({shapely.validation.explain_validity(finalPoly)})") from None
-    if finalPoly.is_empty:
-        raise Exception("\"finalPoly\" is an empty Polygon") from None
+    check(finalPoly)
 
     # Return answer ...
     return finalPoly
