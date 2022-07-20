@@ -14,7 +14,7 @@ def buffer_MultiLineString(multiline, dist, kwArgCheck = None, debug = False, fi
     debug : bool, optional
             print debug messages
     fill : float, optional
-            the Euclidean or Geodesic distance to fill in between each point within the shape by (in degrees or metres)
+            the Euclidean or Geodesic distance to fill in between each point within the shapes by (in degrees or metres)
     fillSpace : str, optional
             the geometric space to perform the filling in (either "EuclideanSpace" or "GeodesicSpace")
     nang : int, optional
