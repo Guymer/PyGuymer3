@@ -1,7 +1,7 @@
 def check_Polygon(shape):
     """Check Polygon
 
-    This function check if a Polygon is valid.
+    This function checks if a Polygon is valid.
 
     Parameters
     ----------
