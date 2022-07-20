@@ -28,6 +28,8 @@ def extract_points(shape):
 
     # Check type ...
     if isinstance(shape, shapely.geometry.point.Point):
+        if shape.is_empty:
+            return []
         return [shape]
 
     # Check type ...
@@ -45,6 +47,10 @@ def extract_points(shape):
 
         # Loop over Points ...
         for point in shape.geoms:
+            # Skip if the Point is empty ...
+            if point.is_empty:
+                continue
+
             # Append Point to list ...
             points.append(point)
 

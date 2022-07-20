@@ -45,6 +45,8 @@ def extract_polys(shape):
 
     # Check type ...
     if isinstance(shape, shapely.geometry.polygon.Polygon):
+        if shape.is_empty:
+            return []
         return [shape]
 
     # Check type ...
@@ -62,6 +64,10 @@ def extract_polys(shape):
 
         # Loop over Polygons ...
         for poly in shape.geoms:
+            # Skip if the Polygon is empty ...
+            if poly.is_empty:
+                continue
+
             # Append Polygon to list ...
             polys.append(poly)
 

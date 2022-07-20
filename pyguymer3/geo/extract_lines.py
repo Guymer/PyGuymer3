@@ -32,6 +32,8 @@ def extract_lines(shape):
 
     # Check type ...
     if isinstance(shape, shapely.geometry.linestring.LineString):
+        if shape.is_empty:
+            return []
         return [shape]
 
     # Check type ...
@@ -49,6 +51,10 @@ def extract_lines(shape):
 
         # Loop over LineStrings ...
         for line in shape.geoms:
+            # Skip if the LineString is empty ...
+            if line.is_empty:
+                continue
+
             # Append LineString to list ...
             lines.append(line)
 
