@@ -1,11 +1,11 @@
-def check_CoordinateSequence(shape):
+def check_CoordinateSequence(coords):
     """Check CoordinateSequence
 
     This function checks if a CoordinateSequence is valid.
 
     Parameters
     ----------
-    shape : shapely.coords.CoordinateSequence
+    coords : shapely.coords.CoordinateSequence
             the CoordinateSequence
 
     Notes
@@ -27,13 +27,13 @@ def check_CoordinateSequence(shape):
     from .._debug import _debug
 
     # Check argument ...
-    if not isinstance(shape, shapely.coords.CoordinateSequence):
-        raise TypeError("\"shape\" is not a CoordinateSequence") from None
-    if not shape.is_valid:
-        _debug(shape)
-        raise Exception(f"\"shape\" is not a valid CoordinateSequence ({shapely.validation.explain_validity(shape)})") from None
-    if shape.is_empty:
-        raise Exception("\"shape\" is an empty CoordinateSequence") from None
+    if not isinstance(coords, shapely.coords.CoordinateSequence):
+        raise TypeError("\"coords\" is not a CoordinateSequence") from None
+    if not coords.is_valid:
+        _debug(coords)
+        raise Exception(f"\"coords\" is not a valid CoordinateSequence ({shapely.validation.explain_validity(coords)})") from None
+    if coords.is_empty:
+        raise Exception("\"coords\" is an empty CoordinateSequence") from None
 
     # Return answer ...
     return True

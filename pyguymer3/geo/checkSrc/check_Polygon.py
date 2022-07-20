@@ -1,11 +1,11 @@
-def check_Polygon(shape):
+def check_Polygon(poly):
     """Check Polygon
 
     This function checks if a Polygon is valid.
 
     Parameters
     ----------
-    shape : shapely.geometry.polygon.Polygon
+    poly : shapely.geometry.polygon.Polygon
             the Polygon
 
     Notes
@@ -27,13 +27,13 @@ def check_Polygon(shape):
     from .._debug import _debug
 
     # Check argument ...
-    if not isinstance(shape, shapely.geometry.polygon.Polygon):
-        raise TypeError("\"shape\" is not a Polygon") from None
-    if not shape.is_valid:
-        _debug(shape)
-        raise Exception(f"\"shape\" is not a valid Polygon ({shapely.validation.explain_validity(shape)})") from None
-    if shape.is_empty:
-        raise Exception("\"shape\" is an empty Polygon") from None
+    if not isinstance(poly, shapely.geometry.polygon.Polygon):
+        raise TypeError("\"poly\" is not a Polygon") from None
+    if not poly.is_valid:
+        _debug(poly)
+        raise Exception(f"\"poly\" is not a valid Polygon ({shapely.validation.explain_validity(poly)})") from None
+    if poly.is_empty:
+        raise Exception("\"poly\" is an empty Polygon") from None
 
     # Return answer ...
     return True

@@ -1,11 +1,11 @@
-def check_Point(shape):
+def check_Point(point):
     """Check Point
 
     This function checks if a Point is valid.
 
     Parameters
     ----------
-    shape : shapely.geometry.point.Point
+    point : shapely.geometry.point.Point
             the Point
 
     Notes
@@ -27,13 +27,13 @@ def check_Point(shape):
     from .._debug import _debug
 
     # Check argument ...
-    if not isinstance(shape, shapely.geometry.point.Point):
-        raise TypeError("\"shape\" is not a Point") from None
-    if not shape.is_valid:
-        _debug(shape)
-        raise Exception(f"\"shape\" is not a valid Point ({shapely.validation.explain_validity(shape)})") from None
-    if shape.is_empty:
-        raise Exception("\"shape\" is an empty Point") from None
+    if not isinstance(point, shapely.geometry.point.Point):
+        raise TypeError("\"point\" is not a Point") from None
+    if not point.is_valid:
+        _debug(point)
+        raise Exception(f"\"point\" is not a valid Point ({shapely.validation.explain_validity(point)})") from None
+    if point.is_empty:
+        raise Exception("\"point\" is an empty Point") from None
 
     # Return answer ...
     return True

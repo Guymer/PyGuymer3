@@ -1,11 +1,11 @@
-def check_MultiPolygon(shape):
+def check_MultiPolygon(multipoly):
     """Check MultiPolygon
 
     This function checks if a MultiPolygon is valid.
 
     Parameters
     ----------
-    shape : shapely.geometry.multipolygon.MultiPolygon
+    multipoly : shapely.geometry.multipolygon.MultiPolygon
             the MultiPolygon
 
     Notes
@@ -27,13 +27,13 @@ def check_MultiPolygon(shape):
     from .._debug import _debug
 
     # Check argument ...
-    if not isinstance(shape, shapely.geometry.multipolygon.MultiPolygon):
-        raise TypeError("\"shape\" is not a MultiPolygon") from None
-    if not shape.is_valid:
-        _debug(shape)
-        raise Exception(f"\"shape\" is not a valid MultiPolygon ({shapely.validation.explain_validity(shape)})") from None
-    if shape.is_empty:
-        raise Exception("\"shape\" is an empty MultiPolygon") from None
+    if not isinstance(multipoly, shapely.geometry.multipolygon.MultiPolygon):
+        raise TypeError("\"multipoly\" is not a MultiPolygon") from None
+    if not multipoly.is_valid:
+        _debug(multipoly)
+        raise Exception(f"\"multipoly\" is not a valid MultiPolygon ({shapely.validation.explain_validity(multipoly)})") from None
+    if multipoly.is_empty:
+        raise Exception("\"multipoly\" is an empty MultiPolygon") from None
 
     # Return answer ...
     return True

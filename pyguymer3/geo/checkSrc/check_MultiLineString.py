@@ -1,11 +1,11 @@
-def check_MultiLineString(shape):
+def check_MultiLineString(multiline):
     """Check MultiLineString
 
     This function checks if a MultiLineString is valid.
 
     Parameters
     ----------
-    shape : shapely.geometry.multilinestring.MultiLineString
+    multiline : shapely.geometry.multilinestring.MultiLineString
             the MultiLineString
 
     Notes
@@ -27,13 +27,13 @@ def check_MultiLineString(shape):
     from .._debug import _debug
 
     # Check argument ...
-    if not isinstance(shape, shapely.geometry.multilinestring.MultiLineString):
-        raise TypeError("\"shape\" is not a MultiLineString") from None
-    if not shape.is_valid:
-        _debug(shape)
-        raise Exception(f"\"shape\" is not a valid MultiLineString ({shapely.validation.explain_validity(shape)})") from None
-    if shape.is_empty:
-        raise Exception("\"shape\" is an empty MultiLineString") from None
+    if not isinstance(multiline, shapely.geometry.multilinestring.MultiLineString):
+        raise TypeError("\"multiline\" is not a MultiLineString") from None
+    if not multiline.is_valid:
+        _debug(multiline)
+        raise Exception(f"\"multiline\" is not a valid MultiLineString ({shapely.validation.explain_validity(multiline)})") from None
+    if multiline.is_empty:
+        raise Exception("\"multiline\" is an empty MultiLineString") from None
 
     # Return answer ...
     return True

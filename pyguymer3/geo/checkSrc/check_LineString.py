@@ -1,11 +1,11 @@
-def check_LineString(shape):
+def check_LineString(line):
     """Check LineString
 
     This function checks if a LineString is valid.
 
     Parameters
     ----------
-    shape : shapely.geometry.linestring.LineString
+    line : shapely.geometry.linestring.LineString
             the LineString
 
     Notes
@@ -27,13 +27,13 @@ def check_LineString(shape):
     from .._debug import _debug
 
     # Check argument ...
-    if not isinstance(shape, shapely.geometry.linestring.LineString):
-        raise TypeError("\"shape\" is not a LineString") from None
-    if not shape.is_valid:
-        _debug(shape)
-        raise Exception(f"\"shape\" is not a valid LineString ({shapely.validation.explain_validity(shape)})") from None
-    if shape.is_empty:
-        raise Exception("\"shape\" is an empty LineString") from None
+    if not isinstance(line, shapely.geometry.linestring.LineString):
+        raise TypeError("\"line\" is not a LineString") from None
+    if not line.is_valid:
+        _debug(line)
+        raise Exception(f"\"line\" is not a valid LineString ({shapely.validation.explain_validity(line)})") from None
+    if line.is_empty:
+        raise Exception("\"line\" is an empty LineString") from None
 
     # Return answer ...
     return True
