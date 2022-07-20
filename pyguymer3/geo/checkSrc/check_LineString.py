@@ -24,7 +24,7 @@ def check_LineString(shape):
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
-    from ._debug import _debug
+    from .._debug import _debug
 
     # Check argument ...
     if not isinstance(shape, shapely.geometry.linestring.LineString):
