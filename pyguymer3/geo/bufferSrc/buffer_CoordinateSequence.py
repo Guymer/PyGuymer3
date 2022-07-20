@@ -61,6 +61,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     from .._points2poly import _points2poly
     from .._posts2panel import _posts2panel
     from ..check import check
+    from ..clean import clean
     from ..fillin import fillin
     from ..remap import remap
     try:
@@ -94,6 +95,9 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     # Step 1: Convert the CoordinateSequence to a NumPy array of the original  #
     #         points                                                           #
     # **************************************************************************
+
+    # Clean the input ...
+    coords = clean(coords, debug = debug, tol = tol).coords
 
     # Check if the user wants to fill in the CoordinateSequence ...
     if fill > 0.0 and len(coords) > 1:
@@ -140,7 +144,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
         # Loop over points ...
         for ipoint in range(npoint):
             # Add job to pool ...
-            results.append(pool.apply_async(_points2poly, (points1[ipoint, :], points2[ipoint, :, :]), {"tol" : tol}))
+            results.append(pool.apply_async(_points2poly, (points1[ipoint, :], points2[ipoint, :, :]), {"debug" : debug, "tol" : tol}))
 
         # Initialize list ...
         polys = []
@@ -174,7 +178,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
             # Loop over points ...
             for ipoint in range(npoint - 1):
                 # Add job to pool ...
-                results.append(pool.apply_async(_posts2panel, (points1[ipoint, :], points1[ipoint + 1, :], points2[ipoint, :, :], points2[ipoint + 1, :, :], polys[ipoint], polys[ipoint + 1]), {"tol" : tol}))
+                results.append(pool.apply_async(_posts2panel, (points1[ipoint, :], points1[ipoint + 1, :], points2[ipoint, :, :], points2[ipoint + 1, :, :], polys[ipoint], polys[ipoint + 1]), {"debug" : debug, "tol" : tol}))
 
             # Loop over results ...
             for result in results:
