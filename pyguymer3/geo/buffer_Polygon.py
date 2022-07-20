@@ -63,12 +63,12 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, fil
     buffs.append(poly)
 
     # Append buffer of exterior LinearRing to list ...
-    buffs.append(buffer_LinearRing(poly.exterior, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol))
+    buffs.append(buffer_LinearRing(poly.exterior, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, simp = simp, tol = tol))
 
     # Loop over interior LinearRings ...
     for ring in poly.interiors:
         # Append buffer of interior LinearRing to list ...
-        buffs.append(buffer_LinearRing(ring, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol))
+        buffs.append(buffer_LinearRing(ring, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, simp = simp, tol = tol))
 
     # Convert list of [Multi]Polygons to a (unified) [Multi]Polygon ...
     buffs = shapely.ops.unary_union(buffs).simplify(tol)
@@ -81,7 +81,7 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, fil
     # Check if the user wants to fill in the [Multi]Polygon ...
     if fill > 0.0:
         # Fill in [Multi]Polygon ...
-        buffs = fillin(buffs, fill, debug = debug, tol = tol)
+        buffs = fillin(buffs, fill, debug = debug, fillSpace = fillSpace, tol = tol)
 
     # Check if the user wants to simplify the [Multi]Polygon ...
     if simp > 0.0:

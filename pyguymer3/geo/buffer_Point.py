@@ -56,4 +56,4 @@ def buffer_Point(point, dist, kwArgCheck = None, debug = False, fill = 1.0, fill
         raise Exception("\"point\" is an empty Point") from None
 
     # Return buffered Point ...
-    return buffer_CoordinateSequence(point.coords, dist, debug = debug, fill = fill, nang = nang, simp = simp, tol = tol)
+    return buffer_CoordinateSequence(point.coords, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, simp = simp, tol = tol)
