@@ -18,22 +18,12 @@ def check_CoordinateSequence(coords):
     # Import special modules ...
     try:
         import shapely
-        import shapely.geometry
-        import shapely.validation
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
-
-    # Import sub-functions ...
-    from .._debug import _debug
 
     # Check argument ...
     if not isinstance(coords, shapely.coords.CoordinateSequence):
         raise TypeError("\"coords\" is not a CoordinateSequence") from None
-    if not coords.is_valid:
-        _debug(coords)
-        raise Exception(f"\"coords\" is not a valid CoordinateSequence ({shapely.validation.explain_validity(coords)})") from None
-    if coords.is_empty:
-        raise Exception("\"coords\" is an empty CoordinateSequence") from None
 
     # Return answer ...
     return True
