@@ -37,13 +37,13 @@ def buffer(shape, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace 
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
-    from .buffer_CoordinateSequence import buffer_CoordinateSequence
-    from .buffer_LinearRing import buffer_LinearRing
-    from .buffer_LineString import buffer_LineString
-    from .buffer_MultiLineString import buffer_MultiLineString
-    from .buffer_MultiPolygon import buffer_MultiPolygon
-    from .buffer_Point import buffer_Point
-    from .buffer_Polygon import buffer_Polygon
+    from .bufferSrc.buffer_CoordinateSequence import buffer_CoordinateSequence
+    from .bufferSrc.buffer_LinearRing import buffer_LinearRing
+    from .bufferSrc.buffer_LineString import buffer_LineString
+    from .bufferSrc.buffer_MultiLineString import buffer_MultiLineString
+    from .bufferSrc.buffer_MultiPolygon import buffer_MultiPolygon
+    from .bufferSrc.buffer_Point import buffer_Point
+    from .bufferSrc.buffer_Polygon import buffer_Polygon
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
