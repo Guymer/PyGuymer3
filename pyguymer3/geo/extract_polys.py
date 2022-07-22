@@ -40,7 +40,19 @@ def extract_polys(shape):
         return []
 
     # Check type ...
+    if isinstance(shape, shapely.geometry.multipoint.MultiPoint):
+        return []
+
+    # Check type ...
+    if isinstance(shape, shapely.geometry.polygon.LinearRing):
+        return []
+
+    # Check type ...
     if isinstance(shape, shapely.geometry.linestring.LineString):
+        return []
+
+    # Check type ...
+    if isinstance(shape, shapely.geometry.multilinestring.MultiLineString):
         return []
 
     # Check type ...
@@ -48,14 +60,6 @@ def extract_polys(shape):
         if shape.is_empty:
             return []
         return [shape]
-
-    # Check type ...
-    if isinstance(shape, shapely.geometry.multipoint.MultiPoint):
-        return []
-
-    # Check type ...
-    if isinstance(shape, shapely.geometry.multilinestring.MultiLineString):
-        return []
 
     # Check type ...
     if isinstance(shape, shapely.geometry.multipolygon.MultiPolygon):

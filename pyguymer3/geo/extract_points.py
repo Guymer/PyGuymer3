@@ -33,14 +33,6 @@ def extract_points(shape):
         return [shape]
 
     # Check type ...
-    if isinstance(shape, shapely.geometry.linestring.LineString):
-        return []
-
-    # Check type ...
-    if isinstance(shape, shapely.geometry.polygon.Polygon):
-        return []
-
-    # Check type ...
     if isinstance(shape, shapely.geometry.multipoint.MultiPoint):
         # Initialize list ...
         points = []
@@ -58,7 +50,19 @@ def extract_points(shape):
         return points
 
     # Check type ...
+    if isinstance(shape, shapely.geometry.polygon.LinearRing):
+        return []
+
+    # Check type ...
+    if isinstance(shape, shapely.geometry.linestring.LineString):
+        return []
+
+    # Check type ...
     if isinstance(shape, shapely.geometry.multilinestring.MultiLineString):
+        return []
+
+    # Check type ...
+    if isinstance(shape, shapely.geometry.polygon.Polygon):
         return []
 
     # Check type ...

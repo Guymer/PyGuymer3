@@ -31,18 +31,20 @@ def extract_lines(shape):
         return []
 
     # Check type ...
-    if isinstance(shape, shapely.geometry.linestring.LineString):
+    if isinstance(shape, shapely.geometry.multipoint.MultiPoint):
+        return []
+
+    # Check type ...
+    if isinstance(shape, shapely.geometry.polygon.LinearRing):
         if shape.is_empty:
             return []
         return [shape]
 
     # Check type ...
-    if isinstance(shape, shapely.geometry.polygon.Polygon):
-        return []
-
-    # Check type ...
-    if isinstance(shape, shapely.geometry.multipoint.MultiPoint):
-        return []
+    if isinstance(shape, shapely.geometry.linestring.LineString):
+        if shape.is_empty:
+            return []
+        return [shape]
 
     # Check type ...
     if isinstance(shape, shapely.geometry.multilinestring.MultiLineString):
@@ -60,6 +62,10 @@ def extract_lines(shape):
 
         # Return answer ...
         return lines
+
+    # Check type ...
+    if isinstance(shape, shapely.geometry.polygon.Polygon):
+        return []
 
     # Check type ...
     if isinstance(shape, shapely.geometry.multipolygon.MultiPolygon):
