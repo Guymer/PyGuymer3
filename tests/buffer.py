@@ -57,6 +57,11 @@ if __name__ == "__main__":
     tol = 1.0e-10                                                               # [°]
 
     # Define polygons ...
+    # NOTE: The 8th polygon is a crucial test because it goes over the North
+    #       Pole and down the other side of Earth, but it doesn't go so far that
+    #       the points end up being South of the starting point. Therefore,
+    #       there appear to be points North of the starting polygon, which means
+    #       that the checks in _points2poly() do not trigger.
     polys = [
         (-180.0, +90.0, 1000000.0,  900000.0), # Satisfies test A, C, D, F
         ( -90.0, +45.0, 1000000.0,  900000.0), # Satisfies test A
@@ -65,7 +70,8 @@ if __name__ == "__main__":
         (+180.0, -90.0, 1000000.0,  900000.0), # Satisfies test A, C, D, F
         (+170.0, +10.0, 1000000.0, 4000000.0), # Satisfies test B, C, E
         (+170.0, +80.0, 1000000.0, 4000000.0), # Satisfies test C, D, F
-        (   0.0, +83.0, 1000000.0,  900000.0), # Satisfies test D
+        (   0.0, +83.0, 1000000.0,  900000.0), # Satisfies test C, D, F
+        (   0.0, -83.0, 1000000.0,  900000.0), # Satisfies test C, D, F
     ]
 
     # Loop over polygons ...
@@ -83,12 +89,16 @@ if __name__ == "__main__":
         ax1 = fg.add_subplot(2, 2, 1, projection = cartopy.crs.Robinson())
         ax1.set_global()
         pyguymer3.geo.add_map_background(ax1)
+        pyguymer3.geo.add_horizontal_gridlines(ax1, [-180.0, +180.0, -90.0, +90.0], locs = [-90.0, -45.0, 0.0, +45.0, +90.0])
+        pyguymer3.geo.add_vertical_gridlines(ax1, [-180.0, +180.0, -90.0, +90.0], locs = [-180.0, -135.0, -90.0, -45.0, 0.0, +45.0, +90.0, +135.0, +180.0])
         ax1.coastlines(resolution = "110m", color = "black", linewidth = 0.1)
 
         # Create second subplot ...
         ax2 = fg.add_subplot(2, 2, 2, projection = cartopy.crs.Orthographic(central_longitude = lon, central_latitude = lat))
         ax2.set_global()
         pyguymer3.geo.add_map_background(ax2)
+        pyguymer3.geo.add_horizontal_gridlines(ax2, [-180.0, +180.0, -90.0, +90.0], locs = [-90.0, -45.0, 0.0, +45.0, +90.0])
+        pyguymer3.geo.add_vertical_gridlines(ax2, [-180.0, +180.0, -90.0, +90.0], locs = [-180.0, -135.0, -90.0, -45.0, 0.0, +45.0, +90.0, +135.0, +180.0])
         ax2.coastlines(resolution = "110m", color = "black", linewidth = 0.1)
 
         # Create third subplot ...
@@ -96,11 +106,11 @@ if __name__ == "__main__":
         ax3.grid()
         ax3.set_aspect("equal")
         ax3.set_xlabel("Longitude [°]")
-        ax3.set_xlim(-180, +180)
-        ax3.set_xticks([-180, -135, -90, -45, 0, +45, +90, +135, +180])
+        ax3.set_xlim(-180.0, +180.0)
+        ax3.set_xticks([-180.0, -135.0, -90.0, -45.0, 0.0, +45.0, +90.0, +135.0, +180.0])
         ax3.set_ylabel("Latitude [°]")
-        ax3.set_ylim(-90, +90)
-        ax3.set_yticks([-90, -45, 0, +45, +90])
+        ax3.set_ylim(-90.0, +90.0)
+        ax3.set_yticks([-90.0, -45.0, 0.0, +45.0, +90.0])
 
         # Buffer Point and plot it thrice ...
         buff0 = pyguymer3.geo.buffer(shapely.geometry.point.Point(lon, lat), dist1 + dist2, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, simp = simp, tol = tol)
