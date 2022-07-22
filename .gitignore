@@ -20,3 +20,6 @@ shellcheck.log
 *.so.dSYM
 docs/_autosummary
 docs/_build
+
+# Hide large datasets ...
+debug.*.csv
