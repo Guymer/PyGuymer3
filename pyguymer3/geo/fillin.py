@@ -30,12 +30,12 @@ def fillin(shape, fill, kwArgCheck = None, debug = False, fillSpace = "Euclidean
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
-    from .fillinSrc.fillin_CoordinateSequence import fillin_CoordinateSequence
-    from .fillinSrc.fillin_LinearRing import fillin_LinearRing
-    from .fillinSrc.fillin_LineString import fillin_LineString
-    from .fillinSrc.fillin_MultiLineString import fillin_MultiLineString
-    from .fillinSrc.fillin_MultiPolygon import fillin_MultiPolygon
-    from .fillinSrc.fillin_Polygon import fillin_Polygon
+    from .fillinSrc import fillin_CoordinateSequence
+    from .fillinSrc import fillin_LinearRing
+    from .fillinSrc import fillin_LineString
+    from .fillinSrc import fillin_MultiLineString
+    from .fillinSrc import fillin_MultiPolygon
+    from .fillinSrc import fillin_Polygon
 
     # Check keyword arguments ...
     if kwArgCheck is not None:

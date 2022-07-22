@@ -26,12 +26,12 @@ def clean(shape, kwArgCheck = None, debug = False, tol = 1.0e-10):
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
-    from .cleanSrc.clean_CoordinateSequence import clean_CoordinateSequence
-    from .cleanSrc.clean_LinearRing import clean_LinearRing
-    from .cleanSrc.clean_LineString import clean_LineString
-    from .cleanSrc.clean_MultiLineString import clean_MultiLineString
-    from .cleanSrc.clean_MultiPolygon import clean_MultiPolygon
-    from .cleanSrc.clean_Polygon import clean_Polygon
+    from .cleanSrc import clean_CoordinateSequence
+    from .cleanSrc import clean_LinearRing
+    from .cleanSrc import clean_LineString
+    from .cleanSrc import clean_MultiLineString
+    from .cleanSrc import clean_MultiPolygon
+    from .cleanSrc import clean_Polygon
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
