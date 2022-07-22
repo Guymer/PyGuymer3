@@ -32,9 +32,12 @@ SUBROUTINE buffer_point_crudely(lon1, lat1, dist, nang, ring)
         !$omp do                                                                &
         !$omp schedule(dynamic)
             ! Loop over angles ...
-            ! NOTE: The first and last angles will *always* be exactly North.
-            ! NOTE: The most two subsequent points can be apart is ~45 degrees
-            !       (with nang >= 9).
+            ! NOTE: The first and last angles will *always* be exactly North
+            !       (therefore, use that as a check later on).
+            ! NOTE: The middle angle will *always* be exactly South (therefore,
+            !       use that as a check later on).
+            ! NOTE: The most two subsequent points can be apart is ~45° (with
+            !       nang ≥ 9).
             DO iang = 1_C_LONG_LONG, nang
                 ! Calculate initial angle, then the ring coordinates and add
                 ! them to the list ...
