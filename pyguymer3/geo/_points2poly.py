@@ -56,6 +56,9 @@ def _points2poly(point, points, kwArgCheck = None, debug = False, tol = 1.0e-10)
 
     # Check that the ring encompasses the original point ...
     if points[:, 0].min() > point[0]:
+        if debug:
+            print("INFO: Ring needs to be extended to the Western anti-meridian.")
+
         # Create a correctly oriented Polygon from the western limit of the ring
         # left to the anti-meridian ...
         wedge = shapely.geometry.polygon.Polygon(
@@ -67,14 +70,21 @@ def _points2poly(point, points, kwArgCheck = None, debug = False, tol = 1.0e-10)
                 (            -180.0, points[:, 1].max()),
             ]
         )
-        check(wedge)
 
-        # Append Polygon to list ...
-        wedges.append(wedge)
+        # Check if it has any area ...
+        if wedge.area > 0.0:
+            # Check Polygon ...
+            check(wedge)
+
+            # Append Polygon to list ...
+            wedges.append(wedge)
 
         # Clean up ...
         del wedge
     if points[:, 0].max() < point[0]:
+        if debug:
+            print("INFO: Ring needs to be extended to the Eastern anti-meridian.")
+
         # Create a correctly oriented Polygon from the eastern limit of the ring
         # right to the anti-meridian ...
         wedge = shapely.geometry.polygon.Polygon(
@@ -86,14 +96,21 @@ def _points2poly(point, points, kwArgCheck = None, debug = False, tol = 1.0e-10)
                 (            +180.0, points[:, 1].min()),
             ]
         )
-        check(wedge)
 
-        # Append Polygon to list ...
-        wedges.append(wedge)
+        # Check if it has any area ...
+        if wedge.area > 0.0:
+            # Check Polygon ...
+            check(wedge)
+
+            # Append Polygon to list ...
+            wedges.append(wedge)
 
         # Clean up ...
         del wedge
     if points[:, 1].min() > point[1]:
+        if debug:
+            print("INFO: Ring needs to be extended to the South Pole.")
+
         # Create a correctly oriented Polygon from the southern limit of the
         # ring down to the South Pole ...
         wedge = shapely.geometry.polygon.Polygon(
@@ -105,14 +122,21 @@ def _points2poly(point, points, kwArgCheck = None, debug = False, tol = 1.0e-10)
                 (points[:, 0].min(),              -90.0),
             ]
         )
-        check(wedge)
 
-        # Append Polygon to list ...
-        wedges.append(wedge)
+        # Check if it has any area ...
+        if wedge.area > 0.0:
+            # Check Polygon ...
+            check(wedge)
+
+            # Append Polygon to list ...
+            wedges.append(wedge)
 
         # Clean up ...
         del wedge
     if points[:, 1].max() < point[1]:
+        if debug:
+            print("INFO: Ring needs to be extended to the North Pole.")
+
         # Create a correctly oriented Polygon from the northern limit of the
         # ring up to the North Pole ...
         wedge = shapely.geometry.polygon.Polygon(
@@ -124,10 +148,14 @@ def _points2poly(point, points, kwArgCheck = None, debug = False, tol = 1.0e-10)
                 (points[:, 0].min(), points[:, 1].max()),
             ]
         )
-        check(wedge)
 
-        # Append Polygon to list ...
-        wedges.append(wedge)
+        # Check if it has any area ...
+        if wedge.area > 0.0:
+            # Check Polygon ...
+            check(wedge)
+
+            # Append Polygon to list ...
+            wedges.append(wedge)
 
         # Clean up ...
         del wedge
@@ -146,16 +174,23 @@ def _points2poly(point, points, kwArgCheck = None, debug = False, tol = 1.0e-10)
                 ]
             )
         )
-        check(wedge)
 
-        # Append Polygon to list ...
-        wedges.append(wedge)
+        # Check if it has any area ...
+        if wedge.area > 0.0:
+            # Check Polygon ...
+            check(wedge)
+
+            # Append Polygon to list ...
+            wedges.append(wedge)
 
         # Clean up ...
         del wedge
 
     # Check if the first and the last points are far apart in Euclidean space ...
     if numpy.hypot(points[-1, 0] - points[0, 0], points[-1, 1] - points[0, 1]) > tol:
+        if debug:
+            print("INFO: Ring needs to be closed at 12 o'clock.")
+
         # Create a correctly oriented Polygon from the original point to this
         # segment of the ring ...
         wedge = shapely.geometry.polygon.orient(
@@ -168,10 +203,14 @@ def _points2poly(point, points, kwArgCheck = None, debug = False, tol = 1.0e-10)
                 ]
             )
         )
-        check(wedge)
 
-        # Append Polygon to list ...
-        wedges.append(wedge)
+        # Check if it has any area ...
+        if wedge.area > 0.0:
+            # Check Polygon ...
+            check(wedge)
+
+            # Append Polygon to list ...
+            wedges.append(wedge)
 
         # Clean up ...
         del wedge
