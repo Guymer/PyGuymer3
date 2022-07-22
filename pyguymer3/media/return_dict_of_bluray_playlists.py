@@ -32,7 +32,7 @@ def return_dict_of_bluray_playlists(dname, kwArgCheck = None, size_threshold = 1
             __ffprobe__[fname][playlist] = ffprobe(fname, playlist = playlist)
 
         # Append information if this playlist is worthwhile (by default,
-        # "worthwhile" is defined as >=1 GiB and/or >=1 minute) ...
+        # "worthwhile" is defined as ≥1 GiB and/or ≥1 minute) ...
         if "duration" in __ffprobe__[fname][playlist]["format"]:
             if float(__ffprobe__[fname][playlist]["format"]["duration"]) >= time_threshold:
                 ans["{:d}".format(playlist)] = __ffprobe__[fname][playlist]["format"]
