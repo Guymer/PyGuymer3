@@ -154,6 +154,28 @@ def _points2poly(point, points, kwArgCheck = None, debug = False, tol = 1.0e-10)
         # Clean up ...
         del wedge
 
+    # Check if the first and the last points are far apart in Euclidean space ...
+    if numpy.hypot(points[-1, 0] - points[0, 0], points[-1, 1] - points[0, 1]) > tol:
+        # Create a correctly oriented Polygon from the original point to this
+        # segment of the ring ...
+        wedge = shapely.geometry.polygon.orient(
+            shapely.geometry.polygon.Polygon(
+                [
+                    (point[     0], point[     1]),
+                    (points[-1, 0], points[-1, 1]),
+                    (points[ 0, 0], points[ 0, 1]),
+                    (point[     0], point[     1]),
+                ]
+            )
+        )
+        check(wedge)
+
+        # Append Polygon to list ...
+        wedges.append(wedge)
+
+        # Clean up ...
+        del wedge
+
     # Convert list of Polygons to a correctly oriented (unified) Polygon ...
     wedges = shapely.geometry.polygon.orient(shapely.ops.unary_union(wedges).simplify(tol))
     check(wedges)
