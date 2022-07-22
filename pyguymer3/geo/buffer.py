@@ -6,7 +6,7 @@ def buffer(shape, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace 
 
     Parameters
     ----------
-    shape : shapely.coords.CoordinateSequence, shapely.geometry.point.Point, shapely.geometry.polygon.LinearRing, shapely.geometry.linestring.LineString, shapely.geometry.multilinestring.MultiLineString, shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
+    shape : shapely.coords.CoordinateSequence, shapely.geometry.point.Point, shapely.geometry.multipoint.MultiPoint, shapely.geometry.polygon.LinearRing, shapely.geometry.linestring.LineString, shapely.geometry.multilinestring.MultiLineString, shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
             the shape
     dist : float
             the Geodesic distance to buffer each point within the shape by (in metres)
@@ -41,6 +41,7 @@ def buffer(shape, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace 
     from .bufferSrc import buffer_LinearRing
     from .bufferSrc import buffer_LineString
     from .bufferSrc import buffer_MultiLineString
+    from .bufferSrc import buffer_MultiPoint
     from .bufferSrc import buffer_MultiPolygon
     from .bufferSrc import buffer_Point
     from .bufferSrc import buffer_Polygon
@@ -56,6 +57,10 @@ def buffer(shape, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace 
     # Check if it is a Point and return it buffered ...
     if isinstance(shape, shapely.geometry.point.Point):
         return buffer_Point(shape, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, simp = simp, tol = tol)
+
+    # Check if it is a MultiPoint and return it buffered ...
+    if isinstance(shape, shapely.geometry.multipoint.MultiPoint):
+        return buffer_MultiPoint(shape, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, simp = simp, tol = tol)
 
     # Check if it is a LinearRing and return it buffered ...
     if isinstance(shape, shapely.geometry.polygon.LinearRing):

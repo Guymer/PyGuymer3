@@ -5,7 +5,7 @@ def check(shape):
 
     Parameters
     ----------
-    shape : shapely.coords.CoordinateSequence, shapely.geometry.point.Point, shapely.geometry.polygon.LinearRing, shapely.geometry.linestring.LineString, shapely.geometry.multilinestring.MultiLineString, shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
+    shape : shapely.coords.CoordinateSequence, shapely.geometry.point.Point, shapely.geometry.multipoint.MultiPoint, shapely.geometry.polygon.LinearRing, shapely.geometry.linestring.LineString, shapely.geometry.multilinestring.MultiLineString, shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
             the shape
 
     Notes
@@ -24,12 +24,13 @@ def check(shape):
 
     # Import sub-functions ...
     from .checkSrc import check_CoordinateSequence
-    from .checkSrc import check_Point
     from .checkSrc import check_LinearRing
     from .checkSrc import check_LineString
     from .checkSrc import check_MultiLineString
-    from .checkSrc import check_Polygon
+    from .checkSrc import check_MultiPoint
     from .checkSrc import check_MultiPolygon
+    from .checkSrc import check_Point
+    from .checkSrc import check_Polygon
 
     # Check if it is a CoordinateSequence and return it checked ...
     if isinstance(shape, shapely.coords.CoordinateSequence):
@@ -38,6 +39,10 @@ def check(shape):
     # Check if it is a Point and return it checked ...
     if isinstance(shape, shapely.geometry.point.Point):
         return check_Point(shape)
+
+    # Check if it is a MultiPoint and return it checked ...
+    if isinstance(shape, shapely.geometry.multipoint.MultiPoint):
+        return check_MultiPoint(shape)
 
     # Check if it is a LinearRing and return it checked ...
     if isinstance(shape, shapely.geometry.polygon.LinearRing):
