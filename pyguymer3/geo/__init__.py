@@ -4,8 +4,8 @@ have written over the years.
 
 Notes
 -----
-Filling example: stand on North Pole, go X degrees in all directions, all points
-in circle will have same latitude, which will get simplified to a Euclidean
+Filling example: stand on North Pole, go X° in all directions, all points in
+circle will have same latitude, which will get simplified to a Euclidean
 rectangle, which will get drawn as a rhombus, not a circle, therefore need to
 fill in the gaps between the points to keep the Geodesic shape
 
