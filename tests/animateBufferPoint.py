@@ -65,9 +65,9 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Loop over latitude ...
-    for lat in range(-90, +90 + 20, 20):
+    for lat in range(-90, +90 + 10, 10):
         # Loop over longitude ...
-        for lon in range(-180, +180 + 20, 20):
+        for lon in range(-180, +180 + 10, 10):
             # Determine file names ...
             fname = f"animateBufferPoint/lon={lon:+04d},lat={lat:+03d}.png"
             jname = f"animateBufferPoint/lon={lon:+04d},lat={lat:+03d}.geojson"
@@ -147,9 +147,9 @@ if __name__ == "__main__":
     images = []
 
     # Loop over latitude ...
-    for lat in range(-90, +90 + 20, 20):
+    for lat in range(-90, +90 + 10, 10):
         # Loop over longitude ...
-        for lon in range(-180, +180 + 20, 20):
+        for lon in range(-180, +180 + 10, 10):
             # Determine file names ...
             fname = f"animateBufferPoint/lon={lon:+04d},lat={lat:+03d}.png"
 
