@@ -35,6 +35,9 @@ if __name__ == "__main__":
 
     print(f"Testing \"{pyguymer3.__path__[0]}\" ...")
 
+    # Configure functions ...
+    debug = True
+
     # Define pairs of coordinates ...
     coords1 = [
         ( -90.0, +15.0),                                                        # [°], [°]
@@ -76,7 +79,7 @@ if __name__ == "__main__":
         # Loop over number of points ...
         for c, npoint in enumerate(npoints):
             # Find the great circle ...
-            circle = pyguymer3.geo.great_circle(coord1[0], coord1[1], coord2[0], coord2[1], debug = True, npoint = npoint)
+            circle = pyguymer3.geo.great_circle(coord1[0], coord1[1], coord2[0], coord2[1], debug = debug, npoint = npoint)
 
             # Save GeoJSON ...
             with open(jname, "wt", encoding = "utf-8") as fobj:
