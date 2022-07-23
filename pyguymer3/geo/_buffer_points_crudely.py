@@ -118,11 +118,11 @@ def _buffer_points_crudely(points1, dist, nang, kwArgCheck = None, debug = False
                 points3[iang3, 1] = points2[ipoint, iang2, 1]                   # [°]
                 iang3 += 1
 
-            # Replace the single point with a pair of points 0.05° either side
+            # Replace the single point with a pair of points 0.005° either side
             # of it (this is required because the point is not duplicated,
             # unlike at the North Pole) ...
-            endLon1, endLat1 = calc_loc_from_loc_and_bearing_and_dist(points1[ipoint, 0], points1[ipoint, 1], 179.95, dist)[:2]
-            endLon2, endLat2 = calc_loc_from_loc_and_bearing_and_dist(points1[ipoint, 0], points1[ipoint, 1], 180.05, dist)[:2]
+            endLon1, endLat1 = calc_loc_from_loc_and_bearing_and_dist(points1[ipoint, 0], points1[ipoint, 1], 179.995, dist)[:2]
+            endLon2, endLat2 = calc_loc_from_loc_and_bearing_and_dist(points1[ipoint, 0], points1[ipoint, 1], 180.005, dist)[:2]
 
             # Add the point before it crosses the South Pole ...
             points3[iang3, 0] = endLon1                                         # [°]

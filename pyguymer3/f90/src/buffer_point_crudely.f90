@@ -126,11 +126,11 @@ SUBROUTINE buffer_point_crudely(lon1, lat1, dist, nang, ring, tol)
             iang3 = iang3 + 1_C_LONG_LONG
         END DO
 
-        ! Replace the single point with a pair of points 0.05° either side of it
+        ! Replace the single point with a pair of points 0.005° either side of it
         ! (this is required because the point is not duplicated, unlike at the
         ! North Pole) ...
-        CALL sub_calc_loc_from_loc_and_bearing_and_dist(lon1, lat1, 179.95e0_C_DOUBLE, dist, endLon1, endLat1, ang2)
-        CALL sub_calc_loc_from_loc_and_bearing_and_dist(lon1, lat1, 180.05e0_C_DOUBLE, dist, endLon2, endLat2, ang2)
+        CALL sub_calc_loc_from_loc_and_bearing_and_dist(lon1, lat1, 179.995e0_C_DOUBLE, dist, endLon1, endLat1, ang2)
+        CALL sub_calc_loc_from_loc_and_bearing_and_dist(lon1, lat1, 180.005e0_C_DOUBLE, dist, endLon2, endLat2, ang2)
 
         ! Add the point before it crosses the South Pole ...
         points3(iang3, 1) = endLon1                                             ! [°]
