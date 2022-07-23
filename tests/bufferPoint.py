@@ -107,10 +107,10 @@ if __name__ == "__main__":
         ax3.set_aspect("equal")
         ax3.set_xlabel("Longitude [°]")
         ax3.set_xlim(-180.0, +180.0)
-        ax3.set_xticks([-180.0, -135.0, -90.0, -45.0, 0.0, +45.0, +90.0, +135.0, +180.0])
+        ax3.set_xticks(range(-180, 225, 45))
         ax3.set_ylabel("Latitude [°]")
         ax3.set_ylim(-90.0, +90.0)
-        ax3.set_yticks([-90.0, -45.0, 0.0, +45.0, +90.0])
+        ax3.set_yticks(range(-90, 135, 45))
 
         # Create point ...
         point = shapely.geometry.point.Point(lon, lat)
