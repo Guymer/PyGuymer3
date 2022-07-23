@@ -50,7 +50,7 @@ if __name__ == "__main__":
 
     # Configure functions ...
     debug = True
-    fill = -1.0                                                                 # [°]
+    fill = 1.0                                                                  # [°]
     fillSpace = "EuclideanSpace"
     nang = 361                                                                  # [#]
     simp = -1.0                                                                 # [°]
