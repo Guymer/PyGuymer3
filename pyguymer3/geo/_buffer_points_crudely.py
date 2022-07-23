@@ -9,7 +9,7 @@ def _buffer_points_crudely(points1, dist, nang, kwArgCheck = None, debug = False
     Parameters
     ----------
     points1 : numpy.ndarray
-            the (npoints, 2) array of (lon,lat) coordinates (in degrees)
+            the (npoint, 2) array of (lon,lat) coordinates (in degrees)
     dist : float
             the distance to buffer the (lon,lat) coordinates by (in metres)
     nang : int
@@ -22,7 +22,7 @@ def _buffer_points_crudely(points1, dist, nang, kwArgCheck = None, debug = False
     Returns
     -------
     points2 : numpy.ndarray
-            the (npoints, nang, 2) array of (lon,lat) coordinates around the (lon,lat) coordinates (in degrees)
+            the (npoint, nang, 2) array of (lon,lat) coordinates around the (lon,lat) coordinates (in degrees)
     """
 
     # Import special modules ...
@@ -109,7 +109,7 @@ def _buffer_points_crudely(points1, dist, nang, kwArgCheck = None, debug = False
             points3 = numpy.zeros((nang, 2), dtype = numpy.float64)             # [°]
 
             # Fill in the first-half of the points (missing out 3 o'clock to
-            # make space for the two new points) ...
+            # make space for the three new points) ...
             iang3 = 0
             for iang2 in range((nang - 1) // 2):
                 if iang2 == (nang - 1) // 4:
@@ -118,26 +118,15 @@ def _buffer_points_crudely(points1, dist, nang, kwArgCheck = None, debug = False
                 points3[iang3, 1] = points2[ipoint, iang2, 1]                   # [°]
                 iang3 += 1
 
-            # Figure out the correctly oriented longitude where it crosses the
-            # South Pole (this is required because the point is not duplicated,
+            # Replace the single point with a pair of points 0.05° either side
+            # of it (this is required because the point is not duplicated,
             # unlike at the North Pole) ...
-            endLon1 = numpy.sign(points2[ipoint, ((nang - 1) // 2) - 1, 0]) * abs(points2[ipoint, (nang - 1) // 2, 0])  # [°]
-            endLon2 = numpy.sign(points2[ipoint, ((nang - 1) // 2) + 1, 0]) * abs(points2[ipoint, (nang - 1) // 2, 0])  # [°]
-
-            # Cycle the longitudes around the Earth until they are close to the
-            # adjacent points ...
-            while points2[ipoint, (nang - 1) // 2 - 1, 0] - endLon1 > +180.0:
-                endLon1 += 360.0                                                # [°]
-            while points2[ipoint, (nang - 1) // 2 - 1, 0] - endLon1 < -180.0:
-                endLon1 -= 360.0                                                # [°]
-            while points2[ipoint, (nang - 1) // 2 + 1, 0] - endLon2 > +180.0:
-                endLon2 += 360.0                                                # [°]
-            while points2[ipoint, (nang - 1) // 2 + 1, 0] - endLon2 < -180.0:
-                endLon2 -= 360.0                                                # [°]
+            endLon1, endLat1 = calc_loc_from_loc_and_bearing_and_dist(points1[ipoint, 0], points1[ipoint, 1], 179.95, dist)[:2]
+            endLon2, endLat2 = calc_loc_from_loc_and_bearing_and_dist(points1[ipoint, 0], points1[ipoint, 1], 180.05, dist)[:2]
 
             # Add the point before it crosses the South Pole ...
             points3[iang3, 0] = endLon1                                         # [°]
-            points3[iang3, 1] = points2[ipoint, (nang - 1) // 2, 1]             # [°]
+            points3[iang3, 1] = endLat1                                         # [°]
             iang3 += 1
 
             # Fix the point before it crosses the South Pole ...
@@ -152,11 +141,11 @@ def _buffer_points_crudely(points1, dist, nang, kwArgCheck = None, debug = False
 
             # Add the point after it crosses the South Pole ...
             points3[iang3, 0] = endLon2                                         # [°]
-            points3[iang3, 1] = points2[ipoint, (nang - 1) // 2, 1]             # [°]
+            points3[iang3, 1] = endLat2                                         # [°]
             iang3 += 1
 
-            # Fill in the second-half of the points (missing out 9 o'clock to
-            # make space for the two new points) ...
+            # Fill in the second-half of the points (missing out 9 o'clock and
+            # the second 12 o'clock to make space for the three new points) ...
             for iang2 in range((nang - 1) // 2 + 1, nang - 1):
                 if iang2 == (3 * (nang - 1)) // 4:
                     continue
