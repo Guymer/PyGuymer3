@@ -69,7 +69,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
         if debug:
             print("INFO: Will find the rings using FORTRAN.")
         fortran = True
-    except:
+    except ModuleNotFoundError:
         if debug:
             print("INFO: Will find the rings using Python.")
         fortran = False
@@ -90,6 +90,10 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
         raise Exception(f"the buffering distance is too large ({dist:,.1f}m > {0.5 * math.pi * 6371008.8:,.1f}m)") from None
     if nang < 9:
         raise Exception(f"the number of angles is too small ({nang:,d} < {9:,d})") from None
+    if nang % 2 == 0:
+        raise Exception(f"the number of angles is even ({nang:,d})") from None
+    if (nang - 1) % 4 != 0:
+        raise Exception(f"the number of angles is not 4n+1 ({nang:,d})") from None
 
     # **************************************************************************
     # Step 1: Convert the CoordinateSequence to a NumPy array of the original  #
@@ -127,9 +131,9 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
 
     # Buffer (in Geodesic space) the CoordinateSequence ...
     if fortran:
-        points2 = funcs.buffer_points_crudely(points1, dist, nang)              # [°]
+        points2 = funcs.buffer_points_crudely(points1, dist, nang, tol)         # [°]
     else:
-        points2 = _buffer_points_crudely(points1, dist, nang)                   # [°]
+        points2 = _buffer_points_crudely(points1, dist, nang, debug = debug, tol = tol) # [°]
 
     # **************************************************************************
     # Step 3: Convert the NumPy array of the rings around the original points  #
