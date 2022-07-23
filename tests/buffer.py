@@ -162,7 +162,7 @@ if __name__ == "__main__":
         del buff2
 
         # Save figure ...
-        fg.suptitle(f"({lon:.1f},{lat:.1f}) buffered by {0.001 * dist1:,.1f}km & {0.001 * dist2:,.1f}km")
+        fg.suptitle(f"({lon:.1f},{lat:.1f}) buffered by {0.001 * dist1:,.0f}km & {0.001 * dist2:,.0f}km\nred = {0.001 * (dist1 + dist2):,.0f}km; green = {0.001 * dist1:,.0f}km; blue = {0.001 * dist1:,.0f}km & {0.001 * dist2:,.0f}km")
         fg.savefig(fname, bbox_inches = "tight", dpi = 150, pad_inches = 0.1)
         pyguymer3.image.optimize_image(fname, strip = True)
         matplotlib.pyplot.close(fg)

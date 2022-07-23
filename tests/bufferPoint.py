@@ -138,7 +138,7 @@ if __name__ == "__main__":
         del buff0
 
         # Save figure ...
-        fg.suptitle(f"({lon:.1f},{lat:.1f}) buffered by {0.001 * dist:,.1f}km")
+        fg.suptitle(f"({lon:.1f},{lat:.1f}) buffered by {0.001 * dist:,.0f}km")
         fg.savefig(fname, bbox_inches = "tight", dpi = 150, pad_inches = 0.1)
         pyguymer3.image.optimize_image(fname, strip = True)
         matplotlib.pyplot.close(fg)

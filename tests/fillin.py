@@ -165,7 +165,7 @@ if __name__ == "__main__":
         del denseRing2
 
         # Save figure ...
-        fg.suptitle(f"A rhombus around ({ring[0][0]:.1f},{ring[1][1]:.1f}) filled in by {euclideanFill:,.1f}° & {0.001 * geodesicFill:,.1f}km")
+        fg.suptitle(f"A rhombus around ({ring[0][0]:.1f},{ring[1][1]:.1f}) filled in by {euclideanFill:,.0f}° & {0.001 * geodesicFill:,.0f}km\nred = Euclidean; blue = Geodesic")
         fg.savefig(fname, bbox_inches = "tight", dpi = 150, pad_inches = 0.1)
         pyguymer3.image.optimize_image(fname, strip = True)
         matplotlib.pyplot.close(fg)
