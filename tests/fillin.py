@@ -96,16 +96,16 @@ if __name__ == "__main__":
         ax1 = fg.add_subplot(2, 2, 1, projection = cartopy.crs.Robinson())
         ax1.set_global()
         pyguymer3.geo.add_map_background(ax1)
-        pyguymer3.geo.add_horizontal_gridlines(ax1, [-180.0, +180.0, -90.0, +90.0], locs = [-90.0, -45.0, 0.0, +45.0, +90.0])
-        pyguymer3.geo.add_vertical_gridlines(ax1, [-180.0, +180.0, -90.0, +90.0], locs = [-180.0, -135.0, -90.0, -45.0, 0.0, +45.0, +90.0, +135.0, +180.0])
+        pyguymer3.geo.add_horizontal_gridlines(ax1, [-180.0, +180.0, -90.0, +90.0], locs = range(-90, 135, 45))
+        pyguymer3.geo.add_vertical_gridlines(ax1, [-180.0, +180.0, -90.0, +90.0], locs = range(-180, 225, 45))
         ax1.coastlines(resolution = "110m", color = "black", linewidth = 0.1)
 
         # Create second subplot ...
         ax2 = fg.add_subplot(2, 2, 2, projection = cartopy.crs.Orthographic(central_longitude = ring[0][0], central_latitude = ring[1][1]))
         ax2.set_global()
         pyguymer3.geo.add_map_background(ax2)
-        pyguymer3.geo.add_horizontal_gridlines(ax2, [-180.0, +180.0, -90.0, +90.0], locs = [-90.0, -45.0, 0.0, +45.0, +90.0])
-        pyguymer3.geo.add_vertical_gridlines(ax2, [-180.0, +180.0, -90.0, +90.0], locs = [-180.0, -135.0, -90.0, -45.0, 0.0, +45.0, +90.0, +135.0, +180.0])
+        pyguymer3.geo.add_horizontal_gridlines(ax2, [-180.0, +180.0, -90.0, +90.0], locs = range(-90, 135, 45))
+        pyguymer3.geo.add_vertical_gridlines(ax2, [-180.0, +180.0, -90.0, +90.0], locs = range(-180, 225, 45))
         ax2.coastlines(resolution = "110m", color = "black", linewidth = 0.1)
 
         # Create third subplot ...
