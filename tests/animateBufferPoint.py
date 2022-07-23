@@ -65,9 +65,9 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Loop over latitude ...
-    for lat in range(-90, +90 + 10, 10):
+    for lat in range(-90, +90 + 5, 5):
         # Loop over longitude ...
-        for lon in range(-180, +180 + 10, 10):
+        for lon in range(-180, +180 + 5, 5):
             # Determine file names ...
             fname = f"animateBufferPoint/lon={lon:+04d},lat={lat:+03d}.png"
             jname = f"animateBufferPoint/lon={lon:+04d},lat={lat:+03d}.geojson"
@@ -147,9 +147,9 @@ if __name__ == "__main__":
     images = []
 
     # Loop over latitude ...
-    for lat in range(-90, +90 + 10, 10):
+    for lat in range(-90, +90 + 5, 5):
         # Loop over longitude ...
-        for lon in range(-180, +180 + 10, 10):
+        for lon in range(-180, +180 + 5, 5):
             # Determine file names ...
             fname = f"animateBufferPoint/lon={lon:+04d},lat={lat:+03d}.png"
 
@@ -166,3 +166,41 @@ if __name__ == "__main__":
     for image in images:
         image.close()
     del images
+
+    # **************************************************************************
+
+    # Set heights ...
+    # NOTE: By inspection, the PNG frames are 875px tall.
+    heights = [256, 512]                                                        # [px]
+
+    # Loop over heights ...
+    for height in heights:
+        print(f" > Making \"animateBufferPoint{height:04d}px.webp\" ...")
+
+        # Initialize list ...
+        images = []
+
+        # Loop over latitude ...
+        for lat in range(-90, +90 + 5, 5):
+            # Loop over longitude ...
+            for lon in range(-180, +180 + 5, 5):
+                # Determine file names ...
+                fname = f"animateBufferPoint/lon={lon:+04d},lat={lat:+03d}.png"
+
+                # Open image as RGB (even if it is paletted) ...
+                image = PIL.Image.open(fname).convert("RGB")
+
+                # Calculate width ...
+                ratio = float(image.width) / float(image.height)                # [px/px]
+                width = round(ratio * float(height))                            # [px]
+
+                # Downscale the image and append it to the list ...
+                images.append(image.resize((width, height), resample = PIL.Image.Resampling.LANCZOS))
+
+        # Save 25fps WEBP ...
+        images[0].save(f"animateBufferPoint{height:04d}px.webp", lossless = True, quality = 100, method = 6, save_all = True, append_images = images[1:], duration = 40, loop = 0, minimize_size = True)
+
+        # Clean up ...
+        for image in images:
+            image.close()
+        del images
