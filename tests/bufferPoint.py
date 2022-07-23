@@ -112,8 +112,11 @@ if __name__ == "__main__":
         ax3.set_ylim(-90.0, +90.0)
         ax3.set_yticks([-90.0, -45.0, 0.0, +45.0, +90.0])
 
+        # Create point ...
+        point = shapely.geometry.point.Point(lon, lat)
+
         # Buffer Point and plot it thrice ...
-        buff0 = pyguymer3.geo.buffer(shapely.geometry.point.Point(lon, lat), dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, simp = simp, tol = tol)
+        buff0 = pyguymer3.geo.buffer(point, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, simp = simp, tol = tol)
         ax1.add_geometries([buff0], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = (1.0, 0.0, 0.0, 0.5), linewidth = 1.0)
         ax2.add_geometries([buff0], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = (1.0, 0.0, 0.0, 0.5), linewidth = 1.0)
         for poly in pyguymer3.geo.extract_polys(buff0):
