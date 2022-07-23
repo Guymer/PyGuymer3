@@ -71,7 +71,7 @@ if __name__ == "__main__":
         (+170.0, +10.0, 4000000.0), # Satisfies test B, C, E
         (+170.0, +80.0, 4000000.0), # Satisfies test C, D, F
         (   0.0, +83.0, 1000000.0), # Satisfies test C, D, F
-        (   0.0, -83.0, 1000000.0), # Satisfies test C, D, F
+        ( -90.0, -83.0, 1000000.0), # Satisfies test C, D, F
     ]
 
     # Loop over points ...
