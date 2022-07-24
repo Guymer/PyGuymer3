@@ -23,6 +23,7 @@ docs/_build
 
 # Hide large datasets ...
 debug.*.csv
+tests/*.mp4
 tests/*.webp
 tests/animateBufferPoint/*.geojson
 tests/animateBufferPoint/*.png

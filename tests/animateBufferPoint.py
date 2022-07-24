@@ -5,6 +5,7 @@
 if __name__ == "__main__":
     # Import standard modules ...
     import os
+    import shutil
 
     # Import special modules ...
     try:
@@ -41,6 +42,7 @@ if __name__ == "__main__":
         import pyguymer3
         import pyguymer3.geo
         import pyguymer3.image
+        import pyguymer3.media
     except:
         raise Exception("\"pyguymer3\" is not installed; you need to have the Python module from https://github.com/Guymer/PyGuymer3 located somewhere in your $PYTHONPATH") from None
 
@@ -141,6 +143,30 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
+    print(" > Making \"animateBufferPoint.mp4\" ...")
+
+    # Initialize list ...
+    fnames = []
+
+    # Loop over latitude ...
+    for lat in range(-90, +95, 5):
+        # Loop over longitude ...
+        for lon in range(-180, +185, 5):
+            # Determine file name ...
+            fname = f"animateBufferPoint/lon={lon:+04d},lat={lat:+03d}.png"
+
+            # Append it to the list ...
+            fnames.append(fname)
+
+    # Save 25fps MP4 ...
+    vname = pyguymer3.media.images2mp4(fnames, debug = debug)
+    shutil.move(vname, "animateBufferPoint.mp4")
+
+    # Clean up ...
+    del fnames
+
+    # **************************************************************************
+
     print(" > Making \"animateBufferPoint.webp\" ...")
 
     # Initialize list ...
@@ -150,7 +176,7 @@ if __name__ == "__main__":
     for lat in range(-90, +95, 5):
         # Loop over longitude ...
         for lon in range(-180, +185, 5):
-            # Determine file names ...
+            # Determine file name ...
             fname = f"animateBufferPoint/lon={lon:+04d},lat={lat:+03d}.png"
 
             # Open image as RGB (even if it is paletted) ...
@@ -184,7 +210,7 @@ if __name__ == "__main__":
         for lat in range(-90, +95, 5):
             # Loop over longitude ...
             for lon in range(-180, +185, 5):
-                # Determine file names ...
+                # Determine file name ...
                 fname = f"animateBufferPoint/lon={lon:+04d},lat={lat:+03d}.png"
 
                 # Open image as RGB (even if it is paletted) ...
