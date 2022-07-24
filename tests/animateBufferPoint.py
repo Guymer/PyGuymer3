@@ -146,24 +146,24 @@ if __name__ == "__main__":
     print(" > Making \"animateBufferPoint.mp4\" ...")
 
     # Initialize list ...
-    fnames = []
+    frames = []
 
     # Loop over latitude ...
     for lat in range(-90, +95, 5):
         # Loop over longitude ...
         for lon in range(-180, +185, 5):
             # Determine file name ...
-            fname = f"animateBufferPoint/lon={lon:+04d},lat={lat:+03d}.png"
+            frame = f"animateBufferPoint/lon={lon:+04d},lat={lat:+03d}.png"
 
             # Append it to the list ...
-            fnames.append(fname)
+            frames.append(frame)
 
     # Save 25fps MP4 ...
-    vname = pyguymer3.media.images2mp4(fnames, debug = debug)
+    vname = pyguymer3.media.images2mp4(frames, debug = debug)
     shutil.move(vname, "animateBufferPoint.mp4")
 
     # Clean up ...
-    del fnames
+    del frames
 
     # **************************************************************************
 
