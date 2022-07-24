@@ -80,7 +80,7 @@ def clean_CoordinateSequence(coords, kwArgCheck = None, debug = False, tol = 1.0
         # Skip this point (and the next one) if it is a bad spike ...
         if dr < tol:
             if debug:
-                print(f"INFO: Removing spike between ({points1[ipoint, 0]:.6f}°,{points1[ipoint, 1]:.6f}°) and ({points1[ipoint + 1, 0]:.6f}°,{points1[ipoint + 1, 1]:.6f}°).")
+                print(f"INFO: Removing spike between ({points1[ipoint, 0]:+.6f}°,{points1[ipoint, 1]:+.6f}°) and ({points1[ipoint + 1, 0]:+.6f}°,{points1[ipoint + 1, 1]:+.6f}°), which are {dr:+.6f}° apart.")
 
             # Set flag ...
             skip = True
