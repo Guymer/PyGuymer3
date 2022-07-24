@@ -9,6 +9,7 @@ from .does_FLAC_have_padding import does_FLAC_have_padding
 from .does_media_have_RTP_hints import does_media_have_RTP_hints
 from .does_MP4_have_free import does_MP4_have_free
 from .ffprobe import ffprobe
+from .images2mp4 import images2mp4
 from .is_moov_at_beginning_of_MP4 import is_moov_at_beginning_of_MP4
 from .optimize_FLAC import optimize_FLAC
 from .optimize_MP4 import optimize_MP4
@@ -45,4 +46,7 @@ from .return_video_ratios import return_video_ratios
 from .return_video_rotation import return_video_rotation
 from .return_video_source_aspect_ratio import return_video_source_aspect_ratio
 from .return_video_width import return_video_width
+from .return_x264_crf import return_x264_crf
+from .return_x264_level import return_x264_level
+from .return_x264_profile import return_x264_profile
 from .yuv2rgb import yuv2rgb
