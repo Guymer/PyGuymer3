@@ -60,6 +60,6 @@ def image2webp(img, webp, kwArgCheck = None, debug = False, exif = None, lossles
     # NOTE: See https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html#webp
     tmpImg.convert(mode).save(webp, exif = dict2exif(exif, mode = mode), lossless = lossless, method = method, quality = quality)
 
-    # Optimize PNG ...
+    # Optimize WEBP ...
     if strip:
         optimize_image(webp, debug = debug, strip = strip)
