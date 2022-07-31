@@ -113,10 +113,10 @@ def images2mp4(frames, kwArgCheck = None, crf = -1.0, debug = False, form = "mp4
         if cropRatio > screenRatio:
             # Find the dimensions of the output video ...
             outputWidth = screenWidth                                           # [px]
-            outputHeight = 2 * (int(float(screenWidth) / cropRatio) // 2)       # [px]
+            outputHeight = 2 * (round(float(screenWidth) / cropRatio) // 2)     # [px]
         else:
             # Find the dimensions of the output video ...
-            outputWidth = 2 * (int(float(screenHeight) * cropRatio) // 2)       # [px]
+            outputWidth = 2 * (round(float(screenHeight) * cropRatio) // 2)     # [px]
             outputHeight = screenHeight                                         # [px]
 
         # Find the aspect ratio of the output video ...
