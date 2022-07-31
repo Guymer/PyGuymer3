@@ -25,6 +25,11 @@ def images2mp4(frames, kwArgCheck = None, crf = -1.0, debug = False, form = "mp4
         the height of the screen to downscale the input images to fit within, default -1 (integers less than 100 imply no downscaling)
     screenWidth : int, optional
         the width of the screen to downscale the input images to fit within, default -1 (integers less than 100 imply no downscaling)
+
+    Returns
+    -------
+    path : str
+        the path to the MP4 in a temporary directory (to be copied/moved by the user themselves)
     """
 
     # Import standard modules ...
