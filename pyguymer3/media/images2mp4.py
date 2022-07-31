@@ -15,7 +15,7 @@ def images2mp4(frames, kwArgCheck = None, crf = -1.0, debug = False, form = "mp4
         print debug messages
     form : str, optional
         the format to be passed to ffmpeg, default "mp4" (the only two sensible options are "ipod" and "mp4")
-    fps, float, optional
+    fps : float, optional
         the framerate, default 25.0
     level : str, optional
         the level to be passed to libx264, default "ERROR" (which means choose one using the function :func:`return_x264_level`)
