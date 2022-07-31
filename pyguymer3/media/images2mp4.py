@@ -22,9 +22,9 @@ def images2mp4(frames, kwArgCheck = None, crf = -1.0, debug = False, form = "mp4
     profile : str, optional
         the profile to be passed to libx264, default "ERROR" (which means choose one using the function :func:`return_x264_profile`)
     screenHeight : int, optional
-        the height of the screen to downscale the input images to fit within, default -1
+        the height of the screen to downscale the input images to fit within, default -1 (integers less than 100 imply no downscaling)
     screenWidth : int, optional
-        the width of the screen to downscale the input images to fit within, default -1
+        the width of the screen to downscale the input images to fit within, default -1 (integers less than 100 imply no downscaling)
     """
 
     # Import standard modules ...
