@@ -1,3 +1,10 @@
+## Other Documentation
+
+See the following two sources of documentation from GIS software:
+
+* [ArcGIS](https://desktop.arcgis.com/en/arcmap/latest/tools/analysis-toolbox/buffer.htm)
+* [QGIS](https://qgis.org/pyqgis/3.22/core/QgsGeometry.html#qgis.core.QgsGeometry.buffer)
+
 ## Data Types
 
 * A `shapely.geometry.point.Point` is made up of a `shapely.coords.CoordinateSequence` of 1 `tuple` of a (lon,lat) pair.
