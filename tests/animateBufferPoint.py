@@ -201,6 +201,30 @@ if __name__ == "__main__":
 
     # Loop over heights ...
     for height in heights:
+        print(f" > Making \"animateBufferPoint{height:04d}px.mp4\" ...")
+
+        # Initialize list ...
+        frames = []
+
+        # Loop over latitude ...
+        for lat in range(-90, +95, 5):
+            # Loop over longitude ...
+            for lon in range(-180, +185, 5):
+                # Determine file name ...
+                frame = f"animateBufferPoint/lon={lon:+04d},lat={lat:+03d}.png"
+
+                # Append it to the list ...
+                frames.append(frame)
+
+        # Save 25fps MP4 ...
+        vname = pyguymer3.media.images2mp4(frames, debug = debug, screenWidth = height, screenHeight = height)
+        shutil.move(vname, f"animateBufferPoint{height:04d}px.mp4")
+
+        # Clean up ...
+        del frames
+
+        # **********************************************************************
+
         print(f" > Making \"animateBufferPoint{height:04d}px.webp\" ...")
 
         # Initialize list ...
