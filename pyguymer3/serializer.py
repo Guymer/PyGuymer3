@@ -1,13 +1,15 @@
 def serializer(obj, kwArgCheck = None, evaluate = False):
-    """
-    Serializer for objects not serializable by Python's default json code.
+    """Serialize an object into an intrinsic type
 
-    Arguments:
-    obj -- the object to be serialized
+    Serializer for objects not serializable by Python's default :mod:`json`
+    code. Converts all non-intrinsic types to intrinsic types.
 
-    Keyword Arguments:
-    evaluate -- should fractions be evaluated and returned as floats or should
-        they be returned as strings of the form "X/Y"? (default False)
+    Parameters
+    ----------
+    obj : anything
+        object to be serialized
+    evaluate : bool, optional
+        evaluate exifread.utils.Ratio objects into floats, otherwise return as string of form "X/Y" (default false)
     """
 
     # Import standard modules ...
