@@ -1,4 +1,32 @@
 def images2mp4(frames, kwArgCheck = None, crf = -1.0, debug = False, form = "mp4", fps = 25.0, level = "ERROR", profile = "ERROR", screenHeight = -1, screenWidth = -1):
+    """Convert a sequence of images to a MP4 video.
+
+    This function makes a MP4 video from a list of images. The user is able to
+    set the format and the framerate, as well as optionally downscaling the
+    images to fit withing a screen size.
+
+    Parameters
+    ----------
+    frames : list of str
+        the list of strings which are the paths to the images
+    crf : float, optional
+        the CRF to be passed to libx264, default -1.0 (which means choose one using the function :func:`return_x264_crf`)
+    debug : bool, optional
+        print debug messages
+    form : str, optional
+        the format to be passed to ffmpeg, default "mp4" (the only two sensible options are "ipod" and "mp4")
+    fps, float, optional
+        the framerate, default 25.0
+    level : str, optional
+        the level to be passed to libx264, default "ERROR" (which means choose one using the function :func:`return_x264_level`)
+    profile : str, optional
+        the profile to be passed to libx264, default "ERROR" (which means choose one using the function :func:`return_x264_profile`)
+    screenHeight : int, optional
+        the height of the screen to downscale the input images to fit within, default -1
+    screenWidth : int, optional
+        the width of the screen to downscale the input images to fit within, default -1
+    """
+
     # Import standard modules ...
     import multiprocessing
     import os
