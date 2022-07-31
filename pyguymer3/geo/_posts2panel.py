@@ -1,4 +1,4 @@
-def _posts2panel(pointA, pointB, pointsA, pointsB, polyA, polyB, kwArgCheck = None, debug = False, tol = 1.0e-10):
+def _posts2panel(pointA, pointB, pointsA, pointsB, polyA, polyB, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", tol = 1.0e-10):
     """Convert two buffered points to a Polygon
 
     This function reads in two coordinates that exists on the surface of the
@@ -23,6 +23,10 @@ def _posts2panel(pointA, pointB, pointsA, pointsB, polyA, polyB, kwArgCheck = No
             the Polygon around the second (lon,lat) coordinate
     debug : bool, optional
             print debug messages
+    fill : float, optional
+            the Euclidean or Geodesic distance to fill in between each point within the shapes by (in degrees or metres)
+    fillSpace : str, optional
+            the geometric space to perform the filling in (either "EuclideanSpace" or "GeodesicSpace")
     tol : float, optional
             the Euclidean distance that defines two points as being the same (in degrees)
 
@@ -47,6 +51,7 @@ def _posts2panel(pointA, pointB, pointsA, pointsB, polyA, polyB, kwArgCheck = No
     # Import sub-functions ...
     from .check import check
     from .clean import clean
+    from .fillin import fillin
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
@@ -77,11 +82,18 @@ def _posts2panel(pointA, pointB, pointsA, pointsB, polyA, polyB, kwArgCheck = No
         # Return answer ...
         return finalPoly
 
-    # Create a line connecting the two original points ...
+    # Create a LineString connecting the two original points ...
     line = shapely.geometry.linestring.LineString([pointA, pointB])
     check(line)
 
-    # Find the minimum distance from an original point to any point on its ring ...
+    # Check if the user wants to fill in the LineString ...
+    if fill > 0.0:
+        # Fill in LineString ...
+        line = fillin(line, fill, debug = debug, fillSpace = fillSpace)
+        check(line)
+
+    # Find the minimum (Euclidean) distance from an original point to any point
+    # on its ring ...
     minDist = min(
         numpy.hypot(pointsA[:, 0] - pointA[0], pointsA[:, 1] - pointA[1]).min(),
         numpy.hypot(pointsB[:, 0] - pointB[0], pointsB[:, 1] - pointB[1]).min(),
@@ -90,12 +102,13 @@ def _posts2panel(pointA, pointB, pointsA, pointsB, polyA, polyB, kwArgCheck = No
     # Add conservatism ...
     minDist *= 0.1                                                              # [°]
 
-    # Buffer (in Euclidean space) the line connecting the two original points ...
+    # Buffer (in Euclidean space) the LineString connecting the two original
+    # points ...
     line = shapely.geometry.polygon.orient(line.buffer(minDist))
     check(line)
 
-    # Convert the two Polygons and the buffered line that connects them to a
-    # correctly oriented (unified) Polygon ...
+    # Convert the two Polygons and the buffered LineString that connects them to
+    # a correctly oriented (unified) Polygon ...
     finalPoly = shapely.geometry.polygon.orient(shapely.ops.unary_union([polyA, line, polyB]).simplify(tol))
     check(finalPoly)
 
