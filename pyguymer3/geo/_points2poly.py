@@ -1,4 +1,4 @@
-def _points2poly(point, points, kwArgCheck = None, debug = False, tol = 1.0e-10):
+def _points2poly(point, points, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", tol = 1.0e-10):
     """Convert a buffered point to a Polygon
 
     This function reads in a coordinate that exists on the surface of the Earth,
@@ -13,6 +13,10 @@ def _points2poly(point, points, kwArgCheck = None, debug = False, tol = 1.0e-10)
             the (nang, 2) array of (lon,lat) coordinates around the (lon,lat) coordinate (in degrees)
     debug : bool, optional
             print debug messages
+    fill : float, optional
+            the Euclidean or Geodesic distance to fill in between each point within the shapes by (in degrees or metres)
+    fillSpace : str, optional
+            the geometric space to perform the filling in (either "EuclideanSpace" or "GeodesicSpace")
     tol : float, optional
             the Euclidean distance that defines two points as being the same (in degrees)
 
@@ -37,6 +41,7 @@ def _points2poly(point, points, kwArgCheck = None, debug = False, tol = 1.0e-10)
     # Import sub-functions ...
     from .check import check
     from .clean import clean
+    from .fillin import fillin
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
@@ -76,6 +81,12 @@ def _points2poly(point, points, kwArgCheck = None, debug = False, tol = 1.0e-10)
             # Check Polygon ...
             check(wedge)
 
+            # Check if the user wants to fill in the Polygon ...
+            if fill > 0.0:
+                # Fill in Polygon ...
+                wedge = fillin(wedge, fill, debug = debug, fillSpace = fillSpace)
+                check(wedge)
+
             # Append Polygon to list ...
             wedges.append(wedge)
 
@@ -101,6 +112,12 @@ def _points2poly(point, points, kwArgCheck = None, debug = False, tol = 1.0e-10)
         if wedge.area > 0.0:
             # Check Polygon ...
             check(wedge)
+
+            # Check if the user wants to fill in the Polygon ...
+            if fill > 0.0:
+                # Fill in Polygon ...
+                wedge = fillin(wedge, fill, debug = debug, fillSpace = fillSpace)
+                check(wedge)
 
             # Append Polygon to list ...
             wedges.append(wedge)
@@ -128,6 +145,12 @@ def _points2poly(point, points, kwArgCheck = None, debug = False, tol = 1.0e-10)
             # Check Polygon ...
             check(wedge)
 
+            # Check if the user wants to fill in the Polygon ...
+            if fill > 0.0:
+                # Fill in Polygon ...
+                wedge = fillin(wedge, fill, debug = debug, fillSpace = fillSpace)
+                check(wedge)
+
             # Append Polygon to list ...
             wedges.append(wedge)
 
@@ -153,6 +176,12 @@ def _points2poly(point, points, kwArgCheck = None, debug = False, tol = 1.0e-10)
         if wedge.area > 0.0:
             # Check Polygon ...
             check(wedge)
+
+            # Check if the user wants to fill in the Polygon ...
+            if fill > 0.0:
+                # Fill in Polygon ...
+                wedge = fillin(wedge, fill, debug = debug, fillSpace = fillSpace)
+                check(wedge)
 
             # Append Polygon to list ...
             wedges.append(wedge)
@@ -180,16 +209,27 @@ def _points2poly(point, points, kwArgCheck = None, debug = False, tol = 1.0e-10)
             # Check Polygon ...
             check(wedge)
 
+            # Check if the user wants to fill in the Polygon ...
+            if fill > 0.0:
+                # Fill in Polygon ...
+                wedge = fillin(wedge, fill, debug = debug, fillSpace = fillSpace)
+                check(wedge)
+
             # Append Polygon to list ...
             wedges.append(wedge)
 
         # Clean up ...
         del wedge
 
+    # Find the Euclidean distance between the two 12 o'clock points ...
+    dx = points[-1, 0] - points[0, 0]                                           # [°]
+    dy = points[-1, 1] - points[0, 1]                                           # [°]
+    dr = numpy.hypot(dx, dy) % 360.0                                            # [°]
+
     # Check if the first and the last points are far apart in Euclidean space ...
-    if numpy.hypot(points[-1, 0] - points[0, 0], points[-1, 1] - points[0, 1]) > tol:
+    if tol < dr < (360.0 - tol):
         if debug:
-            print("INFO: Ring needs to be closed at 12 o'clock.")
+            print(f"INFO: Ring needs to be closed at 12 o'clock between ({points[0, 0]:+.6f}°,{points[0, 1]:+.6f}°) and ({points[-1, 0]:+.6f}°,{points[-1, 1]:+.6f}°), which are {dr:+.6f}° apart.")
 
         # Create a correctly oriented Polygon from the original point to this
         # segment of the ring ...
@@ -209,6 +249,12 @@ def _points2poly(point, points, kwArgCheck = None, debug = False, tol = 1.0e-10)
             # Check Polygon ...
             check(wedge)
 
+            # Check if the user wants to fill in the Polygon ...
+            if fill > 0.0:
+                # Fill in Polygon ...
+                wedge = fillin(wedge, fill, debug = debug, fillSpace = fillSpace)
+                check(wedge)
+
             # Append Polygon to list ...
             wedges.append(wedge)
 
@@ -216,7 +262,8 @@ def _points2poly(point, points, kwArgCheck = None, debug = False, tol = 1.0e-10)
         del wedge
 
     # Convert list of Polygons to a correctly oriented (unified) Polygon ...
-    wedges = shapely.geometry.polygon.orient(shapely.ops.unary_union(wedges).simplify(tol))
+    # HACK: Sometimes the wedges don't quite touch correctly, hence the ".buffer(tol)".
+    wedges = shapely.geometry.polygon.orient(shapely.ops.unary_union(wedges).buffer(tol).simplify(tol))
     check(wedges)
 
     # Remake the Polygon to remove any interiors ...
