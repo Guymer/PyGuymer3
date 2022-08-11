@@ -92,15 +92,14 @@ $(FTNLIB)/%.o:					$(FC2)											\
 								$(FTNLIB)/%.F90
 	$(MAKE) -r -C $(FTNLIB) DEBUG=$(DEBUG) FC=$(FC2) $*.o
 
-funcs.cpython-310-darwin.so:	$(FC1)											\
+funcs.so:						$(FC1)											\
 								$(FC2)											\
+								$(LN)											\
+								$(RM)											\
 								Makefile										\
 								$(FTNLIB)/mod_safe.o							\
 								funcs.F90										\
 								src/*.f90
+	$(RM) -f funcs.*.so funcs.so
 	$(FC1) -c --f77exec=$(FC2) --f90exec=$(FC2) --opt="-fopenmp $(LANG_OPTS) $(WARN_OPTS) $(OPTM_OPTS)" --arch="$(MACH_OPTS)" -lgomp -m funcs -I$(FTNLIB) funcs.F90 $(FTNLIB)/mod_safe.o -L$(LIBDIR)
-
-funcs.so:						$(LN)											\
-								Makefile										\
-								funcs.cpython-310-darwin.so
-	$(LN) -sf funcs.cpython-310-darwin.so funcs.so
+	$(LN) -s funcs.*.so funcs.so
