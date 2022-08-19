@@ -17,7 +17,7 @@ def return_folder_size(path, kwArgCheck = None, debug = False, follow_symlinks =
     Returns
     -------
     ans : int
-            the total size
+        the total size
     """
 
     # Import standard modules ...
@@ -36,37 +36,27 @@ def return_folder_size(path, kwArgCheck = None, debug = False, follow_symlinks =
     # Check it exists ...
     if os.path.exists(path):
         # Loop over folder contents ...
-        for child in os.listdir(path):
-            # Make file name ...
-            item = f"{path}/{child}"
-
+        for entry in os.scandir(path):
             # Check if the user wants to perform debugging ...
             if debug:
                 # Test if this part is illegal and print the full path for
                 # identification ...
-                if not child.startswith(".") and child != make_path_safe(child):
-                    print(f"WARNING: \"{item}\" is illegal")
+                if not entry.name.startswith(".") and entry.name != make_path_safe(entry.name):
+                    print(f"WARNING: \"{entry.path}\" is illegal")
 
-            # Check if it might need searching ...
-            if os.path.isdir(item):
+            # Check if it might need following ...
+            if entry.is_dir(follow_symlinks = follow_symlinks):
                 # Check that the directory is list-able ...
-                if os.access(item, os.X_OK):
-                    # Check if the directory is allowed to be followed ...
-                    if follow_symlinks or not os.path.islink(item):
-                        # Recursively run this function again and increment
-                        # total ...
-                        size += return_folder_size(item, debug = debug, follow_symlinks = follow_symlinks, return_symlinks = return_symlinks)   # [#]
-                    elif debug:
-                        print(f"WARNING: \"{item}\" cannot be followed")
+                if os.access(entry, os.X_OK, follow_symlinks = follow_symlinks):
+                    # Recursively run this function again and add to the total ...
+                    size += return_folder_size(entry.path, debug = debug, follow_symlinks = follow_symlinks, return_symlinks = return_symlinks)
                 elif debug:
-                    print(f"WARNING: \"{item}\" cannot be listed")
+                    print(f"WARNING: \"{entry.path}\" cannot be listed")
 
-            # Check if it should be added to the list ...
-            if os.path.isfile(item):
-                # Check if it is allowed to be added to the list ...
-                if return_symlinks or not os.path.islink(item):
-                    # Increment total ...
-                    size += os.path.getsize(item)                               # [B]
+            # Check if it might need adding to the total ...
+            if entry.is_file(follow_symlinks = return_symlinks):
+                # Add to the total ...
+                size += os.path.getsize(entry)                                  # [B]
     elif debug:
         print(f"WARNING: \"{path}\" does not exist")
 
