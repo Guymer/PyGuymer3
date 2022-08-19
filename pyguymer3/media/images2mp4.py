@@ -33,7 +33,6 @@ def images2mp4(frames, kwArgCheck = None, crf = -1.0, debug = False, form = "mp4
     """
 
     # Import standard modules ...
-    import multiprocessing
     import os
     import platform
     import shutil
@@ -188,7 +187,7 @@ def images2mp4(frames, kwArgCheck = None, crf = -1.0, debug = False, form = "mp4
         "-map_chapters", "-1",
         "-map_metadata", "-1",
         "-metadata", f"comment=Converted to a {form.upper()} using ffmpeg (version {find_program_version(ffmpeg)}) which used libx264 (version {find_program_version(libx264)}) using a CRF of {crf:.1f} for libx264 (which adhered to the {profile} profile and level {level}).",
-        "-threads", f"{multiprocessing.cpu_count() - 1:d}",
+        "-threads", f"{os.cpu_count() - 1:d}",
         f"{tmpname}/video.mp4",
     ]
     if debug:
