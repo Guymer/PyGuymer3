@@ -158,6 +158,10 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
             # Append (unified) Polygon to list ...
             polys.append(result.get())
 
+            # Check result ...
+            if not result.successful():
+                raise Exception("\"multiprocessing.pool.Pool.apply_async()\" was not successful") from None
+
         # Clean up ...
         del results
 
@@ -189,6 +193,10 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
                 # Append the convex hull of the two Polygons and the buffered
                 # line that connects them to list ...
                 finalPolys.append(result.get())
+
+                # Check result ...
+                if not result.successful():
+                    raise Exception("\"multiprocessing.pool.Pool.apply_async()\" was not successful") from None
 
             # Clean up ...
             del results
