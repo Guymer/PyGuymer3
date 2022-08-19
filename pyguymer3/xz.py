@@ -16,7 +16,7 @@ def xz(fname, kwArgCheck = None, cwd = None, stderr = None, stdout = None, threa
 
     Note
     ----
-    I still need to provide justification for using this function over https://docs.python.org/3/library/lzma.html
+    I still need to provide justification for using this function over https://docs.python.org/3.10/library/lzma.html
     """
 
     # Import standard modules ...

@@ -16,7 +16,7 @@ def tar(tarName, fnames, kwArgCheck = None, cwd = None, stderr = None, stdout = 
 
     Note
     ----
-    I still need to provide justification for using this function over https://docs.python.org/3/library/tarfile.html
+    I still need to provide justification for using this function over https://docs.python.org/3.10/library/tarfile.html
     """
 
     # Import standard modules ...
