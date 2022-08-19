@@ -1,4 +1,4 @@
-def remove_almost_empty_directories(path, kwArgCheck = None, debug = True, ignorableFiles = (".directory", ".DS_Store", "._.DS_Store", "Thumbs.db"), remove = False):
+def remove_almost_empty_directories(path, kwArgCheck = None, debug = False, ignorableFiles = (".directory", ".DS_Store", "._.DS_Store", "Thumbs.db"), remove = False):
     """Remove directories which are almost empty.
 
     This function removes directories which are *almost* empty, based on a tuple
@@ -14,6 +14,11 @@ def remove_almost_empty_directories(path, kwArgCheck = None, debug = True, ignor
         the tuple of file names which can safely be ignored
     remove : bool, default=False
         remove almost empty directories
+
+    Returns
+    -------
+    ans : int
+        the number of removed directories
     """
 
     # Import standard modules ...
@@ -24,7 +29,7 @@ def remove_almost_empty_directories(path, kwArgCheck = None, debug = True, ignor
         print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Initialize counter ...
-    i = 0
+    i = 0                                                                       # [#]
 
     # Loop over all the contents of the passed directory ...
     for root, dnames, fnames in os.walk(path):
@@ -43,7 +48,7 @@ def remove_almost_empty_directories(path, kwArgCheck = None, debug = True, ignor
             continue
 
         # Increment counter ...
-        i += 1
+        i += 1                                                                  # [#]
 
         # Remove all ignorable files ...
         for ignorableFile in ignorableFiles:
