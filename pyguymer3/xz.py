@@ -1,15 +1,22 @@
 def xz(fname, kwArgCheck = None, cwd = None, stderr = None, stdout = None, threads = 0):
-    """
-    Compress a file using "xz" (with SHA-256 integrity checks).
+    """Compress a file using "xz" (with SHA-256 integrity checks).
 
-    Arguments:
-    fname -- the name of the file to compress
+    Parameters
+    ----------
+    fname : str
+        the name of the file to compress
+    cwd : str, optional
+        the child working directory (default None)
+    stderr : subprocess.PIPE, subprocess.DEVNULL, io.TextIOWrapper, optional
+        the destination of STDERR (default None)
+    stdout : subprocess.PIPE, subprocess.DEVNULL, io.TextIOWrapper, optional
+        the destination of STDOUT (default None)
+    threads : int, optional
+        the number of threads to use (default 0)
 
-    Keyword arguments:
-    cwd -- the child working directory (default None)
-    stderr -- the destination of STDERR (default None)
-    stdout -- the destination of STDOUT (default None)
-    threads -- the number of threads to use (default 0)
+    Note
+    ----
+    I still need to provide justification for using this function over https://docs.python.org/3/library/lzma.html
     """
 
     # Import standard modules ...

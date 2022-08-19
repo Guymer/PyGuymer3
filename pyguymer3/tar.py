@@ -1,15 +1,22 @@
 def tar(tarName, fnames, kwArgCheck = None, cwd = None, stderr = None, stdout = None):
-    """
-    Create a PAX formatted TAR file (without any frills or size limits).
+    """Create a PAX formatted TAR file (without any frills or size limits).
 
-    Arguments:
-    tarName -- the name of the TAR file to create
-    fnames -- the list of files to put in the TAR file
+    Parameters
+    ----------
+    tarName : str
+        the name of the TAR file to create
+    fnames : list of str
+        the list of files to put in the TAR file
+    cwd : str, optional
+        the child working directory (default None)
+    stderr : subprocess.PIPE, subprocess.DEVNULL, io.TextIOWrapper, optional
+        the destination of STDERR (default None)
+    stdout : subprocess.PIPE, subprocess.DEVNULL, io.TextIOWrapper, optional
+        the destination of STDOUT (default None)
 
-    Keyword arguments:
-    cwd -- the child working directory (default None)
-    stderr -- the destination of STDERR (default None)
-    stdout -- the destination of STDOUT (default None)
+    Note
+    ----
+    I still need to provide justification for using this function over https://docs.python.org/3/library/tarfile.html
     """
 
     # Import standard modules ...
