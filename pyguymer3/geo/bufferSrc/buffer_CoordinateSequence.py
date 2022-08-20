@@ -141,7 +141,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     # **************************************************************************
 
     # Create a pool of workers ...
-    with multiprocessing.Pool() as pool:
+    with multiprocessing.Pool(maxtasksperchild = 1) as pool:
         # Initialize list ...
         results = []
 
@@ -160,7 +160,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
 
             # Check result ...
             if not result.successful():
-                raise Exception("\"multiprocessing.pool.Pool.apply_async()\" was not successful") from None
+                raise Exception("\"multiprocessing.Pool().apply_async()\" was not successful") from None
 
         # Clean up ...
         del results
@@ -179,7 +179,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
         finalPolys.append(polys[0])
     else:
         # Create a pool of workers ...
-        with multiprocessing.Pool() as pool:
+        with multiprocessing.Pool(maxtasksperchild = 1) as pool:
             # Initialize list ...
             results = []
 
@@ -196,7 +196,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
 
                 # Check result ...
                 if not result.successful():
-                    raise Exception("\"multiprocessing.pool.Pool.apply_async()\" was not successful") from None
+                    raise Exception("\"multiprocessing.Pool().apply_async()\" was not successful") from None
 
             # Clean up ...
             del results
