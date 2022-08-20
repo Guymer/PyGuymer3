@@ -55,7 +55,10 @@ def return_folder_size(path, kwArgCheck = None, debug = False, follow_symlinks =
             # Check if it might need following ...
             if entry.is_dir(follow_symlinks = follow_symlinks):
                 # Check that the directory is list-able ...
-                if os.access(entry, os.X_OK, follow_symlinks = follow_symlinks):
+                # NOTE: On 20/Aug/2022 this was (incorrectly, in my opinion)
+                #       returning False on regular folders on FreeBSD (but not
+                #       MacOS) when passed "follow_symlinks = follow_symlinks".
+                if os.access(entry, os.X_OK):
                     # Recursively run this function again and add to the total ...
                     size += return_folder_size(entry.path, debug = debug, follow_symlinks = follow_symlinks, return_symlinks = return_symlinks)
                 elif debug:
