@@ -59,7 +59,7 @@ def find_instances_of_a_file(path, basename, kwArgCheck = None, debug = False, f
                 # Check that the directory is list-able ...
                 # NOTE: On 20/Aug/2022 this was (incorrectly, in my opinion)
                 #       returning False on regular folders on FreeBSD (but not
-                #       MacOS) when passed "follow_symlinks = follow_symlinks".
+                #       MacOS) when passed "follow_symlinks = False".
                 if os.access(entry, os.X_OK):
                     # Recursively run this function again and add to the list ...
                     contents += find_instances_of_a_file(entry.path, basename, debug = debug, follow_symlinks = follow_symlinks, return_symlinks = return_symlinks)

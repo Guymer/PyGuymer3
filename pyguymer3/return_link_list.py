@@ -55,7 +55,7 @@ def return_link_list(path, kwArgCheck = None, debug = False, follow_symlinks = T
                 # Check that the directory is list-able ...
                 # NOTE: On 20/Aug/2022 this was (incorrectly, in my opinion)
                 #       returning False on regular folders on FreeBSD (but not
-                #       MacOS) when passed "follow_symlinks = follow_symlinks".
+                #       MacOS) when passed "follow_symlinks = False".
                 if os.access(entry, os.X_OK):
                     # Recursively run this function again and add to the list ...
                     contents += return_link_list(entry.path, debug = debug, follow_symlinks = follow_symlinks)
