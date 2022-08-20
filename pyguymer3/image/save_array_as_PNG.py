@@ -169,7 +169,7 @@ def save_array_as_PNG(img, fname, kwArgCheck = None, ftype_req = -1):
             # Clean up ...
             del row
 
-        idat += zlib.compress(stream, 9)                                        # IDAT : Data
+        idat += zlib.compress(stream, level = 9)                                # IDAT : Data
         idat[0:4] = numpy.uint32(len(idat[8:])).byteswap().tobytes()            # Length
         idat += numpy.uint32(binascii.crc32(idat[4:])).byteswap().tobytes()     # CRC-32
         fobj.write(idat)
