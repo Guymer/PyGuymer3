@@ -21,7 +21,7 @@ def load_GPS_EXIF2(fname):
                 "-api", "largefilesupport=1",
                 "-json",
                 "-coordFormat", "%+.12f",
-                "-dateFormat", "%Y-%m-%dT%H:%M:%S.%.6f",                        # should be the same as datetime.isoformat()
+                "-dateFormat", "%Y-%m-%dT%H:%M:%S.%.6f",                        # should be the same as datetime.isoformat(sep = "T", timespec = "microseconds")
                 "-groupNames",
                 "-struct",
                 "--printConv",
@@ -61,14 +61,14 @@ def load_GPS_EXIF2(fname):
             # HACK: This particular gem is due to my Motorola Moto G3 smartphone.
             hr = hr % 24                                                        # [hour]
         ans["datetime"] = datetime.datetime(
-            year = ye,
-            month = mo,
-            day = da,
-            hour = hr,
-            minute = mi,
-            second = se,
+                   year = ye,
+                  month = mo,
+                    day = da,
+                   hour = hr,
+                 minute = mi,
+                 second = se,
             microsecond = us,
-            tzinfo = datetime.timezone.utc
+                 tzinfo = datetime.timezone.utc,
         )
 
     # Check that there is location information ...
@@ -82,14 +82,14 @@ def load_GPS_EXIF2(fname):
                     ans["lon"],
                     ans["lat"],
                     ans["alt"],
-                    ans["datetime"].isoformat(" "),
+                    ans["datetime"].isoformat(sep = " ", timespec = "microseconds"),
                 )
             else:
                 # Make a pretty string ...
                 ans["pretty"] = "GPS fix returned ({0:.6f}°, {1:.6f}°) at \"{2:s}\".".format(
                     ans["lon"],
                     ans["lat"],
-                    ans["datetime"].isoformat(" "),
+                    ans["datetime"].isoformat(sep = " ", timespec = "microseconds"),
                 )
         else:
             # Check that there is altitude information ...

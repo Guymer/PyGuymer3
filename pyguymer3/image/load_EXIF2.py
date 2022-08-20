@@ -16,7 +16,7 @@ def load_EXIF2(fname):
                 "-api", "largefilesupport=1",
                 "-json",
                 "-coordFormat", "%+.12f",
-                "-dateFormat", "%Y-%m-%dT%H:%M:%S.%.6f",                        # should be the same as datetime.isoformat()
+                "-dateFormat", "%Y-%m-%dT%H:%M:%S.%.6f",                        # should be the same as datetime.isoformat(sep = "T", timespec = "microseconds")
                 "-groupNames",
                 "-struct",
                 "--printConv",

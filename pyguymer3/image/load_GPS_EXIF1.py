@@ -105,14 +105,14 @@ def load_GPS_EXIF1(fname):
                     #       smartphone.
                     hr = hr % 24                                                                                            # [hour]
                 ans["datetime"] = datetime.datetime(
-                    year = ye,
-                    month = mo,
-                    day = da,
-                    hour = hr,
-                    minute = mi,
-                    second = se,
+                           year = ye,
+                          month = mo,
+                            day = da,
+                           hour = hr,
+                         minute = mi,
+                         second = se,
                     microsecond = us,
-                    tzinfo = datetime.timezone.utc
+                         tzinfo = datetime.timezone.utc,
                 )
 
                 # Deduce time precision ...
@@ -176,7 +176,7 @@ def load_GPS_EXIF1(fname):
                                 ans["lat"],
                                 ans["alt"],
                                 ans["loc_err"],
-                                ans["datetime"].isoformat(" "),
+                                ans["datetime"].isoformat(sep = " ", timespec = "microseconds"),
                                 ans["time_err"].total_seconds()
                             )
                         else:
@@ -185,7 +185,7 @@ def load_GPS_EXIF1(fname):
                                 ans["lon"],
                                 ans["lat"],
                                 ans["alt"],
-                                ans["datetime"].isoformat(" "),
+                                ans["datetime"].isoformat(sep = " ", timespec = "microseconds"),
                             )
                     else:
                         # Check that there is error information ...
@@ -195,7 +195,7 @@ def load_GPS_EXIF1(fname):
                                 ans["lon"],
                                 ans["lat"],
                                 ans["loc_err"],
-                                ans["datetime"].isoformat(" "),
+                                ans["datetime"].isoformat(sep = " ", timespec = "microseconds"),
                                 ans["time_err"].total_seconds()
                             )
                         else:
@@ -203,7 +203,7 @@ def load_GPS_EXIF1(fname):
                             ans["pretty"] = "GPS fix returned ({0:.6f}°, {1:.6f}°) at \"{2:s}\".".format(
                                 ans["lon"],
                                 ans["lat"],
-                                ans["datetime"].isoformat(" "),
+                                ans["datetime"].isoformat(sep = " ", timespec = "microseconds"),
                             )
                 else:
                     # Check that there is altitude information ...
