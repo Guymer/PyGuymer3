@@ -5,6 +5,14 @@ def _debug(badGeoms, kwArgCheck = None, prefix = "."):
     ----------
     badGeoms : shapely.geometry.multilinestring.LineString, shapely.geometry.multilinestring.MultiLineString, shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
         the bad [Multi]LineString or [Multi]Polygon
+
+    Notes
+    -----
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import sub-functions ...

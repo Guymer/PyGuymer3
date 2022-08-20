@@ -7,17 +7,23 @@ def extract_polys(shape):
     Parameters
     ----------
     shape :
-            the Shapely geometry
+        the Shapely geometry
 
     Returns
     -------
     polys : list of shapely.geometry.polygon.Polygon
-            a flat list of all of the Polygons
+        a flat list of all of the Polygons
 
     Note
     ----
     To pass GeoJSON objects you must first convert them to Shapely objects by
     doing something like "shape = shapely.geometry.shape(shape)".
+
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import special modules ...

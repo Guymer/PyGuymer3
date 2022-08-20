@@ -6,22 +6,30 @@ def clean_CoordinateSequence(coords, kwArgCheck = None, debug = False, tol = 1.0
     Parameters
     ----------
     coords : shapely.coords.CoordinateSequence
-            the CoordinateSequence
+        the CoordinateSequence
     debug : bool, optional
-            print debug messages
+        print debug messages
     tol : float, optional
-            the Euclidean distance that defines two points as being the same (in degrees)
+        the Euclidean distance that defines two points as being the same (in
+        degrees)
 
     Returns
     -------
     cleans : shapely.geometry.linestring.LineString
-            the cleaned CoordinateSequence
+        the cleaned CoordinateSequence
 
     Notes
     -----
     According to the Shapely documentation for the function shapely.geometry.polygon.orient():
 
-        "A sign of 1.0 means that the coordinates of the product’s exterior ring will be oriented counter-clockwise."
+        "A sign of 1.0 means that the coordinates of the product’s exterior ring
+        will be oriented counter-clockwise."
+
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import special modules ...

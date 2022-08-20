@@ -18,6 +18,14 @@ def return_folder_size(path, kwArgCheck = None, debug = False, follow_symlinks =
     -------
     ans : int
         the total size
+
+    Notes
+    -----
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import standard modules ...

@@ -14,9 +14,15 @@ def tar(tarName, fnames, kwArgCheck = None, cwd = None, stderr = None, stdout = 
     stdout : subprocess.PIPE, subprocess.DEVNULL, io.TextIOWrapper, optional
         the destination of STDOUT (default None)
 
-    Note
-    ----
+    Notes
+    -----
     I still need to provide justification for using this function over https://docs.python.org/3.10/library/tarfile.html
+
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import standard modules ...

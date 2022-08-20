@@ -8,23 +8,31 @@ def save_array_as_image(img0, fname, kwArgCheck = None, form = "png", scale = Fa
     Parameters
     ----------
     img0 : numpy.ndarray
-            a 2D NumPy array of any type with shape (ny,nx)
+        a 2D NumPy array of any type with shape (ny,nx)
     fname : str
-            output file name
+        output file name
     form : str, optional
-            output image format (default "png")
+        output image format (default "png")
     scale : bool, optional
-            Does the input need scaling? If not, then the input array must be
-            >= 0 and <= 255. (default False)
+        Does the input need scaling? If not, then the input array must be ≥ 0
+        and ≤ 255. (default False)
     pc_bot : float, optional
-            the percentage to clip off the bottom of the histogram, if scaling
-            is requested (default 0.0)
+        the percentage to clip off the bottom of the histogram, if scaling is
+        requested (default 0.0)
     pc_top : float, optional
-            the percentage to clip off the top of the histogram, if scaling is
-            requested (default 0.0)
+        the percentage to clip off the top of the histogram, if scaling is
+        requested (default 0.0)
     ct : str, optional
-            the colour table to apply (the default is no colour mapping, i.e.,
-            greyscale)
+        the colour table to apply (the default is no colour mapping, i.e.,
+        greyscale)
+
+    Notes
+    -----
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import modules ...

@@ -8,18 +8,28 @@ def fillin(shape, fill, kwArgCheck = None, debug = False, fillSpace = "Euclidean
     Parameters
     ----------
     shape : shapely.coords.CoordinateSequence, shapely.geometry.polygon.LinearRing, shapely.geometry.linestring.LineString, shapely.geometry.multilinestring.MultiLineString, shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
-            the shape
+        the shape
     fill : float
-            the Euclidean or Geodesic distance to fill in between each point within the shape by (in degrees or metres)
+        the Euclidean or Geodesic distance to fill in between each point within
+        the shape by (in degrees or metres)
     debug : bool, optional
-            print debug messages
+        print debug messages
     fillSpace : str, optional
-            the geometric space to perform the filling in (either "EuclideanSpace" or "GeodesicSpace")
+        the geometric space to perform the filling in (either "EuclideanSpace"
+        or "GeodesicSpace")
 
     Returns
     -------
     fills : shapely.coords.CoordinateSequence, shapely.geometry.polygon.LinearRing, shapely.geometry.linestring.LineString, shapely.geometry.multilinestring.MultiLineString, shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
-            the filled in shape
+        the filled in shape
+
+    Notes
+    -----
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import special modules ...

@@ -7,12 +7,20 @@ def extract_points(shape):
     Parameters
     ----------
     shape :
-            the Shapely geometry
+        the Shapely geometry
 
     Returns
     -------
     points : list of shapely.geometry.point.Point
-            a flat list of all of the Points
+        a flat list of all of the Points
+
+    Notes
+    -----
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import special modules ...

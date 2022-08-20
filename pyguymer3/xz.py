@@ -14,9 +14,15 @@ def xz(fname, kwArgCheck = None, cwd = None, stderr = None, stdout = None, threa
     threads : int, optional
         the number of threads to use (default 0)
 
-    Note
-    ----
+    Notes
+    -----
     I still need to provide justification for using this function over https://docs.python.org/3.10/library/lzma.html
+
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import standard modules ...

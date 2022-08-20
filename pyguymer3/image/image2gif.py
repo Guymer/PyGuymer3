@@ -7,17 +7,25 @@ def image2gif(img, gif, kwArgCheck = None, debug = False, mode = "RGB", optimize
     Parameters
     ----------
     img : PIL.Image.Image or str
-            the input PIL Image or path to the input image
+        the input PIL Image or path to the input image
     gif : str
-            the path to the output GIF
+        the path to the output GIF
     debug : bool, optional
-            print debug messages (default False)
+        print debug messages (default False)
     mode : str, optional
-            the mode of the outout GIF (default "RGB")
+        the mode of the outout GIF (default "RGB")
     optimize : bool, optional
-            optimize the output GIF (default True)
+        optimize the output GIF (default True)
     strip : bool, optional
-            strip metadata from the output GIF (default False)
+        strip metadata from the output GIF (default False)
+
+    Notes
+    -----
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import special modules ...

@@ -9,18 +9,28 @@ def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, fillSpace = "Eucl
     Parameters
     ----------
     coords : shapely.coords.CoordinateSequence
-            the CoordinateSequence
+        the CoordinateSequence
     fill : float
-            the Euclidean or Geodesic distance to fill in between each point within the shape by (in degrees or metres)
+        the Euclidean or Geodesic distance to fill in between each point within
+        the shape by (in degrees or metres)
     debug : bool, optional
-            print debug messages
+        print debug messages
     fillSpace : str, optional
-            the geometric space to perform the filling in (either "EuclideanSpace" or "GeodesicSpace")
+        the geometric space to perform the filling in (either "EuclideanSpace"
+        or "GeodesicSpace")
 
     Returns
     -------
     fills : shapely.geometry.linestring.LineString
-            the filled in CoordinateSequence
+        the filled in CoordinateSequence
+
+    Notes
+    -----
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import special modules ...

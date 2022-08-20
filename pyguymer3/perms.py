@@ -24,6 +24,14 @@ def perms(path, kwArgCheck = None, debug = False, filePerms = None, folderPerms 
         set permissions on symbolic links
     skips : list of str, default=[]
         a list of strings which, if any are present in a file/folder name, result in the file/folder being skipped
+
+    Notes
+    -----
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import standard modules ...

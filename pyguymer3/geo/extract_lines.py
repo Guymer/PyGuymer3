@@ -7,12 +7,20 @@ def extract_lines(shape):
     Parameters
     ----------
     shape :
-            the Shapely geometry
+        the Shapely geometry
 
     Returns
     -------
     lines : list of shapely.geometry.linestring.LineString
-            a flat list of all of the LineStrings
+        a flat list of all of the LineStrings
+
+    Notes
+    -----
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import special modules ...

@@ -8,36 +8,52 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     Parameters
     ----------
     coords : shapely.coords.CoordinateSequence
-            the CoordinateSequence
+        the CoordinateSequence
     dist : float
-            the Geodesic distance to buffer each point within the CoordinateSequence by (in metres)
+        the Geodesic distance to buffer each point within the CoordinateSequence
+        by (in metres)
     debug : bool, optional
-            print debug messages
+        print debug messages
     fill : float, optional
-            the Euclidean or Geodesic distance to fill in between each point within the shapes by (in degrees or metres)
+        the Euclidean or Geodesic distance to fill in between each point within
+        the shapes by (in degrees or metres)
     fillSpace : str, optional
-            the geometric space to perform the filling in (either "EuclideanSpace" or "GeodesicSpace")
+        the geometric space to perform the filling in (either "EuclideanSpace"
+        or "GeodesicSpace")
     nang : int, optional
-            the number of angles around each point within the CoordinateSequence that are calculated when buffering
+        the number of angles around each point within the CoordinateSequence
+        that are calculated when buffering
     simp : float, optional
-            how much the final [Multi]Polygons is simplified by; negative values disable simplification (in degrees)
+        how much the final [Multi]Polygons is simplified by; negative values
+        disable simplification (in degrees)
     tol : float, optional
-            the Euclidean distance that defines two points as being the same (in degrees)
+        the Euclidean distance that defines two points as being the same (in
+        degrees)
 
     Returns
     -------
     buff : shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
-            the buffered CoordinateSequence
+        the buffered CoordinateSequence
 
     Notes
     -----
     According to the Shapely documentation for the method object.buffer():
 
-        "Passed a distance of 0, buffer() can sometimes be used to “clean” self-touching or self-crossing polygons such as the classic “bowtie”. Users have reported that very small distance values sometimes produce cleaner results than 0. Your mileage may vary when cleaning surfaces."
+        "Passed a distance of 0, buffer() can sometimes be used to “clean”
+        self-touching or self-crossing polygons such as the classic “bowtie”.
+        Users have reported that very small distance values sometimes produce
+        cleaner results than 0. Your mileage may vary when cleaning surfaces."
 
     According to the Shapely documentation for the function shapely.geometry.polygon.orient():
 
-        "A sign of 1.0 means that the coordinates of the product’s exterior ring will be oriented counter-clockwise."
+        "A sign of 1.0 means that the coordinates of the product’s exterior ring
+        will be oriented counter-clockwise."
+
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import standard modules ...

@@ -7,12 +7,20 @@ def convert_spreadsheet_to_unix(val):
     Parameters
     ----------
     val : int
-            the Excel spreadsheet date
+        the Excel spreadsheet date
 
     Returns
     -------
     ans : int
-            the UNIX timestamp
+        the UNIX timestamp
+
+    Notes
+    -----
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Return answer ..

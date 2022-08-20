@@ -8,26 +8,40 @@ def buffer_MultiLineString(multiline, dist, kwArgCheck = None, debug = False, fi
     Parameters
     ----------
     multiline : shapely.geometry.multilinestring.MultiLineString
-            the MultiLineString
+        the MultiLineString
     dist : float
-            the Geodesic distance to buffer each point within the MultiLineString by (in metres)
+        the Geodesic distance to buffer each point within the MultiLineString by
+        (in metres)
     debug : bool, optional
-            print debug messages
+        print debug messages
     fill : float, optional
-            the Euclidean or Geodesic distance to fill in between each point within the shapes by (in degrees or metres)
+        the Euclidean or Geodesic distance to fill in between each point within
+        the shapes by (in degrees or metres)
     fillSpace : str, optional
-            the geometric space to perform the filling in (either "EuclideanSpace" or "GeodesicSpace")
+        the geometric space to perform the filling in (either "EuclideanSpace"
+        or "GeodesicSpace")
     nang : int, optional
-            the number of angles around each point within the MultiLineString that are calculated when buffering
+        the number of angles around each point within the MultiLineString that
+        are calculated when buffering
     simp : float, optional
-            how much intermediary [Multi]Polygons are simplified by; negative values disable simplification (in degrees)
+        how much intermediary [Multi]Polygons are simplified by; negative values
+        disable simplification (in degrees)
     tol : float, optional
-            the Euclidean distance that defines two points as being the same (in degrees)
+        the Euclidean distance that defines two points as being the same (in
+        degrees)
 
     Returns
     -------
     buffs : shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
-            the buffered MultiLineString
+        the buffered MultiLineString
+
+    Notes
+    -----
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import special modules ...

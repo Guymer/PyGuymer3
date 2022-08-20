@@ -20,6 +20,14 @@ def find_instances_of_a_file(path, basename, kwArgCheck = None, debug = False, f
     -------
     ans : list of str
         the sorted list of desired file names
+
+    Notes
+    -----
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import standard modules ...

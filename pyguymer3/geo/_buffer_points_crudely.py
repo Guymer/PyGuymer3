@@ -9,20 +9,31 @@ def _buffer_points_crudely(points1, dist, nang, kwArgCheck = None, debug = False
     Parameters
     ----------
     points1 : numpy.ndarray
-            the (npoint, 2) array of (lon,lat) coordinates (in degrees)
+        the (npoint, 2) array of (lon,lat) coordinates (in degrees)
     dist : float
-            the distance to buffer the (lon,lat) coordinates by (in metres)
+        the distance to buffer the (lon,lat) coordinates by (in metres)
     nang : int
-            the number of angles around the (lon,lat) coordinates that are calculated when buffering (must be odd; must be ≥ 9)
+        the number of angles around the (lon,lat) coordinates that are
+        calculated when buffering (must be odd; must be ≥ 9)
     debug : bool, optional
-            print debug messages
+        print debug messages
     tol : float, optional
-            the Euclidean distance that defines two points as being the same (in degrees)
+        the Euclidean distance that defines two points as being the same (in
+        degrees)
 
     Returns
     -------
     points2 : numpy.ndarray
-            the (npoint, nang, 2) array of (lon,lat) coordinates around the (lon,lat) coordinates (in degrees)
+        the (npoint, nang, 2) array of (lon,lat) coordinates around the
+        (lon,lat) coordinates (in degrees)
+
+    Notes
+    -----
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import special modules ...
@@ -76,10 +87,14 @@ def _buffer_points_crudely(points1, dist, nang, kwArgCheck = None, debug = False
             points3 = numpy.zeros((nang, 2), dtype = numpy.float64)             # [°]
 
             # Fix the first point ...
+            # It isn't the first and the last that need clipping to the axis, it
+            # is the pair of points either side of the axis.
             points3[0, 0] = points2[ipoint, 0, 0]                               # [°]
             points3[0, 1] = 90.0                                                # [°]
 
             # Fix the last point ...
+            # It isn't the first and the last that need clipping to the axis, it
+            # is the pair of points either side of the axis.
             points3[nang - 1, 0] = points2[ipoint, nang - 1, 0]                 # [°]
             points3[nang - 1, 1] = 90.0                                         # [°]
 
@@ -130,11 +145,15 @@ def _buffer_points_crudely(points1, dist, nang, kwArgCheck = None, debug = False
             iang3 += 1
 
             # Fix the point before it crosses the South Pole ...
+            # It isn't the first and the last that need clipping to the axis, it
+            # is the pair of points either side of the axis.
             points3[iang3, 0] = endLon1                                         # [°]
             points3[iang3, 1] = -90.0                                           # [°]
             iang3 += 1
 
             # Fix the point after it crosses the South Pole ...
+            # It isn't the first and the last that need clipping to the axis, it
+            # is the pair of points either side of the axis.
             points3[iang3, 0] = endLon2                                         # [°]
             points3[iang3, 1] = -90.0                                           # [°]
             iang3 += 1

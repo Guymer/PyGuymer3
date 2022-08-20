@@ -22,7 +22,15 @@ def add_horizontal_gridlines(ax, ext, kwArgCheck = None, color = "black", linest
 
     Notes
     -----
-    If "ngrid" is more than "1" then it is used to create the gridline locations, along with "ext". If it is not, then the gridline locations will attempt to be made from "locs" instead.
+    If "ngrid" is more than "1" then it is used to create the gridline
+    locations, along with "ext". If it is not, then the gridline locations will
+    attempt to be made from "locs" instead.
+
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import special modules ...

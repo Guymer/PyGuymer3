@@ -7,12 +7,20 @@ def getctime(fname):
     Parameters
     ----------
     fname : str
-            the file name
+        the file name
 
     Returns
     -------
     ans : datetime.datetime
-            the timezone-aware ``datetime`` object
+        the timezone-aware ``datetime`` object
+
+    Notes
+    -----
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import standard modules ...

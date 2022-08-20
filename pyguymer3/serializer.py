@@ -10,6 +10,14 @@ def serializer(obj, kwArgCheck = None, evaluate = False):
         object to be serialized
     evaluate : bool, optional
         evaluate exifread.utils.Ratio objects into floats, otherwise return as string of form "X/Y" (default false)
+
+    Notes
+    -----
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import standard modules ...

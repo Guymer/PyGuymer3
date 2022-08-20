@@ -7,19 +7,27 @@ def image2png(img, png, kwArgCheck = None, debug = False, exif = None, mode = "R
     Parameters
     ----------
     img : PIL.Image.Image or str
-            the input PIL Image or path to the input image
+        the input PIL Image or path to the input image
     png : str
-            the path to the output PNG
+        the path to the output PNG
     debug : bool, optional
-            print debug messages (default False)
+        print debug messages (default False)
     exif : dict, optional
-            a dictionary of EXIF data to save in the output PNG (default None)
+        a dictionary of EXIF data to save in the output PNG (default None)
     mode : str, optional
-            the mode of the outout PNG (default "RGB")
+        the mode of the outout PNG (default "RGB")
     optimize : bool, optional
-            optimize the output PNG (default True)
+        optimize the output PNG (default True)
     strip : bool, optional
-            strip metadata from the output PNG (default False)
+        strip metadata from the output PNG (default False)
+
+    Notes
+    -----
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import special modules ...

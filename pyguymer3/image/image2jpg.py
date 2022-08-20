@@ -7,23 +7,31 @@ def image2jpg(img, jpg, kwArgCheck = None, debug = False, exif = None, mode = "R
     Parameters
     ----------
     img : PIL.Image.Image or str
-            the input PIL Image or path to the input image
+        the input PIL Image or path to the input image
     jpg : str
-            the path to the output JPG
+        the path to the output JPG
     debug : bool, optional
-            print debug messages (default False)
+        print debug messages (default False)
     exif : dict, optional
-            a dictionary of EXIF data to save in the output JPG (default None)
+        a dictionary of EXIF data to save in the output JPG (default None)
     mode : str, optional
-            the mode of the outout JPG (default "RGB")
+        the mode of the outout JPG (default "RGB")
     optimize : bool, optional
-            optimize the output JPG (default True)
+        optimize the output JPG (default True)
     progressive : bool, optional
-            save a progressive JPG (default False)
+        save a progressive JPG (default False)
     quality : int, optional
-            the quality of the output JPG (default 95)
+        the quality of the output JPG (default 95)
     strip : bool, optional
-            strip metadata from the output JPG (default False)
+        strip metadata from the output JPG (default False)
+
+    Notes
+    -----
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import special modules ...

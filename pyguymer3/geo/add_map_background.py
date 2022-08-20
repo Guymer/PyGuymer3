@@ -20,6 +20,12 @@ def add_map_background(axis, kwArgCheck = None, debug = False, name = "natural-e
     If the specified image cannot be found then a default map will be used
     instead. See the `Cartopy documentation of background_img() <https://scitools.org.uk/cartopy/docs/latest/matplotlib/geoaxes.html#cartopy.mpl.geoaxes.GeoAxes.background_img>`_
     and the `Cartopy documentation of stock_img() <https://scitools.org.uk/cartopy/docs/latest/matplotlib/geoaxes.html#cartopy.mpl.geoaxes.GeoAxes.stock_img>`_.
+
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import standard modules ...

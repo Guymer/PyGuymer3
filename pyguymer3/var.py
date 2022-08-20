@@ -7,14 +7,14 @@ def var(arr, kwArgCheck = None, dof = 0):
     Parameters
     ----------
     arr : numpy.ndarray
-            the array
+        the array
     dof : int, default=0
-            the degrees of freedom
+        the degrees of freedom
 
     Returns
     -------
     ans : float
-            the variance of the array
+        the variance of the array
 
     Notes
     -----
@@ -26,6 +26,12 @@ def var(arr, kwArgCheck = None, dof = 0):
       normally distributed variables; and
     * ``dof=1`` provides an unbiased estimator of the variance of a
       hypothetical infinite population.
+
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import special modules ...

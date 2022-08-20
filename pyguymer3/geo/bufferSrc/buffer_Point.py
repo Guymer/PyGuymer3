@@ -8,26 +8,38 @@ def buffer_Point(point, dist, kwArgCheck = None, debug = False, fill = 1.0, fill
     Parameters
     ----------
     point : shapely.geometry.point.Point
-            the Point
+        the Point
     dist : float
-            the distance to buffer the Point by (in metres)
+        the distance to buffer the Point by (in metres)
     debug : bool, optional
-            print debug messages
+        print debug messages
     fill : float, optional
-            the Euclidean or Geodesic distance to fill in between each point within the shapes by (in degrees or metres)
+        the Euclidean or Geodesic distance to fill in between each point within
+        the shapes by (in degrees or metres)
     fillSpace : str, optional
-            the geometric space to perform the filling in (either "EuclideanSpace" or "GeodesicSpace")
+        the geometric space to perform the filling in (either "EuclideanSpace"
+        or "GeodesicSpace")
     nang : int, optional
-            the number of angles around the Point that are calculated when buffering
+        the number of angles around the Point that are calculated when buffering
     simp : float, optional
-            how much intermediary [Multi]Polygons are simplified by; negative values disable simplification (in degrees)
+        how much intermediary [Multi]Polygons are simplified by; negative values
+        disable simplification (in degrees)
     tol : float, optional
-            the Euclidean distance that defines two points as being the same (in degrees)
+        the Euclidean distance that defines two points as being the same (in
+        degrees)
 
     Returns
     -------
     buff : shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
-            the buffered Point
+        the buffered Point
+
+    Notes
+    -----
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import special modules ...

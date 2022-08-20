@@ -8,14 +8,23 @@ def remap(poly, kwArgCheck = None, tol = 1.0e-10):
     Parameters
     ----------
     poly : shapely.geometry.polygon.Polygon
-            the Polygon
+        the Polygon
     tol : float, optional
-            the Euclidean distance that defines two points as being the same (in degrees)
+        the Euclidean distance that defines two points as being the same (in
+        degrees)
 
     Returns
     -------
     polys : shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
-            the re-mapped Polygon
+        the re-mapped Polygon
+
+    Notes
+    -----
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import special modules ...

@@ -7,23 +7,31 @@ def image2webp(img, webp, kwArgCheck = None, debug = False, exif = None, lossles
     Parameters
     ----------
     img : PIL.Image.Image or str
-            the input PIL Image or path to the input image
+        the input PIL Image or path to the input image
     webp : str
-            the path to the output WEBP
+        the path to the output WEBP
     debug : bool, optional
-            print debug messages (default False)
+        print debug messages (default False)
     exif : dict, optional
-            a dictionary of EXIF data to save in the output WEBP (default None)
+        a dictionary of EXIF data to save in the output WEBP (default None)
     lossless : bool, optional
-            save a lossless WEBP (default False)
+        save a lossless WEBP (default False)
     method : int, optional
-            the method to use when saving the WEBP (default 6)
+        the method to use when saving the WEBP (default 6)
     mode : str, optional
-            the mode of the outout WEBP (default "RGB")
+        the mode of the outout WEBP (default "RGB")
     quality : int, optional
-            the quality of the output WEBP (default 100)
+        the quality of the output WEBP (default 100)
     strip : bool, optional
-            strip metadata from the output WEBP (default False)
+        strip metadata from the output WEBP (default False)
+
+    Notes
+    -----
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import special modules ...

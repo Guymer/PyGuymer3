@@ -19,6 +19,14 @@ def return_folder_list(path, kwArgCheck = None, debug = False, follow_symlinks =
     -------
     ans : list of str
         the sorted list of folder names
+
+    Notes
+    -----
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import standard modules ...

@@ -6,13 +6,22 @@ def check_MultiPolygon(multipoly):
     Parameters
     ----------
     multipoly : shapely.geometry.multipolygon.MultiPolygon
-            the MultiPolygon
+        the MultiPolygon
 
     Notes
     -----
     According to the Shapely documentation for the function shapely.geometry.polygon.orient():
 
-        "A sign of 1.0 means that the coordinates of the product’s exterior ring will be oriented counter-clockwise."
+        "A sign of 1.0 means that the coordinates of the product’s exterior ring
+        will be oriented counter-clockwise."
+
+    Notes
+    -----
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import special modules ...

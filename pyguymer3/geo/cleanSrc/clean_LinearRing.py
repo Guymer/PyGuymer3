@@ -6,16 +6,25 @@ def clean_LinearRing(ring, kwArgCheck = None, debug = False, tol = 1.0e-10):
     Parameters
     ----------
     ring : shapely.geometry.polygon.LinearRing
-            the LinearRing
+        the LinearRing
     debug : bool, optional
-            print debug messages
+        print debug messages
     tol : float, optional
-            the Euclidean distance that defines two points as being the same (in degrees)
+        the Euclidean distance that defines two points as being the same (in
+        degrees)
 
     Returns
     -------
     cleans : shapely.geometry.linestring.LineString
-            the cleaned LinearRing
+        the cleaned LinearRing
+
+    Notes
+    -----
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import special modules ...

@@ -19,6 +19,14 @@ def remove_almost_empty_directories(path, kwArgCheck = None, debug = False, igno
     -------
     ans : int
         the number of removed directories
+
+    Notes
+    -----
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import standard modules ...

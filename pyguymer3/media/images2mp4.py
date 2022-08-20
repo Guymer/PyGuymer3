@@ -30,6 +30,14 @@ def images2mp4(frames, kwArgCheck = None, crf = -1.0, debug = False, form = "mp4
     -------
     path : str
         the path to the MP4 in a temporary directory (to be copied/moved by the user themselves)
+
+    Notes
+    -----
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import standard modules ...

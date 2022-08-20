@@ -8,22 +8,34 @@ def _points2poly(point, points, kwArgCheck = None, debug = False, fill = 1.0, fi
     Parameters
     ----------
     point : numpy.ndarray
-            the (2) array of (lon,lat) coordinate (in degrees)
+        the (2) array of (lon,lat) coordinate (in degrees)
     points : numpy.ndarray
-            the (nang, 2) array of (lon,lat) coordinates around the (lon,lat) coordinate (in degrees)
+        the (nang, 2) array of (lon,lat) coordinates around the (lon,lat)
+        coordinate (in degrees)
     debug : bool, optional
-            print debug messages
+        print debug messages
     fill : float, optional
-            the Euclidean or Geodesic distance to fill in between each point within the shapes by (in degrees or metres)
+        the Euclidean or Geodesic distance to fill in between each point within
+        the shapes by (in degrees or metres)
     fillSpace : str, optional
-            the geometric space to perform the filling in (either "EuclideanSpace" or "GeodesicSpace")
+        the geometric space to perform the filling in (either "EuclideanSpace"
+        or "GeodesicSpace")
     tol : float, optional
-            the Euclidean distance that defines two points as being the same (in degrees)
+        the Euclidean distance that defines two points as being the same (in
+        degrees)
 
     Returns
     -------
     wedges : shapely.geometry.polygon.Polygon
-            the buffered (lon,lat) coordinate
+        the buffered (lon,lat) coordinate
+
+    Notes
+    -----
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import special modules ...

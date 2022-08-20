@@ -7,18 +7,24 @@ def mean(arr, kwArgCheck = None, dof = 0):
     Parameters
     ----------
     arr : numpy.ndarray
-            the array
+        the array
     dof : int, default=0
-            the degrees of freedom
+        the degrees of freedom
 
     Returns
     -------
     ans : float
-            the arithmetic mean of the array
+        the arithmetic mean of the array
 
     Notes
     -----
     See `the NumPy documentation <https://numpy.org/doc/stable/reference/generated/numpy.mean.html>`_.
+
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import special modules ...

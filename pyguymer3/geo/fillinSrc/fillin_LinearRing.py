@@ -9,18 +9,28 @@ def fillin_LinearRing(ring, fill, kwArgCheck = None, debug = False, fillSpace = 
     Parameters
     ----------
     ring : shapely.geometry.polygon.LinearRing
-            the LinearRing
+        the LinearRing
     fill : float
-            the Euclidean or Geodesic distance to fill in between each point within the shape by (in degrees or metres)
+        the Euclidean or Geodesic distance to fill in between each point within
+        the shape by (in degrees or metres)
     debug : bool, optional
-            print debug messages
+        print debug messages
     fillSpace : str, optional
-            the geometric space to perform the filling in (either "EuclideanSpace" or "GeodesicSpace")
+        the geometric space to perform the filling in (either "EuclideanSpace"
+        or "GeodesicSpace")
 
     Returns
     -------
     fills : shapely.geometry.linestring.LineString
-            the filled in LinearRing
+        the filled in LinearRing
+
+    Notes
+    -----
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import special modules ...

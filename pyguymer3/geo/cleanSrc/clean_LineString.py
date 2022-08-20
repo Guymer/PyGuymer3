@@ -6,16 +6,25 @@ def clean_LineString(line, kwArgCheck = None, debug = False, tol = 1.0e-10):
     Parameters
     ----------
     line : shapely.geometry.linestring.LineString
-            the LineString
+        the LineString
     debug : bool, optional
-            print debug messages
+        print debug messages
     tol : float, optional
-            the Euclidean distance that defines two points as being the same (in degrees)
+        the Euclidean distance that defines two points as being the same (in
+        degrees)
 
     Returns
     -------
     cleans : shapely.geometry.linestring.LineString
-            the cleaned LineString
+        the cleaned LineString
+
+    Notes
+    -----
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import special modules ...

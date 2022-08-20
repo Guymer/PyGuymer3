@@ -7,18 +7,24 @@ def stderr(arr, kwArgCheck = None, dof = 1):
     Parameters
     ----------
     arr : numpy.ndarray
-            the array
+        the array
     dof : int, default=1
-            the degrees of freedom
+        the degrees of freedom
 
     Returns
     -------
     ans : float
-            the standard error of the array
+        the standard error of the array
 
     Notes
     -----
     See `the SciPy documentation <https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.sem.html>`_.
+
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import special modules ...

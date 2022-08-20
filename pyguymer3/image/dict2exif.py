@@ -7,14 +7,22 @@ def dict2exif(exif, kwArgCheck = None, mode = "RGB"):
     Parameters
     ----------
     exif : dict
-            the dictionary
+        the dictionary
     mode : str, optional
-            the mode of the temporary image that is created to initialize the EXIF class
+        the mode of the temporary image that is created to initialize the EXIF class
 
     Returns
     -------
     exifClass : PIL.Image.Exif
-            the EXIF class
+        the EXIF class
+
+    Notes
+    -----
+    Copyright 2018 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import special modules ...
