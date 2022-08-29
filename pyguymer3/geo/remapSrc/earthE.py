@@ -21,7 +21,7 @@ def earthE(shape):
         "A sign of 1.0 means that the coordinates of the product’s exterior ring
         will be oriented counter-clockwise."
 
-    Copyright 2018 Thomas Guymer [1]_
+    Copyright 2017 Thomas Guymer [1]_
 
     References
     ----------

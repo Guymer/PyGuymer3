@@ -26,7 +26,7 @@ def elem2dict(elem, kwArgCheck = None, debug = False):
     "KEY" dictionary fields. If multiple child elements have identical tag names
     then the "KEY" dictionary field will be a list of them.
 
-    Copyright 2018 Thomas Guymer [1]_
+    Copyright 2017 Thomas Guymer [1]_
 
     References
     ----------

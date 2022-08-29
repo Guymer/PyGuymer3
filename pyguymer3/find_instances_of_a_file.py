@@ -23,7 +23,7 @@ def find_instances_of_a_file(path, basename, kwArgCheck = None, debug = False, f
 
     Notes
     -----
-    Copyright 2018 Thomas Guymer [1]_
+    Copyright 2017 Thomas Guymer [1]_
 
     References
     ----------

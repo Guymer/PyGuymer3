@@ -22,7 +22,7 @@ def return_folder_list(path, kwArgCheck = None, debug = False, follow_symlinks =
 
     Notes
     -----
-    Copyright 2018 Thomas Guymer [1]_
+    Copyright 2017 Thomas Guymer [1]_
 
     References
     ----------

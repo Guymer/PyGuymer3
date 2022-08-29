@@ -29,7 +29,7 @@ def _buffer_points_crudely(points1, dist, nang, kwArgCheck = None, debug = False
 
     Notes
     -----
-    Copyright 2018 Thomas Guymer [1]_
+    Copyright 2017 Thomas Guymer [1]_
 
     References
     ----------

@@ -23,7 +23,7 @@ def images2gif(imgs, gif, kwArgCheck = None, debug = False, fps = 25.0, mode = "
 
     Notes
     -----
-    Copyright 2018 Thomas Guymer [1]_
+    Copyright 2017 Thomas Guymer [1]_
 
     References
     ----------

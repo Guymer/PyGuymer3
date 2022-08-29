@@ -23,7 +23,7 @@ def image2png(img, png, kwArgCheck = None, debug = False, exif = None, mode = "R
 
     Notes
     -----
-    Copyright 2018 Thomas Guymer [1]_
+    Copyright 2017 Thomas Guymer [1]_
 
     References
     ----------

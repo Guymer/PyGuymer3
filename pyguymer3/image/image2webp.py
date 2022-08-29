@@ -27,7 +27,7 @@ def image2webp(img, webp, kwArgCheck = None, debug = False, exif = None, lossles
 
     Notes
     -----
-    Copyright 2018 Thomas Guymer [1]_
+    Copyright 2017 Thomas Guymer [1]_
 
     References
     ----------

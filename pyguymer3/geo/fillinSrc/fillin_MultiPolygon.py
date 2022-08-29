@@ -27,7 +27,7 @@ def fillin_MultiPolygon(multipoly, fill, kwArgCheck = None, debug = False, fillS
 
     Notes
     -----
-    Copyright 2018 Thomas Guymer [1]_
+    Copyright 2017 Thomas Guymer [1]_
 
     References
     ----------

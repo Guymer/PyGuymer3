@@ -20,7 +20,7 @@ def clean(shape, kwArgCheck = None, debug = False, tol = 1.0e-10):
 
     Notes
     -----
-    Copyright 2018 Thomas Guymer [1]_
+    Copyright 2017 Thomas Guymer [1]_
 
     References
     ----------

@@ -37,7 +37,7 @@ def buffer_MultiLineString(multiline, dist, kwArgCheck = None, debug = False, fi
 
     Notes
     -----
-    Copyright 2018 Thomas Guymer [1]_
+    Copyright 2017 Thomas Guymer [1]_
 
     References
     ----------

@@ -36,7 +36,7 @@ def buffer(shape, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace 
 
     Notes
     -----
-    Copyright 2018 Thomas Guymer [1]_
+    Copyright 2017 Thomas Guymer [1]_
 
     References
     ----------

@@ -18,7 +18,7 @@ def xz(fname, kwArgCheck = None, cwd = None, stderr = None, stdout = None, threa
     -----
     I still need to provide justification for using this function over https://docs.python.org/3.10/library/lzma.html
 
-    Copyright 2018 Thomas Guymer [1]_
+    Copyright 2017 Thomas Guymer [1]_
 
     References
     ----------

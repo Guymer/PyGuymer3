@@ -42,7 +42,7 @@ def _posts2panel(pointA, pointB, pointsA, pointsB, polyA, polyB, kwArgCheck = No
 
     Notes
     -----
-    Copyright 2018 Thomas Guymer [1]_
+    Copyright 2017 Thomas Guymer [1]_
 
     References
     ----------

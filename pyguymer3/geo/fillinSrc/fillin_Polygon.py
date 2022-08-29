@@ -26,7 +26,7 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, fillSpace = "Eu
 
     Notes
     -----
-    Copyright 2018 Thomas Guymer [1]_
+    Copyright 2017 Thomas Guymer [1]_
 
     References
     ----------

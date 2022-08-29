@@ -33,7 +33,7 @@ def images2mp4(frames, kwArgCheck = None, crf = -1.0, debug = False, form = "mp4
 
     Notes
     -----
-    Copyright 2018 Thomas Guymer [1]_
+    Copyright 2017 Thomas Guymer [1]_
 
     References
     ----------

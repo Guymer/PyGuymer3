@@ -20,7 +20,7 @@ def clean_MultiLineString(multiline, kwArgCheck = None, debug = False, tol = 1.0
 
     Notes
     -----
-    Copyright 2018 Thomas Guymer [1]_
+    Copyright 2017 Thomas Guymer [1]_
 
     References
     ----------

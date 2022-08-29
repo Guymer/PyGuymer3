@@ -19,7 +19,7 @@ def extract_polys(shape):
     To pass GeoJSON objects you must first convert them to Shapely objects by
     doing something like "shape = shapely.geometry.shape(shape)".
 
-    Copyright 2018 Thomas Guymer [1]_
+    Copyright 2017 Thomas Guymer [1]_
 
     References
     ----------

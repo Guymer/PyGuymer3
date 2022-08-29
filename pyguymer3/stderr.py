@@ -20,7 +20,7 @@ def stderr(arr, kwArgCheck = None, dof = 1):
     -----
     See `the SciPy documentation <https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.sem.html>`_.
 
-    Copyright 2018 Thomas Guymer [1]_
+    Copyright 2017 Thomas Guymer [1]_
 
     References
     ----------

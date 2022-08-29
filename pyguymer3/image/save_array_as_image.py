@@ -28,7 +28,7 @@ def save_array_as_image(img0, fname, kwArgCheck = None, form = "png", scale = Fa
 
     Notes
     -----
-    Copyright 2018 Thomas Guymer [1]_
+    Copyright 2017 Thomas Guymer [1]_
 
     References
     ----------

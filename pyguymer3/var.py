@@ -27,7 +27,7 @@ def var(arr, kwArgCheck = None, dof = 0):
     * ``dof=1`` provides an unbiased estimator of the variance of a
       hypothetical infinite population.
 
-    Copyright 2018 Thomas Guymer [1]_
+    Copyright 2017 Thomas Guymer [1]_
 
     References
     ----------

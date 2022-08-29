@@ -20,7 +20,7 @@ def mean(arr, kwArgCheck = None, dof = 0):
     -----
     See `the NumPy documentation <https://numpy.org/doc/stable/reference/generated/numpy.mean.html>`_.
 
-    Copyright 2018 Thomas Guymer [1]_
+    Copyright 2017 Thomas Guymer [1]_
 
     References
     ----------

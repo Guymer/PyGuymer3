@@ -26,7 +26,7 @@ def add_vertical_gridlines(ax, ext, kwArgCheck = None, color = "black", linestyl
     locations, along with "ext". If it is not, then the gridline locations will
     attempt to be made from "locs" instead.
 
-    Copyright 2018 Thomas Guymer [1]_
+    Copyright 2017 Thomas Guymer [1]_
 
     References
     ----------

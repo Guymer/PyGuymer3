@@ -35,7 +35,7 @@ def buffer_Point(point, dist, kwArgCheck = None, debug = False, fill = 1.0, fill
 
     Notes
     -----
-    Copyright 2018 Thomas Guymer [1]_
+    Copyright 2017 Thomas Guymer [1]_
 
     References
     ----------
