@@ -1,8 +1,8 @@
 def images2mp4(frames, kwArgCheck = None, crf = -1.0, debug = False, form = "mp4", fps = 25.0, level = "ERROR", profile = "ERROR", screenHeight = -1, screenWidth = -1):
     """Convert a sequence of images to a MP4 video.
 
-    This function makes a MP4 video from a list of images. The user is able to
-    set the format and the framerate, as well as optionally downscaling the
+    This function makes a MP4 video from a list of file paths. The user is able
+    to set the format and the framerate, as well as optionally downscaling the
     images to fit withing a screen size.
 
     Parameters
