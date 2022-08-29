@@ -187,7 +187,11 @@ if __name__ == "__main__":
             images.append(image)
 
     # Save 25fps WEBP ...
-    images[0].save("animateBufferPoint.webp", lossless = True, quality = 100, method = 6, save_all = True, append_images = images[1:], duration = 40, loop = 0, minimize_size = True)
+    pyguymer3.media.images2webp(
+        images,
+        "animateBufferPoint.webp",
+        strip = True,
+    )
 
     # Clean up ...
     del images
@@ -248,7 +252,11 @@ if __name__ == "__main__":
                 images.append(image.resize((width, height), resample = PIL.Image.Resampling.LANCZOS))
 
         # Save 25fps WEBP ...
-        images[0].save(f"animateBufferPoint{height:04d}px.webp", lossless = True, quality = 100, method = 6, save_all = True, append_images = images[1:], duration = 40, loop = 0, minimize_size = True)
+        pyguymer3.media.images2webp(
+            images,
+            f"animateBufferPoint{height:04d}px.webp",
+            strip = True,
+        )
 
         # Clean up ...
         del images
