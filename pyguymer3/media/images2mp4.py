@@ -47,13 +47,6 @@ def images2mp4(frames, kwArgCheck = None, crf = -1.0, debug = False, form = "mp4
     import subprocess
     import tempfile
 
-    # Import special modules ...
-    try:
-        import PIL
-        import PIL.Image
-    except:
-        raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None
-
     # Load sub-functions ...
     from .optimize_MP4 import optimize_MP4
     from .return_video_bit_depth import return_video_bit_depth
@@ -61,13 +54,11 @@ def images2mp4(frames, kwArgCheck = None, crf = -1.0, debug = False, form = "mp4
     from .return_x264_level import return_x264_level
     from .return_x264_profile import return_x264_profile
     from ..find_program_version import find_program_version
+    from ..image.return_image_size import return_image_size
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
         print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
-
-    # Configure PIL to open images up to 1 GiP ...
-    PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                             # [px]
 
     # Check that "ffmpeg" is installed ...
     if shutil.which("ffmpeg") is None:
@@ -104,8 +95,7 @@ def images2mp4(frames, kwArgCheck = None, crf = -1.0, debug = False, form = "mp4
 
     # Find the dimensions (and aspect ratio) of the input images (assuming that
     # they are all the same dimensions) ...
-    with PIL.Image.open(frames[0]) as iObj:
-        inputWidth, inputHeight = iObj.convert("RGB").size                      # [px], [px]
+    inputWidth, inputHeight = return_image_size(frames[0])                      # [px], [px]
     inputRatio = float(inputWidth) / float(inputHeight)                         # [px/px]
     if debug:
         print(f"INFO: The input images are {inputWidth:,d}x{inputHeight:,d} ({inputRatio:.5f}:1).")
