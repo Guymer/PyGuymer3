@@ -9,7 +9,9 @@ from .does_FLAC_have_padding import does_FLAC_have_padding
 from .does_media_have_RTP_hints import does_media_have_RTP_hints
 from .does_MP4_have_free import does_MP4_have_free
 from .ffprobe import ffprobe
+from .images2gif import images2gif
 from .images2mp4 import images2mp4
+from .images2webp import images2webp
 from .is_moov_at_beginning_of_MP4 import is_moov_at_beginning_of_MP4
 from .optimize_FLAC import optimize_FLAC
 from .optimize_MP4 import optimize_MP4
