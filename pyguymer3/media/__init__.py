@@ -44,6 +44,7 @@ from .return_video_height import return_video_height
 from .return_video_pixel_aspect_ratio import return_video_pixel_aspect_ratio
 from .return_video_ratios import return_video_ratios
 from .return_video_rotation import return_video_rotation
+from .return_video_size import return_video_size
 from .return_video_source_aspect_ratio import return_video_source_aspect_ratio
 from .return_video_width import return_video_width
 from .return_x264_crf import return_x264_crf
