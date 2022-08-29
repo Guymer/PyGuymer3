@@ -37,7 +37,8 @@ if __name__ == "__main__":
     path = f'{os.environ["CARTOPY_USER_BACKGROUNDS"]}/{meta["natural-earth-1"]["large0512px"]}'
 
     # Load the lowest resolution image and draw a red border around it ...
-    earth = PIL.ImageOps.expand(PIL.Image.open(path).convert("RGB"), border = 2, fill = (255, 0, 0))
+    with PIL.Image.open(path) as iObj:
+        earth = PIL.ImageOps.expand(iObj.convert("RGB"), border = 2, fill = (255, 0, 0))
 
     # Create a flipped copy to save time ...
     flippedEarth = earth.transpose(PIL.Image.FLIP_TOP_BOTTOM).transpose(PIL.Image.FLIP_LEFT_RIGHT)

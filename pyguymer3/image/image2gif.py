@@ -45,17 +45,18 @@ def image2gif(img, gif, kwArgCheck = None, debug = False, mode = "RGB", optimize
     # Configure PIL to open images up to 1 GiP ...
     PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                             # [px]
 
-    # Create a PIL Image class ...
+    # Create a PIL Image class and convert image ...
     if isinstance(img, str):
-        tmpImg = PIL.Image.open(img)
+        with PIL.Image.open(img) as iObj:
+            tmpImg = iObj.convert(mode)
     elif isinstance(img, PIL.Image.Image):
-        tmpImg = img.copy()
+        tmpImg = img.convert(mode)
     else:
         raise TypeError(f"\"img\" is an unexpected type ({repr(type(img))})") from None
 
-    # Convert image and save it as a GIF ...
+    # Save it as a GIF ...
     # NOTE: See https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html#gif
-    tmpImg.convert(mode).save(gif, optimize = optimize)
+    tmpImg.save(gif, optimize = optimize)
 
     # Optimize GIF ...
     if optimize or strip:

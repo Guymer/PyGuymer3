@@ -104,7 +104,8 @@ def images2mp4(frames, kwArgCheck = None, crf = -1.0, debug = False, form = "mp4
 
     # Find the dimensions (and aspect ratio) of the input images (assuming that
     # they are all the same dimensions) ...
-    inputWidth, inputHeight = PIL.Image.open(frames[0]).size                    # [px], [px]
+    with PIL.Image.open(frames[0]) as iObj:
+        inputWidth, inputHeight = iObj.convert("RGB").size                      # [px], [px]
     inputRatio = float(inputWidth) / float(inputHeight)                         # [px/px]
     if debug:
         print(f"INFO: The input images are {inputWidth:,d}x{inputHeight:,d} ({inputRatio:.5f}:1).")

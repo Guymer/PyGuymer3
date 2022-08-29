@@ -52,17 +52,18 @@ def image2png(img, png, kwArgCheck = None, debug = False, exif = None, mode = "R
     # Configure PIL to open images up to 1 GiP ...
     PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                             # [px]
 
-    # Create a PIL Image class ...
+    # Create a PIL Image class and convert image ...
     if isinstance(img, str):
-        tmpImg = PIL.Image.open(img)
+        with PIL.Image.open(img) as iObj:
+            tmpImg = iObj.convert(mode)
     elif isinstance(img, PIL.Image.Image):
-        tmpImg = img.copy()
+        tmpImg = img.convert(mode)
     else:
         raise TypeError(f"\"img\" is an unexpected type ({repr(type(img))})") from None
 
-    # Convert image and save it as a PNG ...
+    # Save it as a PNG ...
     # NOTE: See https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html#png
-    tmpImg.convert(mode).save(png, exif = dict2exif(exif, mode = mode), optimize = optimize)
+    tmpImg.save(png, exif = dict2exif(exif, mode = mode), optimize = optimize)
 
     # Optimize PNG ...
     if optimize or strip:

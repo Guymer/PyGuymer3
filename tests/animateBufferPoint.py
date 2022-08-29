@@ -180,7 +180,8 @@ if __name__ == "__main__":
             fname = f"animateBufferPoint/lon={lon:+04d},lat={lat:+03d}.png"
 
             # Open image as RGB (even if it is paletted) ...
-            image = PIL.Image.open(fname).convert("RGB")
+            with PIL.Image.open(fname) as iObj:
+                image = iObj.convert("RGB")
 
             # Append it to the list ...
             images.append(image)
@@ -238,7 +239,8 @@ if __name__ == "__main__":
                 fname = f"animateBufferPoint/lon={lon:+04d},lat={lat:+03d}.png"
 
                 # Open image as RGB (even if it is paletted) ...
-                image = PIL.Image.open(fname).convert("RGB")
+                with PIL.Image.open(fname) as iObj:
+                    image = iObj.convert("RGB")
 
                 # Calculate width ...
                 ratio = float(image.width) / float(image.height)                # [px/px]
