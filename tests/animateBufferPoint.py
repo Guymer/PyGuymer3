@@ -190,8 +190,6 @@ if __name__ == "__main__":
     images[0].save("animateBufferPoint.webp", lossless = True, quality = 100, method = 6, save_all = True, append_images = images[1:], duration = 40, loop = 0, minimize_size = True)
 
     # Clean up ...
-    for image in images:
-        image.close()
     del images
 
     # **************************************************************************
@@ -253,6 +251,4 @@ if __name__ == "__main__":
         images[0].save(f"animateBufferPoint{height:04d}px.webp", lossless = True, quality = 100, method = 6, save_all = True, append_images = images[1:], duration = 40, loop = 0, minimize_size = True)
 
         # Clean up ...
-        for image in images:
-            image.close()
         del images
