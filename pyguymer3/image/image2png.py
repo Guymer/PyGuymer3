@@ -68,7 +68,11 @@ def image2png(img, png, kwArgCheck = None, debug = False, exif = None, mode = "R
 
     # Save it as a PNG ...
     # NOTE: See https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html#png
-    tmpImg.save(png, exif = dict2exif(exif, mode = mode), optimize = optimize)
+    tmpImg.save(
+        png,
+            exif = dict2exif(exif, mode = mode),
+        optimize = optimize,
+    )
 
     # Optimize PNG ...
     if optimize or strip:

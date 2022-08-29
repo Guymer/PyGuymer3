@@ -61,7 +61,10 @@ def image2gif(img, gif, kwArgCheck = None, debug = False, mode = "RGB", optimize
 
     # Save it as a GIF ...
     # NOTE: See https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html#gif
-    tmpImg.save(gif, optimize = optimize)
+    tmpImg.save(
+        gif,
+        optimize = optimize,
+    )
 
     # Optimize GIF ...
     if optimize or strip:

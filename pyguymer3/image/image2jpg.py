@@ -72,7 +72,13 @@ def image2jpg(img, jpg, kwArgCheck = None, debug = False, exif = None, mode = "R
 
     # Save it as a JPG ...
     # NOTE: See https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html#jpeg
-    tmpImg.save(jpg, exif = dict2exif(exif, mode = mode), optimize = optimize, progressive = progressive, quality = quality)
+    tmpImg.save(
+        jpg,
+               exif = dict2exif(exif, mode = mode),
+           optimize = optimize,
+        progressive = progressive,
+            quality = quality,
+    )
 
     # Optimize JPG ...
     if optimize or strip:
