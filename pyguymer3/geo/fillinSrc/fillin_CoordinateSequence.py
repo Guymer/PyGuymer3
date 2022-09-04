@@ -81,7 +81,7 @@ def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, fillSpace = "Eucl
     # Find the number of filled segments required between each original point ...
     # NOTE: This is the number of fence panels, not the number of fence posts.
     ns = (dr / fill).astype(numpy.uint64)                                       # [#]
-    numpy.place(ns, ns < numpy.uint64(2), numpy.uint64(2))                      # [#]
+    numpy.place(ns, ns < numpy.uint64(1), numpy.uint64(1))                      # [#]
 
     # Clean up ...
     del dr
