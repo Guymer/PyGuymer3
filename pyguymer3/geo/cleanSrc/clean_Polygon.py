@@ -47,7 +47,6 @@ def clean_Polygon(poly, kwArgCheck = None, debug = False, tol = 1.0e-10):
     # Check argument ...
     if not isinstance(poly, shapely.geometry.polygon.Polygon):
         raise TypeError("\"poly\" is not a Polygon") from None
-    check(poly)
 
     # Filled in exterior LinearRing ...
     exterior = clean_LinearRing(poly.exterior, debug = debug, tol = tol)

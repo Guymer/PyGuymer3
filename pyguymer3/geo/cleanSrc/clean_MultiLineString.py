@@ -45,7 +45,6 @@ def clean_MultiLineString(multiline, kwArgCheck = None, debug = False, tol = 1.0
     # Check argument ...
     if not isinstance(multiline, shapely.geometry.multilinestring.MultiLineString):
         raise TypeError("\"multiline\" is not a MultiLineString") from None
-    check(multiline)
 
     # Initialize list ...
     lines = []

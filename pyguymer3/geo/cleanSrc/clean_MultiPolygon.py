@@ -47,7 +47,6 @@ def clean_MultiPolygon(multipoly, kwArgCheck = None, debug = False, tol = 1.0e-1
     # Check argument ...
     if not isinstance(multipoly, shapely.geometry.multipolygon.MultiPolygon):
         raise TypeError("\"multipoly\" is not a MultiPolygon") from None
-    check(multipoly)
 
     # Initialize list ...
     polys = []

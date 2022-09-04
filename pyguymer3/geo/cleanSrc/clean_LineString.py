@@ -35,7 +35,6 @@ def clean_LineString(line, kwArgCheck = None, debug = False, tol = 1.0e-10):
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
-    from ..check import check
     from .clean_CoordinateSequence import clean_CoordinateSequence
 
     # Check keyword arguments ...
@@ -45,7 +44,6 @@ def clean_LineString(line, kwArgCheck = None, debug = False, tol = 1.0e-10):
     # Check argument ...
     if not isinstance(line, shapely.geometry.linestring.LineString):
         raise TypeError("\"line\" is not a LineString") from None
-    check(line)
 
     # Return cleaned LineString ...
     return clean_CoordinateSequence(line.coords, debug = debug, tol = tol)

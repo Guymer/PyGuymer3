@@ -35,7 +35,6 @@ def clean_LinearRing(ring, kwArgCheck = None, debug = False, tol = 1.0e-10):
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
-    from ..check import check
     from .clean_CoordinateSequence import clean_CoordinateSequence
 
     # Check keyword arguments ...
@@ -45,7 +44,6 @@ def clean_LinearRing(ring, kwArgCheck = None, debug = False, tol = 1.0e-10):
     # Check argument ...
     if not isinstance(ring, shapely.geometry.polygon.LinearRing):
         raise TypeError("\"ring\" is not a LinearRing") from None
-    check(ring)
 
     # Return cleaned LinearRing ...
     return clean_CoordinateSequence(ring.coords, debug = debug, tol = tol)
