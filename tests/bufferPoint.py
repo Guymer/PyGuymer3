@@ -63,15 +63,16 @@ if __name__ == "__main__":
     #       appear to be points North of the starting point, which means that
     #       the checks in _points2poly() do not trigger.
     points = [
-        (-180.0, +90.0, 1000000.0), # Satisfies test A, C, D, F
-        ( -90.0, +45.0, 1000000.0), # Satisfies test A
-        (   0.0,   0.0, 1000000.0), # Satisfies test A, B
-        ( +90.0, -45.0, 1000000.0), # Satisfies test A
-        (+180.0, -90.0, 1000000.0), # Satisfies test A, C, D, F
-        (+170.0, +10.0, 4000000.0), # Satisfies test B, C, E
-        (+170.0, +80.0, 4000000.0), # Satisfies test C, D, F
-        (   0.0, +83.0, 1000000.0), # Satisfies test C, D, F
-        ( -90.0, -83.0, 1000000.0), # Satisfies test C, D, F
+        (-180.0, +90.0,  1000000.0), # Satisfies test A, C, D, F
+        ( -90.0, +45.0,  1000000.0), # Satisfies test A
+        (   0.0,   0.0,  1000000.0), # Satisfies test A, B
+        ( +90.0, -45.0,  1000000.0), # Satisfies test A
+        (+180.0, -90.0,  1000000.0), # Satisfies test A, C, D, F
+        (+170.0, +10.0,  4000000.0), # Satisfies test B, C, E
+        (+170.0, +80.0,  4000000.0), # Satisfies test C, D, F
+        (   0.0, +83.0,  1000000.0), # Satisfies test C, D, F
+        ( -90.0, -83.0,  1000000.0), # Satisfies test C, D, F
+        (   0.0,   0.0, 10000000.0), # Satisfies test A, B
     ]
 
     # Loop over points ...
