@@ -47,6 +47,7 @@ from .calc_dist_between_two_locs import calc_dist_between_two_locs
 from .calc_loc_from_loc_and_bearing_and_dist import calc_loc_from_loc_and_bearing_and_dist
 from .check import check
 from .clean import clean
+from .clipLatitude import clipLatitude
 from .en2ll import en2ll
 from .extract_lines import extract_lines
 from .extract_points import extract_points
@@ -57,3 +58,4 @@ from .find_point_on_great_circle import find_point_on_great_circle
 from .getRecordAttribute import getRecordAttribute
 from .great_circle import great_circle
 from .remap import remap
+from .wrapLongitude import wrapLongitude
