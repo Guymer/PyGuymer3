@@ -57,7 +57,6 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     """
 
     # Import standard modules ...
-    import math
     import multiprocessing
 
     # Import special modules ...
@@ -74,12 +73,10 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
 
     # Import sub-functions ...
     from .._buffer_points_crudely import _buffer_points_crudely
-    from .._points2poly import _points2poly
-    from .._posts2panel import _posts2panel
+    from .._points2polys import _points2polys
     from ..check import check
     from ..clean import clean
     from ..fillin import fillin
-    from ..remap import remap
     try:
         from ...f90 import funcs
         if debug:
@@ -102,8 +99,8 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     # Check inputs ...
     if dist < 10.0:
         raise Exception(f"the buffering distance is too small ({dist:,.1f}m < {10.0:,.1f}m)") from None
-    if dist > 0.5 * math.pi * 6371008.8:
-        raise Exception(f"the buffering distance is too large ({dist:,.1f}m > {0.5 * math.pi * 6371008.8:,.1f}m)") from None
+    if dist > 10001500.0:
+        raise Exception(f"the buffering distance is too large ({dist:,.1f}m > {10001500.0:,.1f}m)") from None
     if nang < 9:
         raise Exception(f"the number of angles is too small ({nang:,d} < {9:,d})") from None
     if nang % 2 == 0:
@@ -122,23 +119,13 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     # Check if the user wants to fill in the CoordinateSequence ...
     if fill > 0.0 and len(coords) > 1:
         # Convert the filled in CoordinateSequence to a NumPy array ...
-        points1 = numpy.array(fillin(coords, fill, fillSpace = fillSpace, debug = debug).coords)    # [°]
+        points1 = numpy.array(fillin(coords, fill, debug = debug, fillSpace = fillSpace).coords)    # [°]
     else:
         # Convert the CoordinateSequence to a NumPy array ...
         points1 = numpy.array(coords)                                           # [°]
 
     # Create short-hand ...
     npoint = points1.shape[0]
-
-    # Check inputs ...
-    if points1[:, 0].min() < (-180.0 - tol):
-        raise Exception(f"a point exists a long way off the W-edge of Earth ({points1[:, 0].min():+.6f}° < {-180.0 - tol:+.6f}°)") from None
-    if points1[:, 0].max() > (+180.0 + tol):
-        raise Exception(f"a point exists a long way off the E-edge of Earth ({points1[:, 0].max():+.6f}° > {+180.0 + tol:+.6f}°)") from None
-    if points1[:, 1].min() < (-90.0 - tol):
-        raise Exception(f"a point exists a long way off the S-edge of Earth ({points1[:, 1].min():+.6f}° < {-90.0 - tol:+.6f}°)") from None
-    if points1[:, 1].max() > (+90.0 + tol):
-        raise Exception(f"a point exists a long way off the N-edge of Earth ({points1[:, 1].max():+.6f}° > {+90.0 + tol:+.6f}°)") from None
 
     # **************************************************************************
     # Step 2: Buffer the NumPy array of the original points to get a NumPy     #
@@ -147,9 +134,9 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
 
     # Buffer (in Geodesic space) the CoordinateSequence ...
     if fortran:
-        points2 = funcs.buffer_points_crudely(points1, dist, nang, tol)         # [°]
+        points2 = funcs.buffer_points_crudely(points1, dist, nang)              # [°]
     else:
-        points2 = _buffer_points_crudely(points1, dist, nang, debug = debug, tol = tol) # [°]
+        points2 = _buffer_points_crudely(points1, dist, nang)                   # [°]
 
     # **************************************************************************
     # Step 3: Convert the NumPy array of the rings around the original points  #
@@ -164,15 +151,15 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
         # Loop over points ...
         for ipoint in range(npoint):
             # Add job to pool ...
-            results.append(pool.apply_async(_points2poly, (points1[ipoint, :], points2[ipoint, :, :]), {"debug" : debug, "fill" : fill, "fillSpace" : fillSpace, "tol" : tol,}))
+            results.append(pool.apply_async(_points2polys, (points1[ipoint, :], points2[ipoint, :, :]), {"debug" : debug, "fill" : fill, "fillSpace" : fillSpace, "tol" : tol,}))
 
-        # Initialize list ...
+        # Initialize list of Polygons ...
         polys = []
 
         # Loop over results ...
         for result in results:
-            # Append (unified) Polygon to list ...
-            polys.append(result.get())
+            # Add list of Polygons to list of Polygons ...
+            polys += result.get()
 
             # Check result ...
             if not result.successful():
@@ -181,74 +168,36 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
         # Clean up ...
         del results
 
-    # **************************************************************************
-    # Step 4: Append Polygons of the convex hulls of adjacent buffered         #
-    #         original points and the lines that connects them                 #
-    # **************************************************************************
-
-    # Initialize list ...
-    finalPolys = []
-
-    # Check if there are some connections ...
-    if npoint == 1:
-        # Append Polygon to list ...
-        finalPolys.append(polys[0])
-    else:
-        # Create a pool of workers ...
-        with multiprocessing.Pool(maxtasksperchild = 1) as pool:
-            # Initialize list ...
-            results = []
-
-            # Loop over points ...
-            for ipoint in range(npoint - 1):
-                # Add job to pool ...
-                results.append(pool.apply_async(_posts2panel, (points1[ipoint, :], points1[ipoint + 1, :], points2[ipoint, :, :], points2[ipoint + 1, :, :], polys[ipoint], polys[ipoint + 1]), {"debug" : debug, "tol" : tol}))
-
-            # Loop over results ...
-            for result in results:
-                # Append the convex hull of the two Polygons and the buffered
-                # line that connects them to list ...
-                finalPolys.append(result.get())
-
-                # Check result ...
-                if not result.successful():
-                    raise Exception("\"multiprocessing.Pool().apply_async()\" was not successful") from None
-
-            # Clean up ...
-            del results
-
     # Clean up ...
-    del points1, points2, polys
+    del points1, points2
 
     # **************************************************************************
-    # Step 5: Create a single [Multi]Polygon that is the union of all of the   #
+    # Step 4: Create a single [Multi]Polygon that is the union of all of the   #
     #         Polygons and re-map it so that it does not extend off the edge   #
     #         of Earth                                                         #
     # **************************************************************************
 
-    # Convert list of Polygons to a correctly oriented (unified) Polygon ...
-    finalPolys = shapely.geometry.polygon.orient(shapely.ops.unary_union(finalPolys).simplify(tol))
-    check(finalPolys)
-
-    # Re-map the Polygon on to Earth ...
-    buffs = remap(finalPolys, tol = tol)
+    # Convert list of Polygons to a (unified) [Multi]Polygon ...
+    multipoly = shapely.ops.unary_union(polys).simplify(tol)
+    check(multipoly)
 
     # Clean up ...
-    del finalPolys
+    del polys
 
     # Check if the user wants to fill in the [Multi]Polygon ...
     if fill > 0.0:
         # Fill in [Multi]Polygon ...
-        buffs = fillin(buffs, fill, debug = debug, fillSpace = fillSpace)
+        multipoly = fillin(multipoly, fill, debug = debug, fillSpace = fillSpace)
+        check(multipoly)
 
     # Check if the user wants to simplify the [Multi]Polygon ...
     if simp > 0.0:
         # Simplify [Multi]Polygon ...
-        buffsSimp = buffs.simplify(simp)
-        check(buffsSimp)
+        multipolySimp = multipoly.simplify(simp)
+        check(multipolySimp)
 
         # Return simplified answer ...
-        return buffsSimp
+        return multipolySimp
 
     # Return answer ...
-    return buffs
+    return multipoly
