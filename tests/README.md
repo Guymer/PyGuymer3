@@ -23,9 +23,9 @@ The function [add_map_underlay](../pyguymer3/geo/add_map_underlay.py) is tested 
 
 ![mapUnderlay3 output image](mapUnderlay3.png)
 
-### `buffer_point()`
+### `buffer()` (of points)
 
-The function [buffer_Point](../pyguymer3/geo/buffer_Point.py) is tested by the script [bufferPoint.py](bufferPoint.py) which produces the images below.
+The function [buffer](../pyguymer3/geo/buffer.py) is tested by the script [bufferPoint.py](bufferPoint.py) which produces the images below.
 
 ![bufferPoint output image](bufferPoint0.png)
 
@@ -43,7 +43,11 @@ The function [buffer_Point](../pyguymer3/geo/buffer_Point.py) is tested by the s
 
 ![bufferPoint output image](bufferPoint7.png)
 
-### `buffer()`
+![bufferPoint output image](bufferPoint8.png)
+
+![bufferPoint output image](bufferPoint9.png)
+
+### `buffer()` (of [Multi]Polygons)
 
 The function [buffer](../pyguymer3/geo/buffer.py) is tested by the script [buffer.py](buffer.py) which produces the images below.
 
@@ -60,6 +64,12 @@ The function [buffer](../pyguymer3/geo/buffer.py) is tested by the script [buffe
 ![buffer output image](buffer5.png)
 
 ![buffer output image](buffer6.png)
+
+![buffer output image](buffer7.png)
+
+![buffer output image](buffer8.png)
+
+![buffer output image](buffer9.png)
 
 ### `fillin()`
 
