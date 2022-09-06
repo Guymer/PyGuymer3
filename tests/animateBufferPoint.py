@@ -81,26 +81,76 @@ if __name__ == "__main__":
             print(f" > Making \"{jname}\" and \"{fname}\" ...")
 
             # Create figure ...
-            fg = matplotlib.pyplot.figure(figsize = (6, 6), dpi = 150)
+            fg = matplotlib.pyplot.figure(
+                    dpi = 300,
+                figsize = (6, 6),
+            )
 
-            # Create first subplot ...
-            ax1 = fg.add_subplot(2, 2, 1, projection = cartopy.crs.Robinson())
+            # Create axis ...
+            ax1 = fg.add_subplot(
+                2,
+                2,
+                1,
+                projection = cartopy.crs.Robinson(),
+            )
+
+            # Configure axis ...
+            ax1.coastlines(
+                     color = "black",
+                 linewidth = 0.1,
+                resolution = "110m",
+            )
             ax1.set_global()
             pyguymer3.geo.add_map_background(ax1)
-            pyguymer3.geo.add_horizontal_gridlines(ax1, [-180.0, +180.0, -90.0, +90.0], locs = range(-90, 135, 45))
-            pyguymer3.geo.add_vertical_gridlines(ax1, [-180.0, +180.0, -90.0, +90.0], locs = range(-180, 225, 45))
-            ax1.coastlines(resolution = "110m", color = "black", linewidth = 0.1)
+            pyguymer3.geo.add_horizontal_gridlines(
+                ax1,
+                [-180.0, +180.0, -90.0, +90.0],
+                locs = range(-90, 135, 45),
+            )
+            pyguymer3.geo.add_vertical_gridlines(
+                ax1,
+                [-180.0, +180.0, -90.0, +90.0],
+                locs = range(-180, 225, 45),
+            )
 
-            # Create second subplot ...
-            ax2 = fg.add_subplot(2, 2, 2, projection = cartopy.crs.Orthographic(central_longitude = lon, central_latitude = lat))
+            # Create axis ...
+            ax2 = fg.add_subplot(
+                2,
+                2,
+                2,
+                projection = cartopy.crs.Orthographic(
+                    central_longitude = lon,
+                     central_latitude = lat,
+                ),
+            )
+
+            # Configure axis ...
+            ax2.coastlines(
+                     color = "black",
+                 linewidth = 0.1,
+                resolution = "110m",
+            )
             ax2.set_global()
             pyguymer3.geo.add_map_background(ax2)
-            pyguymer3.geo.add_horizontal_gridlines(ax2, [-180.0, +180.0, -90.0, +90.0], locs = range(-90, 135, 45))
-            pyguymer3.geo.add_vertical_gridlines(ax2, [-180.0, +180.0, -90.0, +90.0], locs = range(-180, 225, 45))
-            ax2.coastlines(resolution = "110m", color = "black", linewidth = 0.1)
+            pyguymer3.geo.add_horizontal_gridlines(
+                ax2,
+                [-180.0, +180.0, -90.0, +90.0],
+                locs = range(-90, 135, 45),
+            )
+            pyguymer3.geo.add_vertical_gridlines(
+                ax2,
+                [-180.0, +180.0, -90.0, +90.0],
+                locs = range(-180, 225, 45),
+            )
 
-            # Create third subplot ...
-            ax3 = fg.add_subplot(2, 2, (3, 4))
+            # Create axis ...
+            ax3 = fg.add_subplot(
+                2,
+                2,
+                (3, 4),
+            )
+
+            # Configure axis ...
             ax3.grid()
             ax3.set_aspect("equal")
             ax3.set_xlabel("Longitude [°]")
@@ -113,19 +163,46 @@ if __name__ == "__main__":
             # Create point ...
             point = shapely.geometry.point.Point(lon, lat)
 
-            # Buffer Point and plot it thrice ...
-            buff0 = pyguymer3.geo.buffer(point, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, simp = simp, tol = tol)
-            ax1.add_geometries([buff0], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = (1.0, 0.0, 0.0, 0.5), linewidth = 1.0)
-            ax2.add_geometries([buff0], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = (1.0, 0.0, 0.0, 0.5), linewidth = 1.0)
-            for poly in pyguymer3.geo.extract_polys(buff0):
-                coords = numpy.array(poly.exterior.coords)
-                ax3.plot(coords[:, 0], coords[:, 1], color = (1.0, 0.0, 0.0, 1.0))
+            # Buffer Point ...
+            buff = pyguymer3.geo.buffer(
+                point,
+                dist,
+                    debug = debug,
+                     fill = fill,
+                fillSpace = fillSpace,
+                     nang = nang,
+                     simp = simp,
+                      tol = tol,
+            )
+
+            # Plot Point thrice ...
+            ax1.add_geometries(
+                [buff],
+                cartopy.crs.PlateCarree(),
+                edgecolor = (1.0, 0.0, 0.0, 1.0),
+                facecolor = (1.0, 0.0, 0.0, 0.5),
+                linewidth = 1.0,
+            )
+            ax2.add_geometries(
+                [buff],
+                cartopy.crs.PlateCarree(),
+                edgecolor = (1.0, 0.0, 0.0, 1.0),
+                facecolor = (1.0, 0.0, 0.0, 0.5),
+                linewidth = 1.0,
+            )
+            for poly in pyguymer3.geo.extract_polys(buff):
+                coords = numpy.array(poly.exterior.coords)                      # [°]
+                ax3.plot(
+                    coords[:, 0],
+                    coords[:, 1],
+                    color = (1.0, 0.0, 0.0, 1.0),
+                )
                 del coords
 
             # Save GeoJSON ...
             with open(jname, "wt", encoding = "utf-8") as fobj:
                 geojson.dump(
-                    buff0,
+                    buff,
                     fobj,
                     ensure_ascii = False,
                           indent = 4,
@@ -133,13 +210,22 @@ if __name__ == "__main__":
                 )
 
             # Clean up ...
-            del buff0
+            del buff
+
+            # Configure figure ...
+            fg.suptitle(f"({lon:+.1f}°,{lat:+.1f}°) buffered by {0.001 * dist:,.1f}km")
+            fg.tight_layout()
 
             # Save figure ...
-            fg.suptitle(f"({lon:.1f},{lat:.1f}) buffered by {0.001 * dist:,.1f}km")
-            fg.savefig(fname, bbox_inches = "tight", dpi = 150, pad_inches = 0.1)
-            pyguymer3.image.optimize_image(fname, strip = True)
+            fg.savefig(
+                fname,
+                       dpi = 300,
+                pad_inches = 0.1,
+            )
             matplotlib.pyplot.close(fg)
+
+            # Optimize PNG ...
+            pyguymer3.image.optimize_image(fname, strip = True)
 
     # **************************************************************************
 
@@ -227,7 +313,12 @@ if __name__ == "__main__":
                 frames.append(frame)
 
         # Save 25fps MP4 ...
-        vname = pyguymer3.media.images2mp4(frames, debug = debug, screenWidth = height, screenHeight = height)
+        vname = pyguymer3.media.images2mp4(
+            frames,
+                   debug = debug,
+             screenWidth = height,
+            screenHeight = height,
+        )
         shutil.move(vname, f"animateBufferPoint{height:04d}px.mp4")
 
         # Clean up ...
