@@ -136,7 +136,7 @@ if __name__ == "__main__":
             del buff0
 
             # Save figure ...
-            fg.suptitle(f"({lon:.1f},{lat:.1f}) buffered by {0.001 * dist:,.0f}km")
+            fg.suptitle(f"({lon:.1f},{lat:.1f}) buffered by {0.001 * dist:,.1f}km")
             fg.savefig(fname, bbox_inches = "tight", dpi = 150, pad_inches = 0.1)
             pyguymer3.image.optimize_image(fname, strip = True)
             matplotlib.pyplot.close(fg)
@@ -167,7 +167,7 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
-    print(" > Making \"animateBufferPoint.webp\" ...")
+    print(" > Making \"animateBufferPoint.gif\" and \"animateBufferPoint.webp\" ...")
 
     # Initialize list ...
     images = []
@@ -185,6 +185,13 @@ if __name__ == "__main__":
 
             # Append it to the list ...
             images.append(image)
+
+    # Save 25fps GIF ...
+    pyguymer3.media.images2gif(
+        images,
+        "animateBufferPoint.gif",
+        strip = True,
+    )
 
     # Save 25fps WEBP ...
     pyguymer3.media.images2webp(
@@ -228,7 +235,7 @@ if __name__ == "__main__":
 
         # **********************************************************************
 
-        print(f" > Making \"animateBufferPoint{height:04d}px.webp\" ...")
+        print(f" > Making \"animateBufferPoint{height:04d}px.gif\" and \"animateBufferPoint{height:04d}px.webp\" ...")
 
         # Initialize list ...
         images = []
@@ -250,6 +257,13 @@ if __name__ == "__main__":
 
                 # Downscale the image and append it to the list ...
                 images.append(image.resize((width, height), resample = PIL.Image.Resampling.LANCZOS))
+
+        # Save 25fps GIF ...
+        pyguymer3.media.images2gif(
+            images,
+            f"animateBufferPoint{height:04d}px.gif",
+            strip = True,
+        )
 
         # Save 25fps WEBP ...
         pyguymer3.media.images2webp(
