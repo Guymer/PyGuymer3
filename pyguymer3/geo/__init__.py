@@ -35,8 +35,7 @@ from ._add_roads import _add_roads
 from ._add_urbanAreas import _add_urbanAreas
 from ._buffer_points_crudely import _buffer_points_crudely
 from ._debug import _debug
-from ._points2poly import _points2poly
-from ._posts2panel import _posts2panel
+from ._points2polys import _points2polys
 from .add_horizontal_gridlines import add_horizontal_gridlines
 from .add_map_background import add_map_background
 from .add_map_underlay import add_map_underlay
@@ -57,5 +56,4 @@ from .find_middle_of_great_circle import find_middle_of_great_circle
 from .find_point_on_great_circle import find_point_on_great_circle
 from .getRecordAttribute import getRecordAttribute
 from .great_circle import great_circle
-from .remap import remap
 from .wrapLongitude import wrapLongitude
