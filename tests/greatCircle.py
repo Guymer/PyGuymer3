@@ -3,7 +3,7 @@
 # Use the proper idiom in the main module ...
 # NOTE: See https://docs.python.org/3.10/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
 if __name__ == "__main__":
-    # This is a test suite for "geo.great_circle()”.
+    # This is a test suite for “geo.great_circle()”.
 
     # Import special modules ...
     try:
@@ -36,7 +36,7 @@ if __name__ == "__main__":
     print(f"Testing \"{pyguymer3.__path__[0]}\" ...")
 
     # Configure functions ...
-    debug = True
+    debug = False
 
     # Define pairs of coordinates ...
     coords1 = [
