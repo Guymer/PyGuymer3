@@ -123,7 +123,7 @@ if __name__ == "__main__":
         sparseRing = shapely.geometry.polygon.LinearRing(ring)
 
         # Fill in ring in Euclidean space and plot it thrice ...
-        denseRing1 = pyguymer3.geo.fillin(sparseRing, euclideanFill, debug = True, fillSpace = "EuclideanSpace")
+        denseRing1 = pyguymer3.geo.fillin(sparseRing, euclideanFill, debug = False, fillSpace = "EuclideanSpace")
         ax1.add_geometries([denseRing1], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = "none", linewidth = 1.0)
         ax2.add_geometries([denseRing1], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = "none", linewidth = 1.0)
         coords = numpy.array(denseRing1.coords)
@@ -144,7 +144,7 @@ if __name__ == "__main__":
         del denseRing1
 
         # Fill in ring in Geodesic space and plot it thrice ...
-        denseRing2 = pyguymer3.geo.fillin(sparseRing,  geodesicFill, debug = True, fillSpace =  "GeodesicSpace")
+        denseRing2 = pyguymer3.geo.fillin(sparseRing,  geodesicFill, debug = False, fillSpace =  "GeodesicSpace")
         ax1.add_geometries([denseRing2], cartopy.crs.PlateCarree(), edgecolor = (0.0, 0.0, 1.0, 1.0), facecolor = "none", linewidth = 1.0)
         ax2.add_geometries([denseRing2], cartopy.crs.PlateCarree(), edgecolor = (0.0, 0.0, 1.0, 1.0), facecolor = "none", linewidth = 1.0)
         coords = numpy.array(denseRing2.coords)
@@ -165,7 +165,7 @@ if __name__ == "__main__":
         del denseRing2
 
         # Save figure ...
-        fg.suptitle(f"A rhombus around ({ring[0][0]:.1f},{ring[1][1]:.1f}) filled in by {euclideanFill:,.0f}° & {0.001 * geodesicFill:,.0f}km\nred = Euclidean; blue = Geodesic")
+        fg.suptitle(f"A rhombus around ({ring[0][0]:.1f},{ring[1][1]:.1f}) filled in by {euclideanFill:,.0f}° & {0.001 * geodesicFill:,.1f}km\nred = Euclidean; blue = Geodesic")
         fg.savefig(fname, bbox_inches = "tight", dpi = 150, pad_inches = 0.1)
         pyguymer3.image.optimize_image(fname, strip = True)
         matplotlib.pyplot.close(fg)
