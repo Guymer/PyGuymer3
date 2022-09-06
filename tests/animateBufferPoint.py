@@ -67,9 +67,9 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Loop over latitude ...
-    for lat in range(-90, +95, 5):
+    for lat in range(-90, +92, 2):
         # Loop over longitude ...
-        for lon in range(-180, +185, 5):
+        for lon in range(-180, +182, 2):
             # Determine file names ...
             fname = f"animateBufferPoint/lon={lon:+04d},lat={lat:+03d}.png"
             jname = f"animateBufferPoint/lon={lon:+04d},lat={lat:+03d}.geojson"
@@ -235,9 +235,9 @@ if __name__ == "__main__":
     frames = []
 
     # Loop over latitude ...
-    for lat in range(-90, +95, 5):
+    for lat in range(-90, +92, 2):
         # Loop over longitude ...
-        for lon in range(-180, +185, 5):
+        for lon in range(-180, +182, 2):
             # Determine file name ...
             frame = f"animateBufferPoint/lon={lon:+04d},lat={lat:+03d}.png"
 
@@ -259,9 +259,9 @@ if __name__ == "__main__":
     images = []
 
     # Loop over latitude ...
-    for lat in range(-90, +95, 5):
+    for lat in range(-90, +92, 2):
         # Loop over longitude ...
-        for lon in range(-180, +185, 5):
+        for lon in range(-180, +182, 2):
             # Determine file name ...
             fname = f"animateBufferPoint/lon={lon:+04d},lat={lat:+03d}.png"
 
@@ -292,8 +292,8 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Set heights ...
-    # NOTE: By inspection, the PNG frames are 875px tall.
-    heights = [256, 512]                                                        # [px]
+    # NOTE: By inspection, the PNG frames are 1,800px tall.
+    heights = [256, 512, 1024]                                                  # [px]
 
     # Loop over heights ...
     for height in heights:
@@ -303,9 +303,9 @@ if __name__ == "__main__":
         frames = []
 
         # Loop over latitude ...
-        for lat in range(-90, +95, 5):
+        for lat in range(-90, +92, 2):
             # Loop over longitude ...
-            for lon in range(-180, +185, 5):
+            for lon in range(-180, +182, 2):
                 # Determine file name ...
                 frame = f"animateBufferPoint/lon={lon:+04d},lat={lat:+03d}.png"
 
@@ -332,9 +332,9 @@ if __name__ == "__main__":
         images = []
 
         # Loop over latitude ...
-        for lat in range(-90, +95, 5):
+        for lat in range(-90, +92, 2):
             # Loop over longitude ...
-            for lon in range(-180, +185, 5):
+            for lon in range(-180, +182, 2):
                 # Determine file name ...
                 fname = f"animateBufferPoint/lon={lon:+04d},lat={lat:+03d}.png"
 
