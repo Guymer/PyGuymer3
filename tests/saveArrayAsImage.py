@@ -3,7 +3,7 @@
 # Use the proper idiom in the main module ...
 # NOTE: See https://docs.python.org/3.10/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
 if __name__ == "__main__":
-    # This is a test suite for "save_array_as_image()”.
+    # This is a test suite for “save_array_as_image()”.
 
     # Import special modules ...
     try:
