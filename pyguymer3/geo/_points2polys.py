@@ -204,7 +204,7 @@ def _points2polys(point, points, kwArgCheck = None, debug = False, fill = 1.0, f
 
         # Make a cleaned copy of the ring (the above if-tests for duplicate
         # points may fail due to the floating-point precision being better than
-        # the floating-point accuracy) ...
+        # the floating-point accuracy in Vincenty's formulae) ...
         cleanedRing = []
         cleanedRing.append(ring[0])
         for i in range(tmpDist.size):
@@ -215,7 +215,18 @@ def _points2polys(point, points, kwArgCheck = None, debug = False, fill = 1.0, f
         # Clean up ...
         del tmpDist
 
-        # Make a LinearRing out of this ring ...
+        # Do one final check for if the start and end points are very close
+        # (because if they are not numerically identical then Shapely will add
+        # the first point to the end of the list to close it, which may tangle
+        # the subsequent LinearRing) ...
+        tmpDist = numpy.hypot(
+            cleanedRing[0][0] - cleanedRing[-1][0],
+            cleanedRing[0][1] - cleanedRing[-1][1],
+        )                                                                       # [°]
+        if tmpDist < tol:
+            cleanedRing.pop()
+
+        # Make a LinearRing out of this (cleaned) ring ...
         line = shapely.geometry.polygon.LinearRing(cleanedRing)
         check(line)
 
