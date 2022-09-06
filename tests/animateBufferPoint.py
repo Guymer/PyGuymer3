@@ -342,12 +342,14 @@ if __name__ == "__main__":
                 with PIL.Image.open(fname) as iObj:
                     image = iObj.convert("RGB")
 
-                # Calculate width ...
-                ratio = float(image.width) / float(image.height)                # [px/px]
-                width = round(ratio * float(height))                            # [px]
+                # Downscale the image ...
+                image.thumbnail(
+                    (height, height),
+                    resample = PIL.Image.Resampling.LANCZOS,
+                )
 
-                # Downscale the image and append it to the list ...
-                images.append(image.resize((width, height), resample = PIL.Image.Resampling.LANCZOS))
+                # Append it to the list ...
+                images.append(image)
 
         # Save 25fps GIF ...
         pyguymer3.media.images2gif(
