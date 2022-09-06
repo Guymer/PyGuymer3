@@ -3,7 +3,7 @@
 # Use the proper idiom in the main module ...
 # NOTE: See https://docs.python.org/3.10/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
 if __name__ == "__main__":
-    # This is a test suite for "geo.buffer()” with:
+    # This is a test suite for “geo.buffer()” with:
     #     A) a point that span the whole numerical range;
     #     B) a point that cross the equator;
     #     C) a point that cross the anti-meridian;
@@ -49,7 +49,7 @@ if __name__ == "__main__":
     print(f"Testing \"{pyguymer3.__path__[0]}\" ...")
 
     # Configure functions ...
-    debug = True
+    debug = False
     fill = 1.0                                                                  # [°]
     fillSpace = "EuclideanSpace"
     nang = 361                                                                  # [#]
@@ -57,11 +57,6 @@ if __name__ == "__main__":
     tol = 1.0e-10                                                               # [°]
 
     # Define points ...
-    # NOTE: The 8th point is a crucial test because it goes over the North Pole
-    #       and down the other side of Earth, but it doesn't go so far that the
-    #       points end up being South of the starting point. Therefore, there
-    #       appear to be points North of the starting point, which means that
-    #       the checks in _points2poly() do not trigger.
     points = [
         (-180.0, +90.0,  1000000.0), # Satisfies test A, C, D, F
         ( -90.0, +45.0,  1000000.0), # Satisfies test A
@@ -139,7 +134,7 @@ if __name__ == "__main__":
         del buff0
 
         # Save figure ...
-        fg.suptitle(f"({lon:.1f},{lat:.1f}) buffered by {0.001 * dist:,.0f}km")
+        fg.suptitle(f"({lon:.1f},{lat:.1f}) buffered by {0.001 * dist:,.1f}km")
         fg.savefig(fname, bbox_inches = "tight", dpi = 150, pad_inches = 0.1)
         pyguymer3.image.optimize_image(fname, strip = True)
         matplotlib.pyplot.close(fg)
