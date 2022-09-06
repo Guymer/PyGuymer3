@@ -49,7 +49,7 @@ if __name__ == "__main__":
     print(f"Testing \"{pyguymer3.__path__[0]}\" ...")
 
     # Configure functions ...
-    debug = True
+    debug = False
     fill = 1.0                                                                  # [°]
     fillSpace = "EuclideanSpace"
     nang = 361                                                                  # [#]
@@ -57,22 +57,17 @@ if __name__ == "__main__":
     tol = 1.0e-10                                                               # [°]
 
     # Define polygons ...
-    # NOTE: The 8th polygon is a crucial test because it goes over the North
-    #       Pole and down the other side of Earth, but it doesn't go so far that
-    #       the points end up being South of the starting point. Therefore,
-    #       there appear to be points North of the starting polygon, which means
-    #       that the checks in _points2poly() do not trigger.
     polys = [
-        (-180.0, +90.0,  1000000.0,   900000.0), # Satisfies test A, C, D, F
-        ( -90.0, +45.0,  1000000.0,   900000.0), # Satisfies test A
-        (   0.0,   0.0,  1000000.0,   900000.0), # Satisfies test A, B
-        ( +90.0, -45.0,  1000000.0,   900000.0), # Satisfies test A
-        (+180.0, -90.0,  1000000.0,   900000.0), # Satisfies test A, C, D, F
-        (+170.0, +10.0,  1000000.0,  4000000.0), # Satisfies test B, C, E
-        (+170.0, +80.0,  1000000.0,  4000000.0), # Satisfies test C, D, F
-        (   0.0, +83.0,  1000000.0,   900000.0), # Satisfies test C, D, F
-        ( -90.0, -83.0,  1000000.0,   900000.0), # Satisfies test C, D, F
-        (   0.0,   0.0, 10000000.0, 10000000.0), # Satisfies test A, B
+        (-180.0, +90.0,  1000000.0,  900000.0), # Satisfies test A, C, D, F
+        ( -90.0, +45.0,  1000000.0,  900000.0), # Satisfies test A
+        (   0.0,   0.0,  1000000.0,  900000.0), # Satisfies test A, B
+        ( +90.0, -45.0,  1000000.0,  900000.0), # Satisfies test A
+        (+180.0, -90.0,  1000000.0,  900000.0), # Satisfies test A, C, D, F
+        (+170.0, +10.0,  1000000.0, 4000000.0), # Satisfies test B, C, E
+        (+170.0, +80.0,  1000000.0, 4000000.0), # Satisfies test C, D, F
+        (   0.0, +83.0,  1000000.0,  900000.0), # Satisfies test C, D, F
+        ( -90.0, -83.0,  1000000.0,  900000.0), # Satisfies test C, D, F
+        (   0.0,   0.0, 10000000.0,    1500.0), # Satisfies test A, B
     ]
 
     # Loop over polygons ...
@@ -163,7 +158,7 @@ if __name__ == "__main__":
         del buff2
 
         # Save figure ...
-        fg.suptitle(f"({lon:.1f},{lat:.1f}) buffered by {0.001 * dist1:,.0f}km & {0.001 * dist2:,.0f}km\nred = {0.001 * (dist1 + dist2):,.0f}km; green = {0.001 * dist1:,.0f}km; blue = {0.001 * dist1:,.0f}km & {0.001 * dist2:,.0f}km")
+        fg.suptitle(f"({lon:.1f},{lat:.1f}) buffered by {0.001 * dist1:,.1f}km & {0.001 * dist2:,.1f}km\nred = {0.001 * (dist1 + dist2):,.1f}km; green = {0.001 * dist1:,.1f}km; blue = {0.001 * dist1:,.1f}km & {0.001 * dist2:,.1f}km")
         fg.savefig(fname, bbox_inches = "tight", dpi = 150, pad_inches = 0.1)
         pyguymer3.image.optimize_image(fname, strip = True)
         matplotlib.pyplot.close(fg)
