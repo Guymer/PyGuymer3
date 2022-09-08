@@ -229,8 +229,6 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
-    print(" > Making \"animateBufferPoint.mp4\" ...")
-
     # Initialize list ...
     frames = []
 
@@ -244,52 +242,11 @@ if __name__ == "__main__":
             # Append it to the list ...
             frames.append(frame)
 
+    print(" > Making \"animateBufferPoint.mp4\" ...")
+
     # Save 25fps MP4 ...
     vname = pyguymer3.media.images2mp4(frames, debug = debug)
     shutil.move(vname, "animateBufferPoint.mp4")
-
-    # Clean up ...
-    del frames
-
-    # **************************************************************************
-
-    print(" > Making \"animateBufferPoint.gif\" and \"animateBufferPoint.webp\" ...")
-
-    # Initialize list ...
-    images = []
-
-    # Loop over latitude ...
-    for lat in range(-90, +92, 2):
-        # Loop over longitude ...
-        for lon in range(-180, +182, 2):
-            # Determine file name ...
-            fname = f"animateBufferPoint/lon={lon:+04d},lat={lat:+03d}.png"
-
-            # Open image as RGB (even if it is paletted) ...
-            with PIL.Image.open(fname) as iObj:
-                image = iObj.convert("RGB")
-
-            # Append it to the list ...
-            images.append(image)
-
-    # Save 25fps GIF ...
-    pyguymer3.media.images2gif(
-        images,
-        "animateBufferPoint.gif",
-        strip = True,
-    )
-
-    # Save 25fps WEBP ...
-    pyguymer3.media.images2webp(
-        images,
-        "animateBufferPoint.webp",
-        strip = True,
-    )
-
-    # Clean up ...
-    del images
-
-    # **************************************************************************
 
     # Set heights ...
     # NOTE: By inspection, the PNG frames are 1,800px tall.
@@ -298,19 +255,6 @@ if __name__ == "__main__":
     # Loop over heights ...
     for height in heights:
         print(f" > Making \"animateBufferPoint{height:04d}px.mp4\" ...")
-
-        # Initialize list ...
-        frames = []
-
-        # Loop over latitude ...
-        for lat in range(-90, +92, 2):
-            # Loop over longitude ...
-            for lon in range(-180, +182, 2):
-                # Determine file name ...
-                frame = f"animateBufferPoint/lon={lon:+04d},lat={lat:+03d}.png"
-
-                # Append it to the list ...
-                frames.append(frame)
 
         # Save 25fps MP4 ...
         vname = pyguymer3.media.images2mp4(
@@ -321,49 +265,5 @@ if __name__ == "__main__":
         )
         shutil.move(vname, f"animateBufferPoint{height:04d}px.mp4")
 
-        # Clean up ...
-        del frames
-
-        # **********************************************************************
-
-        print(f" > Making \"animateBufferPoint{height:04d}px.gif\" and \"animateBufferPoint{height:04d}px.webp\" ...")
-
-        # Initialize list ...
-        images = []
-
-        # Loop over latitude ...
-        for lat in range(-90, +92, 2):
-            # Loop over longitude ...
-            for lon in range(-180, +182, 2):
-                # Determine file name ...
-                fname = f"animateBufferPoint/lon={lon:+04d},lat={lat:+03d}.png"
-
-                # Open image as RGB (even if it is paletted) ...
-                with PIL.Image.open(fname) as iObj:
-                    image = iObj.convert("RGB")
-
-                # Downscale the image ...
-                image.thumbnail(
-                    (height, height),
-                    resample = PIL.Image.Resampling.LANCZOS,
-                )
-
-                # Append it to the list ...
-                images.append(image)
-
-        # Save 25fps GIF ...
-        pyguymer3.media.images2gif(
-            images,
-            f"animateBufferPoint{height:04d}px.gif",
-            strip = True,
-        )
-
-        # Save 25fps WEBP ...
-        pyguymer3.media.images2webp(
-            images,
-            f"animateBufferPoint{height:04d}px.webp",
-            strip = True,
-        )
-
-        # Clean up ...
-        del images
+    # Clean up ...
+    del frames
