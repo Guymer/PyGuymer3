@@ -244,8 +244,12 @@ if __name__ == "__main__":
 
     print(" > Making \"animateBufferPoint.mp4\" ...")
 
-    # Save 25fps MP4 ...
-    vname = pyguymer3.media.images2mp4(frames, debug = debug)
+    # Save 60fps MP4 ...
+    vname = pyguymer3.media.images2mp4(
+        frames,
+        debug = debug,
+          fps = 60.0,
+    )
     shutil.move(vname, "animateBufferPoint.mp4")
 
     # Set heights ...
@@ -256,10 +260,11 @@ if __name__ == "__main__":
     for height in heights:
         print(f" > Making \"animateBufferPoint{height:04d}px.mp4\" ...")
 
-        # Save 25fps MP4 ...
+        # Save 60fps MP4 ...
         vname = pyguymer3.media.images2mp4(
             frames,
                    debug = debug,
+                     fps = 60.0,
              screenWidth = height,
             screenHeight = height,
         )
