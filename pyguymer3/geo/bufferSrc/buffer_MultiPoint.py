@@ -1,4 +1,4 @@
-def buffer_MultiPoint(multipoint, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", nang = 19, simp = 0.1, tol = 1.0e-10):
+def buffer_MultiPoint(multipoint, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", nang = 19, nproc = 1, simp = 0.1, tol = 1.0e-10):
     """Buffer a MultiPoint
 
     This function reads in a MultiPoint that exists on the surface of the Earth
@@ -23,6 +23,8 @@ def buffer_MultiPoint(multipoint, dist, kwArgCheck = None, debug = False, fill =
     nang : int, optional
         the number of angles around each point within the MultiPoint that are
         calculated when buffering
+    nproc : int, optional
+        the number of Python processes to spawn when buffering individual Points
     simp : float, optional
         how much intermediary [Multi]Polygons are simplified by; negative values
         disable simplification (in degrees)
@@ -71,7 +73,7 @@ def buffer_MultiPoint(multipoint, dist, kwArgCheck = None, debug = False, fill =
     # Loop over Point ...
     for point in multipoint.geoms:
         # Append buffer of Point to list ...
-        buffs.append(buffer_Point(point, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, simp = simp, tol = tol))
+        buffs.append(buffer_Point(point, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, nproc = nproc, simp = simp, tol = tol))
 
     # Convert list of [Multi]Polygons to a (unified) [Multi]Polygon ...
     buffs = shapely.ops.unary_union(buffs).simplify(tol)

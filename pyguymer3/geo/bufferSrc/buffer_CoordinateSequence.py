@@ -1,4 +1,4 @@
-def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", nang = 19, simp = 0.1, tol = 1.0e-10):
+def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", nang = 19, nproc = 1, simp = 0.1, tol = 1.0e-10):
     """Buffer a CoordinateSequence
 
     This function reads in a CoordinateSequence that exists on the surface of
@@ -23,6 +23,8 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     nang : int, optional
         the number of angles around each point within the CoordinateSequence
         that are calculated when buffering
+    nproc : int, optional
+        the number of Python processes to spawn when buffering individual Points
     simp : float, optional
         how much the final [Multi]Polygons is simplified by; negative values
         disable simplification (in degrees)
@@ -144,7 +146,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     # **************************************************************************
 
     # Create a pool of workers ...
-    with multiprocessing.Pool(maxtasksperchild = 1) as pool:
+    with multiprocessing.Pool(maxtasksperchild = 1, processes = nproc) as pool:
         # Initialize list ...
         results = []
 

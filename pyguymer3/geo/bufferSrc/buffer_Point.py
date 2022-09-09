@@ -1,4 +1,4 @@
-def buffer_Point(point, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", nang = 19, simp = 0.1, tol = 1.0e-10):
+def buffer_Point(point, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", nang = 19, nproc = 1, simp = 0.1, tol = 1.0e-10):
     """Buffer a Point
 
     This function reads in a Point that exists on the surface of the Earth and
@@ -21,6 +21,8 @@ def buffer_Point(point, dist, kwArgCheck = None, debug = False, fill = 1.0, fill
         or "GeodesicSpace")
     nang : int, optional
         the number of angles around the Point that are calculated when buffering
+    nproc : int, optional
+        the number of Python processes to spawn when buffering individual Points
     simp : float, optional
         how much intermediary [Multi]Polygons are simplified by; negative values
         disable simplification (in degrees)
@@ -63,4 +65,4 @@ def buffer_Point(point, dist, kwArgCheck = None, debug = False, fill = 1.0, fill
     check(point)
 
     # Return buffered Point ...
-    return buffer_CoordinateSequence(point.coords, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, simp = simp, tol = tol)
+    return buffer_CoordinateSequence(point.coords, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, nproc = nproc, simp = simp, tol = tol)

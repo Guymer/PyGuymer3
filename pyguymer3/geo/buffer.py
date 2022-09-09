@@ -1,4 +1,4 @@
-def buffer(shape, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", nang = 19, simp = 0.1, tol = 1.0e-10):
+def buffer(shape, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", nang = 19, nproc = 1, simp = 0.1, tol = 1.0e-10):
     """Buffer a shape
 
     This function reads in a shape that exists on the surface of the Earth and
@@ -22,6 +22,8 @@ def buffer(shape, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace 
     nang : int, optional
         the number of angles around each point within the shape that are
         calculated when buffering
+    nproc : int, optional
+        the number of Python processes to spawn when buffering individual Points
     simp : float, optional
         how much intermediary [Multi]Polygons are simplified by; negative values
         disable simplification (in degrees)
@@ -66,35 +68,35 @@ def buffer(shape, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace 
 
     # Check if it is a CoordinateSequence and return it buffered ...
     if isinstance(shape, shapely.coords.CoordinateSequence):
-        return buffer_CoordinateSequence(shape, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, simp = simp, tol = tol)
+        return buffer_CoordinateSequence(shape, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, nproc = nproc, simp = simp, tol = tol)
 
     # Check if it is a Point and return it buffered ...
     if isinstance(shape, shapely.geometry.point.Point):
-        return buffer_Point(shape, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, simp = simp, tol = tol)
+        return buffer_Point(shape, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, nproc = nproc, simp = simp, tol = tol)
 
     # Check if it is a MultiPoint and return it buffered ...
     if isinstance(shape, shapely.geometry.multipoint.MultiPoint):
-        return buffer_MultiPoint(shape, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, simp = simp, tol = tol)
+        return buffer_MultiPoint(shape, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, nproc = nproc, simp = simp, tol = tol)
 
     # Check if it is a LinearRing and return it buffered ...
     if isinstance(shape, shapely.geometry.polygon.LinearRing):
-        return buffer_LinearRing(shape, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, simp = simp, tol = tol)
+        return buffer_LinearRing(shape, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, nproc = nproc, simp = simp, tol = tol)
 
     # Check if it is a LineString and return it buffered ...
     if isinstance(shape, shapely.geometry.linestring.LineString):
-        return buffer_LineString(shape, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, simp = simp, tol = tol)
+        return buffer_LineString(shape, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, nproc = nproc, simp = simp, tol = tol)
 
     # Check if it is a MultiLineString and return it buffered ...
     if isinstance(shape, shapely.geometry.multilinestring.MultiLineString):
-        return buffer_MultiLineString(shape, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, simp = simp, tol = tol)
+        return buffer_MultiLineString(shape, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, nproc = nproc, simp = simp, tol = tol)
 
     # Check if it is a Polygon and return it buffered ...
     if isinstance(shape, shapely.geometry.polygon.Polygon):
-        return buffer_Polygon(shape, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, simp = simp, tol = tol)
+        return buffer_Polygon(shape, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, nproc = nproc, simp = simp, tol = tol)
 
     # Check if it is a MultiPolygon and return it buffered ...
     if isinstance(shape, shapely.geometry.multipolygon.MultiPolygon):
-        return buffer_MultiPolygon(shape, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, simp = simp, tol = tol)
+        return buffer_MultiPolygon(shape, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, nproc = nproc, simp = simp, tol = tol)
 
     # Crash ...
     raise TypeError(f"\"shape\" is an unexpected type ({repr(type(shape))})") from None
