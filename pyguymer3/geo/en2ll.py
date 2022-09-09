@@ -5,6 +5,9 @@ def en2ll(poly1):
     are Longitudes/Latitudes, or False on error.
     """
 
+    # Import standard modules ...
+    import math
+
     # Import special modules ...
     try:
         import convertbng
@@ -33,6 +36,8 @@ def en2ll(poly1):
     for east, north in poly1.exterior.coords:
         # Convert easting/northing to longitude/latitude and append to list ...
         lon, lat = convertbng.util.convert_lonlat(east, north)                  # [°], [°]
+        if math.isnan(lon[0]) or math.isnan(lat[0]):
+            continue
         exteriorRing.append((lon[0], lat[0]))
 
     # Convert ring to LinearRing ...
@@ -48,6 +53,8 @@ def en2ll(poly1):
         for east, north in interior.coords:
             # Convert easting/northing to longitude/latitude and append to list ...
             lon, lat = convertbng.util.convert_lonlat(east, north)              # [°], [°]
+            if math.isnan(lon[0]) or math.isnan(lat[0]):
+                continue
             interiorRing.append((lon[0], lat[0]))
 
         # Convert ring to LinearRing ...
