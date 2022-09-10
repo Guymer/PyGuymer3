@@ -35,6 +35,8 @@ from ._add_roads import _add_roads
 from ._add_urbanAreas import _add_urbanAreas
 from ._buffer_points_crudely import _buffer_points_crudely
 from ._debug import _debug
+from ._en2ll import _en2ll
+from ._ll2en import _ll2en
 from ._points2polys import _points2polys
 from .add_horizontal_gridlines import add_horizontal_gridlines
 from .add_map_background import add_map_background
