@@ -9,7 +9,6 @@ This is a Python 3.X port of [my Python 2.X module](https://github.com/Guymer/Py
 PyGuymer3 requires the following Python modules to be installed and available in your `PYTHONPATH`:
 
 * [cartopy](https://pypi.org/project/Cartopy/)
-* [convertbng](https://pypi.org/project/convertbng/)
 * [exifread](https://pypi.org/project/ExifRead/)
 * [geojson](https://pypi.org/project/geojson/)
 * [lxml](https://pypi.org/project/lxml/)

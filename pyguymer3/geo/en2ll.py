@@ -5,15 +5,7 @@ def en2ll(poly1):
     are Longitudes/Latitudes, or False on error.
     """
 
-    # Import standard modules ...
-    import math
-
     # Import special modules ...
-    try:
-        import convertbng
-        import convertbng.util
-    except:
-        raise Exception("\"convertbng\" is not installed; run \"pip install --user convertbng\"") from None
     try:
         import shapely
         import shapely.geometry
@@ -21,6 +13,7 @@ def en2ll(poly1):
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
+    from ._en2ll import _en2ll
     from .check import check
 
     # Check argument ...
@@ -28,21 +21,20 @@ def en2ll(poly1):
         raise TypeError("\"poly1\" is not a Polygon") from None
     check(poly1)
 
-    # Initialize lists ...
+    # Initialize list ...
     exteriorRing = []
-    interiorRings = []
 
     # Loop over exterior ring coordinates ...
     for east, north in poly1.exterior.coords:
         # Convert easting/northing to longitude/latitude and append to list ...
-        lon, lat = convertbng.util.convert_lonlat(east, north)                  # [°], [°]
-        if math.isnan(lon[0]) or math.isnan(lat[0]):
-            continue
-        exteriorRing.append((lon[0], lat[0]))
+        exteriorRing.append(_en2ll(east, north))
 
     # Convert ring to LinearRing ...
     exteriorRing = shapely.geometry.polygon.LinearRing(exteriorRing)
     check(exteriorRing)
+
+    # Initialize list ...
+    interiorRings = []
 
     # Loop over interior rings ...
     for interior in poly1.interiors:
@@ -52,10 +44,7 @@ def en2ll(poly1):
         # Loop over interior ring coordinates ...
         for east, north in interior.coords:
             # Convert easting/northing to longitude/latitude and append to list ...
-            lon, lat = convertbng.util.convert_lonlat(east, north)              # [°], [°]
-            if math.isnan(lon[0]) or math.isnan(lat[0]):
-                continue
-            interiorRing.append((lon[0], lat[0]))
+            interiorRing.append(_en2ll(east, north))
 
         # Convert ring to LinearRing ...
         interiorRing = shapely.geometry.polygon.LinearRing(interiorRing)
