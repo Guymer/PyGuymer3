@@ -1,4 +1,4 @@
-def buffer_MultiLineString(multiline, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", nang = 19, nproc = 1, simp = 0.1, tol = 1.0e-10):
+def buffer_MultiLineString(multiline, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", nang = 19, simp = 0.1, tol = 1.0e-10):
     """Buffer a MultiLineString
 
     This function reads in a MultiLineString that exists on the surface of the
@@ -23,8 +23,6 @@ def buffer_MultiLineString(multiline, dist, kwArgCheck = None, debug = False, fi
     nang : int, optional
         the number of angles around each point within the MultiLineString that
         are calculated when buffering
-    nproc : int, optional
-        the number of Python processes to spawn when buffering individual Points
     simp : float, optional
         how much intermediary [Multi]Polygons are simplified by; negative values
         disable simplification (in degrees)
@@ -73,7 +71,7 @@ def buffer_MultiLineString(multiline, dist, kwArgCheck = None, debug = False, fi
     # Loop over LineString ...
     for line in multiline.geoms:
         # Append buffer of LineString to list ...
-        buffs.append(buffer_LineString(line, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, nproc = nproc, simp = simp, tol = tol))
+        buffs.append(buffer_LineString(line, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, simp = simp, tol = tol))
 
     # Convert list of [Multi]Polygons to a (unified) [Multi]Polygon ...
     buffs = shapely.ops.unary_union(buffs).simplify(tol)

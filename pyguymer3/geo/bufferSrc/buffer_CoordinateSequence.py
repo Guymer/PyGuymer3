@@ -1,4 +1,4 @@
-def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", nang = 19, nproc = 1, simp = 0.1, tol = 1.0e-10):
+def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", nang = 19, simp = 0.1, tol = 1.0e-10):
     """Buffer a CoordinateSequence
 
     This function reads in a CoordinateSequence that exists on the surface of
@@ -23,8 +23,6 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     nang : int, optional
         the number of angles around each point within the CoordinateSequence
         that are calculated when buffering
-    nproc : int, optional
-        the number of Python processes to spawn when buffering individual Points
     simp : float, optional
         how much the final [Multi]Polygons is simplified by; negative values
         disable simplification (in degrees)
@@ -57,9 +55,6 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     ----------
     .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
-
-    # Import standard modules ...
-    import multiprocessing
 
     # Import special modules ...
     try:
@@ -145,30 +140,20 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     #         to a list of Polygons of the buffered original points            #
     # **************************************************************************
 
-    # Create a pool of workers ...
-    with multiprocessing.Pool(maxtasksperchild = 1, processes = nproc) as pool:
-        # Initialize list ...
-        results = []
+    # Initialize list of Polygons ...
+    polys = []
 
-        # Loop over points ...
-        for ipoint in range(npoint):
-            # Add job to pool ...
-            results.append(pool.apply_async(_points2polys, (points1[ipoint, :], points2[ipoint, :, :]), {"debug" : debug, "fill" : fill, "fillSpace" : fillSpace, "tol" : tol,}))
-
-        # Initialize list of Polygons ...
-        polys = []
-
-        # Loop over results ...
-        for result in results:
-            # Add list of Polygons to list of Polygons ...
-            polys += result.get()
-
-            # Check result ...
-            if not result.successful():
-                raise Exception("\"multiprocessing.Pool().apply_async()\" was not successful") from None
-
-        # Clean up ...
-        del results
+    # Loop over points ...
+    for ipoint in range(npoint):
+        # Add list of Polygons to list of Polygons ...
+        polys += _points2polys(
+            points1[ipoint, :],
+            points2[ipoint, :, :],
+                debug = debug,
+                 fill = fill,
+            fillSpace = fillSpace,
+                  tol = tol,
+        )
 
     # Clean up ...
     del points1, points2

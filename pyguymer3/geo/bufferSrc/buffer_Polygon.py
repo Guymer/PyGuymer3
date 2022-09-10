@@ -1,4 +1,4 @@
-def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", nang = 19, nproc = 1, simp = 0.1, tol = 1.0e-10):
+def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", nang = 19, simp = 0.1, tol = 1.0e-10):
     """Buffer a Polygon
 
     This function reads in a Polygon (with an exterior and any number of
@@ -24,8 +24,6 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, fil
     nang : int, optional
         the number of angles around each point within the Polygon that are
         calculated when buffering
-    nproc : int, optional
-        the number of Python processes to spawn when buffering individual Points
     simp : float, optional
         how much intermediary [Multi]Polygons are simplified by; negative values
         disable simplification (in degrees)
@@ -74,12 +72,12 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, fil
     buffs.append(poly)
 
     # Append buffer of exterior LinearRing to list ...
-    buffs.append(buffer_LinearRing(poly.exterior, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, nproc = nproc, simp = simp, tol = tol))
+    buffs.append(buffer_LinearRing(poly.exterior, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, simp = simp, tol = tol))
 
     # Loop over interior LinearRings ...
     for ring in poly.interiors:
         # Append buffer of interior LinearRing to list ...
-        buffs.append(buffer_LinearRing(ring, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, nproc = nproc, simp = simp, tol = tol))
+        buffs.append(buffer_LinearRing(ring, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, simp = simp, tol = tol))
 
     # Convert list of [Multi]Polygons to a (unified) [Multi]Polygon ...
     buffs = shapely.ops.unary_union(buffs).simplify(tol)
