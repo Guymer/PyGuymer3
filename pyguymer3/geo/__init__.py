@@ -1,21 +1,6 @@
 """
 A Python sub-module containing a bunch of random geo-related functions that I
 have written over the years.
-
-Notes
------
-Filling example: stand on North Pole, go X° in all directions, all points in
-circle will have same latitude, which will get simplified to a Euclidean
-rectangle, which will get drawn as a rhombus, not a circle, therefore need to
-fill in the gaps between the points to keep the Geodesic shape
-
-Simplify example: a rectangle with multiple points on one edge, even if the
-points are all on the same line, if they are not in the correct order then it
-will break, so they need to be removed with .simplify(0)
-
-Spike example: a rectangle with a re-entrant spike, that is valid, becomes
-invalid if there are multiple points on the spike (a Polygon can only touch
-itself once)
 """
 
 # Import sub-functions ...
