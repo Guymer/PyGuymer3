@@ -1,4 +1,4 @@
-def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, fillSpace = "EuclideanSpace", debug = False):
+def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, debug = False, fillSpace = "EuclideanSpace", tol = 1.0e-10):
     """Fill in a CoordinateSequence
 
     This function reads in a CoordinateSequence that exists on the surface of
@@ -18,6 +18,9 @@ def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, fillSpace = "Eucl
     fillSpace : str, optional
         the geometric space to perform the filling in (either "EuclideanSpace"
         or "GeodesicSpace")
+    tol : float, optional
+        the Euclidean distance that defines two points as being the same (in
+        degrees)
 
     Returns
     -------

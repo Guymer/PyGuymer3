@@ -1,4 +1,4 @@
-def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, fillSpace = "EuclideanSpace"):
+def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, fillSpace = "EuclideanSpace", tol = 1.0e-10):
     """Fill in a Polygon
 
     This function reads in a Polygon (with an exterior and any number of
@@ -18,6 +18,9 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, fillSpace = "Eu
     fillSpace : str, optional
         the geometric space to perform the filling in (either "EuclideanSpace"
         or "GeodesicSpace")
+    tol : float, optional
+        the Euclidean distance that defines two points as being the same (in
+        degrees)
 
     Returns
     -------
@@ -55,7 +58,7 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, fillSpace = "Eu
     check(poly)
 
     # Filled in exterior LinearRing ...
-    exterior = fillin_LinearRing(poly.exterior, fill, debug = debug, fillSpace = fillSpace)
+    exterior = fillin_LinearRing(poly.exterior, fill, debug = debug, fillSpace = fillSpace, tol = tol)
 
     # Initialize list ...
     interiors = []
@@ -63,13 +66,13 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, fillSpace = "Eu
     # Loop over interior LinearRings ...
     for interior in poly.interiors:
         # Skip if it doesn't contain any area ...
-        if interior.area <= 0.0:
+        if interior.area < pow(tol, 2):
             if debug:
-                print(f"INFO: Removing a zero-area interior at ({interior.centroid.x:+.6f}°,{interior.centroid.y:+.6f}°).")
+                print(f"INFO: Removing a tiny-area interior at ({interior.centroid.x:+.6f}°,{interior.centroid.y:+.6f}°).")
             continue
 
         # Append filled in interior LinearRing to list ...
-        interiors.append(fillin_LinearRing(interior, fill, debug = debug, fillSpace = fillSpace))
+        interiors.append(fillin_LinearRing(interior, fill, debug = debug, fillSpace = fillSpace, tol = tol))
 
     # Convert exterior LinearRing and list of interior LinearRings to a
     # correctly oriented Polygon ...

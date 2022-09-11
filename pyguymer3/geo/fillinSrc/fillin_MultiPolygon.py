@@ -1,4 +1,4 @@
-def fillin_MultiPolygon(multipoly, fill, kwArgCheck = None, debug = False, fillSpace = "EuclideanSpace"):
+def fillin_MultiPolygon(multipoly, fill, kwArgCheck = None, debug = False, fillSpace = "EuclideanSpace", tol = 1.0e-10):
     """Fill in a MultiPolygon
 
     This function reads in a MultiPolygon, made up of Polygons (with an exterior
@@ -19,6 +19,9 @@ def fillin_MultiPolygon(multipoly, fill, kwArgCheck = None, debug = False, fillS
     fillSpace : str, optional
         the geometric space to perform the filling in (either "EuclideanSpace"
         or "GeodesicSpace")
+    tol : float, optional
+        the Euclidean distance that defines two points as being the same (in
+        degrees)
 
     Returns
     -------
@@ -61,10 +64,10 @@ def fillin_MultiPolygon(multipoly, fill, kwArgCheck = None, debug = False, fillS
     # Loop over Polygons ...
     for poly in multipoly.geoms:
         # Append filled in Polygon to list ...
-        polys.append(fillin_Polygon(poly, fill, debug = debug, fillSpace = fillSpace))
+        polys.append(fillin_Polygon(poly, fill, debug = debug, fillSpace = fillSpace, tol = tol))
 
     # Convert list of Polygons to a (unified) MultiPolygon ...
-    fills = shapely.ops.unary_union(polys)
+    fills = shapely.ops.unary_union(polys).simplify(tol)
     check(fills)
 
     # Clean up ...

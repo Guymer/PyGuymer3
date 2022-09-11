@@ -1,4 +1,4 @@
-def fillin_MultiLineString(multiline, fill, kwArgCheck = None, debug = False, fillSpace = "EuclideanSpace"):
+def fillin_MultiLineString(multiline, fill, kwArgCheck = None, debug = False, fillSpace = "EuclideanSpace", tol = 1.0e-10):
     """Fill in a MultiLineString
 
     This function reads in a MultiLineString that exists on the surface of the
@@ -18,6 +18,9 @@ def fillin_MultiLineString(multiline, fill, kwArgCheck = None, debug = False, fi
     fillSpace : str, optional
         the geometric space to perform the filling in (either "EuclideanSpace"
         or "GeodesicSpace")
+    tol : float, optional
+        the Euclidean distance that defines two points as being the same (in
+        degrees)
 
     Returns
     -------
@@ -59,7 +62,7 @@ def fillin_MultiLineString(multiline, fill, kwArgCheck = None, debug = False, fi
     # Loop over LineStrings ...
     for line in multiline.geoms:
         # Append filled in LineString to list ...
-        lines.append(fillin_LineString(line, fill, debug = debug, fillSpace = fillSpace))
+        lines.append(fillin_LineString(line, fill, debug = debug, fillSpace = fillSpace, tol = tol))
 
     # Convert list of LineStrings to a MultiLineString ...
     fills = shapely.geometry.multilinestring.MultiLineString(lines)
