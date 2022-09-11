@@ -30,7 +30,7 @@ def buffer_Point(point, dist, kwArgCheck = None, debug = False, fill = 1.0, fill
 
     Returns
     -------
-    buff : shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
+    buffs : shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
         the buffered Point
 
     Notes

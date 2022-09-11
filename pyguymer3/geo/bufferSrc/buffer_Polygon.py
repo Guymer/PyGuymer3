@@ -87,6 +87,7 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, fil
     if fill > 0.0:
         # Fill in [Multi]Polygon ...
         buffs = fillin(buffs, fill, debug = debug, fillSpace = fillSpace, tol = tol)
+        check(buffs)
 
     # Check if the user wants to simplify the [Multi]Polygon ...
     if simp > 0.0:

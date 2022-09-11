@@ -81,6 +81,7 @@ def buffer_MultiLineString(multiline, dist, kwArgCheck = None, debug = False, fi
     if fill > 0.0:
         # Fill in [Multi]Polygon ...
         buffs = fillin(buffs, fill, debug = debug, fillSpace = fillSpace, tol = tol)
+        check(buffs)
 
     # Check if the user wants to simplify the [Multi]Polygon ...
     if simp > 0.0:

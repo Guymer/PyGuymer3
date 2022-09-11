@@ -32,7 +32,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
 
     Returns
     -------
-    buff : shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
+    buffs : shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
         the buffered CoordinateSequence
 
     Notes
@@ -141,12 +141,12 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     # **************************************************************************
 
     # Initialize list of Polygons ...
-    polys = []
+    buffs = []
 
     # Loop over points ...
     for ipoint in range(npoint):
         # Add list of Polygons to list of Polygons ...
-        polys += _points2polys(
+        buffs += _points2polys(
             points1[ipoint, :],
             points2[ipoint, :, :],
                 debug = debug,
@@ -165,26 +165,23 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     # **************************************************************************
 
     # Convert list of Polygons to a (unified) [Multi]Polygon ...
-    multipoly = shapely.ops.unary_union(polys).simplify(tol)
-    check(multipoly)
-
-    # Clean up ...
-    del polys
+    buffs = shapely.ops.unary_union(buffs).simplify(tol)
+    check(buffs)
 
     # Check if the user wants to fill in the [Multi]Polygon ...
     if fill > 0.0:
         # Fill in [Multi]Polygon ...
-        multipoly = fillin(multipoly, fill, debug = debug, fillSpace = fillSpace, tol = tol)
-        check(multipoly)
+        buffs = fillin(buffs, fill, debug = debug, fillSpace = fillSpace, tol = tol)
+        check(buffs)
 
     # Check if the user wants to simplify the [Multi]Polygon ...
     if simp > 0.0:
         # Simplify [Multi]Polygon ...
-        multipolySimp = multipoly.simplify(simp)
-        check(multipolySimp)
+        buffsSimp = buffs.simplify(simp)
+        check(buffsSimp)
 
         # Return simplified answer ...
-        return multipolySimp
+        return buffsSimp
 
     # Return answer ...
-    return multipoly
+    return buffs
