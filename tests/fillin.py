@@ -79,6 +79,7 @@ if __name__ == "__main__":
     # Define filling ...
     euclideanFill = 1.0                                                         # [°]
     geodesicFill = 10000.0                                                      # [m]
+    tol = 1.0e-10                                                               # [°]
 
     # Loop over rings ...
     for i, ring in enumerate(rings):
@@ -123,7 +124,7 @@ if __name__ == "__main__":
         sparseRing = shapely.geometry.polygon.LinearRing(ring)
 
         # Fill in ring in Euclidean space and plot it thrice ...
-        denseRing1 = pyguymer3.geo.fillin(sparseRing, euclideanFill, debug = False, fillSpace = "EuclideanSpace")
+        denseRing1 = pyguymer3.geo.fillin(sparseRing, euclideanFill, debug = False, fillSpace = "EuclideanSpace", tol = tol)
         ax1.add_geometries([denseRing1], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = "none", linewidth = 1.0)
         ax2.add_geometries([denseRing1], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = "none", linewidth = 1.0)
         coords = numpy.array(denseRing1.coords)
@@ -144,7 +145,7 @@ if __name__ == "__main__":
         del denseRing1
 
         # Fill in ring in Geodesic space and plot it thrice ...
-        denseRing2 = pyguymer3.geo.fillin(sparseRing,  geodesicFill, debug = False, fillSpace =  "GeodesicSpace")
+        denseRing2 = pyguymer3.geo.fillin(sparseRing,  geodesicFill, debug = False, fillSpace =  "GeodesicSpace", tol = tol)
         ax1.add_geometries([denseRing2], cartopy.crs.PlateCarree(), edgecolor = (0.0, 0.0, 1.0, 1.0), facecolor = "none", linewidth = 1.0)
         ax2.add_geometries([denseRing2], cartopy.crs.PlateCarree(), edgecolor = (0.0, 0.0, 1.0, 1.0), facecolor = "none", linewidth = 1.0)
         coords = numpy.array(denseRing2.coords)
