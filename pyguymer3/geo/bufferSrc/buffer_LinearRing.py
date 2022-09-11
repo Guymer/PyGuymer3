@@ -10,12 +10,12 @@ def buffer_LinearRing(ring, dist, kwArgCheck = None, debug = False, fill = 1.0, 
     ring : shapely.geometry.polygon.LinearRing
         the LinearRing
     dist : float
-        the Geodesic distance to buffer each point within the LinearRing by (in
+        the Geodetic distance to buffer each point within the LinearRing by (in
         metres)
     debug : bool, optional
         print debug messages
     fill : float, optional
-        the Euclidean or Geodesic distance to fill in between each point within
+        the Euclidean or Geodetic distance to fill in between each point within
         the shapes by (in degrees or metres)
     fillSpace : str, optional
         the geometric space to perform the filling in (either "EuclideanSpace"

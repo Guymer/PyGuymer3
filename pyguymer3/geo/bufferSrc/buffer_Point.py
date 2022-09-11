@@ -14,7 +14,7 @@ def buffer_Point(point, dist, kwArgCheck = None, debug = False, fill = 1.0, fill
     debug : bool, optional
         print debug messages
     fill : float, optional
-        the Euclidean or Geodesic distance to fill in between each point within
+        the Euclidean or Geodetic distance to fill in between each point within
         the shapes by (in degrees or metres)
     fillSpace : str, optional
         the geometric space to perform the filling in (either "EuclideanSpace"

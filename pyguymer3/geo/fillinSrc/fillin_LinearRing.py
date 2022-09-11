@@ -11,7 +11,7 @@ def fillin_LinearRing(ring, fill, kwArgCheck = None, debug = False, fillSpace = 
     ring : shapely.geometry.polygon.LinearRing
         the LinearRing
     fill : float
-        the Euclidean or Geodesic distance to fill in between each point within
+        the Euclidean or Geodetic distance to fill in between each point within
         the shape by (in degrees or metres)
     debug : bool, optional
         print debug messages

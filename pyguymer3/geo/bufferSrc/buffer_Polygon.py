@@ -11,12 +11,12 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, fil
     poly : shapely.geometry.polygon.Polygon
         the Polygon
     dist : float
-        the Geodesic distance to buffer each point within the Polygon by (in
+        the Geodetic distance to buffer each point within the Polygon by (in
         metres)
     debug : bool, optional
         print debug messages
     fill : float, optional
-        the Euclidean or Geodesic distance to fill in between each point within
+        the Euclidean or Geodetic distance to fill in between each point within
         the shapes by (in degrees or metres)
     fillSpace : str, optional
         the geometric space to perform the filling in (either "EuclideanSpace"
