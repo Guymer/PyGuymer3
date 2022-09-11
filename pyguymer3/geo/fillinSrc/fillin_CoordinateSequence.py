@@ -69,7 +69,7 @@ def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, fillSpace = "Eucl
         # Find the Geodetic distance between each original point ...
         dr = numpy.zeros(points1.shape[0] - 1, dtype = numpy.float64)           # [m]
         for ipoint in range(dr.size):
-            dr[ipoint], _alpha1, _alpha1 = calc_dist_between_two_locs(
+            dr[ipoint], _, _ = calc_dist_between_two_locs(
                 points1[ipoint    , 0],
                 points1[ipoint    , 1],
                 points1[ipoint + 1, 0],
