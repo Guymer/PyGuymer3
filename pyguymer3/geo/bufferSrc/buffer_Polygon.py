@@ -72,6 +72,11 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, fil
     buffs.append(poly)
 
     # Append buffer of exterior LinearRing to list ...
+    # TODO: Think about finding the bounding box of the exterior ring and not
+    #       bothering buffering it if is the whole Earth, i.e., the Polygon is
+    #       the Earth with an interior ring. Make sure to not just use the
+    #       bounding box, i.e., the exterior ring should not be more complicated
+    #       than four corners too.
     buffs.append(buffer_LinearRing(poly.exterior, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, simp = simp, tol = tol))
 
     # Loop over interior LinearRings ...
