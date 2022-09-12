@@ -57,9 +57,9 @@ def clean_Polygon(poly, kwArgCheck = None, debug = False, tol = 1.0e-10):
     # Loop over interior LinearRings ...
     for interior in poly.interiors:
         # Skip if it doesn't contain any area ...
-        if interior.area < pow(tol, 2):
+        if interior.length < tol:
             if debug:
-                print(f"INFO: Removing a tiny-area interior at ({interior.centroid.x:+.6f}°,{interior.centroid.y:+.6f}°).")
+                print(f"INFO: Removing a tiny-length interior ring at ({interior.centroid.x:+.6f}°,{interior.centroid.y:+.6f}°).")
             continue
 
         # Append cleaned interior LinearRing to list ...
