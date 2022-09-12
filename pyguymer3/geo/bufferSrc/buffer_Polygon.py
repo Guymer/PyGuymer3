@@ -1,4 +1,4 @@
-def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", nang = 19, simp = 0.1, tol = 1.0e-10):
+def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", nang = 9, simp = 0.1, tol = 1.0e-10):
     """Buffer a Polygon
 
     This function reads in a Polygon (with an exterior and any number of
