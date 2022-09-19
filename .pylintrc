@@ -1,5 +1,5 @@
 [MESSAGES CONTROL]
-disable=bad-continuation,bad-whitespace,c-extension-no-member,import-outside-toplevel,invalid-name,line-too-long,missing-docstring,too-many-arguments,too-many-branches,too-many-locals,too-many-nested-blocks,too-many-statements
+disable=c-extension-no-member,import-outside-toplevel,invalid-name,line-too-long,missing-docstring,too-many-arguments,too-many-branches,too-many-locals,too-many-nested-blocks,too-many-statements
 
 [TYPECHECK]
 ignored-classes=boto3,cartopy,ephem,exifread,lxml,magic,matplotlib,matplotlib.cm,numpy,scipy,shapely,sysctl
