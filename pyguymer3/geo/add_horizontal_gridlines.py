@@ -62,10 +62,10 @@ def add_horizontal_gridlines(ax, ext, kwArgCheck = None, color = "black", linest
         ax.plot(
             numpy.linspace(ext[0], ext[1], num = npoint),
             yloc * numpy.ones(npoint),
-            transform = cartopy.crs.PlateCarree(),
                 color = color,
             linestyle = linestyle,
-            linewidth = linewidth
+            linewidth = linewidth,
+            transform = cartopy.crs.PlateCarree(),
         )
 
     # Clean up ...

@@ -62,10 +62,10 @@ def add_vertical_gridlines(ax, ext, kwArgCheck = None, color = "black", linestyl
         ax.plot(
             xloc * numpy.ones(npoint),
             numpy.linspace(ext[2], ext[3], num = npoint),
-            transform = cartopy.crs.PlateCarree(),
                 color = color,
             linestyle = linestyle,
-            linewidth = linewidth
+            linewidth = linewidth,
+            transform = cartopy.crs.PlateCarree(),
         )
 
     # Clean up ...
