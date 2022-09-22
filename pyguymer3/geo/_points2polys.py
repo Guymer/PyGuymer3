@@ -93,7 +93,7 @@ def _points2polys(point, points, kwArgCheck = None, debug = False, fill = 1.0, f
     dists = numpy.hypot(numpy.diff(points[:, 0]), numpy.diff(points[:, 1]))     # [°]
 
     # Initialize list which will hold the two rings and set the index to point
-    # to the first one ...
+    # to the first ring ...
     rings = [[], []]
     iring = 0
 
