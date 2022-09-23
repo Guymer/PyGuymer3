@@ -1,4 +1,4 @@
-def fillin_LineString(line, fill, kwArgCheck = None, debug = False, fillSpace = "EuclideanSpace", ramLimit = 1073741824, tol = 1.0e-10):
+def fillin_LineString(line, fill, kwArgCheck = None, debug = False, fillSpace = "EuclideanSpace", ramLimit = 1073741824):
     """Fill in a LineString
 
     This function reads in a LineString that exists on the surface of the Earth
@@ -20,9 +20,6 @@ def fillin_LineString(line, fill, kwArgCheck = None, debug = False, fillSpace = 
         or "GeodesicSpace")
     ramLimit : int, optional
         the maximum RAM usage of each "large" array, in bytes
-    tol : float, optional
-        the Euclidean distance that defines two points as being the same (in
-        degrees)
 
     Returns
     -------
@@ -59,4 +56,4 @@ def fillin_LineString(line, fill, kwArgCheck = None, debug = False, fillSpace = 
     check(line)
 
     # Return filled in LineString ...
-    return fillin_CoordinateSequence(line.coords, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit, tol = tol)
+    return fillin_CoordinateSequence(line.coords, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit)

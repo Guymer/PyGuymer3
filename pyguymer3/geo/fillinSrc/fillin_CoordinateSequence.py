@@ -1,4 +1,4 @@
-def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, debug = False, fillSpace = "EuclideanSpace", ramLimit = 1073741824, tol = 1.0e-10):
+def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, debug = False, fillSpace = "EuclideanSpace", ramLimit = 1073741824):
     """Fill in a CoordinateSequence
 
     This function reads in a CoordinateSequence that exists on the surface of
@@ -20,9 +20,6 @@ def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, debug = False, fi
         or "GeodesicSpace")
     ramLimit : int, optional
         the maximum RAM usage of each "large" array, in bytes
-    tol : float, optional
-        the Euclidean distance that defines two points as being the same (in
-        degrees)
 
     Returns
     -------

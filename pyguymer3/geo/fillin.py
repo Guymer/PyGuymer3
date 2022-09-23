@@ -58,19 +58,19 @@ def fillin(shape, fill, kwArgCheck = None, debug = False, fillSpace = "Euclidean
 
     # Check if it is a CoordinateSequence and return it filled ...
     if isinstance(shape, shapely.coords.CoordinateSequence):
-        return fillin_CoordinateSequence(shape, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit, tol = tol)
+        return fillin_CoordinateSequence(shape, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit)
 
     # Check if it is a LinearRing and return it filled ...
     if isinstance(shape, shapely.geometry.polygon.LinearRing):
-        return fillin_LinearRing(shape, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit, tol = tol)
+        return fillin_LinearRing(shape, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit)
 
     # Check if it is a LineString and return it filled ...
     if isinstance(shape, shapely.geometry.linestring.LineString):
-        return fillin_LineString(shape, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit, tol = tol)
+        return fillin_LineString(shape, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit)
 
     # Check if it is a MultiLineString and return it filled ...
     if isinstance(shape, shapely.geometry.multilinestring.MultiLineString):
-        return fillin_MultiLineString(shape, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit, tol = tol)
+        return fillin_MultiLineString(shape, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit)
 
     # Check if it is a Polygon and return it filled ...
     if isinstance(shape, shapely.geometry.polygon.Polygon):

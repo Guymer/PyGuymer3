@@ -60,7 +60,7 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, fillSpace = "Eu
     check(poly)
 
     # Filled in exterior LinearRing ...
-    exterior = fillin_LinearRing(poly.exterior, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit, tol = tol)
+    exterior = fillin_LinearRing(poly.exterior, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit)
 
     # Initialize list ...
     interiors = []
@@ -74,7 +74,7 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, fillSpace = "Eu
             continue
 
         # Append filled in interior LinearRing to list ...
-        interiors.append(fillin_LinearRing(interior, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit, tol = tol))
+        interiors.append(fillin_LinearRing(interior, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit))
 
     # Convert exterior LinearRing and list of interior LinearRings to a
     # correctly oriented Polygon ...
