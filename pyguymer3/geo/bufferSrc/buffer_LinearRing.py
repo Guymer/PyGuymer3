@@ -1,4 +1,4 @@
-def buffer_LinearRing(ring, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", nang = 9, simp = 0.1, tol = 1.0e-10):
+def buffer_LinearRing(ring, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", nang = 9, ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
     """Buffer a LinearRing
 
     This function reads in a LinearRing that exists on the surface of the Earth
@@ -23,6 +23,8 @@ def buffer_LinearRing(ring, dist, kwArgCheck = None, debug = False, fill = 1.0, 
     nang : int, optional
         the number of angles around each point within the LinearRing that are
         calculated when buffering
+    ramLimit : int, optional
+        the maximum RAM usage of each "large" array, in bytes
     simp : float, optional
         how much intermediary [Multi]Polygons are simplified by; negative values
         disable simplification (in degrees)
@@ -65,4 +67,4 @@ def buffer_LinearRing(ring, dist, kwArgCheck = None, debug = False, fill = 1.0, 
     check(ring)
 
     # Return buffered LinearRing ...
-    return buffer_CoordinateSequence(ring.coords, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, simp = simp, tol = tol)
+    return buffer_CoordinateSequence(ring.coords, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, ramLimit = ramLimit, simp = simp, tol = tol)

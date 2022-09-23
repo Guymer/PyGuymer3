@@ -3,6 +3,9 @@ def great_circle(lon1, lat1, lon2, lat2, kwArgCheck = None, debug = False, npoin
     This function reads in two starting coordinates (in degrees) and two
     finishing coordinates (in degrees) on the surface of a sphere and calculates
     the great circle that connects them.
+
+    ramLimit : int, optional
+        the maximum RAM usage of each "large" array, in bytes
     """
 
     # Import special modules ...

@@ -1,4 +1,4 @@
-def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", nang = 9, simp = 0.1, tol = 1.0e-10):
+def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", nang = 9, ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
     """Buffer a CoordinateSequence
 
     This function reads in a CoordinateSequence that exists on the surface of
@@ -23,6 +23,8 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     nang : int, optional
         the number of angles around each point within the CoordinateSequence
         that are calculated when buffering
+    ramLimit : int, optional
+        the maximum RAM usage of each "large" array, in bytes
     simp : float, optional
         how much the final [Multi]Polygons is simplified by; negative values
         disable simplification (in degrees)
@@ -116,7 +118,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     # Check if the user wants to fill in the CoordinateSequence ...
     if fill > 0.0 and len(coords) > 1:
         # Convert the filled in CoordinateSequence to a NumPy array ...
-        points1 = numpy.array(fillin(coords, fill, debug = debug, fillSpace = fillSpace, tol = tol).coords) # [°]
+        points1 = numpy.array(fillin(coords, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit, tol = tol).coords) # [°]
     else:
         # Convert the CoordinateSequence to a NumPy array ...
         points1 = numpy.array(coords)                                           # [°]
@@ -133,7 +135,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     if fortran:
         points2 = funcs.buffer_points_crudely(points1, dist, nang)              # [°]
     else:
-        points2 = _buffer_points_crudely(points1, dist, nang)                   # [°]
+        points2 = _buffer_points_crudely(points1, dist, nang, ramLimit = ramLimit)  # [°]
 
     # **************************************************************************
     # Step 3: Convert the NumPy array of the rings around the original points  #
@@ -152,6 +154,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
                 debug = debug,
                  fill = fill,
             fillSpace = fillSpace,
+             ramLimit = ramLimit,
                   tol = tol,
         )
 
@@ -171,7 +174,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     # Check if the user wants to fill in the [Multi]Polygon ...
     if fill > 0.0:
         # Fill in [Multi]Polygon ...
-        buffs = fillin(buffs, fill, debug = debug, fillSpace = fillSpace, tol = tol)
+        buffs = fillin(buffs, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit, tol = tol)
         check(buffs)
 
     # Check if the user wants to simplify the [Multi]Polygon ...

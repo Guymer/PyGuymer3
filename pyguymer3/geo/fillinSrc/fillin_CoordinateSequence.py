@@ -18,6 +18,8 @@ def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, debug = False, fi
     fillSpace : str, optional
         the geometric space to perform the filling in (either "EuclideanSpace"
         or "GeodesicSpace")
+    ramLimit : int, optional
+        the maximum RAM usage of each "large" array, in bytes
     tol : float, optional
         the Euclidean distance that defines two points as being the same (in
         degrees)

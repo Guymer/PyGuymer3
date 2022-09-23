@@ -1,4 +1,4 @@
-def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, fillSpace = "EuclideanSpace", tol = 1.0e-10):
+def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, fillSpace = "EuclideanSpace", ramLimit = 1073741824, tol = 1.0e-10):
     """Fill in a Polygon
 
     This function reads in a Polygon (with an exterior and any number of
@@ -18,6 +18,8 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, fillSpace = "Eu
     fillSpace : str, optional
         the geometric space to perform the filling in (either "EuclideanSpace"
         or "GeodesicSpace")
+    ramLimit : int, optional
+        the maximum RAM usage of each "large" array, in bytes
     tol : float, optional
         the Euclidean distance that defines two points as being the same (in
         degrees)
@@ -58,7 +60,7 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, fillSpace = "Eu
     check(poly)
 
     # Filled in exterior LinearRing ...
-    exterior = fillin_LinearRing(poly.exterior, fill, debug = debug, fillSpace = fillSpace, tol = tol)
+    exterior = fillin_LinearRing(poly.exterior, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit, tol = tol)
 
     # Initialize list ...
     interiors = []
@@ -72,7 +74,7 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, fillSpace = "Eu
             continue
 
         # Append filled in interior LinearRing to list ...
-        interiors.append(fillin_LinearRing(interior, fill, debug = debug, fillSpace = fillSpace, tol = tol))
+        interiors.append(fillin_LinearRing(interior, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit, tol = tol))
 
     # Convert exterior LinearRing and list of interior LinearRings to a
     # correctly oriented Polygon ...

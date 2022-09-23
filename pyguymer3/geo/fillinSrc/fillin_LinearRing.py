@@ -1,4 +1,4 @@
-def fillin_LinearRing(ring, fill, kwArgCheck = None, debug = False, fillSpace = "EuclideanSpace", tol = 1.0e-10):
+def fillin_LinearRing(ring, fill, kwArgCheck = None, debug = False, fillSpace = "EuclideanSpace", ramLimit = 1073741824, tol = 1.0e-10):
     """Fill in a LinearRing
 
     This function reads in a LinearRing that exists on the surface of the Earth
@@ -18,6 +18,8 @@ def fillin_LinearRing(ring, fill, kwArgCheck = None, debug = False, fillSpace = 
     fillSpace : str, optional
         the geometric space to perform the filling in (either "EuclideanSpace"
         or "GeodesicSpace")
+    ramLimit : int, optional
+        the maximum RAM usage of each "large" array, in bytes
     tol : float, optional
         the Euclidean distance that defines two points as being the same (in
         degrees)
@@ -57,4 +59,4 @@ def fillin_LinearRing(ring, fill, kwArgCheck = None, debug = False, fillSpace = 
     check(ring)
 
     # Return filled in LinearRing ...
-    return fillin_CoordinateSequence(ring.coords, fill, debug = debug, fillSpace = fillSpace, tol = tol)
+    return fillin_CoordinateSequence(ring.coords, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit, tol = tol)

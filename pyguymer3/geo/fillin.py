@@ -1,4 +1,4 @@
-def fillin(shape, fill, kwArgCheck = None, debug = False, fillSpace = "EuclideanSpace", tol = 1.0e-10):
+def fillin(shape, fill, kwArgCheck = None, debug = False, fillSpace = "EuclideanSpace", ramLimit = 1073741824, tol = 1.0e-10):
     """Fill in a shape
 
     This function reads in a shape that exists on the surface of the Earth and
@@ -17,6 +17,8 @@ def fillin(shape, fill, kwArgCheck = None, debug = False, fillSpace = "Euclidean
     fillSpace : str, optional
         the geometric space to perform the filling in (either "EuclideanSpace"
         or "GeodesicSpace")
+    ramLimit : int, optional
+        the maximum RAM usage of each "large" array, in bytes
     tol : float, optional
         the Euclidean distance that defines two points as being the same (in
         degrees)
@@ -56,27 +58,27 @@ def fillin(shape, fill, kwArgCheck = None, debug = False, fillSpace = "Euclidean
 
     # Check if it is a CoordinateSequence and return it filled ...
     if isinstance(shape, shapely.coords.CoordinateSequence):
-        return fillin_CoordinateSequence(shape, fill, debug = debug, fillSpace = fillSpace, tol = tol)
+        return fillin_CoordinateSequence(shape, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit, tol = tol)
 
     # Check if it is a LinearRing and return it filled ...
     if isinstance(shape, shapely.geometry.polygon.LinearRing):
-        return fillin_LinearRing(shape, fill, debug = debug, fillSpace = fillSpace, tol = tol)
+        return fillin_LinearRing(shape, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit, tol = tol)
 
     # Check if it is a LineString and return it filled ...
     if isinstance(shape, shapely.geometry.linestring.LineString):
-        return fillin_LineString(shape, fill, debug = debug, fillSpace = fillSpace, tol = tol)
+        return fillin_LineString(shape, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit, tol = tol)
 
     # Check if it is a MultiLineString and return it filled ...
     if isinstance(shape, shapely.geometry.multilinestring.MultiLineString):
-        return fillin_MultiLineString(shape, fill, debug = debug, fillSpace = fillSpace, tol = tol)
+        return fillin_MultiLineString(shape, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit, tol = tol)
 
     # Check if it is a Polygon and return it filled ...
     if isinstance(shape, shapely.geometry.polygon.Polygon):
-        return fillin_Polygon(shape, fill, debug = debug, fillSpace = fillSpace, tol = tol)
+        return fillin_Polygon(shape, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit, tol = tol)
 
     # Check if it is a MultiPolygon and return it filled ...
     if isinstance(shape, shapely.geometry.multipolygon.MultiPolygon):
-        return fillin_MultiPolygon(shape, fill, debug = debug, fillSpace = fillSpace, tol = tol)
+        return fillin_MultiPolygon(shape, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit, tol = tol)
 
     # Crash ...
     raise TypeError(f"\"shape\" is an unexpected type ({repr(type(shape))})") from None
