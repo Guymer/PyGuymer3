@@ -64,6 +64,9 @@ def great_circle(lon1, lat1, lon2, lat2, kwArgCheck = None, debug = False, npoin
         multiline = shapely.geometry.multilinestring.MultiLineString([line1, line2])
         check(multiline)
 
+        # Clean up ...
+        del line1, line2
+
         # Return answer ...
         return multiline
 
@@ -93,6 +96,9 @@ def great_circle(lon1, lat1, lon2, lat2, kwArgCheck = None, debug = False, npoin
         # Convert to a MultiLineString ...
         multiline = shapely.geometry.multilinestring.MultiLineString([line1, line2])
         check(multiline)
+
+        # Clean up ...
+        del line1, line2
 
         # Return answer ...
         return multiline
