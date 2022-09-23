@@ -147,8 +147,9 @@ def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, debug = False, fi
                     points1[ipoint    , 1],
                     points1[ipoint + 1, 0],
                     points1[ipoint + 1, 1],
-                     debug = debug,
-                    npoint = ns[ipoint] + 1,
+                       debug = debug,
+                      npoint = ns[ipoint] + 1,
+                    ramLimit = ramLimit,
                 )
                 arcCoords = numpy.array(arc.coords)                             # [°]
 
