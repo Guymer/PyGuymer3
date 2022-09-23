@@ -65,7 +65,8 @@ def buffer_MultiPoint(multipoint, dist, kwArgCheck = None, debug = False, fill =
     # Check argument ...
     if not isinstance(multipoint, shapely.geometry.multipoint.MultiPoint):
         raise TypeError("\"multipoint\" is not a MultiPoint") from None
-    check(multipoint)
+    if debug:
+        check(multipoint)
 
     # Initialize list ...
     buffs = []
@@ -77,19 +78,22 @@ def buffer_MultiPoint(multipoint, dist, kwArgCheck = None, debug = False, fill =
 
     # Convert list of [Multi]Polygons to a (unified) [Multi]Polygon ...
     buffs = shapely.ops.unary_union(buffs).simplify(tol)
-    check(buffs)
+    if debug:
+        check(buffs)
 
     # Check if the user wants to fill in the [Multi]Polygon ...
     if fill > 0.0:
         # Fill in [Multi]Polygon ...
         buffs = fillin(buffs, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit, tol = tol)
-        check(buffs)
+        if debug:
+            check(buffs)
 
     # Check if the user wants to simplify the [Multi]Polygon ...
     if simp > 0.0:
         # Simplify [Multi]Polygon ...
         buffsSimp = buffs.simplify(simp)
-        check(buffsSimp)
+        if debug:
+            check(buffsSimp)
 
         # Return simplified answer ...
         return buffsSimp

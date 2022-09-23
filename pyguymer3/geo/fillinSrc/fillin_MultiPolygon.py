@@ -58,7 +58,8 @@ def fillin_MultiPolygon(multipoly, fill, kwArgCheck = None, debug = False, fillS
     # Check argument ...
     if not isinstance(multipoly, shapely.geometry.multipolygon.MultiPolygon):
         raise TypeError("\"multipoly\" is not a MultiPolygon") from None
-    check(multipoly)
+    if debug:
+        check(multipoly)
 
     # Initialize list ...
     polys = []
@@ -70,7 +71,8 @@ def fillin_MultiPolygon(multipoly, fill, kwArgCheck = None, debug = False, fillS
 
     # Convert list of Polygons to a (unified) MultiPolygon ...
     fills = shapely.ops.unary_union(polys)
-    check(fills)
+    if debug:
+        check(fills)
 
     # Clean up ...
     del polys

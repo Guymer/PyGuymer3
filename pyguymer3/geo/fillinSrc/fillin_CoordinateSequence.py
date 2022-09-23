@@ -58,7 +58,8 @@ def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, debug = False, fi
     # Check argument ...
     if not isinstance(coords, shapely.coords.CoordinateSequence):
         raise TypeError("\"coords\" is not a CoordinateSequence") from None
-    check(coords)
+    if debug:
+        check(coords)
 
     # Convert the CoordinateSequence to a NumPy array ...
     points1 = numpy.array(coords)                                               # [°]
@@ -177,7 +178,8 @@ def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, debug = False, fi
 
     # Convert array of points to a LineString ...
     fills = shapely.geometry.linestring.LineString(points2)
-    check(fills)
+    if debug:
+        check(fills)
 
     # Clean up ...
     del points2

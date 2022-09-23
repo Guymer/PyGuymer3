@@ -56,7 +56,8 @@ def clean_MultiLineString(multiline, kwArgCheck = None, debug = False, tol = 1.0
 
     # Convert list of LineStrings to a MultiLineString ...
     cleans = shapely.geometry.multilinestring.MultiLineString(lines)
-    check(cleans)
+    if debug:
+        check(cleans)
 
     # Clean up ...
     del lines

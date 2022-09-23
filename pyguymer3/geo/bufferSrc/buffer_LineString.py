@@ -64,7 +64,8 @@ def buffer_LineString(line, dist, kwArgCheck = None, debug = False, fill = 1.0, 
     # Check argument ...
     if not isinstance(line, shapely.geometry.linestring.LineString):
         raise TypeError("\"line\" is not a LineString") from None
-    check(line)
+    if debug:
+        check(line)
 
     # Return buffered LineString ...
     return buffer_CoordinateSequence(line.coords, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, ramLimit = ramLimit, simp = simp, tol = tol)

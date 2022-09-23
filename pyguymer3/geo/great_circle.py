@@ -56,20 +56,23 @@ def great_circle(lon1, lat1, lon2, lat2, kwArgCheck = None, debug = False, npoin
         x = -180.0                                                              # [°]
         y = interpolate(circle[i, 0], circle[i + 1, 0] - 360.0, circle[i, 1], circle[i + 1, 1], x)  # [°]
         line1 = shapely.geometry.linestring.LineString(numpy.append(circle[:i + 1, :], [[x, y]], axis = 0))
-        check(line1)
+        if debug:
+            check(line1)
 
         # Calculate the second intersection and convert to a LineString ...
         x = +180.0                                                              # [°]
         y = interpolate(circle[i, 0] + 360.0, circle[i + 1, 0], circle[i, 1], circle[i + 1, 1], x)  # [°]
         line2 = shapely.geometry.linestring.LineString(numpy.append([[x, y]], circle[i + 1:, :], axis = 0))
-        check(line2)
+        if debug:
+            check(line2)
 
         # Clean up ...
         del circle
 
         # Convert to a MultiLineString ...
         multiline = shapely.geometry.multilinestring.MultiLineString([line1, line2])
-        check(multiline)
+        if debug:
+            check(multiline)
 
         # Clean up ...
         del line1, line2
@@ -89,20 +92,23 @@ def great_circle(lon1, lat1, lon2, lat2, kwArgCheck = None, debug = False, npoin
         x = +180.0                                                              # [°]
         y = interpolate(circle[i, 0], circle[i + 1, 0] + 360.0, circle[i, 1], circle[i + 1, 1], x)  # [°]
         line1 = shapely.geometry.linestring.LineString(numpy.append(circle[:i + 1, :], [[x, y]], axis = 0))
-        check(line1)
+        if debug:
+            check(line1)
 
         # Calculate the second intersection and convert to a LineString ...
         x = -180.0                                                              # [°]
         y = interpolate(circle[i, 0] - 360.0, circle[i + 1, 0], circle[i, 1], circle[i + 1, 1], x)  # [°]
         line2 = shapely.geometry.linestring.LineString(numpy.append([[x, y]], circle[i + 1:, :], axis = 0))
-        check(line2)
+        if debug:
+            check(line2)
 
         # Clean up ...
         del circle
 
         # Convert to a MultiLineString ...
         multiline = shapely.geometry.multilinestring.MultiLineString([line1, line2])
-        check(multiline)
+        if debug:
+            check(multiline)
 
         # Clean up ...
         del line1, line2
@@ -112,7 +118,8 @@ def great_circle(lon1, lat1, lon2, lat2, kwArgCheck = None, debug = False, npoin
 
     # Convert to a LineString ...
     line = shapely.geometry.linestring.LineString(circle)
-    check(line)
+    if debug:
+        check(line)
 
     # Clean up ...
     del circle

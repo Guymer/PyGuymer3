@@ -62,7 +62,8 @@ def buffer_Point(point, dist, kwArgCheck = None, debug = False, fill = 1.0, fill
     # Check argument ...
     if not isinstance(point, shapely.geometry.point.Point):
         raise TypeError("\"point\" is not a Point") from None
-    check(point)
+    if debug:
+        check(point)
 
     # Return buffered Point ...
     return buffer_CoordinateSequence(point.coords, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, ramLimit = ramLimit, simp = simp, tol = tol)

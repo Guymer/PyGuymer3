@@ -67,7 +67,8 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, fil
     # Check argument ...
     if not isinstance(poly, shapely.geometry.polygon.Polygon):
         raise TypeError("\"poly\" is not a Polygon") from None
-    check(poly)
+    if debug:
+        check(poly)
 
     # Initialize list ...
     buffs = []
@@ -88,19 +89,22 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, fil
 
     # Convert list of [Multi]Polygons to a (unified) [Multi]Polygon ...
     buffs = shapely.ops.unary_union(buffs).simplify(tol)
-    check(buffs)
+    if debug:
+        check(buffs)
 
     # Check if the user wants to fill in the [Multi]Polygon ...
     if fill > 0.0:
         # Fill in [Multi]Polygon ...
         buffs = fillin(buffs, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit, tol = tol)
-        check(buffs)
+        if debug:
+            check(buffs)
 
     # Check if the user wants to simplify the [Multi]Polygon ...
     if simp > 0.0:
         # Simplify [Multi]Polygon ...
         buffsSimp = buffs.simplify(simp)
-        check(buffsSimp)
+        if debug:
+            check(buffsSimp)
 
         # Return simplified answer ...
         return buffsSimp

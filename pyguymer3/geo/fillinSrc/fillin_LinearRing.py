@@ -53,7 +53,8 @@ def fillin_LinearRing(ring, fill, kwArgCheck = None, debug = False, fillSpace = 
     # Check argument ...
     if not isinstance(ring, shapely.geometry.polygon.LinearRing):
         raise TypeError("\"ring\" is not a LinearRing") from None
-    check(ring)
+    if debug:
+        check(ring)
 
     # Return filled in LinearRing ...
     return fillin_CoordinateSequence(ring.coords, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit)

@@ -53,7 +53,8 @@ def fillin_MultiLineString(multiline, fill, kwArgCheck = None, debug = False, fi
     # Check argument ...
     if not isinstance(multiline, shapely.geometry.multilinestring.MultiLineString):
         raise TypeError("\"multiline\" is not a MultiLineString") from None
-    check(multiline)
+    if debug:
+        check(multiline)
 
     # Initialize list ...
     lines = []
@@ -65,7 +66,8 @@ def fillin_MultiLineString(multiline, fill, kwArgCheck = None, debug = False, fi
 
     # Convert list of LineStrings to a MultiLineString ...
     fills = shapely.geometry.multilinestring.MultiLineString(lines)
-    check(fills)
+    if debug:
+        check(fills)
 
     # Clean up ...
     del lines

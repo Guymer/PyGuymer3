@@ -58,7 +58,8 @@ def clean_MultiPolygon(multipoly, kwArgCheck = None, debug = False, tol = 1.0e-1
 
     # Convert list of Polygons to a (unified) MultiPolygon ...
     cleans = shapely.ops.unary_union(polys)
-    check(cleans)
+    if debug:
+        check(cleans)
 
     # Clean up ...
     del polys

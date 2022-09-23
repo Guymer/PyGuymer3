@@ -1,4 +1,4 @@
-def en2ll(poly1):
+def en2ll(poly1, kwArgCheck = None, debug = False):
     """
     This function reads in a Polygon whose coordinates are Eastings/Northings on
     the Ordnance Survey National Grid and returns a Polygon whose coordinates
@@ -16,10 +16,15 @@ def en2ll(poly1):
     from ._en2ll import _en2ll
     from .check import check
 
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
+
     # Check argument ...
     if not isinstance(poly1, shapely.geometry.polygon.Polygon):
         raise TypeError("\"poly1\" is not a Polygon") from None
-    check(poly1)
+    if debug:
+        check(poly1)
 
     # Initialize list ...
     exteriorRing = []
@@ -31,7 +36,8 @@ def en2ll(poly1):
 
     # Convert ring to LinearRing ...
     exteriorRing = shapely.geometry.polygon.LinearRing(exteriorRing)
-    check(exteriorRing)
+    if debug:
+        check(exteriorRing)
 
     # Initialize list ...
     interiorRings = []
@@ -48,7 +54,8 @@ def en2ll(poly1):
 
         # Convert ring to LinearRing ...
         interiorRing = shapely.geometry.polygon.LinearRing(interiorRing)
-        check(interiorRing)
+        if debug:
+            check(interiorRing)
 
         # Append LinearRing to list ...
         interiorRings.append(interiorRing)
@@ -58,7 +65,8 @@ def en2ll(poly1):
 
     # Convert LinearRings to Polygon ...
     poly2 = shapely.geometry.polygon.Polygon(exteriorRing, interiorRings)
-    check(poly2)
+    if debug:
+        check(poly2)
 
     # Clean up ...
     del exteriorRing, interiorRings

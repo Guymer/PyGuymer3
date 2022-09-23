@@ -112,7 +112,8 @@ def clean_CoordinateSequence(coords, kwArgCheck = None, debug = False, tol = 1.0
         if debug:
             print(f"INFO: Truncating a tiny-length line at ({points2[0][0]:+.6f}°,{points2[0][1]:+.6f}°).")
         cleans = shapely.geometry.point.Point(points2[0][0], points2[0][1])
-    check(cleans)
+    if debug:
+        check(cleans)
 
     # Clean up ...
     del points2

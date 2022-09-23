@@ -230,14 +230,16 @@ def _points2polys(point, points, kwArgCheck = None, debug = False, fill = 1.0, f
 
         # Make a LinearRing out of this (cleaned) ring ...
         line = shapely.geometry.polygon.LinearRing(cleanedRing)
-        check(line)
+        if debug:
+            check(line)
 
         # Clean up ...
         del cleanedRing
 
         # Make a Polygon out of this LinearRing ...
         poly = shapely.geometry.polygon.orient(shapely.geometry.polygon.Polygon(line))
-        check(poly)
+        if debug:
+            check(poly)
 
         # Clean up ...
         del line
@@ -246,7 +248,8 @@ def _points2polys(point, points, kwArgCheck = None, debug = False, fill = 1.0, f
         if fill > 0.0:
             # Fill in Polygon ...
             poly = fillin(poly, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit, tol = tol)
-            check(poly)
+            if debug:
+                check(poly)
 
         # Append Polygon to the list ...
         polys.append(poly)

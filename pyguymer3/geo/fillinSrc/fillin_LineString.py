@@ -53,7 +53,8 @@ def fillin_LineString(line, fill, kwArgCheck = None, debug = False, fillSpace = 
     # Check argument ...
     if not isinstance(line, shapely.geometry.linestring.LineString):
         raise TypeError("\"line\" is not a LineString") from None
-    check(line)
+    if debug:
+        check(line)
 
     # Return filled in LineString ...
     return fillin_CoordinateSequence(line.coords, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit)

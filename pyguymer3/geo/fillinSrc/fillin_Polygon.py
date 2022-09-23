@@ -57,7 +57,8 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, fillSpace = "Eu
     # Check argument ...
     if not isinstance(poly, shapely.geometry.polygon.Polygon):
         raise TypeError("\"poly\" is not a Polygon") from None
-    check(poly)
+    if debug:
+        check(poly)
 
     # Filled in exterior LinearRing ...
     exterior = fillin_LinearRing(poly.exterior, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit)
@@ -79,7 +80,8 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, fillSpace = "Eu
     # Convert exterior LinearRing and list of interior LinearRings to a
     # correctly oriented Polygon ...
     fills = shapely.geometry.polygon.orient(shapely.geometry.polygon.Polygon(exterior, interiors))
-    check(fills)
+    if debug:
+        check(fills)
 
     # Clean up ...
     del exterior, interiors

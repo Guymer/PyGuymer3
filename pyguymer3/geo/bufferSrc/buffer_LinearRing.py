@@ -64,7 +64,8 @@ def buffer_LinearRing(ring, dist, kwArgCheck = None, debug = False, fill = 1.0, 
     # Check argument ...
     if not isinstance(ring, shapely.geometry.polygon.LinearRing):
         raise TypeError("\"ring\" is not a LinearRing") from None
-    check(ring)
+    if debug:
+        check(ring)
 
     # Return buffered LinearRing ...
     return buffer_CoordinateSequence(ring.coords, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, ramLimit = ramLimit, simp = simp, tol = tol)

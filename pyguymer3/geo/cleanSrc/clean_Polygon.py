@@ -68,7 +68,8 @@ def clean_Polygon(poly, kwArgCheck = None, debug = False, tol = 1.0e-10):
     # Convert exterior LinearRing and list of interior LinearRings to a
     # correctly oriented Polygon ...
     cleans = shapely.geometry.polygon.orient(shapely.geometry.polygon.Polygon(exterior, interiors))
-    check(cleans)
+    if debug:
+        check(cleans)
 
     # Clean up ...
     del exterior, interiors
