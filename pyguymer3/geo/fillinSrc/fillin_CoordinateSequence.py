@@ -1,4 +1,4 @@
-def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, debug = False, fillSpace = "EuclideanSpace", tol = 1.0e-10):
+def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, debug = False, fillSpace = "EuclideanSpace", ramLimit = 1073741824, tol = 1.0e-10):
     """Fill in a CoordinateSequence
 
     This function reads in a CoordinateSequence that exists on the surface of
@@ -93,6 +93,10 @@ def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, debug = False, fi
     # NOTE: This is the total number of fence posts, not the total number of
     #       fence panels.
     nsTot = ns.sum() + 1                                                        # [#]
+
+    # Check array size ...
+    if nsTot * 2 * 8 > ramLimit:
+        raise Exception(f"\"points2\" is going to be {nsTot * 2 * 8:,d} bytes, which is larger than {ramLimit:,d} bytes") from None
 
     # Create empty array ...
     points2 = numpy.zeros((nsTot, 2), dtype = numpy.float64)                    # [°]

@@ -1,4 +1,4 @@
-def _buffer_points_crudely(points1, dist, nang):
+def _buffer_points_crudely(points1, dist, nang, kwArgCheck = None, ramLimit = 1073741824):
     """Buffer some points
 
     This function reads in an array of coordinates (in degrees) that exist on
@@ -40,8 +40,16 @@ def _buffer_points_crudely(points1, dist, nang):
     # Import sub-functions ...
     from .calc_loc_from_loc_and_bearing_and_dist import calc_loc_from_loc_and_bearing_and_dist
 
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
+
     # Create short-hand ...
     npoint = points1.shape[0]
+
+    # Check array size ...
+    if npoint * nang * 2 * 8 > ramLimit:
+        raise Exception(f"\"points2\" is going to be {npoint * nang * 2 * 8:,d} bytes, which is larger than {ramLimit:,d} bytes") from None
 
     # Initialize array ...
     points2 = numpy.zeros((npoint, nang, 2), dtype = numpy.float64)             # [°]

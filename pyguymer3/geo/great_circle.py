@@ -1,4 +1,4 @@
-def great_circle(lon1, lat1, lon2, lat2, kwArgCheck = None, debug = False, npoint = 5):
+def great_circle(lon1, lat1, lon2, lat2, kwArgCheck = None, debug = False, npoint = 5, ramLimit = 1073741824):
     """
     This function reads in two starting coordinates (in degrees) and two
     finishing coordinates (in degrees) on the surface of a sphere and calculates
@@ -28,6 +28,10 @@ def great_circle(lon1, lat1, lon2, lat2, kwArgCheck = None, debug = False, npoin
     # Check inputs ...
     if npoint < 3:
         raise Exception(f"the number of points is too small ({npoint:,d} < {3:,d})") from None
+
+    # Check array size ...
+    if npoint * 2 * 8 > ramLimit:
+        raise Exception(f"\"circle\" is going to be {npoint * 2 * 8:,d} bytes, which is larger than {ramLimit:,d} bytes") from None
 
     # Initialize array ...
     circle = numpy.zeros((npoint, 2), dtype = numpy.float64)                    # [°]
