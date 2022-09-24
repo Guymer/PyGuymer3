@@ -105,13 +105,16 @@ def clean_CoordinateSequence(coords, kwArgCheck = None, debug = False, tol = 1.0
     # Clean up ...
     del points1
 
-    # Convert list of points in to a LineString, or a Point if there ends up
+    # Convert list of points into a LineString, or a Point if there ends up
     # being only one ...
-    cleans = shapely.geometry.linestring.LineString(points2)
-    if cleans.length < tol:
-        if debug:
-            print(f"INFO: Truncating a tiny-length line at ({points2[0][0]:+.6f}°,{points2[0][1]:+.6f}°).")
+    if len(points2) == 1:
         cleans = shapely.geometry.point.Point(points2[0][0], points2[0][1])
+    else:
+        cleans = shapely.geometry.linestring.LineString(points2)
+        if cleans.length < tol:
+            if debug:
+                print(f"INFO: Truncating a tiny-length line at ({points2[0][0]:+.6f}°,{points2[0][1]:+.6f}°).")
+            cleans = shapely.geometry.point.Point(points2[0][0], points2[0][1])
     if debug:
         check(cleans)
 
