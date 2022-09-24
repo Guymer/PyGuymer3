@@ -82,7 +82,7 @@ def buffer_MultiPoint(multipoint, dist, kwArgCheck = None, debug = False, fill =
         check(buffs)
 
     # Check if the user wants to fill in the [Multi]Polygon ...
-    if fill > 0.0:
+    if simp < 0.0 < fill:
         # Fill in [Multi]Polygon ...
         buffs = fillin(buffs, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit, tol = tol)
         if debug:

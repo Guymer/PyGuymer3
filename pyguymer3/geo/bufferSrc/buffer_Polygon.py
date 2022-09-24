@@ -93,7 +93,7 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, fil
         check(buffs)
 
     # Check if the user wants to fill in the [Multi]Polygon ...
-    if fill > 0.0:
+    if simp < 0.0 < fill:
         # Fill in [Multi]Polygon ...
         buffs = fillin(buffs, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit, tol = tol)
         if debug:
