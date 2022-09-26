@@ -1,4 +1,4 @@
-def buffer_MultiPolygon(multipoly, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", nang = 9, ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
+def buffer_MultiPolygon(multipoly, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", keepInteriors = True, nang = 9, ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
     """Buffer a MultiPolygon
 
     This function reads in a MultiPolygon, made up of Polygons (with an exterior
@@ -21,6 +21,8 @@ def buffer_MultiPolygon(multipoly, dist, kwArgCheck = None, debug = False, fill 
     fillSpace : str, optional
         the geometric space to perform the filling in (either "EuclideanSpace"
         or "GeodesicSpace")
+    keepInteriors : bool, optional
+        keep the interiors of the Polygon
     nang : int, optional
         the number of angles around each point within the MultiPolygon that are
         calculated when buffering
@@ -80,13 +82,14 @@ def buffer_MultiPolygon(multipoly, dist, kwArgCheck = None, debug = False, fill 
             buffer_Polygon(
                 poly,
                 dist,
-                    debug = debug,
-                     fill = fill,
-                fillSpace = fillSpace,
-                     nang = nang,
-                 ramLimit = ramLimit,
-                     simp = simp,
-                      tol = tol,
+                        debug = debug,
+                         fill = fill,
+                    fillSpace = fillSpace,
+                keepInteriors = keepInteriors,
+                         nang = nang,
+                     ramLimit = ramLimit,
+                         simp = simp,
+                          tol = tol,
             )
         )
 

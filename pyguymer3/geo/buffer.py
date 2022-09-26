@@ -1,4 +1,4 @@
-def buffer(shape, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", nang = 9, ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
+def buffer(shape, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", keepInteriors = True, nang = 9, ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
     """Buffer a shape
 
     This function reads in a shape that exists on the surface of the Earth and
@@ -19,6 +19,8 @@ def buffer(shape, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace 
     fillSpace : str, optional
         the geometric space to perform the filling in (either "EuclideanSpace"
         or "GeodesicSpace")
+    keepInteriors : bool, optional
+        keep the interiors of the Polygon
     nang : int, optional
         the number of angles around each point within the shape that are
         calculated when buffering
@@ -155,13 +157,14 @@ def buffer(shape, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace 
         return buffer_Polygon(
             shape,
             dist,
-                debug = debug,
-                 fill = fill,
-            fillSpace = fillSpace,
-                 nang = nang,
-             ramLimit = ramLimit,
-                 simp = simp,
-                  tol = tol,
+                    debug = debug,
+                     fill = fill,
+                fillSpace = fillSpace,
+            keepInteriors = keepInteriors,
+                     nang = nang,
+                 ramLimit = ramLimit,
+                     simp = simp,
+                      tol = tol,
         )
 
     # Check if it is a MultiPolygon and return it buffered ...
@@ -169,13 +172,14 @@ def buffer(shape, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace 
         return buffer_MultiPolygon(
             shape,
             dist,
-                debug = debug,
-                 fill = fill,
-            fillSpace = fillSpace,
-                 nang = nang,
-             ramLimit = ramLimit,
-                 simp = simp,
-                  tol = tol,
+                    debug = debug,
+                     fill = fill,
+                fillSpace = fillSpace,
+            keepInteriors = keepInteriors,
+                     nang = nang,
+                 ramLimit = ramLimit,
+                     simp = simp,
+                      tol = tol,
         )
 
     # Crash ...
