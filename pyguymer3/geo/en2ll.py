@@ -63,8 +63,8 @@ def en2ll(poly1, kwArgCheck = None, debug = False):
         # Clean up ...
         del interiorRing
 
-    # Convert LinearRings to Polygon ...
-    poly2 = shapely.geometry.polygon.Polygon(exteriorRing, interiorRings)
+    # Convert LinearRings to a correctly oriented Polygon ...
+    poly2 = shapely.geometry.polygon.orient(shapely.geometry.polygon.Polygon(exteriorRing, interiorRings))
     if debug:
         check(poly2)
 
