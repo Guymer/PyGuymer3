@@ -94,6 +94,8 @@ def buffer_MultiPoint(multipoint, dist, kwArgCheck = None, debug = False, fill =
         check(buffs)
 
     # Check if the user wants to fill in the [Multi]Polygon ...
+    # NOTE: This is only needed because the "shapely.ops.unary_union()" call
+    #       above includes a "simplify()".
     if simp < 0.0 < fill:
         # Fill in [Multi]Polygon ...
         buffs = fillin(
@@ -108,6 +110,8 @@ def buffer_MultiPoint(multipoint, dist, kwArgCheck = None, debug = False, fill =
             check(buffs)
 
     # Check if the user wants to simplify the [Multi]Polygon ...
+    # NOTE: This is only needed because the "shapely.ops.unary_union()" call
+    #       above might allow more simplification.
     if simp > 0.0:
         # Simplify [Multi]Polygon ...
         buffsSimp = buffs.simplify(simp)
