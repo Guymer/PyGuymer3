@@ -236,7 +236,7 @@ def _points2polys(point, points, kwArgCheck = None, debug = False, fill = 1.0, f
         # Clean up ...
         del cleanedRing
 
-        # Make a Polygon out of this LinearRing ...
+        # Make a correctly oriented Polygon out of this LinearRing ...
         poly = shapely.geometry.polygon.orient(shapely.geometry.polygon.Polygon(line))
         if debug:
             check(poly)
@@ -247,7 +247,14 @@ def _points2polys(point, points, kwArgCheck = None, debug = False, fill = 1.0, f
         # Check if the user wants to fill in the Polygon ...
         if fill > 0.0:
             # Fill in Polygon ...
-            poly = fillin(poly, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit, tol = tol)
+            poly = fillin(
+                poly,
+                fill,
+                    debug = debug,
+                fillSpace = fillSpace,
+                 ramLimit = ramLimit,
+                      tol = tol,
+            )
             if debug:
                 check(poly)
 
