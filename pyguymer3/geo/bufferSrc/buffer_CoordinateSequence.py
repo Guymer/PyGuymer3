@@ -177,8 +177,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
 
     # **************************************************************************
     # Step 4: Create a single [Multi]Polygon that is the union of all of the   #
-    #         Polygons and re-map it so that it does not extend off the edge   #
-    #         of Earth                                                         #
+    #         Polygons                                                         #
     # **************************************************************************
 
     # Convert list of Polygons to a (unified) [Multi]Polygon ...
