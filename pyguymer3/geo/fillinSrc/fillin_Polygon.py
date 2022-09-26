@@ -60,22 +60,36 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, fillSpace = "Eu
     if debug:
         check(poly)
 
-    # Filled in exterior LinearRing ...
-    exterior = fillin_LinearRing(poly.exterior, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit)
+    # Fill in exterior LinearRing ...
+    exterior = fillin_LinearRing(
+        poly.exterior,
+        fill,
+            debug = debug,
+        fillSpace = fillSpace,
+         ramLimit = ramLimit,
+    )
 
     # Initialize list ...
     interiors = []
 
     # Loop over interior LinearRings ...
     for interior in poly.interiors:
-        # Skip if it doesn't contain any area ...
+        # Skip if it doesn't contain any length ...
         if interior.length < tol:
             if debug:
                 print(f"INFO: Removing a tiny-length interior ring at ({interior.centroid.x:+.6f}°,{interior.centroid.y:+.6f}°).")
             continue
 
         # Append filled in interior LinearRing to list ...
-        interiors.append(fillin_LinearRing(interior, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit))
+        interiors.append(
+            fillin_LinearRing(
+                interior,
+                fill,
+                    debug = debug,
+                fillSpace = fillSpace,
+                 ramLimit = ramLimit,
+            )
+        )
 
     # Convert exterior LinearRing and list of interior LinearRings to a
     # correctly oriented Polygon ...

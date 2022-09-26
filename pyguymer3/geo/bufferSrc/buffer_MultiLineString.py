@@ -74,7 +74,19 @@ def buffer_MultiLineString(multiline, dist, kwArgCheck = None, debug = False, fi
     # Loop over LineString ...
     for line in multiline.geoms:
         # Append buffer of LineString to list ...
-        buffs.append(buffer_LineString(line, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, ramLimit = ramLimit, simp = simp, tol = tol))
+        buffs.append(
+            buffer_LineString(
+                line,
+                dist,
+                    debug = debug,
+                     fill = fill,
+                fillSpace = fillSpace,
+                     nang = nang,
+                 ramLimit = ramLimit,
+                     simp = simp,
+                      tol = tol,
+            )
+        )
 
     # Convert list of [Multi]Polygons to a (unified) [Multi]Polygon ...
     buffs = shapely.ops.unary_union(buffs).simplify(tol)
@@ -84,7 +96,14 @@ def buffer_MultiLineString(multiline, dist, kwArgCheck = None, debug = False, fi
     # Check if the user wants to fill in the [Multi]Polygon ...
     if simp < 0.0 < fill:
         # Fill in [Multi]Polygon ...
-        buffs = fillin(buffs, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit, tol = tol)
+        buffs = fillin(
+            buffs,
+            fill,
+                debug = debug,
+            fillSpace = fillSpace,
+             ramLimit = ramLimit,
+                  tol = tol,
+        )
         if debug:
             check(buffs)
 

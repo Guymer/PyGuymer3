@@ -1,4 +1,4 @@
-def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", nang = 9, ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
+def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", keepInteriors = True, nang = 9, ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
     """Buffer a Polygon
 
     This function reads in a Polygon (with an exterior and any number of
@@ -21,6 +21,8 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, fil
     fillSpace : str, optional
         the geometric space to perform the filling in (either "EuclideanSpace"
         or "GeodesicSpace")
+    keepInteriors : bool, optional
+        keep the interiors of the Polygon
     nang : int, optional
         the number of angles around each point within the Polygon that are
         calculated when buffering
@@ -72,7 +74,15 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, fil
 
     # Initialize list ...
     buffs = []
-    buffs.append(poly)
+
+    # Check if the user wants to keep interiors ...
+    if keepInteriors:
+        # Append Polygon to list ...
+        buffs.append(poly)
+    else:
+        # Append a correctly oriented Polygon made up of just the exterior
+        # LinearRing to list ...
+        buffs.append(shapely.geometry.polygon.orient(shapely.geometry.polygon.Polygon(poly.exterior)))
 
     # Append buffer of exterior LinearRing to list ...
     # TODO: Think about finding the bounding box of the exterior ring and not
@@ -80,12 +90,44 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, fil
     #       the Earth with an interior ring. Make sure to not just use the
     #       bounding box, i.e., the exterior ring should not be more complicated
     #       than four corners too.
-    buffs.append(buffer_LinearRing(poly.exterior, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, ramLimit = ramLimit, simp = simp, tol = tol))
+    buffs.append(
+        buffer_LinearRing(
+            poly.exterior,
+            dist,
+                debug = debug,
+                 fill = fill,
+            fillSpace = fillSpace,
+                 nang = nang,
+             ramLimit = ramLimit,
+                 simp = simp,
+                  tol = tol,
+        )
+    )
 
-    # Loop over interior LinearRings ...
-    for ring in poly.interiors:
-        # Append buffer of interior LinearRing to list ...
-        buffs.append(buffer_LinearRing(ring, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, ramLimit = ramLimit, simp = simp, tol = tol))
+    # Check if the user wants to keep interiors ...
+    if keepInteriors:
+        # Loop over interior LinearRings ...
+        for interior in poly.interiors:
+            # Skip if it doesn't contain any length ...
+            if interior.length < tol:
+                if debug:
+                    print(f"INFO: Removing a tiny-length interior ring at ({interior.centroid.x:+.6f}°,{interior.centroid.y:+.6f}°).")
+                continue
+
+            # Append buffer of interior LinearRing to list ...
+            buffs.append(
+                buffer_LinearRing(
+                    interior,
+                    dist,
+                        debug = debug,
+                         fill = fill,
+                    fillSpace = fillSpace,
+                         nang = nang,
+                     ramLimit = ramLimit,
+                         simp = simp,
+                          tol = tol,
+                )
+            )
 
     # Convert list of [Multi]Polygons to a (unified) [Multi]Polygon ...
     buffs = shapely.ops.unary_union(buffs).simplify(tol)
@@ -95,7 +137,14 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, fil
     # Check if the user wants to fill in the [Multi]Polygon ...
     if simp < 0.0 < fill:
         # Fill in [Multi]Polygon ...
-        buffs = fillin(buffs, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit, tol = tol)
+        buffs = fillin(
+            buffs,
+            fill,
+                debug = debug,
+            fillSpace = fillSpace,
+             ramLimit = ramLimit,
+                  tol = tol,
+        )
         if debug:
             check(buffs)
 

@@ -67,7 +67,16 @@ def fillin_MultiPolygon(multipoly, fill, kwArgCheck = None, debug = False, fillS
     # Loop over Polygons ...
     for poly in multipoly.geoms:
         # Append filled in Polygon to list ...
-        polys.append(fillin_Polygon(poly, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit, tol = tol))
+        polys.append(
+            fillin_Polygon(
+                poly,
+                fill,
+                    debug = debug,
+                fillSpace = fillSpace,
+                 ramLimit = ramLimit,
+                      tol = tol,
+            )
+        )
 
     # Convert list of Polygons to a (unified) MultiPolygon ...
     fills = shapely.ops.unary_union(polys)

@@ -46,4 +46,8 @@ def clean_LinearRing(ring, kwArgCheck = None, debug = False, tol = 1.0e-10):
         raise TypeError("\"ring\" is not a LinearRing") from None
 
     # Return cleaned LinearRing ...
-    return clean_CoordinateSequence(ring.coords, debug = debug, tol = tol)
+    return clean_CoordinateSequence(
+        ring.coords,
+        debug = debug,
+          tol = tol,
+    )

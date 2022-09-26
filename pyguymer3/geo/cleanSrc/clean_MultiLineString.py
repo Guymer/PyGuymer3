@@ -52,7 +52,13 @@ def clean_MultiLineString(multiline, kwArgCheck = None, debug = False, tol = 1.0
     # Loop over LineStrings ...
     for line in multiline.geoms:
         # Append cleaned LineString to list ...
-        lines.append(clean_LineString(line, debug = debug, tol = tol))
+        lines.append(
+            clean_LineString(
+                line,
+                debug = debug,
+                  tol = tol,
+            )
+        )
 
     # Convert list of LineStrings to a MultiLineString ...
     cleans = shapely.geometry.multilinestring.MultiLineString(lines)

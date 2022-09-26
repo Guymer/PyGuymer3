@@ -114,12 +114,25 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     # **************************************************************************
 
     # Clean the input ...
-    coords = clean(coords, debug = debug, tol = tol).coords
+    coords = clean(
+        coords,
+        debug = debug,
+          tol = tol,
+    ).coords
 
     # Check if the user wants to fill in the CoordinateSequence ...
     if fill > 0.0 and len(coords) > 1:
         # Convert the filled in CoordinateSequence to a NumPy array ...
-        points1 = numpy.array(fillin(coords, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit, tol = tol).coords) # [°]
+        points1 = numpy.array(
+            fillin(
+                coords,
+                fill,
+                    debug = debug,
+                fillSpace = fillSpace,
+                 ramLimit = ramLimit,
+                      tol = tol,
+            ).coords
+        )                                                                       # [°]
     else:
         # Convert the CoordinateSequence to a NumPy array ...
         points1 = numpy.array(coords)                                           # [°]
@@ -176,7 +189,14 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     # Check if the user wants to fill in the [Multi]Polygon ...
     if simp < 0.0 < fill:
         # Fill in [Multi]Polygon ...
-        buffs = fillin(buffs, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit, tol = tol)
+        buffs = fillin(
+            buffs,
+            fill,
+                debug = debug,
+            fillSpace = fillSpace,
+             ramLimit = ramLimit,
+                  tol = tol,
+        )
         if debug:
             check(buffs)
 

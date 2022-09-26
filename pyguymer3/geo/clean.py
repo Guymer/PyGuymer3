@@ -48,27 +48,51 @@ def clean(shape, kwArgCheck = None, debug = False, tol = 1.0e-10):
 
     # Check if it is a CoordinateSequence and return it cleaned ...
     if isinstance(shape, shapely.coords.CoordinateSequence):
-        return clean_CoordinateSequence(shape, debug = debug, tol = tol)
+        return clean_CoordinateSequence(
+            shape,
+            debug = debug,
+              tol = tol,
+        )
 
     # Check if it is a LinearRing and return it cleaned ...
     if isinstance(shape, shapely.geometry.polygon.LinearRing):
-        return clean_LinearRing(shape, debug = debug, tol = tol)
+        return clean_LinearRing(
+            shape,
+            debug = debug,
+              tol = tol,
+        )
 
     # Check if it is a LineString and return it cleaned ...
     if isinstance(shape, shapely.geometry.linestring.LineString):
-        return clean_LineString(shape, debug = debug, tol = tol)
+        return clean_LineString(
+            shape,
+            debug = debug,
+              tol = tol,
+        )
 
     # Check if it is a MultiLineString and return it cleaned ...
     if isinstance(shape, shapely.geometry.multilinestring.MultiLineString):
-        return clean_MultiLineString(shape, debug = debug, tol = tol)
+        return clean_MultiLineString(
+            shape,
+            debug = debug,
+              tol = tol,
+        )
 
     # Check if it is a Polygon and return it cleaned ...
     if isinstance(shape, shapely.geometry.polygon.Polygon):
-        return clean_Polygon(shape, debug = debug, tol = tol)
+        return clean_Polygon(
+            shape,
+            debug = debug,
+              tol = tol,
+        )
 
     # Check if it is a MultiPolygon and return it cleaned ...
     if isinstance(shape, shapely.geometry.multipolygon.MultiPolygon):
-        return clean_MultiPolygon(shape, debug = debug, tol = tol)
+        return clean_MultiPolygon(
+            shape,
+            debug = debug,
+              tol = tol,
+        )
 
     # Crash ...
     raise TypeError(f"\"shape\" is an unexpected type ({repr(type(shape))})") from None

@@ -48,22 +48,32 @@ def clean_Polygon(poly, kwArgCheck = None, debug = False, tol = 1.0e-10):
     if not isinstance(poly, shapely.geometry.polygon.Polygon):
         raise TypeError("\"poly\" is not a Polygon") from None
 
-    # Filled in exterior LinearRing ...
-    exterior = clean_LinearRing(poly.exterior, debug = debug, tol = tol)
+    # Clean exterior LinearRing ...
+    exterior = clean_LinearRing(
+        poly.exterior,
+        debug = debug,
+          tol = tol,
+    )
 
     # Initialize list ...
     interiors = []
 
     # Loop over interior LinearRings ...
     for interior in poly.interiors:
-        # Skip if it doesn't contain any area ...
+        # Skip if it doesn't contain any length ...
         if interior.length < tol:
             if debug:
                 print(f"INFO: Removing a tiny-length interior ring at ({interior.centroid.x:+.6f}°,{interior.centroid.y:+.6f}°).")
             continue
 
         # Append cleaned interior LinearRing to list ...
-        interiors.append(clean_LinearRing(interior, debug = debug, tol = tol))
+        interiors.append(
+            clean_LinearRing(
+                interior,
+                debug = debug,
+                  tol = tol,
+            )
+        )
 
     # Convert exterior LinearRing and list of interior LinearRings to a
     # correctly oriented Polygon ...

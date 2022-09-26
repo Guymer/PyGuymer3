@@ -66,4 +66,14 @@ def buffer_Point(point, dist, kwArgCheck = None, debug = False, fill = 1.0, fill
         check(point)
 
     # Return buffered Point ...
-    return buffer_CoordinateSequence(point.coords, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, ramLimit = ramLimit, simp = simp, tol = tol)
+    return buffer_CoordinateSequence(
+        point.coords,
+        dist,
+            debug = debug,
+             fill = fill,
+        fillSpace = fillSpace,
+             nang = nang,
+         ramLimit = ramLimit,
+             simp = simp,
+              tol = tol,
+    )

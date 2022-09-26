@@ -57,4 +57,10 @@ def fillin_LinearRing(ring, fill, kwArgCheck = None, debug = False, fillSpace = 
         check(ring)
 
     # Return filled in LinearRing ...
-    return fillin_CoordinateSequence(ring.coords, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit)
+    return fillin_CoordinateSequence(
+        ring.coords,
+        fill,
+            debug = debug,
+        fillSpace = fillSpace,
+         ramLimit = ramLimit,
+    )

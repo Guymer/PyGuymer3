@@ -54,7 +54,13 @@ def clean_MultiPolygon(multipoly, kwArgCheck = None, debug = False, tol = 1.0e-1
     # Loop over Polygons ...
     for poly in multipoly.geoms:
         # Append cleaned Polygon to list ...
-        polys.append(clean_Polygon(poly, debug = debug, tol = tol))
+        polys.append(
+            clean_Polygon(
+                poly,
+                debug = debug,
+                  tol = tol,
+            )
+        )
 
     # Convert list of Polygons to a (unified) MultiPolygon ...
     cleans = shapely.ops.unary_union(polys)

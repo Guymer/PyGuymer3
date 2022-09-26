@@ -76,7 +76,19 @@ def buffer_MultiPolygon(multipoly, dist, kwArgCheck = None, debug = False, fill 
     # Loop over Polygons ...
     for poly in multipoly.geoms:
         # Append buffer of Polygon to list ...
-        buffs.append(buffer_Polygon(poly, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, ramLimit = ramLimit, simp = simp, tol = tol))
+        buffs.append(
+            buffer_Polygon(
+                poly,
+                dist,
+                    debug = debug,
+                     fill = fill,
+                fillSpace = fillSpace,
+                     nang = nang,
+                 ramLimit = ramLimit,
+                     simp = simp,
+                      tol = tol,
+            )
+        )
 
     # Convert list of [Multi]Polygons to a (unified) [Multi]Polygon ...
     buffs = shapely.ops.unary_union(buffs).simplify(tol)
@@ -86,7 +98,14 @@ def buffer_MultiPolygon(multipoly, dist, kwArgCheck = None, debug = False, fill 
     # Check if the user wants to fill in the [Multi]Polygon ...
     if simp < 0.0 < fill:
         # Fill in [Multi]Polygon ...
-        buffs = fillin(buffs, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit, tol = tol)
+        buffs = fillin(
+            buffs,
+            fill,
+                debug = debug,
+            fillSpace = fillSpace,
+             ramLimit = ramLimit,
+                  tol = tol,
+        )
         if debug:
             check(buffs)
 

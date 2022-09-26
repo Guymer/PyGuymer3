@@ -62,7 +62,15 @@ def fillin_MultiLineString(multiline, fill, kwArgCheck = None, debug = False, fi
     # Loop over LineStrings ...
     for line in multiline.geoms:
         # Append filled in LineString to list ...
-        lines.append(fillin_LineString(line, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit))
+        lines.append(
+            fillin_LineString(
+                line,
+                fill,
+                    debug = debug,
+                fillSpace = fillSpace,
+                 ramLimit = ramLimit,
+            )
+        )
 
     # Convert list of LineStrings to a MultiLineString ...
     fills = shapely.geometry.multilinestring.MultiLineString(lines)

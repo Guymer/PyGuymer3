@@ -46,4 +46,8 @@ def clean_LineString(line, kwArgCheck = None, debug = False, tol = 1.0e-10):
         raise TypeError("\"line\" is not a LineString") from None
 
     # Return cleaned LineString ...
-    return clean_CoordinateSequence(line.coords, debug = debug, tol = tol)
+    return clean_CoordinateSequence(
+        line.coords,
+        debug = debug,
+          tol = tol,
+    )

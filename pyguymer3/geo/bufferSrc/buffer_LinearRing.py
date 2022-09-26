@@ -68,4 +68,14 @@ def buffer_LinearRing(ring, dist, kwArgCheck = None, debug = False, fill = 1.0, 
         check(ring)
 
     # Return buffered LinearRing ...
-    return buffer_CoordinateSequence(ring.coords, dist, debug = debug, fill = fill, fillSpace = fillSpace, nang = nang, ramLimit = ramLimit, simp = simp, tol = tol)
+    return buffer_CoordinateSequence(
+        ring.coords,
+        dist,
+            debug = debug,
+             fill = fill,
+        fillSpace = fillSpace,
+             nang = nang,
+         ramLimit = ramLimit,
+             simp = simp,
+              tol = tol,
+    )

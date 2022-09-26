@@ -57,4 +57,10 @@ def fillin_LineString(line, fill, kwArgCheck = None, debug = False, fillSpace = 
         check(line)
 
     # Return filled in LineString ...
-    return fillin_CoordinateSequence(line.coords, fill, debug = debug, fillSpace = fillSpace, ramLimit = ramLimit)
+    return fillin_CoordinateSequence(
+        line.coords,
+        fill,
+            debug = debug,
+        fillSpace = fillSpace,
+         ramLimit = ramLimit,
+    )
