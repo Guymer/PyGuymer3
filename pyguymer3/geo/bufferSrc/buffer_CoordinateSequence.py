@@ -165,11 +165,8 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
         buffs += _points2polys(
             points1[ipoint, :],
             points2[ipoint, :, :],
-                debug = debug,
-                 fill = fill,
-            fillSpace = fillSpace,
-             ramLimit = ramLimit,
-                  tol = tol,
+            debug = debug,
+              tol = tol,
         )
 
     # Clean up ...

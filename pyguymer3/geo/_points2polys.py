@@ -1,4 +1,4 @@
-def _points2polys(point, points, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", ramLimit = 1073741824, tol = 1.0e-10):
+def _points2polys(point, points, kwArgCheck = None, debug = False, tol = 1.0e-10):
     """Convert a buffered point to a list of Polygons
 
     This function reads in a coordinate that exists on the surface of the Earth,
@@ -15,14 +15,6 @@ def _points2polys(point, points, kwArgCheck = None, debug = False, fill = 1.0, f
         coordinate (in degrees)
     debug : bool, optional
         print debug messages
-    fill : float, optional
-        the Euclidean or Geodetic distance to fill in between each point within
-        the shapes by (in degrees or metres)
-    fillSpace : str, optional
-        the geometric space to perform the filling in (either "EuclideanSpace"
-        or "GeodesicSpace")
-    ramLimit : int, optional
-        the maximum RAM usage of each "large" array, in bytes
     tol : float, optional
         the Euclidean distance that defines two points as being the same (in
         degrees)
@@ -57,7 +49,6 @@ def _points2polys(point, points, kwArgCheck = None, debug = False, fill = 1.0, f
 
     # Import sub-functions ...
     from .check import check
-    from .fillin import fillin
     from .wrapLongitude import wrapLongitude
     from ..interpolate import interpolate
 
@@ -244,19 +235,12 @@ def _points2polys(point, points, kwArgCheck = None, debug = False, fill = 1.0, f
         # Clean up ...
         del line
 
-        # Check if the user wants to fill in the Polygon ...
-        if fill > 0.0:
-            # Fill in Polygon ...
-            poly = fillin(
-                poly,
-                fill,
-                    debug = debug,
-                fillSpace = fillSpace,
-                 ramLimit = ramLimit,
-                      tol = tol,
-            )
-            if debug:
-                check(poly)
+        # NOTE: Do not call "fillin()" on the Polygon. If the user is calling
+        #       this function themselves, then they can also call "fillin()"
+        #       themselves. If this function is being called by
+        #       "buffer_CoordinateSequence()" then the result of
+        #       "shapely.ops.unary_union().simplify()" can be filled in instead
+        #       in that function.
 
         # Append Polygon to the list ...
         polys.append(poly)
