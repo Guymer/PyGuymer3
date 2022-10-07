@@ -28,11 +28,13 @@ def add_coastlines(axis, kwArgCheck = None, colorName = "black", debug = False, 
     * level; and
     * resolution.
 
-    There are four levels to choose from:
+    There are six levels to choose from:
     * boundary between land and ocean (1);
     * boundary between lake and land (2);
-    * boundary between island-in-lake and lake (3); and
-    * boundary between pond-in-island and island-in-lake (4).
+    * boundary between island-in-lake and lake (3);
+    * boundary between pond-in-island and island-in-lake (4);
+    * boundary between Antarctica ice and ocean (5); and
+    * boundary between Antarctica grounding-line and ocean (6).
 
     There are five resolutions to choose from:
     * crude ("c");
@@ -83,7 +85,7 @@ def add_coastlines(axis, kwArgCheck = None, colorName = "black", debug = False, 
     if debug:
         print(f"INFO: \"coastlines\" is \"{colorName}\", which is ({edgecolor[0]:.6f},{edgecolor[1]:.6f},{edgecolor[2]:.6f},{edgecolor[3]:.6f}).")
 
-    # Find Shapefile ...
+    # Find the Shapefile ...
     try:
         sfile = cartopy.io.shapereader.gshhs(
             level = level,
