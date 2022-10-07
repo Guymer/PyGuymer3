@@ -7,7 +7,6 @@ have written over the years.
 from ._add_antarcticIceShelves import _add_antarcticIceShelves
 from ._add_background import _add_background
 from ._add_bathymetry import _add_bathymetry
-from ._add_coastlines import _add_coastlines
 from ._add_elevation import _add_elevation
 from ._add_glaciatedAreas import _add_glaciatedAreas
 from ._add_lakes import _add_lakes
@@ -24,6 +23,7 @@ from ._debug import _debug
 from ._en2ll import _en2ll
 from ._ll2en import _ll2en
 from ._points2polys import _points2polys
+from .add_coastlines import add_coastlines
 from .add_horizontal_gridlines import add_horizontal_gridlines
 from .add_map_background import add_map_background
 from .add_map_underlay import add_map_underlay

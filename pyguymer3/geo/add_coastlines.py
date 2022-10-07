@@ -1,4 +1,4 @@
-def _add_coastlines(axis, kwArgCheck = None, debug = False, level = 1, linestyle = "solid", linewidth = 0.5, resolution = "c"):
+def add_coastlines(axis, kwArgCheck = None, colorName = "black", debug = False, level = 1, linestyle = "solid", linewidth = 0.5, resolution = "c"):
     """Add coastlines to an axis.
 
     This function adds coastline boundaries to a Cartopy axis. The resolution of
@@ -8,6 +8,8 @@ def _add_coastlines(axis, kwArgCheck = None, debug = False, level = 1, linestyle
     ----------
     axis : cartopy.mpl.geoaxes.GeoAxesSubplot
         the axis
+    colorName : str, optional
+        the CSS4 named colour to draw the coastline boundary with
     debug : bool, optional
         print debug messages
     level : int, optional
@@ -76,10 +78,10 @@ def _add_coastlines(axis, kwArgCheck = None, debug = False, level = 1, linestyle
 
     # **************************************************************************
 
-    # Create suitable colour ...
-    edgecolor = matplotlib.colors.to_rgba(matplotlib.colors.CSS4_COLORS["black"])
+    # Find the colour ...
+    edgecolor = matplotlib.colors.to_rgba(matplotlib.colors.CSS4_COLORS[colorName])
     if debug:
-        print(f"INFO: \"coastlines\" is ({edgecolor[0]:.6f},{edgecolor[1]:.6f},{edgecolor[2]:.6f},{edgecolor[3]:.6f}).")
+        print(f"INFO: \"coastlines\" is \"{colorName}\", which is ({edgecolor[0]:.6f},{edgecolor[1]:.6f},{edgecolor[2]:.6f},{edgecolor[3]:.6f}).")
 
     # Find Shapefile ...
     try:
