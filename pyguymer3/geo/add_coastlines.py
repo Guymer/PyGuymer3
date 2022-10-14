@@ -25,10 +25,12 @@ def add_coastlines(axis, kwArgCheck = None, colorName = "black", debug = False, 
     -----
     There are two arguments relating to the Global Self-Consistent Hierarchical
     High-Resolution Geography dataset [1]_ :
-    * level; and
-    * resolution.
+
+    * *level*; and
+    * *resolution*.
 
     There are six levels to choose from:
+
     * boundary between land and ocean (1);
     * boundary between lake and land (2);
     * boundary between island-in-lake and lake (3);
@@ -37,6 +39,7 @@ def add_coastlines(axis, kwArgCheck = None, colorName = "black", debug = False, 
     * boundary between Antarctica grounding-line and ocean (6).
 
     There are five resolutions to choose from:
+
     * crude ("c");
     * low ("l");
     * intermediate ("i");
