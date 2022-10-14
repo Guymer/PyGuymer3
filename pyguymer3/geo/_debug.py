@@ -17,14 +17,25 @@ def _debug(badGeoms, kwArgCheck = None, prefix = "."):
 
     # Import sub-functions ...
     from .extract_lines import extract_lines
+    from .extract_points import extract_points
     from .extract_polys import extract_polys
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
         print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
+    # Loop over all the bad Points in this [Multi]Point ...
+    for i, badGeom in enumerate(extract_points(badGeoms, keepInvalid = True)):
+        # Open output file ...
+        print(f"ERROR: Writing \"debug{prefix}Point{i:d}.csv\" ...")
+        with open(f"debug{prefix}Point{i:d}.csv", "wt", encoding = "utf-8") as fobj:
+            # Loop over bad coordinates of this bad Point ...
+            for badCoord in badGeom.coords:
+                # Write output ...
+                fobj.write(f"{badCoord[0]:.15e},{badCoord[1]:.15e}\n")
+
     # Loop over all the bad LineStrings in this [Multi]LineString ...
-    for i, badGeom in enumerate(extract_lines(badGeoms)):
+    for i, badGeom in enumerate(extract_lines(badGeoms, keepInvalid = True)):
         # Open output file ...
         print(f"ERROR: Writing \"debug{prefix}LineString{i:d}.csv\" ...")
         with open(f"debug{prefix}LineString{i:d}.csv", "wt", encoding = "utf-8") as fobj:
@@ -34,7 +45,7 @@ def _debug(badGeoms, kwArgCheck = None, prefix = "."):
                 fobj.write(f"{badCoord[0]:.15e},{badCoord[1]:.15e}\n")
 
     # Loop over all the bad Polygons in this [Multi]Polygon ...
-    for i, badGeom in enumerate(extract_polys(badGeoms)):
+    for i, badGeom in enumerate(extract_polys(badGeoms, keepInvalid = True)):
         # Open output file ...
         print(f"ERROR: Writing \"debug{prefix}Polygon{i:d}.exterior.csv\" ...")
         with open(f"debug{prefix}Polygon{i:d}.exterior.csv", "wt", encoding = "utf-8") as fobj:
