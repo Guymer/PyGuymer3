@@ -99,8 +99,6 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     # Check inputs ...
     if dist < 10.0:
         raise Exception(f"the buffering distance is too small ({dist:,.1f}m < {10.0:,.1f}m)") from None
-    if dist > 10001500.0:
-        raise Exception(f"the buffering distance is too large ({dist:,.1f}m > {10001500.0:,.1f}m)") from None
     if nang < 9:
         raise Exception(f"the number of angles is too small ({nang:,d} < {9:,d})") from None
     if nang % 2 == 0:
@@ -166,6 +164,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
             points1[ipoint, :],
             points2[ipoint, :, :],
             debug = debug,
+             huge = dist > 10001500.0,
               tol = tol,
         )
 

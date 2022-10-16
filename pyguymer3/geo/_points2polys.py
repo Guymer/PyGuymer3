@@ -1,4 +1,4 @@
-def _points2polys(point, points, kwArgCheck = None, debug = False, tol = 1.0e-10):
+def _points2polys(point, points, kwArgCheck = None, debug = False, huge = False, tol = 1.0e-10):
     """Convert a buffered point to a list of Polygons
 
     This function reads in a coordinate that exists on the surface of the Earth,
@@ -15,6 +15,10 @@ def _points2polys(point, points, kwArgCheck = None, debug = False, tol = 1.0e-10
         coordinate (in degrees)
     debug : bool, optional
         print debug messages
+    huge : bool, optional
+        if the buffering distance was huge then the points can be turned into a
+        Polygon very easily (as they will definitely cross the [anti-]meridian
+        and a Pole)
     tol : float, optional
         the Euclidean distance that defines two points as being the same (in
         degrees)
@@ -68,6 +72,78 @@ def _points2polys(point, points, kwArgCheck = None, debug = False, tol = 1.0e-10
     nang = points.shape[0]
     mang = (nang - 1) // 2
 
+    # **************************************************************************
+
+    # Check if the user promises that the ring is huge ...
+    if huge:
+        # Find the keys that index the points from West to East (taking care not
+        # to add a duplicate point) ...
+        keys = points[:-1, 0].argsort()
+
+        # Find the latitude of the [anti-]meridian crossing ...
+        latCross = interpolate(
+            points[keys[0], 0],
+            points[keys[-1], 0] - 360.0,
+            points[keys[0], 1],
+            points[keys[-1], 1],
+            -180.0,
+        )                                                                       # [°]
+
+        # Initialize list which will hold the ring ...
+        ring = []
+
+        # Add point before the crossing ...
+        ring.append((-180.0, latCross))
+
+        # Loop over points ...
+        for iang in range(nang - 1):
+            # Add point ...
+            ring.append((points[keys[iang], 0], points[keys[iang], 1]))
+
+        # Add point after the crossing ...
+        ring.append((+180.0, latCross))
+
+        # Clean up ...
+        del keys
+
+        # Determine if the ring is around a point in the Northern hemisphere ...
+        if point[1] > 0.0:
+            # Add points around the North Pole ...
+            ring.append((+180.0, +90.0))
+            ring.append((-180.0, +90.0))
+        else:
+            # Add points around the South Pole ...
+            ring.append((+180.0, -90.0))
+            ring.append((-180.0, -90.0))
+
+        # Make a LinearRing out of the ring ...
+        line = shapely.geometry.polygon.LinearRing(ring)
+        if debug:
+            check(line)
+
+        # Clean up ...
+        del ring
+
+        # Make a correctly oriented Polygon out of this LinearRing ...
+        poly = shapely.geometry.polygon.orient(shapely.geometry.polygon.Polygon(line))
+        if debug:
+            check(poly)
+
+        # Clean up ...
+        del line
+
+        # NOTE: Do not call "fillin()" on the Polygon. If the user is calling
+        #       this function themselves, then they can also call "fillin()"
+        #       themselves. If this function is being called by
+        #       "buffer_CoordinateSequence()" then the result of
+        #       "shapely.ops.unary_union().simplify()" can be filled in instead
+        #       in that function.
+
+        # Return answer ...
+        return [poly]
+
+    # **************************************************************************
+
     # Determine if the ring crosses the North Pole ...
     if (wrapLongitude(point[0]) - tol) < wrapLongitude(points[0, 0]) < (wrapLongitude(point[0]) + tol):
         crossNorthPole = False
@@ -111,11 +187,23 @@ def _points2polys(point, points, kwArgCheck = None, debug = False, tol = 1.0e-10
             if points[iang + 1, 0] < points[iang, 0]:
                 # Set the longitude and find the latitude of the crossing ...
                 lonCross = +180.0                                               # [°]
-                latCross = interpolate(points[iang, 0], points[iang + 1, 0] + 360.0, points[iang, 1], points[iang + 1, 1], lonCross)    # [°]
+                latCross = interpolate(
+                    points[iang, 0],
+                    points[iang + 1, 0] + 360.0,
+                    points[iang, 1],
+                    points[iang + 1, 1],
+                    lonCross,
+                )                                                               # [°]
             else:
                 # Set the longitude and find the latitude of the crossing ...
                 lonCross = -180.0                                               # [°]
-                latCross = interpolate(points[iang, 0], points[iang + 1, 0] - 360.0, points[iang, 1], points[iang + 1, 1], lonCross)    # [°]
+                latCross = interpolate(
+                    points[iang, 0],
+                    points[iang + 1, 0] - 360.0,
+                    points[iang, 1],
+                    points[iang + 1, 1],
+                    lonCross,
+                )                                                               # [°]
 
             # Add points before the crossing (taking care not to add duplicate
             # points) ...
