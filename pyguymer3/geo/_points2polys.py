@@ -18,7 +18,9 @@ def _points2polys(point, points, kwArgCheck = None, debug = False, huge = False,
     huge : bool, optional
         if the buffering distance was huge then the points can be turned into a
         Polygon very easily (as they will definitely cross the [anti-]meridian
-        and a Pole)
+        and a Pole) -- this will fail if the buffering distance, in conjunction
+        with the coordinate that is buffered, results in a ring which crosses
+        *both* Poles!
     tol : float, optional
         the Euclidean distance that defines two points as being the same (in
         degrees)
