@@ -18,6 +18,7 @@ from ._add_reefs import _add_reefs
 from ._add_rivers import _add_rivers
 from ._add_roads import _add_roads
 from ._add_urbanAreas import _add_urbanAreas
+from ._area import _area
 from ._buffer_points_crudely import _buffer_points_crudely
 from ._debug import _debug
 from ._en2ll import _en2ll
@@ -28,6 +29,7 @@ from .add_horizontal_gridlines import add_horizontal_gridlines
 from .add_map_background import add_map_background
 from .add_map_underlay import add_map_underlay
 from .add_vertical_gridlines import add_vertical_gridlines
+from .area import area
 from .buffer import buffer
 from .calc_angle_between_two_locs import calc_angle_between_two_locs
 from .calc_dist_between_two_locs import calc_dist_between_two_locs
