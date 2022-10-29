@@ -46,6 +46,19 @@ def extract_polys(shape, kwArgCheck = None, keepInvalid = False):
     # **************************************************************************
 
     # Check type ...
+    if isinstance(shape, list):
+        # Initialize list ...
+        polys = []
+
+        # Loop over items ...
+        for item in shape:
+            # Add lists together ...
+            polys += extract_polys(item, keepInvalid = keepInvalid)
+
+        # Return answer ...
+        return polys
+
+    # Check type ...
     if isinstance(shape, shapely.geometry.point.Point):
         return []
 

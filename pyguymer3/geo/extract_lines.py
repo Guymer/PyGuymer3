@@ -43,6 +43,19 @@ def extract_lines(shape, kwArgCheck = None, keepInvalid = False):
     # **************************************************************************
 
     # Check type ...
+    if isinstance(shape, list):
+        # Initialize list ...
+        lines = []
+
+        # Loop over items ...
+        for item in shape:
+            # Add lists together ...
+            lines += extract_lines(item, keepInvalid = keepInvalid)
+
+        # Return answer ...
+        return lines
+
+    # Check type ...
     if isinstance(shape, shapely.geometry.point.Point):
         return []
 
