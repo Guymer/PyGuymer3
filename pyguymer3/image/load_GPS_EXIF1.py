@@ -14,6 +14,11 @@ def load_GPS_EXIF1(fname):
     except:
         raise Exception("\"exifread\" is not installed; run \"pip install --user ExifRead\"") from None
 
+    # Create short-hands ...
+    radiusOfEarth = 6371008.8                                                   # [m]
+    circumOfEarth = 2.0 * math.pi * radiusOfEarth                               # [m]
+    resoluOfEarth = circumOfEarth / 360.0                                       # [m/°]
+
     # Create default dictionary answer ...
     ans = {}
 
@@ -149,13 +154,8 @@ def load_GPS_EXIF1(fname):
                 # NOTE: The longitude and latitude precisions are added in
                 #       quadrature and then multiplied by the dilution of
                 #       precision to give an estimate of the error, in degrees.
-                #       The error is then divided by 360 to convert it to a
-                #       fraction around a circle. Assuming the Earth is a
-                #       perfect sphere then the fraction can be converted to a
-                #       distance around its circumference.
                 ans["loc_err"] = ans["dop"] * math.hypot(ans["lon_prec"], ans["lat_prec"])                                  # [°]
-                ans["loc_err"] /= 360.0                                                                                     # [frac]
-                ans["loc_err"] *= 2.0 * math.pi * 6371008.8                                                                 # [m]
+                ans["loc_err"] *= resoluOfEarth                                                                             # [m]
 
                 # Estimate the time error ...
                 # NOTE: The time precision is multiplied by the dilution of
