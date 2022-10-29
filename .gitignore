@@ -28,3 +28,5 @@ tests/*.mp4
 tests/*.webp
 tests/animateBufferPoint/*.geojson
 tests/animateBufferPoint/*.png
+tests/animateExpandPoint/*.geojson
+tests/animateExpandPoint/*.png
