@@ -18,9 +18,7 @@ def _points2polys(point, points, kwArgCheck = None, debug = False, huge = False,
     huge : bool, optional
         if the buffering distance was huge then the points can be turned into a
         Polygon very easily (as they will definitely cross the [anti-]meridian
-        and a Pole) -- this will fail if the buffering distance, in conjunction
-        with the coordinate that is buffered, results in a ring which crosses
-        *both* Poles!
+        and a Pole)
     tol : float, optional
         the Euclidean distance that defines two points as being the same (in
         degrees)
@@ -74,10 +72,25 @@ def _points2polys(point, points, kwArgCheck = None, debug = False, huge = False,
     nang = points.shape[0]
     mang = (nang - 1) // 2
 
+    # Determine if the ring crosses the North Pole ...
+    if (wrapLongitude(point[0]) - tol) < wrapLongitude(points[0, 0]) < (wrapLongitude(point[0]) + tol):
+        crossNorthPole = False
+    else:
+        crossNorthPole = True
+
+    # Determine if the ring crosses the South Pole ...
+    if (wrapLongitude(point[0]) - tol) < wrapLongitude(points[mang, 0]) < (wrapLongitude(point[0]) + tol):
+        crossSouthPole = False
+    else:
+        crossSouthPole = True
+
+    # Determine if the ring crosses both poles ...
+    crossBothPoles = crossNorthPole and crossSouthPole
+
     # **************************************************************************
 
     # Check if the user promises that the ring is huge ...
-    if huge:
+    if huge and not crossBothPoles:
         # Find the keys that index the points from West to East (taking care not
         # to add a duplicate point) ...
         keys = points[:-1, 0].argsort()
@@ -146,20 +159,6 @@ def _points2polys(point, points, kwArgCheck = None, debug = False, huge = False,
 
     # **************************************************************************
 
-    # Determine if the ring crosses the North Pole ...
-    if (wrapLongitude(point[0]) - tol) < wrapLongitude(points[0, 0]) < (wrapLongitude(point[0]) + tol):
-        crossNorthPole = False
-    else:
-        crossNorthPole = True
-
-    # Determine if the ring crosses the South Pole ...
-    if (wrapLongitude(point[0]) - tol) < wrapLongitude(points[mang, 0]) < (wrapLongitude(point[0]) + tol):
-        crossSouthPole = False
-    else:
-        crossSouthPole = True
-
-    # **************************************************************************
-
     # Calculate the Euclidean distances between each point on the ring ...
     dists = numpy.hypot(numpy.diff(points[:, 0]), numpy.diff(points[:, 1]))     # [°]
 
@@ -169,11 +168,11 @@ def _points2polys(point, points, kwArgCheck = None, debug = False, huge = False,
     iring = 0
 
     # Populate the start of the ring (taking care not to add duplicate points) ...
-    if crossNorthPole:
+    if crossNorthPole and not crossSouthPole:
         point = (points[0, 0], +90.0)
         if point not in rings[iring]:
             rings[iring].append(point)
-    if crossSouthPole:
+    if crossSouthPole and not crossNorthPole:
         point = (points[0, 0], -90.0)
         if point not in rings[iring]:
             rings[iring].append(point)
@@ -212,11 +211,11 @@ def _points2polys(point, points, kwArgCheck = None, debug = False, huge = False,
             point = (lonCross, latCross)
             if point not in rings[iring]:
                 rings[iring].append(point)
-            if crossNorthPole:
+            if crossNorthPole and not crossSouthPole:
                 point = (lonCross, +90.0)
                 if point not in rings[iring]:
                     rings[iring].append(point)
-            if crossSouthPole:
+            if crossSouthPole and not crossNorthPole:
                 point = (lonCross, -90.0)
                 if point not in rings[iring]:
                     rings[iring].append(point)
@@ -226,11 +225,11 @@ def _points2polys(point, points, kwArgCheck = None, debug = False, huge = False,
 
             # Add points after the crossing (taking care not to add duplicate
             # points) ...
-            if crossNorthPole:
+            if crossNorthPole and not crossSouthPole:
                 point = (-lonCross, +90.0)
                 if point not in rings[iring]:
                     rings[iring].append(point)
-            if crossSouthPole:
+            if crossSouthPole and not crossNorthPole:
                 point = (-lonCross, -90.0)
                 if point not in rings[iring]:
                     rings[iring].append(point)
@@ -244,11 +243,11 @@ def _points2polys(point, points, kwArgCheck = None, debug = False, huge = False,
             rings[iring].append(point)
 
     # Populate the end of the ring (taking care not to add duplicate points) ...
-    if crossNorthPole:
+    if crossNorthPole and not crossSouthPole:
         point = (points[-1, 0], +90.0)
         if point not in rings[iring]:
             rings[iring].append(point)
-    if crossSouthPole:
+    if crossSouthPole and not crossNorthPole:
         point = (points[-1, 0], -90.0)
         if point not in rings[iring]:
             rings[iring].append(point)
@@ -258,8 +257,8 @@ def _points2polys(point, points, kwArgCheck = None, debug = False, huge = False,
 
     # **************************************************************************
 
-    # Initialize list which will hold the two Polygons ...
-    polys = []
+    # Initialize list which will hold the two LinearRings ...
+    lines = []
 
     # Loop over rings ...
     for ring in rings:
@@ -317,13 +316,53 @@ def _points2polys(point, points, kwArgCheck = None, debug = False, huge = False,
         # Clean up ...
         del cleanedRing
 
-        # Make a correctly oriented Polygon out of this LinearRing ...
-        poly = shapely.geometry.polygon.orient(shapely.geometry.polygon.Polygon(line))
+        # Append LinearRing to the list ...
+        lines.append(line)
+
+    # **************************************************************************
+
+    # Check if the LinearRings are holes in a larger Polygon ...
+    if crossBothPoles:
+        # Make a LinearRing ...
+        full = shapely.geometry.polygon.LinearRing(
+            [
+                (-180.0,  90.0),
+                (+180.0,  90.0),
+                (+180.0, -90.0),
+                (-180.0, -90.0),
+                (-180.0,  90.0),
+            ]
+        )
+        if debug:
+            check(full)
+
+        # Make a correctly oriented Polygon out of this LinearRing and the holes ...
+        poly = shapely.geometry.polygon.orient(shapely.geometry.polygon.Polygon(full, lines))
         if debug:
             check(poly)
 
         # Clean up ...
-        del line
+        del lines, full
+
+        # NOTE: Do not call "fillin()" on the Polygon. If the user is calling
+        #       this function themselves, then they can also call "fillin()"
+        #       themselves. If this function is being called by
+        #       "buffer_CoordinateSequence()" then the result of
+        #       "shapely.ops.unary_union().simplify()" can be filled in instead
+        #       in that function.
+
+        # Return answer ...
+        return [poly]
+
+    # Initialize list which will hold the two Polygons ...
+    polys = []
+
+    # Loop over LinearRings ...
+    for line in lines:
+        # Make a correctly oriented Polygon out of this LinearRing ...
+        poly = shapely.geometry.polygon.orient(shapely.geometry.polygon.Polygon(line))
+        if debug:
+            check(poly)
 
         # NOTE: Do not call "fillin()" on the Polygon. If the user is calling
         #       this function themselves, then they can also call "fillin()"
@@ -334,6 +373,9 @@ def _points2polys(point, points, kwArgCheck = None, debug = False, huge = False,
 
         # Append Polygon to the list ...
         polys.append(poly)
+
+    # Clean up ...
+    del lines
 
     # Return answer ...
     return polys
