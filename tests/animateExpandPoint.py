@@ -70,7 +70,7 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Loop over distances ...
-    for dist in range(100, 20100, 100):
+    for dist in range(100, 20000, 100):
         # Determine file names ...
         fname = f"animateExpandPoint/dist={dist:05d}.png"
         jname = f"animateExpandPoint/dist={dist:05d}.geojson"
@@ -234,7 +234,7 @@ if __name__ == "__main__":
     frames = []
 
     # Loop over distances ...
-    for dist in range(100, 20100, 100):
+    for dist in range(100, 20000, 100):
         # Determine file name ...
         frame = f"animateExpandPoint/dist={dist:05d}.png"
 
