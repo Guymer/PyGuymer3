@@ -257,8 +257,8 @@ def _points2polys(point, points, kwArgCheck = None, debug = False, huge = False,
 
     # **************************************************************************
 
-    # Initialize list which will hold the two LinearRings ...
-    lines = []
+    # Initialize list which will hold the two Polygons ...
+    polys = []
 
     # Loop over rings ...
     for ring in rings:
@@ -316,53 +316,13 @@ def _points2polys(point, points, kwArgCheck = None, debug = False, huge = False,
         # Clean up ...
         del cleanedRing
 
-        # Append LinearRing to the list ...
-        lines.append(line)
-
-    # **************************************************************************
-
-    # Check if the LinearRings are holes in a larger Polygon ...
-    if crossBothPoles:
-        # Make a LinearRing ...
-        full = shapely.geometry.polygon.LinearRing(
-            [
-                (-180.0,  90.0),
-                (+180.0,  90.0),
-                (+180.0, -90.0),
-                (-180.0, -90.0),
-                (-180.0,  90.0),
-            ]
-        )
-        if debug:
-            check(full)
-
-        # Make a correctly oriented Polygon out of this LinearRing and the holes ...
-        poly = shapely.geometry.polygon.orient(shapely.geometry.polygon.Polygon(full, lines))
-        if debug:
-            check(poly)
-
-        # Clean up ...
-        del lines, full
-
-        # NOTE: Do not call "fillin()" on the Polygon. If the user is calling
-        #       this function themselves, then they can also call "fillin()"
-        #       themselves. If this function is being called by
-        #       "buffer_CoordinateSequence()" then the result of
-        #       "shapely.ops.unary_union().simplify()" can be filled in instead
-        #       in that function.
-
-        # Return answer ...
-        return [poly]
-
-    # Initialize list which will hold the two Polygons ...
-    polys = []
-
-    # Loop over LinearRings ...
-    for line in lines:
         # Make a correctly oriented Polygon out of this LinearRing ...
         poly = shapely.geometry.polygon.orient(shapely.geometry.polygon.Polygon(line))
         if debug:
             check(poly)
+
+        # Clean up ...
+        del line
 
         # NOTE: Do not call "fillin()" on the Polygon. If the user is calling
         #       this function themselves, then they can also call "fillin()"
@@ -374,8 +334,37 @@ def _points2polys(point, points, kwArgCheck = None, debug = False, huge = False,
         # Append Polygon to the list ...
         polys.append(poly)
 
-    # Clean up ...
-    del lines
+    # **************************************************************************
+
+    # Check if the two Polygons are holes in a larger Polygon ...
+    if crossBothPoles:
+        # Make a correctly oriented Polygon of the planet ...
+        earth = shapely.geometry.polygon.orient(
+            shapely.geometry.polygon.Polygon(
+                shapely.geometry.polygon.LinearRing(
+                    [
+                        (-180.0,  90.0),
+                        (+180.0,  90.0),
+                        (+180.0, -90.0),
+                        (-180.0, -90.0),
+                        (-180.0,  90.0),
+                    ]
+                )
+            )
+        )
+        if debug:
+            check(earth)
+
+        # Loop over Polygons ...
+        for poly in polys:
+            # Subtract this Polygon from the planet ...
+            earth = earth.difference(poly)
+
+        # Clean up ...
+        del polys
+
+        # Return answer ...
+        return [earth]
 
     # Return answer ...
     return polys
