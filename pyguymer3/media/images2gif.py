@@ -1,4 +1,4 @@
-def images2gif(imgs, gif, kwArgCheck = None, debug = False, fps = 25.0, mode = "RGB", optimize = True, strip = False):
+def images2gif(imgs, gif, kwArgCheck = None, debug = False, fps = 25.0, mode = "RGB", optimize = True, screenHeight = -1, screenWidth = -1, strip = False):
     """Convert a sequence of images to a GIF animation.
 
     This function makes a GIF animation from either a list of PIL Images or a
@@ -18,6 +18,14 @@ def images2gif(imgs, gif, kwArgCheck = None, debug = False, fps = 25.0, mode = "
         the mode of the outout GIF (default "RGB")
     optimize : bool, optional
         optimize the output GIF (default True)
+    screenHeight : int, optional
+        the height of the screen to downscale the input images to fit within,
+        currently only implemented if "imgs" is a list of str (default -1;
+        integers less than 100 imply no downscaling)
+    screenWidth : int, optional
+        the width of the screen to downscale the input images to fit within,
+        currently only implemented if "imgs" is a list of str (default -1;
+        integers less than 100 imply no downscaling)
     strip : bool, optional
         strip metadata from the output GIF (default False)
 
@@ -47,6 +55,8 @@ def images2gif(imgs, gif, kwArgCheck = None, debug = False, fps = 25.0, mode = "
     # Configure PIL to open images up to 1 GiP ...
     PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                             # [px]
 
+    # **************************************************************************
+
     # Initialize list ...
     tmpImgs = []
 
@@ -58,7 +68,16 @@ def images2gif(imgs, gif, kwArgCheck = None, debug = False, fps = 25.0, mode = "
             with PIL.Image.open(img) as iObj:
                 tmpImg = iObj.convert("RGB")
 
-            # Convert it to whatever mode the user asked for ...
+            # Check if the user wants to scale the image down to fit within a
+            # screen size ...
+            if screenWidth >= 100 and screenHeight >= 100:
+                # Resize the image in place ...
+                tmpImg.thumbnail(
+                    (screenWidth, screenHeight),
+                    resample = PIL.Image.Resampling.LANCZOS,
+                )
+
+            # Convert image to whatever mode the user asked for ...
             tmpImgs.append(tmpImg.convert(mode))
         elif isinstance(img, PIL.Image.Image):
             # Convert image to whatever mode the user asked for ...
