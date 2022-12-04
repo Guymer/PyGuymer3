@@ -1,4 +1,4 @@
-def perms(path, kwArgCheck = None, debug = False, filePerms = None, folderPerms = None, group = None, user = None, follow_symlinks = True, return_symlinks = False, skips = []):
+def perms(path, kwArgCheck = None, debug = False, filePerms = None, folderPerms = None, follow_symlinks = True, group = None, return_symlinks = False, skips = [], user = None):
     """Set permissions within a path.
 
     This function sets the file/folder mode and group/user owner of all files

@@ -1,4 +1,4 @@
-def return_ISO_palette(fname, kwArgCheck = None, usr_track = -1, errors = "replace"):
+def return_ISO_palette(fname, kwArgCheck = None, errors = "replace", usr_track = -1):
     # Import standard modules ...
     import html
     import shutil

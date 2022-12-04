@@ -1,4 +1,4 @@
-def return_video_rotation(fname, kwArgCheck = None, playlist = -1, debug = False):
+def return_video_rotation(fname, kwArgCheck = None, debug = False, playlist = -1):
     # Import sub-functions ...
     from .__ffprobe__ import __ffprobe__
     from .ffprobe import ffprobe
@@ -12,7 +12,7 @@ def return_video_rotation(fname, kwArgCheck = None, playlist = -1, debug = False
         __ffprobe__[fname] = {}
     if playlist not in __ffprobe__[fname]:
         if debug:
-            print("INFO: Running ffprobe(\"{:s}\", {:d}) ...".format(fname, playlist))
+            print(f"INFO: Running ffprobe(\"{fname}\", {playlist:d}) ...")
         __ffprobe__[fname][playlist] = ffprobe(fname, playlist = playlist)
 
     # Loop over streams ...

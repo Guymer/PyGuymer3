@@ -1,4 +1,4 @@
-def return_video_crop_parameters(fname, kwArgCheck = None, playlist = -1, dt = 2.0):
+def return_video_crop_parameters(fname, kwArgCheck = None, dt = 2.0, playlist = -1):
     # Import standard modules ...
     import shutil
     import subprocess

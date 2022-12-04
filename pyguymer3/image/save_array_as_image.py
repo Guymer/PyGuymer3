@@ -1,4 +1,4 @@
-def save_array_as_image(img0, fname, kwArgCheck = None, form = "png", scale = False, pc_bot = 0.0, pc_top = 0.0, ct = "grey"):
+def save_array_as_image(img0, fname, kwArgCheck = None, ct = "grey", form = "png", pc_bot = 0.0, pc_top = 0.0, scale = False):
     """Save an array as an image
 
     This function accepts a NumPy array, with optional scaling and/or colour

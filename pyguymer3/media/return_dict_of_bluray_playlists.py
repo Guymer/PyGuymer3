@@ -1,4 +1,4 @@
-def return_dict_of_bluray_playlists(dname, kwArgCheck = None, size_threshold = 1073741824, time_threshold = 60.0, debug = False):
+def return_dict_of_bluray_playlists(dname, kwArgCheck = None, debug = False, size_threshold = 1073741824, time_threshold = 60.0):
     # Import standard modules ...
     import glob
     import os
@@ -28,7 +28,7 @@ def return_dict_of_bluray_playlists(dname, kwArgCheck = None, size_threshold = 1
             __ffprobe__[fname] = {}
         if playlist not in __ffprobe__[fname]:
             if debug:
-                print("INFO: Running ffprobe(\"{:s}\", {:d}) ...".format(fname, playlist))
+                print(f"INFO: Running ffprobe(\"{fname}\", {playlist:d}) ...")
             __ffprobe__[fname][playlist] = ffprobe(fname, playlist = playlist)
 
         # Append information if this playlist is worthwhile (by default,

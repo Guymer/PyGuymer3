@@ -1,4 +1,4 @@
-def add_map_background(axis, kwArgCheck = None, debug = False, name = "natural-earth-1", resolution = "medium0512px", extent = None):
+def add_map_background(axis, kwArgCheck = None, debug = False, extent = None, name = "natural-earth-1", resolution = "medium0512px"):
     """Add an image of a map as a background to a plot.
 
     Parameters

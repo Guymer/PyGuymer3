@@ -1,4 +1,4 @@
-def return_audio_bit_rate(fname, kwArgCheck = None, playlist = -1, debug = False):
+def return_audio_bit_rate(fname, kwArgCheck = None, debug = False, playlist = -1):
     """
     Return the bit rate of the first audio stream in the media file.
     """
@@ -16,7 +16,7 @@ def return_audio_bit_rate(fname, kwArgCheck = None, playlist = -1, debug = False
         __ffprobe__[fname] = {}
     if playlist not in __ffprobe__[fname]:
         if debug:
-            print("INFO: Running ffprobe(\"{:s}\", {:d}) ...".format(fname, playlist))
+            print(f"INFO: Running ffprobe(\"{fname}\", {playlist:d}) ...")
         __ffprobe__[fname][playlist] = ffprobe(fname, playlist = playlist)
 
     # Loop over streams ...
