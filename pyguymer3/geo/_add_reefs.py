@@ -1,4 +1,4 @@
-def _add_reefs(axis, kwArgCheck = None, debug = False, linestyle = "solid", linewidth = 0.5, resolution = "110m"):
+def _add_reefs(axis, kwArgCheck = None, debug = False, keepInvalid = False, linestyle = "solid", linewidth = 0.5, resolution = "110m"):
     # NOTE: This function uses CSS4 named colours, see:
     #         * https://matplotlib.org/stable/gallery/color/named_colors.html
 
@@ -46,7 +46,7 @@ def _add_reefs(axis, kwArgCheck = None, debug = False, linestyle = "solid", line
     for record in cartopy.io.shapereader.Reader(sfile).records():
         # Plot geometry ...
         axis.add_geometries(
-            extract_polys(record.geometry),
+            extract_polys(record.geometry, keepInvalid = keepInvalid),
             cartopy.crs.PlateCarree(),
             edgecolor = edgecolor,
             facecolor = facecolor,

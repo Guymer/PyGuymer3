@@ -1,4 +1,4 @@
-def add_coastlines(axis, kwArgCheck = None, colorName = "black", debug = False, level = 1, linestyle = "solid", linewidth = 0.5, resolution = "c"):
+def add_coastlines(axis, kwArgCheck = None, colorName = "black", debug = False, keepInvalid = False, level = 1, linestyle = "solid", linewidth = 0.5, resolution = "c"):
     """Add coastlines to an axis.
 
     This function adds coastline boundaries to a Cartopy axis. The resolution of
@@ -99,7 +99,7 @@ def add_coastlines(axis, kwArgCheck = None, colorName = "black", debug = False, 
     # Loop over records ...
     for record in cartopy.io.shapereader.Reader(sfile).records():
         # Add Polygons to the list ...
-        polys += extract_polys(record.geometry)
+        polys += extract_polys(record.geometry, keepInvalid = keepInvalid)
 
     # Plot geometry ...
     axis.add_geometries(

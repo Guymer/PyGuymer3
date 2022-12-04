@@ -1,4 +1,4 @@
-def add_map_underlay(axis, kwArgCheck = None, background = True, cultural = True, debug = False, linestyle = "solid", linewidth = 0.5, maxElev = 8850.0, physical = True, resolution = "110m"):
+def add_map_underlay(axis, kwArgCheck = None, background = True, cultural = True, debug = False, keepInvalid = False, linestyle = "solid", linewidth = 0.5, maxElev = 8850.0, physical = True, resolution = "110m"):
     # Import sub-functions ...
     from ._add_antarcticIceShelves import _add_antarcticIceShelves
     from ._add_background import _add_background
@@ -29,34 +29,34 @@ def add_map_underlay(axis, kwArgCheck = None, background = True, cultural = True
     # Add physical Polygon datasets ...
     if physical:
         # Water ...
-        _add_bathymetry(axis, debug = debug, resolution = resolution)
+        _add_bathymetry(axis, debug = debug, keepInvalid = keepInvalid, resolution = resolution)
 
         # Water overlays ...
-        _add_antarcticIceShelves(axis, debug = debug, resolution = resolution)
-        _add_reefs(axis, debug = debug, linestyle = linestyle, linewidth = linewidth, resolution = resolution)
+        _add_antarcticIceShelves(axis, debug = debug, keepInvalid = keepInvalid, resolution = resolution)
+        _add_reefs(axis, debug = debug, keepInvalid = keepInvalid, linestyle = linestyle, linewidth = linewidth, resolution = resolution)
 
         # Land ...
-        _add_land(axis, debug = debug, resolution = resolution)
-        _add_minorIslands(axis, debug = debug, resolution = resolution)
-        _add_elevation(axis, debug = debug, maxElev = maxElev, resolution = resolution)
+        _add_land(axis, debug = debug, keepInvalid = keepInvalid, resolution = resolution)
+        _add_minorIslands(axis, debug = debug, keepInvalid = keepInvalid, resolution = resolution)
+        _add_elevation(axis, debug = debug, keepInvalid = keepInvalid, maxElev = maxElev, resolution = resolution)
 
         # Land overlays ...
-        _add_glaciatedAreas(axis, debug = debug, resolution = resolution)
-        _add_lakes(axis, debug = debug, resolution = resolution)
-        _add_playas(axis, debug = debug, linestyle = linestyle, linewidth = linewidth, resolution = resolution)
+        _add_glaciatedAreas(axis, debug = debug, keepInvalid = keepInvalid, resolution = resolution)
+        _add_lakes(axis, debug = debug, keepInvalid = keepInvalid, resolution = resolution)
+        _add_playas(axis, debug = debug, keepInvalid = keepInvalid, linestyle = linestyle, linewidth = linewidth, resolution = resolution)
 
     # Add cultural Polygon datasets ...
     if cultural:
         # Land ...
-        _add_urbanAreas(axis, debug = debug, resolution = resolution)
+        _add_urbanAreas(axis, debug = debug, keepInvalid = keepInvalid, resolution = resolution)
 
     # Add physical LineString datasets ...
     if physical:
         # Land overlays ...
-        _add_rivers(axis, debug = debug, linestyle = linestyle, linewidth = linewidth, resolution = resolution)
+        _add_rivers(axis, debug = debug, keepInvalid = keepInvalid, linestyle = linestyle, linewidth = linewidth, resolution = resolution)
 
     # Add cultural LineString datasets ...
     if cultural:
         # Land overlays ...
-        _add_railroads(axis, debug = debug, resolution = resolution)
-        _add_roads(axis, debug = debug, resolution = resolution)
+        _add_railroads(axis, debug = debug, keepInvalid = keepInvalid, resolution = resolution)
+        _add_roads(axis, debug = debug, keepInvalid = keepInvalid, resolution = resolution)

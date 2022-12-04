@@ -1,4 +1,4 @@
-def _add_lakes(axis, kwArgCheck = None, debug = False, resolution = "110m"):
+def _add_lakes(axis, kwArgCheck = None, debug = False, keepInvalid = False, resolution = "110m"):
     # NOTE: This function uses CSS4 named colours, see:
     #         * https://matplotlib.org/stable/gallery/color/named_colors.html
 
@@ -56,7 +56,7 @@ def _add_lakes(axis, kwArgCheck = None, debug = False, resolution = "110m"):
         for record in cartopy.io.shapereader.Reader(sfile).records():
             # Plot geometry ...
             axis.add_geometries(
-                extract_polys(record.geometry),
+                extract_polys(record.geometry, keepInvalid = keepInvalid),
                 cartopy.crs.PlateCarree(),
                 edgecolor = "none",
                 facecolor = facecolor,
