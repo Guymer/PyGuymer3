@@ -47,7 +47,15 @@ SUBROUTINE buffer_points_crudely(points1, dist, nang, npoint, points2)
                 ! Loop over points ...
                 DO ipoint = 1_C_LONG_LONG, npoint
                     ! Calculate the ring coordinates and add them to the array ...
-                    CALL sub_calc_loc_from_loc_and_bearing_and_dist(points1(ipoint, 1), points1(ipoint, 2), ang1, dist, points2(ipoint, iang, 1), points2(ipoint, iang, 2), ang2)
+                    CALL sub_calc_loc_from_loc_and_bearing_and_dist(            &
+                          lon1_deg = points1(ipoint, 1),                        &
+                          lat1_deg = points1(ipoint, 2),                        &
+                        alpha1_deg = ang1,                                      &
+                               s_m = dist,                                      &
+                          lon2_deg = points2(ipoint, iang, 1),                  &
+                          lat2_deg = points2(ipoint, iang, 2),                  &
+                        alpha2_deg = ang2                                       &
+                    )
                 END DO
             END DO
         !$omp end do
