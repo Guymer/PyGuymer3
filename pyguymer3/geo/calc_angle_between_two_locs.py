@@ -1,7 +1,8 @@
 def calc_angle_between_two_locs(lon1_deg, lat1_deg, lon2_deg, lat2_deg):
     """
     This function reads in two coordinates (in degrees) on the surface of a
-    sphere and calculates the angle (in degrees) between them.
+    sphere and calculates the angle (in degrees) between them, as viewed from
+    the centre of the sphere.
     """
 
     # Import standard modules ...
