@@ -1,4 +1,4 @@
-def area(shape, kwArgCheck = None, keepInvalid = False, eps = 1.0e-12, level = 1, nmax = 100):
+def area(shape, kwArgCheck = None, eps = 1.0e-12, keepInvalid = False, level = 1, nmax = 100):
     # Import special modules ...
     try:
         import shapely
