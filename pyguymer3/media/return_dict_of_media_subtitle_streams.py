@@ -1,4 +1,4 @@
-def return_dict_of_media_subtitle_streams(fname, kwArgCheck = None, debug = False, playlist = -1):
+def return_dict_of_media_subtitle_streams(fname, kwArgCheck = None, debug = False, errors = "strict", indent = 0, playlist = -1):
     # Import sub-functions ...
     from .__ffprobe__ import __ffprobe__
     from .ffprobe import ffprobe
@@ -36,8 +36,11 @@ def return_dict_of_media_subtitle_streams(fname, kwArgCheck = None, debug = Fals
     if fname.startswith("bluray:"):
         # Attempt to load the MPLS file for this playlist ...
         nfo = parse_MPLS_file(
-            br = fname[len("bluray:"):],
-            ip = playlist
+             debug = debug,
+                br = fname[len("bluray:"):],
+            errors = errors,
+            indent = indent,
+                ip = playlist,
         )
 
         # Check key ...

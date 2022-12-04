@@ -1,4 +1,4 @@
-def _points2polys(point, points, kwArgCheck = None, debug = False, huge = False, tol = 1.0e-10):
+def _points2polys(point, points, kwArgCheck = None, debug = False, huge = False, prefix = ".", tol = 1.0e-10):
     """Convert a buffered point to a list of Polygons
 
     This function reads in a coordinate that exists on the surface of the Earth,
@@ -134,7 +134,7 @@ def _points2polys(point, points, kwArgCheck = None, debug = False, huge = False,
         # Make a LinearRing out of the ring ...
         line = shapely.geometry.polygon.LinearRing(ring)
         if debug:
-            check(line)
+            check(line, prefix = prefix)
 
         # Clean up ...
         del ring
@@ -142,7 +142,7 @@ def _points2polys(point, points, kwArgCheck = None, debug = False, huge = False,
         # Make a correctly oriented Polygon out of this LinearRing ...
         poly = shapely.geometry.polygon.orient(shapely.geometry.polygon.Polygon(line))
         if debug:
-            check(poly)
+            check(poly, prefix = prefix)
 
         # Clean up ...
         del line
@@ -311,7 +311,7 @@ def _points2polys(point, points, kwArgCheck = None, debug = False, huge = False,
         # Make a LinearRing out of this (cleaned) ring ...
         line = shapely.geometry.polygon.LinearRing(cleanedRing)
         if debug:
-            check(line)
+            check(line, prefix = prefix)
 
         # Clean up ...
         del cleanedRing
@@ -319,7 +319,7 @@ def _points2polys(point, points, kwArgCheck = None, debug = False, huge = False,
         # Make a correctly oriented Polygon out of this LinearRing ...
         poly = shapely.geometry.polygon.orient(shapely.geometry.polygon.Polygon(line))
         if debug:
-            check(poly)
+            check(poly, prefix = prefix)
 
         # Clean up ...
         del line
@@ -353,7 +353,7 @@ def _points2polys(point, points, kwArgCheck = None, debug = False, huge = False,
             )
         )
         if debug:
-            check(earth)
+            check(earth, prefix = prefix)
 
         # Loop over Polygons ...
         for poly in polys:

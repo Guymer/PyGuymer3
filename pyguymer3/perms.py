@@ -49,8 +49,8 @@ def perms(path, kwArgCheck = None, debug = False, filePerms = None, folderPerms 
         print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Fetch lists ...
-    flist = return_file_list(path, follow_symlinks = follow_symlinks, return_symlinks = return_symlinks)
-    dlist = return_folder_list(path, follow_symlinks = follow_symlinks, return_symlinks = return_symlinks)
+    flist = return_file_list(path, debug = debug, follow_symlinks = follow_symlinks, return_symlinks = return_symlinks)
+    dlist = return_folder_list(path, debug = debug, follow_symlinks = follow_symlinks, return_symlinks = return_symlinks)
 
     # Loop over files and folders ...
     for name in flist + dlist:
@@ -64,7 +64,7 @@ def perms(path, kwArgCheck = None, debug = False, filePerms = None, folderPerms 
             continue
 
         # Fetch information ...
-        info = myStat(name)
+        info = myStat(name, follow_symlinks = follow_symlinks)
 
         # Set group owner if it is wrong ...
         if group is not None:

@@ -1,4 +1,4 @@
-def fillin_LineString(line, fill, kwArgCheck = None, debug = False, fillSpace = "EuclideanSpace", ramLimit = 1073741824):
+def fillin_LineString(line, fill, kwArgCheck = None, debug = False, eps = 1.0e-12, fillSpace = "EuclideanSpace", nmax = 100, prefix = ".", ramLimit = 1073741824):
     """Fill in a LineString
 
     This function reads in a LineString that exists on the surface of the Earth
@@ -54,13 +54,16 @@ def fillin_LineString(line, fill, kwArgCheck = None, debug = False, fillSpace = 
     if not isinstance(line, shapely.geometry.linestring.LineString):
         raise TypeError("\"line\" is not a LineString") from None
     if debug:
-        check(line)
+        check(line, prefix = prefix)
 
     # Return filled in LineString ...
     return fillin_CoordinateSequence(
         line.coords,
         fill,
             debug = debug,
+              eps = eps,
         fillSpace = fillSpace,
+             nmax = nmax,
+           prefix = prefix,
          ramLimit = ramLimit,
     )

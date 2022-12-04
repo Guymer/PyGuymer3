@@ -1,4 +1,4 @@
-def fillin_LinearRing(ring, fill, kwArgCheck = None, debug = False, fillSpace = "EuclideanSpace", ramLimit = 1073741824):
+def fillin_LinearRing(ring, fill, kwArgCheck = None, debug = False, eps = 1.0e-12, fillSpace = "EuclideanSpace", nmax = 100, prefix = ".", ramLimit = 1073741824):
     """Fill in a LinearRing
 
     This function reads in a LinearRing that exists on the surface of the Earth
@@ -54,13 +54,16 @@ def fillin_LinearRing(ring, fill, kwArgCheck = None, debug = False, fillSpace = 
     if not isinstance(ring, shapely.geometry.polygon.LinearRing):
         raise TypeError("\"ring\" is not a LinearRing") from None
     if debug:
-        check(ring)
+        check(ring, prefix = prefix)
 
     # Return filled in LinearRing ...
     return fillin_CoordinateSequence(
         ring.coords,
         fill,
             debug = debug,
+              eps = eps,
         fillSpace = fillSpace,
+             nmax = nmax,
+           prefix = prefix,
          ramLimit = ramLimit,
     )

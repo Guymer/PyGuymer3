@@ -1,4 +1,4 @@
-def dot2png(dot, png, kwArgCheck = None, debug = False, strip = False):
+def dot2png(dot, png, kwArgCheck = None, chunksize = 1048576, debug = False, strip = False):
     # Import standard modules ...
     import shutil
     import subprocess
@@ -24,4 +24,4 @@ def dot2png(dot, png, kwArgCheck = None, debug = False, strip = False):
     )
 
     # Optimize PNG ...
-    optimize_image(png, debug = debug, strip = strip)
+    optimize_image(png, chunksize = chunksize, debug = debug, strip = strip)

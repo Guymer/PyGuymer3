@@ -202,7 +202,7 @@ def images2mp4(frames, kwArgCheck = None, crf = -1.0, debug = False, form = "mp4
             )
 
     # Check libx264 bit-depth ...
-    if return_video_bit_depth(f"{tmpname}/video.mp4") != 8:
+    if return_video_bit_depth(f"{tmpname}/video.mp4", debug = debug, playlist = -1) != 8:
         raise Exception(f"successfully converted the input images to a not-8-bit MP4; see \"{tmpname}\" for clues") from None
 
     # Optimize output video ...

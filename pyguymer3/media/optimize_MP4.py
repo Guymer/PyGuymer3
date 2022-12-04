@@ -58,7 +58,7 @@ def optimize_MP4(fname1, kwArgCheck = None, debug = False):
 
         # Find the two hashes and don't replace the original if the new one is
         # the same ...
-        if return_hash_of_MP4(fname1) == return_hash_of_MP4(fname2):
+        if return_hash_of_MP4(fname1, ignoreModificationTime = True) == return_hash_of_MP4(fname2, ignoreModificationTime = True):
             if debug:
                 print(f"INFO: Skipping because \"{fname2}\" is the same as \"{fname1}\"")
             return

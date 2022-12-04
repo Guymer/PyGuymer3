@@ -1,4 +1,4 @@
-def clean_MultiLineString(multiline, kwArgCheck = None, debug = False, tol = 1.0e-10):
+def clean_MultiLineString(multiline, kwArgCheck = None, debug = False, prefix = ".", tol = 1.0e-10):
     """Clean a MultiLineString
 
     This function cleans a MultiLineString by removing bad points.
@@ -55,15 +55,16 @@ def clean_MultiLineString(multiline, kwArgCheck = None, debug = False, tol = 1.0
         lines.append(
             clean_LineString(
                 line,
-                debug = debug,
-                  tol = tol,
+                 debug = debug,
+                prefix = prefix,
+                   tol = tol,
             )
         )
 
     # Convert list of LineStrings to a MultiLineString ...
     cleans = shapely.geometry.multilinestring.MultiLineString(lines)
     if debug:
-        check(cleans)
+        check(cleans, prefix = prefix)
 
     # Clean up ...
     del lines

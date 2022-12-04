@@ -1,4 +1,4 @@
-def image2jpg(img, jpg, kwArgCheck = None, debug = False, exif = None, mode = "RGB", optimize = True, progressive = False, quality = 95, strip = False):
+def image2jpg(img, jpg, kwArgCheck = None, chunksize = 1048576, debug = False, exif = None, mode = "RGB", optimize = True, progressive = False, quality = 95, strip = False):
     """Save an image as a JPG
 
     This function accepts either a PIL Image or a file path and saves the image
@@ -82,4 +82,4 @@ def image2jpg(img, jpg, kwArgCheck = None, debug = False, exif = None, mode = "R
 
     # Optimize JPG ...
     if optimize or strip:
-        optimize_image(jpg, debug = debug, strip = strip)
+        optimize_image(jpg, chunksize = chunksize, debug = debug, strip = strip)

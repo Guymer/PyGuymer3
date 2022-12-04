@@ -1,4 +1,4 @@
-def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", nang = 9, ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
+def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, eps = 1.0e-12, fill = 1.0, fillSpace = "EuclideanSpace", nang = 9, nmax = 100, prefix = ".", ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
     """Buffer a CoordinateSequence
 
     This function reads in a CoordinateSequence that exists on the surface of
@@ -94,7 +94,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     if not isinstance(coords, shapely.coords.CoordinateSequence):
         raise TypeError("\"coords\" is not a CoordinateSequence") from None
     if debug:
-        check(coords)
+        check(coords, prefix = prefix)
 
     # Check inputs ...
     # NOTE: Using WGS84, the semi-major axis of Earth is 6,378,137.0 m and the
@@ -121,8 +121,9 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     # Clean the input ...
     coords = clean(
         coords,
-        debug = debug,
-          tol = tol,
+         debug = debug,
+        prefix = prefix,
+           tol = tol,
     ).coords
 
     # Check if the user wants to fill in the CoordinateSequence ...
@@ -133,7 +134,10 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
                 coords,
                 fill,
                     debug = debug,
+                      eps = eps,
                 fillSpace = fillSpace,
+                     nmax = nmax,
+                   prefix = prefix,
                  ramLimit = ramLimit,
                       tol = tol,
             ).coords
@@ -152,9 +156,20 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
 
     # Buffer (in Geodesic space) the CoordinateSequence ...
     if fortran:
-        points2 = funcs.buffer_points_crudely(points1, dist, nang)              # [°]
+        points2 = funcs.buffer_points_crudely(
+            points1,
+            dist,
+            nang,
+        )                                                                       # [°]
     else:
-        points2 = _buffer_points_crudely(points1, dist, nang, ramLimit = ramLimit)  # [°]
+        points2 = _buffer_points_crudely(
+            points1,
+            dist,
+            nang,
+                 eps = eps,
+                nmax = nmax,
+            ramLimit = ramLimit,
+        )                                                                       # [°]
 
     # **************************************************************************
     # Step 3: Convert the NumPy array of the rings around the original points  #
@@ -170,9 +185,10 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
         buffs += _points2polys(
             points1[ipoint, :],
             points2[ipoint, :, :],
-            debug = debug,
-             huge = dist > 10001500.0,
-              tol = tol,
+             debug = debug,
+              huge = dist > 10001500.0,
+            prefix = prefix,
+               tol = tol,
         )
 
     # Clean up ...
@@ -186,7 +202,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
     # Convert list of Polygons to a (unified) [Multi]Polygon ...
     buffs = shapely.ops.unary_union(buffs).simplify(tol)
     if debug:
-        check(buffs)
+        check(buffs, prefix = prefix)
 
     # Check if the user wants to fill in the [Multi]Polygon ...
     # NOTE: This is only needed because the "shapely.ops.unary_union()" call
@@ -197,12 +213,15 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
             buffs,
             fill,
                 debug = debug,
+                  eps = eps,
             fillSpace = fillSpace,
+                 nmax = nmax,
+               prefix = prefix,
              ramLimit = ramLimit,
                   tol = tol,
         )
         if debug:
-            check(buffs)
+            check(buffs, prefix = prefix)
 
     # Check if the user wants to simplify the [Multi]Polygon ...
     # NOTE: This is only needed because the "shapely.ops.unary_union()" call
@@ -211,7 +230,7 @@ def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, fi
         # Simplify [Multi]Polygon ...
         buffsSimp = buffs.simplify(simp)
         if debug:
-            check(buffsSimp)
+            check(buffsSimp, prefix = prefix)
 
         # Return simplified answer ...
         return buffsSimp

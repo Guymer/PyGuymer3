@@ -1,4 +1,4 @@
-def save_array_as_image(img0, fname, kwArgCheck = None, ct = "grey", form = "png", pc_bot = 0.0, pc_top = 0.0, scale = False):
+def save_array_as_image(img0, fname, kwArgCheck = None, chunksize = 1048576, ct = "grey", debug = False, form = "png", pc_bot = 0.0, pc_top = 0.0, scale = False):
     """Save an array as an image
 
     This function accepts a NumPy array, with optional scaling and/or colour
@@ -102,7 +102,7 @@ def save_array_as_image(img0, fname, kwArgCheck = None, ct = "grey", form = "png
     # Save image ...
     if form == "png":
         save_array_as_PNG(img2, fname, ftype_req = 4)
-        optimize_image(fname, strip = True)
+        optimize_image(fname, debug = debug, chunksize = chunksize, strip = True)
     elif form == "ppm":
         save_array_as_PPM(img2, fname)
     else:

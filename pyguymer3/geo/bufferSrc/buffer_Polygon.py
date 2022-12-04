@@ -1,4 +1,4 @@
-def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", keepInteriors = True, nang = 9, ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
+def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, eps = 1.0e-12, fill = 1.0, fillSpace = "EuclideanSpace", keepInteriors = True, nang = 9, nmax = 100, prefix = ".", ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
     """Buffer a Polygon
 
     This function reads in a Polygon (with an exterior and any number of
@@ -70,7 +70,7 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, fil
     if not isinstance(poly, shapely.geometry.polygon.Polygon):
         raise TypeError("\"poly\" is not a Polygon") from None
     if debug:
-        check(poly)
+        check(poly, prefix = prefix)
 
     # Initialize list ...
     buffs = []
@@ -95,9 +95,12 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, fil
             poly.exterior,
             dist,
                 debug = debug,
+                  eps = eps,
                  fill = fill,
             fillSpace = fillSpace,
                  nang = nang,
+                 nmax = nmax,
+               prefix = prefix,
              ramLimit = ramLimit,
                  simp = simp,
                   tol = tol,
@@ -120,9 +123,12 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, fil
                     interior,
                     dist,
                         debug = debug,
+                          eps = eps,
                          fill = fill,
                     fillSpace = fillSpace,
                          nang = nang,
+                         nmax = nmax,
+                       prefix = prefix,
                      ramLimit = ramLimit,
                          simp = simp,
                           tol = tol,
@@ -132,7 +138,7 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, fil
     # Convert list of [Multi]Polygons to a (unified) [Multi]Polygon ...
     buffs = shapely.ops.unary_union(buffs).simplify(tol)
     if debug:
-        check(buffs)
+        check(buffs, prefix = prefix)
 
     # Check if the user wants to fill in the [Multi]Polygon ...
     # NOTE: This is only needed because the "shapely.ops.unary_union()" call
@@ -143,12 +149,15 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, fil
             buffs,
             fill,
                 debug = debug,
+                  eps = eps,
             fillSpace = fillSpace,
+                 nmax = nmax,
+               prefix = prefix,
              ramLimit = ramLimit,
                   tol = tol,
         )
         if debug:
-            check(buffs)
+            check(buffs, prefix = prefix)
 
     # Check if the user wants to simplify the [Multi]Polygon ...
     # NOTE: This is only needed because the "shapely.ops.unary_union()" call
@@ -157,7 +166,7 @@ def buffer_Polygon(poly, dist, kwArgCheck = None, debug = False, fill = 1.0, fil
         # Simplify [Multi]Polygon ...
         buffsSimp = buffs.simplify(simp)
         if debug:
-            check(buffsSimp)
+            check(buffsSimp, prefix = prefix)
 
         # Return simplified answer ...
         return buffsSimp

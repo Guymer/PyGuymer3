@@ -75,7 +75,7 @@ def return_ISO_palette(fname, kwArgCheck = None, errors = "replace", usr_track =
             yuv[0, 0, 0] = int(color.text[0:2], 16)
             yuv[0, 0, 1] = int(color.text[2:4], 16)
             yuv[0, 0, 2] = int(color.text[4:6], 16)
-            rgb = yuv2rgb(yuv)
+            rgb = yuv2rgb(yuv, version = "SDTV")
             vals.append(format(rgb[0, 0, 0], "x").rjust(2, '0') + format(rgb[0, 0, 1], "x").rjust(2, '0') + format(rgb[0, 0, 2], "x").rjust(2, '0'))
 
         # Return answer ...

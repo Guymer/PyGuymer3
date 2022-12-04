@@ -1,4 +1,4 @@
-def images2webp(imgs, webp, kwArgCheck = None, debug = False, exif = None, fps = 25.0, lossless = False, method = 6, minimize_size = True, mode = "RGB", quality = 100, screenHeight = -1, screenWidth = -1, strip = False):
+def images2webp(imgs, webp, kwArgCheck = None, chunksize = 1048576, debug = False, exif = None, fps = 25.0, lossless = False, method = 6, minimize_size = True, mode = "RGB", quality = 100, screenHeight = -1, screenWidth = -1, strip = False):
     """Convert a sequence of images to a WEBP animation.
 
     This function makes a WEBP animation from either a list of PIL Images or a
@@ -115,4 +115,4 @@ def images2webp(imgs, webp, kwArgCheck = None, debug = False, exif = None, fps =
 
     # Optimize WEBP ...
     if strip:
-        optimize_image(webp, debug = debug, strip = strip)
+        optimize_image(webp, chunksize = chunksize, debug = debug, strip = strip)

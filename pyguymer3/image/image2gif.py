@@ -1,4 +1,4 @@
-def image2gif(img, gif, kwArgCheck = None, debug = False, mode = "RGB", optimize = True, strip = False):
+def image2gif(img, gif, kwArgCheck = None, chunksize = 1048576, debug = False, mode = "RGB", optimize = True, strip = False):
     """Save an image as a GIF
 
     This function accepts either a PIL Image or a file path and saves the image
@@ -68,4 +68,4 @@ def image2gif(img, gif, kwArgCheck = None, debug = False, mode = "RGB", optimize
 
     # Optimize GIF ...
     if optimize or strip:
-        optimize_image(gif, debug = debug, strip = strip)
+        optimize_image(gif, chunksize = chunksize, debug = debug, strip = strip)

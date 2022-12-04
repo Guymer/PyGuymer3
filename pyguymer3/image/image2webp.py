@@ -1,4 +1,4 @@
-def image2webp(img, webp, kwArgCheck = None, debug = False, exif = None, lossless = False, method = 6, mode = "RGB", quality = 100, strip = False):
+def image2webp(img, webp, kwArgCheck = None, chunksize = 1048576, debug = False, exif = None, lossless = False, method = 6, mode = "RGB", quality = 100, strip = False):
     """Save an image as a WEBP
 
     This function accepts either a PIL Image or a file path and saves the image
@@ -82,4 +82,4 @@ def image2webp(img, webp, kwArgCheck = None, debug = False, exif = None, lossles
 
     # Optimize WEBP ...
     if strip:
-        optimize_image(webp, debug = debug, strip = strip)
+        optimize_image(webp, chunksize = chunksize, debug = debug, strip = strip)

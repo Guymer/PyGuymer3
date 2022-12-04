@@ -1,4 +1,4 @@
-def clean_LineString(line, kwArgCheck = None, debug = False, tol = 1.0e-10):
+def clean_LineString(line, kwArgCheck = None, debug = False, prefix = ".", tol = 1.0e-10):
     """Clean a LineString
 
     This function cleans a LineString by removing bad points.
@@ -48,6 +48,7 @@ def clean_LineString(line, kwArgCheck = None, debug = False, tol = 1.0e-10):
     # Return cleaned LineString ...
     return clean_CoordinateSequence(
         line.coords,
-        debug = debug,
-          tol = tol,
+         debug = debug,
+        prefix = prefix,
+           tol = tol,
     )

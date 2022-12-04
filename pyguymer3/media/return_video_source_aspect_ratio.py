@@ -25,8 +25,8 @@ def return_video_source_aspect_ratio(fname, kwArgCheck = None, debug = False, pl
             continue
 
         # Find common dimensions divisors ...
-        w = return_video_width(fname, playlist = playlist)                      # [px]
-        h = return_video_height(fname, playlist = playlist)                     # [px]
+        w = return_video_width(fname, debug = debug, playlist = playlist)       # [px]
+        h = return_video_height(fname, debug = debug, playlist = playlist)      # [px]
         w_divs = find_integer_divisors(w)
         h_divs = find_integer_divisors(h)
         fact = 1

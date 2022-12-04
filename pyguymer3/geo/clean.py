@@ -1,4 +1,4 @@
-def clean(shape, kwArgCheck = None, debug = False, tol = 1.0e-10):
+def clean(shape, kwArgCheck = None, debug = False, prefix = ".", tol = 1.0e-10):
     """Clean a shape
 
     This function cleans a shape by removing bad points.
@@ -50,48 +50,54 @@ def clean(shape, kwArgCheck = None, debug = False, tol = 1.0e-10):
     if isinstance(shape, shapely.coords.CoordinateSequence):
         return clean_CoordinateSequence(
             shape,
-            debug = debug,
-              tol = tol,
+             debug = debug,
+            prefix = prefix,
+               tol = tol,
         )
 
     # Check if it is a LinearRing and return it cleaned ...
     if isinstance(shape, shapely.geometry.polygon.LinearRing):
         return clean_LinearRing(
             shape,
-            debug = debug,
-              tol = tol,
+             debug = debug,
+            prefix = prefix,
+               tol = tol,
         )
 
     # Check if it is a LineString and return it cleaned ...
     if isinstance(shape, shapely.geometry.linestring.LineString):
         return clean_LineString(
             shape,
-            debug = debug,
-              tol = tol,
+             debug = debug,
+            prefix = prefix,
+               tol = tol,
         )
 
     # Check if it is a MultiLineString and return it cleaned ...
     if isinstance(shape, shapely.geometry.multilinestring.MultiLineString):
         return clean_MultiLineString(
             shape,
-            debug = debug,
-              tol = tol,
+             debug = debug,
+            prefix = prefix,
+               tol = tol,
         )
 
     # Check if it is a Polygon and return it cleaned ...
     if isinstance(shape, shapely.geometry.polygon.Polygon):
         return clean_Polygon(
             shape,
-            debug = debug,
-              tol = tol,
+             debug = debug,
+            prefix = prefix,
+               tol = tol,
         )
 
     # Check if it is a MultiPolygon and return it cleaned ...
     if isinstance(shape, shapely.geometry.multipolygon.MultiPolygon):
         return clean_MultiPolygon(
             shape,
-            debug = debug,
-              tol = tol,
+             debug = debug,
+            prefix = prefix,
+               tol = tol,
         )
 
     # Crash ...

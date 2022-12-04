@@ -1,4 +1,4 @@
-def image2png(img, png, kwArgCheck = None, debug = False, exif = None, mode = "RGB", optimize = True, strip = False):
+def image2png(img, png, kwArgCheck = None, chunksize = 1048576, debug = False, exif = None, mode = "RGB", optimize = True, strip = False):
     """Save an image as a PNG
 
     This function accepts either a PIL Image or a file path and saves the image
@@ -76,4 +76,4 @@ def image2png(img, png, kwArgCheck = None, debug = False, exif = None, mode = "R
 
     # Optimize PNG ...
     if optimize or strip:
-        optimize_image(png, debug = debug, strip = strip)
+        optimize_image(png, chunksize = chunksize, debug = debug, strip = strip)

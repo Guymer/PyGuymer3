@@ -1,4 +1,4 @@
-def buffer_MultiPoint(multipoint, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", nang = 9, ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
+def buffer_MultiPoint(multipoint, dist, kwArgCheck = None, debug = False, eps = 1.0e-12, fill = 1.0, fillSpace = "EuclideanSpace", nang = 9, nmax = 100, prefix = ".", ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
     """Buffer a MultiPoint
 
     This function reads in a MultiPoint that exists on the surface of the Earth
@@ -66,7 +66,7 @@ def buffer_MultiPoint(multipoint, dist, kwArgCheck = None, debug = False, fill =
     if not isinstance(multipoint, shapely.geometry.multipoint.MultiPoint):
         raise TypeError("\"multipoint\" is not a MultiPoint") from None
     if debug:
-        check(multipoint)
+        check(multipoint, prefix = prefix)
 
     # Initialize list ...
     buffs = []
@@ -79,9 +79,12 @@ def buffer_MultiPoint(multipoint, dist, kwArgCheck = None, debug = False, fill =
                 point,
                 dist,
                     debug = debug,
+                      eps = eps,
                      fill = fill,
                 fillSpace = fillSpace,
                      nang = nang,
+                     nmax = nmax,
+                   prefix = prefix,
                  ramLimit = ramLimit,
                      simp = simp,
                       tol = tol,
@@ -91,7 +94,7 @@ def buffer_MultiPoint(multipoint, dist, kwArgCheck = None, debug = False, fill =
     # Convert list of [Multi]Polygons to a (unified) [Multi]Polygon ...
     buffs = shapely.ops.unary_union(buffs).simplify(tol)
     if debug:
-        check(buffs)
+        check(buffs, prefix = prefix)
 
     # Check if the user wants to fill in the [Multi]Polygon ...
     # NOTE: This is only needed because the "shapely.ops.unary_union()" call
@@ -102,12 +105,15 @@ def buffer_MultiPoint(multipoint, dist, kwArgCheck = None, debug = False, fill =
             buffs,
             fill,
                 debug = debug,
+                  eps = eps,
             fillSpace = fillSpace,
+                 nmax = nmax,
+               prefix = prefix,
              ramLimit = ramLimit,
                   tol = tol,
         )
         if debug:
-            check(buffs)
+            check(buffs, prefix = prefix)
 
     # Check if the user wants to simplify the [Multi]Polygon ...
     # NOTE: This is only needed because the "shapely.ops.unary_union()" call
@@ -116,7 +122,7 @@ def buffer_MultiPoint(multipoint, dist, kwArgCheck = None, debug = False, fill =
         # Simplify [Multi]Polygon ...
         buffsSimp = buffs.simplify(simp)
         if debug:
-            check(buffsSimp)
+            check(buffsSimp, prefix = prefix)
 
         # Return simplified answer ...
         return buffsSimp

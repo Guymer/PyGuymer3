@@ -1,4 +1,4 @@
-def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, fillSpace = "EuclideanSpace", ramLimit = 1073741824, tol = 1.0e-10):
+def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, eps = 1.0e-12, fillSpace = "EuclideanSpace", nmax = 100, prefix = ".", ramLimit = 1073741824, tol = 1.0e-10):
     """Fill in a Polygon
 
     This function reads in a Polygon (with an exterior and any number of
@@ -58,14 +58,17 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, fillSpace = "Eu
     if not isinstance(poly, shapely.geometry.polygon.Polygon):
         raise TypeError("\"poly\" is not a Polygon") from None
     if debug:
-        check(poly)
+        check(poly, prefix = prefix)
 
     # Fill in exterior LinearRing ...
     exterior = fillin_LinearRing(
         poly.exterior,
         fill,
             debug = debug,
+              eps = eps,
         fillSpace = fillSpace,
+             nmax = nmax,
+           prefix = prefix,
          ramLimit = ramLimit,
     )
 
@@ -86,7 +89,10 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, fillSpace = "Eu
                 interior,
                 fill,
                     debug = debug,
+                      eps = eps,
                 fillSpace = fillSpace,
+                     nmax = nmax,
+                   prefix = prefix,
                  ramLimit = ramLimit,
             )
         )
@@ -95,7 +101,7 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, fillSpace = "Eu
     # correctly oriented Polygon ...
     fills = shapely.geometry.polygon.orient(shapely.geometry.polygon.Polygon(exterior, interiors))
     if debug:
-        check(fills)
+        check(fills, prefix = prefix)
 
     # Clean up ...
     del exterior, interiors

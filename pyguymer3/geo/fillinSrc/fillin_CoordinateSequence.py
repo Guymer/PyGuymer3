@@ -1,4 +1,4 @@
-def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, debug = False, fillSpace = "EuclideanSpace", ramLimit = 1073741824):
+def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, debug = False, eps = 1.0e-12, fillSpace = "EuclideanSpace", nmax = 100, prefix = ".", ramLimit = 1073741824):
     """Fill in a CoordinateSequence
 
     This function reads in a CoordinateSequence that exists on the surface of
@@ -59,7 +59,7 @@ def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, debug = False, fi
     if not isinstance(coords, shapely.coords.CoordinateSequence):
         raise TypeError("\"coords\" is not a CoordinateSequence") from None
     if debug:
-        check(coords)
+        check(coords, prefix = prefix)
 
     # Convert the CoordinateSequence to a NumPy array ...
     points1 = numpy.array(coords)                                               # [°]
@@ -77,6 +77,8 @@ def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, debug = False, fi
                 points1[ipoint    , 1],
                 points1[ipoint + 1, 0],
                 points1[ipoint + 1, 1],
+                 eps = eps,
+                nmax = nmax,
             )                                                                   # [m], [°], [°]
     else:
         raise Exception(f"unrecognised value of \"fillSpace\" ({fillSpace})") from None
@@ -148,6 +150,7 @@ def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, debug = False, fi
                     points1[ipoint + 1, 0],
                     points1[ipoint + 1, 1],
                        debug = debug,
+                      prefix = prefix,
                       npoint = ns[ipoint] + 1,
                     ramLimit = ramLimit,
                 )
@@ -179,7 +182,7 @@ def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, debug = False, fi
     # Convert array of points to a LineString ...
     fills = shapely.geometry.linestring.LineString(points2)
     if debug:
-        check(fills)
+        check(fills, prefix = prefix)
 
     # Clean up ...
     del points2

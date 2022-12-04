@@ -1,4 +1,4 @@
-def check_Point(point):
+def check_Point(point, kwArgCheck = None, prefix = "."):
     """Check Point
 
     This function checks if a Point is valid.
@@ -33,11 +33,15 @@ def check_Point(point):
     # Import sub-functions ...
     from .._debug import _debug
 
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
+
     # Check argument ...
     if not isinstance(point, shapely.geometry.point.Point):
         raise TypeError("\"point\" is not a Point") from None
     if not point.is_valid:
-        _debug(point)
+        _debug(point, prefix = prefix)
         raise Exception(f"\"point\" is not a valid Point ({shapely.validation.explain_validity(point)})") from None
     if point.is_empty:
         raise Exception("\"point\" is an empty Point") from None

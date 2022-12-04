@@ -1,4 +1,4 @@
-def clean_Polygon(poly, kwArgCheck = None, debug = False, tol = 1.0e-10):
+def clean_Polygon(poly, kwArgCheck = None, debug = False, prefix = ".", tol = 1.0e-10):
     """Clean a Polygon
 
     This function cleans a Polygon (with an exterior and any number of
@@ -51,8 +51,9 @@ def clean_Polygon(poly, kwArgCheck = None, debug = False, tol = 1.0e-10):
     # Clean exterior LinearRing ...
     exterior = clean_LinearRing(
         poly.exterior,
-        debug = debug,
-          tol = tol,
+         debug = debug,
+        prefix = prefix,
+           tol = tol,
     )
 
     # Initialize list ...
@@ -70,8 +71,9 @@ def clean_Polygon(poly, kwArgCheck = None, debug = False, tol = 1.0e-10):
         interiors.append(
             clean_LinearRing(
                 interior,
-                debug = debug,
-                  tol = tol,
+                 debug = debug,
+                prefix = prefix,
+                   tol = tol,
             )
         )
 
@@ -79,7 +81,7 @@ def clean_Polygon(poly, kwArgCheck = None, debug = False, tol = 1.0e-10):
     # correctly oriented Polygon ...
     cleans = shapely.geometry.polygon.orient(shapely.geometry.polygon.Polygon(exterior, interiors))
     if debug:
-        check(cleans)
+        check(cleans, prefix = prefix)
 
     # Clean up ...
     del exterior, interiors

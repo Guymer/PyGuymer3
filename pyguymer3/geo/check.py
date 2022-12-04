@@ -1,4 +1,4 @@
-def check(shape):
+def check(shape, kwArgCheck = None, prefix = "."):
     """Check a shape
 
     This function checks if a shape is valid.
@@ -39,37 +39,41 @@ def check(shape):
     from .checkSrc import check_Point
     from .checkSrc import check_Polygon
 
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
+
     # Check if it is a CoordinateSequence and return it checked ...
     if isinstance(shape, shapely.coords.CoordinateSequence):
         return check_CoordinateSequence(shape)
 
     # Check if it is a Point and return it checked ...
     if isinstance(shape, shapely.geometry.point.Point):
-        return check_Point(shape)
+        return check_Point(shape, prefix = prefix)
 
     # Check if it is a MultiPoint and return it checked ...
     if isinstance(shape, shapely.geometry.multipoint.MultiPoint):
-        return check_MultiPoint(shape)
+        return check_MultiPoint(shape, prefix = prefix)
 
     # Check if it is a LinearRing and return it checked ...
     if isinstance(shape, shapely.geometry.polygon.LinearRing):
-        return check_LinearRing(shape)
+        return check_LinearRing(shape, prefix = prefix)
 
     # Check if it is a LineString and return it checked ...
     if isinstance(shape, shapely.geometry.linestring.LineString):
-        return check_LineString(shape)
+        return check_LineString(shape, prefix = prefix)
 
     # Check if it is a MultiLineString and return it checked ...
     if isinstance(shape, shapely.geometry.multilinestring.MultiLineString):
-        return check_MultiLineString(shape)
+        return check_MultiLineString(shape, prefix = prefix)
 
     # Check if it is a Polygon and return it checked ...
     if isinstance(shape, shapely.geometry.polygon.Polygon):
-        return check_Polygon(shape)
+        return check_Polygon(shape, prefix = prefix)
 
     # Check if it is a MultiPolygon and return it checked ...
     if isinstance(shape, shapely.geometry.multipolygon.MultiPolygon):
-        return check_MultiPolygon(shape)
+        return check_MultiPolygon(shape, prefix = prefix)
 
     # Crash ...
     raise TypeError(f"\"shape\" is an unexpected type ({repr(type(shape))})") from None

@@ -23,10 +23,10 @@ def return_video_width(fname, kwArgCheck = None, debug = False, playlist = -1):
             continue
 
         # Check the rotation ...
-        if return_video_rotation(fname, playlist = playlist) in [0, 180]:
+        if return_video_rotation(fname, debug = debug, playlist = playlist) in [0, 180]:
             # Return width ...
             return int(stream["width"])                                         # [px]
-        if return_video_rotation(fname, playlist = playlist) in [90, 270]:
+        if return_video_rotation(fname, debug = debug, playlist = playlist) in [90, 270]:
             # Return height ...
             return int(stream["height"])                                        # [px]
 

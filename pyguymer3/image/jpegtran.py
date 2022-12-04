@@ -1,4 +1,4 @@
-def jpegtran(fname1, kwArgCheck = None, debug = False):
+def jpegtran(fname1, kwArgCheck = None, chunksize = 1048576, debug = False):
     """
     "jpegtran" does not modify, but it does touch, the image even if it cannot
     make it smaller, therefore it is NOT safe to keep on running "jpegtran" on
@@ -56,7 +56,7 @@ def jpegtran(fname1, kwArgCheck = None, debug = False):
 
         # Find the two hashes and don't replace the original if the new one is
         # the same ...
-        if sha512(fname1) == sha512(fname2):
+        if sha512(fname1, chunksize = chunksize) == sha512(fname2, chunksize = chunksize):
             if debug:
                 print(f"INFO: Skipping because \"{fname2}\" is the same as \"{fname1}\"")
             return

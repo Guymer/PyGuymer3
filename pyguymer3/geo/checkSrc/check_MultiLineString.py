@@ -1,4 +1,4 @@
-def check_MultiLineString(multiline):
+def check_MultiLineString(multiline, kwArgCheck = None, prefix = "."):
     """Check MultiLineString
 
     This function checks if a MultiLineString is valid.
@@ -33,11 +33,15 @@ def check_MultiLineString(multiline):
     # Import sub-functions ...
     from .._debug import _debug
 
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
+
     # Check argument ...
     if not isinstance(multiline, shapely.geometry.multilinestring.MultiLineString):
         raise TypeError("\"multiline\" is not a MultiLineString") from None
     if not multiline.is_valid:
-        _debug(multiline)
+        _debug(multiline, prefix = prefix)
         raise Exception(f"\"multiline\" is not a valid MultiLineString ({shapely.validation.explain_validity(multiline)})") from None
     if multiline.is_empty:
         raise Exception("\"multiline\" is an empty MultiLineString") from None

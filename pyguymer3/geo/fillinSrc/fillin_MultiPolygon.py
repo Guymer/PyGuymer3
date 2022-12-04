@@ -1,4 +1,4 @@
-def fillin_MultiPolygon(multipoly, fill, kwArgCheck = None, debug = False, fillSpace = "EuclideanSpace", ramLimit = 1073741824, tol = 1.0e-10):
+def fillin_MultiPolygon(multipoly, fill, kwArgCheck = None, debug = False, eps = 1.0e-12, fillSpace = "EuclideanSpace", nmax = 100, prefix = ".", ramLimit = 1073741824, tol = 1.0e-10):
     """Fill in a MultiPolygon
 
     This function reads in a MultiPolygon, made up of Polygons (with an exterior
@@ -59,7 +59,7 @@ def fillin_MultiPolygon(multipoly, fill, kwArgCheck = None, debug = False, fillS
     if not isinstance(multipoly, shapely.geometry.multipolygon.MultiPolygon):
         raise TypeError("\"multipoly\" is not a MultiPolygon") from None
     if debug:
-        check(multipoly)
+        check(multipoly, prefix = prefix)
 
     # Initialize list ...
     polys = []
@@ -72,7 +72,10 @@ def fillin_MultiPolygon(multipoly, fill, kwArgCheck = None, debug = False, fillS
                 poly,
                 fill,
                     debug = debug,
+                      eps = eps,
                 fillSpace = fillSpace,
+                     nmax = nmax,
+                   prefix = prefix,
                  ramLimit = ramLimit,
                       tol = tol,
             )
@@ -81,7 +84,7 @@ def fillin_MultiPolygon(multipoly, fill, kwArgCheck = None, debug = False, fillS
     # Convert list of Polygons to a (unified) MultiPolygon ...
     fills = shapely.ops.unary_union(polys)
     if debug:
-        check(fills)
+        check(fills, prefix = prefix)
 
     # Clean up ...
     del polys

@@ -1,4 +1,4 @@
-def fillin_MultiLineString(multiline, fill, kwArgCheck = None, debug = False, fillSpace = "EuclideanSpace", ramLimit = 1073741824):
+def fillin_MultiLineString(multiline, fill, kwArgCheck = None, debug = False, eps = 1.0e-12, fillSpace = "EuclideanSpace", nmax = 100, prefix = ".", ramLimit = 1073741824):
     """Fill in a MultiLineString
 
     This function reads in a MultiLineString that exists on the surface of the
@@ -54,7 +54,7 @@ def fillin_MultiLineString(multiline, fill, kwArgCheck = None, debug = False, fi
     if not isinstance(multiline, shapely.geometry.multilinestring.MultiLineString):
         raise TypeError("\"multiline\" is not a MultiLineString") from None
     if debug:
-        check(multiline)
+        check(multiline, prefix = prefix)
 
     # Initialize list ...
     lines = []
@@ -67,7 +67,10 @@ def fillin_MultiLineString(multiline, fill, kwArgCheck = None, debug = False, fi
                 line,
                 fill,
                     debug = debug,
+                      eps = eps,
                 fillSpace = fillSpace,
+                     nmax = nmax,
+                   prefix = prefix,
                  ramLimit = ramLimit,
             )
         )
@@ -75,7 +78,7 @@ def fillin_MultiLineString(multiline, fill, kwArgCheck = None, debug = False, fi
     # Convert list of LineStrings to a MultiLineString ...
     fills = shapely.geometry.multilinestring.MultiLineString(lines)
     if debug:
-        check(fills)
+        check(fills, prefix = prefix)
 
     # Clean up ...
     del lines

@@ -58,5 +58,5 @@ def add_map_underlay(axis, kwArgCheck = None, background = True, cultural = True
     # Add cultural LineString datasets ...
     if cultural:
         # Land overlays ...
-        _add_railroads(axis, debug = debug, keepInvalid = keepInvalid, resolution = resolution)
-        _add_roads(axis, debug = debug, keepInvalid = keepInvalid, resolution = resolution)
+        _add_railroads(axis, debug = debug, keepInvalid = keepInvalid, linestyle = linestyle, linewidth = linewidth, resolution = resolution)
+        _add_roads(axis, debug = debug, keepInvalid = keepInvalid, linestyle = linestyle, linewidth = linewidth, resolution = resolution)

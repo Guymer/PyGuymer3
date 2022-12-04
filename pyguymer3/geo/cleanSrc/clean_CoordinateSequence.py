@@ -1,4 +1,4 @@
-def clean_CoordinateSequence(coords, kwArgCheck = None, debug = False, tol = 1.0e-10):
+def clean_CoordinateSequence(coords, kwArgCheck = None, debug = False, prefix = ".", tol = 1.0e-10):
     """Clean a CoordinateSequence
 
     This function cleans a CoordinateSequence by removing bad points.
@@ -116,7 +116,7 @@ def clean_CoordinateSequence(coords, kwArgCheck = None, debug = False, tol = 1.0
                 print(f"INFO: Truncating a tiny-length line at ({points2[0][0]:+.6f}°,{points2[0][1]:+.6f}°).")
             cleans = shapely.geometry.point.Point(points2[0][0], points2[0][1])
     if debug:
-        check(cleans)
+        check(cleans, prefix = prefix)
 
     # Clean up ...
     del points2

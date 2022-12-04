@@ -1,4 +1,4 @@
-def return_subtitle_extent(fname, kwArgCheck = None, playlist = -1, subtitle = 0):
+def return_subtitle_extent(fname, kwArgCheck = None, debug = False, playlist = -1, subtitle = 0):
     # Import standard modules ...
     import re
     import shutil
@@ -23,10 +23,10 @@ def return_subtitle_extent(fname, kwArgCheck = None, playlist = -1, subtitle = 0
         raise Exception("\"ffmpeg\" is not installed") from None
 
     # Find out information about video ...
-    duration = return_media_duration(fname, playlist = playlist)                # [s]
-    fps = return_video_frame_rate(fname, playlist = playlist)                   # [Hz]
-    height = return_video_height(fname, playlist = playlist)                    # [px]
-    width = return_video_width(fname, playlist = playlist)                      # [px]
+    duration = return_media_duration(fname, debug = debug, playlist = playlist) # [s]
+    fps = return_video_frame_rate(fname, debug = debug, playlist = playlist)    # [Hz]
+    height = return_video_height(fname, debug = debug, playlist = playlist)     # [px]
+    width = return_video_width(fname, debug = debug, playlist = playlist)       # [px]
 
     # Find stream info ...
     if fname.startswith("bluray:"):

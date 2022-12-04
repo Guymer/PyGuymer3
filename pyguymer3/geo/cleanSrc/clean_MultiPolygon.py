@@ -1,4 +1,4 @@
-def clean_MultiPolygon(multipoly, kwArgCheck = None, debug = False, tol = 1.0e-10):
+def clean_MultiPolygon(multipoly, kwArgCheck = None, debug = False, prefix = ".", tol = 1.0e-10):
     """Clean a MultiPolygon
 
     This function cleans a MultiPolygon, made up of Polygons (with an exterior
@@ -57,15 +57,16 @@ def clean_MultiPolygon(multipoly, kwArgCheck = None, debug = False, tol = 1.0e-1
         polys.append(
             clean_Polygon(
                 poly,
-                debug = debug,
-                  tol = tol,
+                 debug = debug,
+                prefix = prefix,
+                   tol = tol,
             )
         )
 
     # Convert list of Polygons to a (unified) MultiPolygon ...
     cleans = shapely.ops.unary_union(polys)
     if debug:
-        check(cleans)
+        check(cleans, prefix = prefix)
 
     # Clean up ...
     del polys

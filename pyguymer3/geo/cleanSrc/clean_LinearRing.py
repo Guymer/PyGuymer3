@@ -1,4 +1,4 @@
-def clean_LinearRing(ring, kwArgCheck = None, debug = False, tol = 1.0e-10):
+def clean_LinearRing(ring, kwArgCheck = None, debug = False, prefix = ".", tol = 1.0e-10):
     """Clean a LinearRing
 
     This function cleans a LinearRing by removing bad points.
@@ -48,6 +48,7 @@ def clean_LinearRing(ring, kwArgCheck = None, debug = False, tol = 1.0e-10):
     # Return cleaned LinearRing ...
     return clean_CoordinateSequence(
         ring.coords,
-        debug = debug,
-          tol = tol,
+         debug = debug,
+        prefix = prefix,
+           tol = tol,
     )

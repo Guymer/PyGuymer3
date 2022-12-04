@@ -1,4 +1,4 @@
-def buffer_LineString(line, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", nang = 9, ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
+def buffer_LineString(line, dist, kwArgCheck = None, debug = False, eps = 1.0e-12, fill = 1.0, fillSpace = "EuclideanSpace", nang = 9, nmax = 100, prefix = ".", ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
     """Buffer a LineString
 
     This function reads in a LineString that exists on the surface of the Earth
@@ -65,16 +65,19 @@ def buffer_LineString(line, dist, kwArgCheck = None, debug = False, fill = 1.0, 
     if not isinstance(line, shapely.geometry.linestring.LineString):
         raise TypeError("\"line\" is not a LineString") from None
     if debug:
-        check(line)
+        check(line, prefix = prefix)
 
     # Return buffered LineString ...
     return buffer_CoordinateSequence(
         line.coords,
         dist,
             debug = debug,
+              eps = eps,
              fill = fill,
         fillSpace = fillSpace,
              nang = nang,
+             nmax = nmax,
+           prefix = prefix,
          ramLimit = ramLimit,
              simp = simp,
               tol = tol,

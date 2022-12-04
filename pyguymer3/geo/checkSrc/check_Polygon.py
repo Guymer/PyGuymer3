@@ -1,4 +1,4 @@
-def check_Polygon(poly):
+def check_Polygon(poly, kwArgCheck = None, prefix = "."):
     """Check Polygon
 
     This function checks if a Polygon is valid.
@@ -33,11 +33,15 @@ def check_Polygon(poly):
     # Import sub-functions ...
     from .._debug import _debug
 
+    # Check keyword arguments ...
+    if kwArgCheck is not None:
+        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
+
     # Check argument ...
     if not isinstance(poly, shapely.geometry.polygon.Polygon):
         raise TypeError("\"poly\" is not a Polygon") from None
     if not poly.is_valid:
-        _debug(poly)
+        _debug(poly, prefix = prefix)
         raise Exception(f"\"poly\" is not a valid Polygon ({shapely.validation.explain_validity(poly)})") from None
     if poly.is_empty:
         raise Exception("\"poly\" is an empty Polygon") from None

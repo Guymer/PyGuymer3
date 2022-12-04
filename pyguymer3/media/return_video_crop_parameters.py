@@ -1,4 +1,4 @@
-def return_video_crop_parameters(fname, kwArgCheck = None, dt = 2.0, playlist = -1):
+def return_video_crop_parameters(fname, kwArgCheck = None, debug = False, dt = 2.0, playlist = -1):
     # Import standard modules ...
     import shutil
     import subprocess
@@ -21,9 +21,9 @@ def return_video_crop_parameters(fname, kwArgCheck = None, dt = 2.0, playlist = 
         raise Exception("\"ffmpeg\" is not installed") from None
 
     # Initialize variables ...
-    dur = return_media_duration(fname, playlist = playlist)                     # [s]
-    inW = return_video_width(fname, playlist = playlist)                        # [px]
-    inH = return_video_height(fname, playlist = playlist)                       # [px]
+    dur = return_media_duration(fname, debug = debug, playlist = playlist)      # [s]
+    inW = return_video_width(fname, debug = debug, playlist = playlist)         # [px]
+    inH = return_video_height(fname, debug = debug, playlist = playlist)        # [px]
     outX = 0                                                                    # [px]
     outY = 0                                                                    # [px]
 

@@ -1,4 +1,4 @@
-def great_circle(lon1, lat1, lon2, lat2, kwArgCheck = None, debug = False, npoint = 5, ramLimit = 1073741824):
+def great_circle(lon1, lat1, lon2, lat2, kwArgCheck = None, debug = False, npoint = 5, prefix = ".", ramLimit = 1073741824):
     """
     This function reads in two starting coordinates (in degrees) and two
     finishing coordinates (in degrees) on the surface of a sphere and calculates
@@ -57,14 +57,14 @@ def great_circle(lon1, lat1, lon2, lat2, kwArgCheck = None, debug = False, npoin
         y = interpolate(circle[i, 0], circle[i + 1, 0] - 360.0, circle[i, 1], circle[i + 1, 1], x)  # [°]
         line1 = shapely.geometry.linestring.LineString(numpy.append(circle[:i + 1, :], [[x, y]], axis = 0))
         if debug:
-            check(line1)
+            check(line1, prefix = prefix)
 
         # Calculate the second intersection and convert to a LineString ...
         x = +180.0                                                              # [°]
         y = interpolate(circle[i, 0] + 360.0, circle[i + 1, 0], circle[i, 1], circle[i + 1, 1], x)  # [°]
         line2 = shapely.geometry.linestring.LineString(numpy.append([[x, y]], circle[i + 1:, :], axis = 0))
         if debug:
-            check(line2)
+            check(line2, prefix = prefix)
 
         # Clean up ...
         del circle
@@ -72,7 +72,7 @@ def great_circle(lon1, lat1, lon2, lat2, kwArgCheck = None, debug = False, npoin
         # Convert to a MultiLineString ...
         multiline = shapely.geometry.multilinestring.MultiLineString([line1, line2])
         if debug:
-            check(multiline)
+            check(multiline, prefix = prefix)
 
         # Clean up ...
         del line1, line2
@@ -93,14 +93,14 @@ def great_circle(lon1, lat1, lon2, lat2, kwArgCheck = None, debug = False, npoin
         y = interpolate(circle[i, 0], circle[i + 1, 0] + 360.0, circle[i, 1], circle[i + 1, 1], x)  # [°]
         line1 = shapely.geometry.linestring.LineString(numpy.append(circle[:i + 1, :], [[x, y]], axis = 0))
         if debug:
-            check(line1)
+            check(line1, prefix = prefix)
 
         # Calculate the second intersection and convert to a LineString ...
         x = -180.0                                                              # [°]
         y = interpolate(circle[i, 0] - 360.0, circle[i + 1, 0], circle[i, 1], circle[i + 1, 1], x)  # [°]
         line2 = shapely.geometry.linestring.LineString(numpy.append([[x, y]], circle[i + 1:, :], axis = 0))
         if debug:
-            check(line2)
+            check(line2, prefix = prefix)
 
         # Clean up ...
         del circle
@@ -108,7 +108,7 @@ def great_circle(lon1, lat1, lon2, lat2, kwArgCheck = None, debug = False, npoin
         # Convert to a MultiLineString ...
         multiline = shapely.geometry.multilinestring.MultiLineString([line1, line2])
         if debug:
-            check(multiline)
+            check(multiline, prefix = prefix)
 
         # Clean up ...
         del line1, line2
@@ -119,7 +119,7 @@ def great_circle(lon1, lat1, lon2, lat2, kwArgCheck = None, debug = False, npoin
     # Convert to a LineString ...
     line = shapely.geometry.linestring.LineString(circle)
     if debug:
-        check(line)
+        check(line, prefix = prefix)
 
     # Clean up ...
     del circle

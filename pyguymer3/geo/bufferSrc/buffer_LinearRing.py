@@ -1,4 +1,4 @@
-def buffer_LinearRing(ring, dist, kwArgCheck = None, debug = False, fill = 1.0, fillSpace = "EuclideanSpace", nang = 9, ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
+def buffer_LinearRing(ring, dist, kwArgCheck = None, debug = False, eps = 1.0e-12, fill = 1.0, fillSpace = "EuclideanSpace", nang = 9, nmax = 100, prefix = ".", ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
     """Buffer a LinearRing
 
     This function reads in a LinearRing that exists on the surface of the Earth
@@ -65,16 +65,19 @@ def buffer_LinearRing(ring, dist, kwArgCheck = None, debug = False, fill = 1.0, 
     if not isinstance(ring, shapely.geometry.polygon.LinearRing):
         raise TypeError("\"ring\" is not a LinearRing") from None
     if debug:
-        check(ring)
+        check(ring, prefix = prefix)
 
     # Return buffered LinearRing ...
     return buffer_CoordinateSequence(
         ring.coords,
         dist,
             debug = debug,
+              eps = eps,
              fill = fill,
         fillSpace = fillSpace,
              nang = nang,
+             nmax = nmax,
+           prefix = prefix,
          ramLimit = ramLimit,
              simp = simp,
               tol = tol,

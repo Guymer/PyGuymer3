@@ -1,4 +1,4 @@
-def optimize_image(fname, kwArgCheck = None, debug = False, strip = False):
+def optimize_image(fname, kwArgCheck = None, chunksize = 1048576, debug = False, strip = False):
     """
     Please read the documentation for the four functions: "exiftool",
     "gifsicle", "jpegtran" and "optipng". It is not safe to keep on running the
@@ -28,9 +28,9 @@ def optimize_image(fname, kwArgCheck = None, debug = False, strip = False):
 
     # Optimize image depending the file extension ...
     if ext.lower() in [".gif"]:
-        gifsicle(fname, debug = debug)
+        gifsicle(fname, chunksize = chunksize, debug = debug)
     elif ext.lower() in [".jpg", ".jpeg"]:
-        jpegtran(fname, debug = debug)
+        jpegtran(fname, chunksize = chunksize, debug = debug)
     elif ext.lower() in [".png"]:
         optipng(fname)
     else:
