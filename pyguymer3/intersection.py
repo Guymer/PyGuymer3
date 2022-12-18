@@ -1,7 +1,7 @@
-# Define function ...
 def intersection(p1, p2, p3, p4):
     """
-    This function finds the intersection of two line segments.
+    This function finds the intersection of two line segments (defined by four
+    points).
     """
 
     # Import special modules ...
