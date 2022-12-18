@@ -25,6 +25,7 @@ from .getmtime import getmtime
 from .git_commits import git_commits
 from .hostname import hostname
 from .interpolate import interpolate
+from .intersection import intersection
 from .make_path_safe import make_path_safe
 from .mean import mean
 from .nlines import nlines
