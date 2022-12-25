@@ -18,6 +18,10 @@ def tile(xtile, ytile, zoom, sess, kwArgCheck = None, cookies = None, debug = Fa
     if kwArgCheck is not None:
         print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
+    # Check inputs ...
+    if not 0 <= zoom <= 19:
+        raise Exception(f"zoom is not in the required range ({zoom:d})") from None
+
     # Populate default values ...
     if cookies is None:
         cookies = {}
@@ -34,7 +38,7 @@ def tile(xtile, ytile, zoom, sess, kwArgCheck = None, cookies = None, debug = Fa
     # Check if the tile is missing ...
     if not os.path.exists(png):
         # Deduce tile URL ...
-        url = f"https://b.tile.openstreetmap.org/{zoom:d}/{xtile:d}/{ytile:d}.png"
+        url = f"https://tile.openstreetmap.org/{zoom:d}/{xtile:d}/{ytile:d}.png"
 
         if debug:
             print(f"INFO: Downloading \"{url}\" to \"{png}\" ...")
