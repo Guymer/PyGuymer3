@@ -1,4 +1,8 @@
 def num2deg(xtile, ytile, zoom):
+    """
+    This function returns the NW corner of the tile.
+    """
+
     # NOTE: https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#Python
 
     # Import standard modules ...
