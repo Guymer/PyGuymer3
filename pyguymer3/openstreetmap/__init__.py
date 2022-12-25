@@ -8,4 +8,5 @@ from .hfov import hfov
 from .num2deg import num2deg
 from .res import res
 from .tile import tile
+from .tiles import tiles
 from .vfov import vfov
