@@ -1,4 +1,4 @@
-def download_file(sess, url, fname, kwArgCheck = None, cookies = {}, headers = {}, timeout = 10.0, verify = True):
+def download_file(sess, url, fname, kwArgCheck = None, cookies = None, headers = None, timeout = 10.0, verify = True):
     # Import standard modules ...
     import email
     import email.utils
@@ -10,6 +10,14 @@ def download_file(sess, url, fname, kwArgCheck = None, cookies = {}, headers = {
     # Check keyword arguments ...
     if kwArgCheck is not None:
         print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
+
+    # Populate default values ...
+    if cookies is None:
+        cookies = {}
+    if headers is None:
+        headers = {}
+
+    # **************************************************************************
 
     # Try to download the file ...
     resp = download(sess, "get", url, cookies = cookies, headers = headers, timeout = timeout, verify = verify)

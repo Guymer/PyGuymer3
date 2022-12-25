@@ -1,4 +1,4 @@
-def tile(xtile, ytile, zoom, sess, kwArgCheck = None, cookies = {}, debug = False, headers = {}, mode = "RGB", timeout = 10.0, verify = True):
+def tile(xtile, ytile, zoom, sess, kwArgCheck = None, cookies = None, debug = False, headers = None, mode = "RGB", timeout = 10.0, verify = True):
     # Import standard modules ...
     import os
 
@@ -17,6 +17,14 @@ def tile(xtile, ytile, zoom, sess, kwArgCheck = None, cookies = {}, debug = Fals
     # Check keyword arguments ...
     if kwArgCheck is not None:
         print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
+
+    # Populate default values ...
+    if cookies is None:
+        cookies = {}
+    if headers is None:
+        headers = {}
+
+    # **************************************************************************
 
     # Deduce tile name ...
     png = os.path.expanduser(f"~/.local/share/openstreetmap/tiles/{zoom:d}/{xtile:d}/{ytile:d}.png")

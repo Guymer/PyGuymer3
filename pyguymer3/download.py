@@ -1,7 +1,15 @@
-def download(sess, method, url, kwArgCheck = None, cookies = {}, headers = {}, timeout = 10.0, verify = True):
+def download(sess, method, url, kwArgCheck = None, cookies = None, headers = None, timeout = 10.0, verify = True):
     # Check keyword arguments ...
     if kwArgCheck is not None:
         print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
+
+    # Populate default values ...
+    if cookies is None:
+        cookies = {}
+    if headers is None:
+        headers = {}
+
+    # **************************************************************************
 
     # Catch common errors ...
     if "&amp;" in url:
