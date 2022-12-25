@@ -1,13 +1,16 @@
-def tiles(xtileW, xtileE, ytileN, ytileS, zoom, sess, kwArgCheck = None, cookies = None, debug = False, headers = None, mode = "RGB", timeout = 10.0, verify = True):
+def tiles(lonC_deg, latC_deg, zoom, width, height, sess, kwArgCheck = None, background = (255, 255, 255), cookies = None, debug = False, fill = (255, 0, 0, 127), headers = None, radius = None, timeout = 10.0, verify = True):
     # Import special modules ...
     try:
         import PIL
         import PIL.Image
+        import PIL.ImageDraw
         PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                         # [px]
     except:
         raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None
 
     # Import sub-functions ...
+    from .deg2num import deg2num
+    from .num2deg import num2deg
     from .tile import tile
 
     # Check keyword arguments ...
@@ -26,23 +29,45 @@ def tiles(xtileW, xtileE, ytileN, ytileS, zoom, sess, kwArgCheck = None, cookies
 
     # **************************************************************************
 
+    # Find which tile contains the location ...
+    xtileC, ytileC = deg2num(lonC_deg, latC_deg, zoom)                          # [#], [#]
+
+    # Find where exactly the location is within the central tile (assuming that
+    # both the Euclidean and Geodesic spaces are both rectilinear and uniform) ...
+    lonCW_deg, latCN_deg = num2deg(xtileC, ytileC, zoom)                        # [°], [°]
+    lonCE_deg, latCS_deg = num2deg(xtileC + 1, ytileC + 1, zoom)                # [°], [°]
+    xoffset = int(256.0 * (lonCW_deg - lonC_deg) / (lonCW_deg - lonCE_deg))     # [px]
+    yoffset = int(256.0 * (latCN_deg - latC_deg) / (latCN_deg - latCS_deg))     # [px]
+
+    # Find out where to start and finish the loops ...
+    xtileW = xtileC - (width // 2 // 256) - 1                                   # [#]
+    xtileE = xtileC + (width // 2 // 256) + 1                                   # [#]
+    ytileN = ytileC - (height // 2 // 256) - 1                                  # [#]
+    ytileS = ytileC + (height // 2 // 256) + 1                                  # [#]
+
+    # **************************************************************************
+
     # Make blank map ...
     tilesIm = PIL.Image.new(
         "RGB",
-        ((xtileE - xtileW + 1) * 256, (ytileS - ytileN + 1) * 256),
-        (255, 255, 255),
+        (width, height),
+        background,
     )
 
-    # Initialize counter ...
-    i = 0                                                                       # [#]
+    # Make drawing object, if the user wants to draw circle ...
+    if radius is not None:
+        draw = PIL.ImageDraw.Draw(tilesIm, "RGBA")
 
     # Loop over columns ...
     for xtile in range(xtileW, xtileE + 1):
-        # Initialize counter ...
-        j = 0                                                                   # [#]
+        # Find where to put the top-left corner of this tile ...
+        x = width // 2 - xoffset - (xtileC - xtile) * 256                       # [px]
 
         # Loop over rows ...
         for ytile in range(ytileN, ytileS + 1):
+            # Find where to put the top-left corner of this tile ...
+            y = height // 2 - yoffset - (ytileC - ytile) * 256                  # [px]
+
             # Obtain the tile ...
             tileIm = tile(
                 xtile,
@@ -52,22 +77,22 @@ def tiles(xtileW, xtileE, ytileN, ytileS, zoom, sess, kwArgCheck = None, cookies
                 cookies = cookies,
                   debug = debug,
                 headers = headers,
-                   mode = mode,
                 timeout = timeout,
                  verify = verify,
             )
 
             # Paste the tile onto the map ...
-            tilesIm.paste(tileIm, (i * 256, j * 256))
+            tilesIm.paste(tileIm, (x, y))
 
             # Clean up ...
             del tileIm
 
-            # Increment counter ...
-            j += 1                                                              # [#]
-
-        # Increment counter ...
-        i += 1                                                                  # [#]
+    # Draw circle, if the user wants to ...
+    if radius is not None:
+        draw.ellipse(
+            [width // 2 - radius, height // 2 - radius, width // 2 + radius, height // 2 + radius],
+            fill = fill,
+        )
 
     # Return answer ...
     return tilesIm

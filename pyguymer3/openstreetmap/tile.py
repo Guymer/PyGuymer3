@@ -1,4 +1,4 @@
-def tile(xtile, ytile, zoom, sess, kwArgCheck = None, cookies = None, debug = False, headers = None, mode = "RGB", timeout = 10.0, verify = True):
+def tile(xtile, ytile, zoom, sess, kwArgCheck = None, cookies = None, debug = False, headers = None, timeout = 10.0, verify = True):
     # Import standard modules ...
     import os
 
@@ -66,9 +66,6 @@ def tile(xtile, ytile, zoom, sess, kwArgCheck = None, cookies = None, debug = Fa
     # Open image as RGB (even if it is paletted) ...
     with PIL.Image.open(png) as imageObj:
         image = imageObj.convert("RGB")
-
-    # Convert it to whatever mode the user asked for ...
-    image = image.convert(mode)
 
     # Return answer ...
     return image
