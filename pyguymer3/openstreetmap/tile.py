@@ -1,6 +1,7 @@
 def tile(xtile, ytile, zoom, sess, kwArgCheck = None, cookies = None, debug = False, headers = None, timeout = 10.0, verify = True):
     # Import standard modules ...
     import os
+    import time
 
     # Import special modules ...
     try:
@@ -60,6 +61,9 @@ def tile(xtile, ytile, zoom, sess, kwArgCheck = None, cookies = None, debug = Fa
             debug = debug,
             strip = True,
         )
+
+        # Sleep ...
+        time.sleep(1.0)
 
     # **************************************************************************
 
