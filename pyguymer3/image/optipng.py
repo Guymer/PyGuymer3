@@ -22,6 +22,7 @@ def optipng(fname):
     subprocess.run(
         [
             "optipng",
+            "--",
             fname
         ],
            check = True,
