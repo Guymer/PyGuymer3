@@ -1,4 +1,4 @@
-def deg2num(lat_deg, lon_deg, zoom):
+def deg2num(lon_deg, lat_deg, zoom):
     # NOTE: https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#Python
 
     # Import standard modules ...

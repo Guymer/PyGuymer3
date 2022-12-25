@@ -10,4 +10,4 @@ def num2deg(xtile, ytile, zoom):
     lat_deg = math.degrees(lat_rad)
 
     # Return answer ...
-    return lat_deg, lon_deg
+    return lon_deg, lat_deg
