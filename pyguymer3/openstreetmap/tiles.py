@@ -29,7 +29,7 @@ def tiles(xtileW, xtileE, ytileN, ytileS, zoom, sess, kwArgCheck = None, cookies
     # Make blank map ...
     tilesIm = PIL.Image.new(
         "RGB",
-        ((xtileE - xtileW + 1) * 256, (ytileN - ytileS + 1) * 256),
+        ((xtileE - xtileW + 1) * 256, (ytileS - ytileN + 1) * 256),
         (255, 255, 255),
     )
 
