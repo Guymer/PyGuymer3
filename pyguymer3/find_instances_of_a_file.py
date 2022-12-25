@@ -45,33 +45,42 @@ def find_instances_of_a_file(path, basename, kwArgCheck = None, debug = False, f
 
     # Check it exists ...
     if os.path.exists(path):
-        # Loop over folder contents ...
-        for entry in os.scandir(path):
-            # Check if the user wants to perform debugging ...
-            if debug:
-                # Test if this part is illegal and print the full path for
-                # identification ...
-                if not entry.name.startswith(".") and entry.name != make_path_safe(entry.name):
-                    print(f"WARNING: \"{entry.path}\" is illegal")
+        # Open folder ...
+        with os.scandir(path) as scanObj:
+            # Loop over folder contents ...
+            for entry in scanObj:
+                # Check if the user wants to perform debugging ...
+                if debug:
+                    # Test if this part is illegal and print the full path for
+                    # identification ...
+                    if not entry.name.startswith(".") and entry.name != make_path_safe(entry.name):
+                        print(f"WARNING: \"{entry.path}\" is illegal")
 
-            # Check if it might need following ...
-            if entry.is_dir(follow_symlinks = follow_symlinks):
-                # Check that the directory is list-able ...
-                # NOTE: On 20/Aug/2022 this was (incorrectly, in my opinion)
-                #       returning False on regular folders on FreeBSD (but not
-                #       MacOS) when passed "follow_symlinks = False".
-                if os.access(entry, os.X_OK):
-                    # Recursively run this function again and add to the list ...
-                    contents += find_instances_of_a_file(entry.path, basename, debug = debug, follow_symlinks = follow_symlinks, return_symlinks = return_symlinks)
-                elif debug:
-                    print(f"WARNING: \"{entry.path}\" cannot be listed")
+                # Check if it might need following ...
+                if entry.is_dir(follow_symlinks = follow_symlinks):
+                    # Check that the directory is list-able ...
+                    # NOTE: On 20/Aug/2022 this was (incorrectly, in my opinion)
+                    #       returning False on regular folders on FreeBSD (but
+                    #       not MacOS) when passed "follow_symlinks = False".
+                    if os.access(entry, os.X_OK):
+                        # Recursively run this function again and add to the
+                        # list ...
+                        contents += find_instances_of_a_file(
+                            entry.path,
+                            basename,
+                                      debug = debug,
+                            follow_symlinks = follow_symlinks,
+                            return_symlinks = return_symlinks,
+                        )
+                    elif debug:
+                        print(f"WARNING: \"{entry.path}\" cannot be listed")
 
-            # Check if it might need adding to the list ...
-            if entry.is_file(follow_symlinks = return_symlinks):
-                # Check if it should be added to the list ...
-                if entry.name == basename:
-                    # Add to the list ...
-                    contents.append(entry.path)
+                # Check if it might need adding to the list ...
+                if entry.is_file(follow_symlinks = return_symlinks):
+                    # Check if it should be added to the list ...
+                    if entry.name == basename:
+                        # Add to the list ...
+                        contents.append(entry.path)
     elif debug:
         print(f"WARNING: \"{path}\" does not exist")
 

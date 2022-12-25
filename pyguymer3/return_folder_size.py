@@ -43,31 +43,39 @@ def return_folder_size(path, kwArgCheck = None, debug = False, follow_symlinks =
 
     # Check it exists ...
     if os.path.exists(path):
-        # Loop over folder contents ...
-        for entry in os.scandir(path):
-            # Check if the user wants to perform debugging ...
-            if debug:
-                # Test if this part is illegal and print the full path for
-                # identification ...
-                if not entry.name.startswith(".") and entry.name != make_path_safe(entry.name):
-                    print(f"WARNING: \"{entry.path}\" is illegal")
+        # Open folder ...
+        with os.scandir(path) as scanObj:
+            # Loop over folder contents ...
+            for entry in scanObj:
+                # Check if the user wants to perform debugging ...
+                if debug:
+                    # Test if this part is illegal and print the full path for
+                    # identification ...
+                    if not entry.name.startswith(".") and entry.name != make_path_safe(entry.name):
+                        print(f"WARNING: \"{entry.path}\" is illegal")
 
-            # Check if it might need following ...
-            if entry.is_dir(follow_symlinks = follow_symlinks):
-                # Check that the directory is list-able ...
-                # NOTE: On 20/Aug/2022 this was (incorrectly, in my opinion)
-                #       returning False on regular folders on FreeBSD (but not
-                #       MacOS) when passed "follow_symlinks = False".
-                if os.access(entry, os.X_OK):
-                    # Recursively run this function again and add to the total ...
-                    size += return_folder_size(entry.path, debug = debug, follow_symlinks = follow_symlinks, return_symlinks = return_symlinks)
-                elif debug:
-                    print(f"WARNING: \"{entry.path}\" cannot be listed")
+                # Check if it might need following ...
+                if entry.is_dir(follow_symlinks = follow_symlinks):
+                    # Check that the directory is list-able ...
+                    # NOTE: On 20/Aug/2022 this was (incorrectly, in my opinion)
+                    #       returning False on regular folders on FreeBSD (but
+                    #       not MacOS) when passed "follow_symlinks = False".
+                    if os.access(entry, os.X_OK):
+                        # Recursively run this function again and add to the
+                        # total ...
+                        size += return_folder_size(
+                            entry.path,
+                                      debug = debug,
+                            follow_symlinks = follow_symlinks,
+                            return_symlinks = return_symlinks,
+                        )                                                       # [B]
+                    elif debug:
+                        print(f"WARNING: \"{entry.path}\" cannot be listed")
 
-            # Check if it might need adding to the total ...
-            if entry.is_file(follow_symlinks = return_symlinks):
-                # Add to the total ...
-                size += os.path.getsize(entry)                                  # [B]
+                # Check if it might need adding to the total ...
+                if entry.is_file(follow_symlinks = return_symlinks):
+                    # Add to the total ...
+                    size += os.path.getsize(entry)                              # [B]
     elif debug:
         print(f"WARNING: \"{path}\" does not exist")
 
