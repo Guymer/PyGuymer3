@@ -41,7 +41,7 @@ SUBROUTINE buffer_point_crudely(lon1, lat1, dist, nang, ring)
             DO iang = 1_C_LONG_LONG, nang - 1_C_LONG_LONG
                 ! Calculate initial angle, then the ring coordinates and add
                 ! them to the list ...
-                ang1 = 360.0e0_C_DOUBLE * REAL(iang - 1_C_LONG_LONG, kind = C_DOUBLE) / REAL(nang - 1_C_LONG_LONG, kind = C_DOUBLE)
+                ang1 = 360.0e0_C_DOUBLE * REAL(nang - iang, kind = C_DOUBLE) / REAL(nang - 1_C_LONG_LONG, kind = C_DOUBLE)  ! [°]
                 CALL sub_calc_loc_from_loc_and_bearing_and_dist(                &
                       lon1_deg = lon1,                                          &
                       lat1_deg = lat1,                                          &

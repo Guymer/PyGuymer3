@@ -42,7 +42,7 @@ SUBROUTINE buffer_points_crudely(points1, dist, nang, npoint, points2)
             !       nang ≥ 9).
             DO iang = 1_C_LONG_LONG, nang - 1_C_LONG_LONG
                 ! Calculate initial angle ...
-                ang1 = 360.0e0_C_DOUBLE * REAL(iang - 1_C_LONG_LONG, kind = C_DOUBLE) / REAL(nang - 1_C_LONG_LONG, kind = C_DOUBLE)
+                ang1 = 360.0e0_C_DOUBLE * REAL(nang - iang, kind = C_DOUBLE) / REAL(nang - 1_C_LONG_LONG, kind = C_DOUBLE)  ! [°]
 
                 ! Loop over points ...
                 DO ipoint = 1_C_LONG_LONG, npoint

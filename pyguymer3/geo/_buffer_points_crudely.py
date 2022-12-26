@@ -64,7 +64,7 @@ def _buffer_points_crudely(points1, dist, nang, kwArgCheck = None, eps = 1.0e-12
     # NOTE: The most two subsequent points can be apart is ~45° (with nang ≥ 9).
     for iang in range(nang - 1):
         # Calculate initial angle ...
-        ang1 = 360.0 * float(iang) / float(nang - 1)                            # [°]
+        ang1 = 360.0 * float(nang - 1 - iang) / float(nang - 1)                 # [°]
 
         # Loop over points ...
         for ipoint in range(npoint):
