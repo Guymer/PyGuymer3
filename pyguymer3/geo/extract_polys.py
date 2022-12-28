@@ -8,11 +8,11 @@ def extract_polys(shape, kwArgCheck = None, onlyValid = False, repair = False):
     ----------
     shape :
         the Shapely geometry
-    repair : bool, optional
-        attempt to repair invalid Polygons
     onlyValid : bool, optional
         only return valid Polygons (checks for validity can take a while, if
         being called often)
+    repair : bool, optional
+        attempt to repair invalid Polygons
 
     Returns
     -------
