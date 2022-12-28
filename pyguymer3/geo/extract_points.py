@@ -1,4 +1,4 @@
-def extract_points(shape, kwArgCheck = None, keepInvalid = False):
+def extract_points(shape, kwArgCheck = None, onlyValid = False):
     """Extract the Points from the shape
 
     This function accepts any Shapely geometry and returns a flat list of all of
@@ -8,6 +8,9 @@ def extract_points(shape, kwArgCheck = None, keepInvalid = False):
     ----------
     shape :
         the Shapely geometry
+    onlyValid : bool, optional
+        only return valid Points (checks for validity can take a while, if
+        being called often)
 
     Returns
     -------
@@ -16,6 +19,9 @@ def extract_points(shape, kwArgCheck = None, keepInvalid = False):
 
     Notes
     -----
+    To pass GeoJSON objects you must first convert them to Shapely objects by
+    doing something like "shape = shapely.geometry.shape(shape)".
+
     Copyright 2017 Thomas Guymer [1]_
 
     References
@@ -50,15 +56,15 @@ def extract_points(shape, kwArgCheck = None, keepInvalid = False):
         # Loop over items ...
         for item in shape:
             # Add lists together ...
-            points += extract_points(item, keepInvalid = keepInvalid)
+            points += extract_points(item, onlyValid = onlyValid)
 
         # Return answer ...
         return points
 
     # Check type ...
     if isinstance(shape, shapely.geometry.point.Point):
-        # Just return the answer if the user doesn't want any checks or fixes ...
-        if keepInvalid:
+        # Just return the answer if the user doesn't want any checks ...
+        if not onlyValid:
             return [shape]
 
         # Check if it is valid ...
@@ -81,7 +87,7 @@ def extract_points(shape, kwArgCheck = None, keepInvalid = False):
         # Loop over Points ...
         for point in shape.geoms:
             # Add lists together ...
-            points += extract_points(point, keepInvalid = keepInvalid)
+            points += extract_points(point, onlyValid = onlyValid)
 
         # Return answer ...
         return points
@@ -114,7 +120,7 @@ def extract_points(shape, kwArgCheck = None, keepInvalid = False):
         # Loop over geometries ...
         for geom in shape.geoms:
             # Add lists together ...
-            points += extract_points(geom, keepInvalid = keepInvalid)
+            points += extract_points(geom, onlyValid = onlyValid)
 
         # Return answer ...
         return points

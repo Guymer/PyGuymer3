@@ -1,4 +1,4 @@
-def extract_lines(shape, kwArgCheck = None, keepInvalid = False):
+def extract_lines(shape, kwArgCheck = None, onlyValid = False):
     """Extract the LineStrings from the shape
 
     This function accepts any Shapely geometry and returns a flat list of all of
@@ -8,6 +8,9 @@ def extract_lines(shape, kwArgCheck = None, keepInvalid = False):
     ----------
     shape :
         the Shapely geometry
+    onlyValid : bool, optional
+        only return valid LineStrings (checks for validity can take a while, if
+        being called often)
 
     Returns
     -------
@@ -16,6 +19,9 @@ def extract_lines(shape, kwArgCheck = None, keepInvalid = False):
 
     Notes
     -----
+    To pass GeoJSON objects you must first convert them to Shapely objects by
+    doing something like "shape = shapely.geometry.shape(shape)".
+
     Copyright 2017 Thomas Guymer [1]_
 
     References
@@ -50,7 +56,7 @@ def extract_lines(shape, kwArgCheck = None, keepInvalid = False):
         # Loop over items ...
         for item in shape:
             # Add lists together ...
-            lines += extract_lines(item, keepInvalid = keepInvalid)
+            lines += extract_lines(item, onlyValid = onlyValid)
 
         # Return answer ...
         return lines
@@ -65,8 +71,8 @@ def extract_lines(shape, kwArgCheck = None, keepInvalid = False):
 
     # Check type ...
     if isinstance(shape, shapely.geometry.polygon.LinearRing):
-        # Just return the answer if the user doesn't want any checks or fixes ...
-        if keepInvalid:
+        # Just return the answer if the user doesn't want any checks ...
+        if not onlyValid:
             return [shape]
 
         # Check if it is valid ...
@@ -83,8 +89,8 @@ def extract_lines(shape, kwArgCheck = None, keepInvalid = False):
 
     # Check type ...
     if isinstance(shape, shapely.geometry.linestring.LineString):
-        # Just return the answer if the user doesn't want any checks or fixes ...
-        if keepInvalid:
+        # Just return the answer if the user doesn't want any checks ...
+        if not onlyValid:
             return [shape]
 
         # Check if it is valid ...
@@ -107,7 +113,7 @@ def extract_lines(shape, kwArgCheck = None, keepInvalid = False):
         # Loop over LineStrings ...
         for line in shape.geoms:
             # Add lists together ...
-            lines += extract_lines(line, keepInvalid = keepInvalid)
+            lines += extract_lines(line, onlyValid = onlyValid)
 
         # Return answer ...
         return lines
@@ -128,7 +134,7 @@ def extract_lines(shape, kwArgCheck = None, keepInvalid = False):
         # Loop over geometries ...
         for geom in shape.geoms:
             # Add lists together ...
-            lines += extract_lines(geom, keepInvalid = keepInvalid)
+            lines += extract_lines(geom, onlyValid = onlyValid)
 
         # Return answer ...
         return lines

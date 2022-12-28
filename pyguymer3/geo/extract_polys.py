@@ -1,4 +1,4 @@
-def extract_polys(shape, kwArgCheck = None, keepInvalid = False):
+def extract_polys(shape, kwArgCheck = None, repair = False, onlyValid = False):
     """Extract the Polygons from the shape
 
     This function accepts any Shapely geometry and returns a flat list of all of
@@ -8,6 +8,11 @@ def extract_polys(shape, kwArgCheck = None, keepInvalid = False):
     ----------
     shape :
         the Shapely geometry
+    repair : bool, optional
+        attempt to repair invalid Polygons
+    onlyValid : bool, optional
+        only return valid Polygons (checks for validity can take a while, if
+        being called often)
 
     Returns
     -------
@@ -53,7 +58,7 @@ def extract_polys(shape, kwArgCheck = None, keepInvalid = False):
         # Loop over items ...
         for item in shape:
             # Add lists together ...
-            polys += extract_polys(item, keepInvalid = keepInvalid)
+            polys += extract_polys(item, repair = repair, onlyValid = onlyValid)
 
         # Return answer ...
         return polys
@@ -81,7 +86,7 @@ def extract_polys(shape, kwArgCheck = None, keepInvalid = False):
     # Check type ...
     if isinstance(shape, shapely.geometry.polygon.Polygon):
         # Just return the answer if the user doesn't want any checks or fixes ...
-        if keepInvalid:
+        if not onlyValid:
             return [shape]
 
         # Check if it is valid ...
@@ -93,17 +98,22 @@ def extract_polys(shape, kwArgCheck = None, keepInvalid = False):
             # Return answer ...
             return [shape]
 
-        # Try to fix it ...
-        shape2 = shape.buffer(0.0)
+        # Check if the user wants to attempt to fix it ...
+        if repair:
+            # Try to repair it ...
+            shape2 = shape.buffer(0.0)
 
-        # Check if it is valid ...
-        if shape2.is_valid:
-            # Skip bad Polygons ...
-            if shape2.is_empty:
-                return []
+            # Check if it is valid ...
+            if shape2.is_valid:
+                # Skip bad Polygons ...
+                if shape2.is_empty:
+                    return []
+
+                # Return answer ...
+                return [shape2]
 
             # Return answer ...
-            return [shape2]
+            return []
 
         # Return answer ...
         return []
@@ -116,7 +126,7 @@ def extract_polys(shape, kwArgCheck = None, keepInvalid = False):
         # Loop over Polygons ...
         for poly in shape.geoms:
             # Add lists together ...
-            polys += extract_polys(poly, keepInvalid = keepInvalid)
+            polys += extract_polys(poly, repair = repair, onlyValid = onlyValid)
 
         # Return answer ...
         return polys
@@ -129,7 +139,7 @@ def extract_polys(shape, kwArgCheck = None, keepInvalid = False):
         # Loop over geometries ...
         for geom in shape.geoms:
             # Add lists together ...
-            polys += extract_polys(geom, keepInvalid = keepInvalid)
+            polys += extract_polys(geom, repair = repair, onlyValid = onlyValid)
 
         # Return answer ...
         return polys
