@@ -1,4 +1,4 @@
-def area(shape, kwArgCheck = None, eps = 1.0e-12, keepInvalid = False, level = 1, nmax = 100):
+def area(shape, kwArgCheck = None, eps = 1.0e-12, level = 1, nmax = 100, onlyValid = False, repair = False):
     # Import special modules ...
     try:
         import shapely
@@ -20,11 +20,11 @@ def area(shape, kwArgCheck = None, eps = 1.0e-12, keepInvalid = False, level = 1
     tot = 0.0                                                                   # [m2]
 
     # Loop over Polygons in the Voronoi diagram of the shape ...
-    for voronoi in extract_polys(shapely.ops.voronoi_diagram(shape), keepInvalid = keepInvalid):
+    for voronoi in extract_polys(shapely.ops.voronoi_diagram(shape), onlyValid = onlyValid, repair = repair):
         # Loop over parts of the Polygons which intersect the shape ...
-        for voronoiPart in extract_polys(shape.intersection(voronoi), keepInvalid = keepInvalid):
+        for voronoiPart in extract_polys(shape.intersection(voronoi), onlyValid = onlyValid, repair = repair):
             # Loop over triangles within the Polygon ...
-            for triangle1 in extract_polys(shapely.ops.triangulate(voronoiPart), keepInvalid = keepInvalid):
+            for triangle1 in extract_polys(shapely.ops.triangulate(voronoiPart), onlyValid = onlyValid, repair = repair):
                 # Check if the user wants this level of refinement ...
                 if level == 1:
                     # Increment the total and move on to the next one ...
@@ -32,7 +32,7 @@ def area(shape, kwArgCheck = None, eps = 1.0e-12, keepInvalid = False, level = 1
                     continue
 
                 # Loop over triangles within the triangle ...
-                for triangle2 in extract_polys(shapely.ops.triangulate(triangle1), keepInvalid = keepInvalid):
+                for triangle2 in extract_polys(shapely.ops.triangulate(triangle1), onlyValid = onlyValid, repair = repair):
                     # Check if the user wants this level of refinement ...
                     if level == 2:
                         # Increment the total and move on to the next one ...
@@ -40,7 +40,7 @@ def area(shape, kwArgCheck = None, eps = 1.0e-12, keepInvalid = False, level = 1
                         continue
 
                     # Loop over triangles within the triangle ...
-                    for triangle3 in extract_polys(shapely.ops.triangulate(triangle2), keepInvalid = keepInvalid):
+                    for triangle3 in extract_polys(shapely.ops.triangulate(triangle2), onlyValid = onlyValid, repair = repair):
                         # Check if the user wants this level of refinement ...
                         if level == 3:
                             # Increment the total and move on to the next one ...
@@ -48,7 +48,7 @@ def area(shape, kwArgCheck = None, eps = 1.0e-12, keepInvalid = False, level = 1
                             continue
 
                         # Loop over triangles within the triangle ...
-                        for triangle4 in extract_polys(shapely.ops.triangulate(triangle3), keepInvalid = keepInvalid):
+                        for triangle4 in extract_polys(shapely.ops.triangulate(triangle3), onlyValid = onlyValid, repair = repair):
                             # Check if the user wants this level of refinement ...
                             if level == 4:
                                 # Increment the total and move on to the next

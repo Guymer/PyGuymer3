@@ -1,4 +1,4 @@
-def _add_land(axis, kwArgCheck = None, debug = False, keepInvalid = False, resolution = "110m"):
+def _add_land(axis, kwArgCheck = None, debug = False, onlyValid = False, repair = False, resolution = "110m"):
     # NOTE: This function uses CSS4 named colours, see:
     #         * https://matplotlib.org/stable/gallery/color/named_colors.html
 
@@ -45,7 +45,7 @@ def _add_land(axis, kwArgCheck = None, debug = False, keepInvalid = False, resol
     for record in cartopy.io.shapereader.Reader(sfile).records():
         # Plot geometry ...
         axis.add_geometries(
-            extract_polys(record.geometry, keepInvalid = keepInvalid),
+            extract_polys(record.geometry, onlyValid = onlyValid, repair = repair),
             cartopy.crs.PlateCarree(),
             edgecolor = "none",
             facecolor = facecolor,

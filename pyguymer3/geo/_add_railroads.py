@@ -1,4 +1,4 @@
-def _add_railroads(axis, kwArgCheck = None, debug = False, keepInvalid = False, linestyle = "solid", linewidth = 0.5, resolution = "110m"):
+def _add_railroads(axis, kwArgCheck = None, debug = False, linestyle = "solid", linewidth = 0.5, onlyValid = False, resolution = "110m"):
     # NOTE: This function uses CSS4 named colours, see:
     #         * https://matplotlib.org/stable/gallery/color/named_colors.html
 
@@ -53,7 +53,7 @@ def _add_railroads(axis, kwArgCheck = None, debug = False, keepInvalid = False, 
         for record in cartopy.io.shapereader.Reader(sfile).records():
             # Plot geometry ...
             axis.add_geometries(
-                extract_lines(record.geometry, keepInvalid = keepInvalid),
+                extract_lines(record.geometry, onlyValid = onlyValid),
                 cartopy.crs.PlateCarree(),
                 edgecolor = edgecolor,
                 facecolor = "none",
