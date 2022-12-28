@@ -1,4 +1,4 @@
-def extract_polys(shape, kwArgCheck = None, repair = False, onlyValid = False):
+def extract_polys(shape, kwArgCheck = None, onlyValid = False, repair = False):
     """Extract the Polygons from the shape
 
     This function accepts any Shapely geometry and returns a flat list of all of
