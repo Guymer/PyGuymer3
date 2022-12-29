@@ -45,7 +45,7 @@ SUBROUTINE buffer_point_crudely(lon1, lat1, dist, nang, ring)
                 CALL sub_calc_loc_from_loc_and_bearing_and_dist(                &
                       lon1_deg = lon1,                                          &
                       lat1_deg = lat1,                                          &
-                    alpha1_deg = ang1,                                          &
+                    alpha1_deg = MODULO(ang1, 360.0e0_C_DOUBLE),                &
                            s_m = dist,                                          &
                       lon2_deg = ring(iang, 1),                                 &
                       lat2_deg = ring(iang, 2),                                 &

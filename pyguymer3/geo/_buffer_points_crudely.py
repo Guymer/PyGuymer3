@@ -72,7 +72,7 @@ def _buffer_points_crudely(points1, dist, nang, kwArgCheck = None, eps = 1.0e-12
             points2[ipoint, iang, 0], points2[ipoint, iang, 1], _ = calc_loc_from_loc_and_bearing_and_dist(
                 points1[ipoint, 0],
                 points1[ipoint, 1],
-                ang1,
+                ang1 % 360.0,
                 dist,
                  eps = eps,
                 nmax = nmax,

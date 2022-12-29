@@ -50,7 +50,7 @@ SUBROUTINE buffer_points_crudely(points1, dist, nang, npoint, points2)
                     CALL sub_calc_loc_from_loc_and_bearing_and_dist(            &
                           lon1_deg = points1(ipoint, 1),                        &
                           lat1_deg = points1(ipoint, 2),                        &
-                        alpha1_deg = ang1,                                      &
+                        alpha1_deg = MODULO(ang1, 360.0e0_C_DOUBLE),            &
                                s_m = dist,                                      &
                           lon2_deg = points2(ipoint, iang, 1),                  &
                           lat2_deg = points2(ipoint, iang, 2),                  &
