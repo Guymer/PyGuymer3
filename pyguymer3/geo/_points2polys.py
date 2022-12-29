@@ -2,9 +2,9 @@ def _points2polys(point, points, kwArgCheck = None, debug = False, huge = False,
     """Convert a buffered point to a list of Polygons
 
     This function reads in a coordinate that exists on the surface of the Earth,
-    and an array of coordinates that are the ring around the coordinate buffered
-    by a constant distance, and returns a list of Polygons which describes the
-    buffer.
+    and an array of coordinates that are the counter-clockwise ring around the
+    coordinate buffered by a constant distance, and returns a list of Polygons
+    which describes the buffer.
 
     Parameters
     ----------
