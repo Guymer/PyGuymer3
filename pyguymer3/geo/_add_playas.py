@@ -12,6 +12,7 @@ def _add_playas(axis, kwArgCheck = None, debug = False, linestyle = "solid", lin
         raise Exception("\"cartopy\" is not installed; run \"pip install --user Cartopy\"") from None
     try:
         import matplotlib
+        matplotlib.use("Agg")                                                   # NOTE: See https://matplotlib.org/stable/gallery/user_interfaces/canvasagg.html
     except:
         raise Exception("\"matplotlib\" is not installed; run \"pip install --user matplotlib\"") from None
 

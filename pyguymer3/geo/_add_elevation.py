@@ -17,6 +17,7 @@ def _add_elevation(axis, kwArgCheck = None, debug = False, maxElev = 8850.0, onl
         raise Exception("\"geojson\" is not installed; run \"pip install --user geojson\"") from None
     try:
         import matplotlib
+        matplotlib.use("Agg")                                                   # NOTE: See https://matplotlib.org/stable/gallery/user_interfaces/canvasagg.html
     except:
         raise Exception("\"matplotlib\" is not installed; run \"pip install --user matplotlib\"") from None
     try:
