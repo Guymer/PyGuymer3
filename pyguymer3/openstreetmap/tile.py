@@ -1,4 +1,4 @@
-def tile(xtile, ytile, zoom, sess, kwArgCheck = None, cookies = None, debug = False, headers = None, timeout = 10.0, verify = True):
+def tile(xtile, ytile, zoom, sess, kwArgCheck = None, chunksize = 1048576, cookies = None, debug = False, headers = None, timeout = 10.0, verify = True):
     # Import standard modules ...
     import os
     import time
@@ -58,8 +58,9 @@ def tile(xtile, ytile, zoom, sess, kwArgCheck = None, cookies = None, debug = Fa
         # Optimize tile ...
         optimize_image(
             png,
-            debug = debug,
-            strip = True,
+            chunksize = chunksize,
+                debug = debug,
+                strip = True,
         )
 
         # Sleep ...
