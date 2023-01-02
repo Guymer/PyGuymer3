@@ -3,8 +3,8 @@ def tiles(lonC_deg, latC_deg, zoom, width, height, sess, kwArgCheck = None, back
     try:
         import PIL
         import PIL.Image
-        import PIL.ImageDraw
         PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                         # [px]
+        import PIL.ImageDraw
     except:
         raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None
 

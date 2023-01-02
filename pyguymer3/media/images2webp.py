@@ -50,6 +50,7 @@ def images2webp(imgs, webp, kwArgCheck = None, chunksize = 1048576, debug = Fals
     try:
         import PIL
         import PIL.Image
+        PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                         # [px]
     except:
         raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None
 
@@ -64,9 +65,6 @@ def images2webp(imgs, webp, kwArgCheck = None, chunksize = 1048576, debug = Fals
     # Check input ...
     if exif is not None and strip:
         print("WARNING: You have provided EXIF data but then asked to strip metadata.")
-
-    # Configure PIL to open images up to 1 GiP ...
-    PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                             # [px]
 
     # **************************************************************************
 

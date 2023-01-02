@@ -34,6 +34,7 @@ def image2png(img, png, kwArgCheck = None, chunksize = 1048576, debug = False, e
     try:
         import PIL
         import PIL.Image
+        PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                         # [px]
     except:
         raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None
 
@@ -48,9 +49,6 @@ def image2png(img, png, kwArgCheck = None, chunksize = 1048576, debug = False, e
     # Check input ...
     if exif is not None and strip:
         print("WARNING: You have provided EXIF data but then asked to strip metadata.")
-
-    # Configure PIL to open images up to 1 GiP ...
-    PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                             # [px]
 
     # Find out what the user supplied ...
     if isinstance(img, str):

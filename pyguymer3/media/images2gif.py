@@ -42,6 +42,7 @@ def images2gif(imgs, gif, kwArgCheck = None, chunksize = 1048576, debug = False,
     try:
         import PIL
         import PIL.Image
+        PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                         # [px]
     except:
         raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None
 
@@ -51,9 +52,6 @@ def images2gif(imgs, gif, kwArgCheck = None, chunksize = 1048576, debug = False,
     # Check keyword arguments ...
     if kwArgCheck is not None:
         print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
-
-    # Configure PIL to open images up to 1 GiP ...
-    PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                             # [px]
 
     # **************************************************************************
 

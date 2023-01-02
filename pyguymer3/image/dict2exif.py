@@ -30,15 +30,13 @@ def dict2exif(exif, kwArgCheck = None, mode = "RGB"):
         import PIL
         import PIL.ExifTags
         import PIL.Image
+        PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                         # [px]
     except:
         raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None
 
     # Check keyword arguments ...
     if kwArgCheck is not None:
         print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
-
-    # Configure PIL to open images up to 1 GiP ...
-    PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                             # [px]
 
     # Create an empty EXIF class (by obtaining the EXIF data from a blank image) ...
     # NOTE: See https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.getexif
