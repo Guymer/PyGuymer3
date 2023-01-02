@@ -3,9 +3,9 @@ def nlines(fname):
     n = 0                                                                       # [#]
 
     # Open the input file ...
-    with open(fname, "rt", encoding = "utf-8") as fobj:
+    with open(fname, "rt", encoding = "utf-8") as fObj:
         # Load the source and strip whitespace ...
-        src = fobj.read().strip()
+        src = fObj.read().strip()
 
         # Set answer ...
         n = len(src.splitlines())                                               # [#]

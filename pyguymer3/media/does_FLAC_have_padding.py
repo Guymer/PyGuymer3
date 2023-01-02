@@ -19,21 +19,21 @@ def does_FLAC_have_padding(fname):
     }
 
     # Open FLAC read-only ...
-    with open(fname, "rb") as fobj:
+    with open(fname, "rb") as fObj:
         # Create short-hand ...
         fsize = os.path.getsize(fname)                                          # [B]
 
         # Read magic marker and raise exception if it is not expected ...
-        if fobj.read(4).decode("utf-8") != "fLaC":
+        if fObj.read(4).decode("utf-8") != "fLaC":
             raise Exception(f"\"{fname}\" is not a FLAC") from None
 
         # Initialize flag ...
         last = False
 
         # Loop over entire contents of FLAC ...
-        while fobj.tell() < fsize:
+        while fObj.tell() < fsize:
             # Attempt to read 1 byte as a big-endian un-signed integer ...
-            name = int.from_bytes(fobj.read(1), byteorder = "big", signed = False)
+            name = int.from_bytes(fObj.read(1), byteorder = "big", signed = False)
 
             # Check if this integer has the "last block" flag set and take it
             # off ...
@@ -42,7 +42,7 @@ def does_FLAC_have_padding(fname):
                 name -= 128
 
             # Attempt to read 3 bytes as a big-endian un-signed integer ...
-            val = int.from_bytes(fobj.read(3), byteorder = "big", signed = False)   # [B]
+            val = int.from_bytes(fObj.read(3), byteorder = "big", signed = False)   # [B]
 
             # Check if it is a PADDING block ...
             if blocks.get(name, "RESERVED") == "PADDING":
@@ -54,7 +54,7 @@ def does_FLAC_have_padding(fname):
                 break
 
             # Skip to the end of the block ...
-            fobj.seek(val, os.SEEK_CUR)
+            fObj.seek(val, os.SEEK_CUR)
 
     # Return answer ...
     return False

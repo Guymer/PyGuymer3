@@ -1,4 +1,4 @@
-def load_ATCSequence(fobj):
+def load_ATCSequence(fObj):
     # NOTE: see https://github.com/lw/BluRay/wiki/SequenceInfo
 
     # Import standard modules ...
@@ -11,15 +11,15 @@ def load_ATCSequence(fobj):
     ans = dict()
 
     # Read the binary data ...
-    ans["SPNATCStart"], = struct.unpack(">I", fobj.read(4))
-    ans["NumberOfSTCSequences"], = struct.unpack(">B", fobj.read(1))
-    ans["OffsetSTCID"], = struct.unpack(">B", fobj.read(1))
+    ans["SPNATCStart"], = struct.unpack(">I", fObj.read(4))
+    ans["NumberOfSTCSequences"], = struct.unpack(">B", fObj.read(1))
+    ans["OffsetSTCID"], = struct.unpack(">B", fObj.read(1))
 
     # Load STCSequences section ...
     ans["STCSequences"] = list()
     for i in range(ans["NumberOfSTCSequences"]):
         # Load STCSequence section and append to STCSequences list ...
-        res = load_STCSequence(fobj)
+        res = load_STCSequence(fObj)
         ans["STCSequences"].append(res)
 
     # Return answer ...

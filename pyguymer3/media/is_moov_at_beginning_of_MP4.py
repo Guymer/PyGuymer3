@@ -12,7 +12,7 @@ def is_moov_at_beginning_of_MP4(fname):
     import struct
 
     # Open MP4 read-only ...
-    with open(fname, "rb") as fobj:
+    with open(fname, "rb") as fObj:
         # Create short-hand ...
         fsize = os.path.getsize(fname)                                          # [B]
 
@@ -22,13 +22,13 @@ def is_moov_at_beginning_of_MP4(fname):
         foundMOOV = False
 
         # Loop over entire contents of MP4 ...
-        while fobj.tell() < fsize:
+        while fObj.tell() < fsize:
             # Attempt to read 4 bytes as a big-endian un-signed 32-bit integer ...
-            val, = struct.unpack(">I", fobj.read(4))                            # [B]
+            val, = struct.unpack(">I", fObj.read(4))                            # [B]
             off = 4                                                             # [B]
 
             # Extract atom name ...
-            name = fobj.read(4).decode("utf-8")
+            name = fObj.read(4).decode("utf-8")
             off += 4                                                            # [B]
 
             # Check that it matches the pattern ...
@@ -66,11 +66,11 @@ def is_moov_at_beginning_of_MP4(fname):
 
                 # Attempt to read 8 bytes as a big-endian un-signed 64-bit
                 # integer ...
-                val, = struct.unpack(">Q", fobj.read(8))                        # [B]
+                val, = struct.unpack(">Q", fObj.read(8))                        # [B]
                 off += 8                                                        # [B]
 
             # Skip to the end of the atom ...
-            fobj.seek(val - off, os.SEEK_CUR)
+            fObj.seek(val - off, os.SEEK_CUR)
 
     # Catch possible errors ...
     if not foundMDAT:

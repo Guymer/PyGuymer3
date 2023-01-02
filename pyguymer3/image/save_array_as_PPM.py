@@ -16,6 +16,6 @@ def save_array_as_PPM(img, fname):
         raise Exception("\"img\" must be a 3-channel array") from None
 
     # Write out PPM ...
-    with open(fname, "wb") as fobj:
-        fobj.write(f"P6 {nx:d} {ny:d} 255 ")
-        img.tofile(fobj)
+    with open(fname, "wb") as fObj:
+        fObj.write(f"P6 {nx:d} {ny:d} 255 ")
+        img.tofile(fObj)

@@ -14,27 +14,27 @@ def parse_MPLS_file(br, ip, kwArgCheck = None, debug = False, errors = "strict",
     info = {}
 
     # Open file ...
-    with open(f"{br}/BDMV/PLAYLIST/{ip:05d}.mpls", "rb") as fobj:
+    with open(f"{br}/BDMV/PLAYLIST/{ip:05d}.mpls", "rb") as fObj:
         # Load header ...
-        info["header"] = load_header(fobj, debug = debug, errors = errors, indent = indent)
+        info["header"] = load_header(fObj, debug = debug, errors = errors, indent = indent)
 
         # Load AppInfoPlayList section ...
-        info["AppInfoPlayList"] = load_AppInfoPlayList(fobj, debug = debug, errors = errors, indent = indent)
+        info["AppInfoPlayList"] = load_AppInfoPlayList(fObj, debug = debug, errors = errors, indent = indent)
 
         # Load PlayList section ...
         if info["header"]["PlayListStartAddress"] != 0:
-            fobj.seek(info["header"]["PlayListStartAddress"])
-            info["PlayList"] = load_PlayList(fobj, debug = debug, errors = errors, indent = indent)
+            fObj.seek(info["header"]["PlayListStartAddress"])
+            info["PlayList"] = load_PlayList(fObj, debug = debug, errors = errors, indent = indent)
 
         # Load PlayListMark section ...
         if info["header"]["PlayListMarkStartAddress"] != 0:
-            fobj.seek(info["header"]["PlayListMarkStartAddress"])
-            info["PlayListMark"] = load_PlayListMark(fobj, debug = debug, errors = errors, indent = indent)
+            fObj.seek(info["header"]["PlayListMarkStartAddress"])
+            info["PlayListMark"] = load_PlayListMark(fObj, debug = debug, errors = errors, indent = indent)
 
         # Load ExtensionData section ...
         if info["header"]["ExtensionDataStartAddress"] != 0:
-            fobj.seek(info["header"]["ExtensionDataStartAddress"])
-            info["ExtensionData"] = load_ExtensionData(fobj, debug = debug, errors = errors, indent = indent)
+            fObj.seek(info["header"]["ExtensionDataStartAddress"])
+            info["ExtensionData"] = load_ExtensionData(fObj, debug = debug, errors = errors, indent = indent)
 
     # Return answer ...
     return info

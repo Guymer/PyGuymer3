@@ -36,8 +36,8 @@ def save_file_if_needed(fname, fcontent, kwArgCheck = None, debug = False):
                 os.makedirs(dname)
     else:
         # Check the old content ...
-        with open(fname, f"r{mode}", encoding = encoding) as fobj:
-            if fobj.read() != fcontent:
+        with open(fname, f"r{mode}", encoding = encoding) as fObj:
+            if fObj.read() != fcontent:
                 # Set trigger ...
                 save = True
 
@@ -45,5 +45,5 @@ def save_file_if_needed(fname, fcontent, kwArgCheck = None, debug = False):
     if save:
         if debug:
             print(f"INFO: Saving \"{fname}\" ...")
-        with open(fname, f"w{mode}", encoding = encoding) as fobj:
-            fobj.write(fcontent)
+        with open(fname, f"w{mode}", encoding = encoding) as fObj:
+            fObj.write(fcontent)

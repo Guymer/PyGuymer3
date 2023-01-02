@@ -28,7 +28,7 @@ def return_hash_of_MP4(fname, kwArgCheck = None, ignoreModificationTime = True):
         print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Open MP4 read-only ...
-    with open(fname, "rb") as fobj:
+    with open(fname, "rb") as fObj:
         # Construct a hash object ...
         hobj = hashlib.sha512()
 
@@ -41,16 +41,16 @@ def return_hash_of_MP4(fname, kwArgCheck = None, ignoreModificationTime = True):
         foundMVHD = False
 
         # Loop over entire contents of MP4 ...
-        while fobj.tell() < fsize:
+        while fObj.tell() < fsize:
             # Attempt to read 4 bytes as a big-endian un-signed 32-bit integer
             # and pass them to the hash object ...
-            src = fobj.read(4)
+            src = fObj.read(4)
             val, = struct.unpack(">I", src)                                     # [B]
             hobj.update(src)
             off = 4                                                             # [B]
 
             # Extract atom name and pass it to the hash object ...
-            src = fobj.read(4)
+            src = fObj.read(4)
             name = src.decode("utf-8")
             hobj.update(src)
             off += 4                                                            # [B]
@@ -71,7 +71,7 @@ def return_hash_of_MP4(fname, kwArgCheck = None, ignoreModificationTime = True):
                 # NOTE: This atom runs until EOF.
 
                 # Pass the rest of the atom to the hash object ...
-                hobj.update(fobj.read())
+                hobj.update(fObj.read())
 
                 # Stop looping ...
                 break
@@ -82,7 +82,7 @@ def return_hash_of_MP4(fname, kwArgCheck = None, ignoreModificationTime = True):
 
                 # Attempt to read 8 bytes as a big-endian un-signed 64-bit
                 # integer and pass them to the hash object ...
-                src = fobj.read(8)
+                src = fObj.read(8)
                 val, = struct.unpack(">Q", src)                                 # [B]
                 hobj.update(src)
                 off += 8                                                        # [B]
@@ -96,19 +96,19 @@ def return_hash_of_MP4(fname, kwArgCheck = None, ignoreModificationTime = True):
                 foundMOOV = True
 
                 # Save starting position ...
-                pos = fobj.tell()
+                pos = fObj.tell()
 
                 # Loop over remaining contents of MOOV atom ...
-                while fobj.tell() - pos < rem:
+                while fObj.tell() - pos < rem:
                     # Attempt to read 4 bytes as a big-endian un-signed 32-bit
                     # integer and pass them to the hash object ...
-                    src = fobj.read(4)
+                    src = fObj.read(4)
                     val, = struct.unpack(">I", src)                             # [B]
                     hobj.update(src)
                     off2 = 4                                                    # [B]
 
                     # Extract atom name and pass it to the hash object ...
-                    src = fobj.read(4)
+                    src = fObj.read(4)
                     name = src.decode("utf-8")
                     hobj.update(src)
                     off2 += 4                                                   # [B]
@@ -122,7 +122,7 @@ def return_hash_of_MP4(fname, kwArgCheck = None, ignoreModificationTime = True):
                         # NOTE: This atom runs until EOF.
 
                         # Pass the rest of the atom to the hash object ...
-                        hobj.update(fobj.read())
+                        hobj.update(fObj.read())
 
                         # Stop looping ...
                         break
@@ -133,7 +133,7 @@ def return_hash_of_MP4(fname, kwArgCheck = None, ignoreModificationTime = True):
 
                         # Attempt to read 8 bytes as a big-endian un-signed
                         # 64-bit integer and pass them to the hash object ...
-                        src = fobj.read(8)
+                        src = fObj.read(8)
                         val, = struct.unpack(">Q", src)                         # [B]
                         hobj.update(src)
                         off2 += 8                                               # [B]
@@ -154,19 +154,19 @@ def return_hash_of_MP4(fname, kwArgCheck = None, ignoreModificationTime = True):
                         # the "Modification Time" for which instead pass 0 as a
                         # big-endian un-signed 32-bit integer) ...
                         # NOTE: See Figure 2-3 of https://developer.apple.com/library/archive/documentation/QuickTime/QTFF/QTFFChap2/qtff2.html
-                        hobj.update(fobj.read(8))
+                        hobj.update(fObj.read(8))
                         if ignoreModificationTime:
-                            fobj.read(4)
+                            fObj.read(4)
                             hobj.update(struct.pack(">I", 0))
                         else:
-                            hobj.update(fobj.read(4))
-                        hobj.update(fobj.read(88))
+                            hobj.update(fObj.read(4))
+                        hobj.update(fObj.read(88))
                     else:
                         # Pass the rest of the atom to the hash object ...
-                        hobj.update(fobj.read(rem2))
+                        hobj.update(fObj.read(rem2))
             else:
                 # Pass the rest of the atom to the hash object ...
-                hobj.update(fobj.read(rem))
+                hobj.update(fObj.read(rem))
 
     # Catch possible errors ...
     if not foundMOOV:

@@ -50,9 +50,9 @@ def tar(tarName, fnames, kwArgCheck = None, cwd = None, stderr = None, stdout = 
         tmpName = f"{tname}/fnames.txt"
 
         # Make list of files to archive ...
-        with open(tmpName, "wt", encoding = "utf-8") as fobj:
+        with open(tmpName, "wt", encoding = "utf-8") as fObj:
             for fname in fnames:
-                fobj.write(f"{fname}\n")
+                fObj.write(f"{fname}\n")
 
         # Make archive ...
         subprocess.run(

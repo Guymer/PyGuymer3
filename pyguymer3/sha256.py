@@ -15,11 +15,11 @@ def sha256(fname, kwArgCheck = None, chunksize = 1048576):
     hobj = hashlib.sha256()
 
     # Open input file as bytes ...
-    with open(fname, "rb") as fobj:
+    with open(fname, "rb") as fObj:
         # Start infinite loop ...
         while True:
             # Read a chunk ...
-            chunk = fobj.read(chunksize)
+            chunk = fObj.read(chunksize)
 
             # Stop looping if this chunk is empty ...
             if len(chunk) == 0:

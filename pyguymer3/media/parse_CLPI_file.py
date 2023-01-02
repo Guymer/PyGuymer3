@@ -12,43 +12,43 @@ def parse_CLPI_file(br, ip):
     info = {}
 
     # Open file ...
-    with open(f"{br}/BDMV/CLIPINF/{ip:05d}.clpi", "rb") as fobj:
+    with open(f"{br}/BDMV/CLIPINF/{ip:05d}.clpi", "rb") as fObj:
         # Load header ...
-        res = load_header(fobj)
+        res = load_header(fObj)
         info["header"] = res
 
         # Load ClipInfo section ...
-        res = load_ClipInfo(fobj)
+        res = load_ClipInfo(fObj)
         info["ClipInfo"] = res
 
         # Load SequenceInfo section ...
         if info["header"]["SequenceInfoStartAddress"] != 0:
-            fobj.seek(info["header"]["SequenceInfoStartAddress"])
-            res = load_SequenceInfo(fobj)
+            fObj.seek(info["header"]["SequenceInfoStartAddress"])
+            res = load_SequenceInfo(fObj)
             info["SequenceInfo"] = res
 
         # Load ProgramInfo section ...
         if info["header"]["ProgramInfoStartAddress"] != 0:
-            fobj.seek(info["header"]["ProgramInfoStartAddress"])
-            res = load_ProgramInfo(fobj)
+            fObj.seek(info["header"]["ProgramInfoStartAddress"])
+            res = load_ProgramInfo(fObj)
             info["ProgramInfo"] = res
 
         # Load CPI section ...
         if info["header"]["CPIStartAddress"] != 0:
-            fobj.seek(info["header"]["CPIStartAddress"])
-            res = load_CPI(fobj)
+            fObj.seek(info["header"]["CPIStartAddress"])
+            res = load_CPI(fObj)
             info["CPI"] = res
 
         # Load ClipMark section ...
         if info["header"]["ClipMarkStartAddress"] != 0:
-            fobj.seek(info["header"]["ClipMarkStartAddress"])
-            res = load_ClipMark(fobj)
+            fObj.seek(info["header"]["ClipMarkStartAddress"])
+            res = load_ClipMark(fObj)
             info["ClipMark"] = res
 
         # Load ExtensionData section ...
         if info["header"]["ExtensionDataStartAddress"] != 0:
-            fobj.seek(info["header"]["ExtensionDataStartAddress"])
-            res = load_ExtensionData(fobj)
+            fObj.seek(info["header"]["ExtensionDataStartAddress"])
+            res = load_ExtensionData(fObj)
             info["ExtensionData"] = res
 
     # Return answer ...

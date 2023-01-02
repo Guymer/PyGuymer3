@@ -1,4 +1,4 @@
-def load_AppInfoPlayList(fobj, kwArgCheck = None, debug = False, errors = "strict", indent = 0):
+def load_AppInfoPlayList(fObj, kwArgCheck = None, debug = False, errors = "strict", indent = 0):
     # NOTE: see https://github.com/lw/BluRay/wiki/AppInfoPlayList
 
     # Import standard modules ...
@@ -10,26 +10,26 @@ def load_AppInfoPlayList(fobj, kwArgCheck = None, debug = False, errors = "stric
 
     # Initialize answer and find it current position ...
     ans = {}
-    pos = fobj.tell()                                                           # [B]
+    pos = fObj.tell()                                                           # [B]
     if debug:
         print("DEBUG:{:s} {:s}() called at {:,d} bytes".format(indent * "  ", __name__, pos), end = "")
 
     # Read the binary data ...
-    ans["Length"], = struct.unpack(">I", fobj.read(4))                          # [B]
+    ans["Length"], = struct.unpack(">I", fObj.read(4))                          # [B]
     if debug:
         print(" and is {:,d} bytes long".format(ans["Length"] + 4))
     if ans["Length"] != 0:
-        fobj.read(1)
-        ans["PlaybackType"], = struct.unpack(">B", fobj.read(1))
+        fObj.read(1)
+        ans["PlaybackType"], = struct.unpack(">B", fObj.read(1))
         if ans["PlaybackType"] in [int(0x02), int(0x03)]:
-            ans["PlaybackCount"], = struct.unpack(">H", fobj.read(2))
+            ans["PlaybackCount"], = struct.unpack(">H", fObj.read(2))
         else:
-            fobj.read(2)
-        ans["UOMaskTable"], = struct.unpack(">Q", fobj.read(8))
-        ans["MiscFlags"], = struct.unpack(">H", fobj.read(2))
+            fObj.read(2)
+        ans["UOMaskTable"], = struct.unpack(">Q", fObj.read(8))
+        ans["MiscFlags"], = struct.unpack(">H", fObj.read(2))
 
     # Skip ahead to the end of the data structure ...
-    fobj.seek(pos + ans["Length"] + 4)
+    fObj.seek(pos + ans["Length"] + 4)
 
     # Return answer ...
     return ans

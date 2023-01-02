@@ -6,9 +6,9 @@ def load_EXIF1(fname):
         raise Exception("\"exifread\" is not installed; run \"pip install --user ExifRead\"") from None
 
     # Open RAW file read-only ...
-    with open(fname, "rb") as fobj:
+    with open(fname, "rb") as fObj:
         # Load EXIF tags ...
-        ans = exifread.process_file(fobj, details = False)
+        ans = exifread.process_file(fObj, details = False)
 
     # Return answer ...
     return ans

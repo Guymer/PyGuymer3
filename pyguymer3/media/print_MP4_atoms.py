@@ -15,7 +15,7 @@ def print_MP4_atoms(fname):
     from ..convert_bytes_to_pretty_bytes import convert_bytes_to_pretty_bytes
 
     # Open MP4 read-only ...
-    with open(fname, "rb") as fobj:
+    with open(fname, "rb") as fObj:
         # Create short-hand ...
         fsize = os.path.getsize(fname)                                          # [B]
 
@@ -23,13 +23,13 @@ def print_MP4_atoms(fname):
         foundFTYP = False
 
         # Loop over entire contents of MP4 ...
-        while fobj.tell() < fsize:
+        while fObj.tell() < fsize:
             # Attempt to read 4 bytes as a big-endian un-signed 32-bit integer ...
-            val, = struct.unpack(">I", fobj.read(4))                            # [B]
+            val, = struct.unpack(">I", fObj.read(4))                            # [B]
             off = 4                                                             # [B]
 
             # Extract atom name ...
-            name = fobj.read(4).decode("utf-8")
+            name = fObj.read(4).decode("utf-8")
             off += 4                                                            # [B]
 
             # Check that it matches the pattern ...
@@ -59,7 +59,7 @@ def print_MP4_atoms(fname):
 
                 # Attempt to read 8 bytes as a big-endian un-signed 64-bit
                 # integer ...
-                val, = struct.unpack(">Q", fobj.read(8))                        # [B]
+                val, = struct.unpack(">Q", fObj.read(8))                        # [B]
                 off += 8                                                        # [B]
 
                 # Print summary ...
@@ -71,4 +71,4 @@ def print_MP4_atoms(fname):
                 print("{0:s} is {1:6.1f} {2:3s} long (as a 32-bit atom)".format(name, size, units))
 
             # Skip to the end of the atom ...
-            fobj.seek(val - off, os.SEEK_CUR)
+            fObj.seek(val - off, os.SEEK_CUR)

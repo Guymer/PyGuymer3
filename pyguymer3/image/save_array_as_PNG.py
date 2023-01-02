@@ -42,12 +42,12 @@ def save_array_as_PNG(img, fname, kwArgCheck = None, ftype_req = -1):
         raise Exception("\"img\" must be a 3-channel array") from None
 
     # Try opening the PNG ...
-    with open(fname, "wb") as fobj:
+    with open(fname, "wb") as fObj:
         # **********************************************************************
         # *                        WRITE THE SIGNATURE                         *
         # **********************************************************************
 
-        fobj.write(binascii.unhexlify("89504E470D0A1A0A"))
+        fObj.write(binascii.unhexlify("89504E470D0A1A0A"))
 
         # **********************************************************************
         # *                  CREATE "IHDR" CHUNK AND WRITE IT                  *
@@ -64,7 +64,7 @@ def save_array_as_PNG(img, fname, kwArgCheck = None, ftype_req = -1):
         ihdr += numpy.uint8(0).byteswap().tobytes()                             # IHDR : Filter method
         ihdr += numpy.uint8(0).byteswap().tobytes()                             # IHDR : Interlace method
         ihdr += numpy.uint32(binascii.crc32(ihdr[4:])).byteswap().tobytes()     # CRC-32
-        fobj.write(ihdr)
+        fObj.write(ihdr)
         del ihdr
 
         # **********************************************************************
@@ -172,7 +172,7 @@ def save_array_as_PNG(img, fname, kwArgCheck = None, ftype_req = -1):
         idat += zlib.compress(stream, level = 9)                                # IDAT : Data
         idat[0:4] = numpy.uint32(len(idat[8:])).byteswap().tobytes()            # Length
         idat += numpy.uint32(binascii.crc32(idat[4:])).byteswap().tobytes()     # CRC-32
-        fobj.write(idat)
+        fObj.write(idat)
         del idat
 
         # **********************************************************************
@@ -183,5 +183,5 @@ def save_array_as_PNG(img, fname, kwArgCheck = None, ftype_req = -1):
         iend += numpy.uint32(0).byteswap().tobytes()                            # Length
         iend += bytearray("IEND", encoding = "ascii")                           # Chunk type
         iend += numpy.uint32(binascii.crc32(iend[4:])).byteswap().tobytes()     # CRC-32
-        fobj.write(iend)
+        fObj.write(iend)
         del iend

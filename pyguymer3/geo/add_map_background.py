@@ -45,8 +45,8 @@ def add_map_background(axis, kwArgCheck = None, debug = False, extent = None, na
         jpath = f'{os.environ["CARTOPY_USER_BACKGROUNDS"]}/images.json'
         if os.path.exists(jpath):
             # Load JSON and check keys exist ...
-            with open(jpath, "rt", encoding = "utf-8") as fobj:
-                info = json.load(fobj)
+            with open(jpath, "rt", encoding = "utf-8") as fObj:
+                info = json.load(fObj)
             if name in info:
                 if resolution in info[name]:
                     # Determine image path and check it exists ...

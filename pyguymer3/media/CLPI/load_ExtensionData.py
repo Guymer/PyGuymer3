@@ -1,4 +1,4 @@
-def load_ExtensionData(fobj):
+def load_ExtensionData(fObj):
     # NOTE: see https://github.com/lw/BluRay/wiki/ExtensionData
 
     # Import standard modules ...
@@ -8,30 +8,30 @@ def load_ExtensionData(fobj):
     ans = dict()
 
     # Read the binary data ...
-    ans["Length"], = struct.unpack(">I", fobj.read(4))
-    BytesStart = fobj.tell()
+    ans["Length"], = struct.unpack(">I", fObj.read(4))
+    BytesStart = fObj.tell()
 
     if ans["Length"] != 0:
-        ans["DataBlockStartAddress"], = struct.unpack(">I", fobj.read(4))
-        fobj.read(3)
-        ans["NumberOfExtDataEntries"], = struct.unpack(">B", fobj.read(1))
+        ans["DataBlockStartAddress"], = struct.unpack(">I", fObj.read(4))
+        fObj.read(3)
+        ans["NumberOfExtDataEntries"], = struct.unpack(">B", fObj.read(1))
         ans["ExtDataEntries"] = list()
         for i in range(ans["NumberOfExtDataEntries"]):
             tmp = dict()
-            tmp["ExtDataType"], = struct.unpack(">H", fobj.read(2))
-            tmp["ExtDataVersion"], = struct.unpack(">H", fobj.read(2))
-            tmp["ExtDataStartAddress"], = struct.unpack(">I", fobj.read(4))
-            tmp["ExtDataLength"], = struct.unpack(">I", fobj.read(4))
+            tmp["ExtDataType"], = struct.unpack(">H", fObj.read(2))
+            tmp["ExtDataVersion"], = struct.unpack(">H", fObj.read(2))
+            tmp["ExtDataStartAddress"], = struct.unpack(">I", fObj.read(4))
+            tmp["ExtDataLength"], = struct.unpack(">I", fObj.read(4))
             ans["ExtDataEntries"].append(tmp)
 
         # NOTE: ExtDataEntries is not implemented
 
     # Pad out the read ...
-    BytesEnd = fobj.tell()
+    BytesEnd = fObj.tell()
     BytesPassed = BytesEnd - BytesStart
     if BytesPassed < ans["Length"]:
         l = ans["Length"] - BytesPassed
-        fobj.read(l)
+        fObj.read(l)
     elif BytesPassed > ans["Length"]:
         print("load_ClipInfo: incorrect length")
 

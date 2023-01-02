@@ -262,10 +262,10 @@ if __name__ == "__main__":
         del buff1
 
         # Save GeoJSON ...
-        with open(jname, "wt", encoding = "utf-8") as fobj:
+        with open(jname, "wt", encoding = "utf-8") as fObj:
             geojson.dump(
                 buff2,
-                fobj,
+                fObj,
                 ensure_ascii = False,
                       indent = 4,
                    sort_keys = True,

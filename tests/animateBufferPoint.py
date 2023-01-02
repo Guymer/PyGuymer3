@@ -200,10 +200,10 @@ if __name__ == "__main__":
                 del coords
 
             # Save GeoJSON ...
-            with open(jname, "wt", encoding = "utf-8") as fobj:
+            with open(jname, "wt", encoding = "utf-8") as fObj:
                 geojson.dump(
                     buff,
-                    fobj,
+                    fObj,
                     ensure_ascii = False,
                           indent = 4,
                        sort_keys = True,

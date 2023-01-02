@@ -23,9 +23,9 @@ def load_GPS_EXIF1(fname):
     ans = {}
 
     # Open RAW file read-only ...
-    with open(fname, "rb") as fobj:
+    with open(fname, "rb") as fObj:
         # Load EXIF tags ...
-        tags = exifread.process_file(fobj, details = False)
+        tags = exifread.process_file(fObj, details = False)
 
         # Check that there are EXIF tags ...
         gps = False

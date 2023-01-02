@@ -191,14 +191,14 @@ def images2mp4(frames, kwArgCheck = None, crf = -1.0, debug = False, form = "mp4
     ]
     if debug:
         print(f'INFO: {" ".join(cmd)}')
-    with open(f"{tmpname}/ffmpeg.err", "wt", encoding = "utf-8") as fobjErr:
-        with open(f"{tmpname}/ffmpeg.out", "wt", encoding = "utf-8") as fobjOut:
+    with open(f"{tmpname}/ffmpeg.err", "wt", encoding = "utf-8") as fObjErr:
+        with open(f"{tmpname}/ffmpeg.out", "wt", encoding = "utf-8") as fObjOut:
             subprocess.run(
                 cmd,
                    check = True,
                 encoding = "utf-8",
-                  stderr = fobjErr,
-                  stdout = fobjOut,
+                  stderr = fObjErr,
+                  stdout = fObjOut,
             )
 
     # Check libx264 bit-depth ...

@@ -74,8 +74,8 @@ def _add_elevation(axis, kwArgCheck = None, debug = False, maxElev = 8850.0, onl
 
         # Load the GeoJSON geometry collection and convert it to a Shapely
         # geometry collection ...
-        with open(sfile, "rt", encoding = "utf-8") as fobj:
-            coll = geojson.load(fobj)
+        with open(sfile, "rt", encoding = "utf-8") as fObj:
+            coll = geojson.load(fObj)
         coll = shapely.geometry.shape(coll)
 
         # Plot geometry ...

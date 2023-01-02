@@ -84,10 +84,10 @@ if __name__ == "__main__":
             circle = pyguymer3.geo.great_circle(coord1[0], coord1[1], coord2[0], coord2[1], debug = debug, npoint = npoint)
 
             # Save GeoJSON ...
-            with open(jname, "wt", encoding = "utf-8") as fobj:
+            with open(jname, "wt", encoding = "utf-8") as fObj:
                 geojson.dump(
                     circle,
-                    fobj,
+                    fObj,
                     ensure_ascii = False,
                           indent = 4,
                        sort_keys = True,

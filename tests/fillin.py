@@ -134,10 +134,10 @@ if __name__ == "__main__":
         del coords
 
         # Save GeoJSON ...
-        with open(jname1, "wt", encoding = "utf-8") as fobj:
+        with open(jname1, "wt", encoding = "utf-8") as fObj:
             geojson.dump(
                 denseRing1,
-                fobj,
+                fObj,
                 ensure_ascii = False,
                       indent = 4,
                    sort_keys = True,
@@ -155,10 +155,10 @@ if __name__ == "__main__":
         del coords
 
         # Save GeoJSON ...
-        with open(jname2, "wt", encoding = "utf-8") as fobj:
+        with open(jname2, "wt", encoding = "utf-8") as fObj:
             geojson.dump(
                 denseRing2,
-                fobj,
+                fObj,
                 ensure_ascii = False,
                       indent = 4,
                    sort_keys = True,

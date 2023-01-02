@@ -31,8 +31,8 @@ def download_file(sess, url, fname, kwArgCheck = None, cookies = None, headers =
     if len(dname) > 0:
         if not os.path.exists(dname):
             os.makedirs(dname)
-    with open(fname, "wb") as fobj:
-        fobj.write(resp.content)
+    with open(fname, "wb") as fObj:
+        fObj.write(resp.content)
 
     # Change modification time if present ...
     if "Last-Modified" in resp.headers:

@@ -26,12 +26,12 @@ def return_hash_of_GZ(fname, kwArgCheck = None, ignoreModificationTime = True):
         print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Open GZ read-only ...
-    with open(fname, "rb") as fobj:
+    with open(fname, "rb") as fObj:
         # Construct a hash object ...
         hobj = hashlib.sha512()
 
         # Attempt to read 2 bytes and pass them to the hash object ...
-        src = fobj.read(2)
+        src = fObj.read(2)
         hobj.update(src)
 
         # Check that this is a GZ file ...
@@ -39,20 +39,20 @@ def return_hash_of_GZ(fname, kwArgCheck = None, ignoreModificationTime = True):
             raise Exception(f"\"{fname}\" is not a GZ") from None
 
         # Pass 2 bytes to the hash object ...
-        hobj.update(fobj.read(2))
+        hobj.update(fObj.read(2))
 
         # Check what the user wants to do ...
         if ignoreModificationTime:
             # Pass 0 as a little-endian un-signed 32-bit integer to the hash
             # object ...
-            fobj.read(4)
+            fObj.read(4)
             hobj.update(struct.pack(">I", 0))
         else:
             # Pass 4 bytes to the hash object ...
-            hobj.update(fobj.read(4))
+            hobj.update(fObj.read(4))
 
         # Pass the rest of the file to the hash object ...
-        hobj.update(fobj.read())
+        hobj.update(fObj.read())
 
     # Return hash hexdigest ...
     return hobj.hexdigest()
