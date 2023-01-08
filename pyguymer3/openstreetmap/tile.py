@@ -45,7 +45,7 @@ def tile(xtile, ytile, zoom, sess, kwArgCheck = None, chunksize = 1048576, cooki
             print(f"INFO: Downloading \"{url}\" to \"{png}\" ...")
 
         # Download tile ...
-        download_file(
+        resp = download_file(
             sess,
             url,
             png,
@@ -54,6 +54,11 @@ def tile(xtile, ytile, zoom, sess, kwArgCheck = None, chunksize = 1048576, cooki
             timeout = timeout,
              verify = verify,
         )
+
+        # Check if the download failed ...
+        if resp is False:
+            # Return answer ...
+            return None
 
         # Optimize tile ...
         optimize_image(

@@ -82,6 +82,11 @@ def tiles(lonC_deg, latC_deg, zoom, width, height, sess, kwArgCheck = None, back
                    verify = verify,
             )
 
+            # Check if the tile doesn't exist ...
+            if tileIm is None:
+                # Skip this tile ...
+                continue
+
             # Paste the tile onto the map ...
             tilesIm.paste(tileIm, (x, y))
 
