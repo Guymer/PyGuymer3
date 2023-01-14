@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def save_array_as_image(img0, fname, kwArgCheck = None, chunksize = 1048576, ct = "grey", debug = False, form = "png", pc_bot = 0.0, pc_top = 0.0, scale = False):
     """Save an array as an image
 

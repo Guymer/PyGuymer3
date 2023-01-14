@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def hostname():
     # Import standard modules ...
     import socket

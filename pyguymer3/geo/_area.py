@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def _area(triangle, kwArgCheck = None, eps = 1.0e-12, nmax = 100):
     # Import standard modules ...
     import math

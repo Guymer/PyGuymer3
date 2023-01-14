@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def does_FLAC_have_padding(fname):
     # NOTE: The following website has some very useful information on how to
     #       parse FLAC files.

@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def getctime(fname):
     """Get the creation time of a file as a timezone-aware datetime object.
 

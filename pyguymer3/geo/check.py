@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def check(shape, kwArgCheck = None, prefix = "."):
     """Check a shape
 

@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def return_dict_of_ISO_tracks(fname, kwArgCheck = None, errors = "replace"):
     # Import standard modules ...
     import html

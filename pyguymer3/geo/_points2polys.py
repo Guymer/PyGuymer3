@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def _points2polys(point, points, kwArgCheck = None, debug = False, huge = False, prefix = ".", tol = 1.0e-10):
     """Convert a buffered point to a list of Polygons
 

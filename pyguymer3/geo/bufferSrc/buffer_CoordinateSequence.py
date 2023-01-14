@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def buffer_CoordinateSequence(coords, dist, kwArgCheck = None, debug = False, eps = 1.0e-12, fill = 1.0, fillSpace = "EuclideanSpace", nang = 9, nmax = 100, prefix = ".", ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
     """Buffer a CoordinateSequence
 

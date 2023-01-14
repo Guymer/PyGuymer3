@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def sha512(fname, kwArgCheck = None, chunksize = 1048576):
     """
     This function runs hashlib.sha512() on a file using chunks to ensure that

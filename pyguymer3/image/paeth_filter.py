@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def paeth_filter(a, b, c):
     # Find differences ...
     pi = a + b - c

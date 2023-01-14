@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def _buffer_points_crudely(points1, dist, nang, kwArgCheck = None, eps = 1.0e-12, nmax = 100, ramLimit = 1073741824):
     """Buffer some points
 

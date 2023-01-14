@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def tiles(lonC_deg, latC_deg, zoom, width, height, sess, kwArgCheck = None, background = (255, 255, 255), chunksize = 1048576, cookies = None, debug = False, fill = (255, 0, 0, 127), headers = None, radius = None, timeout = 10.0, verify = True):
     # Import special modules ...
     try:

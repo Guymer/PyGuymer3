@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def return_link_list(path, kwArgCheck = None, debug = False, follow_symlinks = True):
     """Return a recursive list of link names in a directory.
 

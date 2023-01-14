@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def clean_LinearRing(ring, kwArgCheck = None, debug = False, prefix = ".", tol = 1.0e-10):
     """Clean a LinearRing
 

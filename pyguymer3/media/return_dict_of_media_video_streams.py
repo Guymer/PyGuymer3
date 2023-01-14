@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def return_dict_of_media_video_streams(fname, kwArgCheck = None, debug = False, playlist = -1):
     # Import sub-functions ...
     from .__ffprobe__ import __ffprobe__

@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def stddev(arr, kwArgCheck = None, dof = 0):
     """Find the standard deviation of an array.
 

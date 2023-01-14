@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def dot2png(dot, png, kwArgCheck = None, chunksize = 1048576, debug = False, strip = False):
     # Import standard modules ...
     import shutil

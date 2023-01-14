@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def dict2exif(exif, kwArgCheck = None, mode = "RGB"):
     """Convert a dictionary to an EXIF class
 

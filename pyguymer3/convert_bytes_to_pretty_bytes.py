@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def convert_bytes_to_pretty_bytes(size):
     # Convert input to float and set default units ...
     size = float(size)

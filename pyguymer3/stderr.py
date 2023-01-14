@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def stderr(arr, kwArgCheck = None, dof = 1):
     """Find the standard error of an array.
 

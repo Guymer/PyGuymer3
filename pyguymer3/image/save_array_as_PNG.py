@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def save_array_as_PNG(img, fname, kwArgCheck = None, ftype_req = -1):
     """
     Save an array as a PNG image.

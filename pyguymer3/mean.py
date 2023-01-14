@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def mean(arr, kwArgCheck = None, dof = 0):
     """Find the arithmetic mean of an array.
 

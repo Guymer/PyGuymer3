@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def print_FLAC_blocks(fname):
     # NOTE: The following website has some very useful information on how to
     #       parse FLAC files.

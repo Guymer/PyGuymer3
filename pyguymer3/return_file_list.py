@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def return_file_list(path, kwArgCheck = None, debug = False, follow_symlinks = True, return_symlinks = True):
     """Return a recursive list of file names in a directory.
 

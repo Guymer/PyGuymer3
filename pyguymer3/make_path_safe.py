@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def make_path_safe(path):
     # Loop over bad characters ...
     for badChar in ["\\", "/", ":", "*", "?", "\"", "<", ">", "|", "%", "#", "$"]:

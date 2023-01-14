@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def _add_railroads(axis, kwArgCheck = None, debug = False, linestyle = "solid", linewidth = 0.5, onlyValid = False, resolution = "110m"):
     # NOTE: This function uses CSS4 named colours, see:
     #         * https://matplotlib.org/stable/gallery/color/named_colors.html

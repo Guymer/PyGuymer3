@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def great_circle(lon1, lat1, lon2, lat2, kwArgCheck = None, debug = False, npoint = 5, prefix = ".", ramLimit = 1073741824):
     """
     This function reads in two starting coordinates (in degrees) and two

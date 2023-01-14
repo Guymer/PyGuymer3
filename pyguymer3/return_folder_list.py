@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def return_folder_list(path, kwArgCheck = None, debug = False, follow_symlinks = True, return_symlinks = True):
     """Return a recursive list of folder names in a directory.
 

@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def res(lat_deg, zoom):
     # NOTE: https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#Resolution_and_Scale
 

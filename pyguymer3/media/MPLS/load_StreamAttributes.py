@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def load_StreamAttributes(fObj, kwArgCheck = None, debug = False, errors = "strict", indent = 0):
     # NOTE: see https://github.com/lw/BluRay/wiki/StreamAttributes
 

@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def return_subtitle_extent(fname, kwArgCheck = None, debug = False, playlist = -1, subtitle = 0):
     # Import standard modules ...
     import re

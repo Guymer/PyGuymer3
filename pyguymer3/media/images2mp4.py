@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def images2mp4(frames, kwArgCheck = None, crf = -1.0, debug = False, form = "mp4", fps = 25.0, level = "ERROR", profile = "ERROR", screenHeight = -1, screenWidth = -1):
     """Convert a sequence of images to a MP4 video.
 

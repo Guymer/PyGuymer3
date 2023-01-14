@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def _add_background(axis, kwArgCheck = None, debug = False):
     # NOTE: This function uses CSS4 named colours, see:
     #         * https://matplotlib.org/stable/gallery/color/named_colors.html

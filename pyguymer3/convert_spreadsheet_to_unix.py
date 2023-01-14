@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def convert_spreadsheet_to_unix(val):
     """Convert an Excel spreadsheet date to an UNIX timestamp.
 

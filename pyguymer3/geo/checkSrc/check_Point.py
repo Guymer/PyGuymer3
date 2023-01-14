@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def check_Point(point, kwArgCheck = None, prefix = "."):
     """Check Point
 

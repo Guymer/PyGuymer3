@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def optipng(fname):
     """
     "optipng" does not modify, and it does not touch, the image even if it

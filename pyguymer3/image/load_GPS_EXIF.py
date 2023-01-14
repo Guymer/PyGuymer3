@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def load_GPS_EXIF(fname, kwArgCheck = None, python = True):
     # Import sub-functions ...
     from .load_GPS_EXIF1 import load_GPS_EXIF1

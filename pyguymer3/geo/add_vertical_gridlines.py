@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def add_vertical_gridlines(ax, ext, kwArgCheck = None, color = "black", linestyle = ":", linewidth = 0.5, locs = [], ngrid = -1, npoint = 50):
     """Add vertical gridlines to a plot.
 

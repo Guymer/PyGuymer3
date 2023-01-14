@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def _ll2en(lon, lat):
     """
     Convert a longitude,latitude pair to a easting,northing pair

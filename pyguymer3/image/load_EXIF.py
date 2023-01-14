@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def load_EXIF(fname, kwArgCheck = None, python = True):
     # Import sub-functions ...
     from .load_EXIF1 import load_EXIF1

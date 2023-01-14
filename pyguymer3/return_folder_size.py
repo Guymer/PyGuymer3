@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def return_folder_size(path, kwArgCheck = None, debug = False, follow_symlinks = True, return_symlinks = True):
     """Return the total size of all files in a directory.
 

@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def return_dict_of_ISO_audio_streams(fname, kwArgCheck = None, errors = "replace", usr_track = -1):
     # Import standard modules ...
     import html

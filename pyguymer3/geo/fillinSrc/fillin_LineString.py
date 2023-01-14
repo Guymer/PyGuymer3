@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def fillin_LineString(line, fill, kwArgCheck = None, debug = False, eps = 1.0e-12, fillSpace = "EuclideanSpace", nmax = 100, prefix = ".", ramLimit = 1073741824):
     """Fill in a LineString
 

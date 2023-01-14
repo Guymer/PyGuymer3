@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def save_array_as_PPM(img, fname):
     """
     Save an array as a PPM image.

@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def return_hash_of_GZ(fname, kwArgCheck = None, ignoreModificationTime = True):
     """
     This function returns the SHA512 hash of the passed GZ file as if the first

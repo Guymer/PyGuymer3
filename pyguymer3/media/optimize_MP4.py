@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def optimize_MP4(fname1, kwArgCheck = None, debug = False):
     """
     "mp4file" does modify, and it does touch, the MP4 even if it cannot optimize

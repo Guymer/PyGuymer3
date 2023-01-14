@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def _en2ll(east, north):
     """
     Convert a easting,northing pair to a longitude,latitude pair

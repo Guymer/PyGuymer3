@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def var(arr, kwArgCheck = None, dof = 0):
     """Find the variance of an array.
 

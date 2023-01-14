@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def en2ll(poly1, kwArgCheck = None, debug = False, prefix = "."):
     """
     This function reads in a Polygon whose coordinates are Eastings/Northings on

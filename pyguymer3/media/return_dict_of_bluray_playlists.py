@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def return_dict_of_bluray_playlists(dname, kwArgCheck = None, debug = False, size_threshold = 1073741824, time_threshold = 60.0):
     # Import standard modules ...
     import glob

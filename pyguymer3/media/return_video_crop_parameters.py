@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def return_video_crop_parameters(fname, kwArgCheck = None, debug = False, dt = 2.0, playlist = -1):
     # Import standard modules ...
     import shutil

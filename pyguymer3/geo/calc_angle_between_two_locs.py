@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def calc_angle_between_two_locs(lon1_deg, lat1_deg, lon2_deg, lat2_deg):
     """
     This function reads in two coordinates (in degrees) on the surface of a

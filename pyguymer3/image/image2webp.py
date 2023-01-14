@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def image2webp(img, webp, kwArgCheck = None, chunksize = 1048576, debug = False, exif = None, lossless = False, method = 6, mode = "RGB", quality = 100, strip = False):
     """Save an image as a WEBP
 

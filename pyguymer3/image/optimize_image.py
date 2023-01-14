@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def optimize_image(fname, kwArgCheck = None, chunksize = 1048576, debug = False, strip = False):
     """
     Please read the documentation for the four functions: "exiftool",

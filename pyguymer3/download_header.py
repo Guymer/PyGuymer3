@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def download_header(sess, url, kwArgCheck = None, cookies = None, headers = None, timeout = 10.0, verify = True):
     # Import sub-functions ...
     from .download import download

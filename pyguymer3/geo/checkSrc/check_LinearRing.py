@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def check_LinearRing(ring, kwArgCheck = None, prefix = "."):
     """Check LinearRing
 

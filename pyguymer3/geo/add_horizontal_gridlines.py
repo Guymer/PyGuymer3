@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def add_horizontal_gridlines(ax, ext, kwArgCheck = None, color = "black", linestyle = ":", linewidth = 0.5, locs = [], ngrid = -1, npoint = 50):
     """Add horizontal gridlines to a plot.
 

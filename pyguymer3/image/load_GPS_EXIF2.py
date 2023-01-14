@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def load_GPS_EXIF2(fname):
     # Import standard modules ...
     import datetime

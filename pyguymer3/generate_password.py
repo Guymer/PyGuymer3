@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def generate_password():
     # Import standard modules ...
     import secrets

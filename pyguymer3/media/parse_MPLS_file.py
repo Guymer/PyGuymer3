@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def parse_MPLS_file(br, ip, kwArgCheck = None, debug = False, errors = "strict", indent = 0):
     # Import sub-functions ...
     from .MPLS.load_header import load_header

@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def ffprobe(fname, kwArgCheck = None, playlist = -1):
     """
     This function will run "ffprobe" on a file and return the format and stream

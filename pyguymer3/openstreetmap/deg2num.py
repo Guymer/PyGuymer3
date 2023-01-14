@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def deg2num(lon_deg, lat_deg, zoom):
     # NOTE: https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#Python
 

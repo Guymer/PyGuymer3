@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def load_EXIF1(fname):
     # Import special modules ...
     try:

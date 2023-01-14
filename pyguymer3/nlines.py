@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def nlines(fname):
     # Initialize answer ...
     n = 0                                                                       # [#]

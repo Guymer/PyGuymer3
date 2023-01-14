@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def gifsicle(fname1, kwArgCheck = None, chunksize = 1048576, debug = False):
     """
     "gifsicle" does modify, and it does touch, the image even if it cannot make

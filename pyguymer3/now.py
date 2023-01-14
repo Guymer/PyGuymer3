@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def now():
     """Get the current date and time as a timezone-aware ``datetime`` object.
 

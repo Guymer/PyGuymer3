@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def getRecordAttribute(record, attribute, kwArgCheck = None, strict = False):
     # Import special modules ...
     try:

@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def extract_polys(shape, kwArgCheck = None, onlyValid = False, repair = False):
     """Extract the Polygons from the shape
 

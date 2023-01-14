@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def download(sess, method, url, kwArgCheck = None, cookies = None, headers = None, timeout = 10.0, verify = True):
     # Check keyword arguments ...
     if kwArgCheck is not None:

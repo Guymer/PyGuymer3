@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def optimize_FLAC(fname1, kwArgCheck = None, chunksize = 1048576, debug = False):
     """
     "metaflac" does not modify, but it does touch, the FLAC even if it cannot

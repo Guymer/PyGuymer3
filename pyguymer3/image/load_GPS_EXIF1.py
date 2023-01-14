@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def load_GPS_EXIF1(fname):
     # NOTE: Earth's mean radius is 6,371,009 m.
     # NOTE: The following web pages were helpful:

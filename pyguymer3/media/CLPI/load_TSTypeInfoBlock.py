@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def load_TSTypeInfoBlock(fObj):
     # NOTE: see https://github.com/lw/BluRay/blob/master/src/TSTypeInfoBlock.vala
 

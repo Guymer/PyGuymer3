@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def tar(tarName, fnames, kwArgCheck = None, cwd = None, stderr = None, stdout = None):
     """Create a PAX formatted TAR file (without any frills or size limits).
 

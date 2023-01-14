@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def check_MultiPoint(multipoint, kwArgCheck = None, prefix = "."):
     """Check MultiPoint
 

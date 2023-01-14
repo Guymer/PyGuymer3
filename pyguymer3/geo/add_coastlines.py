@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def add_coastlines(axis, kwArgCheck = None, colorName = "black", debug = False, level = 1, linestyle = "solid", linewidth = 0.5, onlyValid = False, repair = False, resolution = "c"):
     """Add coastlines to an axis.
 

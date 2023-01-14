@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def images2webp(imgs, webp, kwArgCheck = None, chunksize = 1048576, debug = False, exif = None, fps = 25.0, lossless = False, method = 6, minimize_size = True, mode = "RGB", quality = 100, screenHeight = -1, screenWidth = -1, strip = False):
     """Convert a sequence of images to a WEBP animation.
 

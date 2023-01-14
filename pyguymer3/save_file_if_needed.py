@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def save_file_if_needed(fname, fcontent, kwArgCheck = None, debug = False):
     # Import standard modules ...
     import os

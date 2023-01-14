@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def area(shape, kwArgCheck = None, eps = 1.0e-12, level = 1, nmax = 100, onlyValid = False, repair = False):
     # Import special modules ...
     try:

@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def elem2dict(elem, kwArgCheck = None, debug = False):
     """Convert a XML element into a Python dictionary
 

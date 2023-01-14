@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def does_MP4_have_free(fname):
     # NOTE: The following websites have some very useful information on how to
     #       parse MP4 files - the first just forgot to say that integers are

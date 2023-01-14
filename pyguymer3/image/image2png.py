@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def image2png(img, png, kwArgCheck = None, chunksize = 1048576, debug = False, exif = None, mode = "RGB", optimize = True, strip = False):
     """Save an image as a PNG
 

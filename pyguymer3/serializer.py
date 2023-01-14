@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def serializer(obj, kwArgCheck = None, evaluate = False):
     """Serialize an object into an intrinsic type
 

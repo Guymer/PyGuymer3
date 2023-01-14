@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def jpegtran(fname1, kwArgCheck = None, chunksize = 1048576, debug = False):
     """
     "jpegtran" does not modify, but it does touch, the image even if it cannot

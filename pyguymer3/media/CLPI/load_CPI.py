@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def load_CPI(fObj):
     # NOTE: see https://github.com/lw/BluRay/wiki/CPI
     # and https://patents.google.com/patent/US20090238539

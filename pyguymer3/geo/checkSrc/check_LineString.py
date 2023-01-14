@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def check_LineString(line, kwArgCheck = None, prefix = "."):
     """Check LineString
 

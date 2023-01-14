@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def exiftool(fname):
     """
     "exiftool" does not modify, and it does not touch, the image even if it

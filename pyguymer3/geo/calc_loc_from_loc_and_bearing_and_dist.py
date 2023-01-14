@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def calc_loc_from_loc_and_bearing_and_dist(lon1_deg, lat1_deg, alpha1_deg, s_m, kwArgCheck = None, eps = 1.0e-12, nmax = 100):
     """
     This function reads in coordinates (in degrees) on the surface of Earth

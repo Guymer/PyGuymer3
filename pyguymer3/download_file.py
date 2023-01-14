@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def download_file(sess, url, fname, kwArgCheck = None, cookies = None, headers = None, timeout = 10.0, verify = True):
     # Import standard modules ...
     import email

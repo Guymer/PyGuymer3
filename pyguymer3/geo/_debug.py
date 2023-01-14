@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def _debug(badGeoms, kwArgCheck = None, prefix = "."):
     """Save CSVs for debugging
 

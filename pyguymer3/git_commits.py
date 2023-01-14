@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def git_commits(kwArgCheck = None, cwd = None, fname = None):
     # Import standard modules ...
     import datetime

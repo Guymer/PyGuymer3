@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+# Define function ...
 def start_session():
     # Import special modules ...
     try:
