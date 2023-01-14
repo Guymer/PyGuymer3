@@ -19,8 +19,8 @@ def vfov(xtile, ytile, zoom):
     radiusOfEarth = 6371008.8                                                   # [m]
     circumOfEarth = 2.0 * math.pi * radiusOfEarth                               # [m]
 
-    lonW_deg, latN_deg = num2deg(xtile, ytile, zoom)                            # [°], [°]
-    lonE_deg, latS_deg = num2deg(xtile + 1, ytile + 1, zoom)                    # [°], [°]
+    _, latN_deg = num2deg(xtile, ytile, zoom)                                   # [°], [°]
+    _, latS_deg = num2deg(xtile + 1, ytile + 1, zoom)                           # [°], [°]
     latC_rad = math.radians(0.5 * (latS_deg + latN_deg))
     n = 2.0 ** zoom
     resoluOfEarth = circumOfEarth * math.cos(latC_rad) / n                      # [m/tile]

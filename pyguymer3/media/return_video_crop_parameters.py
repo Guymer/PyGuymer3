@@ -43,12 +43,12 @@ def return_video_crop_parameters(fname, kwArgCheck = None, debug = False, dt = 2
                     "-hide_banner",
                     "-probesize", "3G",
                     "-analyzeduration", "1800M",
-                    "-playlist", "{0:d}".format(playlist),
-                    "-ss", "{0:.3f}".format(t),
+                    "-playlist", f"{playlist:d}",
+                    "-ss", f"{t:.3f}",
                     "-i", fname,
                     "-an",
                     "-sn",
-                    "-t", "{:f}".format(dt),
+                    "-t", f"{dt:f}",
                     "-vf", "cropdetect",
                     "-y",
                     "-f", "null",
@@ -67,11 +67,11 @@ def return_video_crop_parameters(fname, kwArgCheck = None, debug = False, dt = 2
                         "-hide_banner",
                         "-probesize", "3G",
                         "-analyzeduration", "1800M",
-                        "-ss", "{0:.3f}".format(t),
+                        "-ss", f"{t:.3f}",
                         "-i", fname,
                         "-an",
                         "-sn",
-                        "-t", "{:f}".format(dt),
+                        "-t", f"{dt:f}",
                         "-vf", "cropdetect",
                         "-y",
                         "-f", "null",
@@ -87,12 +87,12 @@ def return_video_crop_parameters(fname, kwArgCheck = None, debug = False, dt = 2
                         "-hide_banner",
                         "-probesize", "3G",
                         "-analyzeduration", "1800M",
-                        "-ss", "{0:.3f}".format(t),
+                        "-ss", f"{t:.3f}",
                         "-f", "mjpeg",
                         "-i", fname,
                         "-an",
                         "-sn",
-                        "-t", "{:f}".format(dt),
+                        "-t", f"{dt:f}",
                         "-vf", "cropdetect",
                         "-y",
                         "-f", "null",
@@ -118,7 +118,7 @@ def return_video_crop_parameters(fname, kwArgCheck = None, debug = False, dt = 2
                 elif keyvalue.count("=") == 1:
                     key, value = keyvalue.split("=")
                 else:
-                    raise Exception("an unexpected string format was encountered (\"{:s}\")".format(keyvalue)) from None
+                    raise Exception(f"an unexpected string format was encountered (\"{keyvalue}\")") from None
                 db[key] = value
 
             # Update variables ...
@@ -128,13 +128,13 @@ def return_video_crop_parameters(fname, kwArgCheck = None, debug = False, dt = 2
     # Update variables ...
     outW = inW - 2 * outX                                                       # [px]
     outH = inH - 2 * outY                                                       # [px]
-    cropParams = "{:d}:{:d}:{:d}:{:d}".format(outW, outH, outX, outY)
+    cropParams = f"{outW:d}:{outH:d}:{outX:d}:{outY:d}"
 
     # Check results ...
     if outW > inW or outW <= 0:
-        raise Exception("failed to find cropped width (inW = {:d}, inH = {:d}, outX = {:d}, outY = {:d}, outW = {:d}, outH = {:d})".format(inW, inH, outX, outY, outW, outH)) from None
+        raise Exception(f"failed to find cropped width (inW = {inW:d}, inH = {inH:d}, outX = {outX:d}, outY = {outY:d}, outW = {outW:d}, outH = {outH:d})") from None
     if outH > inH or outH <= 0:
-        raise Exception("failed to find cropped height (inW = {:d}, inH = {:d}, outX = {:d}, outY = {:d}, outW = {:d}, outH = {:d})".format(inW, inH, outX, outY, outW, outH)) from None
+        raise Exception(f"failed to find cropped height (inW = {inW:d}, inH = {inH:d}, outX = {outX:d}, outY = {outY:d}, outW = {outW:d}, outH = {outH:d})") from None
 
     # Return top-left corner, width, height and FFMPEG crop parameter string ...
     return outX, outY, outW, outH, cropParams

@@ -43,7 +43,7 @@ def return_video_ratios(fname, kwArgCheck = None, debug = False, playlist = -1):
         # Create short-hands and then return them ...
         dar = return_video_display_aspect_ratio(fname, debug = debug, playlist = playlist)
         par = return_video_pixel_aspect_ratio(fname, debug = debug, playlist = playlist)
-        sar = "{:d}:{:d}".format(w // fact, h // fact)
+        sar = f"{w // fact:d}:{h // fact:d}"
         return dar, par, sar
 
     # Return error ...

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def perms(path, kwArgCheck = None, debug = False, filePerms = None, folderPerms = None, follow_symlinks = True, group = None, return_symlinks = False, skips = [], user = None):
+def perms(path, kwArgCheck = None, debug = False, filePerms = None, folderPerms = None, follow_symlinks = True, group = None, return_symlinks = False, skips = None, user = None):
     """Set permissions within a path.
 
     This function sets the file/folder mode and group/user owner of all files
@@ -51,9 +51,23 @@ def perms(path, kwArgCheck = None, debug = False, filePerms = None, folderPerms 
     if kwArgCheck is not None:
         print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
+    # Populate default values ...
+    if skips is None:
+        skips = []
+
     # Fetch lists ...
-    flist = return_file_list(path, debug = debug, follow_symlinks = follow_symlinks, return_symlinks = return_symlinks)
-    dlist = return_folder_list(path, debug = debug, follow_symlinks = follow_symlinks, return_symlinks = return_symlinks)
+    flist = return_file_list(
+        path,
+                  debug = debug,
+        follow_symlinks = follow_symlinks,
+        return_symlinks = return_symlinks,
+    )
+    dlist = return_folder_list(
+        path,
+                  debug = debug,
+        follow_symlinks = follow_symlinks,
+        return_symlinks = return_symlinks,
+    )
 
     # Loop over files and folders ...
     for name in flist + dlist:

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def add_vertical_gridlines(ax, ext, kwArgCheck = None, color = "black", linestyle = ":", linewidth = 0.5, locs = [], ngrid = -1, npoint = 50):
+def add_vertical_gridlines(ax, ext, kwArgCheck = None, color = "black", linestyle = ":", linewidth = 0.5, locs = None, ngrid = -1, npoint = 50):
     """Add vertical gridlines to a plot.
 
     Parameters
@@ -50,6 +50,10 @@ def add_vertical_gridlines(ax, ext, kwArgCheck = None, color = "black", linestyl
     # Check keyword arguments ...
     if kwArgCheck is not None:
         print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
+
+    # Populate default values ...
+    if locs is None:
+        locs = []
 
     # Determine x-locations depending on inputs ...
     if ngrid > 1:

@@ -37,11 +37,11 @@ def print_MP4_atoms(fname):
 
             # Check that it matches the pattern ...
             if re.match(r"[a-z][a-z][a-z][a-z]", name) is None:
-                raise Exception("\"{0:s}\" is not an atom name in \"{1:s}\"".format(name, fname)) from None
+                raise Exception(f"\"{name}\" is not an atom name in \"{fname}\"") from None
 
             # Check that it is a MP4 file ...
             if not foundFTYP and name != "ftyp":
-                raise Exception("\"{0:s}\" is not a MP4".format(fname)) from None
+                raise Exception(f"\"{fname}\" is not a MP4") from None
 
             # Set trigger ...
             foundFTYP = True
@@ -51,7 +51,7 @@ def print_MP4_atoms(fname):
                 # NOTE: This atom runs until EOF.
 
                 # Print summary ...
-                print("{0:s} is the remainder of the file".format(name))
+                print(f"{name} is the remainder of the file")
 
                 # Stop looping ...
                 break
@@ -67,11 +67,11 @@ def print_MP4_atoms(fname):
 
                 # Print summary ...
                 size, units = convert_bytes_to_pretty_bytes(val)
-                print("{0:s} is {1:6.1f} {2:3s} long (as a 64-bit atom)".format(name, size, units))
+                print(f"{name} is {size:6.1f} {units:3s} long (as a 64-bit atom)")
             else:
                 # Print summary ...
                 size, units = convert_bytes_to_pretty_bytes(val)
-                print("{0:s} is {1:6.1f} {2:3s} long (as a 32-bit atom)".format(name, size, units))
+                print(f"{name} is {size:6.1f} {units:3s} long (as a 32-bit atom)")
 
             # Skip to the end of the atom ...
             fObj.seek(val - off, os.SEEK_CUR)

@@ -39,7 +39,7 @@ def return_video_source_aspect_ratio(fname, kwArgCheck = None, debug = False, pl
                 break
 
         # Return scaled dimensions as source aspect ratio ...
-        return "{:d}:{:d}".format(w // fact, h // fact)
+        return f"{w // fact:d}:{h // fact:d}"
 
     # Return error ...
     return "ERROR"

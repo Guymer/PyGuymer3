@@ -38,10 +38,10 @@ def return_dict_of_bluray_playlists(dname, kwArgCheck = None, debug = False, siz
         # "worthwhile" is defined as ≥1 GiB and/or ≥1 minute) ...
         if "duration" in __ffprobe__[fname][playlist]["format"]:
             if float(__ffprobe__[fname][playlist]["format"]["duration"]) >= time_threshold:
-                ans["{:d}".format(playlist)] = __ffprobe__[fname][playlist]["format"]
+                ans[f"{playlist:d}"] = __ffprobe__[fname][playlist]["format"]
         if "size" in __ffprobe__[fname][playlist]["format"]:
             if int(__ffprobe__[fname][playlist]["format"]["size"]) >= size_threshold:
-                ans["{:d}".format(playlist)] = __ffprobe__[fname][playlist]["format"]
+                ans[f"{playlist:d}"] = __ffprobe__[fname][playlist]["format"]
 
     # Return dictionary ...
     return ans

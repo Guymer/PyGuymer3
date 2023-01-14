@@ -43,4 +43,4 @@ def find_program_version(prog):
             return line.strip().lower().split(":")[1].strip()
 
     # Create final catch-all ...
-    raise Exception("failed to extract version number for \"{0:s}\"".format(prog)) from None
+    raise Exception(f"failed to extract version number for \"{prog}\"") from None
