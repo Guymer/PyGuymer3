@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def load_PlayList(fObj, kwArgCheck = None, debug = False, errors = "strict", indent = 0):
-    # NOTE: see https://github.com/lw/BluRay/wiki/PlayList
+def load_PlayList(fObj):
+    # NOTE: See https://github.com/lw/BluRay/wiki/PlayList
 
     # Import standard modules ...
     import struct
@@ -11,20 +11,12 @@ def load_PlayList(fObj, kwArgCheck = None, debug = False, errors = "strict", ind
     from .load_PlayItem import load_PlayItem
     from .load_SubPath import load_SubPath
 
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
-
-    # Initialize answer and find it current position ...
+    # Initialize answer and find the current position ...
     ans = {}
     pos = fObj.tell()                                                           # [B]
-    if debug:
-        print("DEBUG:{:s} {:s}() called at {:,d} bytes".format(indent * "  ", __name__, pos), end = "")
 
     # Read the binary data ...
     ans["Length"], = struct.unpack(">I", fObj.read(4))                          # [B]
-    if debug:
-        print(" and is {:,d} bytes long".format(ans["Length"] + 4))
     if ans["Length"] != 0:
         fObj.read(2)
         ans["NumberOfPlayItems"], = struct.unpack(">H", fObj.read(2))
@@ -32,15 +24,15 @@ def load_PlayList(fObj, kwArgCheck = None, debug = False, errors = "strict", ind
 
         # Loop over PlayItems ...
         ans["PlayItems"] = []
-        for i in range(ans["NumberOfPlayItems"]):
+        for _ in range(ans["NumberOfPlayItems"]):
             # Load PlayItem section and append to PlayItems list ...
-            ans["PlayItems"].append(load_PlayItem(fObj, debug = debug, errors = errors, indent = indent + 1))
+            ans["PlayItems"].append(load_PlayItem(fObj))
 
         # Loop over SubPaths ...
         ans["SubPaths"] = []
-        for i in range(ans["NumberOfSubPaths"]):
+        for _ in range(ans["NumberOfSubPaths"]):
             # Load SubPath section and append to SubPaths list ...
-            ans["SubPaths"].append(load_SubPath(fObj, debug = debug, errors = errors, indent = indent + 1))
+            ans["SubPaths"].append(load_SubPath(fObj))
 
     # Skip ahead to the end of the data structure ...
     fObj.seek(pos + ans["Length"] + 4)

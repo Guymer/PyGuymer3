@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def load_STNTable(fObj, kwArgCheck = None, debug = False, errors = "strict", indent = 0):
-    # NOTE: see https://github.com/lw/BluRay/wiki/STNTable
+def load_STNTable(fObj):
+    # NOTE: See https://github.com/lw/BluRay/wiki/STNTable
 
     # Import standard modules ...
     import struct
@@ -11,20 +11,12 @@ def load_STNTable(fObj, kwArgCheck = None, debug = False, errors = "strict", ind
     from .load_StreamAttributes import load_StreamAttributes
     from .load_StreamEntry import load_StreamEntry
 
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
-
-    # Initialize answer and find it current position ...
+    # Initialize answer and find the current position ...
     ans = {}
     pos = fObj.tell()                                                           # [B]
-    if debug:
-        print("DEBUG:{:s} {:s}() called at {:,d} bytes".format(indent * "  ", __name__, pos), end = "")
 
     # Read the binary data ...
     ans["Length"], = struct.unpack(">H", fObj.read(2))                          # [B]
-    if debug:
-        print(" and is {:,d} bytes long".format(ans["Length"] + 2))
     if ans["Length"] != 0:
         fObj.read(2)
         ans["NumberOfPrimaryVideoStreamEntries"], = struct.unpack(">B", fObj.read(1))
@@ -41,10 +33,10 @@ def load_STNTable(fObj, kwArgCheck = None, debug = False, errors = "strict", ind
         for name in ["PrimaryVideoStreamEntries", "PrimaryAudioStreamEntries", "PrimaryPGStreamEntries", "SecondaryPGStreamEntries", "PrimaryIGStreamEntries", "SecondaryAudioStreamEntries", "SecondaryVideoStreamEntries", "DVStreamEntries"]:
             # Loop over entries and add to list ...
             ans[name] = []
-            for i in range(ans["NumberOf{:s}".format(name)]):
+            for _ in range(ans[f"NumberOf{name}"]):
                 tmp = {}
-                tmp["StreamEntry"] = load_StreamEntry(fObj, debug = debug, errors = errors, indent = indent + 1)
-                tmp["StreamAttributes"] = load_StreamAttributes(fObj, debug = debug, errors = errors, indent = indent + 1)
+                tmp["StreamEntry"] = load_StreamEntry(fObj)
+                tmp["StreamAttributes"] = load_StreamAttributes(fObj)
                 ans[name].append(tmp)
 
     # Skip ahead to the end of the data structure ...
