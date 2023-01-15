@@ -23,26 +23,26 @@ def load_StreamAttributes(fObj):
             ans["MiscFlags1"], = struct.unpack(">B", fObj.read(1))
         elif ans["StreamCodingType"] in [int(0x03), int(0x04), int(0x80), int(0x81), int(0x82), int(0x83), int(0x84), int(0x85), int(0x86), int(0xA1), int(0xA2)]:
             ans["AudioFormat+SampleRate"], = struct.unpack(">B", fObj.read(1))
-            ans["LanguageCode"] = fObj.read(3).decode("utf-8", errors = "strict")
+            ans["LanguageCode"] = fObj.read(3).decode("utf-8")
         elif ans["StreamCodingType"] in [int(0x90), int(0x91)]:
-            ans["LanguageCode"] = fObj.read(3).decode("utf-8", errors = "strict")
+            ans["LanguageCode"] = fObj.read(3).decode("utf-8")
         elif ans["StreamCodingType"] in [int(0x92)]:
             ans["CharacterCode"] = struct.unpack(">B", fObj.read(1))
             # NOTE: See https://github.com/lw/BluRay/wiki/StreamAttributes#charactercode
             if ans["CharacterCode"] in [int(0x01)]:
-                ans["LanguageCode"] = fObj.read(3).decode("utf-8", errors = "strict")
+                ans["LanguageCode"] = fObj.read(3).decode("utf-8")
             elif ans["CharacterCode"] in [int(0x02)]:
-                ans["LanguageCode"] = fObj.read(3).decode("utf_16_be", errors = "strict")
+                ans["LanguageCode"] = fObj.read(3).decode("utf_16_be")
             elif ans["CharacterCode"] in [int(0x03)]:
-                ans["LanguageCode"] = fObj.read(3).decode("shift_jis", errors = "strict")
+                ans["LanguageCode"] = fObj.read(3).decode("shift_jis")
             elif ans["CharacterCode"] in [int(0x04)]:
-                ans["LanguageCode"] = fObj.read(3).decode("euc_kr", errors = "strict")
+                ans["LanguageCode"] = fObj.read(3).decode("euc_kr")
             elif ans["CharacterCode"] in [int(0x05)]:
-                ans["LanguageCode"] = fObj.read(3).decode("gb18030", errors = "strict")
+                ans["LanguageCode"] = fObj.read(3).decode("gb18030")
             elif ans["CharacterCode"] in [int(0x06)]:
-                ans["LanguageCode"] = fObj.read(3).decode("gb2312", errors = "strict")
+                ans["LanguageCode"] = fObj.read(3).decode("gb2312")
             elif ans["CharacterCode"] in [int(0x07)]:
-                ans["LanguageCode"] = fObj.read(3).decode("big5", errors = "strict")
+                ans["LanguageCode"] = fObj.read(3).decode("big5")
             else:
                 print("WARNING: \"CharacterCode\" was not a recognised value", ans["CharacterCode"])
                 ans["LanguageCode"] = fObj.read(3)

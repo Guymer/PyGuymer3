@@ -14,8 +14,8 @@ def load_SubPlayItem(fObj):
     # Read the binary data ...
     ans["Length"], = struct.unpack(">H", fObj.read(2))                          # [B]
     if ans["Length"] != 0:
-        ans["ClipInformationFileName"] = fObj.read(5).decode("utf-8", errors = "strict")
-        ans["ClipCodecIdentifier"] = fObj.read(4).decode("utf-8", errors = "strict")
+        ans["ClipInformationFileName"] = fObj.read(5).decode("utf-8")
+        ans["ClipCodecIdentifier"] = fObj.read(4).decode("utf-8")
         ans["MiscFlags1"], = struct.unpack(">I", fObj.read(4))
         ans["RefToSTCID"], = struct.unpack(">B", fObj.read(1))
         ans["INTime"], = struct.unpack(">I", fObj.read(4))

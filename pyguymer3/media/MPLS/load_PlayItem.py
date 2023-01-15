@@ -17,8 +17,8 @@ def load_PlayItem(fObj):
     # Read the binary data ...
     ans["Length"], = struct.unpack(">H", fObj.read(2))                          # [B]
     if ans["Length"] != 0:
-        ans["ClipInformationFileName"] = fObj.read(5).decode("utf-8", errors = "strict")
-        ans["ClipCodecIdentifier"] = fObj.read(4).decode("utf-8", errors = "strict")
+        ans["ClipInformationFileName"] = fObj.read(5).decode("utf-8")
+        ans["ClipCodecIdentifier"] = fObj.read(4).decode("utf-8")
         ans["MiscFlags1"], = struct.unpack(">H", fObj.read(2))
         ans["IsMultiAngle"] = bool(ans["MiscFlags1"]&(1<<16-1-11))
         ans["RefToSTCID"], = struct.unpack(">B", fObj.read(1))
@@ -37,8 +37,8 @@ def load_PlayItem(fObj):
             ans["Angles"] = []
             for _ in range(ans["NumberOfAngles"] - 1):
                 tmp = {}
-                tmp["ClipInformationFileName"] = fObj.read(5).decode("utf-8", errors = "strict")
-                tmp["ClipCodecIdentifier"] = fObj.read(4).decode("utf-8", errors = "strict")
+                tmp["ClipInformationFileName"] = fObj.read(5).decode("utf-8")
+                tmp["ClipCodecIdentifier"] = fObj.read(4).decode("utf-8")
                 tmp["RefToSTCID"], = struct.unpack(">B", fObj.read(1))
                 ans["Angles"].append(tmp)
 

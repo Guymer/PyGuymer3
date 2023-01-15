@@ -16,8 +16,8 @@ def load_header(fObj):
         raise Exception("\"load_header()\" should only be called at the start of the MPLS file") from None
 
     # Read the binary data ...
-    ans["TypeIndicator"] = fObj.read(4).decode("utf-8", errors = "strict")
-    ans["VersionNumber"] = fObj.read(4).decode("utf-8", errors = "strict")
+    ans["TypeIndicator"] = fObj.read(4).decode("utf-8")
+    ans["VersionNumber"] = fObj.read(4).decode("utf-8")
     ans["PlayListStartAddress"], = struct.unpack(">I", fObj.read(4))
     ans["PlayListMarkStartAddress"], = struct.unpack(">I", fObj.read(4))
     ans["ExtensionDataStartAddress"], = struct.unpack(">I", fObj.read(4))
