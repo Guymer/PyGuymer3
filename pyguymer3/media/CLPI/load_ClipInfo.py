@@ -2,7 +2,7 @@
 
 # Define function ...
 def load_ClipInfo(fObj):
-    # NOTE: see https://github.com/lw/BluRay/wiki/ClipInfo
+    # NOTE: See https://github.com/lw/BluRay/wiki/ClipInfo
 
     # Import standard modules ...
     import struct
@@ -17,6 +17,7 @@ def load_ClipInfo(fObj):
     ans["Length"], = struct.unpack(">I", fObj.read(4))
     BytesStart = fObj.tell()
 
+    # Read the binary data ...
     fObj.read(2)
     ans["ClipStreamType"], = struct.unpack(">B", fObj.read(1))
     ans["ApplicationType"], = struct.unpack(">B", fObj.read(1))
@@ -26,13 +27,15 @@ def load_ClipInfo(fObj):
     fObj.read(128)
     ans["TSTypeInfoBlock"] = load_TSTypeInfoBlock(fObj)
 
+    # Check if CC5 ...
     if ans["IsCC5"] == 1:
+        # Read the binary data ...
         fObj.read(1)
         ans["FollowingClipStreamType"], = struct.unpack(">B", fObj.read(1))
         fObj.read(4)
-        ans["FollowingClipInformationFileName"] = fObj.read(5).decode("utf-8")
+        ans["FollowingClipInformationFileName"] = fObj.read(5).decode("utf-8", errors = "strict")
         ans["FollowingClipCodecIdentifier"] = fObj.read(1)
-        ans["FollowingClipCodecIdentifier"] = ans["FollowingClipCodecIdentifier"].decode("utf-8")
+        ans["FollowingClipCodecIdentifier"] = ans["FollowingClipCodecIdentifier"].decode("utf-8", errors = "strict")
         fObj.read(1)
 
     # Pad out the read ...
@@ -42,7 +45,7 @@ def load_ClipInfo(fObj):
         l = ans["Length"] - BytesPassed
         fObj.read(l)
     elif BytesPassed > ans["Length"]:
-        print("load_ClipInfo: incorrect length")
+        raise Exception("read more bytes than the length") from None
 
     # Return answer ...
     return ans
