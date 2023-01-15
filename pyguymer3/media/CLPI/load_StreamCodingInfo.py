@@ -27,12 +27,12 @@ def load_StreamCodingInfo(fObj):
         tmp_AudioFormat_SampleRate, = struct.unpack(">B", fObj.read(1))
         ans["AudioFormat"] = (tmp_AudioFormat_SampleRate >> 4) & 0xF
         ans["SampleRate"] = tmp_AudioFormat_SampleRate & 0xF
-        ans["Language"] = fObj.read(3).decode("utf-8", errors = "strict")
+        ans["Language"] = fObj.read(3).decode("utf-8")
     elif ans["StreamCodingType"] in {0x90, 0x91}:
-        ans["Language"] = fObj.read(3).decode("utf-8", errors = "strict")
+        ans["Language"] = fObj.read(3).decode("utf-8")
     elif ans["StreamCodingType"] in {0x92}:
         ans["CharCode"], = struct.unpack(">B", fObj.read(1))
-        ans["Language"] = fObj.read(3).decode("utf-8", errors = "strict")
+        ans["Language"] = fObj.read(3).decode("utf-8")
 
     # Pad out the read ...
     BytesEnd = fObj.tell()

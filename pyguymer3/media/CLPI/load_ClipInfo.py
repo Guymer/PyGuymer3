@@ -33,9 +33,9 @@ def load_ClipInfo(fObj):
         fObj.read(1)
         ans["FollowingClipStreamType"], = struct.unpack(">B", fObj.read(1))
         fObj.read(4)
-        ans["FollowingClipInformationFileName"] = fObj.read(5).decode("utf-8", errors = "strict")
+        ans["FollowingClipInformationFileName"] = fObj.read(5).decode("utf-8")
         ans["FollowingClipCodecIdentifier"] = fObj.read(1)
-        ans["FollowingClipCodecIdentifier"] = ans["FollowingClipCodecIdentifier"].decode("utf-8", errors = "strict")
+        ans["FollowingClipCodecIdentifier"] = ans["FollowingClipCodecIdentifier"].decode("utf-8")
         fObj.read(1)
 
     # Pad out the read ...

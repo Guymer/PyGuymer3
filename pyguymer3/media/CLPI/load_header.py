@@ -11,8 +11,8 @@ def load_header(fObj):
     ans = {}
 
     # Read the binary data ...
-    ans["TypeIndicator"] = fObj.read(4).decode("utf-8", errors = "strict")
-    ans["VersionNumber"] = fObj.read(4).decode("utf-8", errors = "strict")
+    ans["TypeIndicator"] = fObj.read(4).decode("utf-8")
+    ans["VersionNumber"] = fObj.read(4).decode("utf-8")
     ans["SequenceInfoStartAddress"], = struct.unpack(">I", fObj.read(4))
     ans["ProgramInfoStartAddress"], = struct.unpack(">I", fObj.read(4))
     ans["CPIStartAddress"], = struct.unpack(">I", fObj.read(4))
