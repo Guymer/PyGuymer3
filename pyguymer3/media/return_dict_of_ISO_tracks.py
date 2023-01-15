@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_dict_of_ISO_tracks(fname, kwArgCheck = None, errors = "replace"):
+def return_dict_of_ISO_tracks(fname):
     # Import standard modules ...
     import html
     import shutil
@@ -13,10 +13,6 @@ def return_dict_of_ISO_tracks(fname, kwArgCheck = None, errors = "replace"):
         import lxml.etree
     except:
         raise Exception("\"lxml\" is not installed; run \"pip install --user lxml\"") from None
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check that "lsdvd" is installed ...
     if shutil.which("lsdvd") is None:
@@ -40,7 +36,7 @@ def return_dict_of_ISO_tracks(fname, kwArgCheck = None, errors = "replace"):
             fname
         ],
         stderr = subprocess.DEVNULL,
-    ).decode("utf-8", errors = errors)
+    ).decode("utf-8", errors = "replace")
     tmp = stdout.index("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
     stdout = stdout[tmp + len("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"):]
 

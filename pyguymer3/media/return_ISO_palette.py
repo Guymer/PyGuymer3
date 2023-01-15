@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_ISO_palette(fname, kwArgCheck = None, errors = "replace", usr_track = -1):
+def return_ISO_palette(fname, kwArgCheck = None, usr_track = -1):
     # Import standard modules ...
     import html
     import shutil
@@ -51,7 +51,7 @@ def return_ISO_palette(fname, kwArgCheck = None, errors = "replace", usr_track =
             fname
         ],
         stderr = subprocess.DEVNULL,
-    ).decode("utf-8", errors = errors)
+    ).decode("utf-8", errors = "replace")
     tmp = stdout.index("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
     stdout = stdout[tmp + len("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"):]
 

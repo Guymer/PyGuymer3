@@ -17,42 +17,35 @@ def parse_CLPI_file(br, ip):
     # Open file ...
     with open(f"{br}/BDMV/CLIPINF/{ip:05d}.clpi", "rb") as fObj:
         # Load header ...
-        res = load_header(fObj)
-        info["header"] = res
+        info["header"] = load_header(fObj)
 
         # Load ClipInfo section ...
-        res = load_ClipInfo(fObj)
-        info["ClipInfo"] = res
+        info["ClipInfo"] = load_ClipInfo(fObj)
 
         # Load SequenceInfo section ...
         if info["header"]["SequenceInfoStartAddress"] != 0:
             fObj.seek(info["header"]["SequenceInfoStartAddress"])
-            res = load_SequenceInfo(fObj)
-            info["SequenceInfo"] = res
+            info["SequenceInfo"] = load_SequenceInfo(fObj)
 
         # Load ProgramInfo section ...
         if info["header"]["ProgramInfoStartAddress"] != 0:
             fObj.seek(info["header"]["ProgramInfoStartAddress"])
-            res = load_ProgramInfo(fObj)
-            info["ProgramInfo"] = res
+            info["ProgramInfo"] = load_ProgramInfo(fObj)
 
         # Load CPI section ...
         if info["header"]["CPIStartAddress"] != 0:
             fObj.seek(info["header"]["CPIStartAddress"])
-            res = load_CPI(fObj)
-            info["CPI"] = res
+            info["CPI"] = load_CPI(fObj)
 
         # Load ClipMark section ...
         if info["header"]["ClipMarkStartAddress"] != 0:
             fObj.seek(info["header"]["ClipMarkStartAddress"])
-            res = load_ClipMark(fObj)
-            info["ClipMark"] = res
+            info["ClipMark"] = load_ClipMark(fObj)
 
         # Load ExtensionData section ...
         if info["header"]["ExtensionDataStartAddress"] != 0:
             fObj.seek(info["header"]["ExtensionDataStartAddress"])
-            res = load_ExtensionData(fObj)
-            info["ExtensionData"] = res
+            info["ExtensionData"] = load_ExtensionData(fObj)
 
     # Return answer ...
     return info
