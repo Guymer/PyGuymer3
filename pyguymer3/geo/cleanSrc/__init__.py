@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # Import sub-functions ...
 from .clean_CoordinateSequence import clean_CoordinateSequence
 from .clean_LinearRing import clean_LinearRing

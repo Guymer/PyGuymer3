@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """
 This sub-module is a native Python implementation of a parser for Blu-ray MPLS files.
 """

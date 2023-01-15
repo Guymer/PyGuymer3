@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # Import sub-functions ...
 from .buffer_CoordinateSequence import buffer_CoordinateSequence
 from .buffer_LinearRing import buffer_LinearRing

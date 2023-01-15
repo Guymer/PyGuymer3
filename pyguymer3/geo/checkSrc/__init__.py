@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # Import sub-functions ...
 from .check_CoordinateSequence import check_CoordinateSequence
 from .check_LinearRing import check_LinearRing

@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """
 A Python sub-module containing functions relating to openstreetmap.org
 """

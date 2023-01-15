@@ -1,5 +1,8 @@
+#!/usr/bin/env python3
+
 # NOTE: https://stackoverflow.com/a/58684090
 
+# Define function ...
 def stat(fname, kwArgCheck = None, follow_symlinks = True):
     """
     This function aims to mimic os.stat() but instead of returning a stat_result

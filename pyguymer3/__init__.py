@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """
 A Python module containing a bunch of random functions that I have written over
 the years.

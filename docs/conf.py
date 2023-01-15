@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # NOTE: The following pages are useful guides and references for Sphinx:
 #         * https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html
 #         * https://github.com/ralsina/rst-cheatsheet/blob/master/rst-cheatsheet.rst

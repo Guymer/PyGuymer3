@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # Import sub-functions ...
 from .fillin_CoordinateSequence import fillin_CoordinateSequence
 from .fillin_LinearRing import fillin_LinearRing

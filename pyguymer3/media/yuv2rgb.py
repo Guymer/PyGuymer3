@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # NOTE: This function was obtained from a question on StackOverflow (see
 #       https://stackoverflow.com/q/7041172). The licence of this function is
 #       unknown but as of February 2017 the author, "wim" (see

@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """
 A Python sub-module containing a bunch of random image-related functions that I
 have written over the years.
