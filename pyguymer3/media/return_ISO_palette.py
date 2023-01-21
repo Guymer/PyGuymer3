@@ -52,8 +52,7 @@ def return_ISO_palette(fname, kwArgCheck = None, usr_track = -1):
         ],
         stderr = subprocess.DEVNULL,
     ).decode("utf-8", errors = "replace")
-    tmp = stdout.index("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
-    stdout = stdout[tmp + len("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"):]
+    stdout = stdout.removeprefix("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
 
     # Fix the file name itself ...
     stdout = stdout.replace(f"<device>{fname}</device>", f"<device>{html.escape(fname)}</device>")
