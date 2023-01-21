@@ -15,7 +15,13 @@ def _add_land(axis, kwArgCheck = None, debug = False, onlyValid = False, repair 
         raise Exception("\"cartopy\" is not installed; run \"pip install --user Cartopy\"") from None
     try:
         import matplotlib
-        matplotlib.use("Agg")                                                   # NOTE: See https://matplotlib.org/stable/gallery/user_interfaces/canvasagg.html
+        matplotlib.rcParams.update(
+            {
+                   "backend" : "Agg",                                           # NOTE: See https://matplotlib.org/stable/gallery/user_interfaces/canvasagg.html
+                "figure.dpi" : 300,
+                 "font.size" : 8,
+            }
+        )
     except:
         raise Exception("\"matplotlib\" is not installed; run \"pip install --user matplotlib\"") from None
 

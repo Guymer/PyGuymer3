@@ -8,7 +8,13 @@ def _add_background(axis, kwArgCheck = None, debug = False):
     # Import special modules ...
     try:
         import matplotlib
-        matplotlib.use("Agg")                                                   # NOTE: See https://matplotlib.org/stable/gallery/user_interfaces/canvasagg.html
+        matplotlib.rcParams.update(
+            {
+                   "backend" : "Agg",                                           # NOTE: See https://matplotlib.org/stable/gallery/user_interfaces/canvasagg.html
+                "figure.dpi" : 300,
+                 "font.size" : 8,
+            }
+        )
     except:
         raise Exception("\"matplotlib\" is not installed; run \"pip install --user matplotlib\"") from None
 

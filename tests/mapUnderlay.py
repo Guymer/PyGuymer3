@@ -12,9 +12,14 @@ if __name__ == "__main__":
         raise Exception("\"cartopy\" is not installed; run \"pip install --user Cartopy\"") from None
     try:
         import matplotlib
-        matplotlib.use("Agg")                                                   # NOTE: See https://matplotlib.org/stable/gallery/user_interfaces/canvasagg.html
+        matplotlib.rcParams.update(
+            {
+                   "backend" : "Agg",                                           # NOTE: See https://matplotlib.org/stable/gallery/user_interfaces/canvasagg.html
+                "figure.dpi" : 300,
+                 "font.size" : 8,
+            }
+        )
         import matplotlib.pyplot
-        matplotlib.pyplot.rcParams.update({"font.size" : 8})
     except:
         raise Exception("\"matplotlib\" is not installed; run \"pip install --user matplotlib\"") from None
 
@@ -43,7 +48,7 @@ if __name__ == "__main__":
     print(f" > Making \"{fname}\" ...")
 
     # Create figure ...
-    fg = matplotlib.pyplot.figure(figsize = (6, 9), dpi = 150)
+    fg = matplotlib.pyplot.figure(figsize = (6, 9))
 
     # Loop over resolutions ...
     for iresolution, resolution in enumerate(resolutions):
@@ -55,8 +60,11 @@ if __name__ == "__main__":
         ax.set_title(resolution)
         pyguymer3.geo.add_map_underlay(ax, cultural = False, linewidth = 0.0, resolution = resolution)
 
+    # Configure figure ...
+    fg.tight_layout()
+
     # Save figure ...
-    fg.savefig(fname, bbox_inches = "tight", dpi = 150, pad_inches = 0.1)
+    fg.savefig(fname)
     matplotlib.pyplot.close(fg)
 
     # Optimize PNG ...
@@ -70,7 +78,7 @@ if __name__ == "__main__":
     print(f" > Making \"{fname}\" ...")
 
     # Create figure ...
-    fg = matplotlib.pyplot.figure(figsize = (6, 18), dpi = 150)
+    fg = matplotlib.pyplot.figure(figsize = (6, 18))
 
     # Loop over resolutions ...
     for iresolution, resolution in enumerate(resolutions):
@@ -89,8 +97,11 @@ if __name__ == "__main__":
         ax.set_title(resolution)
         pyguymer3.geo.add_map_underlay(ax, cultural = False, resolution = resolution)
 
+    # Configure figure ...
+    fg.tight_layout()
+
     # Save figure ...
-    fg.savefig(fname, bbox_inches = "tight", dpi = 150, pad_inches = 0.1)
+    fg.savefig(fname)
     matplotlib.pyplot.close(fg)
 
     # Optimize PNG ...
@@ -104,7 +115,7 @@ if __name__ == "__main__":
     print(f" > Making \"{fname}\" ...")
 
     # Create figure ...
-    fg = matplotlib.pyplot.figure(figsize = (6, 18), dpi = 150)
+    fg = matplotlib.pyplot.figure(figsize = (6, 18))
 
     # Loop over resolutions ...
     for iresolution, resolution in enumerate(resolutions):
@@ -123,8 +134,11 @@ if __name__ == "__main__":
         ax.set_title(resolution)
         pyguymer3.geo.add_map_underlay(ax, resolution = resolution)
 
+    # Configure figure ...
+    fg.tight_layout()
+
     # Save figure ...
-    fg.savefig(fname, bbox_inches = "tight", dpi = 150, pad_inches = 0.1)
+    fg.savefig(fname)
     matplotlib.pyplot.close(fg)
 
     # Optimize PNG ...
@@ -138,7 +152,7 @@ if __name__ == "__main__":
     print(f" > Making \"{fname}\" ...")
 
     # Create figure ...
-    fg = matplotlib.pyplot.figure(figsize = (6, 18), dpi = 150)
+    fg = matplotlib.pyplot.figure(figsize = (6, 18))
 
     # Loop over resolutions ...
     for iresolution, resolution in enumerate(resolutions):
@@ -157,8 +171,11 @@ if __name__ == "__main__":
         ax.set_title(resolution)
         pyguymer3.geo.add_map_underlay(ax, maxElev = 2000.0, resolution = resolution)
 
+    # Configure figure ...
+    fg.tight_layout()
+
     # Save figure ...
-    fg.savefig(fname, bbox_inches = "tight", dpi = 150, pad_inches = 0.1)
+    fg.savefig(fname)
     matplotlib.pyplot.close(fg)
 
     # Optimize PNG ...

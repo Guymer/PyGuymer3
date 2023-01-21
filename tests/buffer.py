@@ -25,9 +25,14 @@ if __name__ == "__main__":
         raise Exception("\"geojson\" is not installed; run \"pip install --user geojson\"") from None
     try:
         import matplotlib
-        matplotlib.use("Agg")                                                   # NOTE: See https://matplotlib.org/stable/gallery/user_interfaces/canvasagg.html
+        matplotlib.rcParams.update(
+            {
+                   "backend" : "Agg",                                           # NOTE: See https://matplotlib.org/stable/gallery/user_interfaces/canvasagg.html
+                "figure.dpi" : 300,
+                 "font.size" : 8,
+            }
+        )
         import matplotlib.pyplot
-        matplotlib.pyplot.rcParams.update({"font.size" : 8})
     except:
         raise Exception("\"matplotlib\" is not installed; run \"pip install --user matplotlib\"") from None
     try:
@@ -81,18 +86,17 @@ if __name__ == "__main__":
         print(f" > Making \"{jname}\" and \"{fname}\" ...")
 
         # Create figure ...
-        fg = matplotlib.pyplot.figure(
-                dpi = 150,
-            figsize = (6, 6),
-        )
+        fg = matplotlib.pyplot.figure(figsize = (6, 6))
 
-        # Create first subplot ...
+        # Create axis ...
         ax1 = fg.add_subplot(
             2,
             2,
             1,
             projection = cartopy.crs.Robinson(),
         )
+
+        # Configure axis ...
         ax1.set_global()
         pyguymer3.geo.add_map_background(ax1)
         pyguymer3.geo.add_horizontal_gridlines(
@@ -111,7 +115,7 @@ if __name__ == "__main__":
             resolution = "110m",
         )
 
-        # Create second subplot ...
+        # Create axis ...
         ax2 = fg.add_subplot(
             2,
             2,
@@ -121,6 +125,8 @@ if __name__ == "__main__":
                  central_latitude = lat,
             ),
         )
+
+        # Configure axis ...
         ax2.set_global()
         pyguymer3.geo.add_map_background(ax2)
         pyguymer3.geo.add_horizontal_gridlines(
@@ -139,8 +145,10 @@ if __name__ == "__main__":
             resolution = "110m",
         )
 
-        # Create third subplot ...
+        # Create axis ...
         ax3 = fg.add_subplot(2, 2, (3, 4))
+
+        # Configure axis ...
         ax3.grid()
         ax3.set_aspect("equal")
         ax3.set_xlabel("Longitude [°]")
@@ -274,13 +282,13 @@ if __name__ == "__main__":
         # Clean up ...
         del buff2
 
-        # Save figure ...
+        # Configure figure ...
         fg.suptitle(f"({lon:.1f},{lat:.1f}) buffered by {0.001 * dist1:,.1f}km & {0.001 * dist2:,.1f}km\nred = {0.001 * (dist1 + dist2):,.1f}km; green = {0.001 * dist1:,.1f}km; blue = {0.001 * dist1:,.1f}km & {0.001 * dist2:,.1f}km")
-        fg.savefig(
-            fname,
-            bbox_inches = "tight",
-                    dpi = 150,
-             pad_inches = 0.1,
-        )
-        pyguymer3.image.optimize_image(fname, strip = True)
+        fg.tight_layout()
+
+        # Save figure ...
+        fg.savefig(fname)
         matplotlib.pyplot.close(fg)
+
+        # Optimize PNG ..
+        pyguymer3.image.optimize_image(fname, strip = True)
