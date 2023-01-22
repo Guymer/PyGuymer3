@@ -28,16 +28,20 @@ def return_dict_of_ISO_tracks(fname):
     #       replacing the invalid UTF-8 bytes (and remove the XML header).
     # NOTE: Don't merge standard out and standard error together as the result
     #       will probably not be valid XML if standard error is not empty.
-    stdout = subprocess.check_output(
+    resp = subprocess.run(
         [
             "lsdvd",
             "-x",
             "-Ox",
             fname
         ],
-        stderr = subprocess.DEVNULL,
-    ).decode("utf-8", errors = "replace")
-    stdout = stdout.removeprefix("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+           check = True,
+        encoding = "utf-8",
+          errors = "replace",
+          stderr = subprocess.DEVNULL,
+          stdout = subprocess.PIPE,
+    )
+    stdout = resp.stdout.removeprefix("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
 
     # Fix the file name itself ...
     stdout = stdout.replace(f"<device>{fname}</device>", f"<device>{html.escape(fname)}</device>")

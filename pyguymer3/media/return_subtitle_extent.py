@@ -31,9 +31,10 @@ def return_subtitle_extent(fname, kwArgCheck = None, debug = False, playlist = -
     height = return_video_height(fname, debug = debug, playlist = playlist)     # [px]
     width = return_video_width(fname, debug = debug, playlist = playlist)       # [px]
 
-    # Find stream info ...
+    # Check if it is a Blu-ray ...
     if fname.startswith("bluray:"):
-        stderrout = subprocess.check_output(
+        # Find stream info ...
+        resp = subprocess.run(
             [
                 "ffmpeg",
                 "-hide_banner",
@@ -51,14 +52,16 @@ def return_subtitle_extent(fname, kwArgCheck = None, debug = False, playlist = -
                 "-f", "null",
                 "/dev/null"
             ],
+               check = True,
             encoding = "utf-8",
-            stderr = subprocess.STDOUT,
+              stderr = subprocess.STDOUT,
+              stdout = subprocess.PIPE,
         )
     else:
-        # Try to analyze it properly first, if it fails then attempt to load it
-        # as a raw M-JPEG stream ...
+        # Attempt to survey the file ...
         try:
-            stderrout = subprocess.check_output(
+            # Find stream info ...
+            resp = subprocess.run(
                 [
                     "ffmpeg",
                     "-hide_banner",
@@ -75,11 +78,14 @@ def return_subtitle_extent(fname, kwArgCheck = None, debug = False, playlist = -
                     "-f", "null",
                     "/dev/null"
                 ],
+                   check = False,
                 encoding = "utf-8",
                   stderr = subprocess.STDOUT,
+                  stdout = subprocess.PIPE,
             )
-        except:
-            stderrout = subprocess.check_output(
+        except subprocess.CalledProcessError:
+            # Fallback and attempt to find stream info as a raw M-JPEG stream ...
+            resp = subprocess.run(
                 [
                     "ffmpeg",
                     "-hide_banner",
@@ -97,8 +103,10 @@ def return_subtitle_extent(fname, kwArgCheck = None, debug = False, playlist = -
                     "-f", "null",
                     "/dev/null"
                 ],
+                   check = True,
                 encoding = "utf-8",
                   stderr = subprocess.STDOUT,
+                  stdout = subprocess.PIPE,
             )
 
     # Initialize values ...
@@ -106,7 +114,7 @@ def return_subtitle_extent(fname, kwArgCheck = None, debug = False, playlist = -
     y2 = 0                                                                      # [px]
 
     # Loop over matches ...
-    for match in re.findall(r"crop=[0-9]+:[0-9]+:[0-9]+:[0-9]+", stderrout):
+    for match in re.findall(r"crop=[0-9]+:[0-9]+:[0-9]+:[0-9]+", resp.stdout):
         # Extract information ...
         h = int(match.split("=")[1].split(":")[1])                              # [px]
         y = int(match.split("=")[1].split(":")[3])                              # [px]

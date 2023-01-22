@@ -35,9 +35,10 @@ def return_video_crop_parameters(fname, kwArgCheck = None, debug = False, dt = 2
         # Deduce start time ...
         t = frac * dur - dt / 2.0                                               # [s]
 
-        # Find crop parameters ...
+        # Check if it is a Blu-ray ...
         if fname.startswith("bluray:"):
-            stderrout = subprocess.check_output(
+            # Find crop parameters ...
+            resp = subprocess.run(
                 [
                     "ffmpeg",
                     "-hide_banner",
@@ -54,14 +55,16 @@ def return_video_crop_parameters(fname, kwArgCheck = None, debug = False, dt = 2
                     "-f", "null",
                     "/dev/null"
                 ],
+                   check = True,
                 encoding = "utf-8",
-                stderr = subprocess.STDOUT,
+                  stderr = subprocess.STDOUT,
+                  stdout = subprocess.PIPE,
             )
         else:
-            # Try to analyze it properly first, if it fails then attempt to
-            # load it as a raw M-JPEG stream ...
+            # Attempt to survey the file ...
             try:
-                stderrout = subprocess.check_output(
+                # Find crop parameters ...
+                resp = subprocess.run(
                     [
                         "ffmpeg",
                         "-hide_banner",
@@ -77,11 +80,15 @@ def return_video_crop_parameters(fname, kwArgCheck = None, debug = False, dt = 2
                         "-f", "null",
                         "/dev/null"
                     ],
+                       check = False,
                     encoding = "utf-8",
                       stderr = subprocess.STDOUT,
+                      stdout = subprocess.PIPE,
                 )
-            except:
-                stderrout = subprocess.check_output(
+            except subprocess.CalledProcessError:
+                # Fallback and attempt to find crop parameters as a raw M-JPEG
+                # stream ...
+                resp = subprocess.run(
                     [
                         "ffmpeg",
                         "-hide_banner",
@@ -98,12 +105,14 @@ def return_video_crop_parameters(fname, kwArgCheck = None, debug = False, dt = 2
                         "-f", "null",
                         "/dev/null"
                     ],
+                       check = True,
                     encoding = "utf-8",
                       stderr = subprocess.STDOUT,
+                      stdout = subprocess.PIPE,
                 )
 
         # Loop over lines ...
-        for line in stderrout.splitlines():
+        for line in resp.stdout.splitlines():
             # Skip irrelevant lines ...
             if not line.startswith("[Parsed_cropdetect"):
                 continue

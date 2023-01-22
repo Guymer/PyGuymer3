@@ -38,7 +38,7 @@ def ffprobe(fname, kwArgCheck = None, playlist = -1):
         #       ... to standard error, hence I have to only attempt to parse
         #       standard out as JSON rather than both standard error and
         #       standard out together.
-        stdout = subprocess.check_output(
+        resp = subprocess.run(
             [
                 "ffprobe",
                 "-hide_banner",
@@ -51,8 +51,10 @@ def ffprobe(fname, kwArgCheck = None, playlist = -1):
                 "-playlist", f"{playlist:d}",
                 fname
             ],
+               check = True,
             encoding = "utf-8",
               stderr = subprocess.DEVNULL,
+              stdout = subprocess.PIPE,
         )
     else:
         # Attempt to survey the file ...
@@ -66,7 +68,7 @@ def ffprobe(fname, kwArgCheck = None, playlist = -1):
             #       ... to standard error, hence I have to only attempt to parse
             #       standard out as JSON rather than both standard error and
             #       standard out together.
-            stdout = subprocess.check_output(
+            resp = subprocess.run(
                 [
                     "ffprobe",
                     "-hide_banner",
@@ -78,8 +80,10 @@ def ffprobe(fname, kwArgCheck = None, playlist = -1):
                     "-show_streams",
                     fname
                 ],
+                   check = False,
                 encoding = "utf-8",
                   stderr = subprocess.DEVNULL,
+                  stdout = subprocess.PIPE,
             )
         except subprocess.CalledProcessError:
             # Fallback and attempt to find stream info as a raw M-JPEG stream ...
@@ -91,7 +95,7 @@ def ffprobe(fname, kwArgCheck = None, playlist = -1):
             #       ... to standard error, hence I have to only attempt to parse
             #       standard out as JSON rather than both standard error and
             #       standard out together.
-            stdout = subprocess.check_output(
+            resp = subprocess.run(
                 [
                     "ffprobe",
                     "-hide_banner",
@@ -104,9 +108,11 @@ def ffprobe(fname, kwArgCheck = None, playlist = -1):
                     "-f", "mjpeg",
                     fname
                 ],
+                   check = True,
                 encoding = "utf-8",
                   stderr = subprocess.DEVNULL,
+                  stdout = subprocess.PIPE,
             )
 
     # Return ffprobe output as dictionary ...
-    return json.loads(stdout)
+    return json.loads(resp.stdout)
