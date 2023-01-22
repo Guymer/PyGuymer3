@@ -19,29 +19,30 @@ def git_commits(kwArgCheck = None, cwd = None, fname = None):
     # single file ...
     if fname is None:
         # Find the UNIX timestamps of all of the commits in the repository ...
-        stamps = subprocess.check_output(
+        resp = subprocess.run(
             ["git", "log", "--format=format:%ct"],
+               check = True,
                  cwd = cwd,
             encoding = "utf-8",
               stderr = subprocess.STDOUT,
-        ).splitlines()
+              stdout = subprocess.PIPE,
+        )
     else:
         # Find the UNIX timestamps of all of the commits for the file ...
-        stamps = subprocess.check_output(
+        resp = subprocess.run(
             ["git", "log", "--follow", "--format=format:%ct", fname],
+               check = True,
                  cwd = cwd,
             encoding = "utf-8",
               stderr = subprocess.STDOUT,
-        ).splitlines()
+              stdout = subprocess.PIPE,
+        )
 
     # Convert list of UNIX timestamps (as strings) to list of aware datetime
     # objects ...
     commits = []
-    for stamp in stamps:
-        commits.append(datetime.datetime.fromtimestamp(int(stamp), tz = datetime.timezone.utc))
-
-    # Clean up ...
-    del stamps
+    for line in resp.stdout.splitlines():
+        commits.append(datetime.datetime.fromtimestamp(int(line), tz = datetime.timezone.utc))
 
     # Return answer ...
     return commits

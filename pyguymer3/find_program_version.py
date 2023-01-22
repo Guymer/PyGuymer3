@@ -11,34 +11,40 @@ def find_program_version(prog):
         # NOTE: It is FreeBSD.
 
         # Find raw string ...
-        stderrout = subprocess.check_output(
+        resp = subprocess.run(
             ["pkg", "info", prog],
+               check = True,
             encoding = "utf-8",
-            stderr = subprocess.STDOUT,
+              stderr = subprocess.STDOUT,
+              stdout = subprocess.PIPE,
         )
     elif shutil.which("port") is not None:
         # NOTE: It is MacPorts.
 
         # Find raw string ...
-        stderrout = subprocess.check_output(
+        resp = subprocess.run(
             ["port", "info", "--version", prog],
+               check = True,
             encoding = "utf-8",
-            stderr = subprocess.STDOUT,
+              stderr = subprocess.STDOUT,
+              stdout = subprocess.PIPE,
         )
     elif shutil.which("zypper") is not None:
         # NOTE: It is OpenSUSE.
 
         # Find raw string ...
-        stderrout = subprocess.check_output(
+        resp = subprocess.run(
             ["zypper", "--disable-repositories", "info", prog],
+               check = True,
             encoding = "utf-8",
-            stderr = subprocess.STDOUT,
+              stderr = subprocess.STDOUT,
+              stdout = subprocess.PIPE,
         )
     else:
         raise Exception("neither \"pkg\" nor \"port\" nor \"zypper\" have been found") from None
 
     # Find clean string ...
-    for line in stderrout.splitlines():
+    for line in resp.stdout.splitlines():
         if line.strip().lower().startswith("version"):
             return line.strip().lower().split(":")[1].strip()
 
