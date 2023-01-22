@@ -12,8 +12,10 @@ def load_EXIF2(fname):
         raise Exception("\"exiftool\" is not installed") from None
 
     # Run "exiftool" and load it as JSON ...
+    # NOTE: Don't merge standard out and standard error together as the result
+    #       will probably not be valid JSON if standard error is not empty.
     ans = json.loads(
-        subprocess.check_output(
+        subprocess.run(
             [
                 "exiftool",
                 "-api", "largefilesupport=1",
@@ -25,9 +27,11 @@ def load_EXIF2(fname):
                 "--printConv",
                 fname
             ],
+               check = True,
             encoding = "utf-8",
               stderr = subprocess.DEVNULL,
-        )
+              stdout = subprocess.PIPE,
+        ).stdout
     )[0]
 
     # Return answer ...

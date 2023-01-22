@@ -17,8 +17,10 @@ def load_GPS_EXIF2(fname):
     ans = {}
 
     # Run "exiftool" and load it as JSON ...
+    # NOTE: Don't merge standard out and standard error together as the result
+    #       will probably not be valid JSON if standard error is not empty.
     dat = json.loads(
-        subprocess.check_output(
+        subprocess.run(
             [
                 "exiftool",
                 "-api", "largefilesupport=1",
@@ -35,9 +37,11 @@ def load_GPS_EXIF2(fname):
                 "-GPSHPositioningError",
                 fname
             ],
+               check = True,
             encoding = "utf-8",
               stderr = subprocess.DEVNULL,
-        )
+              stdout = subprocess.PIPE,
+        ).stdout
     )[0]
 
     # Populate dictionary ...
