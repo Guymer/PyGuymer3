@@ -80,7 +80,7 @@ def return_video_crop_parameters(fname, kwArgCheck = None, debug = False, dt = 2
                         "-f", "null",
                         "/dev/null"
                     ],
-                       check = False,
+                       check = True,
                     encoding = "utf-8",
                       stderr = subprocess.STDOUT,
                       stdout = subprocess.PIPE,

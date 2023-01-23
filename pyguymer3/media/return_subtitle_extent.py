@@ -78,7 +78,7 @@ def return_subtitle_extent(fname, kwArgCheck = None, debug = False, playlist = -
                     "-f", "null",
                     "/dev/null"
                 ],
-                   check = False,
+                   check = True,
                 encoding = "utf-8",
                   stderr = subprocess.STDOUT,
                   stdout = subprocess.PIPE,

@@ -80,7 +80,7 @@ def ffprobe(fname, kwArgCheck = None, playlist = -1):
                     "-show_streams",
                     fname
                 ],
-                   check = False,
+                   check = True,
                 encoding = "utf-8",
                   stderr = subprocess.DEVNULL,
                   stdout = subprocess.PIPE,
