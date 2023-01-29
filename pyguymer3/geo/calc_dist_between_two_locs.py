@@ -46,7 +46,7 @@ def calc_dist_between_two_locs(lon1_deg, lat1_deg, lon2_deg, lat2_deg, kwArgChec
     while True:
         # Stop looping if the function has been called too many times ...
         if i >= nmax:
-            raise Exception("failed to converge") from None
+            raise Exception(f"failed to converge; loc1 = ({lon1_deg:+.9f}°,{lat1_deg:+.9f}°); loc2 = ({lon2_deg:+.9f}°,{lat2_deg:+.9f}°); eps = {eps:.15e}; nmax = {nmax:d}") from None
 
         # Calculate new lambda and increment counter ...
         sin_sigma = math.hypot(

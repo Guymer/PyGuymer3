@@ -49,7 +49,7 @@ def calc_loc_from_loc_and_bearing_and_dist(lon1_deg, lat1_deg, alpha1_deg, s_m, 
     while True:
         # Stop looping if the function has been called too many times ...
         if i >= nmax:
-            raise Exception("failed to converge") from None
+            raise Exception(f"failed to converge; loc = ({lon1_deg:+.9f}°,{lat1_deg:+.9f}°); alpha1 = {alpha1_deg:.15e}°, s = {s_m:.15e}m; eps = {eps:.15e}; nmax = {nmax:d}") from None
 
         # Find new value of sigma and increment counter ...
         two_sigma_m = 2.0 * sigma1 + sigma
