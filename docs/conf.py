@@ -6,7 +6,7 @@
 #         * https://sphinx-tutorial.readthedocs.io
 #         * https://www.ericholscher.com/blog/2016/jul/1/sphinx-and-rtd-for-writers/
 
-# NOTE: The following pages are useful guides and references for the automation ...
+# NOTE: The following pages are useful guides and references for the automation:
 #         * https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html
 #         * https://www.sphinx-doc.org/en/master/usage/extensions/autosummary.html
 
