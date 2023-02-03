@@ -88,10 +88,10 @@ if __name__ == "__main__":
         # Configure axis ...
         ax.set_extent(
             [
-                -15.0, # left
-                 15.0, # right
-                 30.0, # bottom
-                 50.0, # top
+                -15.0,                  # minx
+                 15.0,                  # maxx
+                 30.0,                  # miny
+                 50.0,                  # maxy
             ]
         )
         ax.set_title(resolution)
@@ -125,10 +125,10 @@ if __name__ == "__main__":
         # Configure axis ...
         ax.set_extent(
             [
-                -0.4, # left
-                 0.4, # right
-                51.3, # bottom
-                51.7, # top
+                -0.4,                   # minx
+                 0.4,                   # maxx
+                51.3,                   # miny
+                51.7,                   # maxy
             ]
         )
         ax.set_title(resolution)
@@ -162,10 +162,10 @@ if __name__ == "__main__":
         # Configure axis ...
         ax.set_extent(
             [
-                 6.5, # left
-                 8.5, # right
-                60.1, # bottom
-                61.1, # top
+                 6.5,                   # minx
+                 8.5,                   # maxx
+                60.1,                   # miny
+                61.1,                   # maxy
             ]
         )
         ax.set_title(resolution)
