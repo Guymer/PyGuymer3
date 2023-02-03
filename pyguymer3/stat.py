@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 
-# NOTE: https://stackoverflow.com/a/58684090
-
 # Define function ...
 def stat(fname, kwArgCheck = None, follow_symlinks = True):
     """
     This function aims to mimic os.stat() but instead of returning a stat_result
     object with attributes it returns a dictionary with keys (for more user-
     friendly serialization to JSON).
+
+    References
+    ----------
+    .. [1] Stackoverflow answer, https://stackoverflow.com/a/58684090
     """
 
     # Import standard modules ...

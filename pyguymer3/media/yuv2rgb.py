@@ -1,19 +1,26 @@
 #!/usr/bin/env python3
 
-# NOTE: This function was obtained from a question on StackOverflow (see
-#       https://stackoverflow.com/q/7041172). The licence of this function is
-#       unknown but as of February 2017 the author, "wim" (see
-#       https://stackoverflow.com/users/674039/wim), says "Code included below,
-#       for future readers to use:". I have copied the code and use it for
-#       personal use only.
-
-def yuv2rgb(im, kwArgCheck = None, version = 'SDTV'):
+# Define function ...
+def yuv2rgb(im, kwArgCheck = None, version = "SDTV"):
     """
     Convert array-like YUV image to RGB colourspace
 
-    version:
-        - 'SDTV': ITU-R BT.601 version (default)
-        - 'HDTV': ITU-R BT.709 version
+    Parameters
+    ----------
+    version : str, optional
+        "SDTV" is ITU-R BT.601 version (default); "HDTV" is ITU-R BT.709 version
+
+    Notes
+    -----
+    This function was obtained from a question on StackOverflow [1]_. The
+    licence of this function is unknown but as of February 2017 the author,
+    "wim" [2]_, says "Code included below, for future readers to use:". I have
+    copied the code and use it for personal use only.
+
+    References
+    ----------
+    .. [1] StackOverflow question, https://stackoverflow.com/q/7041172
+    .. [2] StackOverflow user, https://stackoverflow.com/users/674039/wim
     """
 
     # Import special modules ...
@@ -27,8 +34,8 @@ def yuv2rgb(im, kwArgCheck = None, version = 'SDTV'):
         print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # check input
-    if not im.dtype == 'uint8':
-        raise TypeError('yuv2rgb only implemented for uint8 arrays') from None
+    if not im.dtype == "uint8":
+        raise TypeError("yuv2rgb only implemented for uint8 arrays") from None
 
     # clip input to the valid range
     yuv = numpy.zeros(im.shape, dtype = numpy.float64)
@@ -36,7 +43,7 @@ def yuv2rgb(im, kwArgCheck = None, version = 'SDTV'):
     yuv[:, :, 1:] = im[:, :, 1:].clip(16, 240).astype(yuv.dtype) - 128
 
     # decide what to do
-    if version.upper() == 'SDTV':
+    if version.upper() == "SDTV":
         A = numpy.array(
             [
                 [1.0,                    0.0,  0.701                ],
@@ -47,7 +54,7 @@ def yuv2rgb(im, kwArgCheck = None, version = 'SDTV'):
         )
         A[:,  0] *= 255.0 / 219.0
         A[:, 1:] *= 255.0 / 112.0
-    elif version.upper() == 'HDTV':
+    elif version.upper() == "HDTV":
         A = numpy.array(
             [
                 [1.164,    0.0,  1.793],
@@ -57,11 +64,11 @@ def yuv2rgb(im, kwArgCheck = None, version = 'SDTV'):
             dtype = numpy.float64
         )
     else:
-        raise Exception("unrecognised version (choose 'SDTV' or 'HDTV')") from None
+        raise Exception("unrecognised version (choose \"SDTV\" or \"HDTV\")") from None
 
     rgb = numpy.dot(yuv, A.T)
     del yuv, A
-    result = rgb.clip(0, 255).astype('uint8')
+    result = rgb.clip(0, 255).astype("uint8")
     del rgb
 
     return result
