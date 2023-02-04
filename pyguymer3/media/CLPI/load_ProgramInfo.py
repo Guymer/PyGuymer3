@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def load_ProgramInfo(fObj):
+def load_ProgramInfo(fObj, /):
     # NOTE: See https://github.com/lw/BluRay/wiki/ProgramInfo
 
     # Import standard modules ...

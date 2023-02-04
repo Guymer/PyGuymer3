@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def load_header(fObj):
+def load_header(fObj, /):
     # NOTE: See https://github.com/lw/BluRay/wiki/CLPI
 
     # Import standard modules ...

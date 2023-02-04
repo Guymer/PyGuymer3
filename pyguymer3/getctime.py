@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def getctime(fname):
+def getctime(fname, /):
     """Get the creation time of a file as a timezone-aware datetime object.
 
     This function aims to mimic ``os.path.getctime()`` but instead of returning

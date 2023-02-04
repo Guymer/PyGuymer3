@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_image_size(fname):
+def return_image_size(fname, /):
     # Import special modules ...
     try:
         import PIL

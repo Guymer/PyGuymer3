@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def load_TSTypeInfoBlock(fObj):
+def load_TSTypeInfoBlock(fObj, /):
     # NOTE: See https://github.com/lw/BluRay/blob/master/src/TSTypeInfoBlock.vala
 
     # Import standard modules ...

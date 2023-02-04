@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def load_ATCSequence(fObj):
+def load_ATCSequence(fObj, /):
     # NOTE: See https://github.com/lw/BluRay/wiki/SequenceInfo
 
     # Import standard modules ...

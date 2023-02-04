@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def load_STNTable(fObj):
+def load_STNTable(fObj, /):
     # NOTE: See https://github.com/lw/BluRay/wiki/STNTable
 
     # Import standard modules ...

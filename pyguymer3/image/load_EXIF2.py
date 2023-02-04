@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def load_EXIF2(fname):
+def load_EXIF2(fname, /):
     # Import standard modules ...
     import json
     import shutil

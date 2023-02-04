@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def intersection(p1, p2, p3, p4):
+def intersection(p1, p2, p3, p4, /):
     """
     This function finds the intersection of two line segments (defined by four
     points).

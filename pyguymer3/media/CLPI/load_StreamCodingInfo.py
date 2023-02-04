@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def load_StreamCodingInfo(fObj):
+def load_StreamCodingInfo(fObj, /):
     # NOTE: See https://github.com/lw/BluRay/wiki/StreamCodingInfo
 
     # Import standard modules ...

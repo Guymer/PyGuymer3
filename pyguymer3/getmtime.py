@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def getmtime(fname):
+def getmtime(fname, /):
     """Get the modification time of a file as a timezone-aware datetime object.
 
     This function aims to mimic ``os.path.getmtime()`` but instead of returning

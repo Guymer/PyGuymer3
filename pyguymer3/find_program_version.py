@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def find_program_version(prog):
+def find_program_version(prog, /):
     # Import standard modules ...
     import shutil
     import subprocess

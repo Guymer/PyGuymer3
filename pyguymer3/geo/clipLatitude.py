@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def clipLatitude(lat):
+def clipLatitude(lat, /):
     # -90° ≤ lat ≤ +90° ...
     return max(-90.0, min(+90.0, lat))

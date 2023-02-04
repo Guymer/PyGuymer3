@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def load_STCSequence(fObj):
+def load_STCSequence(fObj, /):
     # NOTE: See https://github.com/lw/BluRay/wiki/SequenceInfo
 
     # Import standard modules ...

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def load_ClipInfo(fObj):
+def load_ClipInfo(fObj, /):
     # NOTE: See https://github.com/lw/BluRay/wiki/ClipInfo
 
     # Import standard modules ...

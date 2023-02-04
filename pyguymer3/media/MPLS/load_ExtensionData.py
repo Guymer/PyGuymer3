@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def load_ExtensionData(fObj):
+def load_ExtensionData(fObj, /):
     # NOTE: See https://github.com/lw/BluRay/wiki/ExtensionData
 
     # Import standard modules ...

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def parse_CLPI_file(br, ip):
+def parse_CLPI_file(br, ip, /):
     # Import sub-functions ...
     from .CLPI.load_header import load_header
     from .CLPI.load_ClipInfo import load_ClipInfo

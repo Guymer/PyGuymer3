@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_dict_of_ISO_tracks(fname):
+def return_dict_of_ISO_tracks(fname, /):
     # Import standard modules ...
     import html
     import shutil

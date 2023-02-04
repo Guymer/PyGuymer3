@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def convert_pretty_bytes_to_bytes(string):
+def convert_pretty_bytes_to_bytes(string, /):
     # Import standard modules ...
     import re
 

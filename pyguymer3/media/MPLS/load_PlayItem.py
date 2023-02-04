@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def load_PlayItem(fObj):
+def load_PlayItem(fObj, /):
     # NOTE: See https://github.com/lw/BluRay/wiki/PlayItem
 
     # Import standard modules ...

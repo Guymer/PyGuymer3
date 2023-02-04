@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def load_SubPlayItem(fObj):
+def load_SubPlayItem(fObj, /):
     # NOTE: See https://github.com/lw/BluRay/wiki/SubPlayItem
 
     # Import standard modules ...
