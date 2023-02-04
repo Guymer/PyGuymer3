@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def stat(fname, kwArgCheck = None, follow_symlinks = True):
+def stat(fname, /, *, follow_symlinks = True):
     """
     This function aims to mimic os.stat() but instead of returning a stat_result
     object with attributes it returns a dictionary with keys (for more user-
@@ -16,10 +16,6 @@ def stat(fname, kwArgCheck = None, follow_symlinks = True):
     import grp
     import os
     import pwd
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Stat the file ...
     info = os.stat(fname, follow_symlinks = follow_symlinks)

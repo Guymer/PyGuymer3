@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def images2webp(imgs, webp, kwArgCheck = None, chunksize = 1048576, debug = False, exif = None, fps = 25.0, lossless = False, method = 6, minimize_size = True, mode = "RGB", quality = 100, screenHeight = -1, screenWidth = -1, strip = False):
+def images2webp(imgs, webp, /, *, chunksize = 1048576, debug = False, exif = None, fps = 25.0, lossless = False, method = 6, minimize_size = True, mode = "RGB", quality = 100, screenHeight = -1, screenWidth = -1, strip = False):
     """Convert a sequence of images to a WEBP animation.
 
     This function makes a WEBP animation from either a list of PIL Images or a
@@ -60,10 +60,6 @@ def images2webp(imgs, webp, kwArgCheck = None, chunksize = 1048576, debug = Fals
     # Import sub-functions ...
     from ..image.dict2exif import dict2exif
     from ..image.optimize_image import optimize_image
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check input ...
     if exif is not None and strip:

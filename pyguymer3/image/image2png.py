@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def image2png(img, png, kwArgCheck = None, chunksize = 1048576, debug = False, exif = None, mode = "RGB", optimize = True, strip = False):
+def image2png(img, png, /, *, chunksize = 1048576, debug = False, exif = None, mode = "RGB", optimize = True, strip = False):
     """Save an image as a PNG
 
     This function accepts either a PIL Image or a file path and saves the image
@@ -44,10 +44,6 @@ def image2png(img, png, kwArgCheck = None, chunksize = 1048576, debug = False, e
     # Import sub-functions ...
     from .dict2exif import dict2exif
     from .optimize_image import optimize_image
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check input ...
     if exif is not None and strip:

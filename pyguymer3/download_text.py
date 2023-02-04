@@ -1,16 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def download_text(sess, url, kwArgCheck = None, cookies = None, headers = None, timeout = 10.0, verify = True):
+def download_text(sess, url, /, *, cookies = None, headers = None, timeout = 10.0, verify = True):
     # Import standard modules ...
     import html
 
     # Import sub-functions ...
     from .download import download
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Populate default values ...
     if cookies is None:

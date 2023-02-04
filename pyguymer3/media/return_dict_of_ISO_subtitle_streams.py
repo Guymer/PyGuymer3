@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_dict_of_ISO_subtitle_streams(fname, kwArgCheck = None, usr_track = -1):
+def return_dict_of_ISO_subtitle_streams(fname, /, *, usr_track = -1):
     # Import standard modules ...
     import html
     import shutil
@@ -13,10 +13,6 @@ def return_dict_of_ISO_subtitle_streams(fname, kwArgCheck = None, usr_track = -1
         import lxml.etree
     except:
         raise Exception("\"lxml\" is not installed; run \"pip install --user lxml\"") from None
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check input ...
     if usr_track == -1:

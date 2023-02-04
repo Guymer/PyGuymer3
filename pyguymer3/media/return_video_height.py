@@ -1,15 +1,11 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_video_height(fname, kwArgCheck = None, debug = False, playlist = -1):
+def return_video_height(fname, /, *, debug = False, playlist = -1):
     # Import sub-functions ...
     from .__ffprobe__ import __ffprobe__
     from .ffprobe import ffprobe
     from .return_video_rotation import return_video_rotation
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Make sure that this fname/playlist combination is in the global dictionary ...
     if fname not in __ffprobe__:

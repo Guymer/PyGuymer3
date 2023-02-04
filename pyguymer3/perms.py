@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def perms(path, kwArgCheck = None, debug = False, filePerms = None, folderPerms = None, follow_symlinks = True, group = None, return_symlinks = False, skips = None, user = None):
+def perms(path, /, *, debug = False, filePerms = None, folderPerms = None, follow_symlinks = True, group = None, return_symlinks = False, skips = None, user = None):
     """Set permissions within a path.
 
     This function sets the file/folder mode and group/user owner of all files
@@ -46,10 +46,6 @@ def perms(path, kwArgCheck = None, debug = False, filePerms = None, folderPerms 
     from .return_file_list import return_file_list
     from .return_folder_list import return_folder_list
     from .stat import stat as myStat    # NOTE: To avoid name clash.
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Populate default values ...
     if skips is None:

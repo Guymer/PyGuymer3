@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def optimize_FLAC(fname1, kwArgCheck = None, chunksize = 1048576, debug = False):
+def optimize_FLAC(fname1, /, *, chunksize = 1048576, debug = False):
     """
     "metaflac" does not modify, but it does touch, the FLAC even if it cannot
     make it smaller, therefore it is NOT safe to keep on running "metaflac" on
@@ -17,10 +17,6 @@ def optimize_FLAC(fname1, kwArgCheck = None, chunksize = 1048576, debug = False)
     # Import sub-functions ...
     from .does_FLAC_have_padding import does_FLAC_have_padding
     from ..sha512 import sha512
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check that "metaflac" is installed ...
     if shutil.which("metaflac") is None:

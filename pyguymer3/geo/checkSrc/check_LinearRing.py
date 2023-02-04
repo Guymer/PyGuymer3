@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def check_LinearRing(ring, kwArgCheck = None, prefix = "."):
+def check_LinearRing(ring, /, *, prefix = "."):
     """Check LinearRing
 
     This function checks if a LinearRing is valid.
@@ -35,10 +35,6 @@ def check_LinearRing(ring, kwArgCheck = None, prefix = "."):
 
     # Import sub-functions ...
     from .._debug import _debug
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check argument ...
     if not isinstance(ring, shapely.geometry.polygon.LinearRing):

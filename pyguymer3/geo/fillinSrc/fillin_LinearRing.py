@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def fillin_LinearRing(ring, fill, kwArgCheck = None, debug = False, eps = 1.0e-12, fillSpace = "EuclideanSpace", nmax = 100, prefix = ".", ramLimit = 1073741824):
+def fillin_LinearRing(ring, fill, /, *, debug = False, eps = 1.0e-12, fillSpace = "EuclideanSpace", nmax = 100, prefix = ".", ramLimit = 1073741824):
     """Fill in a LinearRing
 
     This function reads in a LinearRing that exists on the surface of the Earth
@@ -48,10 +48,6 @@ def fillin_LinearRing(ring, fill, kwArgCheck = None, debug = False, eps = 1.0e-1
     # Import sub-functions ...
     from ..check import check
     from .fillin_CoordinateSequence import fillin_CoordinateSequence
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check argument ...
     if not isinstance(ring, shapely.geometry.polygon.LinearRing):

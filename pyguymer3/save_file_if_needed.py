@@ -1,13 +1,9 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def save_file_if_needed(fname, fcontent, kwArgCheck = None, debug = False):
+def save_file_if_needed(fname, fcontent, /, *, debug = False):
     # Import standard modules ...
     import os
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check that the content is one of the two types allowed in Python 3 and set
     # the file access mode and the encoding ...

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def image2jpg(img, jpg, kwArgCheck = None, chunksize = 1048576, debug = False, exif = None, mode = "RGB", optimize = True, progressive = False, quality = 95, strip = False):
+def image2jpg(img, jpg, /, *, chunksize = 1048576, debug = False, exif = None, mode = "RGB", optimize = True, progressive = False, quality = 95, strip = False):
     """Save an image as a JPG
 
     This function accepts either a PIL Image or a file path and saves the image
@@ -48,10 +48,6 @@ def image2jpg(img, jpg, kwArgCheck = None, chunksize = 1048576, debug = False, e
     # Import sub-functions ...
     from .dict2exif import dict2exif
     from .optimize_image import optimize_image
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check input ...
     if exif is not None and strip:

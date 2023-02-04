@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def save_array_as_PNG(img, fname, kwArgCheck = None, ftype_req = -1):
+def save_array_as_PNG(img, fname, /, *, ftype_req = -1):
     """
     Save an array as a PNG image.
 
@@ -30,10 +30,6 @@ def save_array_as_PNG(img, fname, kwArgCheck = None, ftype_req = -1):
 
     # Import sub-functions ...
     from .paeth_filter import paeth_filter
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Find image size ...
     ny, nx, nc = img.shape

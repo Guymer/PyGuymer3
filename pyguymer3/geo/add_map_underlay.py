@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def add_map_underlay(axis, kwArgCheck = None, background = True, cultural = True, debug = False, linestyle = "solid", linewidth = 0.5, maxElev = 8850.0, onlyValid = False, physical = True, repair = False, resolution = "110m"):
+def add_map_underlay(axis, /, *, background = True, cultural = True, debug = False, linestyle = "solid", linewidth = 0.5, maxElev = 8850.0, onlyValid = False, physical = True, repair = False, resolution = "110m"):
     # Import sub-functions ...
     from ._add_antarcticIceShelves import _add_antarcticIceShelves
     from ._add_background import _add_background
@@ -17,10 +17,6 @@ def add_map_underlay(axis, kwArgCheck = None, background = True, cultural = True
     from ._add_rivers import _add_rivers
     from ._add_roads import _add_roads
     from ._add_urbanAreas import _add_urbanAreas
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # **************************************************************************
 

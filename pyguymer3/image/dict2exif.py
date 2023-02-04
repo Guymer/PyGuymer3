@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def dict2exif(exif, kwArgCheck = None, mode = "RGB"):
+def dict2exif(exif, /, *, mode = "RGB"):
     """Convert a dictionary to an EXIF class
 
     This function accepts a dictionary of key/value pairs and uses it to
@@ -36,10 +36,6 @@ def dict2exif(exif, kwArgCheck = None, mode = "RGB"):
         PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                         # [px]
     except:
         raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Create an empty EXIF class (by obtaining the EXIF data from a blank image) ...
     # NOTE: See https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.getexif

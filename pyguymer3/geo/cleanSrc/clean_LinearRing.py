@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def clean_LinearRing(ring, kwArgCheck = None, debug = False, prefix = ".", tol = 1.0e-10):
+def clean_LinearRing(ring, /, *, debug = False, prefix = ".", tol = 1.0e-10):
     """Clean a LinearRing
 
     This function cleans a LinearRing by removing bad points.
@@ -39,10 +39,6 @@ def clean_LinearRing(ring, kwArgCheck = None, debug = False, prefix = ".", tol =
 
     # Import sub-functions ...
     from .clean_CoordinateSequence import clean_CoordinateSequence
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check argument ...
     if not isinstance(ring, shapely.geometry.polygon.LinearRing):

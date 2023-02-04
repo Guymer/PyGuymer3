@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_video_crop_parameters(fname, kwArgCheck = None, debug = False, dt = 2.0, playlist = -1):
+def return_video_crop_parameters(fname, /, *, debug = False, dt = 2.0, playlist = -1):
     # Import standard modules ...
     import shutil
     import subprocess
@@ -10,10 +10,6 @@ def return_video_crop_parameters(fname, kwArgCheck = None, debug = False, dt = 2
     from .return_media_duration import return_media_duration
     from .return_video_height import return_video_height
     from .return_video_width import return_video_width
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check input ...
     if fname.startswith("bluray:") and playlist < 0:

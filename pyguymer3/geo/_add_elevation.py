@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def _add_elevation(axis, kwArgCheck = None, debug = False, maxElev = 8850.0, onlyValid = False, repair = False, resolution = "110m"):
+def _add_elevation(axis, /, *, debug = False, maxElev = 8850.0, onlyValid = False, repair = False, resolution = "110m"):
     # NOTE: This function uses CSS4 named colours, see:
     #         * https://matplotlib.org/stable/gallery/color/named_colors.html
 
@@ -37,10 +37,6 @@ def _add_elevation(axis, kwArgCheck = None, debug = False, maxElev = 8850.0, onl
 
     # Import sub-functions ...
     from .extract_polys import extract_polys
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # **************************************************************************
 

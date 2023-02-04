@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def yuv2rgb(im, kwArgCheck = None, version = "SDTV"):
+def yuv2rgb(im, /, *, version = "SDTV"):
     """
     Convert array-like YUV image to RGB colourspace
 
@@ -28,10 +28,6 @@ def yuv2rgb(im, kwArgCheck = None, version = "SDTV"):
         import numpy
     except:
         raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # check input
     if not im.dtype == "uint8":

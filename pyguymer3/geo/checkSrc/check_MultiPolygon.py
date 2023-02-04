@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def check_MultiPolygon(multipoly, kwArgCheck = None, prefix = "."):
+def check_MultiPolygon(multipoly, /, *, prefix = "."):
     """Check MultiPolygon
 
     This function checks if a MultiPolygon is valid.
@@ -37,10 +37,6 @@ def check_MultiPolygon(multipoly, kwArgCheck = None, prefix = "."):
 
     # Import sub-functions ...
     from .._debug import _debug
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check argument ...
     if not isinstance(multipoly, shapely.geometry.multipolygon.MultiPolygon):

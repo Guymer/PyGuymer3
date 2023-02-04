@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def optimize_image(fname, kwArgCheck = None, chunksize = 1048576, debug = False, strip = False):
+def optimize_image(fname, /, *, chunksize = 1048576, debug = False, strip = False):
     """
     Please read the documentation for the four functions: "exiftool",
     "gifsicle", "jpegtran" and "optipng". It is not safe to keep on running the
@@ -17,10 +17,6 @@ def optimize_image(fname, kwArgCheck = None, chunksize = 1048576, debug = False,
     from .gifsicle import gifsicle
     from .jpegtran import jpegtran
     from .optipng import optipng
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check that the image exists ...
     if not os.path.exists(fname):

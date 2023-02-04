@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def extract_lines(shape, kwArgCheck = None, onlyValid = False):
+def extract_lines(shape, /, *, onlyValid = False):
     """Extract the LineStrings from the shape
 
     This function accepts any Shapely geometry and returns a flat list of all of
@@ -38,10 +38,6 @@ def extract_lines(shape, kwArgCheck = None, onlyValid = False):
         import shapely.geometry
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # **************************************************************************
 

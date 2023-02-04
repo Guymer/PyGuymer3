@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def _add_background(axis, kwArgCheck = None, debug = False):
+def _add_background(axis, /, *, debug = False):
     # NOTE: This function uses CSS4 named colours, see:
     #         * https://matplotlib.org/stable/gallery/color/named_colors.html
 
@@ -17,10 +17,6 @@ def _add_background(axis, kwArgCheck = None, debug = False):
         )
     except:
         raise Exception("\"matplotlib\" is not installed; run \"pip install --user matplotlib\"") from None
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # **************************************************************************
 

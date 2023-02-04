@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def great_circle(lon1, lat1, lon2, lat2, kwArgCheck = None, debug = False, npoint = 5, prefix = ".", ramLimit = 1073741824):
+def great_circle(lon1, lat1, lon2, lat2, /, *, debug = False, npoint = 5, prefix = ".", ramLimit = 1073741824):
     """
     This function reads in two starting coordinates (in degrees) and two
     finishing coordinates (in degrees) on the surface of a sphere and calculates
@@ -26,10 +26,6 @@ def great_circle(lon1, lat1, lon2, lat2, kwArgCheck = None, debug = False, npoin
     from .check import check
     from .find_point_on_great_circle import find_point_on_great_circle
     from ..interpolate import interpolate
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check inputs ...
     if npoint < 3:

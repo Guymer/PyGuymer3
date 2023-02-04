@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def tar(tarName, fnames, kwArgCheck = None, cwd = None, stderr = None, stdout = None):
+def tar(tarName, fnames, /, *, cwd = None, stderr = None, stdout = None):
     """Create a PAX formatted TAR file (without any frills or size limits).
 
     Parameters
@@ -32,10 +32,6 @@ def tar(tarName, fnames, kwArgCheck = None, cwd = None, stderr = None, stdout = 
     import shutil
     import subprocess
     import tempfile
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check that "tar" is installed ...
     if shutil.which("tar") is None:

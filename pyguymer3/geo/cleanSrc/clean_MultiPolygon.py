@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def clean_MultiPolygon(multipoly, kwArgCheck = None, debug = False, prefix = ".", tol = 1.0e-10):
+def clean_MultiPolygon(multipoly, /, *, debug = False, prefix = ".", tol = 1.0e-10):
     """Clean a MultiPolygon
 
     This function cleans a MultiPolygon, made up of Polygons (with an exterior
@@ -42,10 +42,6 @@ def clean_MultiPolygon(multipoly, kwArgCheck = None, debug = False, prefix = "."
     # Import sub-functions ...
     from ..check import check
     from .clean_Polygon import clean_Polygon
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check argument ...
     if not isinstance(multipoly, shapely.geometry.multipolygon.MultiPolygon):

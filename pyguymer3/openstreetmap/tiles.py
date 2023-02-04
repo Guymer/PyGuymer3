@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def tiles(lonC_deg, latC_deg, zoom, width, height, sess, kwArgCheck = None, background = (255, 255, 255), chunksize = 1048576, cookies = None, debug = False, fill = (255, 0, 0, 127), headers = None, radius = None, timeout = 10.0, verify = True):
+def tiles(lonC_deg, latC_deg, zoom, width, height, sess, /, *, background = (255, 255, 255), chunksize = 1048576, cookies = None, debug = False, fill = (255, 0, 0, 127), headers = None, radius = None, timeout = 10.0, verify = True):
     # Import special modules ...
     try:
         import PIL
@@ -15,10 +15,6 @@ def tiles(lonC_deg, latC_deg, zoom, width, height, sess, kwArgCheck = None, back
     from .deg2num import deg2num
     from .num2deg import num2deg
     from .tile import tile
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check inputs ...
     if not 0 <= zoom <= 19:

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def buffer_MultiLineString(multiline, dist, kwArgCheck = None, debug = False, eps = 1.0e-12, fill = 1.0, fillSpace = "EuclideanSpace", nang = 9, nmax = 100, prefix = ".", ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
+def buffer_MultiLineString(multiline, dist, /, *, debug = False, eps = 1.0e-12, fill = 1.0, fillSpace = "EuclideanSpace", nang = 9, nmax = 100, prefix = ".", ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
     """Buffer a MultiLineString
 
     This function reads in a MultiLineString that exists on the surface of the
@@ -60,10 +60,6 @@ def buffer_MultiLineString(multiline, dist, kwArgCheck = None, debug = False, ep
     from ..check import check
     from ..fillin import fillin
     from .buffer_LineString import buffer_LineString
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check argument ...
     if not isinstance(multiline, shapely.geometry.multilinestring.MultiLineString):

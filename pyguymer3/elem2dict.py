@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def elem2dict(elem, kwArgCheck = None, debug = False):
+def elem2dict(elem, /, *, debug = False):
     """Convert a XML element into a Python dictionary
 
     This function accepts a XML element and recursively turns it in to a Python
@@ -35,10 +35,6 @@ def elem2dict(elem, kwArgCheck = None, debug = False):
     ----------
     .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Initialize dictionary ...
     ans = {}

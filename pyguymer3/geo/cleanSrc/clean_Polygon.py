@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def clean_Polygon(poly, kwArgCheck = None, debug = False, prefix = ".", tol = 1.0e-10):
+def clean_Polygon(poly, /, *, debug = False, prefix = ".", tol = 1.0e-10):
     """Clean a Polygon
 
     This function cleans a Polygon (with an exterior and any number of
@@ -42,10 +42,6 @@ def clean_Polygon(poly, kwArgCheck = None, debug = False, prefix = ".", tol = 1.
     # Import sub-functions ...
     from ..check import check
     from .clean_LinearRing import clean_LinearRing
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check argument ...
     if not isinstance(poly, shapely.geometry.polygon.Polygon):

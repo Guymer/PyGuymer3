@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def gifsicle(fname1, kwArgCheck = None, chunksize = 1048576, debug = False):
+def gifsicle(fname1, /, *, chunksize = 1048576, debug = False):
     """
     "gifsicle" does modify, and it does touch, the image even if it cannot make
     it smaller, therefore it is NOT safe to keep on running "gifsicle" on the
@@ -23,10 +23,6 @@ def gifsicle(fname1, kwArgCheck = None, chunksize = 1048576, debug = False):
 
     # Import sub-functions ...
     from ..sha512 import sha512
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check that "gifsicle" is installed ...
     if shutil.which("gifsicle") is None:

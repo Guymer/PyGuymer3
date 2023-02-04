@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def stderr(arr, kwArgCheck = None, dof = 1):
+def stderr(arr, /, *, dof = 1):
     """Find the standard error of an array.
 
     This function finds the standard error of an array, with optionally
@@ -38,10 +38,6 @@ def stderr(arr, kwArgCheck = None, dof = 1):
 
     # Import sub-functions ...
     from .stddev import stddev
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check argument ...
     if not isinstance(arr, numpy.ndarray):

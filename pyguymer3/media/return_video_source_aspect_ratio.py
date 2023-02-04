@@ -1,17 +1,13 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_video_source_aspect_ratio(fname, kwArgCheck = None, debug = False, playlist = -1):
+def return_video_source_aspect_ratio(fname, /, *, debug = False, playlist = -1):
     # Import sub-functions ...
     from .__ffprobe__ import __ffprobe__
     from .ffprobe import ffprobe
     from ..find_integer_divisors import find_integer_divisors
     from .return_video_height import return_video_height
     from .return_video_width import return_video_width
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Make sure that this fname/playlist combination is in the global dictionary ...
     if fname not in __ffprobe__:

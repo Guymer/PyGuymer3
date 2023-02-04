@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def _points2polys(point, points, kwArgCheck = None, debug = False, huge = False, prefix = ".", tol = 1.0e-10):
+def _points2polys(point, points, /, *, debug = False, huge = False, prefix = ".", tol = 1.0e-10):
     """Convert a buffered point to a list of Polygons
 
     This function reads in a coordinate that exists on the surface of the Earth,
@@ -58,10 +58,6 @@ def _points2polys(point, points, kwArgCheck = None, debug = False, huge = False,
     from .check import check
     from .wrapLongitude import wrapLongitude
     from ..interpolate import interpolate
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check argument ...
     if not isinstance(point, numpy.ndarray):

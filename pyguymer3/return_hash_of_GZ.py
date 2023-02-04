@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_hash_of_GZ(fname, kwArgCheck = None, ignoreModificationTime = True):
+def return_hash_of_GZ(fname, /, *, ignoreModificationTime = True):
     """
     This function returns the SHA512 hash of the passed GZ file as if the first
     "Modification Time" field is set to zero. Using this function it is possible
@@ -23,10 +23,6 @@ def return_hash_of_GZ(fname, kwArgCheck = None, ignoreModificationTime = True):
     # Import standard modules ...
     import hashlib
     import struct
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Open GZ read-only ...
     with open(fname, "rb") as fObj:

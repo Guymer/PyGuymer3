@@ -1,16 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def _area(triangle, kwArgCheck = None, eps = 1.0e-12, nmax = 100):
+def _area(triangle, /, *, eps = 1.0e-12, nmax = 100):
     # Import standard modules ...
     import math
 
     # Import sub-functions ...
     from .calc_dist_between_two_locs import calc_dist_between_two_locs
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Find the distance from the second point to the first point, and the
     # bearing of the first point as viewed from the second point ...

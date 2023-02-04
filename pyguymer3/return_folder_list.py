@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_folder_list(path, kwArgCheck = None, debug = False, follow_symlinks = True, return_symlinks = True):
+def return_folder_list(path, /, *, debug = False, follow_symlinks = True, return_symlinks = True):
     """Return a recursive list of folder names in a directory.
 
     This function returns a sorted list of folder names recursively in a
@@ -37,10 +37,6 @@ def return_folder_list(path, kwArgCheck = None, debug = False, follow_symlinks =
 
     # Import sub-functions ...
     from .make_path_safe import make_path_safe
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Create empty list ...
     contents = []

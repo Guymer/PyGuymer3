@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def check_LineString(line, kwArgCheck = None, prefix = "."):
+def check_LineString(line, /, *, prefix = "."):
     """Check LineString
 
     This function checks if a LineString is valid.
@@ -35,10 +35,6 @@ def check_LineString(line, kwArgCheck = None, prefix = "."):
 
     # Import sub-functions ...
     from .._debug import _debug
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check argument ...
     if not isinstance(line, shapely.geometry.linestring.LineString):

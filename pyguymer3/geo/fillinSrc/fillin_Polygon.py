@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, eps = 1.0e-12, fillSpace = "EuclideanSpace", nmax = 100, prefix = ".", ramLimit = 1073741824, tol = 1.0e-10):
+def fillin_Polygon(poly, fill, /, *, debug = False, eps = 1.0e-12, fillSpace = "EuclideanSpace", nmax = 100, prefix = ".", ramLimit = 1073741824, tol = 1.0e-10):
     """Fill in a Polygon
 
     This function reads in a Polygon (with an exterior and any number of
@@ -52,10 +52,6 @@ def fillin_Polygon(poly, fill, kwArgCheck = None, debug = False, eps = 1.0e-12, 
     # Import sub-functions ...
     from ..check import check
     from .fillin_LinearRing import fillin_LinearRing
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check argument ...
     if not isinstance(poly, shapely.geometry.polygon.Polygon):

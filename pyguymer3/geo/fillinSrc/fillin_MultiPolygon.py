@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def fillin_MultiPolygon(multipoly, fill, kwArgCheck = None, debug = False, eps = 1.0e-12, fillSpace = "EuclideanSpace", nmax = 100, prefix = ".", ramLimit = 1073741824, tol = 1.0e-10):
+def fillin_MultiPolygon(multipoly, fill, /, *, debug = False, eps = 1.0e-12, fillSpace = "EuclideanSpace", nmax = 100, prefix = ".", ramLimit = 1073741824, tol = 1.0e-10):
     """Fill in a MultiPolygon
 
     This function reads in a MultiPolygon, made up of Polygons (with an exterior
@@ -53,10 +53,6 @@ def fillin_MultiPolygon(multipoly, fill, kwArgCheck = None, debug = False, eps =
     # Import sub-functions ...
     from ..check import check
     from .fillin_Polygon import fillin_Polygon
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check argument ...
     if not isinstance(multipoly, shapely.geometry.multipolygon.MultiPolygon):

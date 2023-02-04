@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def en2ll(poly1, kwArgCheck = None, debug = False, prefix = "."):
+def en2ll(poly1, /, *, debug = False, prefix = "."):
     """
     This function reads in a Polygon whose coordinates are Eastings/Northings on
     the Ordnance Survey National Grid and returns a Polygon whose coordinates
@@ -18,10 +18,6 @@ def en2ll(poly1, kwArgCheck = None, debug = False, prefix = "."):
     # Import sub-functions ...
     from ._en2ll import _en2ll
     from .check import check
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check argument ...
     if not isinstance(poly1, shapely.geometry.polygon.Polygon):

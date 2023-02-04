@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def calc_dist_between_two_locs(lon1_deg, lat1_deg, lon2_deg, lat2_deg, kwArgCheck = None, eps = 1.0e-12, nmax = 100):
+def calc_dist_between_two_locs(lon1_deg, lat1_deg, lon2_deg, lat2_deg, /, *, eps = 1.0e-12, nmax = 100):
     """
     This function reads in two coordinates (in degrees) on the surface of Earth
     and calculates the Geodetic distance (in metres) between them and the
@@ -15,10 +15,6 @@ def calc_dist_between_two_locs(lon1_deg, lat1_deg, lon2_deg, lat2_deg, kwArgChec
 
     # Import standard modules ...
     import math
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Skip if the start- and end-points are the same ...
     if lon1_deg == lon2_deg and lat1_deg == lat2_deg:

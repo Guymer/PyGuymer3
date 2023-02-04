@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def var(arr, kwArgCheck = None, dof = 0):
+def var(arr, /, *, dof = 0):
     """Find the variance of an array.
 
     This function finds the variance of an array, with optionally specified
@@ -45,10 +45,6 @@ def var(arr, kwArgCheck = None, dof = 0):
 
     # Import sub-functions ...
     from .mean import mean
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check argument ...
     if not isinstance(arr, numpy.ndarray):

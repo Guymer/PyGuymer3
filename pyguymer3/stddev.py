@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def stddev(arr, kwArgCheck = None, dof = 0):
+def stddev(arr, /, *, dof = 0):
     """Find the standard deviation of an array.
 
     This function finds the standard deviation of an array, with optionally
@@ -38,10 +38,6 @@ def stddev(arr, kwArgCheck = None, dof = 0):
 
     # Import sub-functions ...
     from .var import var
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check argument ...
     if not isinstance(arr, numpy.ndarray):

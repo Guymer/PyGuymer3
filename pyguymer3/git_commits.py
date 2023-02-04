@@ -1,15 +1,11 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def git_commits(kwArgCheck = None, cwd = None, fname = None):
+def git_commits(cwd, /, *, fname = None):
     # Import standard modules ...
     import datetime
     import shutil
     import subprocess
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check that "git" is installed ...
     if shutil.which("git") is None:

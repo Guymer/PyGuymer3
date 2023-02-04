@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def serializer(obj, kwArgCheck = None, evaluate = False):
+def serializer(obj, /, *, evaluate = False):
     """Serialize an object into an intrinsic type
 
     Serializer for objects not serializable by Python's default :mod:`json`
@@ -35,10 +35,6 @@ def serializer(obj, kwArgCheck = None, evaluate = False):
         import numpy
     except:
         raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # **************************************************************************
 

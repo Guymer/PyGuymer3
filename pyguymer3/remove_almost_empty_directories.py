@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def remove_almost_empty_directories(path, kwArgCheck = None, debug = False, ignorableFiles = (".directory", ".DS_Store", "._.DS_Store", "Thumbs.db"), remove = False):
+def remove_almost_empty_directories(path, /, *, debug = False, ignorableFiles = (".directory", ".DS_Store", "._.DS_Store", "Thumbs.db"), remove = False):
     """Remove directories which are almost empty.
 
     This function removes directories which are *almost* empty, based on a tuple
@@ -34,10 +34,6 @@ def remove_almost_empty_directories(path, kwArgCheck = None, debug = False, igno
 
     # Import standard modules ...
     import os
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Initialize counter ...
     i = 0                                                                       # [#]

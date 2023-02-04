@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_ISO_palette(fname, kwArgCheck = None, usr_track = -1):
+def return_ISO_palette(fname, /, *, usr_track = -1):
     # Import standard modules ...
     import html
     import shutil
@@ -20,10 +20,6 @@ def return_ISO_palette(fname, kwArgCheck = None, usr_track = -1):
 
     # Import sub-functions ...
     from .yuv2rgb import yuv2rgb
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check input ...
     if usr_track == -1:

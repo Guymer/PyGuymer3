@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def _debug(badGeoms, kwArgCheck = None, prefix = "."):
+def _debug(badGeoms, /, *, prefix = "."):
     """Save CSVs for debugging
 
     Parameters
@@ -24,10 +24,6 @@ def _debug(badGeoms, kwArgCheck = None, prefix = "."):
     from .extract_lines import extract_lines
     from .extract_points import extract_points
     from .extract_polys import extract_polys
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Loop over all the bad Points in this [Multi]Point ...
     for i, badGeom in enumerate(extract_points(badGeoms, onlyValid = False)):

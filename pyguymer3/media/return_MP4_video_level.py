@@ -1,14 +1,10 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_MP4_video_level(fname, kwArgCheck = None, debug = False, playlist = -1):
+def return_MP4_video_level(fname, /, *, debug = False, playlist = -1):
     # Import sub-functions ...
     from .__ffprobe__ import __ffprobe__
     from .ffprobe import ffprobe
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Make sure that this fname/playlist combination is in the global dictionary ...
     if fname not in __ffprobe__:

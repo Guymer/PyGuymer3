@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def add_coastlines(axis, kwArgCheck = None, colorName = "black", debug = False, level = 1, linestyle = "solid", linewidth = 0.5, onlyValid = False, repair = False, resolution = "c"):
+def add_coastlines(axis, /, *, colorName = "black", debug = False, level = 1, linestyle = "solid", linewidth = 0.5, onlyValid = False, repair = False, resolution = "c"):
     """Add coastlines to an axis.
 
     This function adds coastline boundaries to a Cartopy axis. The resolution of
@@ -87,10 +87,6 @@ def add_coastlines(axis, kwArgCheck = None, colorName = "black", debug = False, 
 
     # Import sub-functions ...
     from .extract_polys import extract_polys
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # **************************************************************************
 

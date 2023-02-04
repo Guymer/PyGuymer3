@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def clean_MultiLineString(multiline, kwArgCheck = None, debug = False, prefix = ".", tol = 1.0e-10):
+def clean_MultiLineString(multiline, /, *, debug = False, prefix = ".", tol = 1.0e-10):
     """Clean a MultiLineString
 
     This function cleans a MultiLineString by removing bad points.
@@ -40,10 +40,6 @@ def clean_MultiLineString(multiline, kwArgCheck = None, debug = False, prefix = 
     # Import sub-functions ...
     from ..check import check
     from .clean_LineString import clean_LineString
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check argument ...
     if not isinstance(multiline, shapely.geometry.multilinestring.MultiLineString):

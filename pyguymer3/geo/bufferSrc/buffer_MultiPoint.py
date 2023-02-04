@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def buffer_MultiPoint(multipoint, dist, kwArgCheck = None, debug = False, eps = 1.0e-12, fill = 1.0, fillSpace = "EuclideanSpace", nang = 9, nmax = 100, prefix = ".", ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
+def buffer_MultiPoint(multipoint, dist, /, *, debug = False, eps = 1.0e-12, fill = 1.0, fillSpace = "EuclideanSpace", nang = 9, nmax = 100, prefix = ".", ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
     """Buffer a MultiPoint
 
     This function reads in a MultiPoint that exists on the surface of the Earth
@@ -60,10 +60,6 @@ def buffer_MultiPoint(multipoint, dist, kwArgCheck = None, debug = False, eps = 
     from ..check import check
     from ..fillin import fillin
     from .buffer_Point import buffer_Point
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check argument ...
     if not isinstance(multipoint, shapely.geometry.multipoint.MultiPoint):

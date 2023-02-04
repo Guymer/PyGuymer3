@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def area(shape, kwArgCheck = None, eps = 1.0e-12, level = 1, nmax = 100, onlyValid = False, repair = False):
+def area(shape, /, *, eps = 1.0e-12, level = 1, nmax = 100, onlyValid = False, repair = False):
     # Import special modules ...
     try:
         import shapely
@@ -12,10 +12,6 @@ def area(shape, kwArgCheck = None, eps = 1.0e-12, level = 1, nmax = 100, onlyVal
     # Import sub-functions ...
     from ._area import _area
     from .extract_polys import extract_polys
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # **************************************************************************
 

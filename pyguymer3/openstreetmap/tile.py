@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def tile(xtile, ytile, zoom, sess, kwArgCheck = None, chunksize = 1048576, cookies = None, debug = False, headers = None, timeout = 10.0, verify = True):
+def tile(xtile, ytile, zoom, sess, /, *, chunksize = 1048576, cookies = None, debug = False, headers = None, timeout = 10.0, verify = True):
     # Import standard modules ...
     import os
     import time
@@ -17,10 +17,6 @@ def tile(xtile, ytile, zoom, sess, kwArgCheck = None, chunksize = 1048576, cooki
     # Import sub-functions ...
     from ..download_file import download_file
     from ..image.optimize_image import optimize_image
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check inputs ...
     if not 0 <= zoom <= 19:

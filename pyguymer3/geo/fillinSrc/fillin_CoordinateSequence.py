@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, debug = False, eps = 1.0e-12, fillSpace = "EuclideanSpace", nmax = 100, prefix = ".", ramLimit = 1073741824):
+def fillin_CoordinateSequence(coords, fill, /, *, debug = False, eps = 1.0e-12, fillSpace = "EuclideanSpace", nmax = 100, prefix = ".", ramLimit = 1073741824):
     """Fill in a CoordinateSequence
 
     This function reads in a CoordinateSequence that exists on the surface of
@@ -53,10 +53,6 @@ def fillin_CoordinateSequence(coords, fill, kwArgCheck = None, debug = False, ep
     from ..calc_dist_between_two_locs import calc_dist_between_two_locs
     from ..check import check
     from ..great_circle import great_circle
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check argument ...
     if not isinstance(coords, shapely.coords.CoordinateSequence):

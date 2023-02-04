@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def mean(arr, kwArgCheck = None, dof = 0):
+def mean(arr, /, *, dof = 0):
     """Find the arithmetic mean of an array.
 
     This function finds the arithmetic mean of an array, with optionally
@@ -35,10 +35,6 @@ def mean(arr, kwArgCheck = None, dof = 0):
         import numpy
     except:
         raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check argument ...
     if not isinstance(arr, numpy.ndarray):

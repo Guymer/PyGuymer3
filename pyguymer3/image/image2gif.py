@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def image2gif(img, gif, kwArgCheck = None, chunksize = 1048576, debug = False, mode = "RGB", optimize = True, strip = False):
+def image2gif(img, gif, /, *, chunksize = 1048576, debug = False, mode = "RGB", optimize = True, strip = False):
     """Save an image as a GIF
 
     This function accepts either a PIL Image or a file path and saves the image
@@ -41,10 +41,6 @@ def image2gif(img, gif, kwArgCheck = None, chunksize = 1048576, debug = False, m
 
     # Import sub-functions ...
     from .optimize_image import optimize_image
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Find out what the user supplied ...
     if isinstance(img, str):

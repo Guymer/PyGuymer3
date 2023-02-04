@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def fillin(shape, fill, kwArgCheck = None, debug = False, eps = 1.0e-12, fillSpace = "EuclideanSpace", nmax = 100, prefix = ".", ramLimit = 1073741824, tol = 1.0e-10):
+def fillin(shape, fill, /, *, debug = False, eps = 1.0e-12, fillSpace = "EuclideanSpace", nmax = 100, prefix = ".", ramLimit = 1073741824, tol = 1.0e-10):
     """Fill in a shape
 
     This function reads in a shape that exists on the surface of the Earth and
@@ -54,10 +54,6 @@ def fillin(shape, fill, kwArgCheck = None, debug = False, eps = 1.0e-12, fillSpa
     from .fillinSrc import fillin_MultiLineString
     from .fillinSrc import fillin_MultiPolygon
     from .fillinSrc import fillin_Polygon
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check if it is a CoordinateSequence and return it filled ...
     if isinstance(shape, shapely.coords.CoordinateSequence):

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def extract_polys(shape, kwArgCheck = None, onlyValid = False, repair = False):
+def extract_polys(shape, /, *, onlyValid = False, repair = False):
     """Extract the Polygons from the shape
 
     This function accepts any Shapely geometry and returns a flat list of all of
@@ -40,10 +40,6 @@ def extract_polys(shape, kwArgCheck = None, onlyValid = False, repair = False):
         import shapely.geometry
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # **************************************************************************
 

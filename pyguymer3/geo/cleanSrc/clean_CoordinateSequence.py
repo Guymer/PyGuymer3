@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def clean_CoordinateSequence(coords, kwArgCheck = None, debug = False, prefix = ".", tol = 1.0e-10):
+def clean_CoordinateSequence(coords, /, *, debug = False, prefix = ".", tol = 1.0e-10):
     """Clean a CoordinateSequence
 
     This function cleans a CoordinateSequence by removing bad points.
@@ -47,10 +47,6 @@ def clean_CoordinateSequence(coords, kwArgCheck = None, debug = False, prefix = 
 
     # Import sub-functions ...
     from ..check import check
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check argument ...
     if not isinstance(coords, shapely.coords.CoordinateSequence):

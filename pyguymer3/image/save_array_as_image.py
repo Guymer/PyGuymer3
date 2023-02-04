@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def save_array_as_image(img0, fname, kwArgCheck = None, chunksize = 1048576, ct = "grey", debug = False, form = "png", pc_bot = 0.0, pc_top = 0.0, scale = False):
+def save_array_as_image(img0, fname, /, *, chunksize = 1048576, ct = "grey", debug = False, form = "png", pc_bot = 0.0, pc_top = 0.0, scale = False):
     """Save an array as an image
 
     This function accepts a NumPy array, with optional scaling and/or colour
@@ -52,10 +52,6 @@ def save_array_as_image(img0, fname, kwArgCheck = None, chunksize = 1048576, ct 
     from .optimize_image import optimize_image
     from .save_array_as_PPM import save_array_as_PPM
     from .save_array_as_PNG import save_array_as_PNG
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Find image size ...
     ny, nx = img0.shape                                                         # [px], [px]

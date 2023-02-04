@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def find_instances_of_a_file(path, basename, kwArgCheck = None, debug = False, follow_symlinks = True, return_symlinks = True):
+def find_instances_of_a_file(path, basename, /, *, debug = False, follow_symlinks = True, return_symlinks = True):
     """Return a recursive list of file names in a directory that match a basename.
 
     This function returns a sorted list of desired file names recursively in a directory that match a desired basename.
@@ -38,10 +38,6 @@ def find_instances_of_a_file(path, basename, kwArgCheck = None, debug = False, f
 
     # Import sub-functions ...
     from .make_path_safe import make_path_safe
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Create empty list ...
     contents = []

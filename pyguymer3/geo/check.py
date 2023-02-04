@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def check(shape, kwArgCheck = None, prefix = "."):
+def check(shape, /, *, prefix = "."):
     """Check a shape
 
     This function checks if a shape is valid.
@@ -41,10 +41,6 @@ def check(shape, kwArgCheck = None, prefix = "."):
     from .checkSrc import check_MultiPolygon
     from .checkSrc import check_Point
     from .checkSrc import check_Polygon
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check if it is a CoordinateSequence and return it checked ...
     if isinstance(shape, shapely.coords.CoordinateSequence):

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def image2webp(img, webp, kwArgCheck = None, chunksize = 1048576, debug = False, exif = None, lossless = False, method = 6, mode = "RGB", quality = 100, strip = False):
+def image2webp(img, webp, /, *, chunksize = 1048576, debug = False, exif = None, lossless = False, method = 6, mode = "RGB", quality = 100, strip = False):
     """Save an image as a WEBP
 
     This function accepts either a PIL Image or a file path and saves the image
@@ -48,10 +48,6 @@ def image2webp(img, webp, kwArgCheck = None, chunksize = 1048576, debug = False,
     # Import sub-functions ...
     from .dict2exif import dict2exif
     from .optimize_image import optimize_image
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check input ...
     if exif is not None and strip:

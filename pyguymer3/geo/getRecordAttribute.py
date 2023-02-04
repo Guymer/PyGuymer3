@@ -1,16 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def getRecordAttribute(record, attribute, kwArgCheck = None, strict = False):
+def getRecordAttribute(record, attribute, /, *, strict = False):
     # Import special modules ...
     try:
         import cartopy
     except:
         raise Exception("\"cartopy\" is not installed; run \"pip install --user Cartopy\"") from None
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Check argument ...
     if not isinstance(record, cartopy.io.shapereader.Record):

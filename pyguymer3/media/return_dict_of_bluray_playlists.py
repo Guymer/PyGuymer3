@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_dict_of_bluray_playlists(dname, kwArgCheck = None, debug = False, size_threshold = 1073741824, time_threshold = 60.0):
+def return_dict_of_bluray_playlists(dname, /, *, debug = False, size_threshold = 1073741824, time_threshold = 60.0):
     # Import standard modules ...
     import glob
     import os
@@ -9,10 +9,6 @@ def return_dict_of_bluray_playlists(dname, kwArgCheck = None, debug = False, siz
     # Import sub-functions ...
     from .__ffprobe__ import __ffprobe__
     from .ffprobe import ffprobe
-
-    # Check keyword arguments ...
-    if kwArgCheck is not None:
-        print(f"WARNING: \"{__name__}\" has been called with an extra positional argument")
 
     # Create short-hand ...
     fname = f"bluray:{dname}"
