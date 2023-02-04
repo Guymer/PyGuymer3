@@ -5,7 +5,8 @@ def stat(fname, /, *, follow_symlinks = True):
     """
     This function aims to mimic os.stat() but instead of returning a stat_result
     object with attributes it returns a dictionary with keys (for more user-
-    friendly serialization to JSON).
+    friendly serialization to JSON). Influenced by an answer on StackOverflow
+    [1]_.
 
     References
     ----------
