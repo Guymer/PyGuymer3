@@ -58,8 +58,11 @@ def return_dict_of_ISO_subtitle_streams(fname, kwArgCheck = None, usr_track = -1
     stdout = stdout.replace("<df>Pan&Scan</df>", "<df>Pan&amp;Scan</df>")
     stdout = stdout.replace("<df>P&S + Letter</df>", "<df>P&amp;S + Letter</df>")
 
+    # Parse the XML ...
+    xml = lxml.etree.XML(stdout)
+
     # Loop over all tracks ...
-    for track in lxml.etree.fromstring(stdout).findall("track"):
+    for track in xml.findall("track"):
         # Skip if this track is not the chosen one ...
         if int(track.find("ix").text) != int(usr_track):
             continue
