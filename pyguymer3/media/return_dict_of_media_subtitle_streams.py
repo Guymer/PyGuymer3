@@ -35,7 +35,7 @@ def return_dict_of_media_subtitle_streams(fname, /, *, debug = False, playlist =
     if fname.startswith("bluray:"):
         # Attempt to load the MPLS file for this playlist ...
         nfo = parse_MPLS_file(
-            br = fname[len("bluray:"):],
+            br = fname.removeprefix("bluray:"),
             ip = playlist,
         )
 

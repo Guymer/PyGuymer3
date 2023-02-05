@@ -35,7 +35,7 @@ def return_dict_of_media_audio_streams(fname, /, *, debug = False, playlist = -1
     if fname.startswith("bluray:"):
         # Attempt to load the MPLS file for this playlist ...
         nfo = parse_MPLS_file(
-            br = fname[len("bluray:"):],
+            br = fname.removeprefix("bluray:"),
             ip = playlist,
         )
 
