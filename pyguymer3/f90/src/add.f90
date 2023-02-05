@@ -1,4 +1,6 @@
 PURE SUBROUTINE add(a, b, c)
+    !f2py threadsafe
+
     ! Import standard modules ...
     USE ISO_C_BINDING
 

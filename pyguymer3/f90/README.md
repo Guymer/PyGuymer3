@@ -6,6 +6,7 @@ This is a Python 3.X sub-module containing a bunch of random functions that I ha
 
 * To compile the FORTRAN source code and create the sub-module just run the [Makefile](Makefile).
 * [f2py](https://numpy.org/doc/stable/f2py/) isn't good at creating interfaces to FORTRAN functions, see [this Stack Overflow question](https://stackoverflow.com/questions/10913003/f2py-array-valued-functions) and [this Stack Overflow question](https://stackoverflow.com/questions/18669814/when-using-f2py-function-scope-within-fortran-module-different-than-when-compil), so all the FORTRAN here will be subroutines.
+* [f2py](https://numpy.org/doc/stable/f2py/) doesn't release the GIL, so I have to do that with a macro. See this [StackOverflow answer](https://stackoverflow.com/a/15984116).
 
 ## Data Types
 

@@ -1,4 +1,6 @@
 SUBROUTINE buffer_point_crudely(lon1, lat1, dist, nang, ring)
+    !f2py threadsafe
+
     ! Import standard modules ...
     USE ISO_C_BINDING
 
