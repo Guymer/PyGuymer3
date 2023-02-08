@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def image2jpg(img, jpg, /, *, chunksize = 1048576, debug = False, exif = None, mode = "RGB", optimize = True, progressive = False, quality = 95, strip = False):
+def image2jpg(img, jpg, /, *, chunksize = 1048576, debug = False, exif = None, mode = "RGB", optimize = True, progressive = False, quality = 95, screenHeight = -1, screenWidth = -1, strip = False):
     """Save an image as a JPG
 
     This function accepts either a PIL Image or a file path and saves the image
@@ -25,6 +25,14 @@ def image2jpg(img, jpg, /, *, chunksize = 1048576, debug = False, exif = None, m
         save a progressive JPG (default False)
     quality : int, optional
         the quality of the output JPG (default 95)
+    screenHeight : int, optional
+        the height of the screen to downscale the input image to fit within,
+        currently only implemented if "img" is a str (default -1; integers less
+        than 100 imply no downscaling)
+    screenWidth : int, optional
+        the width of the screen to downscale the input image to fit within,
+        currently only implemented if "img" is a str (default -1; integers less
+        than 100 imply no downscaling)
     strip : bool, optional
         strip metadata from the output JPG (default False)
 
@@ -58,6 +66,15 @@ def image2jpg(img, jpg, /, *, chunksize = 1048576, debug = False, exif = None, m
         # Open image as RGB (even if it is paletted) ...
         with PIL.Image.open(img) as iObj:
             tmpImg = iObj.convert("RGB")
+
+        # Check if the user wants to scale the image down to fit within a screen
+        # size ...
+        if screenWidth >= 100 and screenHeight >= 100:
+            # Resize image in place ...
+            tmpImg.thumbnail(
+                (screenWidth, screenHeight),
+                resample = PIL.Image.Resampling.LANCZOS,
+            )
 
         # Convert it to whatever mode the user asked for ...
         tmpImg = tmpImg.convert(mode)

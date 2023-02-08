@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def image2gif(img, gif, /, *, chunksize = 1048576, debug = False, mode = "RGB", optimize = True, strip = False):
+def image2gif(img, gif, /, *, chunksize = 1048576, debug = False, mode = "RGB", optimize = True, screenHeight = -1, screenWidth = -1, strip = False):
     """Save an image as a GIF
 
     This function accepts either a PIL Image or a file path and saves the image
@@ -19,6 +19,14 @@ def image2gif(img, gif, /, *, chunksize = 1048576, debug = False, mode = "RGB", 
         the mode of the outout GIF (default "RGB")
     optimize : bool, optional
         optimize the output GIF (default True)
+    screenHeight : int, optional
+        the height of the screen to downscale the input image to fit within,
+        currently only implemented if "img" is a str (default -1; integers less
+        than 100 imply no downscaling)
+    screenWidth : int, optional
+        the width of the screen to downscale the input image to fit within,
+        currently only implemented if "img" is a str (default -1; integers less
+        than 100 imply no downscaling)
     strip : bool, optional
         strip metadata from the output GIF (default False)
 
@@ -47,6 +55,15 @@ def image2gif(img, gif, /, *, chunksize = 1048576, debug = False, mode = "RGB", 
         # Open image as RGB (even if it is paletted) ...
         with PIL.Image.open(img) as iObj:
             tmpImg = iObj.convert("RGB")
+
+        # Check if the user wants to scale the image down to fit within a screen
+        # size ...
+        if screenWidth >= 100 and screenHeight >= 100:
+            # Resize image in place ...
+            tmpImg.thumbnail(
+                (screenWidth, screenHeight),
+                resample = PIL.Image.Resampling.LANCZOS,
+            )
 
         # Convert it to whatever mode the user asked for ...
         tmpImg = tmpImg.convert(mode)
