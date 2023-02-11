@@ -54,7 +54,7 @@ def load_GPS_EXIF2(fname, /):
     if "Composite:GPSHPositioningError" in dat:
         ans["loc_err"] = float(dat["Composite:GPSHPositioningError"])           # [m]
     if "Composite:GPSDateTime" in dat:
-        date, time = dat["Composite:GPSDateTime"][:-1].split(" ")
+        date, time = dat["Composite:GPSDateTime"].removesuffix("Z").split(" ")
         tmp1 = date.split(":")
         tmp2 = time.split(":")
         ye = int(tmp1[0])                                                       # [year]
