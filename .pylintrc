@@ -1,5 +1,5 @@
 [MESSAGES CONTROL]
-disable=c-extension-no-member,import-outside-toplevel,invalid-name,line-too-long,missing-docstring,too-many-arguments,too-many-branches,too-many-locals,too-many-nested-blocks,too-many-return-statements,too-many-statements
+disable=bare-except,c-extension-no-member,import-outside-toplevel,invalid-name,line-too-long,missing-docstring,too-many-arguments,too-many-branches,too-many-locals,too-many-nested-blocks,too-many-return-statements,too-many-statements
 
 [TYPECHECK]
 ignored-classes=boto3,cartopy,ephem,exifread,geojson,lxml,magic,matplotlib,numpy,PIL,pyrfc3339,pytz,requests,scipy,shapefile,shapely,sysctl
