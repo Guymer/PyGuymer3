@@ -42,6 +42,7 @@ def clean_CoordinateSequence(coords, /, *, debug = False, prefix = ".", tol = 1.
         raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
     try:
         import shapely
+        import shapely.geometry
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 

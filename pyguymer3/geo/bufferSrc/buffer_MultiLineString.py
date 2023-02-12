@@ -53,6 +53,7 @@ def buffer_MultiLineString(multiline, dist, /, *, debug = False, eps = 1.0e-12, 
     try:
         import shapely
         import shapely.geometry
+        import shapely.ops
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
