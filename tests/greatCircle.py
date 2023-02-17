@@ -63,7 +63,7 @@ if __name__ == "__main__":
     npoints = [3, 4, 8, 16, 1000]                                               # [#]
 
     # Loop over tests ...
-    for i, (coord1, coord2) in enumerate(zip(coords1, coords2)):
+    for i, (coord1, coord2) in enumerate(zip(coords1, coords2, strict = True)):
         # Determine file names ...
         fname = f"greatCircle{i:d}.png"
         jname = f"greatCircle{i:d}.geojson"
