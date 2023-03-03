@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def add_coastlines(axis, /, *, colorName = "black", debug = False, level = 1, linestyle = "solid", linewidth = 0.5, onlyValid = False, repair = False, resolution = "c"):
+def add_coastlines(axis, /, *, colorName = "black", debug = False, faceOpac = -1.0, level = 1, linestyle = "solid", linewidth = 0.5, onlyValid = False, repair = False, resolution = "c"):
     """Add coastlines to an axis.
 
     This function adds coastline boundaries to a Cartopy axis. The resolution of
@@ -15,6 +15,9 @@ def add_coastlines(axis, /, *, colorName = "black", debug = False, level = 1, li
         the CSS4 named colour to draw the coastline boundary with
     debug : bool, optional
         print debug messages
+    faceOpac : float, optional
+        if ≥ 0.0 and ≤ 1.0 then shade the Polygon faces the same colour as the
+        Polygon edges with this opacity
     level : int, optional
         the level of the coastline boundary
     linestyle : str, optional
@@ -90,10 +93,16 @@ def add_coastlines(axis, /, *, colorName = "black", debug = False, level = 1, li
 
     # **************************************************************************
 
-    # Find the colour ...
+    # Find the edge colour ...
     edgecolor = matplotlib.colors.to_rgba(matplotlib.colors.CSS4_COLORS[colorName])
     if debug:
         print(f"INFO: \"coastlines\" is \"{colorName}\", which is ({edgecolor[0]:.6f},{edgecolor[1]:.6f},{edgecolor[2]:.6f},{edgecolor[3]:.6f}).")
+
+    # Find the face colour ...
+    if 0.0 <= faceOpac <= 1.0:
+        facecolor = (edgecolor[0], edgecolor[1], edgecolor[2], faceOpac)
+    else:
+        facecolor = "none"
 
     # Find the Shapefile ...
     try:
@@ -117,7 +126,7 @@ def add_coastlines(axis, /, *, colorName = "black", debug = False, level = 1, li
         polys,
         cartopy.crs.PlateCarree(),
         edgecolor = edgecolor,
-        facecolor = "none",
+        facecolor = facecolor,
         linestyle = linestyle,
         linewidth = linewidth,
     )
