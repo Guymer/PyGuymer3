@@ -52,7 +52,7 @@ The above study has led me to create [.f2py_f2cmap](.f2py_f2cmap) to allow me to
 
 ## Documentation
 
-Obtained by running `python3.10 -c "import pyguymer3; import pyguymer3.f90; print(pyguymer3.f90.funcs.$FUNCTION.__doc__)"`.
+Obtained by running `python3.11 -c "import pyguymer3; import pyguymer3.f90; print(pyguymer3.f90.funcs.$FUNCTION.__doc__)"`.
 
 ```
 c = add(a,b)
