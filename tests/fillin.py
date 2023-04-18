@@ -106,8 +106,14 @@ if __name__ == "__main__":
         # Configure axis ...
         ax1.set_global()
         pyguymer3.geo.add_map_background(ax1)
-        pyguymer3.geo.add_horizontal_gridlines(ax1, [-180.0, +180.0, -90.0, +90.0], locs = range(-90, 135, 45))
-        pyguymer3.geo.add_vertical_gridlines(ax1, [-180.0, +180.0, -90.0, +90.0], locs = range(-180, 225, 45))
+        pyguymer3.geo.add_horizontal_gridlines(
+            ax1,
+            locs = range(-90, 135, 45),
+        )
+        pyguymer3.geo.add_vertical_gridlines(
+            ax1,
+            locs = range(-180, 225, 45),
+        )
         ax1.coastlines(resolution = "110m", color = "black", linewidth = 0.1)
 
         # Create axis ...
@@ -116,8 +122,14 @@ if __name__ == "__main__":
         # Configure axis ...
         ax2.set_global()
         pyguymer3.geo.add_map_background(ax2)
-        pyguymer3.geo.add_horizontal_gridlines(ax2, [-180.0, +180.0, -90.0, +90.0], locs = range(-90, 135, 45))
-        pyguymer3.geo.add_vertical_gridlines(ax2, [-180.0, +180.0, -90.0, +90.0], locs = range(-180, 225, 45))
+        pyguymer3.geo.add_horizontal_gridlines(
+            ax2,
+            locs = range(-90, 135, 45),
+        )
+        pyguymer3.geo.add_vertical_gridlines(
+            ax2,
+            locs = range(-180, 225, 45),
+        )
         ax2.coastlines(resolution = "110m", color = "black", linewidth = 0.1)
 
         # Create axis ...

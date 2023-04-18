@@ -1,15 +1,13 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def add_vertical_gridlines(ax, ext, /, *, color = "black", linestyle = ":", linewidth = 0.5, locs = None, ngrid = -1, npoint = 50):
+def add_vertical_gridlines(ax, /, *, color = "black", linestyle = ":", linewidth = 0.5, locs = None, ngrid = -1, npoint = 50):
     """Add vertical gridlines to a plot.
 
     Parameters
     ----------
     ax : cartopy.mpl.geoaxes.GeoAxesSubplot
         the axis to add the gridlines to
-    ext : list of float
-        the extent of the axis (in degrees)
     color : str, optional
         the colour of the gridlines
     linestyle : str, optional
@@ -50,6 +48,9 @@ def add_vertical_gridlines(ax, ext, /, *, color = "black", linestyle = ":", line
     # Populate default values ...
     if locs is None:
         locs = []
+
+    # Create short-hand ...
+    ext = ax.get_extents()                                                      # [°]
 
     # Determine x-locations depending on inputs ...
     if ngrid > 1:
