@@ -24,8 +24,8 @@ def add_vertical_gridlines(ax, /, *, color = "black", linestyle = ":", linewidth
     Notes
     -----
     If "ngrid" is more than "1" then it is used to create the gridline
-    locations, along with "ext". If it is not, then the gridline locations will
-    attempt to be made from "locs" instead.
+    locations. If it is not, then the gridline locations will attempt to be made
+    from "locs" instead.
 
     Copyright 2017 Thomas Guymer [1]_
 
