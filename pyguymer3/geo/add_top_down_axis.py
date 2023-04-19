@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def add_top_down_axis(fg, lon, lat, dist, /, *, gs = None, nrows = None, ncols = None, index = None):
+def add_top_down_axis(fg, lon, lat, dist, /, *, debug = False, gs = None, nrows = None, ncols = None, index = None):
     """Add an Orthographic axis to a figure with a field-of-view based on a
     circle around a point on the surface of the Earth
 
@@ -15,6 +15,8 @@ def add_top_down_axis(fg, lon, lat, dist, /, *, gs = None, nrows = None, ncols =
         the latitude of the point (in degrees)
     dist : float
         the radius of the circle around the point (in metres)
+    debug : bool, optional
+        draw the circle on the axis
     gs : matplotlib.gridspec.SubplotSpec, optional
         the subset of a gridspec to locate the axis
     nrows : int, optional
@@ -106,6 +108,17 @@ def add_top_down_axis(fg, lon, lat, dist, /, *, gs = None, nrows = None, ncols =
     # Configure axis ...
     ax.set_xlim(xmin, xmax)
     ax.set_ylim(ymin, ymax)
+
+    # Check if the user wants to draw the circle ...
+    if debug:
+        # Draw the circle ...
+        ax.add_geometries(
+            [polygon1],
+            cartopy.crs.PlateCarree(),
+            edgecolor = (0.0, 0.0, 1.0, 1.0),
+            facecolor = (0.0, 0.0, 1.0, 0.5),
+            linewidth = 1.0,
+        )
 
     # Return answer ...
     return ax
