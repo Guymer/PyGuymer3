@@ -50,7 +50,7 @@ def add_horizontal_gridlines(ax, /, *, color = "black", linestyle = ":", linewid
         locs = []
 
     # Create short-hand ...
-    ext = ax.get_extents()                                                      # [°]
+    ext = ax.get_extent(crs = cartopy.crs.PlateCarree())                        # [°]
 
     # Determine y-locations depending on inputs ...
     if ngrid > 1:

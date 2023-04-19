@@ -50,7 +50,7 @@ def add_vertical_gridlines(ax, /, *, color = "black", linestyle = ":", linewidth
         locs = []
 
     # Create short-hand ...
-    ext = ax.get_extents()                                                      # [°]
+    ext = ax.get_extent(crs = cartopy.crs.PlateCarree())                        # [°]
 
     # Determine x-locations depending on inputs ...
     if ngrid > 1:
