@@ -83,17 +83,17 @@ if __name__ == "__main__":
     # Loop over resolutions ...
     for iresolution, resolution in enumerate(resolutions):
         # Create axis ...
-        ax = fg.add_subplot(3, 1, iresolution + 1, projection = cartopy.crs.Orthographic(central_longitude = 0.0, central_latitude = 40.0))
+        ax = pyguymer3.geo.add_top_down_axis(
+            fg,
+              0.0,
+            +40.0,
+            1000.0e3,
+            nrows = 3,
+            ncols = 1,
+            index = iresolution + 1,
+        )
 
         # Configure axis ...
-        ax.set_extent(
-            [
-                -15.0,                  # minx
-                 15.0,                  # maxx
-                 30.0,                  # miny
-                 50.0,                  # maxy
-            ]
-        )
         ax.set_title(resolution)
         pyguymer3.geo.add_map_underlay(ax, cultural = False, resolution = resolution)
 
@@ -120,17 +120,17 @@ if __name__ == "__main__":
     # Loop over resolutions ...
     for iresolution, resolution in enumerate(resolutions):
         # Create axis ...
-        ax = fg.add_subplot(3, 1, iresolution + 1, projection = cartopy.crs.Orthographic(central_longitude = 0.0, central_latitude = 51.5))
+        ax = pyguymer3.geo.add_top_down_axis(
+            fg,
+              0.0,
+            +51.5,
+            25.0e3,
+            nrows = 3,
+            ncols = 1,
+            index = iresolution + 1,
+        )
 
         # Configure axis ...
-        ax.set_extent(
-            [
-                -0.4,                   # minx
-                 0.4,                   # maxx
-                51.3,                   # miny
-                51.7,                   # maxy
-            ]
-        )
         ax.set_title(resolution)
         pyguymer3.geo.add_map_underlay(ax, resolution = resolution)
 
@@ -157,17 +157,17 @@ if __name__ == "__main__":
     # Loop over resolutions ...
     for iresolution, resolution in enumerate(resolutions):
         # Create axis ...
-        ax = fg.add_subplot(3, 1, iresolution + 1, projection = cartopy.crs.Orthographic(central_longitude = 7.5, central_latitude = 60.6))
+        ax = pyguymer3.geo.add_top_down_axis(
+            fg,
+             +7.5,
+            +60.5,
+            50.0e3,
+            nrows = 3,
+            ncols = 1,
+            index = iresolution + 1,
+        )
 
         # Configure axis ...
-        ax.set_extent(
-            [
-                 6.5,                   # minx
-                 8.5,                   # maxx
-                60.1,                   # miny
-                61.1,                   # maxy
-            ]
-        )
         ax.set_title(resolution)
         pyguymer3.geo.add_map_underlay(ax, maxElev = 2000.0, resolution = resolution)
 
