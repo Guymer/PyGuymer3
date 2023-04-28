@@ -19,7 +19,7 @@ def add_coastlines(axis, /, *, colorName = "black", debug = False, faceOpac = -1
         if ≥ 0.0 and ≤ 1.0 then shade the Polygon faces the same colour as the
         Polygon edges with this opacity
     levels : list of int, optional
-        the levels of the coastline boundaries (if None then default to [1, 5])
+        the levels of the coastline boundaries (if None then default to [1, 6])
     linestyle : str, optional
         the linestyle to draw the coastline boundaries with
     linewidth : float, optional
@@ -95,7 +95,7 @@ def add_coastlines(axis, /, *, colorName = "black", debug = False, faceOpac = -1
 
     # Check inputs ...
     if levels is None:
-        levels = [1, 5]
+        levels = [1, 6]
 
     # Find the edge colour ...
     edgecolor = matplotlib.colors.to_rgba(matplotlib.colors.CSS4_COLORS[colorName])
