@@ -87,7 +87,7 @@ if __name__ == "__main__":
             ax,
             locs = range(-180, 225, 45),
         )
-        ax.coastlines(resolution = "110m", color = "black", linewidth = 0.1)
+        pyguymer3.geo.add_coastlines(ax, resolution = "c")
 
         # Loop over number of points ...
         for c, npoint in enumerate(npoints):

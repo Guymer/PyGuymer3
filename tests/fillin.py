@@ -114,7 +114,7 @@ if __name__ == "__main__":
             ax1,
             locs = range(-180, 225, 45),
         )
-        ax1.coastlines(resolution = "110m", color = "black", linewidth = 0.1)
+        pyguymer3.geo.add_coastlines(ax1, resolution = "c")
 
         # Create axis ...
         ax2 = fg.add_subplot(2, 2, 2, projection = cartopy.crs.Orthographic(central_longitude = ring[0][0], central_latitude = ring[1][1]))
@@ -130,7 +130,7 @@ if __name__ == "__main__":
             ax2,
             locs = range(-180, 225, 45),
         )
-        ax2.coastlines(resolution = "110m", color = "black", linewidth = 0.1)
+        pyguymer3.geo.add_coastlines(ax2, resolution = "c")
 
         # Create axis ...
         ax3 = fg.add_subplot(2, 2, (3, 4))

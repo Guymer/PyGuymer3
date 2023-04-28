@@ -97,12 +97,8 @@ if __name__ == "__main__":
             )
 
             # Configure axis ...
-            ax1.coastlines(
-                     color = "black",
-                 linewidth = 0.1,
-                resolution = "110m",
-            )
             ax1.set_global()
+            pyguymer3.geo.add_coastlines(ax1, resolution = "c")
             pyguymer3.geo.add_map_background(ax1)
             pyguymer3.geo.add_horizontal_gridlines(
                 ax1,
@@ -125,12 +121,8 @@ if __name__ == "__main__":
             )
 
             # Configure axis ...
-            ax2.coastlines(
-                     color = "black",
-                 linewidth = 0.1,
-                resolution = "110m",
-            )
             ax2.set_global()
+            pyguymer3.geo.add_coastlines(ax2, resolution = "c")
             pyguymer3.geo.add_map_background(ax2)
             pyguymer3.geo.add_horizontal_gridlines(
                 ax2,
