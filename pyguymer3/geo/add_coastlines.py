@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def add_coastlines(axis, /, *, colorName = "black", debug = False, faceOpac = -1.0, level = 1, linestyle = "solid", linewidth = 0.5, onlyValid = False, repair = False, resolution = "c"):
+def add_coastlines(axis, /, *, colorName = "black", debug = False, faceOpac = -1.0, levels = None, linestyle = "solid", linewidth = 0.5, onlyValid = False, repair = False, resolution = "c"):
     """Add coastlines to an axis.
 
     This function adds coastline boundaries to a Cartopy axis. The resolution of
@@ -12,25 +12,25 @@ def add_coastlines(axis, /, *, colorName = "black", debug = False, faceOpac = -1
     axis : cartopy.mpl.geoaxes.GeoAxesSubplot
         the axis
     colorName : str, optional
-        the CSS4 named colour to draw the coastline boundary with
+        the CSS4 named colour to draw the coastline boundaries with
     debug : bool, optional
         print debug messages
     faceOpac : float, optional
         if ≥ 0.0 and ≤ 1.0 then shade the Polygon faces the same colour as the
         Polygon edges with this opacity
-    level : int, optional
-        the level of the coastline boundary
+    levels : list of int, optional
+        the levels of the coastline boundaries (if None then default to [1, 5])
     linestyle : str, optional
-        the linestyle to draw the coastline boundary with
+        the linestyle to draw the coastline boundaries with
     linewidth : float, optional
-        the linewidth to draw the coastline boundary with
+        the linewidth to draw the coastline boundaries with
     onlyValid : bool, optional
         only return valid Polygons (checks for validity can take a while, if
         being called often)
     repair : bool, optional
         attempt to repair invalid Polygons
     resolution : str, optional
-        the resolution of the coastline boundary
+        the resolution of the coastline boundaries
 
     Notes
     -----
@@ -93,6 +93,10 @@ def add_coastlines(axis, /, *, colorName = "black", debug = False, faceOpac = -1
 
     # **************************************************************************
 
+    # Check inputs ...
+    if levels is None:
+        levels = [1, 5]
+
     # Find the edge colour ...
     edgecolor = matplotlib.colors.to_rgba(matplotlib.colors.CSS4_COLORS[colorName])
     if debug:
@@ -104,29 +108,31 @@ def add_coastlines(axis, /, *, colorName = "black", debug = False, faceOpac = -1
     else:
         facecolor = "none"
 
-    # Find the Shapefile ...
-    try:
-        sfile = cartopy.io.shapereader.gshhs(
-            level = level,
-            scale = resolution,
+    # Loop over levels ...
+    for level in levels:
+        # Find the Shapefile ...
+        try:
+            sfile = cartopy.io.shapereader.gshhs(
+                level = level,
+                scale = resolution,
+            )
+        except urllib.error.HTTPError:
+            return
+
+        # Initialize list ...
+        polys = []
+
+        # Loop over records ...
+        for record in cartopy.io.shapereader.Reader(sfile).records():
+            # Add Polygons to the list ...
+            polys += extract_polys(record.geometry, onlyValid = onlyValid, repair = repair)
+
+        # Plot geometry ...
+        axis.add_geometries(
+            polys,
+            cartopy.crs.PlateCarree(),
+            edgecolor = edgecolor,
+            facecolor = facecolor,
+            linestyle = linestyle,
+            linewidth = linewidth,
         )
-    except urllib.error.HTTPError:
-        return
-
-    # Initialize list ...
-    polys = []
-
-    # Loop over records ...
-    for record in cartopy.io.shapereader.Reader(sfile).records():
-        # Add Polygons to the list ...
-        polys += extract_polys(record.geometry, onlyValid = onlyValid, repair = repair)
-
-    # Plot geometry ...
-    axis.add_geometries(
-        polys,
-        cartopy.crs.PlateCarree(),
-        edgecolor = edgecolor,
-        facecolor = facecolor,
-        linestyle = linestyle,
-        linewidth = linewidth,
-    )
