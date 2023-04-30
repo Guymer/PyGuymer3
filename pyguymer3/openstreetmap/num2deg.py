@@ -11,7 +11,7 @@ def num2deg(xtile, ytile, zoom, /):
     # Import standard modules ...
     import math
 
-    n = 2.0 ** zoom
+    n = pow(2, zoom)
     lon_deg = xtile / n * 360.0 - 180.0                                         # [°]
     lat_rad = math.atan(math.sinh(math.pi * (1.0 - 2.0 * ytile / n)))
     lat_deg = math.degrees(lat_rad)                                             # [°]

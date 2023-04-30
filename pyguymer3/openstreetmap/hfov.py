@@ -22,7 +22,7 @@ def hfov(xtile, ytile, zoom, /):
     lonW_deg, latN_deg = num2deg(xtile, ytile, zoom)                            # [°], [°]
     lonE_deg, latS_deg = num2deg(xtile + 1, ytile + 1, zoom)                    # [°], [°]
     latC_rad = math.radians(0.5 * (latS_deg + latN_deg))
-    n = 2.0 ** zoom
+    n = pow(2, zoom)
     resoluOfEarth = circumOfEarth * math.cos(latC_rad) / n                      # [m/tile]
 
     # Return answer ...

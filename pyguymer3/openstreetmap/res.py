@@ -17,7 +17,7 @@ def res(lat_deg, zoom, /):
     circumOfEarth = 2.0 * math.pi * radiusOfEarth                               # [m]
 
     lat_rad = math.radians(lat_deg)
-    n = 2.0 ** zoom
+    n = pow(2, zoom)
     resoluOfEarth = circumOfEarth * math.cos(lat_rad) / (256.0 * n)             # [m/px]
 
     # Return answer ...

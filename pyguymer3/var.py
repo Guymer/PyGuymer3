@@ -51,7 +51,7 @@ def var(arr, /, *, dof = 0):
         raise TypeError("\"arr\" is not a NumPy array") from None
 
     # Calculate the squared deviations from the mean ...
-    tmp = (arr - mean(arr, dof = 0)) ** 2
+    tmp = numpy.pow(arr - mean(arr, dof = 0), 2)
 
     # Return the answer ...
     return mean(tmp, dof = dof)
