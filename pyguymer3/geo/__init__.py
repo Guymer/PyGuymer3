@@ -26,6 +26,7 @@ from ._debug import _debug
 from ._en2ll import _en2ll
 from ._ll2en import _ll2en
 from ._points2polys import _points2polys
+from .add_annotation import add_annotation
 from .add_coastlines import add_coastlines
 from .add_horizontal_gridlines import add_horizontal_gridlines
 from .add_map_background import add_map_background
