@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def add_annotation(ax, locLon, locLat, annotation, /, *, arrowprops = None, colorName = "black", debug = False, fontsize = 8, horizontalalignment = "center", txtLat = None, txtLon = None, verticalalignment = "center"):
+def add_annotation(ax, locLon, locLat, annotation, /, *, arrowprops = None, colorName = "black", debug = False, fontsize = 8, horizontalalignment = "center", txtLon = None, txtLat = None, txtOffsetX = None, txtOffsetY = None, verticalalignment = "center"):
     """Add an annotation to a Cartopy axis
 
     Parameters
@@ -25,12 +25,18 @@ def add_annotation(ax, locLon, locLat, annotation, /, *, arrowprops = None, colo
         the font size of the annotation text
     horizontal alignment : str, optional
         the vertical alignment of the annotation text
-    txtLat : float, optional
-        the latitude of the annotation text, which implies an arrow to connect
-        it to the annotated location (in degrees)
     txtLon : float, optional
         the longitude of the annotation text, which implies an arrow to connect
         it to the annotated location (in degrees)
+    txtLat : float, optional
+        the latitude of the annotation text, which implies an arrow to connect
+        it to the annotated location (in degrees)
+    txtOffsetX : int or float, optional
+        the horizontal offset of the annotation text, which implies an arrow to
+        connect it to the annotated location (in points)
+    txtOffsetY : int or float, optional
+        the vertical offset of the annotation text, which implies an arrow to
+        connect it to the annotated location (in points)
     vertical alignment : str, optional
         the vertical alignment of the annotation text
 
@@ -70,16 +76,16 @@ def add_annotation(ax, locLon, locLat, annotation, /, *, arrowprops = None, colo
 
     # Create Point(s) ...
     point1loc = shapely.geometry.point.Point(locLon, locLat)
-    if txtLat is not None and txtLon is not None:
+    if txtLon is not None and txtLat is not None:
         point1txt = shapely.geometry.point.Point(txtLon, txtLat)
 
     # Project the Point(s) into the axis' units ...
     point2loc = ax.projection.project_geometry(point1loc)
-    if txtLat is not None and txtLon is not None:
+    if txtLon is not None and txtLat is not None:
         point2txt = ax.projection.project_geometry(point1txt)
 
     # Annotate the axis ...
-    if txtLat is None and txtLon is None:
+    if txtLon is None and txtLat is None and txtOffsetX is None and txtOffsetY is None:
         ax.annotate(
             annotation,
             (point2loc.coords[0][0], point2loc.coords[0][1]),
@@ -88,7 +94,19 @@ def add_annotation(ax, locLon, locLat, annotation, /, *, arrowprops = None, colo
             horizontalalignment = horizontalalignment,
               verticalalignment = verticalalignment,
         )
-    else:
+    elif txtOffsetX is not None and txtOffsetY is not None:
+        ax.annotate(
+            annotation,
+            (point2loc.coords[0][0], point2loc.coords[0][1]),
+                     arrowprops = arrowprops,
+                          color = color,
+                       fontsize = fontsize,
+            horizontalalignment = horizontalalignment,
+                     textcoords = "offset points",
+              verticalalignment = verticalalignment,
+                         xytext = (txtOffsetX, txtOffsetY),
+        )
+    elif txtLon is not None and txtLat is not None:
         ax.annotate(
             annotation,
             (point2loc.coords[0][0], point2loc.coords[0][1]),
@@ -99,3 +117,5 @@ def add_annotation(ax, locLon, locLat, annotation, /, *, arrowprops = None, colo
               verticalalignment = verticalalignment,
                          xytext = (point2txt.coords[0][0], point2txt.coords[0][1]),
         )
+    else:
+        raise Exception("there is a bizarre combination of \"txtLon\", \"txtLat\", \"txtOffsetX\" and \"txtOffsetY\"") from None
