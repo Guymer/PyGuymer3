@@ -65,16 +65,10 @@ def great_circle(lon1, lat1, lon2, lat2, /, *, debug = False, npoint = 5, prefix
         if debug:
             check(line2, prefix = prefix)
 
-        # Clean up ...
-        del circle
-
         # Convert to a MultiLineString ...
         multiline = shapely.geometry.multilinestring.MultiLineString([line1, line2])
         if debug:
             check(multiline, prefix = prefix)
-
-        # Clean up ...
-        del line1, line2
 
         # Return answer ...
         return multiline
@@ -101,16 +95,10 @@ def great_circle(lon1, lat1, lon2, lat2, /, *, debug = False, npoint = 5, prefix
         if debug:
             check(line2, prefix = prefix)
 
-        # Clean up ...
-        del circle
-
         # Convert to a MultiLineString ...
         multiline = shapely.geometry.multilinestring.MultiLineString([line1, line2])
         if debug:
             check(multiline, prefix = prefix)
-
-        # Clean up ...
-        del line1, line2
 
         # Return answer ...
         return multiline
@@ -119,9 +107,6 @@ def great_circle(lon1, lat1, lon2, lat2, /, *, debug = False, npoint = 5, prefix
     line = shapely.geometry.linestring.LineString(circle)
     if debug:
         check(line, prefix = prefix)
-
-    # Clean up ...
-    del circle
 
     # Return answer ...
     return line

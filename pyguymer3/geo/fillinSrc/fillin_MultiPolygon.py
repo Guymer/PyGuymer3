@@ -85,8 +85,5 @@ def fillin_MultiPolygon(multipoly, fill, /, *, debug = False, eps = 1.0e-12, fil
     if debug:
         check(fills, prefix = prefix)
 
-    # Clean up ...
-    del polys
-
     # Return answer ...
     return fills

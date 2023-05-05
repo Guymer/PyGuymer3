@@ -65,8 +65,5 @@ def clean_MultiLineString(multiline, /, *, debug = False, prefix = ".", tol = 1.
     if debug:
         check(cleans, prefix = prefix)
 
-    # Clean up ...
-    del lines
-
     # Return answer ...
     return cleans

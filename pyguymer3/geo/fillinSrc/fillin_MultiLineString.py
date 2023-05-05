@@ -79,8 +79,5 @@ def fillin_MultiLineString(multiline, fill, /, *, debug = False, eps = 1.0e-12, 
     if debug:
         check(fills, prefix = prefix)
 
-    # Clean up ...
-    del lines
-
     # Return answer ...
     return fills

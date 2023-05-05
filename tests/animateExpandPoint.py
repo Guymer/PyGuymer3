@@ -188,7 +188,6 @@ if __name__ == "__main__":
                 coords[:, 1],
                 color = (1.0, 0.0, 0.0, 1.0),
             )
-            del coords
 
         # Save GeoJSON ...
         with open(jname, "wt", encoding = "utf-8") as fObj:
@@ -199,9 +198,6 @@ if __name__ == "__main__":
                       indent = 4,
                    sort_keys = True,
             )
-
-        # Clean up ...
-        del buff
 
         # Configure figure ...
         fg.suptitle(f"({lon:+.1f}°,{lat:+.1f}°) buffered by {dist:,d}km")
@@ -254,6 +250,3 @@ if __name__ == "__main__":
             screenHeight = height,
         )
         shutil.move(vname, f"animateExpandPoint{height:04d}px.mp4")
-
-    # Clean up ...
-    del frames

@@ -102,8 +102,5 @@ def fillin_Polygon(poly, fill, /, *, debug = False, eps = 1.0e-12, fillSpace = "
     if debug:
         check(fills, prefix = prefix)
 
-    # Clean up ...
-    del exterior, interiors
-
     # Return answer ...
     return fills

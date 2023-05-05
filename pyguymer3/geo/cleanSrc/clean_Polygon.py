@@ -82,8 +82,5 @@ def clean_Polygon(poly, /, *, debug = False, prefix = ".", tol = 1.0e-10):
     if debug:
         check(cleans, prefix = prefix)
 
-    # Clean up ...
-    del exterior, interiors
-
     # Return answer ...
     return cleans

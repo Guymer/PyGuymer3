@@ -102,9 +102,6 @@ def clean_CoordinateSequence(coords, /, *, debug = False, prefix = ".", tol = 1.
     if not skip:
         points2.append(points1[-1, :])                                          # [°]
 
-    # Clean up ...
-    del points1
-
     # Convert list of points into a LineString, or a Point if there ends up
     # being only one ...
     if len(points2) == 1:
@@ -117,9 +114,6 @@ def clean_CoordinateSequence(coords, /, *, debug = False, prefix = ".", tol = 1.
             cleans = shapely.geometry.point.Point(points2[0][0], points2[0][1])
     if debug:
         check(cleans, prefix = prefix)
-
-    # Clean up ...
-    del points2
 
     # Return cleaned CoordinateSequence ...
     return cleans

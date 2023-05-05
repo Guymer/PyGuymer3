@@ -67,8 +67,5 @@ def clean_MultiPolygon(multipoly, /, *, debug = False, prefix = ".", tol = 1.0e-
     if debug:
         check(cleans, prefix = prefix)
 
-    # Clean up ...
-    del polys
-
     # Return answer ...
     return cleans

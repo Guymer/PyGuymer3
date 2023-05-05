@@ -53,9 +53,6 @@ def add_map_background(axis, /, *, debug = False, extent = None, name = "natural
                     if os.path.exists(ipath):
                         default = False
 
-            # Clean up ...
-            del info
-
     # Draw background image ...
     if default:
         if debug:

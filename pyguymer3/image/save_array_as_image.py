@@ -86,17 +86,11 @@ def save_array_as_image(img0, fname, /, *, chunksize = 1048576, ct = "grey", deb
         for ix in range(nx):
             for iy in range(ny):
                 img2[iy, ix, :] = cts[ct][img1[iy, ix].astype(numpy.uint8)][:]
-
-        # Clean up ...
-        del img1
     else:
         # Convert image to correct type ...
         for ix in range(nx):
             for iy in range(ny):
                 img2[iy, ix, :] = cts[ct][img0[iy, ix].astype(numpy.uint8)][:]
-
-    # Clean up ...
-    del cts
 
     # Save image ...
     if form == "png":
@@ -106,6 +100,3 @@ def save_array_as_image(img0, fname, /, *, chunksize = 1048576, ct = "grey", deb
         save_array_as_PPM(img2, fname)
     else:
         raise Exception("an unknown image format was requested") from None
-
-    # Clean up ...
-    del img2

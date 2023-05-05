@@ -71,6 +71,3 @@ def add_horizontal_gridlines(ax, /, *, color = "black", linestyle = ":", linewid
             linewidth = linewidth,
             transform = cartopy.crs.PlateCarree(),
         )
-
-    # Clean up ...
-    del ylocs

@@ -181,10 +181,6 @@ if __name__ == "__main__":
                 coords[:, 1],
                 color = (1.0, 0.0, 0.0, 1.0),
             )
-            del coords
-
-        # Clean up ...
-        del buff0
 
         # Buffer Point and plot it twice ...
         buff1 = pyguymer3.geo.buffer(
@@ -218,7 +214,6 @@ if __name__ == "__main__":
                 coords[:, 1],
                 color = (0.0, 1.0, 0.0, 1.0),
             )
-            del coords
 
         # Buffer Polygon and plot it thrice ...
         buff2 = pyguymer3.geo.buffer(
@@ -252,10 +247,6 @@ if __name__ == "__main__":
                 coords[:, 1],
                 color = (0.0, 0.0, 1.0, 1.0),
             )
-            del coords
-
-        # Clean up ...
-        del buff1
 
         # Save GeoJSON ...
         with open(jname, "wt", encoding = "utf-8") as fObj:
@@ -266,9 +257,6 @@ if __name__ == "__main__":
                       indent = 4,
                    sort_keys = True,
             )
-
-        # Clean up ...
-        del buff2
 
         # Configure figure ...
         fg.suptitle(f"({lon:.1f},{lat:.1f}) buffered by {0.001 * dist1:,.1f}km & {0.001 * dist2:,.1f}km\nred = {0.001 * (dist1 + dist2):,.1f}km; green = {0.001 * dist1:,.1f}km; blue = {0.001 * dist1:,.1f}km & {0.001 * dist2:,.1f}km")

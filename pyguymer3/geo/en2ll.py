@@ -59,16 +59,10 @@ def en2ll(poly1, /, *, debug = False, prefix = "."):
         # Append LinearRing to list ...
         interiorRings.append(interiorRing)
 
-        # Clean up ...
-        del interiorRing
-
     # Convert LinearRings to a correctly oriented Polygon ...
     poly2 = shapely.geometry.polygon.orient(shapely.geometry.polygon.Polygon(exteriorRing, interiorRings))
     if debug:
         check(poly2, prefix = prefix)
-
-    # Clean up ...
-    del exteriorRing, interiorRings
 
     # Return answer ...
     return poly2

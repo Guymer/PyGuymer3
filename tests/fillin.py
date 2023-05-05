@@ -101,7 +101,12 @@ if __name__ == "__main__":
         fg = matplotlib.pyplot.figure(figsize = (6, 6))
 
         # Create axis ...
-        ax1 = fg.add_subplot(2, 2, 1, projection = cartopy.crs.Robinson())
+        ax1 = fg.add_subplot(
+            2,
+            2,
+            1,
+            projection = cartopy.crs.Robinson()
+        )
 
         # Configure axis ...
         ax1.set_global()
@@ -117,7 +122,15 @@ if __name__ == "__main__":
         pyguymer3.geo.add_coastlines(ax1, resolution = "c")
 
         # Create axis ...
-        ax2 = fg.add_subplot(2, 2, 2, projection = cartopy.crs.Orthographic(central_longitude = ring[0][0], central_latitude = ring[1][1]))
+        ax2 = fg.add_subplot(
+            2,
+            2,
+            2,
+            projection = cartopy.crs.Orthographic(
+                central_longitude = ring[0][0],
+                 central_latitude = ring[1][1],
+            )
+        )
 
         # Configure axis ...
         ax2.set_global()
@@ -133,7 +146,11 @@ if __name__ == "__main__":
         pyguymer3.geo.add_coastlines(ax2, resolution = "c")
 
         # Create axis ...
-        ax3 = fg.add_subplot(2, 2, (3, 4))
+        ax3 = fg.add_subplot(
+            2,
+            2,
+            (3, 4)
+        )
 
         # Configure axis ...
         ax3.grid()
@@ -149,12 +166,33 @@ if __name__ == "__main__":
         sparseRing = shapely.geometry.polygon.LinearRing(ring)
 
         # Fill in ring in Euclidean space and plot it thrice ...
-        denseRing1 = pyguymer3.geo.fillin(sparseRing, euclideanFill, debug = False, fillSpace = "EuclideanSpace", tol = tol)
-        ax1.add_geometries([denseRing1], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = "none", linewidth = 1.0)
-        ax2.add_geometries([denseRing1], cartopy.crs.PlateCarree(), edgecolor = (1.0, 0.0, 0.0, 1.0), facecolor = "none", linewidth = 1.0)
+        denseRing1 = pyguymer3.geo.fillin(
+            sparseRing,
+            euclideanFill,
+                debug = False,
+            fillSpace = "EuclideanSpace",
+                  tol = tol,
+        )
+        ax1.add_geometries(
+            [denseRing1],
+            cartopy.crs.PlateCarree(),
+            edgecolor = (1.0, 0.0, 0.0, 1.0),
+            facecolor = "none",
+            linewidth = 1.0,
+        )
+        ax2.add_geometries(
+            [denseRing1],
+            cartopy.crs.PlateCarree(),
+            edgecolor = (1.0, 0.0, 0.0, 1.0),
+            facecolor = "none",
+            linewidth = 1.0,
+        )
         coords = numpy.array(denseRing1.coords)
-        ax3.plot(coords[:, 0], coords[:, 1], color = (1.0, 0.0, 0.0, 1.0))
-        del coords
+        ax3.plot(
+            coords[:, 0],
+            coords[:, 1],
+            color = (1.0, 0.0, 0.0, 1.0),
+        )
 
         # Save GeoJSON ...
         with open(jname1, "wt", encoding = "utf-8") as fObj:
@@ -166,16 +204,34 @@ if __name__ == "__main__":
                    sort_keys = True,
             )
 
-        # Clean up ...
-        del denseRing1
-
         # Fill in ring in Geodesic space and plot it thrice ...
-        denseRing2 = pyguymer3.geo.fillin(sparseRing,  geodesicFill, debug = False, fillSpace =  "GeodesicSpace", tol = tol)
-        ax1.add_geometries([denseRing2], cartopy.crs.PlateCarree(), edgecolor = (0.0, 0.0, 1.0, 1.0), facecolor = "none", linewidth = 1.0)
-        ax2.add_geometries([denseRing2], cartopy.crs.PlateCarree(), edgecolor = (0.0, 0.0, 1.0, 1.0), facecolor = "none", linewidth = 1.0)
+        denseRing2 = pyguymer3.geo.fillin(
+            sparseRing,
+            geodesicFill,
+                debug = False,
+            fillSpace = "GeodesicSpace",
+                  tol = tol,
+        )
+        ax1.add_geometries(
+            [denseRing2],
+            cartopy.crs.PlateCarree(),
+            edgecolor = (0.0, 0.0, 1.0, 1.0),
+            facecolor = "none",
+            linewidth = 1.0,
+        )
+        ax2.add_geometries(
+            [denseRing2],
+            cartopy.crs.PlateCarree(),
+            edgecolor = (0.0, 0.0, 1.0, 1.0),
+            facecolor = "none",
+            linewidth = 1.0,
+        )
         coords = numpy.array(denseRing2.coords)
-        ax3.plot(coords[:, 0], coords[:, 1], color = (0.0, 0.0, 1.0, 1.0))
-        del coords
+        ax3.plot(
+            coords[:, 0],
+            coords[:, 1],
+            color = (0.0, 0.0, 1.0, 1.0),
+        )
 
         # Save GeoJSON ...
         with open(jname2, "wt", encoding = "utf-8") as fObj:
@@ -186,9 +242,6 @@ if __name__ == "__main__":
                       indent = 4,
                    sort_keys = True,
             )
-
-        # Clean up ...
-        del denseRing2
 
         # Configure figure ...
         fg.suptitle(f"A rhombus around ({ring[0][0]:.1f},{ring[1][1]:.1f}) filled in by {euclideanFill:,.0f}° & {0.001 * geodesicFill:,.1f}km\nred = Euclidean; blue = Geodesic")

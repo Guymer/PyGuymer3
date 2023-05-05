@@ -71,6 +71,3 @@ def add_vertical_gridlines(ax, /, *, color = "black", linestyle = ":", linewidth
             linewidth = linewidth,
             transform = cartopy.crs.PlateCarree(),
         )
-
-    # Clean up ...
-    del xlocs

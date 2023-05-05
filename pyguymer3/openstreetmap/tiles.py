@@ -89,9 +89,6 @@ def tiles(lonC_deg, latC_deg, zoom, width, height, sess, /, *, background = (255
             # Paste the tile onto the map ...
             tilesIm.paste(tileIm, (x, y))
 
-            # Clean up ...
-            del tileIm
-
     # Draw circle, if the user wants to ...
     if radius is not None:
         draw.ellipse(

@@ -64,7 +64,6 @@ def save_array_as_PNG(img, fname, /, *, ftype_req = -1):
         ihdr += numpy.uint8(0).byteswap().tobytes()                             # IHDR : Interlace method
         ihdr += numpy.uint32(binascii.crc32(ihdr[4:])).byteswap().tobytes()     # CRC-32
         fObj.write(ihdr)
-        del ihdr
 
         # **********************************************************************
         # *                  CREATE "IDAT" CHUNK AND WRITE IT                  *
@@ -165,14 +164,10 @@ def save_array_as_PNG(img, fname, /, *, ftype_req = -1):
             for ix in range(nx):
                 stream += row[ftype_best, :, ix].byteswap().tobytes()
 
-            # Clean up ...
-            del row
-
         idat += zlib.compress(stream, level = 9)                                # IDAT : Data
         idat[0:4] = numpy.uint32(len(idat[8:])).byteswap().tobytes()            # Length
         idat += numpy.uint32(binascii.crc32(idat[4:])).byteswap().tobytes()     # CRC-32
         fObj.write(idat)
-        del idat
 
         # **********************************************************************
         # *                  CREATE "IEND" CHUNK AND WRITE IT                  *
@@ -183,4 +178,3 @@ def save_array_as_PNG(img, fname, /, *, ftype_req = -1):
         iend += bytearray("IEND", encoding = "ascii")                           # Chunk type
         iend += numpy.uint32(binascii.crc32(iend[4:])).byteswap().tobytes()     # CRC-32
         fObj.write(iend)
-        del iend
