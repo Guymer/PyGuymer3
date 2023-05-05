@@ -5,6 +5,9 @@
 if __name__ == "__main__":
     # This is a test suite for “geo.add_map_underlay()”.
 
+    # Import standard modules ...
+    import os
+
     # Import special modules ...
     try:
         import cartopy
@@ -33,6 +36,8 @@ if __name__ == "__main__":
 
     print(f"Testing \"{pyguymer3.__path__[0]}\" ...")
 
+    # **************************************************************************
+
     # Define resolutions ...
     resolutions = [
          "10m",
@@ -40,10 +45,14 @@ if __name__ == "__main__":
         "110m",
     ]
 
+    # Make output directory ...
+    if not os.path.exists("mapUnderlay"):
+        os.mkdir("mapUnderlay")
+
     # **************************************************************************
 
     # Determine file name ...
-    fname = "mapUnderlay0.png"
+    fname = "mapUnderlay/mapUnderlay0.png"
 
     print(f" > Making \"{fname}\" ...")
 
@@ -73,7 +82,7 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Determine file name ...
-    fname = "mapUnderlay1.png"
+    fname = "mapUnderlay/mapUnderlay1.png"
 
     print(f" > Making \"{fname}\" ...")
 
@@ -110,7 +119,7 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Determine file name ...
-    fname = "mapUnderlay2.png"
+    fname = "mapUnderlay/mapUnderlay2.png"
 
     print(f" > Making \"{fname}\" ...")
 
@@ -147,7 +156,7 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Determine file name ...
-    fname = "mapUnderlay3.png"
+    fname = "mapUnderlay/mapUnderlay3.png"
 
     print(f" > Making \"{fname}\" ...")
 

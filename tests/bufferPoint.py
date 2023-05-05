@@ -13,6 +13,9 @@ if __name__ == "__main__":
     # Each point has a plot with both a top-down projection and a Robinson
     # projection so that you can check it, along with an equirectangular plot.
 
+    # Import standard modules ...
+    import os
+
     # Import special modules ...
     try:
         import cartopy
@@ -55,6 +58,8 @@ if __name__ == "__main__":
 
     print(f"Testing \"{pyguymer3.__path__[0]}\" ...")
 
+    # **************************************************************************
+
     # Configure functions ...
     debug = False
     fill = 1.0                                                                  # [°]
@@ -77,11 +82,17 @@ if __name__ == "__main__":
         (   0.0,   0.0, 10000000.0),    # Satisfies test A, B
     ]
 
+    # Make output directory ...
+    if not os.path.exists("bufferPoint"):
+        os.mkdir("bufferPoint")
+
+    # **************************************************************************
+
     # Loop over points ...
     for i, (lon, lat, dist) in enumerate(points):
         # Determine file names ...
-        fname = f"bufferPoint{i:d}.png"
-        jname = f"bufferPoint{i:d}.geojson"
+        fname = f"bufferPoint/bufferPoint{i:d}.png"
+        jname = f"bufferPoint/bufferPoint{i:d}.geojson"
 
         print(f" > Making \"{jname}\" and \"{fname}\" ...")
 

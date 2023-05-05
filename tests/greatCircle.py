@@ -5,6 +5,9 @@
 if __name__ == "__main__":
     # This is a test suite for “geo.great_circle()”.
 
+    # Import standard modules ...
+    import os
+
     # Import special modules ...
     try:
         import cartopy
@@ -42,6 +45,8 @@ if __name__ == "__main__":
 
     print(f"Testing \"{pyguymer3.__path__[0]}\" ...")
 
+    # **************************************************************************
+
     # Configure functions ...
     debug = False
 
@@ -62,11 +67,17 @@ if __name__ == "__main__":
     # Define number of points ...
     npoints = [3, 4, 8, 16, 1000]                                               # [#]
 
+    # Make output directory ...
+    if not os.path.exists("greatCircle"):
+        os.mkdir("greatCircle")
+
+    # **************************************************************************
+
     # Loop over tests ...
     for i, (coord1, coord2) in enumerate(zip(coords1, coords2, strict = True)):
         # Determine file names ...
-        fname = f"greatCircle{i:d}.png"
-        jname = f"greatCircle{i:d}.geojson"
+        fname = f"greatCircle/greatCircle{i:d}.png"
+        jname = f"greatCircle/greatCircle{i:d}.geojson"
 
         print(f" > Making \"{jname}\" and \"{fname}\" ...")
 

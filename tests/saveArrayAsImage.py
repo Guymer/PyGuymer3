@@ -5,6 +5,9 @@
 if __name__ == "__main__":
     # This is a test suite for “save_array_as_image()”.
 
+    # Import standard modules ...
+    import os
+
     # Import special modules ...
     try:
         import numpy
@@ -20,6 +23,14 @@ if __name__ == "__main__":
 
     print(f"Testing \"{pyguymer3.__path__[0]}\" ...")
 
+    # **************************************************************************
+
+    # Make output directory ...
+    if not os.path.exists("saveArrayAsImage"):
+        os.mkdir("saveArrayAsImage")
+
+    # **************************************************************************
+
     # Set image size ...
     nx, ny = 16, 32                                                             # [px], [px]
 
@@ -30,8 +41,8 @@ if __name__ == "__main__":
             arr[iy, ix] = 0.5 * float(ix * iy)
 
     # Save array as PNGs ...
-    pyguymer3.image.save_array_as_image(arr, "saveArrayAsImage0.png")
-    pyguymer3.image.save_array_as_image(arr, "saveArrayAsImage1.png", scale = True)
-    pyguymer3.image.save_array_as_image(arr, "saveArrayAsImage2.png", scale = True, pc_bot = 5.0, pc_top = 5.0)
-    pyguymer3.image.save_array_as_image(arr, "saveArrayAsImage3.png", scale = True, pc_bot = 5.0, pc_top = 5.0, ct = "fire")
-    pyguymer3.image.save_array_as_image(arr, "saveArrayAsImage4.png", scale = True, pc_bot = 5.0, pc_top = 5.0, ct = "rainbow")
+    pyguymer3.image.save_array_as_image(arr, "saveArrayAsImage/saveArrayAsImage0.png")
+    pyguymer3.image.save_array_as_image(arr, "saveArrayAsImage/saveArrayAsImage1.png", scale = True)
+    pyguymer3.image.save_array_as_image(arr, "saveArrayAsImage/saveArrayAsImage2.png", scale = True, pc_bot = 5.0, pc_top = 5.0)
+    pyguymer3.image.save_array_as_image(arr, "saveArrayAsImage/saveArrayAsImage3.png", scale = True, pc_bot = 5.0, pc_top = 5.0, ct = "fire")
+    pyguymer3.image.save_array_as_image(arr, "saveArrayAsImage/saveArrayAsImage4.png", scale = True, pc_bot = 5.0, pc_top = 5.0, ct = "rainbow")

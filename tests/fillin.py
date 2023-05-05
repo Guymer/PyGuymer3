@@ -7,6 +7,9 @@ if __name__ == "__main__":
     # Each ring has a plot with both a top-down projection and a Robinson
     # projection so that you can check it, along with an equirectangular plot.
 
+    # Import standard modules ...
+    import os
+
     # Import special modules ...
     try:
         import cartopy
@@ -88,12 +91,18 @@ if __name__ == "__main__":
     geodesicFill = 10000.0                                                      # [m]
     tol = 1.0e-10                                                               # [°]
 
+    # Make output directory ...
+    if not os.path.exists("fillin"):
+        os.mkdir("fillin")
+
+    # **************************************************************************
+
     # Loop over rings ...
     for i, ring in enumerate(rings):
         # Determine file names ...
-        fname = f"fillin{i:d}.png"
-        jname1 = f"fillin{i:d}Euclidean.geojson"
-        jname2 = f"fillin{i:d}Geodesic.geojson"
+        fname = f"fillin/fillin{i:d}.png"
+        jname1 = f"fillin/fillin{i:d}Euclidean.geojson"
+        jname2 = f"fillin/fillin{i:d}Geodesic.geojson"
 
         print(f" > Making \"{jname1}\", \"{jname2}\" and \"{fname}\" ...")
 

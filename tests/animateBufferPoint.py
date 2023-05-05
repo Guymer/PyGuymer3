@@ -56,6 +56,8 @@ if __name__ == "__main__":
 
     print(f"Testing \"{pyguymer3.__path__[0]}\" ...")
 
+    # **************************************************************************
+
     # Configure functions ...
     debug = False
     dist = 2.0e6                                                                # [m]
