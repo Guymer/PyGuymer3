@@ -37,7 +37,6 @@ def add_horizontal_gridlines(ax, /, *, color = "black", linestyle = ":", linewid
     # Import special modules ...
     try:
         import cartopy
-        import cartopy.crs
     except:
         raise Exception("\"cartopy\" is not installed; run \"pip install --user Cartopy\"") from None
     try:

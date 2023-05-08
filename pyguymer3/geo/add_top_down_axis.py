@@ -43,7 +43,6 @@ def add_top_down_axis(fg, lon, lat, dist, /, *, debug = False, gs = None, nrows 
     # Import special modules ...
     try:
         import cartopy
-        import cartopy.crs
     except:
         raise Exception("\"cartopy\" is not installed; run \"pip install --user Cartopy\"") from None
     try:
