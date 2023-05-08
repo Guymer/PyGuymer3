@@ -16,7 +16,7 @@ def add_top_down_axis(fg, lon, lat, dist, /, *, debug = False, gs = None, nrows 
     dist : float
         the radius of the circle around the point (in metres)
     debug : bool, optional
-        draw the circle on the axis
+        print debug messages and draw the circle on the axis
     gs : matplotlib.gridspec.SubplotSpec, optional
         the subset of a gridspec to locate the axis
     nrows : int, optional
@@ -93,9 +93,10 @@ def add_top_down_axis(fg, lon, lat, dist, /, *, debug = False, gs = None, nrows 
     polygon1 = buffer(
         point,
         dist,
-        fill = +1.0,
-        nang = 361,
-        simp = -1.0,
+        debug = debug,
+         fill = +1.0,
+         nang = 361,
+         simp = -1.0,
     )
 
     # Project the Polygon into the axis' units ...
