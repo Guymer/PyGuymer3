@@ -28,7 +28,7 @@ sys.path.insert(0, os.path.abspath(".."))
 
 # Set project information ...
 project = "PyGuymer3"
-copyright = "2023, Thomas Guymer"
+copyright = "2023, Thomas Guymer"                                               # pylint: disable=W0622
 author = "Thomas Guymer"
 
 # Add Sphinx extension modules ...
