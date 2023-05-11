@@ -23,8 +23,6 @@ from ._add_urbanAreas import _add_urbanAreas
 from ._area import _area
 from ._buffer_points_crudely import _buffer_points_crudely
 from ._debug import _debug
-from ._en2ll import _en2ll
-from ._ll2en import _ll2en
 from ._points2polys import _points2polys
 from .add_annotation import add_annotation
 from .add_coastlines import add_coastlines
@@ -50,4 +48,5 @@ from .find_middle_of_great_circle import find_middle_of_great_circle
 from .find_point_on_great_circle import find_point_on_great_circle
 from .getRecordAttribute import getRecordAttribute
 from .great_circle import great_circle
+from .ll2en import ll2en
 from .wrapLongitude import wrapLongitude

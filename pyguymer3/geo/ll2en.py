@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def en2ll(shape1, /, *, debug = False):
-    """Transform from Eastings/Northings to Longitudes/Latitudes
+def ll2en(shape1, /, *, debug = False):
+    """Transform from Longitudes/Latitudes to Eastings/Northings
 
-    This function reads in a shape whose coordinates are Eastings/Northings on
-    the Ordnance Survey National Grid and returns a shape whose coordinates
-    are Longitudes/Latitudes.
+    This function reads in a shape whose coordinates are Longitudes/Latitudes
+    and returns a shape whose coordinates are Eastings/Northings on the Ordnance
+    Survey National Grid.
 
     Parameters
     ----------
@@ -42,8 +42,8 @@ def en2ll(shape1, /, *, debug = False):
     if debug:
         check(shape1)
 
-    # Project from Eastings/Northings to Longitudes/Latitudes ...
-    shape2 = cartopy.crs.Geodetic().project_geometry(shape1, src_crs = cartopy.crs.OSGB())
+    # Project from Longitudes/Latitudes to Eastings/Northings ...
+    shape2 = cartopy.crs.OSGB().project_geometry(shape1, src_crs = cartopy.crs.Geodetic())
     if debug:
         check(shape2)
 
