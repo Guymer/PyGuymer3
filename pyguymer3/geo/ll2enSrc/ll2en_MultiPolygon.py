@@ -60,8 +60,9 @@ def ll2en_MultiPolygon(multipoly1, /, *, debug = False, prefix = ".", tol = 1.0e
         polys.append(
             ll2en_Polygon(
                 poly,
-                debug = debug,
-                  tol = tol,
+                 debug = debug,
+                prefix = prefix,
+                   tol = tol,
             )
         )
 

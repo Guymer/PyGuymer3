@@ -58,7 +58,8 @@ def ll2en_MultiLineString(multiline1, /, *, debug = False, prefix = "."):
         lines.append(
             ll2en_LineString(
                 line,
-                debug = debug,
+                 debug = debug,
+                prefix = prefix,
             )
         )
 

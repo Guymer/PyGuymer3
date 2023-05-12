@@ -57,7 +57,8 @@ def en2ll_MultiPoint(multipoint1, /, *, debug = False, prefix = "."):
         points.append(
             en2ll_Point(
                 point,
-                debug = debug,
+                 debug = debug,
+                prefix = prefix,
             )
         )
 

@@ -54,7 +54,8 @@ def en2ll_Polygon(poly1, /, *, debug = False, prefix = ".", tol = 1.0e-10):
     # Transform exterior LinearRing ...
     exterior = en2ll_LinearRing(
         poly1.exterior,
-        debug = debug,
+         debug = debug,
+        prefix = prefix,
     )
 
     # Initialize list ...
@@ -72,7 +73,8 @@ def en2ll_Polygon(poly1, /, *, debug = False, prefix = ".", tol = 1.0e-10):
         interiors.append(
             en2ll_LinearRing(
                 interior,
-                debug = debug,
+                 debug = debug,
+                prefix = prefix,
             )
         )
 

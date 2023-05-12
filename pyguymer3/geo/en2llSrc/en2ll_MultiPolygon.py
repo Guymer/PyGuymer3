@@ -60,8 +60,9 @@ def en2ll_MultiPolygon(multipoly1, /, *, debug = False, prefix = ".", tol = 1.0e
         polys.append(
             en2ll_Polygon(
                 poly,
-                debug = debug,
-                  tol = tol,
+                 debug = debug,
+                prefix = prefix,
+                   tol = tol,
             )
         )
 
