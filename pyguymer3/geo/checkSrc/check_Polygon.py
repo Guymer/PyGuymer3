@@ -10,6 +10,8 @@ def check_Polygon(poly, /, *, prefix = "."):
     ----------
     poly : shapely.geometry.polygon.Polygon
         the Polygon
+    prefix : str, optional
+        change the name of the output debugging CSVs
 
     Notes
     -----

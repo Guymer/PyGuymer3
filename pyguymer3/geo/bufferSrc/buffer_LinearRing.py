@@ -23,6 +23,8 @@ def buffer_LinearRing(ring, dist, /, *, debug = False, eps = 1.0e-12, fill = 1.0
     fillSpace : str, optional
         the geometric space to perform the filling in (either "EuclideanSpace"
         or "GeodesicSpace")
+    prefix : str, optional
+        change the name of the output debugging CSVs
     nang : int, optional
         the number of angles around each point within the LinearRing that are
         calculated when buffering

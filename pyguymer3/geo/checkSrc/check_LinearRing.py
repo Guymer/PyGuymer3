@@ -10,6 +10,8 @@ def check_LinearRing(ring, /, *, prefix = "."):
     ----------
     ring : shapely.geometry.polygon.LinearRing
         the LinearRing
+    prefix : str, optional
+        change the name of the output debugging CSVs
 
     Notes
     -----

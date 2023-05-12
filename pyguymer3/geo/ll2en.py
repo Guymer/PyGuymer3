@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def ll2en(shape1, /, *, debug = False, tol = 1.0e-10):
+def ll2en(shape1, /, *, debug = False, prefix = ".", tol = 1.0e-10):
     """Transform from Longitudes/Latitudes to Eastings/Northings
 
     This function reads in a shape whose coordinates are Longitudes/Latitudes
@@ -14,6 +14,8 @@ def ll2en(shape1, /, *, debug = False, tol = 1.0e-10):
         the shape
     debug : bool, optional
         print debug messages
+    prefix : str, optional
+        change the name of the output debugging CSVs
     tol : float, optional
         the Euclidean distance that defines two points as being the same (in
         degrees)

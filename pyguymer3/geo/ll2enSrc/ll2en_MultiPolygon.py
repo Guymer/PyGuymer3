@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def ll2en_MultiPolygon(multipoly1, /, *, debug = False, tol = 1.0e-10):
+def ll2en_MultiPolygon(multipoly1, /, *, debug = False, prefix = ".", tol = 1.0e-10):
     """Transform a MultiPolygon from Longitudes/Latitudes to Eastings/Northings
 
     This function reads in a MultiPolygon whose coordinates are
@@ -14,6 +14,8 @@ def ll2en_MultiPolygon(multipoly1, /, *, debug = False, tol = 1.0e-10):
         the MultiPolygon
     debug : bool, optional
         print debug messages
+    prefix : str, optional
+        change the name of the output debugging CSVs
     tol : float, optional
         the Euclidean distance that defines two points as being the same (in
         degrees)
@@ -47,7 +49,7 @@ def ll2en_MultiPolygon(multipoly1, /, *, debug = False, tol = 1.0e-10):
     if not isinstance(multipoly1, shapely.geometry.multipolygon.MultiPolygon):
         raise TypeError("\"multipoly1\" is not a MultiPolygon") from None
     if debug:
-        check(multipoly1)
+        check(multipoly1, prefix = prefix)
 
     # Initialize list ...
     polys = []
@@ -66,7 +68,7 @@ def ll2en_MultiPolygon(multipoly1, /, *, debug = False, tol = 1.0e-10):
     # Convert list of Polygons to a (unified) MultiPolygon ...
     multipoly2 = shapely.ops.unary_union(polys)
     if debug:
-        check(multipoly2)
+        check(multipoly2, prefix = prefix)
 
     # Return answer ...
     return multipoly2

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def en2ll_MultiPoint(multipoint1, /, *, debug = False):
+def en2ll_MultiPoint(multipoint1, /, *, debug = False, prefix = "."):
     """Transform a MultiPoint from Eastings/Northings to Longitudes/Latitudes
 
     This function reads in a MultiPoint whose coordinates are Eastings/Northings
@@ -14,6 +14,8 @@ def en2ll_MultiPoint(multipoint1, /, *, debug = False):
         the MultiPoint
     debug : bool, optional
         print debug messages
+    prefix : str, optional
+        change the name of the output debugging CSVs
 
     Returns
     -------
@@ -44,7 +46,7 @@ def en2ll_MultiPoint(multipoint1, /, *, debug = False):
     if not isinstance(multipoint1, shapely.geometry.multipoint.MultiPoint):
         raise TypeError("\"multipoint1\" is not a MultiPoint") from None
     if debug:
-        check(multipoint1)
+        check(multipoint1, prefix = prefix)
 
     # Initialize list ...
     points = []
@@ -62,7 +64,7 @@ def en2ll_MultiPoint(multipoint1, /, *, debug = False):
     # Convert list of Points to a (unified) MultiPoint ...
     multipoint2 = shapely.ops.unary_union(points)
     if debug:
-        check(multipoint2)
+        check(multipoint2, prefix = prefix)
 
     # Return answer ...
     return multipoint2

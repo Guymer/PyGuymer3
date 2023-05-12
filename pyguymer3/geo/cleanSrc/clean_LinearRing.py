@@ -12,6 +12,8 @@ def clean_LinearRing(ring, /, *, debug = False, prefix = ".", tol = 1.0e-10):
         the LinearRing
     debug : bool, optional
         print debug messages
+    prefix : str, optional
+        change the name of the output debugging CSVs
     tol : float, optional
         the Euclidean distance that defines two points as being the same (in
         degrees)

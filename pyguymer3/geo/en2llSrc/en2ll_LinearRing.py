@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def en2ll_LinearRing(ring1, /, *, debug = False):
+def en2ll_LinearRing(ring1, /, *, debug = False, prefix = "."):
     """Transform a LinearRing from Eastings/Northings to Longitudes/Latitudes
 
     This function reads in a LinearRing whose coordinates are Eastings/Northings
@@ -14,6 +14,8 @@ def en2ll_LinearRing(ring1, /, *, debug = False):
         the LinearRing
     debug : bool, optional
         print debug messages
+    prefix : str, optional
+        change the name of the output debugging CSVs
 
     Returns
     -------
@@ -51,7 +53,7 @@ def en2ll_LinearRing(ring1, /, *, debug = False):
     if not isinstance(ring1, shapely.geometry.polygon.LinearRing):
         raise TypeError("\"ring1\" is not a LinearRing") from None
     if debug:
-        check(ring1)
+        check(ring1, prefix = prefix)
 
     # Convert the LinearRing to a NumPy array ...
     points1 = numpy.array(ring1.coords)                                         # [m]
@@ -65,7 +67,7 @@ def en2ll_LinearRing(ring1, /, *, debug = False):
     # Convert array of points to a LinearRing (ignoring elevation) ...
     ring2 = shapely.geometry.polygon.LinearRing(points2[:, :2])
     if debug:
-        check(ring2)
+        check(ring2, prefix = prefix)
 
     # Clean up ...
     del points2

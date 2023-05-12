@@ -10,6 +10,8 @@ def check_MultiLineString(multiline, /, *, prefix = "."):
     ----------
     multiline : shapely.geometry.multilinestring.MultiLineString
         the MultiLineString
+    prefix : str, optional
+        change the name of the output debugging CSVs
 
     Notes
     -----

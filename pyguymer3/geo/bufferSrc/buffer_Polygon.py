@@ -29,6 +29,8 @@ def buffer_Polygon(poly, dist, /, *, debug = False, eps = 1.0e-12, fill = 1.0, f
     nang : int, optional
         the number of angles around each point within the Polygon that are
         calculated when buffering
+    prefix : str, optional
+        change the name of the output debugging CSVs
     ramLimit : int, optional
         the maximum RAM usage of each "large" array, in bytes
     simp : float, optional

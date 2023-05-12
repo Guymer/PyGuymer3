@@ -9,7 +9,7 @@ def _debug(badGeoms, /, *, prefix = "."):
     badGeoms : shapely.geometry.multilinestring.LineString, shapely.geometry.multilinestring.MultiLineString, shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
         the bad [Multi]LineString or [Multi]Polygon
     prefix : str, optional
-        change the name of the output CSVs
+        change the name of the output debugging CSVs
 
     Notes
     -----

@@ -22,6 +22,8 @@ def fillin_MultiPolygon(multipoly, fill, /, *, debug = False, eps = 1.0e-12, fil
     fillSpace : str, optional
         the geometric space to perform the filling in (either "EuclideanSpace"
         or "GeodesicSpace")
+    prefix : str, optional
+        change the name of the output debugging CSVs
     ramLimit : int, optional
         the maximum RAM usage of each "large" array, in bytes
     tol : float, optional

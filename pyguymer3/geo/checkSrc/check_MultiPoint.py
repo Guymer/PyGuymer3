@@ -10,6 +10,8 @@ def check_MultiPoint(multipoint, /, *, prefix = "."):
     ----------
     multipoint : shapely.geometry.multipoint.MultiPoint
         the MultiPoint
+    prefix : str, optional
+        change the name of the output debugging CSVs
 
     Notes
     -----

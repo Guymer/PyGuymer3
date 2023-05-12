@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def en2ll_MultiLineString(multiline1, /, *, debug = False):
+def en2ll_MultiLineString(multiline1, /, *, debug = False, prefix = "."):
     """Transform a MultiLineString from Eastings/Northings to
     Longitudes/Latitudes
 
@@ -15,6 +15,8 @@ def en2ll_MultiLineString(multiline1, /, *, debug = False):
         the MultiLineString
     debug : bool, optional
         print debug messages
+    prefix : str, optional
+        change the name of the output debugging CSVs
 
     Returns
     -------
@@ -45,7 +47,7 @@ def en2ll_MultiLineString(multiline1, /, *, debug = False):
     if not isinstance(multiline1, shapely.geometry.multilinestring.MultiLineString):
         raise TypeError("\"multiline1\" is not a MultiLineString") from None
     if debug:
-        check(multiline1)
+        check(multiline1, prefix = prefix)
 
     # Initialize list ...
     lines = []
@@ -63,7 +65,7 @@ def en2ll_MultiLineString(multiline1, /, *, debug = False):
     # Convert list of LineStrings to a (unified) MultiLineString ...
     multiline2 = shapely.ops.unary_union(lines)
     if debug:
-        check(multiline2)
+        check(multiline2, prefix = prefix)
 
     # Return answer ...
     return multiline2

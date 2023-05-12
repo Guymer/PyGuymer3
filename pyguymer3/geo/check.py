@@ -10,6 +10,8 @@ def check(shape, /, *, prefix = "."):
     ----------
     shape : shapely.coords.CoordinateSequence, shapely.geometry.point.Point, shapely.geometry.multipoint.MultiPoint, shapely.geometry.polygon.LinearRing, shapely.geometry.linestring.LineString, shapely.geometry.multilinestring.MultiLineString, shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
         the shape
+    prefix : str, optional
+        change the name of the output debugging CSVs
 
     Notes
     -----

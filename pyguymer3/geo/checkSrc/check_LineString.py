@@ -10,6 +10,8 @@ def check_LineString(line, /, *, prefix = "."):
     ----------
     line : shapely.geometry.linestring.LineString
         the LineString
+    prefix : str, optional
+        change the name of the output debugging CSVs
 
     Notes
     -----

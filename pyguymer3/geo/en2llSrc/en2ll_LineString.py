@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def en2ll_LineString(line1, /, *, debug = False):
+def en2ll_LineString(line1, /, *, debug = False, prefix = "."):
     """Transform a LineString from Eastings/Northings to Longitudes/Latitudes
 
     This function reads in a LineString whose coordinates are Eastings/Northings
@@ -14,6 +14,8 @@ def en2ll_LineString(line1, /, *, debug = False):
         the LineString
     debug : bool, optional
         print debug messages
+    prefix : str, optional
+        change the name of the output debugging CSVs
 
     Returns
     -------
@@ -51,7 +53,7 @@ def en2ll_LineString(line1, /, *, debug = False):
     if not isinstance(line1, shapely.geometry.linestring.LineString):
         raise TypeError("\"line1\" is not a LineString") from None
     if debug:
-        check(line1)
+        check(line1, prefix = prefix)
 
     # Convert the LineString to a NumPy array ...
     points1 = numpy.array(line1.coords)                                         # [m]
@@ -65,7 +67,7 @@ def en2ll_LineString(line1, /, *, debug = False):
     # Convert array of points to a LineString (ignoring elevation) ...
     line2 = shapely.geometry.linestring.LineString(points2[:, :2])
     if debug:
-        check(line2)
+        check(line2, prefix = prefix)
 
     # Clean up ...
     del points2

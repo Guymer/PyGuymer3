@@ -7,6 +7,8 @@ def great_circle(lon1, lat1, lon2, lat2, /, *, debug = False, npoint = 5, prefix
     finishing coordinates (in degrees) on the surface of a sphere and calculates
     the great circle that connects them.
 
+    prefix : str, optional
+        change the name of the output debugging CSVs
     ramLimit : int, optional
         the maximum RAM usage of each "large" array, in bytes
     """

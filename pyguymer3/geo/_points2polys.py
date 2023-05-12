@@ -22,6 +22,8 @@ def _points2polys(point, points, /, *, debug = False, huge = False, prefix = "."
         if the buffering distance was huge then the points can be turned into a
         Polygon very easily (as they will definitely cross the [anti-]meridian
         and a Pole)
+    prefix : str, optional
+        change the name of the output debugging CSVs
     tol : float, optional
         the Euclidean distance that defines two points as being the same (in
         degrees)

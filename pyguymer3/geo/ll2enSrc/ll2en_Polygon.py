@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def ll2en_Polygon(poly1, /, *, debug = False, tol = 1.0e-10):
+def ll2en_Polygon(poly1, /, *, debug = False, prefix = ".", tol = 1.0e-10):
     """Transform a Polygon from Longitudes/Latitudes to Eastings/Northings
 
     This function reads in a Polygon whose coordinates are Longitudes/Latitudes
@@ -14,6 +14,8 @@ def ll2en_Polygon(poly1, /, *, debug = False, tol = 1.0e-10):
         the Polygon
     debug : bool, optional
         print debug messages
+    prefix : str, optional
+        change the name of the output debugging CSVs
     tol : float, optional
         the Euclidean distance that defines two points as being the same (in
         degrees)
@@ -47,7 +49,7 @@ def ll2en_Polygon(poly1, /, *, debug = False, tol = 1.0e-10):
     if not isinstance(poly1, shapely.geometry.polygon.Polygon):
         raise TypeError("\"poly1\" is not a Polygon") from None
     if debug:
-        check(poly1)
+        check(poly1, prefix = prefix)
 
     # Transform exterior LinearRing ...
     exterior = ll2en_LinearRing(
@@ -78,7 +80,7 @@ def ll2en_Polygon(poly1, /, *, debug = False, tol = 1.0e-10):
     # correctly oriented Polygon ...
     poly2 = shapely.geometry.polygon.orient(shapely.geometry.polygon.Polygon(exterior, interiors))
     if debug:
-        check(poly2)
+        check(poly2, prefix = prefix)
 
     # Return answer ...
     return poly2

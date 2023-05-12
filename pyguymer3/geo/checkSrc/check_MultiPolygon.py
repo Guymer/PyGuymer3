@@ -10,6 +10,8 @@ def check_MultiPolygon(multipoly, /, *, prefix = "."):
     ----------
     multipoly : shapely.geometry.multipolygon.MultiPolygon
         the MultiPolygon
+    prefix : str, optional
+        change the name of the output debugging CSVs
 
     Notes
     -----

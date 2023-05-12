@@ -10,6 +10,8 @@ def check_Point(point, /, *, prefix = "."):
     ----------
     point : shapely.geometry.point.Point
         the Point
+    prefix : str, optional
+        change the name of the output debugging CSVs
 
     Notes
     -----
