@@ -36,6 +36,7 @@ def ll2en_MultiLineString(multiline1, /, *, debug = False, prefix = "."):
     try:
         import shapely
         import shapely.geometry
+        import shapely.ops
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 

@@ -35,6 +35,7 @@ def ll2en_MultiPoint(multipoint1, /, *, debug = False, prefix = "."):
     try:
         import shapely
         import shapely.geometry
+        import shapely.ops
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 

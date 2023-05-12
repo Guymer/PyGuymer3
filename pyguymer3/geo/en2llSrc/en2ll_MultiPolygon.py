@@ -38,6 +38,7 @@ def en2ll_MultiPolygon(multipoly1, /, *, debug = False, prefix = ".", tol = 1.0e
     try:
         import shapely
         import shapely.geometry
+        import shapely.ops
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
