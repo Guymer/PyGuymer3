@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def en2ll(shape1, /, *, debug = False):
+def en2ll(shape1, /, *, debug = False, tol = 1.0e-10):
     """Transform from Eastings/Northings to Longitudes/Latitudes
 
     This function reads in a shape whose coordinates are Eastings/Northings on
@@ -10,14 +10,17 @@ def en2ll(shape1, /, *, debug = False):
 
     Parameters
     ----------
-    shape1 : shapely.geometry.point.Point, shapely.geometry.multipoint.MultiPoint, shapely.geometry.polygon.LinearRing, shapely.geometry.linestring.LineString, shapely.geometry.multilinestring.MultiLineString, shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
+    shape1 : shapely.coords.CoordinateSequence, shapely.geometry.point.Point, shapely.geometry.multipoint.MultiPoint, shapely.geometry.polygon.LinearRing, shapely.geometry.linestring.LineString, shapely.geometry.multilinestring.MultiLineString, shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
         the shape
     debug : bool, optional
         print debug messages
+    tol : float, optional
+        the Euclidean distance that defines two points as being the same (in
+        degrees)
 
     Returns
     -------
-    shape2 : shapely.geometry.point.Point, shapely.geometry.multipoint.MultiPoint, shapely.geometry.polygon.LinearRing, shapely.geometry.linestring.LineString, shapely.geometry.multilinestring.MultiLineString, shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
+    shape2 : shapely.coords.CoordinateSequence, shapely.geometry.point.Point, shapely.geometry.multipoint.MultiPoint, shapely.geometry.polygon.LinearRing, shapely.geometry.linestring.LineString, shapely.geometry.multilinestring.MultiLineString, shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
         the transformed shape
 
     Notes
@@ -29,23 +32,73 @@ def en2ll(shape1, /, *, debug = False):
     .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
+
     # Import special modules ...
     try:
-        import cartopy
+        import shapely
+        import shapely.geometry
     except:
-        raise Exception("\"cartopy\" is not installed; run \"pip install --user Cartopy\"") from None
+        raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
-    from .check import check
+    from .en2llSrc import en2ll_LinearRing
+    from .en2llSrc import en2ll_LineString
+    from .en2llSrc import en2ll_MultiLineString
+    from .en2llSrc import en2ll_MultiPoint
+    from .en2llSrc import en2ll_MultiPolygon
+    from .en2llSrc import en2ll_Point
+    from .en2llSrc import en2ll_Polygon
 
-    # Check argument ...
-    if debug:
-        check(shape1)
+    # Check if it is a Point and return it transformed ...
+    if isinstance(shape1, shapely.geometry.point.Point):
+        return en2ll_Point(
+            shape1,
+            debug = debug,
+        )
 
-    # Project from Eastings/Northings to Longitudes/Latitudes ...
-    shape2 = cartopy.crs.Geodetic().project_geometry(shape1, src_crs = cartopy.crs.OSGB())
-    if debug:
-        check(shape2)
+    # Check if it is a MultiPoint and return it transformed ...
+    if isinstance(shape1, shapely.geometry.multipoint.MultiPoint):
+        return en2ll_MultiPoint(
+            shape1,
+            debug = debug,
+        )
 
-    # Return answer ...
-    return shape2
+    # Check if it is a LinearRing and return it transformed ...
+    if isinstance(shape1, shapely.geometry.polygon.LinearRing):
+        return en2ll_LinearRing(
+            shape1,
+            debug = debug,
+        )
+
+    # Check if it is a LineString and return it transformed ...
+    if isinstance(shape1, shapely.geometry.linestring.LineString):
+        return en2ll_LineString(
+            shape1,
+            debug = debug,
+        )
+
+    # Check if it is a MultiLineString and return it transformed ...
+    if isinstance(shape1, shapely.geometry.multilinestring.MultiLineString):
+        return en2ll_MultiLineString(
+            shape1,
+            debug = debug,
+        )
+
+    # Check if it is a Polygon and return it transformed ...
+    if isinstance(shape1, shapely.geometry.polygon.Polygon):
+        return en2ll_Polygon(
+            shape1,
+            debug = debug,
+              tol = tol,
+        )
+
+    # Check if it is a MultiPolygon and return it transformed ...
+    if isinstance(shape1, shapely.geometry.multipolygon.MultiPolygon):
+        return en2ll_MultiPolygon(
+            shape1,
+            debug = debug,
+              tol = tol,
+        )
+
+    # Crash ...
+    raise TypeError(f"\"shape1\" is an unexpected type ({repr(type(shape1))})") from None
