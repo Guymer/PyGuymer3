@@ -1,4 +1,8 @@
-## Other Documentation
+# `pyguymer3.geo`
+
+This is a Python 3.X sub-module containing a bunch of random functions that I have written over the years which are geo-related.
+
+## Documentation
 
 See the following two sources of documentation from GIS software:
 

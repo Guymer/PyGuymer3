@@ -1,4 +1,4 @@
-## `pyguymer3.media.MPLS`
+# `pyguymer3.media.MPLS`
 
 This sub-module is a native Python implementation of a parser for Blu-ray MPLS files. It has used [an excellent MPLS Wiki](https://github.com/lw/BluRay/wiki/MPLS) with a little help from [a WikiBook](https://en.wikibooks.org/wiki/User:Bdinfo/mpls) too. This project was started because, as of February 2018, [ffprobe](https://www.ffmpeg.org/ffprobe.html) v3.4 doesn't return the language information for the audio streams in a Blu-ray playlist.
 
@@ -49,7 +49,7 @@ Input #0, mpegts, from 'bluray:/path/to/br':
 
 The Blu-ray itself has language information and opening the tiny binary file `00820.mpls` in a text editor shows strings such as `eng` and `spa` amongst all the gibberish. I decided that instead of writing feature requests in both [ffmpeg](https://www.ffmpeg.org/) and [libbluray](https://www.videolan.org/developers/libbluray.html) it would be *much* quicker to code up a binary reader for the file and add its data to the data provided by `ffprobe ...`. My function [return_dict_of_media_audio_streams](../return_dict_of_media_audio_streams.py) now calls this sub-module and adds the language code to each stream.
 
-### Usage
+## Usage
 
 The below code will print out the entire dictionary for you.
 

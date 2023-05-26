@@ -1,8 +1,8 @@
-## `pyguymer3.media.CLPI`
+# `pyguymer3.media.CLPI`
 
 This sub-module is a native Python implementation of a parser for Blu-ray CLPI files. It has used [an excellent CLPI Wiki](https://github.com/lw/BluRay/wiki/CLPI) and was initially provided by [lonecrane](https://github.com/lonecrane) - thank you very much!
 
-### Usage
+## Usage
 
 The below code will print out the entire dictionary for you.
 

@@ -1,4 +1,4 @@
-# PyGuymer3.F90
+# `pyguymer3.f90`
 
 This is a Python 3.X sub-module containing a bunch of random functions that I have written over the years in FORTRAN to be called from Python 3.X using [f2py](https://numpy.org/doc/stable/f2py/).
 
