@@ -16,7 +16,7 @@ def tile(xtile, ytile, zoom, sess, /, *, chunksize = 1048576, cookies = None, de
 
     # Import sub-functions ...
     from ..download_file import download_file
-    from ..image.optimize_image import optimize_image
+    from ..image import optimize_image
 
     # Check inputs ...
     if not 0 <= zoom <= 19:

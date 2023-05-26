@@ -57,7 +57,7 @@ def images2mp4(frames, /, *, crf = -1.0, debug = False, form = "mp4", fps = 25.0
     from .return_x264_level import return_x264_level
     from .return_x264_profile import return_x264_profile
     from ..find_program_version import find_program_version
-    from ..image.return_image_size import return_image_size
+    from ..image import return_image_size
 
     # Check that "ffmpeg" is installed ...
     if shutil.which("ffmpeg") is None:

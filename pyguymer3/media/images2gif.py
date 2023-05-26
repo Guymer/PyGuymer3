@@ -50,7 +50,7 @@ def images2gif(imgs, gif, /, *, chunksize = 1048576, debug = False, fps = 25.0, 
         raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None
 
     # Import sub-functions ...
-    from ..image.optimize_image import optimize_image
+    from ..image import optimize_image
 
     # **************************************************************************
 

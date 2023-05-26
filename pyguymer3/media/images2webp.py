@@ -58,8 +58,8 @@ def images2webp(imgs, webp, /, *, chunksize = 1048576, debug = False, exif = Non
         raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None
 
     # Import sub-functions ...
-    from ..image.dict2exif import dict2exif
-    from ..image.optimize_image import optimize_image
+    from ..image import dict2exif
+    from ..image import optimize_image
 
     # Check input ...
     if exif is not None and strip:
