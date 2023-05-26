@@ -3,11 +3,11 @@
 # Define function ...
 def parse_MPLS_file(br, ip, /):
     # Import sub-functions ...
-    from .MPLS.load_header import load_header
-    from .MPLS.load_AppInfoPlayList import load_AppInfoPlayList
-    from .MPLS.load_ExtensionData import load_ExtensionData
-    from .MPLS.load_PlayList import load_PlayList
-    from .MPLS.load_PlayListMark import load_PlayListMark
+    from .MPLS import load_header
+    from .MPLS import load_AppInfoPlayList
+    from .MPLS import load_ExtensionData
+    from .MPLS import load_PlayList
+    from .MPLS import load_PlayListMark
 
     # Create dictionary to hold information ...
     info = {}

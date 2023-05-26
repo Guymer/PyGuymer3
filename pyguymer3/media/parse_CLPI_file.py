@@ -3,13 +3,13 @@
 # Define function ...
 def parse_CLPI_file(br, ip, /):
     # Import sub-functions ...
-    from .CLPI.load_header import load_header
-    from .CLPI.load_ClipInfo import load_ClipInfo
-    from .CLPI.load_ClipMark import load_ClipMark
-    from .CLPI.load_CPI import load_CPI
-    from .CLPI.load_ExtensionData import load_ExtensionData
-    from .CLPI.load_ProgramInfo import load_ProgramInfo
-    from .CLPI.load_SequenceInfo import load_SequenceInfo
+    from .CLPI import load_header
+    from .CLPI import load_ClipInfo
+    from .CLPI import load_ClipMark
+    from .CLPI import load_CPI
+    from .CLPI import load_ExtensionData
+    from .CLPI import load_ProgramInfo
+    from .CLPI import load_SequenceInfo
 
     # Create dictionary to hold information ...
     info = {}
