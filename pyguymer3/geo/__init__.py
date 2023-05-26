@@ -5,20 +5,17 @@ A Python sub-module containing a bunch of random geo-related functions that I ha
 
 Notes
 -----
-
 This is quite a complicated sub-module; here are some of my development notes.
 
 Documentation
-^^^^^^^^^^^^^
-
+-------------
 See the following two sources of documentation from GIS software:
 
 * ArcGIS buffering [1]_
 * QGIS buffering [2]_
 
 Data Types
-^^^^^^^^^^
-
+----------
 * A ``shapely.geometry.point.Point`` is made up of a ``shapely.coords.CoordinateSequence`` of 1 ``tuple`` of a (lon,lat) pair.
 * A ``shapely.geometry.polygon.LinearRing`` is made up of a ``shapely.coords.CoordinateSequence`` of N ``tuple`` of (lon,lat) pairs.
 * A ``shapely.geometry.linestring.LineString`` is made up of a ``shapely.coords.CoordinateSequence`` of N ``tuple`` of (lon,lat) pairs.
@@ -28,8 +25,7 @@ Data Types
 * A ``shapely.geometry.multipolygon.MultiPolygon`` is made up of N ``shapely.geometry.polygon.Polygon``.
 
 Call Graph
-^^^^^^^^^^
-
+----------
 Public functions:
 
 * ``buffer()`` calls:
