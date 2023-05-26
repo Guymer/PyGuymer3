@@ -33,9 +33,9 @@ if __name__ == "__main__":
 
     # Configure functions ...
     debug = False
-    fill = 1.0                                                                  # [°]
+    fill = -1.0                                                                 # [°]
     fillSpace = "EuclideanSpace"
-    nang = 361                                                                  # [#]
+    nang = 36001                                                                # [#]
     simp = -1.0                                                                 # [°]
     tol = 1.0e-10                                                               # [°]
 
