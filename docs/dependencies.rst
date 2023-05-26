@@ -4,7 +4,6 @@ Dependencies
 PyGuymer3 requires the following Python modules to be installed and available in your ``PYTHONPATH``:
 
 * `cartopy <https://pypi.org/project/Cartopy/>`_
-* `convertbng <https://pypi.org/project/convertbng/>`_
 * `exifread <https://pypi.org/project/ExifRead/>`_
 * `geojson <https://pypi.org/project/geojson/>`_
 * `lxml <https://pypi.org/project/lxml/>`_
