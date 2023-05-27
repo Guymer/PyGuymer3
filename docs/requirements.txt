@@ -1,3 +1,8 @@
 # So as to provide "f2py" to allow the "f90" sub-module to be compiled, the
 # following packages must be installed using Pip ...
 numpy
+
+# So as to compile "fortranlib", the following packages must be installed using
+# Pip ...
+matplotlib
+scipy
