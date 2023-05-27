@@ -8,4 +8,4 @@ build:
         python: "3.11"
     jobs:
         pre_install:
-            - gmake -r -C pyguymer3/f90
+            - gmake -r -C pyguymer3/f90 FC1=f2py FC2=gfortran PYTHON3=python3
