@@ -67,7 +67,7 @@ all:		compile
 clean:		$(RM)																\
 			$(FC2)
 	$(RM) -f *.mod *.o *.so
-	$(MAKE) -r -C $(FTNLIB) FC=$(FC2) clean
+	$(MAKE) -r -C $(FTNLIB) FC=$(FC2) PYTHON3=$(PYTHON3) clean
 
 # "gmake -r compile" = compiles the code
 compile:	funcs.so
@@ -98,7 +98,7 @@ $(FTNLIB)/%.o:					$(FC2)											\
 								Makefile										\
 								$(FTNLIB)/Makefile								\
 								$(FTNLIB)/%.F90
-	$(MAKE) -r -C $(FTNLIB) DEBUG=$(DEBUG) FC=$(FC2) $*.o
+	$(MAKE) -r -C $(FTNLIB) DEBUG=$(DEBUG) FC=$(FC2) PYTHON3=$(PYTHON3) $*.o
 
 funcs.so:						$(FC1)											\
 								$(FC2)											\
