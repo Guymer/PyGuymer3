@@ -12,3 +12,7 @@ build:
             - which gfortran
             - which python3
             - gmake -r -C pyguymer3/f90 FC1=f2py FC2=gfortran PYTHON3=python3
+
+python:
+    install:
+        - requirements: docs/requirements.txt
