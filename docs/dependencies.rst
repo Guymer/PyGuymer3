@@ -13,6 +13,10 @@ your ``PYTHONPATH``:
 * `requests <https://pypi.org/project/requests/>`_
 * `shapely <https://pypi.org/project/Shapely/>`_
 
+Additionally, if you want to run the FORTRAN-based functions in the :mod:`pyguymer3.f90` sub-module, then you will also require the following Python modules to be installed and available in your ``PYTHONPATH``:
+
+* `scipy <https://pypi.org/project/scipy/>`_
+
 Similarly, PyGuymer3 requires the following binaries to be installed and
 available in your ``PATH``:
 

@@ -18,6 +18,10 @@ PyGuymer3 requires the following Python modules to be installed and available in
 * [requests](https://pypi.org/project/requests/)
 * [shapely](https://pypi.org/project/Shapely/)
 
+Additionally, if you want to run the FORTRAN-based functions in the [f90](pyguymer3/f90) sub-module, then you will also require the following Python modules to be installed and available in your `PYTHONPATH`:
+
+* [scipy](https://pypi.org/project/scipy/)
+
 Similarly, PyGuymer3 requires the following binaries to be installed and available in your `PATH`:
 
 * `dot`
