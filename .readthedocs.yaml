@@ -18,3 +18,7 @@ build:
 python:
     install:
         - requirements: docs/requirements.txt
+
+submodules:
+    include: all
+    recursive: true
