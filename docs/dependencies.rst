@@ -1,7 +1,7 @@
 Dependencies
 ------------
-
-PyGuymer3 requires the following Python modules to be installed and available in your ``PYTHONPATH``:
+PyGuymer3 requires the following Python modules to be installed and available in
+your ``PYTHONPATH``:
 
 * `cartopy <https://pypi.org/project/Cartopy/>`_
 * `exifread <https://pypi.org/project/ExifRead/>`_
@@ -13,7 +13,8 @@ PyGuymer3 requires the following Python modules to be installed and available in
 * `requests <https://pypi.org/project/requests/>`_
 * `shapely <https://pypi.org/project/Shapely/>`_
 
-Similarly, PyGuymer3 requires the following binaries to be installed and available in your ``PATH``:
+Similarly, PyGuymer3 requires the following binaries to be installed and
+available in your ``PATH``:
 
 * ``dot``
 * ``exiftool``

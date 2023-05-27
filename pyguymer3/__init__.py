@@ -3,6 +3,14 @@
 """
 A Python module containing a bunch of random functions that I have written over
 the years.
+
+Notes
+-----
+Copyright 2017 Thomas Guymer [1]_
+
+References
+----------
+.. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
 """
 
 # Import sub-functions ...

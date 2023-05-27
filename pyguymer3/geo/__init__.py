@@ -1,100 +1,110 @@
 #!/usr/bin/env python3
 
 """
-A Python sub-module containing a bunch of random geo-related functions that I have written over the years.
+A Python sub-module containing a bunch of random geo-related functions that I
+have written over the years.
 
 Notes
 -----
-This is quite a complicated sub-module; here are some of my development notes.
+See the following two sources of documentation from GIS software to read a bit
+more about buffering:
 
-Documentation
--------------
-See the following two sources of documentation from GIS software:
+* `ArcGIS buffering <https://desktop.arcgis.com/en/arcmap/latest/tools/analysis-toolbox/buffer.htm>`_
+* `QGIS buffering <https://qgis.org/pyqgis/3.22/core/QgsGeometry.html#qgis.core.QgsGeometry.buffer>`_
 
-* ArcGIS buffering [1]_
-* QGIS buffering [2]_
+To clarify some the geometry data types:
 
-Data Types
-----------
-* A ``shapely.geometry.point.Point`` is made up of a ``shapely.coords.CoordinateSequence`` of 1 ``tuple`` of a (lon,lat) pair.
-* A ``shapely.geometry.polygon.LinearRing`` is made up of a ``shapely.coords.CoordinateSequence`` of N ``tuple`` of (lon,lat) pairs.
-* A ``shapely.geometry.linestring.LineString`` is made up of a ``shapely.coords.CoordinateSequence`` of N ``tuple`` of (lon,lat) pairs.
-* A ``shapely.geometry.polygon.Polygon`` is made up of a ``shapely.geometry.polygon.LinearRing`` exterior (and *maybe* N ``shapely.geometry.polygon.LinearRing`` interiors).
-* A ``shapely.geometry.multipoint.MultiPoint`` is made up of N ``shapely.geometry.point.Point``.
-* A ``shapely.geometry.multilinestring.MultiLineString`` is made up of N ``shapely.geometry.linestring.LineString``.
-* A ``shapely.geometry.multipolygon.MultiPolygon`` is made up of N ``shapely.geometry.polygon.Polygon``.
+* A ``shapely.geometry.point.Point`` is made up of a
+  ``shapely.coords.CoordinateSequence`` of 1 ``tuple`` of a (lon,lat) pair.
+* A ``shapely.geometry.polygon.LinearRing`` is made up of a
+  ``shapely.coords.CoordinateSequence`` of N ``tuple`` of (lon,lat) pairs.
+* A ``shapely.geometry.linestring.LineString`` is made up of a
+  ``shapely.coords.CoordinateSequence`` of N ``tuple`` of (lon,lat) pairs.
+* A ``shapely.geometry.polygon.Polygon`` is made up of a
+  ``shapely.geometry.polygon.LinearRing`` exterior (and *maybe* N
+  ``shapely.geometry.polygon.LinearRing`` interiors).
+* A ``shapely.geometry.multipoint.MultiPoint`` is made up of N
+  ``shapely.geometry.point.Point``.
+* A ``shapely.geometry.multilinestring.MultiLineString`` is made up of N
+  ``shapely.geometry.linestring.LineString``.
+* A ``shapely.geometry.multipolygon.MultiPolygon`` is made up of N
+  ``shapely.geometry.polygon.Polygon``.
 
-Call Graph
-----------
-Public functions:
+The basic call graphs for :func:`pyguymer3.geo.buffer` and
+:func:`pyguymer3.geo.fillin` are:
 
-* ``buffer()`` calls:
+* :func:`pyguymer3.geo.buffer` calls:
 
-    * ``bufferSrc.buffer_CoordinateSequence()`` (this is the only function that actually does any buffering, as evidenced by it not calling any other ``bufferSrc`` functions)
+    * :func:`pyguymer3.geo.bufferSrc.buffer_CoordinateSequence` (this is the
+      only function that actually does any buffering, as evidenced by it not
+      calling any other ``bufferSrc`` functions)
 
-        * ``_buffer_points_crudely()``
-        * ``_points2polys()``
-        * ``fillin()``
+        * :func:`pyguymer3.geo._buffer_points_crudely`
+        * :func:`pyguymer3.geo._points2polys`
+        * :func:`pyguymer3.geo.fillin`
 
-    * ``bufferSrc.buffer_LinearRing()`` calls:
+    * :func:`pyguymer3.geo.bufferSrc.buffer_LinearRing` calls:
 
-        * ``bufferSrc.buffer_CoordinateSequence()``
+        * :func:`pyguymer3.geo.bufferSrc.buffer_CoordinateSequence`
 
-    * ``bufferSrc.buffer_LineString()`` calls:
+    * :func:`pyguymer3.geo.bufferSrc.buffer_LineString` calls:
 
-        * ``bufferSrc.buffer_CoordinateSequence()``
+        * :func:`pyguymer3.geo.bufferSrc.buffer_CoordinateSequence`
 
-    * ``bufferSrc.buffer_MultiLineString()`` calls:
+    * :func:`pyguymer3.geo.bufferSrc.buffer_MultiLineString` calls:
 
-        * ``bufferSrc.buffer_LineString()``
+        * :func:`pyguymer3.geo.bufferSrc.buffer_LineString`
 
-    * ``bufferSrc.buffer_MultiPoint()`` calls:
+    * :func:`pyguymer3.geo.bufferSrc.buffer_MultiPoint` calls:
 
-        * ``bufferSrc.buffer_Point()``
+        * :func:`pyguymer3.geo.bufferSrc.buffer_Point`
 
-    * ``bufferSrc.buffer_MultiPolygon()`` calls:
+    * :func:`pyguymer3.geo.bufferSrc.buffer_MultiPolygon` calls:
 
-        * ``bufferSrc.buffer_Polygon()``
+        * :func:`pyguymer3.geo.bufferSrc.buffer_Polygon`
 
-    * ``bufferSrc.buffer_Point()`` calls:
+    * :func:`pyguymer3.geo.bufferSrc.buffer_Point` calls:
 
-        * ``bufferSrc.buffer_CoordinateSequence()``
+        * :func:`pyguymer3.geo.bufferSrc.buffer_CoordinateSequence`
 
-    * ``bufferSrc.buffer_Polygon()`` calls:
+    * :func:`pyguymer3.geo.bufferSrc.buffer_Polygon` calls:
 
-        * ``bufferSrc.buffer_LinearRing()``
+        * :func:`pyguymer3.geo.bufferSrc.buffer_LinearRing`
 
-* ``fillin()``
+* :func:`pyguymer3.geo.fillin`
 
-    * ``fillinSrc.fillin_CoordinateSequence()`` (this is the only function that actually does any filling in, as evidenced by it not calling any other ``fillinSrc`` functions)
+    * :func:`pyguymer3.geo.fillinSrc.fillin_CoordinateSequence` (this is the
+      only function that actually does any filling in, as evidenced by it not
+      calling any other ``fillinSrc`` functions)
 
-        * ``calc_dist_between_two_locs()``
-        * ``great_circle()``
+        * :func:`pyguymer3.geo.calc_dist_between_two_locs`
+        * :func:`pyguymer3.geo.great_circle`
 
-    * ``fillinSrc.fillin_LinearRing()`` calls:
+    * :func:`pyguymer3.geo.fillinSrc.fillin_LinearRing` calls:
 
-        * ``fillinSrc.fillin_CoordinateSequence()``
+        * :func:`pyguymer3.geo.fillinSrc.fillin_CoordinateSequence`
 
-    * ``fillinSrc.fillin_LineString()`` calls:
+    * :func:`pyguymer3.geo.fillinSrc.fillin_LineString` calls:
 
-        * ``fillinSrc.fillin_CoordinateSequence()``
+        * :func:`pyguymer3.geo.fillinSrc.fillin_CoordinateSequence`
 
-    * ``fillinSrc.fillin_MultiLineString()`` calls:
+    * :func:`pyguymer3.geo.fillinSrc.fillin_MultiLineString` calls:
 
-        * ``fillinSrc.fillin_LineString()``
+        * :func:`pyguymer3.geo.fillinSrc.fillin_LineString`
 
-    * ``fillinSrc.fillin_MultiPolygon()`` calls:
+    * :func:`pyguymer3.geo.fillinSrc.fillin_MultiPolygon` calls:
 
-        * ``fillinSrc.fillin_Polygon()``
+        * :func:`pyguymer3.geo.fillinSrc.fillin_Polygon`
 
-    * ``fillinSrc.fillin_Polygon()`` calls:
+    * :func:`pyguymer3.geo.fillinSrc.fillin_Polygon` calls:
 
-        * ``fillinSrc.fillin_LinearRing()``
+        * :func:`pyguymer3.geo.fillinSrc.fillin_LinearRing`
+
+Copyright 2017 Thomas Guymer [1]_
 
 References
 ----------
-.. [1] ArcGIS buffering, https://desktop.arcgis.com/en/arcmap/latest/tools/analysis-toolbox/buffer.htm
-.. [2] QGIS buffering, https://qgis.org/pyqgis/3.22/core/QgsGeometry.html#qgis.core.QgsGeometry.buffer
+.. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
 """
 
 # Import sub-functions ...

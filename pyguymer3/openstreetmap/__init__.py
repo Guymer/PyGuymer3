@@ -1,7 +1,16 @@
 #!/usr/bin/env python3
 
 """
-A Python sub-module containing functions relating to openstreetmap.org
+A Python sub-module containing functions relating to
+`OpenStreetMap <https://www.openstreetmap.org>`_.
+
+Notes
+-----
+Copyright 2017 Thomas Guymer [1]_
+
+References
+----------
+.. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
 """
 
 # Import sub-functions ...
