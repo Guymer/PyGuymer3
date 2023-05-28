@@ -2,6 +2,44 @@
 
 # Define function ...
 def add_map_underlay(axis, /, *, background = True, cultural = True, debug = False, linestyle = "solid", linewidth = 0.5, maxElev = 8850.0, onlyValid = False, physical = True, repair = False, resolution = "110m"):
+    """Add an underlay to a Cartopy axis.
+
+    Parameters
+    ----------
+    axis : cartopy.mpl.geoaxes.GeoAxesSubplot
+        the axis to add the underlay to
+    background : bool, optional
+        add background
+    cultural : bool, optional
+        add cultural datasets
+    debug : bool, optional
+        print debug messages
+    linestyle : str, optional
+        the style of the lines
+    linewidth : float, optional
+        the width of the lines
+    maxElev : float, optional
+        the maximum elevation of the colour scale and acts as an upper bound or
+        clip (in metres)
+    onlyValid : bool, optional
+        only add valid Polygons (checks for validity can take a while, if being
+        being called often)
+    physical : bool, optional
+        add physical datasets
+    repair : bool, optional
+        attempt to repair invalid Polygons
+    resolution : str, optional
+        the resolution of the reefs
+
+    Notes
+    -----
+    Copyright 2017 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
+    """
+
     # Import sub-functions ...
     from ._add_antarcticIceShelves import _add_antarcticIceShelves
     from ._add_background import _add_background
