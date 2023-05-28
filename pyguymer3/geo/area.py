@@ -2,6 +2,38 @@
 
 # Define function ...
 def area(shape, /, *, eps = 1.0e-12, level = 1, nmax = 100, onlyValid = False, repair = False):
+    """Find the area of a shape.
+
+    Parameters
+    ----------
+    shape : shapely.coords.CoordinateSequence, shapely.geometry.point.Point, shapely.geometry.multipoint.MultiPoint, shapely.geometry.polygon.LinearRing, shapely.geometry.linestring.LineString, shapely.geometry.multilinestring.MultiLineString, shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
+        the shape
+    eps : float, optional
+        the tolerance of the Vincenty formula iterations
+    level : int, optional
+        the number of levels to split the shape into
+    nmax : int, optional
+        the maximum number of the Vincenty formula iterations
+    onlyValid : bool, optional
+        only add valid Polygons (checks for validity can take a while, if being
+        being called often)
+    repair : bool, optional
+        attempt to repair invalid Polygons
+
+    Returns
+    -------
+    area : float
+        the area (in metres-squared)
+
+    Notes
+    -----
+    Copyright 2017 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
+    """
+
     # Import special modules ...
     try:
         import shapely
