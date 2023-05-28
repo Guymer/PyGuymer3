@@ -28,7 +28,7 @@ def fillin_MultiLineString(multiline, fill, /, *, debug = False, eps = 1.0e-12, 
     prefix : str, optional
         change the name of the output debugging CSVs
     ramLimit : int, optional
-        the maximum RAM usage of each "large" array, in bytes
+        the maximum RAM usage of each "large" array (in bytes)
 
     Returns
     -------

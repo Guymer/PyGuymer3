@@ -33,7 +33,7 @@ def buffer_CoordinateSequence(coords, dist, /, *, debug = False, eps = 1.0e-12, 
     prefix : str, optional
         change the name of the output debugging CSVs
     ramLimit : int, optional
-        the maximum RAM usage of each "large" array, in bytes
+        the maximum RAM usage of each "large" array (in bytes)
     simp : float, optional
         how much the final [Multi]Polygons is simplified by; negative values
         disable simplification (in degrees)

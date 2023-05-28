@@ -19,7 +19,7 @@ def _buffer_points_crudely(points1, dist, nang, /, *, eps = 1.0e-12, nmax = 100,
         the number of angles around the (lon,lat) coordinates that are
         calculated when buffering (must be odd; must be ≥ 9)
     ramLimit : int, optional
-        the maximum RAM usage of each "large" array, in bytes
+        the maximum RAM usage of each "large" array (in bytes)
 
     Returns
     -------
