@@ -23,9 +23,9 @@ def add_horizontal_gridlines(axis, /, *, color = "black", linestyle = ":", linew
 
     Notes
     -----
-    If "ngrid" is more than "1" then it is used to create the gridline
+    If ``ngrid`` is more than "1" then it is used to create the gridline
     locations. If it is not, then the gridline locations will attempt to be made
-    from "locs" instead.
+    from ``locs`` instead.
 
     Copyright 2017 Thomas Guymer [1]_
 
