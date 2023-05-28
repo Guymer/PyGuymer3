@@ -45,6 +45,21 @@ def buffer(shape, dist, /, *, debug = False, eps = 1.0e-12, fill = 1.0, fillSpac
 
     Notes
     -----
+    According to the `Shapely documentation for the method object.buffer()
+    <https://shapely.readthedocs.io/en/stable/manual.html#object.buffer>`_ :
+
+        "Passed a distance of 0, buffer() can sometimes be used to "clean"
+        self-touching or self-crossing polygons such as the classic "bowtie".
+        Users have reported that very small distance values sometimes produce
+        cleaner results than 0. Your mileage may vary when cleaning surfaces."
+
+    According to the `Shapely documentation for the function
+    shapely.geometry.polygon.orient()
+    <https://shapely.readthedocs.io/en/stable/manual.html#shapely.geometry.polygon.orient>`_ :
+
+        "A sign of 1.0 means that the coordinates of the product's exterior ring
+        will be oriented counter-clockwise."
+
     Copyright 2017 Thomas Guymer [1]_
 
     References

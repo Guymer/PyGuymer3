@@ -13,9 +13,11 @@ def check_CoordinateSequence(coords, /):
 
     Notes
     -----
-    According to the Shapely documentation for the function shapely.geometry.polygon.orient():
+    According to the `Shapely documentation for the function
+    shapely.geometry.polygon.orient()
+    <https://shapely.readthedocs.io/en/stable/manual.html#shapely.geometry.polygon.orient>`_ :
 
-        "A sign of 1.0 means that the coordinates of the product’s exterior ring
+        "A sign of 1.0 means that the coordinates of the product's exterior ring
         will be oriented counter-clockwise."
 
     Copyright 2017 Thomas Guymer [1]_
