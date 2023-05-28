@@ -42,6 +42,9 @@ def add_annotation(axis, locLon, locLat, annotation, /, *, arrowprops = None, co
 
     Notes
     -----
+    This function uses `CSS4 named colours
+    <https://matplotlib.org/stable/gallery/color/named_colors.html>`_ .
+
     Copyright 2017 Thomas Guymer [1]_
 
     References
