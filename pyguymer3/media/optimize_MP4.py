@@ -17,7 +17,7 @@ def optimize_MP4(fname1, /, *, debug = False):
     # Import sub-functions ...
     from .does_MP4_have_free import does_MP4_have_free
     from .is_moov_at_beginning_of_MP4 import is_moov_at_beginning_of_MP4
-    from ..return_hash_of_MP4 import return_hash_of_MP4
+    from ..sha512_of_MP4 import sha512_of_MP4
 
     # Check that "mp4file" is installed ...
     if shutil.which("mp4file") is None:
@@ -57,7 +57,7 @@ def optimize_MP4(fname1, /, *, debug = False):
 
         # Find the two hashes and don't replace the original if the new one is
         # the same ...
-        if return_hash_of_MP4(fname1, ignoreModificationTime = True) == return_hash_of_MP4(fname2, ignoreModificationTime = True):
+        if sha512_of_MP4(fname1, ignoreModificationTime = True) == sha512_of_MP4(fname2, ignoreModificationTime = True):
             if debug:
                 print(f"INFO: Skipping because \"{fname2}\" is the same as \"{fname1}\"")
             return

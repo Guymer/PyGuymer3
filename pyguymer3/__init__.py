@@ -46,13 +46,13 @@ from .remove_almost_empty_directories import remove_almost_empty_directories
 from .return_file_list import return_file_list
 from .return_folder_list import return_folder_list
 from .return_folder_size import return_folder_size
-from .return_hash_of_GZ import return_hash_of_GZ
-from .return_hash_of_MP4 import return_hash_of_MP4
 from .return_link_list import return_link_list
 from .save_file_if_needed import save_file_if_needed
 from .serializer import serializer
 from .sha256 import sha256
 from .sha512 import sha512
+from .sha512_of_GZ import sha512_of_GZ
+from .sha512_of_MP4 import sha512_of_MP4
 from .start_session import start_session
 from .stat import stat
 from .stddev import stddev
