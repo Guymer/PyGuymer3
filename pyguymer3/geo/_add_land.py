@@ -2,8 +2,33 @@
 
 # Define function ...
 def _add_land(axis, /, *, debug = False, onlyValid = False, repair = False, resolution = "110m"):
-    # NOTE: This function uses CSS4 named colours, see:
-    #         * https://matplotlib.org/stable/gallery/color/named_colors.html
+    """Add land to a plot.
+
+    Parameters
+    ----------
+    axis : cartopy.mpl.geoaxes.GeoAxesSubplot
+        the axis to add the land to
+    debug : bool, optional
+        print debug messages
+    onlyValid : bool, optional
+        only add valid Polygons (checks for validity can take a while, if being
+        being called often)
+    repair : bool, optional
+        attempt to repair invalid Polygons
+    resolution : str, optional
+        the resolution of the land
+
+    Notes
+    -----
+    This function uses `CSS4 named colours
+    <https://matplotlib.org/stable/gallery/color/named_colors.html>`_ .
+
+    Copyright 2017 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
+    """
 
     # Import standard modules ...
     import urllib

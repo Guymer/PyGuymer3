@@ -2,8 +2,26 @@
 
 # Define function ...
 def _add_background(axis, /, *, debug = False):
-    # NOTE: This function uses CSS4 named colours, see:
-    #         * https://matplotlib.org/stable/gallery/color/named_colors.html
+    """Add background to a plot.
+
+    Parameters
+    ----------
+    axis : cartopy.mpl.geoaxes.GeoAxesSubplot
+        the axis to add the background to
+    debug : bool, optional
+        print debug messages
+
+    Notes
+    -----
+    This function uses `CSS4 named colours
+    <https://matplotlib.org/stable/gallery/color/named_colors.html>`_ .
+
+    Copyright 2017 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
+    """
 
     # Import special modules ...
     try:
