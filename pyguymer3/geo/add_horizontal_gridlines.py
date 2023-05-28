@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def add_horizontal_gridlines(ax, /, *, color = "black", linestyle = ":", linewidth = 0.5, locs = None, ngrid = -1, npoint = 50):
+def add_horizontal_gridlines(axis, /, *, color = "black", linestyle = ":", linewidth = 0.5, locs = None, ngrid = -1, npoint = 50):
     """Add horizontal gridlines to a plot.
 
     Parameters
     ----------
-    ax : cartopy.mpl.geoaxes.GeoAxesSubplot
+    axis : cartopy.mpl.geoaxes.GeoAxesSubplot
         the axis to add the gridlines to
     color : str, optional
         the colour of the gridlines
@@ -49,7 +49,7 @@ def add_horizontal_gridlines(ax, /, *, color = "black", linestyle = ":", linewid
         locs = []
 
     # Create short-hand ...
-    ext = ax.get_extent(crs = cartopy.crs.PlateCarree())                        # [°]
+    ext = axis.get_extent(crs = cartopy.crs.PlateCarree())                        # [°]
 
     # Determine y-locations depending on inputs ...
     if ngrid > 1:
@@ -62,7 +62,7 @@ def add_horizontal_gridlines(ax, /, *, color = "black", linestyle = ":", linewid
     # Loop over y-locations ...
     for yloc in ylocs:
         # Add gridline to axis ...
-        ax.plot(
+        axis.plot(
             numpy.linspace(ext[0], ext[1], num = npoint),
             yloc * numpy.ones(npoint),
                 color = color,

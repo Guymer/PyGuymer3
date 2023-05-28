@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def add_annotation(ax, locLon, locLat, annotation, /, *, arrowprops = None, colorName = "black", debug = False, fontsize = 8, horizontalalignment = "center", txtLon = None, txtLat = None, txtOffsetX = None, txtOffsetY = None, verticalalignment = "center"):
+def add_annotation(axis, locLon, locLat, annotation, /, *, arrowprops = None, colorName = "black", debug = False, fontsize = 8, horizontalalignment = "center", txtLon = None, txtLat = None, txtOffsetX = None, txtOffsetY = None, verticalalignment = "center"):
     """Add an annotation to a Cartopy axis
 
     Parameters
     ----------
-    ax : cartopy.mpl.geoaxes.GeoAxesSubplot
+    axis : cartopy.mpl.geoaxes.GeoAxesSubplot
         the axis to add the annotation to
     locLon : float
         the longitude of the annotation location (in degrees)
@@ -80,13 +80,13 @@ def add_annotation(ax, locLon, locLat, annotation, /, *, arrowprops = None, colo
         point1txt = shapely.geometry.point.Point(txtLon, txtLat)
 
     # Project the Point(s) into the axis' units ...
-    point2loc = ax.projection.project_geometry(point1loc)
+    point2loc = axis.projection.project_geometry(point1loc)
     if txtLon is not None and txtLat is not None:
-        point2txt = ax.projection.project_geometry(point1txt)
+        point2txt = axis.projection.project_geometry(point1txt)
 
     # Annotate the axis ...
     if txtLon is None and txtLat is None and txtOffsetX is None and txtOffsetY is None:
-        ax.annotate(
+        axis.annotate(
             annotation,
             (point2loc.coords[0][0], point2loc.coords[0][1]),
                           color = color,
@@ -95,7 +95,7 @@ def add_annotation(ax, locLon, locLat, annotation, /, *, arrowprops = None, colo
               verticalalignment = verticalalignment,
         )
     elif txtOffsetX is not None and txtOffsetY is not None:
-        ax.annotate(
+        axis.annotate(
             annotation,
             (point2loc.coords[0][0], point2loc.coords[0][1]),
                      arrowprops = arrowprops,
@@ -107,7 +107,7 @@ def add_annotation(ax, locLon, locLat, annotation, /, *, arrowprops = None, colo
                          xytext = (txtOffsetX, txtOffsetY),
         )
     elif txtLon is not None and txtLat is not None:
-        ax.annotate(
+        axis.annotate(
             annotation,
             (point2loc.coords[0][0], point2loc.coords[0][1]),
                      arrowprops = arrowprops,
