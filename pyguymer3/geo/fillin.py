@@ -17,9 +17,13 @@ def fillin(shape, fill, /, *, debug = False, eps = 1.0e-12, fillSpace = "Euclide
         the shape by (in degrees or metres)
     debug : bool, optional
         print debug messages
+    eps : float, optional
+        the tolerance of the Vincenty formula iterations
     fillSpace : str, optional
         the geometric space to perform the filling in (either "EuclideanSpace"
         or "GeodesicSpace")
+    nmax : int, optional
+        the maximum number of the Vincenty formula iterations
     prefix : str, optional
         change the name of the output debugging CSVs
     ramLimit : int, optional

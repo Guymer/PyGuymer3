@@ -16,6 +16,8 @@ def buffer(shape, dist, /, *, debug = False, eps = 1.0e-12, fill = 1.0, fillSpac
         metres)
     debug : bool, optional
         print debug messages
+    eps : float, optional
+        the tolerance of the Vincenty formula iterations
     fill : float, optional
         the Euclidean or Geodetic distance to fill in between each point within
         the shapes by (in degrees or metres)
@@ -27,6 +29,8 @@ def buffer(shape, dist, /, *, debug = False, eps = 1.0e-12, fill = 1.0, fillSpac
     nang : int, optional
         the number of angles around each point within the shape that are
         calculated when buffering
+    nmax : int, optional
+        the maximum number of the Vincenty formula iterations
     prefix : str, optional
         change the name of the output debugging CSVs
     ramLimit : int, optional
