@@ -19,7 +19,8 @@ def add_coastlines(axis, /, *, colorName = "black", debug = False, faceOpac = -1
         if ≥ 0.0 and ≤ 1.0 then shade the Polygon faces the same colour as the
         Polygon edges with this opacity
     levels : list of int, optional
-        the levels of the coastline boundaries (if None then default to [1, 6])
+        the levels of the coastline boundaries (if None then default to
+        ``[1, 6]``)
     linestyle : str, optional
         the linestyle to draw the coastline boundaries with
     linewidth : float, optional
@@ -34,8 +35,8 @@ def add_coastlines(axis, /, *, colorName = "black", debug = False, faceOpac = -1
 
     Notes
     -----
-    There are two arguments relating to the Global Self-Consistent Hierarchical
-    High-Resolution Geography dataset [1]_ :
+    There are two arguments relating to the `Global Self-Consistent Hierarchical
+    High-Resolution Geography dataset <https://www.ngdc.noaa.gov/mgg/shorelines/>`_ :
 
     * *level*; and
     * *resolution*.
@@ -57,15 +58,14 @@ def add_coastlines(axis, /, *, colorName = "black", debug = False, faceOpac = -1
     * high ("h"); and
     * full ("f").
 
-    This function uses CSS4 named colours [2]_ .
+    This function uses `CSS4 named colours
+    <https://matplotlib.org/stable/gallery/color/named_colors.html>`_ .
 
-    Copyright 2017 Thomas Guymer [3]_
+    Copyright 2017 Thomas Guymer [1]_
 
     References
     ----------
-    .. [1] Global Self-Consistent Hierarchical High-Resolution Geography, https://www.ngdc.noaa.gov/mgg/shorelines/
-    .. [2] MatPlotLib CSS4 Named Colours, https://matplotlib.org/stable/gallery/color/named_colors.html
-    .. [3] PyGuymer3, https://github.com/Guymer/PyGuymer3
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import standard modules ...
