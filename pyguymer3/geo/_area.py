@@ -2,6 +2,31 @@
 
 # Define function ...
 def _area(triangle, /, *, eps = 1.0e-12, nmax = 100):
+    """Find the area of a triangle.
+
+    Parameters
+    ----------
+    triangle : shapely.geometry.polygon.Polygon
+        the triangle
+    eps : float, optional
+        the tolerance of the Vincenty formula iterations
+    nmax : int, optional
+        the maximum number of the Vincenty formula iterations
+
+    Returns
+    -------
+    area : float
+        the area (in metres-squared)
+
+    Notes
+    -----
+    Copyright 2017 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
+    """
+
     # Import standard modules ...
     import math
 
