@@ -2,7 +2,7 @@
 
 # Define function ...
 def _add_land(axis, /, *, debug = False, onlyValid = False, repair = False, resolution = "110m"):
-    """Add land to a plot.
+    """Add land to a Cartopy axis.
 
     Parameters
     ----------

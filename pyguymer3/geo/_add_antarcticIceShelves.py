@@ -2,7 +2,7 @@
 
 # Define function ...
 def _add_antarcticIceShelves(axis, /, *, debug = False, onlyValid = False, repair = False, resolution = "110m"):
-    """Add Antarctic ice shelves to a plot.
+    """Add Antarctic ice shelves to a Cartopy axis.
 
     Parameters
     ----------

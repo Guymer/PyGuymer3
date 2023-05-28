@@ -2,7 +2,7 @@
 
 # Define function ...
 def _add_reefs(axis, /, *, debug = False, linestyle = "solid", linewidth = 0.5, onlyValid = False, repair = False, resolution = "110m"):
-    """Add reefs to a plot.
+    """Add reefs to a Cartopy axis.
 
     Parameters
     ----------

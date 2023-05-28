@@ -2,7 +2,7 @@
 
 # Define function ...
 def add_horizontal_gridlines(axis, /, *, color = "black", linestyle = ":", linewidth = 0.5, locs = None, ngrid = -1, npoint = 50):
-    """Add horizontal gridlines to a plot.
+    """Add horizontal gridlines to a Cartopy axis.
 
     Parameters
     ----------

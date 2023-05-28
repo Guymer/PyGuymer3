@@ -2,7 +2,7 @@
 
 # Define function ...
 def _add_playas(axis, /, *, debug = False, linestyle = "solid", linewidth = 0.5, onlyValid = False, repair = False, resolution = "110m"):
-    """Add playas to a plot.
+    """Add playas to a Cartopy axis.
 
     Parameters
     ----------

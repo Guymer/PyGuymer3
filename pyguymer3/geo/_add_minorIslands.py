@@ -2,7 +2,7 @@
 
 # Define function ...
 def _add_minorIslands(axis, /, *, debug = False, onlyValid = False, repair = False, resolution = "110m"):
-    """Add minor islands to a plot.
+    """Add minor islands to a Cartopy axis.
 
     Parameters
     ----------

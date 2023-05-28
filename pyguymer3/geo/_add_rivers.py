@@ -2,7 +2,7 @@
 
 # Define function ...
 def _add_rivers(axis, /, *, debug = False, linestyle = "solid", linewidth = 0.5, onlyValid = False, resolution = "110m"):
-    """Add rivers to a plot.
+    """Add rivers to a Cartopy axis.
 
     Parameters
     ----------

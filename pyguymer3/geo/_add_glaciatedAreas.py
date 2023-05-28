@@ -2,7 +2,7 @@
 
 # Define function ...
 def _add_glaciatedAreas(axis, /, *, debug = False, onlyValid = False, repair = False, resolution = "110m"):
-    """Add glaciated areas to a plot.
+    """Add glaciated areas to a Cartopy axis.
 
     Parameters
     ----------

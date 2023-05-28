@@ -2,7 +2,7 @@
 
 # Define function ...
 def _add_roads(axis, /, *, debug = False, linestyle = "solid", linewidth = 0.5, onlyValid = False, resolution = "110m"):
-    """Add roads to a plot.
+    """Add roads to a Cartopy axis.
 
     Parameters
     ----------

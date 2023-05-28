@@ -2,7 +2,7 @@
 
 # Define function ...
 def _add_urbanAreas(axis, /, *, debug = False, onlyValid = False, repair = False, resolution = "110m"):
-    """Add urban areas to a plot.
+    """Add urban areas to a Cartopy axis.
 
     Parameters
     ----------

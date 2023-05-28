@@ -2,7 +2,7 @@
 
 # Define function ...
 def _add_elevation(axis, /, *, debug = False, maxElev = 8850.0, onlyValid = False, repair = False, resolution = "110m"):
-    """Add elevation to a plot.
+    """Add elevation to a Cartopy axis.
 
     Parameters
     ----------

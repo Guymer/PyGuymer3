@@ -2,7 +2,7 @@
 
 # Define function ...
 def _add_lakes(axis, /, *, debug = False, onlyValid = False, repair = False, resolution = "110m"):
-    """Add lakes to a plot.
+    """Add lakes to a Cartopy axis.
 
     Parameters
     ----------

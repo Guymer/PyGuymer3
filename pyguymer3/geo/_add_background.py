@@ -2,7 +2,7 @@
 
 # Define function ...
 def _add_background(axis, /, *, debug = False):
-    """Add background to a plot.
+    """Add background to a Cartopy axis.
 
     Parameters
     ----------

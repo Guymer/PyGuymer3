@@ -2,7 +2,7 @@
 
 # Define function ...
 def add_vertical_gridlines(axis, /, *, color = "black", linestyle = ":", linewidth = 0.5, locs = None, ngrid = -1, npoint = 50):
-    """Add vertical gridlines to a plot.
+    """Add vertical gridlines to a Cartopy axis.
 
     Parameters
     ----------

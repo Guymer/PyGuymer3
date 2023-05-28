@@ -2,7 +2,7 @@
 
 # Define function ...
 def _add_bathymetry(axis, /, *, debug = False, onlyValid = False, repair = False, resolution = "110m"):
-    """Add bathymetry to a plot.
+    """Add bathymetry to a Cartopy axis.
 
     Parameters
     ----------

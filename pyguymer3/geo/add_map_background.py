@@ -2,7 +2,7 @@
 
 # Define function ...
 def add_map_background(axis, /, *, debug = False, extent = None, name = "natural-earth-1", resolution = "medium0512px"):
-    """Add an image of a map as a background to a plot.
+    """Add an image of a map as a background to a Cartopy axis.
 
     Parameters
     ----------

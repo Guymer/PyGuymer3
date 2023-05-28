@@ -2,7 +2,7 @@
 
 # Define function ...
 def _add_railroads(axis, /, *, debug = False, linestyle = "solid", linewidth = 0.5, onlyValid = False, resolution = "110m"):
-    """Add railroads to a plot.
+    """Add railroads to a Cartopy axis.
 
     Parameters
     ----------
