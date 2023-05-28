@@ -50,6 +50,8 @@ from .return_link_list import return_link_list
 from .save_file_if_needed import save_file_if_needed
 from .serializer import serializer
 from .sha256 import sha256
+from .sha256_of_GZ import sha256_of_GZ
+from .sha256_of_MP4 import sha256_of_MP4
 from .sha512 import sha512
 from .sha512_of_GZ import sha512_of_GZ
 from .sha512_of_MP4 import sha512_of_MP4
