@@ -3,7 +3,7 @@
 # Define function ...
 def sha512_of_GZ(fname, /, *, ignoreModificationTime = True):
     """
-    This function returns the SHA512 hash of the passed GZ file as if the first
+    This function returns the SHA-512 hash of the passed GZ file as if the first
     "Modification Time" field is set to zero. Using this function it is possible
     to discover that the only binary difference between two different GZ files
     is the first "Modification Time" field.
@@ -12,7 +12,7 @@ def sha512_of_GZ(fname, /, *, ignoreModificationTime = True):
     the "Modification Time" field for the *first* "member".
 
     If the optional second argument is passed as False then this function will
-    return the SHA512 identically to any other method.
+    return the SHA-512 identically to any other method.
     """
 
     # NOTE: The following websites have some very useful information on how to

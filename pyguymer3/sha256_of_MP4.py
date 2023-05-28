@@ -3,14 +3,14 @@
 # Define function ...
 def sha256_of_MP4(fname, /, *, ignoreModificationTime = True):
     """
-    This function returns the SHA256 hash of the passed MP4 file as if the
+    This function returns the SHA-256 hash of the passed MP4 file as if the
     "Modification Time" field (in the "mvhd" atom in the "moov" atom) is set to
     zero. Using this function it is possible to discover that the only binary
     difference between two different MP4 files is the "Modification Time" field
     (in the "mvhd" atom in the "moov" atom).
 
     If the optional second argument is passed as False then this function will
-    return the SHA256 identically to any other method.
+    return the SHA-256 identically to any other method.
     """
 
     # NOTE: The following websites have some very useful information on how to
