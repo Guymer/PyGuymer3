@@ -1,4 +1,6 @@
-# See https://github.com/readthedocs/readthedocs.org/issues/10290#issuecomment-1535120995
+# NOTE: The "os" must be specified to work around a library incompatibility in
+#       the default one, see:
+#         * https://github.com/readthedocs/readthedocs.org/issues/10290
 
 version: 2
 
@@ -9,6 +11,7 @@ build:
         post_install:
             - which f2py
             - which gfortran-12
+            - which gmake
             - which python3
             - gmake -r -C pyguymer3/f90 FC1=`which f2py` FC2=`which gfortran-12` PYTHON3=`which python3`
     os: ubuntu-22.04
