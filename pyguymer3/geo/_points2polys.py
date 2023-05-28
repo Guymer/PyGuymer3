@@ -35,14 +35,15 @@ def _points2polys(point, points, /, *, debug = False, huge = False, prefix = "."
 
     Notes
     -----
-    A LinearRing may not cross itself and may not touch itself at a single point [1]_
+    According to the `Shapely documentation for the LinearRings
+    <https://shapely.readthedocs.io/en/stable/manual.html#linearrings>`_ , a
+    LinearRing may not cross itself and may not touch itself at a single point.
 
-    Copyright 2017 Thomas Guymer [2]_
+    Copyright 2017 Thomas Guymer [1]_
 
     References
     ----------
-    .. [1] Shapely LinearRing Documentation, https://shapely.readthedocs.io/en/stable/manual.html#linearrings
-    .. [2] PyGuymer3, https://github.com/Guymer/PyGuymer3
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import special modules ...
