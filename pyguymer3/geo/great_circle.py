@@ -2,15 +2,43 @@
 
 # Define function ...
 def great_circle(lon1, lat1, lon2, lat2, /, *, debug = False, npoint = 5, prefix = ".", ramLimit = 1073741824):
-    """
-    This function reads in two starting coordinates (in degrees) and two
-    finishing coordinates (in degrees) on the surface of a sphere and calculates
-    the great circle that connects them.
+    """Calculate the great circle that connects two coordinates.
 
+    This function reads in two coordinates (in degrees) on the surface of the
+    Earth and calculates the great circle that connects them, correctly handling
+    crossing over the anti-meridean (should it occur).
+
+    Parameters
+    ----------
+    lon1 : float
+        the longitude of the first coordinate (in degrees)
+    lat1 : float
+        the latitude of the first coordinate (in degrees)
+    lon2 : float
+        the longitude of the second coordinate (in degrees)
+    lat2 : float
+        the latitude of the second coordinate (in degrees)
+    debug : bool, optional
+        print debug messages
+    npoint : int, optional
+        the number of points along the great circle
     prefix : str, optional
         change the name of the output debugging CSVs
     ramLimit : int, optional
         the maximum RAM usage of each "large" array (in bytes)
+
+    Returns
+    -------
+    line : shapely.geometry.linestring.LineString, shapely.geometry.multilinestring.MultiLineString
+        the great circle
+
+    Notes
+    -----
+    Copyright 2017 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import special modules ...

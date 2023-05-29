@@ -2,10 +2,41 @@
 
 # Define function ...
 def find_point_on_great_circle(frac, lon1_deg, lat1_deg, lon2_deg, lat2_deg, /):
-    """
-    This function reads in two coordinates (in degrees) on the surface of a
-    sphere and calculates the coordinates (in degrees) of an arbitrary point on
-    the great circle that connects them.
+    """Calculate an arbitrary point on the great circle that connects two
+    coordinates.
+
+    This function reads in two coordinates (in degrees) on the surface of the
+    Earth and calculates an arbitrary point on the great circle that connects
+    them, correctly handling crossing over the anti-meridean (should it occur).
+
+    Parameters
+    ----------
+    frac : float
+        the location of the arbitrary point on the great circle from the first
+        coordinate to the second coordinate
+    lon1 : float
+        the longitude of the first coordinate (in degrees)
+    lat1 : float
+        the latitude of the first coordinate (in degrees)
+    lon2 : float
+        the longitude of the second coordinate (in degrees)
+    lat2 : float
+        the latitude of the second coordinate (in degrees)
+
+    Returns
+    -------
+    lon3 : float
+        the longitude of the arbitrary point on the great circle (in degrees)
+    lat3 : float
+        the latitude of the arbitrary point on the great circle (in degrees)
+
+    Notes
+    -----
+    Copyright 2017 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import standard modules ...
