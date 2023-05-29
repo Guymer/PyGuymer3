@@ -35,12 +35,55 @@ author = "Thomas Guymer"
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
+    "sphinx.ext.linkcode",
     "sphinx.ext.napoleon",
 ]
 
 # Configure Sphinx extension modules ...
 autosummary_generate = True
 napoleon_google_docstring = False
+
+# Define function ...
+def linkcode_resolve(domain, info, /, *, branch = "main", repository = "PyGuymer3"):
+    """Resolve the link on GitHub for a piece of code.
+
+    Parameters
+    ----------
+    domain : str
+        the domain of the code
+    info : dict
+        information about the code
+    branch : str, optional
+        the branch in the repository on GitHub
+    repository : str, optional
+        the repository on GitHub
+
+    Returns
+    -------
+    link : str
+        the link
+
+    Notes
+    -----
+    Copyright 2017 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
+    """
+
+    # Skip bad domains ...
+    if domain != "py":
+        return None
+
+    # Skip domains with missing information ...
+    if not info["module"]:
+        return None
+    if not info["fullname"]:
+        return None
+
+    # Return answer ...
+    return f'https://github.com/Guymer/{repository}/blob/{branch}/{info["module"].replace(".", "/")}/{info["fullname"]}.py'
 
 # Set the HTML theme ...
 html_theme = "sphinx_rtd_theme"
