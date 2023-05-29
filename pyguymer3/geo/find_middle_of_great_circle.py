@@ -2,7 +2,7 @@
 
 # Define function ...
 def find_middle_of_great_circle(lon1_deg, lat1_deg, lon2_deg, lat2_deg, /):
-    """Calculate the middile of the great circle that connects two coordinates.
+    """Calculate the middle of the great circle that connects two coordinates.
 
     This function reads in two coordinates (in degrees) on the surface of the
     Earth and calculates the middle of the great circle that connects them,
