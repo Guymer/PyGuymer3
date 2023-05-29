@@ -9,7 +9,7 @@ def extract_polys(shape, /, *, onlyValid = False, repair = False):
 
     Parameters
     ----------
-    shape :
+    shape : list, shapely.geometry.point.Point, shapely.geometry.multipoint.MultiPoint, shapely.geometry.polygon.LinearRing, shapely.geometry.linestring.LineString, shapely.geometry.multilinestring.MultiLineString, shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon, shapely.geometry.collection.GeometryCollection
         the Shapely geometry
     onlyValid : bool, optional
         only return valid Polygons (checks for validity can take a while, if
@@ -25,7 +25,7 @@ def extract_polys(shape, /, *, onlyValid = False, repair = False):
     Note
     ----
     To pass GeoJSON objects you must first convert them to Shapely objects by
-    doing something like "shape = shapely.geometry.shape(shape)".
+    doing something like ``shape = shapely.geometry.shape(shape)``.
 
     Copyright 2017 Thomas Guymer [1]_
 
