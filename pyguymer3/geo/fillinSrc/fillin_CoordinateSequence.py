@@ -155,8 +155,8 @@ def fillin_CoordinateSequence(coords, fill, /, *, debug = False, eps = 1.0e-12, 
                     points1[ipoint + 1, 0],
                     points1[ipoint + 1, 1],
                        debug = debug,
-                      prefix = prefix,
                       npoint = ns[ipoint] + 1,
+                      prefix = prefix,
                     ramLimit = ramLimit,
                 )
                 arcCoords = numpy.array(arc.coords)                             # [°]
