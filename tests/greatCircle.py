@@ -103,7 +103,14 @@ if __name__ == "__main__":
         # Loop over number of points ...
         for c, npoint in enumerate(npoints):
             # Find the great circle ...
-            circle = pyguymer3.geo.great_circle(coord1[0], coord1[1], coord2[0], coord2[1], debug = debug, npoint = npoint)
+            circle = pyguymer3.geo.great_circle(
+                coord1[0],
+                coord1[1],
+                coord2[0],
+                coord2[1],
+                 debug = debug,
+                npoint = npoint,
+            )
 
             # Save GeoJSON ...
             with open(jname, "wt", encoding = "utf-8") as fObj:
