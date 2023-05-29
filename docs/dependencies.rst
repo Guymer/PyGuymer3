@@ -15,6 +15,7 @@ your ``PYTHONPATH``:
 
 Additionally, if you want to run the FORTRAN-based functions in the :mod:`pyguymer3.f90` sub-module, then you will also require the following Python modules to be installed and available in your ``PYTHONPATH``:
 
+* `matplotlib <https://pypi.org/project/matplotlib/>`_
 * `scipy <https://pypi.org/project/scipy/>`_
 
 Similarly, PyGuymer3 requires the following binaries to be installed and
