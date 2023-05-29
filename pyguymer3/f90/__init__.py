@@ -2,8 +2,8 @@
 
 """
 A Python sub-module containing a bunch of random functions that I have written
-over the years in FORTRAN to be called from Python using
-`f2py <https://numpy.org/doc/stable/f2py/>`_.
+over the years in FORTRAN to be called from Python using `f2py
+<https://numpy.org/doc/stable/f2py/>`_.
 
 Notes
 -----
@@ -21,11 +21,13 @@ Documentation of the FORTRAN subroutine can be obtained by running:
 >>> import pyguymer3.f90
 >>> print(pyguymer3.f90.funcs.${FUNC}.__doc__)
 
-According to the definition of ``c2py_map.keys()`` in the
-`source of "capi_maps.py" <https://github.com/numpy/numpy/blob/master/numpy/f2py/capi_maps.py>`_
-(in the `source of "f2py" <https://github.com/numpy/numpy/tree/master/numpy/f2py>`_)
-only the following short-hands for C data types are recognised by
-`f2py <https://numpy.org/doc/stable/f2py/>`_:
+According to the definition of ``c2py_map.keys()`` in the `source of
+"capi_maps.py"
+<https://github.com/numpy/numpy/blob/master/numpy/f2py/capi_maps.py>`_
+(in the `source of "f2py"
+<https://github.com/numpy/numpy/tree/master/numpy/f2py>`_) only the following
+short-hands for C data types are recognised by `f2py
+<https://numpy.org/doc/stable/f2py/>`_:
 
 * ``double``
 * ``float``
@@ -44,20 +46,20 @@ only the following short-hands for C data types are recognised by
 * ``complex_long_double``
 * ``string``
 
-According to the
-`gfortran "ISO_C_BINDING" documentation <https://gcc.gnu.org/onlinedocs/gfortran/ISO_005fC_005fBINDING.html>`_
-only the following FORTRAN-C mappings are possible (where mappings have been
-removed if the corresponding C data type does not have a corresponding
-short-hand in `f2py <https://numpy.org/doc/stable/f2py/>`_ above):
+According to the `gfortran "ISO_C_BINDING" documentation
+<https://gcc.gnu.org/onlinedocs/gfortran/ISO_005fC_005fBINDING.html>`_ only the
+following FORTRAN-C mappings are possible (where mappings have been removed if
+the corresponding C data type does not have a corresponding short-hand in `f2py
+<https://numpy.org/doc/stable/f2py/>`_ above):
 
 * integer
 
-    * FORTRAN ``C_INT`` goes to C ``int`` (which is ``int`` in
-      `f2py <https://numpy.org/doc/stable/f2py/>`_)
-    * FORTRAN ``C_SHORT`` goes to C ``short int`` (which is ``short`` in
-      `f2py <https://numpy.org/doc/stable/f2py/>`_)
-    * FORTRAN ``C_LONG`` goes to C ``long int`` (which is ``long`` in
-      `f2py <https://numpy.org/doc/stable/f2py/>`_)
+    * FORTRAN ``C_INT`` goes to C ``int`` (which is ``int`` in `f2py
+      <https://numpy.org/doc/stable/f2py/>`_)
+    * FORTRAN ``C_SHORT`` goes to C ``short int`` (which is ``short`` in `f2py
+      <https://numpy.org/doc/stable/f2py/>`_)
+    * FORTRAN ``C_LONG`` goes to C ``long int`` (which is ``long`` in `f2py
+      <https://numpy.org/doc/stable/f2py/>`_)
     * FORTRAN ``C_LONG_LONG`` goes to C ``long long int`` (which is
       ``long_long`` in `f2py <https://numpy.org/doc/stable/f2py/>`_)
     * FORTRAN ``C_SIGNED_CHAR`` goes to C ``signed char`` (which is
@@ -65,10 +67,10 @@ short-hand in `f2py <https://numpy.org/doc/stable/f2py/>`_ above):
 
 * real
 
-    * FORTRAN ``C_FLOAT`` goes to C ``float`` (which is ``float`` in
-      `f2py <https://numpy.org/doc/stable/f2py/>`_)
-    * FORTRAN ``C_DOUBLE`` goes to C ``double`` (which is ``double`` in
-      `f2py <https://numpy.org/doc/stable/f2py/>`_)
+    * FORTRAN ``C_FLOAT`` goes to C ``float`` (which is ``float`` in `f2py
+      <https://numpy.org/doc/stable/f2py/>`_)
+    * FORTRAN ``C_DOUBLE`` goes to C ``double`` (which is ``double`` in `f2py
+      <https://numpy.org/doc/stable/f2py/>`_)
     * FORTRAN ``C_LONG_DOUBLE`` goes to C ``long double`` (which is
       ``long_double`` in `f2py <https://numpy.org/doc/stable/f2py/>`_)
 
@@ -79,19 +81,18 @@ short-hand in `f2py <https://numpy.org/doc/stable/f2py/>`_ above):
     * FORTRAN ``C_DOUBLE_COMPLEX`` goes to C ``double _Complex`` (which is
       ``complex_double`` in `f2py <https://numpy.org/doc/stable/f2py/>`_)
     * FORTRAN ``C_LONG_DOUBLE_COMPLEX`` goes to C ``long double _Complex`` (
-      which is ``complex_long_double`` in
-      `f2py <https://numpy.org/doc/stable/f2py/>`_)
+      which is ``complex_long_double`` in `f2py
+      <https://numpy.org/doc/stable/f2py/>`_)
 
 * character
 
-    * FORTRAN ``C_CHAR`` goes to C ``char`` (which is ``char`` in
-      `f2py <https://numpy.org/doc/stable/f2py/>`_)
+    * FORTRAN ``C_CHAR`` goes to C ``char`` (which is ``char`` in `f2py
+      <https://numpy.org/doc/stable/f2py/>`_)
 
-The above study has led me to create
-:download:`.f2py_f2cmap <../../pyguymer3/f90/.f2py_f2cmap>` to allow me to use
-FORTRAN data types from "ISO_C_BINDING" and have them magically mapped over to
-the *correct* corresponding C data type in
-`f2py <https://numpy.org/doc/stable/f2py/>`_.
+The above study has led me to create :download:`.f2py_f2cmap
+<../../pyguymer3/f90/.f2py_f2cmap>` to allow me to use FORTRAN data types from
+"ISO_C_BINDING" and have them magically mapped over to the *correct*
+corresponding C data type in `f2py <https://numpy.org/doc/stable/f2py/>`_.
 
 Copyright 2017 Thomas Guymer [4]_
 
