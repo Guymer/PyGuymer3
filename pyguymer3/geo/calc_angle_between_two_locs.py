@@ -2,10 +2,35 @@
 
 # Define function ...
 def calc_angle_between_two_locs(lon1_deg, lat1_deg, lon2_deg, lat2_deg, /):
-    """
+    """Calculate the angle between two coordinates.
+
     This function reads in two coordinates (in degrees) on the surface of a
     sphere and calculates the angle (in degrees) between them, as viewed from
     the centre of the sphere.
+
+    Parameters
+    ----------
+    lon1_deg : float
+        the longitude of the first coordinate (in degrees)
+    lat1_deg : float
+        the latitude of the first coordinate (in degrees)
+    lon2_deg : float
+        the longitude of the second coordinate (in degrees)
+    lat2_deg : float
+        the latitude of the second coordinate (in degrees)
+
+    Returns
+    -------
+    angle : float
+        the angle between the two coordinates (in degrees)
+
+    Notes
+    -----
+    Copyright 2017 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import standard modules ...

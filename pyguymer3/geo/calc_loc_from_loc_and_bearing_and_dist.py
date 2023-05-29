@@ -2,16 +2,54 @@
 
 # Define function ...
 def calc_loc_from_loc_and_bearing_and_dist(lon1_deg, lat1_deg, alpha1_deg, s_m, /, *, eps = 1.0e-12, nmax = 100):
-    """
-    This function reads in coordinates (in degrees) on the surface of Earth
+    """Calculate the location from another location and a bearing and a distance.
+
+    This function reads in coordinates (in degrees) on the surface of the Earth
     and a heading (in degrees) and a distance (in metres) it then calculates the
     coordinates (in degrees) that are at the end of the vector.
-    """
 
-    # NOTE: https://en.wikipedia.org/wiki/Vincenty%27s_formulae
-    # NOTE: https://www.movable-type.co.uk/scripts/latlong-vincenty.html
-    # NOTE: "lambda" is a reserved word in Python so I use "lam" as my variable
-    #       name.
+    Parameters
+    ----------
+    lon1_deg : float
+        the longitude of the first coordinate (in degrees)
+    lat1_deg : float
+        the latitude of the first coordinate (in degrees)
+    alpha1_deg : float
+        the heading to the second coordinate from the first coordinate (in
+        degrees)
+    s_m : float
+        the distance between the two coordinates (in metres)
+    eps : float, optional
+        the tolerance of the Vincenty formula iterations
+    nmax : int, optional
+        the maximum number of the Vincenty formula iterations
+
+    Returns
+    -------
+    lon2_deg : float
+        the longitude of the second coordinate (in degrees)
+    lat2_deg : float
+        the latitude of the second coordinate (in degrees)
+    alpha2_deg : float
+        the heading to the first coordinate from the second coordinate (in
+        degrees)
+
+    Notes
+    -----
+    This function uses `Vincenty's formulae
+    <https://en.wikipedia.org/wiki/Vincenty%27s_formulae>`_ ; there is a
+    `JavaScript implementation
+    <https://www.movable-type.co.uk/scripts/latlong-vincenty.html>`_ online too.
+
+    ``lambda`` is a reserved word in Python so I use ``lam`` as my variable name
+    instead.
+
+    Copyright 2017 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
+    """
 
     # Import standard modules ...
     import math
@@ -39,7 +77,7 @@ def calc_loc_from_loc_and_bearing_and_dist(lon1_deg, lat1_deg, alpha1_deg, s_m, 
 
     # Set initial value of sigma and initialize counter ...
     sigma = s_m / (b * bigA)
-    i = 0
+    i = 0                                                                       # [#]
 
     # Start infinite loop ...
     while True:
@@ -51,7 +89,7 @@ def calc_loc_from_loc_and_bearing_and_dist(lon1_deg, lat1_deg, alpha1_deg, s_m, 
         two_sigma_m = 2.0 * sigma1 + sigma
         delta_sigma = bigB * math.sin(sigma) * (math.cos(two_sigma_m) + 0.25 * bigB * (math.cos(sigma) * (2.0 * math.cos(two_sigma_m) ** 2 - 1.0) - bigB * math.cos(two_sigma_m) * (4.0 * math.sin(sigma) ** 2 - 3.0) * (4.0 * math.cos(two_sigma_m) ** 2 - 3.0) / 6.0))
         sigmaNew = s_m / (b * bigA) + delta_sigma
-        i += 1
+        i += 1                                                                  # [#]
 
         # Only check the solution after at least 3 function calls ...
         if i >= 3:
@@ -76,19 +114,19 @@ def calc_loc_from_loc_and_bearing_and_dist(lon1_deg, lat1_deg, alpha1_deg, s_m, 
             sin_alpha,
             math.sin(u1) * math.sin(sigma) - math.cos(u1) * math.cos(sigma) * math.cos(alpha1)
         )
-    )
+    )                                                                           # [rad]
     lam = math.atan2(
         math.sin(sigma) * math.sin(alpha1),
         math.cos(u1) * math.cos(sigma) - math.sin(u1) * math.sin(sigma) * math.cos(alpha1)
     )
     l = lam - (1.0 - c) * f * sin_alpha * (sigma + c * math.sin(sigma) * (math.cos(two_sigma_m) + c * math.cos(sigma) * (2.0 * math.cos(two_sigma_m) ** 2 - 1.0)))
-    # lon2 = l + lon1
-    lon2 = ((l + lon1 + 3.0 * math.pi) % (2.0 * math.pi)) - math.pi             # NOTE: Normalize to -180 <--> +180
+    lon2 = l + lon1                                                             # [rad]
+    lon2 = ((lon2 + 3.0 * math.pi) % (2.0 * math.pi)) - math.pi                 # NOTE: Normalize to -180° <--> +180°
     alpha2 = math.atan2(
         sin_alpha,
         math.cos(u1) * math.cos(sigma) * math.cos(alpha1) - math.sin(u1) * math.sin(sigma)
-    )
-    alpha2 = (alpha2 + 2.0 * math.pi) % (2.0 * math.pi)                         # NOTE: Normalize to +0 <--> +360
+    )                                                                           # [rad]
+    alpha2 = (alpha2 + 2.0 * math.pi) % (2.0 * math.pi)                         # NOTE: Normalize to +0° <--> +360°
 
     # Return end point and forward azimuth ...
     return math.degrees(lon2), math.degrees(lat2), math.degrees(alpha2)

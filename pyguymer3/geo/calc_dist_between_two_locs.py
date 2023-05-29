@@ -2,16 +2,54 @@
 
 # Define function ...
 def calc_dist_between_two_locs(lon1_deg, lat1_deg, lon2_deg, lat2_deg, /, *, eps = 1.0e-12, nmax = 100):
-    """
-    This function reads in two coordinates (in degrees) on the surface of Earth
-    and calculates the Geodetic distance (in metres) between them and the
-    headings (in degrees) from each coordinate to the other one.
-    """
+    """Calculate the distance between two coordinates.
 
-    # NOTE: https://en.wikipedia.org/wiki/Vincenty%27s_formulae
-    # NOTE: https://www.movable-type.co.uk/scripts/latlong-vincenty.html
-    # NOTE: "lambda" is a reserved word in Python so I use "lam" as my variable
-    #       name.
+    This function reads in two coordinates (in degrees) on the surface of the
+    Earth and calculates the Geodetic distance (in metres) between them and the
+    headings (in degrees) from each coordinate to the other one.
+
+    Parameters
+    ----------
+    lon1_deg : float
+        the longitude of the first coordinate (in degrees)
+    lat1_deg : float
+        the latitude of the first coordinate (in degrees)
+    lon2_deg : float
+        the longitude of the second coordinate (in degrees)
+    lat2_deg : float
+        the latitude of the second coordinate (in degrees)
+    eps : float, optional
+        the tolerance of the Vincenty formula iterations
+    nmax : int, optional
+        the maximum number of the Vincenty formula iterations
+
+    Returns
+    -------
+    s_m : float
+        the distance between the two coordinates (in metres)
+    alpha1_deg : float
+        the heading to the second coordinate from the first coordinate (in
+        degrees)
+    alpha2_deg : float
+        the heading to the first coordinate from the second coordinate (in
+        degrees)
+
+    Notes
+    -----
+    This function uses `Vincenty's formulae
+    <https://en.wikipedia.org/wiki/Vincenty%27s_formulae>`_ ; there is a
+    `JavaScript implementation
+    <https://www.movable-type.co.uk/scripts/latlong-vincenty.html>`_ online too.
+
+    ``lambda`` is a reserved word in Python so I use ``lam`` as my variable name
+    instead.
+
+    Copyright 2017 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
+    """
 
     # Import standard modules ...
     import math
@@ -36,7 +74,7 @@ def calc_dist_between_two_locs(lon1_deg, lat1_deg, lon2_deg, lat2_deg, /, *, eps
 
     # Set initial value of lambda and initialize counter ...
     lam = l
-    i = 0
+    i = 0                                                                       # [#]
 
     # Start infinite loop ...
     while True:
@@ -65,7 +103,7 @@ def calc_dist_between_two_locs(lon1_deg, lat1_deg, lon2_deg, lat2_deg, /, *, eps
             cos_two_sigma_m = 0.0
         c = f * cosSq_alpha * (4.0 + f * (4.0 - 3.0 * cosSq_alpha)) / 16.0
         lamNew = l + (1.0 - c) * f * sin_alpha * (sigma + c * sin_sigma * (cos_two_sigma_m + c * cos_sigma * (2.0 * cos_two_sigma_m ** 2 - 1.0)))
-        i += 1
+        i += 1                                                                  # [#]
 
         # Only check the solution after at least 3 function calls ...
         if i >= 3:
@@ -88,17 +126,17 @@ def calc_dist_between_two_locs(lon1_deg, lat1_deg, lon2_deg, lat2_deg, /, *, eps
     bigA = 1.0 + uSq * (4096.0 + uSq * (-768.0 + uSq * (320.0 - 175.0 * uSq))) / 16384.0
     bigB = uSq * (256.0 + uSq * (-128.0 + uSq * (74.0 - 47.0 * uSq))) / 1024.0
     delta_sigma = bigB * sin_sigma * (cos_two_sigma_m + 0.25 * bigB * (cos_sigma * (2.0 * cos_two_sigma_m ** 2 - 1.0) - bigB * cos_two_sigma_m * (4.0 * sin_sigma ** 2 - 3.0) * (4.0 * cos_two_sigma_m ** 2 - 3.0) / 6.0))
-    s = b * bigA * (sigma - delta_sigma)
+    s = b * bigA * (sigma - delta_sigma)                                        # [m]
     alpha1 = math.atan2(
         math.cos(u2) * math.sin(lam),
         math.cos(u1) * math.sin(u2) - math.sin(u1) * math.cos(u2) * math.cos(lam)
-    )
+    )                                                                           # [rad]
     alpha2 = math.atan2(
         math.cos(u1) * math.sin(lam),
         math.sin(u1) * math.cos(u2) - math.cos(u1) * math.sin(u2) * math.cos(lam)
-    )
-    alpha1 = (alpha1 + 2.0 * math.pi) % (2.0 * math.pi)                         # NOTE: Normalize to +0 <--> +360
-    alpha2 = (alpha2 + 2.0 * math.pi) % (2.0 * math.pi)                         # NOTE: Normalize to +0 <--> +360
+    )                                                                           # [rad]
+    alpha1 = (alpha1 + 2.0 * math.pi) % (2.0 * math.pi)                         # NOTE: Normalize to +0° <--> +360°
+    alpha2 = (alpha2 + 2.0 * math.pi) % (2.0 * math.pi)                         # NOTE: Normalize to +0° <--> +360°
 
     # Return distance and forward azimuths ...
     return s, math.degrees(alpha1), math.degrees(alpha2)
