@@ -8,6 +8,10 @@ def tile(xtile, ytile, zoom, sess, /, *, chunksize = 1048576, cookies = None, de
 
     # Import special modules ...
     try:
+        import numpy
+    except:
+        raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
+    try:
         import PIL
         import PIL.Image
         PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                         # [px]
@@ -30,7 +34,8 @@ def tile(xtile, ytile, zoom, sess, /, *, chunksize = 1048576, cookies = None, de
 
     # **************************************************************************
 
-    # Deduce tile name ...
+    # Deduce tile names ...
+    npy = os.path.expanduser(f"~/.local/share/cartopy_cache/OSM/{xtile:d}_{ytile:d}_{zoom:d}.npy")
     png = os.path.expanduser(f"~/.local/share/openstreetmap/tiles/{zoom:d}/{xtile:d}/{ytile:d}.png")
 
     # **************************************************************************
@@ -75,6 +80,18 @@ def tile(xtile, ytile, zoom, sess, /, *, chunksize = 1048576, cookies = None, de
     # Open image as RGB (even if it is paletted) ...
     with PIL.Image.open(png) as imageObj:
         image = imageObj.convert("RGB")
+
+    # **************************************************************************
+
+    # Check if the tile is missing ...
+    if not os.path.exists(npy):
+        if debug:
+            print(f"INFO: Making \"{npy}\" from \"{png}\" ...")
+
+        # Save tile ...
+        numpy.save(npy, image, allow_pickle = False)
+
+    # **************************************************************************
 
     # Return answer ...
     return image
