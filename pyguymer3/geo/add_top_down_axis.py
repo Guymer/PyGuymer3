@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def add_top_down_axis(fg, lon, lat, dist, /, *, debug = False, gs = None, nrows = None, ncols = None, index = None):
+def add_top_down_axis(fg, lon, lat, dist, /, *, debug = False, gs = None, index = None, ncols = None, nrows = None):
     """Add an Orthographic axis to a figure with a field-of-view based on a
     circle around a point on the surface of the Earth
 

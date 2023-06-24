@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def add_annotation(axis, locLon, locLat, annotation, /, *, arrowprops = None, colorName = "black", debug = False, fontsize = 8, horizontalalignment = "center", txtLon = None, txtLat = None, txtOffsetX = None, txtOffsetY = None, verticalalignment = "center"):
+def add_annotation(axis, locLon, locLat, annotation, /, *, arrowprops = None, colorName = "black", debug = False, fontsize = 8, horizontalalignment = "center", txtLat = None, txtLon = None, txtOffsetX = None, txtOffsetY = None, verticalalignment = "center"):
     """Add an annotation to a Cartopy axis.
 
     Parameters
