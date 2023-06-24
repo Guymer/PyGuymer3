@@ -46,3 +46,6 @@ def save_file_if_needed(fname, fcontent, /, *, debug = False):
             print(f"INFO: Saving \"{fname}\" ...")
         with open(fname, f"w{mode}", encoding = encoding) as fObj:
             fObj.write(fcontent)
+
+    # Return answer ...
+    return save
