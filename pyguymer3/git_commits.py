@@ -37,7 +37,7 @@ def git_commits(cwd, /, *, fname = None):
     # Convert list of UNIX timestamps (as strings) to list of aware datetime
     # objects ...
     commits = []
-    for line in resp.stdout.splitlines():
+    for line in resp.stdout.strip().splitlines():
         commits.append(datetime.datetime.fromtimestamp(int(line), tz = datetime.timezone.utc))
 
     # Return answer ...
