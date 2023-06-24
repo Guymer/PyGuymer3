@@ -111,12 +111,12 @@ help:
 #         * https://stackoverflow.com/a/58081934
 
 $(FTNLIB)/%.mod																	\
-$(FTNLIB)/%.o:					$(FTNLIB)/%.F90
+$(FTNLIB)/%.o &:	$(FTNLIB)/%.F90
 	$(MAKE) -r -C $(FTNLIB) DEBUG=$(DEBUG) FC=$(FC2) PYTHON3=$(PYTHON3) $*.o
 
-funcs.so:						$(FTNLIB)/mod_safe.o							\
-								funcs.F90										\
-								src/*.f90
+funcs.so:			$(FTNLIB)/mod_safe.o										\
+					funcs.F90													\
+					src/*.f90
 	$(RM) -f funcs.*.so funcs.so
 	$(FC1) -c --f77exec=$(FC2) --f90exec=$(FC2) --opt="-fopenmp $(LANG_OPTS) $(WARN_OPTS) $(OPTM_OPTS)" --arch="$(MACH_OPTS)" -lgomp -m funcs -I$(FTNLIB) funcs.F90 $(FTNLIB)/mod_safe.o -L$(LIBDIR)
 	$(LN) -s funcs$(SUFFIX) funcs.so
