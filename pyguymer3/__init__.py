@@ -34,6 +34,7 @@ from .getatime import getatime
 from .getctime import getctime
 from .getmtime import getmtime
 from .git_commits import git_commits
+from .git_files import git_files
 from .hostname import hostname
 from .interpolate import interpolate
 from .intersection import intersection
