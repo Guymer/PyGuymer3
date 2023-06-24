@@ -1,22 +1,21 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def res(lat_deg, zoom, /):
+def zoom(lat_deg, res, /):
     """
-    Calculate the resolution in the centre of a tile at a given latitude and for
-    a given zoom.
+    Calculate the required zoom to achieve a given resolution in the centre of a tile at a given latitude.
 
     Parameters
     ----------
     lat_deg : float
         the latitude (in degrees)
-    zoom : int
-        the zoom
+    res : float
+        the resolution (in metres/pixel)
 
     Returns
     -------
-    resOfEarth : float
-        the resolution (in metres/pixel)
+    zoomOfEarth : int
+        the zoom
 
     Notes
     -----
@@ -42,8 +41,7 @@ def res(lat_deg, zoom, /):
     circumOfEarth = 2.0 * math.pi * radiusOfEarth                               # [m]
 
     lat_rad = math.radians(lat_deg)                                             # [rad]
-    n = pow(2, zoom)
-    resOfEarth = circumOfEarth * math.cos(lat_rad) / (256.0 * n)                # [m/px]
+    zoomOfEarth = math.log2(circumOfEarth * math.cos(lat_rad) / (256.0 * res))
 
     # Return answer ...
-    return resOfEarth
+    return round(math.ceil(zoomOfEarth))

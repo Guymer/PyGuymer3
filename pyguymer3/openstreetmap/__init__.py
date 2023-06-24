@@ -21,3 +21,4 @@ from .res import res
 from .tile import tile
 from .tiles import tiles
 from .vfov import vfov
+from .zoom import zoom
