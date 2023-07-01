@@ -88,6 +88,7 @@ def buffer_CoordinateSequence(coords, dist, /, *, debug = False, eps = 1.0e-12, 
     from ..check import check
     from ..clean import clean
     from ..fillin import fillin
+    from ...consts import CIRCUMFERENCE_OF_EARTH
     try:
         from ...f90 import funcs
         if debug:
@@ -105,15 +106,10 @@ def buffer_CoordinateSequence(coords, dist, /, *, debug = False, eps = 1.0e-12, 
         check(coords, prefix = prefix)
 
     # Check inputs ...
-    # NOTE: Using WGS84, the semi-major axis of Earth is 6,378,137.0 m and the
-    #       semi-minor axis of Earth is approximately 6,356,752.3 m. Making a
-    #       sphere using just the semi-minor axis means that the largest
-    #       distance that can be buffered in one go is 19,970,326.3 m.
-    # NOTE: See https://en.wikipedia.org/wiki/World_Geodetic_System#1984_version
     if dist < 10.0:
         raise Exception(f"the buffering distance is too small ({dist:,.1f}m < {10.0:,.1f}m)") from None
-    if dist > 19970326.3:
-        raise Exception(f"the buffering distance is too large ({dist:,.1f}m > {19970326.3:,.1f}m)") from None
+    if dist > 0.5 * CIRCUMFERENCE_OF_EARTH:
+        raise Exception(f"the buffering distance is too large ({dist:,.1f}m > {0.5 * CIRCUMFERENCE_OF_EARTH:,.1f}m)") from None
     if nang < 9:
         raise Exception(f"the number of angles is too small ({nang:,d} < {9:,d})") from None
     if nang % 2 == 0:
@@ -194,7 +190,7 @@ def buffer_CoordinateSequence(coords, dist, /, *, debug = False, eps = 1.0e-12, 
             points1[ipoint, :],
             points2[ipoint, :, :],
              debug = debug,
-              huge = dist > 10001500.0,
+              huge = dist > 0.25 * CIRCUMFERENCE_OF_EARTH,
             prefix = prefix,
                tol = tol,
         )

@@ -2,7 +2,6 @@
 
 # Define function ...
 def load_GPS_EXIF1(fname, /):
-    # NOTE: Earth's mean radius is 6,371,009 m.
     # NOTE: The following web pages were helpful:
     #       * https://gist.github.com/snakeye/fdc372dbf11370fe29eb
     #       * https://sno.phy.queensu.ca/~phil/exiftool/TagNames/GPS.html
@@ -17,10 +16,8 @@ def load_GPS_EXIF1(fname, /):
     except:
         raise Exception("\"exifread\" is not installed; run \"pip install --user ExifRead\"") from None
 
-    # Create short-hands ...
-    radiusOfEarth = 6371008.8                                                   # [m]
-    circumOfEarth = 2.0 * math.pi * radiusOfEarth                               # [m]
-    resoluOfEarth = circumOfEarth / 360.0                                       # [m/°]
+    # Import sub-functions ...
+    from ..consts import RESOLUTION_OF_EARTH
 
     # Create default dictionary answer ...
     ans = {}
@@ -156,9 +153,10 @@ def load_GPS_EXIF1(fname, /):
                 # Estimate the location error ...
                 # NOTE: The longitude and latitude precisions are added in
                 #       quadrature and then multiplied by the dilution of
-                #       precision to give an estimate of the error, in degrees.
+                #       precision to give an estimate of the error, in degrees,
+                #       which is then converted to metres.
                 ans["loc_err"] = ans["dop"] * math.hypot(ans["lon_prec"], ans["lat_prec"])                                  # [°]
-                ans["loc_err"] *= resoluOfEarth                                                                             # [m]
+                ans["loc_err"] *= RESOLUTION_OF_EARTH                                                                       # [m]
 
                 # Estimate the time error ...
                 # NOTE: The time precision is multiplied by the dilution of
