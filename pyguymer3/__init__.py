@@ -15,6 +15,7 @@ References
 
 # Import sub-functions ...
 from .checkSudokuBoard import checkSudokuBoard
+from .consts import RADIUS_OF_EARTH
 from .convert_bytes_to_pretty_bytes import convert_bytes_to_pretty_bytes
 from .convert_pretty_bytes_to_bytes import convert_pretty_bytes_to_bytes
 from .convert_spreadsheet_to_datetime import convert_spreadsheet_to_datetime
