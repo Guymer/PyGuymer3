@@ -9,3 +9,4 @@ RADIUS_OF_EARTH = 6371008.8                                                     
 
 # Set derived constants ...
 CIRCUMFERENCE_OF_EARTH = 2.0 * math.pi * RADIUS_OF_EARTH                        # [m]
+RESOLUTION_OF_EARTH = CIRCUMFERENCE_OF_EARTH / 360.0                            # [m/°]
