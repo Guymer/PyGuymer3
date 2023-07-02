@@ -53,6 +53,7 @@ def add_top_down_axis(fg, lon, lat, dist, /, *, debug = False, gs = None, index 
 
     # Import sub-functions ...
     from .buffer import buffer
+    from ..consts import CIRCUMFERENCE_OF_EARTH
 
     # **************************************************************************
 
@@ -89,36 +90,41 @@ def add_top_down_axis(fg, lon, lat, dist, /, *, debug = False, gs = None, index 
             ),
         )
 
-    # Buffer the Point ...
-    polygon1 = buffer(
-        point,
-        dist,
-        debug = debug,
-         fill = +1.0,
-         nang = 361,
-         simp = -1.0,
-    )
-
-    # Project the Polygon into the axis' units ...
-    polygon2 = ax.projection.project_geometry(polygon1)
-
-    # Create short-hands ...
-    xmin, ymin, xmax, ymax = polygon2.bounds
-
-    # Configure axis ...
-    ax.set_xlim(xmin, xmax)
-    ax.set_ylim(ymin, ymax)
-
-    # Check if the user wants to draw the circle ...
-    if debug:
-        # Draw the circle ...
-        ax.add_geometries(
-            [polygon1],
-            cartopy.crs.PlateCarree(),
-            edgecolor = (0.0, 0.0, 1.0, 1.0),
-            facecolor = (0.0, 0.0, 1.0, 0.5),
-            linewidth = 1.0,
+    # Check if the field-of-view is too large ...
+    if dist > 0.25 * CIRCUMFERENCE_OF_EARTH:
+        # Configure axis ...
+        ax.set_global()
+    else:
+        # Buffer the Point ...
+        polygon1 = buffer(
+            point,
+            dist,
+            debug = debug,
+             fill = +1.0,
+             nang = 361,
+             simp = -1.0,
         )
+
+        # Project the Polygon into the axis' units ...
+        polygon2 = ax.projection.project_geometry(polygon1)
+
+        # Create short-hands ...
+        xmin, ymin, xmax, ymax = polygon2.bounds
+
+        # Configure axis ...
+        ax.set_xlim(xmin, xmax)
+        ax.set_ylim(ymin, ymax)
+
+        # Check if the user wants to draw the circle ...
+        if debug:
+            # Draw the circle ...
+            ax.add_geometries(
+                [polygon1],
+                cartopy.crs.PlateCarree(),
+                edgecolor = (0.0, 0.0, 1.0, 1.0),
+                facecolor = (0.0, 0.0, 1.0, 0.5),
+                linewidth = 1.0,
+            )
 
     # Return answer ...
     return ax
