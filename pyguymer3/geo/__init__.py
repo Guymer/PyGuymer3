@@ -147,6 +147,7 @@ from .extract_points import extract_points
 from .extract_polys import extract_polys
 from .fillin import fillin
 from .find_middle_of_great_circle import find_middle_of_great_circle
+from .find_middle_of_locs import find_middle_of_locs
 from .find_point_on_great_circle import find_point_on_great_circle
 from .getRecordAttribute import getRecordAttribute
 from .great_circle import great_circle
