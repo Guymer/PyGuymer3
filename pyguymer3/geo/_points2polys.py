@@ -62,7 +62,7 @@ def _points2polys(point, points, /, *, debug = False, huge = False, prefix = "."
     from .wrapLongitude import wrapLongitude
     from ..interpolate import interpolate
 
-    # Check argument ...
+    # Check arguments ...
     if not isinstance(point, numpy.ndarray):
         raise TypeError("\"point\" is not a NumPy array") from None
     if not isinstance(points, numpy.ndarray):
