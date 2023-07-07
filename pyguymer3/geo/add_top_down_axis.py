@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def add_top_down_axis(fg, lon, lat, dist, /, *, debug = False, gs = None, index = None, ncols = None, nrows = None):
+def add_top_down_axis(fg, lon, lat, dist, /, *, add_gridlines = False, debug = False, gs = None, index = None, ncols = None, nrows = None):
     """Add an Orthographic axis to a figure with a field-of-view based on a
     circle around a point on the surface of the Earth
 
@@ -15,6 +15,8 @@ def add_top_down_axis(fg, lon, lat, dist, /, *, debug = False, gs = None, index 
         the latitude of the point (in degrees)
     dist : float
         the radius of the circle around the point (in metres)
+    add_gridlines : bool, optional
+        add gridlines every degree of longitude and latitude
     debug : bool, optional
         print debug messages and draw the circle on the axis
     gs : matplotlib.gridspec.SubplotSpec, optional
@@ -52,6 +54,8 @@ def add_top_down_axis(fg, lon, lat, dist, /, *, debug = False, gs = None, index 
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
+    from .add_horizontal_gridlines import add_horizontal_gridlines
+    from .add_vertical_gridlines import add_vertical_gridlines
     from .buffer import buffer
     from ..consts import CIRCUMFERENCE_OF_EARTH
 
@@ -125,6 +129,18 @@ def add_top_down_axis(fg, lon, lat, dist, /, *, debug = False, gs = None, index 
                 facecolor = (0.0, 0.0, 1.0, 0.5),
                 linewidth = 1.0,
             )
+
+    # Check if the user wants to add gridlines ...
+    if add_gridlines:
+        # Add gridlines ...
+        add_horizontal_gridlines(
+            ax,
+            locs = range(-90, +91),
+        )
+        add_vertical_gridlines(
+            ax,
+            locs = range(-180, +181),
+        )
 
     # Return answer ...
     return ax
