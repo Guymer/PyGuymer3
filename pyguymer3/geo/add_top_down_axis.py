@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def add_top_down_axis(fg, lon, lat, dist, /, *, add_gridlines = False, debug = False, gs = None, index = None, ncols = None, nrows = None):
+def add_top_down_axis(fg, lon, lat, dist, /, *, add_gridlines = False, debug = False, gridline_int = 1, gs = None, index = None, ncols = None, nrows = None):
     """Add an Orthographic axis to a figure with a field-of-view based on a
     circle around a point on the surface of the Earth
 
@@ -19,6 +19,8 @@ def add_top_down_axis(fg, lon, lat, dist, /, *, add_gridlines = False, debug = F
         add gridlines every degree of longitude and latitude
     debug : bool, optional
         print debug messages and draw the circle on the axis
+    gridline_int : int, optional
+        the interval between gridlines, best results if ``90 % gridline_int == 0`` (in degrees)
     gs : matplotlib.gridspec.SubplotSpec, optional
         the subset of a gridspec to locate the axis
     nrows : int, optional
@@ -135,11 +137,11 @@ def add_top_down_axis(fg, lon, lat, dist, /, *, add_gridlines = False, debug = F
         # Add gridlines ...
         add_horizontal_gridlines(
             ax,
-            locs = range(-90, +91),
+            locs = range( -90,  +90 + gridline_int, gridline_int),
         )
         add_vertical_gridlines(
             ax,
-            locs = range(-180, +181),
+            locs = range(-180, +180 + gridline_int, gridline_int),
         )
 
     # Return answer ...
