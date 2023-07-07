@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def add_vertical_gridlines(axis, /, *, color = "black", linestyle = ":", linewidth = 0.5, locs = None, ngrid = -1, npoint = 50):
+def add_vertical_gridlines(axis, /, *, color = "black", linestyle = ":", linewidth = 0.5, locs = None, ngrid = -1, npoint = 181):
     """Add vertical gridlines to a Cartopy axis.
 
     Parameters
@@ -44,20 +44,16 @@ def add_vertical_gridlines(axis, /, *, color = "black", linestyle = ":", linewid
     except:
         raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
 
-    # Populate default values ...
-    if locs is None:
-        locs = []
-
     # Create short-hand ...
     ext = axis.get_extent(crs = cartopy.crs.PlateCarree())                        # [°]
 
     # Determine x-locations depending on inputs ...
     if ngrid > 1:
         xlocs = numpy.linspace(ext[0], ext[1], num = ngrid)                     # [°]
-    elif len(locs) > 0:
+    elif locs is not None:
         xlocs = numpy.array(locs)                                               # [°]
     else:
-        raise Exception("\"ngrid > 1\" is not True and \"len(locs) > 0\" is not True") from None
+        raise Exception("\"ngrid > 1\" is not True and \"locs is not None\" is not True") from None
 
     # Loop over x-locations ...
     for xloc in xlocs:

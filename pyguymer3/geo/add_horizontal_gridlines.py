@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def add_horizontal_gridlines(axis, /, *, color = "black", linestyle = ":", linewidth = 0.5, locs = None, ngrid = -1, npoint = 50):
+def add_horizontal_gridlines(axis, /, *, color = "black", linestyle = ":", linewidth = 0.5, locs = None, ngrid = -1, npoint = 361):
     """Add horizontal gridlines to a Cartopy axis.
 
     Parameters
@@ -44,20 +44,16 @@ def add_horizontal_gridlines(axis, /, *, color = "black", linestyle = ":", linew
     except:
         raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
 
-    # Populate default values ...
-    if locs is None:
-        locs = []
-
     # Create short-hand ...
     ext = axis.get_extent(crs = cartopy.crs.PlateCarree())                        # [°]
 
     # Determine y-locations depending on inputs ...
     if ngrid > 1:
         ylocs = numpy.linspace(ext[2], ext[3], num = ngrid)                     # [°]
-    elif len(locs) > 0:
+    elif locs is not None:
         ylocs = numpy.array(locs)                                               # [°]
     else:
-        raise Exception("\"ngrid > 1\" is not True and \"len(locs) > 0\" is not True") from None
+        raise Exception("\"ngrid > 1\" is not True and \"locs is not None\" is not True") from None
 
     # Loop over y-locations ...
     for yloc in ylocs:
