@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def add_top_down_axis(fg, lon, lat, dist, /, *, add_gridlines = False, debug = False, eps = 1.0e-12, fill = 1.0, fillSpace = "EuclideanSpace", gridline_int = 1, gs = None, index = None, keepInteriors = True, nang = 9, ncols = None, nmax = 100, nrows = None, prefix = ".", ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
+def add_top_down_axis(fg, lon, lat, dist, /, *, add_gridlines = False, color = "black", debug = False, eps = 1.0e-12, gridline_int = 1, gs = None, index = None, linestyle = ":", linewidth = 0.5, ncols = None, nmax = 100, nrows = None, prefix = ".", ramLimit = 1073741824, tol = 1.0e-10):
     """Add an Orthographic axis to a figure with a field-of-view based on a
     circle around a point on the surface of the Earth
 
@@ -17,27 +17,22 @@ def add_top_down_axis(fg, lon, lat, dist, /, *, add_gridlines = False, debug = F
         the radius of the circle around the point (in metres)
     add_gridlines : bool, optional
         add gridlines every degree of longitude and latitude
+    color : str, optional
+        the colour of the gridlines
     debug : bool, optional
         print debug messages and draw the circle on the axis
     eps : float, optional
         the tolerance of the Vincenty formula iterations
-    fill : float, optional
-        the Euclidean or Geodetic distance to fill in between each point within
-        the shapes by (in degrees or metres)
-    fillSpace : str, optional
-        the geometric space to perform the filling in (either "EuclideanSpace"
-        or "GeodesicSpace")
     gridline_int : int, optional
         the interval between gridlines, best results if ``90 % gridline_int == 0`` (in degrees)
     gs : matplotlib.gridspec.SubplotSpec, optional
         the subset of a gridspec to locate the axis
     index : int or tuple of int, optional
         the index of the axis in the array of axes
-    keepInteriors : bool, optional
-        keep the interiors of the Polygon
-    nang : int, optional
-        the number of angles around each point within the shape that are
-        calculated when buffering
+    linestyle : str, optional
+        the style of the gridlines
+    linewidth : float, optional
+        the width of the gridlines
     ncols : int, optional
         the number of columns in the array of axes
     nmax : int, optional
@@ -48,9 +43,6 @@ def add_top_down_axis(fg, lon, lat, dist, /, *, add_gridlines = False, debug = F
         change the name of the output debugging CSVs
     ramLimit : int, optional
         the maximum RAM usage of each "large" array (in bytes)
-    simp : float, optional
-        how much intermediary [Multi]Polygons are simplified by; negative values
-        disable simplification (in degrees)
     tol : float, optional
         the Euclidean distance that defines two points as being the same (in
         degrees)
@@ -132,14 +124,14 @@ def add_top_down_axis(fg, lon, lat, dist, /, *, add_gridlines = False, debug = F
             dist,
                     debug = debug,
                       eps = eps,
-                     fill = fill,
-                fillSpace = fillSpace,
-            keepInteriors = keepInteriors,
-                     nang = nang,
+                     fill = +1.0,
+                fillSpace = "EuclideanSpace",
+            keepInteriors = False,
+                     nang = 361,
                      nmax = nmax,
                    prefix = prefix,
                  ramLimit = ramLimit,
-                     simp = simp,
+                     simp = -1.0,
                       tol = tol,
         )
 
@@ -169,11 +161,21 @@ def add_top_down_axis(fg, lon, lat, dist, /, *, add_gridlines = False, debug = F
         # Add gridlines ...
         add_horizontal_gridlines(
             ax,
-            locs = range( -90,  +90 + gridline_int, gridline_int),
+                color = color,
+            linestyle = linestyle,
+            linewidth = linewidth,
+                 locs = range( -90,  +90 + gridline_int, gridline_int),
+                ngrid = -1,
+               npoint = 361,
         )
         add_vertical_gridlines(
             ax,
-            locs = range(-180, +180 + gridline_int, gridline_int),
+                color = color,
+            linestyle = linestyle,
+            linewidth = linewidth,
+                 locs = range(-180, +180 + gridline_int, gridline_int),
+                ngrid = -1,
+               npoint = 181,
         )
 
     # Return answer ...
