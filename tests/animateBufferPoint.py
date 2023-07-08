@@ -205,9 +205,18 @@ if __name__ == "__main__":
             fg.suptitle(f"({lon:+.1f}°,{lat:+.1f}°) buffered by {0.001 * dist:,.1f}km")
             fg.tight_layout()
 
-            # Save figure ...
-            fg.savefig(fname)
-            matplotlib.pyplot.close(fg)
+            # Try to save figure ...
+            # NOTE: There is a bug in one of Cartopy v0.21.1, MatPlotLib v3.7.1,
+            #       NumPy v1.24.1 or SciPy v1.10.1 which means that the
+            #       transform of the background image fails for certain
+            #       locations.
+            try:
+                fg.savefig(fname)
+                matplotlib.pyplot.close(fg)
+            except:
+                print("   Failed")
+                matplotlib.pyplot.close(fg)
+                continue
 
             # Optimize PNG ...
             pyguymer3.image.optimize_image(fname, strip = True)
