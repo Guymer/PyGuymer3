@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def git_files(cwd):
+def git_files(cwd, /):
     # Import standard modules ...
     import shutil
     import subprocess
