@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def add_top_down_axis(fg, lon, lat, dist, /, *, add_gridlines = False, debug = False, gridline_int = 1, gs = None, index = None, ncols = None, nrows = None):
+def add_top_down_axis(fg, lon, lat, dist, /, *, add_gridlines = False, debug = False, eps = 1.0e-12, fill = 1.0, fillSpace = "EuclideanSpace", gridline_int = 1, gs = None, index = None, keepInteriors = True, nang = 9, ncols = None, nmax = 100, nrows = None, prefix = ".", ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
     """Add an Orthographic axis to a figure with a field-of-view based on a
     circle around a point on the surface of the Earth
 
@@ -19,16 +19,41 @@ def add_top_down_axis(fg, lon, lat, dist, /, *, add_gridlines = False, debug = F
         add gridlines every degree of longitude and latitude
     debug : bool, optional
         print debug messages and draw the circle on the axis
+    eps : float, optional
+        the tolerance of the Vincenty formula iterations
+    fill : float, optional
+        the Euclidean or Geodetic distance to fill in between each point within
+        the shapes by (in degrees or metres)
+    fillSpace : str, optional
+        the geometric space to perform the filling in (either "EuclideanSpace"
+        or "GeodesicSpace")
     gridline_int : int, optional
         the interval between gridlines, best results if ``90 % gridline_int == 0`` (in degrees)
     gs : matplotlib.gridspec.SubplotSpec, optional
         the subset of a gridspec to locate the axis
-    nrows : int, optional
-        the number of rows in the array of axes
-    ncols : int, optional
-        the number of columns in the array of axes
     index : int or tuple of int, optional
         the index of the axis in the array of axes
+    keepInteriors : bool, optional
+        keep the interiors of the Polygon
+    nang : int, optional
+        the number of angles around each point within the shape that are
+        calculated when buffering
+    ncols : int, optional
+        the number of columns in the array of axes
+    nmax : int, optional
+        the maximum number of the Vincenty formula iterations
+    nrows : int, optional
+        the number of rows in the array of axes
+    prefix : str, optional
+        change the name of the output debugging CSVs
+    ramLimit : int, optional
+        the maximum RAM usage of each "large" array (in bytes)
+    simp : float, optional
+        how much intermediary [Multi]Polygons are simplified by; negative values
+        disable simplification (in degrees)
+    tol : float, optional
+        the Euclidean distance that defines two points as being the same (in
+        degrees)
 
     Returns
     -------
@@ -105,10 +130,17 @@ def add_top_down_axis(fg, lon, lat, dist, /, *, add_gridlines = False, debug = F
         polygon1 = buffer(
             point,
             dist,
-            debug = debug,
-             fill = +1.0,
-             nang = 361,
-             simp = -1.0,
+                    debug = debug,
+                      eps = eps,
+                     fill = fill,
+                fillSpace = fillSpace,
+            keepInteriors = keepInteriors,
+                     nang = nang,
+                     nmax = nmax,
+                   prefix = prefix,
+                 ramLimit = ramLimit,
+                     simp = simp,
+                      tol = tol,
         )
 
         # Project the Polygon into the axis' units ...
