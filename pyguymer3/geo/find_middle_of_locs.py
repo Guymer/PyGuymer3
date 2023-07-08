@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def find_middle_of_locs(lons, lats, /, *, debug = False, nMax = 10, pad = 10.0e3, tol = 1.0e3):
+def find_middle_of_locs(lons, lats, /, *, debug = False, eps = 1.0e-12, nIter = 10, nmax = 100, pad = 10.0e3, tol = 1.0e3):
     """Find the middle of some locations
 
     This function finds the middle of some locations such that the Geodetic
@@ -16,8 +16,12 @@ def find_middle_of_locs(lons, lats, /, *, debug = False, nMax = 10, pad = 10.0e3
         the latitudes (in degrees)
     debug : bool, optional
         print debug messages
-    nMax : int, optional
+    eps : float, optional
+        the tolerance of the Vincenty formula iterations
+    nIter : int, optional
         the maximum number of iterations
+    nmax : int, optional
+        the maximum number of the Vincenty formula iterations
     pad : float, optional
         the padding to add to the maximum Geodetic distance from the middle to
         the most extreme location (in metres)
@@ -68,7 +72,7 @@ def find_middle_of_locs(lons, lats, /, *, debug = False, nMax = 10, pad = 10.0e3
         print(f"INFO: The initial middle is ({midLon:.6f}°, {midLat:.6f}°).")
 
     # Loop over iterations ...
-    for i in range(nMax):
+    for iIter in range(nIter):
         # Find the distances to the western-most and eastern-most locations ...
         maxWestDist = 0.0                                                       # [m]
         maxEastDist = 0.0                                                       # [m]
@@ -81,6 +85,8 @@ def find_middle_of_locs(lons, lats, /, *, debug = False, nMax = 10, pad = 10.0e3
                         midLat,
                         lons[iLoc],
                         midLat,
+                         eps = eps,
+                        nmax = nmax,
                     )[0]
                 )                                                               # [m]
             elif lons[iLoc] > midLon:                                           # NOTE: Location is east of the middle.
@@ -91,6 +97,8 @@ def find_middle_of_locs(lons, lats, /, *, debug = False, nMax = 10, pad = 10.0e3
                         midLat,
                         lons[iLoc],
                         midLat,
+                         eps = eps,
+                        nmax = nmax,
                     )[0]
                 )                                                               # [m]
             else:
@@ -108,6 +116,8 @@ def find_middle_of_locs(lons, lats, /, *, debug = False, nMax = 10, pad = 10.0e3
                         midLat,
                         midLon,
                         lats[iLoc],
+                         eps = eps,
+                        nmax = nmax,
                     )[0]
                 )                                                               # [m]
             elif lats[iLoc] > midLon:                                           # NOTE: Location is north of the middle.
@@ -118,14 +128,16 @@ def find_middle_of_locs(lons, lats, /, *, debug = False, nMax = 10, pad = 10.0e3
                         midLat,
                         midLon,
                         lats[iLoc],
+                         eps = eps,
+                        nmax = nmax,
                     )[0]
                 )                                                               # [m]
             else:
                 pass
 
         if debug:
-            print(f"INFO: #{i + 1:,d}: {0.001 * maxWestDist:,.1f} km west ← middle → {0.001 * maxEastDist:,.1f} km east.")
-            print(f"INFO: #{i + 1:,d}: {0.001 * maxSouthDist:,.1f} km south ↓ middle ↑ {0.001 * maxNorthDist:,.1f} km north.")
+            print(f"INFO: #{iIter + 1:,d}: {0.001 * maxWestDist:,.1f} km west ← middle → {0.001 * maxEastDist:,.1f} km east.")
+            print(f"INFO: #{iIter + 1:,d}: {0.001 * maxSouthDist:,.1f} km south ↓ middle ↑ {0.001 * maxNorthDist:,.1f} km north.")
 
         # Initialize flag ...
         moved = False
@@ -133,27 +145,31 @@ def find_middle_of_locs(lons, lats, /, *, debug = False, nMax = 10, pad = 10.0e3
         # Check if the middle needs moving west/east ...
         if 0.5 * (maxWestDist - maxEastDist) > tol:
             if debug:
-                print(f"INFO: #{i + 1:,d}: Moving middle {0.001 * 0.5 * (maxWestDist - maxEastDist):,.1f} km west ...")
+                print(f"INFO: #{iIter + 1:,d}: Moving middle {0.001 * 0.5 * (maxWestDist - maxEastDist):,.1f} km west ...")
             midLon, midLat, _ = calc_loc_from_loc_and_bearing_and_dist(
                 midLon,
                 midLat,
                 270.0,
                 0.5 * (maxWestDist - maxEastDist),
+                 eps = eps,
+                nmax = nmax,
             )                                                                   # [°], [°]
             if debug:
-                print(f"INFO: #{i + 1:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°).")
+                print(f"INFO: #{iIter + 1:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°).")
             moved = True
         elif 0.5 * (maxEastDist - maxWestDist) > tol:
             if debug:
-                print(f"INFO: #{i + 1:,d}: Moving middle {0.001 * 0.5 * (maxEastDist - maxWestDist):,.1f} km east ...")
+                print(f"INFO: #{iIter + 1:,d}: Moving middle {0.001 * 0.5 * (maxEastDist - maxWestDist):,.1f} km east ...")
             midLon, midLat, _ = calc_loc_from_loc_and_bearing_and_dist(
                 midLon,
                 midLat,
                 90.0,
                 0.5 * (maxEastDist - maxWestDist),
+                 eps = eps,
+                nmax = nmax,
             )                                                                   # [°], [°]
             if debug:
-                print(f"INFO: #{i + 1:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°).")
+                print(f"INFO: #{iIter + 1:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°).")
             moved = True
         else:
             pass
@@ -161,27 +177,31 @@ def find_middle_of_locs(lons, lats, /, *, debug = False, nMax = 10, pad = 10.0e3
         # Check if the middle needs moving south/north ...
         if 0.5 * (maxSouthDist - maxNorthDist) > tol:
             if debug:
-                print(f"INFO: #{i + 1:,d}: Moving middle {0.001 * 0.5 * (maxSouthDist - maxNorthDist):,.1f} km south ...")
+                print(f"INFO: #{iIter + 1:,d}: Moving middle {0.001 * 0.5 * (maxSouthDist - maxNorthDist):,.1f} km south ...")
             midLon, midLat, _ = calc_loc_from_loc_and_bearing_and_dist(
                 midLon,
                 midLat,
                 180.0,
                 0.5 * (maxSouthDist - maxNorthDist),
+                 eps = eps,
+                nmax = nmax,
             )                                                                   # [°], [°]
             if debug:
-                print(f"INFO: #{i + 1:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°).")
+                print(f"INFO: #{iIter + 1:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°).")
             moved = True
         elif 0.5 * (maxNorthDist - maxSouthDist) > tol:
             if debug:
-                print(f"INFO: #{i + 1:,d}: Moving middle {0.001 * 0.5 * (maxNorthDist - maxSouthDist):,.1f} km north ...")
+                print(f"INFO: #{iIter + 1:,d}: Moving middle {0.001 * 0.5 * (maxNorthDist - maxSouthDist):,.1f} km north ...")
             midLon, midLat, _ = calc_loc_from_loc_and_bearing_and_dist(
                 midLon,
                 midLat,
                 0.0,
                 0.5 * (maxNorthDist - maxSouthDist),
+                 eps = eps,
+                nmax = nmax,
             )                                                                   # [°], [°]
             if debug:
-                print(f"INFO: #{i + 1:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°).")
+                print(f"INFO: #{iIter + 1:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°).")
             moved = True
         else:
             pass
@@ -200,6 +220,8 @@ def find_middle_of_locs(lons, lats, /, *, debug = False, nMax = 10, pad = 10.0e3
                 midLat,
                 lons[iLoc],
                 lats[iLoc],
+                 eps = eps,
+                nmax = nmax,
             )[0],
         )                                                                       # [m]
 
