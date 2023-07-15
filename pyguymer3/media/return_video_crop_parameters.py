@@ -20,9 +20,24 @@ def return_video_crop_parameters(fname, /, *, debug = False, dt = 2.0, playlist 
         raise Exception("\"ffmpeg\" is not installed") from None
 
     # Initialize variables ...
-    dur = return_media_duration(fname, debug = debug, playlist = playlist)      # [s]
-    inW = return_video_width(fname, debug = debug, playlist = playlist)         # [px]
-    inH = return_video_height(fname, debug = debug, playlist = playlist)        # [px]
+    dur = return_media_duration(
+        fname,
+           debug = debug,
+        playlist = playlist,
+         timeout = timeout,
+    )                                                                           # [s]
+    inW = return_video_width(
+        fname,
+           debug = debug,
+        playlist = playlist,
+         timeout = timeout,
+    )                                                                           # [px]
+    inH = return_video_height(
+        fname,
+           debug = debug,
+        playlist = playlist,
+         timeout = timeout,
+    )                                                                           # [px]
     outX = 0                                                                    # [px]
     outY = 0                                                                    # [px]
 

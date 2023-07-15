@@ -22,10 +22,30 @@ def return_subtitle_extent(fname, /, *, debug = False, playlist = -1, subtitle =
         raise Exception("\"ffmpeg\" is not installed") from None
 
     # Find out information about video ...
-    duration = return_media_duration(fname, debug = debug, playlist = playlist) # [s]
-    fps = return_video_frame_rate(fname, debug = debug, playlist = playlist)    # [Hz]
-    height = return_video_height(fname, debug = debug, playlist = playlist)     # [px]
-    width = return_video_width(fname, debug = debug, playlist = playlist)       # [px]
+    duration = return_media_duration(
+        fname,
+           debug = debug,
+        playlist = playlist,
+         timeout = timeout,
+    )                                                                           # [s]
+    fps = return_video_frame_rate(
+        fname,
+           debug = debug,
+        playlist = playlist,
+         timeout = timeout,
+    )                                                                           # [Hz]
+    width = return_video_width(
+        fname,
+           debug = debug,
+        playlist = playlist,
+         timeout = timeout,
+    )                                                                           # [px]
+    height = return_video_height(
+        fname,
+           debug = debug,
+        playlist = playlist,
+         timeout = timeout,
+    )                                                                           # [px]
 
     # Check if it is a Blu-ray ...
     if fname.startswith("bluray:"):

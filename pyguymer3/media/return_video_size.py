@@ -22,10 +22,10 @@ def return_video_size(fname, /, *, debug = False, playlist = -1, timeout = 60.0)
             continue
 
         # Check the rotation ...
-        if return_video_rotation(fname, debug = debug, playlist = playlist) in [0, 180]:
+        if return_video_rotation(fname, debug = debug, playlist = playlist, timeout = timeout) in [0, 180]:
             # Return width and height ...
             return int(stream["width"]), int(stream["height"])                  # [px], [px]
-        if return_video_rotation(fname, debug = debug, playlist = playlist) in [90, 270]:
+        if return_video_rotation(fname, debug = debug, playlist = playlist, timeout = timeout) in [90, 270]:
             # Return height and width ...
             return int(stream["height"]), int(stream["width"])                  # [px], [px]
 
