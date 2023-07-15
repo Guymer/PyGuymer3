@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def find_program_version(prog, /):
+def find_program_version(prog, /, *, timeout = 60.0):
     # Import standard modules ...
     import shutil
     import subprocess
@@ -17,6 +17,7 @@ def find_program_version(prog, /):
             encoding = "utf-8",
               stderr = subprocess.STDOUT,
               stdout = subprocess.PIPE,
+             timeout = timeout,
         )
     elif shutil.which("port") is not None:
         # NOTE: It is MacPorts.
@@ -28,6 +29,7 @@ def find_program_version(prog, /):
             encoding = "utf-8",
               stderr = subprocess.STDOUT,
               stdout = subprocess.PIPE,
+             timeout = timeout,
         )
     elif shutil.which("zypper") is not None:
         # NOTE: It is OpenSUSE.
@@ -39,6 +41,7 @@ def find_program_version(prog, /):
             encoding = "utf-8",
               stderr = subprocess.STDOUT,
               stdout = subprocess.PIPE,
+             timeout = timeout,
         )
     else:
         raise Exception("neither \"pkg\" nor \"port\" nor \"zypper\" have been found") from None

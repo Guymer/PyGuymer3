@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def save_file_if_needed(fname, fcontent, /, *, debug = False, gitFiles = None, gitMessage = "regenerated"):
+def save_file_if_needed(fname, fcontent, /, *, debug = False, gitFiles = None, gitMessage = "regenerated", timeout = 60.0):
     """Save a file. If the file already exists, then only overwrite it if the
     content is different.
 
@@ -19,6 +19,8 @@ def save_file_if_needed(fname, fcontent, /, *, debug = False, gitFiles = None, g
     gitMessage : str, optional
         the Git commit message, if the file ends up being saved and then commit
         it to Git
+    timeout : int, optional
+        the timeout for any subprocess calls
 
     Returns
     -------
@@ -107,6 +109,7 @@ def save_file_if_needed(fname, fcontent, /, *, debug = False, gitFiles = None, g
                     encoding = "utf-8",
                       stderr = subprocess.DEVNULL,
                       stdout = subprocess.DEVNULL,
+                     timeout = timeout,
                 )
 
             # Check if the user provided a commit message ...
@@ -126,6 +129,7 @@ def save_file_if_needed(fname, fcontent, /, *, debug = False, gitFiles = None, g
                     encoding = "utf-8",
                       stderr = subprocess.DEVNULL,
                       stdout = subprocess.DEVNULL,
+                     timeout = timeout,
                 )
 
     # Return answer ...

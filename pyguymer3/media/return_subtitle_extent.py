@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_subtitle_extent(fname, /, *, debug = False, playlist = -1, subtitle = 0):
+def return_subtitle_extent(fname, /, *, debug = False, playlist = -1, subtitle = 0, timeout = 60.0):
     # Import standard modules ...
     import re
     import shutil
@@ -52,6 +52,7 @@ def return_subtitle_extent(fname, /, *, debug = False, playlist = -1, subtitle =
             encoding = "utf-8",
               stderr = subprocess.STDOUT,
               stdout = subprocess.PIPE,
+             timeout = timeout,
         )
     else:
         # Attempt to survey the file ...
@@ -78,6 +79,7 @@ def return_subtitle_extent(fname, /, *, debug = False, playlist = -1, subtitle =
                 encoding = "utf-8",
                   stderr = subprocess.STDOUT,
                   stdout = subprocess.PIPE,
+                 timeout = timeout,
             )
         except subprocess.CalledProcessError:
             # Fallback and attempt to find stream info as a raw M-JPEG stream ...
@@ -103,6 +105,7 @@ def return_subtitle_extent(fname, /, *, debug = False, playlist = -1, subtitle =
                 encoding = "utf-8",
                   stderr = subprocess.STDOUT,
                   stdout = subprocess.PIPE,
+                 timeout = timeout,
             )
 
     # Initialize values ...

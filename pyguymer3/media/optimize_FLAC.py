@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def optimize_FLAC(fname1, /, *, chunksize = 1048576, debug = False):
+def optimize_FLAC(fname1, /, *, chunksize = 1048576, debug = False, timeout = 60.0):
     """
     "metaflac" does not modify, but it does touch, the FLAC even if it cannot
     make it smaller, therefore it is NOT safe to keep on running "metaflac" on
@@ -53,6 +53,7 @@ def optimize_FLAC(fname1, /, *, chunksize = 1048576, debug = False):
             encoding = "utf-8",
               stderr = subprocess.DEVNULL,
               stdout = subprocess.DEVNULL,
+             timeout = timeout,
         )
 
         # Find the two hashes and don't replace the original if the new one is

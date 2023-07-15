@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def exiftool(fname, /):
+def exiftool(fname, /, *, timeout = 60.0):
     """
     "exiftool" does not modify, and it does not touch, the image even if it
     cannot strip anything, therefore it is safe to keep on running "exiftool" on
@@ -39,4 +39,5 @@ def exiftool(fname, /):
             encoding = "utf-8",
               stderr = subprocess.DEVNULL,
               stdout = subprocess.DEVNULL,
+             timeout = timeout,
         )

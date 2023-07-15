@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def image2webp(img, webp, /, *, chunksize = 1048576, debug = False, exif = None, lossless = False, method = 6, mode = "RGB", quality = 100, screenHeight = -1, screenWidth = -1, strip = False):
+def image2webp(img, webp, /, *, chunksize = 1048576, debug = False, exif = None, lossless = False, method = 6, mode = "RGB", quality = 100, screenHeight = -1, screenWidth = -1, strip = False, timeout = 60.0):
     """Save an image as a WEBP
 
     This function accepts either a PIL Image or a file path and saves the image
@@ -35,6 +35,8 @@ def image2webp(img, webp, /, *, chunksize = 1048576, debug = False, exif = None,
         than 100 imply no downscaling)
     strip : bool, optional
         strip metadata from the output WEBP (default False)
+    timeout : int, optional
+        the timeout for any subprocess calls
 
     Notes
     -----
@@ -96,4 +98,4 @@ def image2webp(img, webp, /, *, chunksize = 1048576, debug = False, exif = None,
 
     # Optimize WEBP ...
     if strip:
-        optimize_image(webp, chunksize = chunksize, debug = debug, strip = strip)
+        optimize_image(webp, chunksize = chunksize, debug = debug, strip = strip, timeout = timeout)

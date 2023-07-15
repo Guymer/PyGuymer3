@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def ffprobe(fname, /, *, playlist = -1):
+def ffprobe(fname, /, *, playlist = -1, timeout = 60.0):
     """
     This function will run "ffprobe" on a file and return the format and stream
     information as a dictionary.
 
     fname -- the file to be surveyed
     playlist -- the playlist within the Blu-ray folder structure to be surveyed
+    timeout : int, optional
+        the timeout for any subprocess calls
     """
 
     # Import standard modules ...
@@ -51,6 +53,7 @@ def ffprobe(fname, /, *, playlist = -1):
             encoding = "utf-8",
               stderr = subprocess.DEVNULL,
               stdout = subprocess.PIPE,
+             timeout = timeout,
         )
     else:
         # Attempt to survey the file ...
@@ -80,6 +83,7 @@ def ffprobe(fname, /, *, playlist = -1):
                 encoding = "utf-8",
                   stderr = subprocess.DEVNULL,
                   stdout = subprocess.PIPE,
+                 timeout = timeout,
             )
         except subprocess.CalledProcessError:
             # Fallback and attempt to find stream info as a raw M-JPEG stream ...
@@ -108,6 +112,7 @@ def ffprobe(fname, /, *, playlist = -1):
                 encoding = "utf-8",
                   stderr = subprocess.DEVNULL,
                   stdout = subprocess.PIPE,
+                 timeout = timeout,
             )
 
     # Return ffprobe output as dictionary ...

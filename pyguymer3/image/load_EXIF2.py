@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def load_EXIF2(fname, /):
+def load_EXIF2(fname, /, *, timeout = 60.0):
     # Import standard modules ...
     import json
     import shutil
@@ -31,6 +31,7 @@ def load_EXIF2(fname, /):
             encoding = "utf-8",
               stderr = subprocess.DEVNULL,
               stdout = subprocess.PIPE,
+             timeout = timeout,
         ).stdout
     )[0]
 

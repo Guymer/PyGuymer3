@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def optipng(fname, /):
+def optipng(fname, /, *, timeout = 60.0):
     """
     "optipng" does not modify, and it does not touch, the image even if it
     cannot make it smaller, therefore it is safe to keep on running "optipng" on
@@ -32,4 +32,5 @@ def optipng(fname, /):
         encoding = "utf-8",
           stderr = subprocess.DEVNULL,
           stdout = subprocess.DEVNULL,
+         timeout = timeout,
     )

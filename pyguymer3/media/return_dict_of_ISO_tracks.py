@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_dict_of_ISO_tracks(fname, /):
+def return_dict_of_ISO_tracks(fname, /, *, timeout = 60.0):
     # Import standard modules ...
     import html
     import shutil
@@ -40,6 +40,7 @@ def return_dict_of_ISO_tracks(fname, /):
           errors = "replace",
           stderr = subprocess.DEVNULL,
           stdout = subprocess.PIPE,
+         timeout = timeout,
     )
     stdout = resp.stdout.removeprefix("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
 

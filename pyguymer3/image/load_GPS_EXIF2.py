@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def load_GPS_EXIF2(fname, /):
+def load_GPS_EXIF2(fname, /, *, timeout = 60.0):
     # Import standard modules ...
     import datetime
     import json
@@ -41,6 +41,7 @@ def load_GPS_EXIF2(fname, /):
             encoding = "utf-8",
               stderr = subprocess.DEVNULL,
               stdout = subprocess.PIPE,
+             timeout = timeout,
         ).stdout
     )[0]
 

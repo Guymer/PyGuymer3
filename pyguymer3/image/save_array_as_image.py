@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def save_array_as_image(img0, fname, /, *, chunksize = 1048576, ct = "grey", debug = False, form = "png", pc_bot = 0.0, pc_top = 0.0, scale = False):
+def save_array_as_image(img0, fname, /, *, chunksize = 1048576, ct = "grey", debug = False, form = "png", pc_bot = 0.0, pc_top = 0.0, scale = False, timeout = 60.0):
     """Save an array as an image
 
     This function accepts a NumPy array, with optional scaling and/or colour
@@ -28,6 +28,8 @@ def save_array_as_image(img0, fname, /, *, chunksize = 1048576, ct = "grey", deb
     ct : str, optional
         the colour table to apply (the default is no colour mapping, i.e.,
         greyscale)
+    timeout : int, optional
+        the timeout for any subprocess calls
 
     Notes
     -----
@@ -95,7 +97,7 @@ def save_array_as_image(img0, fname, /, *, chunksize = 1048576, ct = "grey", deb
     # Save image ...
     if form == "png":
         save_array_as_PNG(img2, fname, ftype_req = 4)
-        optimize_image(fname, debug = debug, chunksize = chunksize, strip = True)
+        optimize_image(fname, debug = debug, chunksize = chunksize, strip = True, timeout = timeout)
     elif form == "ppm":
         save_array_as_PPM(img2, fname)
     else:

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def git_commits(cwd, /, *, fname = None):
+def git_commits(cwd, /, *, fname = None, timeout = 60.0):
     # Import standard modules ...
     import datetime
     import shutil
@@ -22,6 +22,7 @@ def git_commits(cwd, /, *, fname = None):
             encoding = "utf-8",
               stderr = subprocess.STDOUT,
               stdout = subprocess.PIPE,
+             timeout = timeout,
         )
     else:
         # Find the UNIX timestamps of all of the commits for the file ...
@@ -32,6 +33,7 @@ def git_commits(cwd, /, *, fname = None):
             encoding = "utf-8",
               stderr = subprocess.STDOUT,
               stdout = subprocess.PIPE,
+             timeout = timeout,
         )
 
     # Convert list of UNIX timestamps (as strings) to list of aware datetime

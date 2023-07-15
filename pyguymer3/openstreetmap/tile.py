@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def tile(xtile, ytile, zoom, sess, /, *, chunksize = 1048576, cookies = None, debug = False, headers = None, timeout = 10.0, verify = True):
+def tile(xtile, ytile, zoom, sess, /, *, chunksize = 1048576, cookies = None, debug = False, headers = None, timeout = 60.0, verify = True):
     # Import standard modules ...
     import os
     import time
@@ -70,6 +70,7 @@ def tile(xtile, ytile, zoom, sess, /, *, chunksize = 1048576, cookies = None, de
             chunksize = chunksize,
                 debug = debug,
                 strip = True,
+              timeout = timeout,
         )
 
         # Sleep ...

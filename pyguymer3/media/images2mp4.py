@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def images2mp4(frames, /, *, crf = -1.0, debug = False, form = "mp4", fps = 25.0, level = "ERROR", profile = "ERROR", screenHeight = -1, screenWidth = -1):
+def images2mp4(frames, /, *, crf = -1.0, debug = False, form = "mp4", fps = 25.0, level = "ERROR", profile = "ERROR", screenHeight = -1, screenWidth = -1, timeout = 60.0):
     """Convert a sequence of images to a MP4 video.
 
     This function makes a MP4 video from a list of file paths. The user is able
@@ -28,6 +28,8 @@ def images2mp4(frames, /, *, crf = -1.0, debug = False, form = "mp4", fps = 25.0
         the height of the screen to downscale the input images to fit within, default -1 (integers less than 100 imply no downscaling)
     screenWidth : int, optional
         the width of the screen to downscale the input images to fit within, default -1 (integers less than 100 imply no downscaling)
+    timeout : int, optional
+        the timeout for any subprocess calls
 
     Returns
     -------
@@ -184,7 +186,7 @@ def images2mp4(frames, /, *, crf = -1.0, debug = False, form = "mp4", fps = 25.0
         "-f", form,
         "-map_chapters", "-1",
         "-map_metadata", "-1",
-        "-metadata", f"comment=Converted to a {form.upper()} using ffmpeg (version {find_program_version(ffmpeg)}) which used libx264 (version {find_program_version(libx264)}) using a CRF of {crf:.1f} for libx264 (which adhered to the {profile} profile and level {level}).",
+        "-metadata", f"comment=Converted to a {form.upper()} using ffmpeg (version {find_program_version(ffmpeg, timeout = timeout)}) which used libx264 (version {find_program_version(libx264, timeout = timeout)}) using a CRF of {crf:.1f} for libx264 (which adhered to the {profile} profile and level {level}).",
         "-threads", f"{os.cpu_count() - 1:d}",
         f"{tmpname}/video.mp4",
     ]
@@ -198,6 +200,7 @@ def images2mp4(frames, /, *, crf = -1.0, debug = False, form = "mp4", fps = 25.0
                 encoding = "utf-8",
                   stderr = fObjErr,
                   stdout = fObjOut,
+                 timeout = timeout,
             )
 
     # Check libx264 bit-depth ...
@@ -205,7 +208,7 @@ def images2mp4(frames, /, *, crf = -1.0, debug = False, form = "mp4", fps = 25.0
         raise Exception(f"successfully converted the input images to a not-8-bit MP4; see \"{tmpname}\" for clues") from None
 
     # Optimize output video ...
-    optimize_MP4(f"{tmpname}/video.mp4", debug = debug)
+    optimize_MP4(f"{tmpname}/video.mp4", debug = debug, timeout = timeout)
 
     # Return path to output video ...
     return f"{tmpname}/video.mp4"

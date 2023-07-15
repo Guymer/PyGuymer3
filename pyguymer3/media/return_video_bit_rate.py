@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_video_bit_rate(fname, /, *, debug = False, playlist = -1):
+def return_video_bit_rate(fname, /, *, debug = False, playlist = -1, timeout = 60.0):
     """
     Return the bit rate of the first video stream in the media file.
     """
@@ -16,7 +16,7 @@ def return_video_bit_rate(fname, /, *, debug = False, playlist = -1):
     if playlist not in __ffprobe__[fname]:
         if debug:
             print(f"INFO: Running ffprobe(\"{fname}\", {playlist:d}) ...")
-        __ffprobe__[fname][playlist] = ffprobe(fname, playlist = playlist)
+        __ffprobe__[fname][playlist] = ffprobe(fname, playlist = playlist, timeout = timeout)
 
     # Loop over streams ...
     for stream in __ffprobe__[fname][playlist]["streams"]:

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def tar(tarName, fnames, /, *, cwd = None, stderr = None, stdout = None):
+def tar(tarName, fnames, /, *, cwd = None, stderr = None, stdout = None, timeout = 60.0):
     """Create a PAX formatted TAR file (without any frills or size limits).
 
     Parameters
@@ -16,6 +16,8 @@ def tar(tarName, fnames, /, *, cwd = None, stderr = None, stdout = None):
         the destination of STDERR (default None)
     stdout : subprocess.PIPE, subprocess.DEVNULL, io.TextIOWrapper, optional
         the destination of STDOUT (default None)
+    timeout : int, optional
+        the timeout for any subprocess calls
 
     Notes
     -----
@@ -70,4 +72,5 @@ def tar(tarName, fnames, /, *, cwd = None, stderr = None, stdout = None):
             encoding = "utf-8",
               stderr = stderr,
               stdout = stdout,
+             timeout = timeout,
         )

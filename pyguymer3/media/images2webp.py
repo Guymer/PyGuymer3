@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def images2webp(imgs, webp, /, *, chunksize = 1048576, debug = False, exif = None, fps = 25.0, lossless = False, method = 6, minimize_size = True, mode = "RGB", quality = 100, screenHeight = -1, screenWidth = -1, strip = False):
+def images2webp(imgs, webp, /, *, chunksize = 1048576, debug = False, exif = None, fps = 25.0, lossless = False, method = 6, minimize_size = True, mode = "RGB", quality = 100, screenHeight = -1, screenWidth = -1, strip = False, timeout = 60.0):
     """Convert a sequence of images to a WEBP animation.
 
     This function makes a WEBP animation from either a list of PIL Images or a
@@ -39,6 +39,8 @@ def images2webp(imgs, webp, /, *, chunksize = 1048576, debug = False, exif = Non
         integers less than 100 imply no downscaling)
     strip : bool, optional
         strip metadata from the output WEBP (default False)
+    timeout : int, optional
+        the timeout for any subprocess calls
 
     Notes
     -----
@@ -112,4 +114,4 @@ def images2webp(imgs, webp, /, *, chunksize = 1048576, debug = False, exif = Non
 
     # Optimize WEBP ...
     if strip:
-        optimize_image(webp, chunksize = chunksize, debug = debug, strip = strip)
+        optimize_image(webp, chunksize = chunksize, debug = debug, strip = strip, timeout = timeout)

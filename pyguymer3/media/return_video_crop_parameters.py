@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_video_crop_parameters(fname, /, *, debug = False, dt = 2.0, playlist = -1):
+def return_video_crop_parameters(fname, /, *, debug = False, dt = 2.0, playlist = -1, timeout = 60.0):
     # Import standard modules ...
     import shutil
     import subprocess
@@ -55,6 +55,7 @@ def return_video_crop_parameters(fname, /, *, debug = False, dt = 2.0, playlist 
                 encoding = "utf-8",
                   stderr = subprocess.STDOUT,
                   stdout = subprocess.PIPE,
+                 timeout = timeout,
             )
         else:
             # Attempt to survey the file ...
@@ -80,6 +81,7 @@ def return_video_crop_parameters(fname, /, *, debug = False, dt = 2.0, playlist 
                     encoding = "utf-8",
                       stderr = subprocess.STDOUT,
                       stdout = subprocess.PIPE,
+                     timeout = timeout,
                 )
             except subprocess.CalledProcessError:
                 # Fallback and attempt to find crop parameters as a raw M-JPEG
@@ -105,6 +107,7 @@ def return_video_crop_parameters(fname, /, *, debug = False, dt = 2.0, playlist 
                     encoding = "utf-8",
                       stderr = subprocess.STDOUT,
                       stdout = subprocess.PIPE,
+                     timeout = timeout,
                 )
 
         # Loop over lines ...

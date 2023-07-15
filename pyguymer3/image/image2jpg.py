@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def image2jpg(img, jpg, /, *, chunksize = 1048576, debug = False, exif = None, mode = "RGB", optimize = True, progressive = False, quality = 95, screenHeight = -1, screenWidth = -1, strip = False):
+def image2jpg(img, jpg, /, *, chunksize = 1048576, debug = False, exif = None, mode = "RGB", optimize = True, progressive = False, quality = 95, screenHeight = -1, screenWidth = -1, strip = False, timeout = 60.0):
     """Save an image as a JPG
 
     This function accepts either a PIL Image or a file path and saves the image
@@ -35,6 +35,8 @@ def image2jpg(img, jpg, /, *, chunksize = 1048576, debug = False, exif = None, m
         than 100 imply no downscaling)
     strip : bool, optional
         strip metadata from the output JPG (default False)
+    timeout : int, optional
+        the timeout for any subprocess calls
 
     Notes
     -----
@@ -96,4 +98,4 @@ def image2jpg(img, jpg, /, *, chunksize = 1048576, debug = False, exif = None, m
 
     # Optimize JPG ...
     if optimize or strip:
-        optimize_image(jpg, chunksize = chunksize, debug = debug, strip = strip)
+        optimize_image(jpg, chunksize = chunksize, debug = debug, strip = strip, timeout = timeout)

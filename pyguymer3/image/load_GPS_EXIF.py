@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def load_GPS_EXIF(fname, /, *, python = True):
+def load_GPS_EXIF(fname, /, *, python = True, timeout = 60.0):
     # Import sub-functions ...
     from .load_GPS_EXIF1 import load_GPS_EXIF1
     from .load_GPS_EXIF2 import load_GPS_EXIF2
@@ -12,4 +12,4 @@ def load_GPS_EXIF(fname, /, *, python = True):
         return load_GPS_EXIF1(fname)
 
     # Will use the binary "exiftool" ...
-    return load_GPS_EXIF2(fname)
+    return load_GPS_EXIF2(fname, timeout = timeout)

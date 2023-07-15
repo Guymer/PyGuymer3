@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def git_files(cwd, /):
+def git_files(cwd, /, *, timeout = 60.0):
     # Import standard modules ...
     import shutil
     import subprocess
@@ -18,6 +18,7 @@ def git_files(cwd, /):
         encoding = "utf-8",
           stderr = subprocess.STDOUT,
           stdout = subprocess.PIPE,
+         timeout = timeout,
     )
 
     # Return answer ...

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def dot2png(dot, png, /, *, chunksize = 1048576, debug = False, strip = False):
+def dot2png(dot, png, /, *, chunksize = 1048576, debug = False, strip = False, timeout = 60.0):
     # Import standard modules ...
     import shutil
     import subprocess
@@ -20,7 +20,8 @@ def dot2png(dot, png, /, *, chunksize = 1048576, debug = False, strip = False):
         encoding = "utf-8",
           stderr = subprocess.DEVNULL,
           stdout = subprocess.DEVNULL,
+         timeout = timeout,
     )
 
     # Optimize PNG ...
-    optimize_image(png, chunksize = chunksize, debug = debug, strip = strip)
+    optimize_image(png, chunksize = chunksize, debug = debug, strip = strip, timeout = timeout)

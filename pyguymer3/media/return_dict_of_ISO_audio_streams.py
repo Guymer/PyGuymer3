@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_dict_of_ISO_audio_streams(fname, /, *, usr_track = -1):
+def return_dict_of_ISO_audio_streams(fname, /, *, timeout = 60.0, usr_track = -1):
     # Import standard modules ...
     import html
     import shutil
@@ -44,6 +44,7 @@ def return_dict_of_ISO_audio_streams(fname, /, *, usr_track = -1):
           errors = "replace",
           stderr = subprocess.DEVNULL,
           stdout = subprocess.PIPE,
+         timeout = timeout,
     )
     stdout = resp.stdout.removeprefix("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_dict_of_bluray_playlists(dname, /, *, debug = False, size_threshold = 1073741824, time_threshold = 60.0):
+def return_dict_of_bluray_playlists(dname, /, *, debug = False, size_threshold = 1073741824, time_threshold = 60.0, timeout = 60.0):
     # Import standard modules ...
     import glob
     import os
@@ -28,7 +28,7 @@ def return_dict_of_bluray_playlists(dname, /, *, debug = False, size_threshold =
         if playlist not in __ffprobe__[fname]:
             if debug:
                 print(f"INFO: Running ffprobe(\"{fname}\", {playlist:d}) ...")
-            __ffprobe__[fname][playlist] = ffprobe(fname, playlist = playlist)
+            __ffprobe__[fname][playlist] = ffprobe(fname, playlist = playlist, timeout = timeout)
 
         # Append information if this playlist is worthwhile (by default,
         # "worthwhile" is defined as ≥1 GiB and/or ≥1 minute) ...

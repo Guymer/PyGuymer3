@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def image2gif(img, gif, /, *, chunksize = 1048576, debug = False, mode = "RGB", optimize = True, screenHeight = -1, screenWidth = -1, strip = False):
+def image2gif(img, gif, /, *, chunksize = 1048576, debug = False, mode = "RGB", optimize = True, screenHeight = -1, screenWidth = -1, strip = False, timeout = 60.0):
     """Save an image as a GIF
 
     This function accepts either a PIL Image or a file path and saves the image
@@ -29,6 +29,8 @@ def image2gif(img, gif, /, *, chunksize = 1048576, debug = False, mode = "RGB", 
         than 100 imply no downscaling)
     strip : bool, optional
         strip metadata from the output GIF (default False)
+    timeout : int, optional
+        the timeout for any subprocess calls
 
     Notes
     -----
@@ -82,4 +84,4 @@ def image2gif(img, gif, /, *, chunksize = 1048576, debug = False, mode = "RGB", 
 
     # Optimize GIF ...
     if optimize or strip:
-        optimize_image(gif, chunksize = chunksize, debug = debug, strip = strip)
+        optimize_image(gif, chunksize = chunksize, debug = debug, strip = strip, timeout = timeout)

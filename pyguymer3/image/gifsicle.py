@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def gifsicle(fname1, /, *, chunksize = 1048576, debug = False):
+def gifsicle(fname1, /, *, chunksize = 1048576, debug = False, timeout = 60.0):
     """
     "gifsicle" does modify, and it does touch, the image even if it cannot make
     it smaller, therefore it is NOT safe to keep on running "gifsicle" on the
@@ -50,6 +50,7 @@ def gifsicle(fname1, /, *, chunksize = 1048576, debug = False):
             encoding = "utf-8",
               stderr = subprocess.DEVNULL,
               stdout = subprocess.DEVNULL,
+             timeout = timeout,
         )
 
         # Find the two sizes and don't replace the original if the new one is

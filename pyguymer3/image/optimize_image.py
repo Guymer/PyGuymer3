@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def optimize_image(fname, /, *, chunksize = 1048576, debug = False, strip = False):
+def optimize_image(fname, /, *, chunksize = 1048576, debug = False, strip = False, timeout = 60.0):
     """
     Please read the documentation for the four functions: "exiftool",
     "gifsicle", "jpegtran" and "optipng". It is not safe to keep on running the
@@ -27,15 +27,15 @@ def optimize_image(fname, /, *, chunksize = 1048576, debug = False, strip = Fals
 
     # Optimize image depending the file extension ...
     if ext.lower() in [".gif"]:
-        gifsicle(fname, chunksize = chunksize, debug = debug)
+        gifsicle(fname, chunksize = chunksize, debug = debug, timeout = timeout)
     elif ext.lower() in [".jpg", ".jpeg"]:
-        jpegtran(fname, chunksize = chunksize, debug = debug)
+        jpegtran(fname, chunksize = chunksize, debug = debug, timeout = timeout)
     elif ext.lower() in [".png"]:
-        optipng(fname)
+        optipng(fname, timeout = timeout)
     else:
         if debug:
             print(f"WARNING: \"{ext}\" is not a recognised file extension, no optimization will take place.")
 
     # Strip metadata ...
     if strip:
-        exiftool(fname)
+        exiftool(fname, timeout = timeout)
