@@ -31,8 +31,8 @@ def images2gif(imgs, gif, /, *, chunksize = 1048576, debug = False, fps = 25.0, 
         integers less than 100 imply no downscaling)
     strip : bool, optional
         strip metadata from the output GIF (default False)
-    timeout : int, optional
-        the timeout for any subprocess calls
+    timeout : float, optional
+        the timeout for any requests/subprocess calls
 
     Notes
     -----

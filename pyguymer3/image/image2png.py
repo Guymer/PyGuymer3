@@ -31,8 +31,8 @@ def image2png(img, png, /, *, chunksize = 1048576, debug = False, exif = None, m
         than 100 imply no downscaling)
     strip : bool, optional
         strip metadata from the output PNG (default False)
-    timeout : int, optional
-        the timeout for any subprocess calls
+    timeout : float, optional
+        the timeout for any requests/subprocess calls
 
     Notes
     -----

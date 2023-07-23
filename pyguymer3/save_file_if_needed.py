@@ -19,8 +19,8 @@ def save_file_if_needed(fname, fcontent, /, *, debug = False, gitFiles = None, g
     gitMessage : str, optional
         the Git commit message, if the file ends up being saved and then commit
         it to Git
-    timeout : int, optional
-        the timeout for any subprocess calls
+    timeout : float, optional
+        the timeout for any requests/subprocess calls
 
     Returns
     -------

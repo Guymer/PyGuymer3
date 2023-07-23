@@ -16,8 +16,8 @@ def xz(fname, /, *, cwd = None, stderr = None, stdout = None, threads = 0, timeo
         the destination of STDOUT (default None)
     threads : int, optional
         the number of threads to use (default 0)
-    timeout : int, optional
-        the timeout for any subprocess calls
+    timeout : float, optional
+        the timeout for any requests/subprocess calls
 
     Notes
     -----

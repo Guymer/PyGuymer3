@@ -8,8 +8,8 @@ def ffprobe(fname, /, *, playlist = -1, timeout = 60.0):
 
     fname -- the file to be surveyed
     playlist -- the playlist within the Blu-ray folder structure to be surveyed
-    timeout : int, optional
-        the timeout for any subprocess calls
+    timeout : float, optional
+        the timeout for any requests/subprocess calls
     """
 
     # Import standard modules ...

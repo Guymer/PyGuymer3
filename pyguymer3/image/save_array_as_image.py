@@ -28,8 +28,8 @@ def save_array_as_image(img0, fname, /, *, chunksize = 1048576, ct = "grey", deb
     ct : str, optional
         the colour table to apply (the default is no colour mapping, i.e.,
         greyscale)
-    timeout : int, optional
-        the timeout for any subprocess calls
+    timeout : float, optional
+        the timeout for any requests/subprocess calls
 
     Notes
     -----

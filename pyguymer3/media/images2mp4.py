@@ -28,8 +28,8 @@ def images2mp4(frames, /, *, crf = -1.0, debug = False, form = "mp4", fps = 25.0
         the height of the screen to downscale the input images to fit within, default -1 (integers less than 100 imply no downscaling)
     screenWidth : int, optional
         the width of the screen to downscale the input images to fit within, default -1 (integers less than 100 imply no downscaling)
-    timeout : int, optional
-        the timeout for any subprocess calls
+    timeout : float, optional
+        the timeout for any requests/subprocess calls
 
     Returns
     -------

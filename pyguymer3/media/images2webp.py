@@ -39,8 +39,8 @@ def images2webp(imgs, webp, /, *, chunksize = 1048576, debug = False, exif = Non
         integers less than 100 imply no downscaling)
     strip : bool, optional
         strip metadata from the output WEBP (default False)
-    timeout : int, optional
-        the timeout for any subprocess calls
+    timeout : float, optional
+        the timeout for any requests/subprocess calls
 
     Notes
     -----

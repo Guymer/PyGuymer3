@@ -16,8 +16,8 @@ def tar(tarName, fnames, /, *, cwd = None, stderr = None, stdout = None, timeout
         the destination of STDERR (default None)
     stdout : subprocess.PIPE, subprocess.DEVNULL, io.TextIOWrapper, optional
         the destination of STDOUT (default None)
-    timeout : int, optional
-        the timeout for any subprocess calls
+    timeout : float, optional
+        the timeout for any requests/subprocess calls
 
     Notes
     -----
