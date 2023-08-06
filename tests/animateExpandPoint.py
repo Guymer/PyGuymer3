@@ -237,8 +237,8 @@ if __name__ == "__main__":
     shutil.move(vname, "animateExpandPoint.mp4")
 
     # Set heights ...
-    # NOTE: By inspection, the PNG frames are 1,800px tall.
-    heights = [512, 1024]                                                       # [px]
+    # NOTE: By inspection, the PNG frames are 2,880 px wide.
+    heights = [512, 1024, 2048]                                                 # [px]
 
     # Loop over heights ...
     for height in heights:
