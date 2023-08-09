@@ -12,6 +12,7 @@ build:
             - which f2py
             - which gfortran-12
             - which gmake
+            - which pip3
             - which python3
             - gmake -r -C pyguymer3/f90 FC1=`which f2py` FC2=`which gfortran-12` PYTHON3=`which python3`
     os: ubuntu-22.04
