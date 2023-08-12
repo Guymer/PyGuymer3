@@ -27,7 +27,7 @@ def load_StreamAttributes(fObj, /):
         elif ans["StreamCodingType"] in [int(0x90), int(0x91)]:
             ans["LanguageCode"] = fObj.read(3).decode("utf-8")
         elif ans["StreamCodingType"] in [int(0x92)]:
-            ans["CharacterCode"] = struct.unpack(">B", fObj.read(1))
+            ans["CharacterCode"], = struct.unpack(">B", fObj.read(1))
             # NOTE: See https://github.com/lw/BluRay/wiki/StreamAttributes#charactercode
             if ans["CharacterCode"] in [int(0x01)]:
                 ans["LanguageCode"] = fObj.read(3).decode("utf-8")
