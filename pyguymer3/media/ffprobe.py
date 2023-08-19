@@ -3,13 +3,29 @@
 # Define function ...
 def ffprobe(fname, /, *, playlist = -1, timeout = 60.0):
     """
-    This function will run "ffprobe" on a file and return the format and stream
-    information as a dictionary.
+    Run "ffprobe" on a file and return the format and stream information.
 
-    fname -- the file to be surveyed
-    playlist -- the playlist within the Blu-ray folder structure to be surveyed
+    Parameters
+    ----------
+    fname : str
+        the file to be surveyed
+    playlist : int, optional
+        the playlist within the Blu-ray folder structure to be surveyed
     timeout : float, optional
         the timeout for any requests/subprocess calls
+
+    Returns
+    -------
+    ans : dict
+        the format and stream information
+
+    Notes
+    -----
+    Copyright 2017 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import standard modules ...
