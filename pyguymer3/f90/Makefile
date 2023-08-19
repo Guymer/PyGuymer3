@@ -75,7 +75,7 @@ SUFFIX ?= $(shell $(PYTHON3) -c "import sysconfig; print(sysconfig.get_config_va
 # *                           USER-SPECIFIED TARGETS                           *
 # ******************************************************************************
 
-# "gmake -r [all]"   = "make compile" (default)
+# "gmake -r [all]"   = "gmake -r compile" (default)
 all:		compile
 
 # "gmake -r clean"   = removes the compiled code
