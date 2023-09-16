@@ -39,6 +39,11 @@ def _add_elevation(axis, /, *, debug = False, maxElev = 8850.0, onlyValid = Fals
     # Import special modules ...
     try:
         import cartopy
+        cartopy.config.update(
+            {
+                "cache_dir" : os.path.expanduser("~/.local/share/cartopy_cache"),
+            }
+        )
     except:
         raise Exception("\"cartopy\" is not installed; run \"pip install --user Cartopy\"") from None
     try:

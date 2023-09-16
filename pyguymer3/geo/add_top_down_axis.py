@@ -61,9 +61,17 @@ def add_top_down_axis(fg, lon, lat, dist, /, *, add_gridlines = False, color = "
     .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
+    # Import standard modules ...
+    import os
+
     # Import special modules ...
     try:
         import cartopy
+        cartopy.config.update(
+            {
+                "cache_dir" : os.path.expanduser("~/.local/share/cartopy_cache"),
+            }
+        )
     except:
         raise Exception("\"cartopy\" is not installed; run \"pip install --user Cartopy\"") from None
     try:
