@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def ffprobe(fname, /, *, playlist = -1, timeout = 60.0):
+def ffprobe(fname, /, *, cwd = None, playlist = -1, timeout = 60.0):
     """
     Run "ffprobe" on a file and return the format and stream information.
 
@@ -9,6 +9,8 @@ def ffprobe(fname, /, *, playlist = -1, timeout = 60.0):
     ----------
     fname : str
         the file to be surveyed
+    cwd : str, optional
+        the child working directory
     playlist : int, optional
         the playlist within the Blu-ray folder structure to be surveyed
     timeout : float, optional
@@ -66,6 +68,7 @@ def ffprobe(fname, /, *, playlist = -1, timeout = 60.0):
                 fname
             ],
                check = True,
+                 cwd = cwd,
             encoding = "utf-8",
               stderr = subprocess.DEVNULL,
               stdout = subprocess.PIPE,
@@ -96,6 +99,7 @@ def ffprobe(fname, /, *, playlist = -1, timeout = 60.0):
                     fname
                 ],
                    check = True,
+                     cwd = cwd,
                 encoding = "utf-8",
                   stderr = subprocess.DEVNULL,
                   stdout = subprocess.PIPE,
@@ -125,6 +129,7 @@ def ffprobe(fname, /, *, playlist = -1, timeout = 60.0):
                     fname
                 ],
                    check = True,
+                     cwd = cwd,
                 encoding = "utf-8",
                   stderr = subprocess.DEVNULL,
                   stdout = subprocess.PIPE,
