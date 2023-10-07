@@ -6,3 +6,7 @@ numpy
 # Pip ...
 matplotlib
 scipy
+
+# As of 7/Oct/2023, RTD appears to no longer automatically install the RTD theme
+# so the following packages must be installed using Pip ...
+sphinx_rtd_theme
