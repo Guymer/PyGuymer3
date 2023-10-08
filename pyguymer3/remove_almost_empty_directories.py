@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def remove_almost_empty_directories(path, /, *, debug = False, ignorableFiles = (".directory", ".DS_Store", "._.DS_Store", "Thumbs.db"), remove = False):
+def remove_almost_empty_directories(path, /, *, debug = False, ignorableFiles = (".directory", ".DS_Store", "._.DS_Store", "cover.jpg", "cover.png", "Thumbs.db"), remove = False):
     """Remove directories which are almost empty.
 
     This function removes directories which are *almost* empty, based on a tuple
