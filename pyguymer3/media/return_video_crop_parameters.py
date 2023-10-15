@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_video_crop_parameters(fname, /, *, debug = False, dt = 2.0, playlist = -1, timeout = 60.0):
+def return_video_crop_parameters(fname, /, *, cwd = None, debug = False, dt = 2.0, playlist = -1, timeout = 60.0):
     # Import standard modules ...
     import shutil
     import subprocess
@@ -22,18 +22,21 @@ def return_video_crop_parameters(fname, /, *, debug = False, dt = 2.0, playlist 
     # Initialize variables ...
     dur = return_media_duration(
         fname,
+             cwd = cwd,
            debug = debug,
         playlist = playlist,
          timeout = timeout,
     )                                                                           # [s]
     inW = return_video_width(
         fname,
+             cwd = cwd,
            debug = debug,
         playlist = playlist,
          timeout = timeout,
     )                                                                           # [px]
     inH = return_video_height(
         fname,
+             cwd = cwd,
            debug = debug,
         playlist = playlist,
          timeout = timeout,
@@ -67,6 +70,7 @@ def return_video_crop_parameters(fname, /, *, debug = False, dt = 2.0, playlist 
                     "/dev/null"
                 ],
                    check = True,
+                     cwd = cwd,
                 encoding = "utf-8",
                   stderr = subprocess.STDOUT,
                   stdout = subprocess.PIPE,
@@ -93,6 +97,7 @@ def return_video_crop_parameters(fname, /, *, debug = False, dt = 2.0, playlist 
                         "/dev/null"
                     ],
                        check = True,
+                         cwd = cwd,
                     encoding = "utf-8",
                       stderr = subprocess.STDOUT,
                       stdout = subprocess.PIPE,
@@ -119,6 +124,7 @@ def return_video_crop_parameters(fname, /, *, debug = False, dt = 2.0, playlist 
                         "/dev/null"
                     ],
                        check = True,
+                         cwd = cwd,
                     encoding = "utf-8",
                       stderr = subprocess.STDOUT,
                       stdout = subprocess.PIPE,

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_video_ratios(fname, /, *, debug = False, playlist = -1, timeout = 60.0):
+def return_video_ratios(fname, /, *, cwd = None, debug = False, playlist = -1, timeout = 60.0):
     # Import sub-functions ...
     from .__ffprobe__ import __ffprobe__
     from .ffprobe import ffprobe
@@ -17,7 +17,7 @@ def return_video_ratios(fname, /, *, debug = False, playlist = -1, timeout = 60.
     if playlist not in __ffprobe__[fname]:
         if debug:
             print(f"INFO: Running ffprobe(\"{fname}\", {playlist:d}) ...")
-        __ffprobe__[fname][playlist] = ffprobe(fname, playlist = playlist, timeout = timeout)
+        __ffprobe__[fname][playlist] = ffprobe(fname, cwd = cwd, playlist = playlist, timeout = timeout)
 
     # Loop over streams ...
     for stream in __ffprobe__[fname][playlist]["streams"]:
@@ -28,12 +28,14 @@ def return_video_ratios(fname, /, *, debug = False, playlist = -1, timeout = 60.
         # Find common dimensions divisors ...
         w = return_video_width(
             fname,
+                 cwd = cwd,
                debug = debug,
             playlist = playlist,
              timeout = timeout,
         )                                                                       # [px]
         h = return_video_height(
             fname,
+                 cwd = cwd,
                debug = debug,
             playlist = playlist,
              timeout = timeout,
@@ -49,12 +51,14 @@ def return_video_ratios(fname, /, *, debug = False, playlist = -1, timeout = 60.
         # Create short-hands and then return them ...
         dar = return_video_display_aspect_ratio(
             fname,
+                 cwd = cwd,
                debug = debug,
             playlist = playlist,
              timeout = timeout,
         )
         par = return_video_pixel_aspect_ratio(
             fname,
+                 cwd = cwd,
                debug = debug,
             playlist = playlist,
              timeout = timeout,

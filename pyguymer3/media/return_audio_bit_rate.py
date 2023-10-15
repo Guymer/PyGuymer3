@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_audio_bit_rate(fname, /, *, debug = False, playlist = -1, timeout = 60.0):
+def return_audio_bit_rate(fname, /, *, cwd = None, debug = False, playlist = -1, timeout = 60.0):
     """
     Return the bit rate of the first audio stream in the media file.
     """
@@ -16,7 +16,7 @@ def return_audio_bit_rate(fname, /, *, debug = False, playlist = -1, timeout = 6
     if playlist not in __ffprobe__[fname]:
         if debug:
             print(f"INFO: Running ffprobe(\"{fname}\", {playlist:d}) ...")
-        __ffprobe__[fname][playlist] = ffprobe(fname, playlist = playlist, timeout = timeout)
+        __ffprobe__[fname][playlist] = ffprobe(fname, cwd = cwd, playlist = playlist, timeout = timeout)
 
     # Loop over streams ...
     for stream in __ffprobe__[fname][playlist]["streams"]:

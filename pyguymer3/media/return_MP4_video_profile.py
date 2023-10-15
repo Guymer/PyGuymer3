@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_MP4_video_profile(fname, /, *, debug = False, playlist = -1, timeout = 60.0):
+def return_MP4_video_profile(fname, /, *, cwd = None, debug = False, playlist = -1, timeout = 60.0):
     # Import sub-functions ...
     from .__ffprobe__ import __ffprobe__
     from .ffprobe import ffprobe
@@ -12,7 +12,7 @@ def return_MP4_video_profile(fname, /, *, debug = False, playlist = -1, timeout 
     if playlist not in __ffprobe__[fname]:
         if debug:
             print(f"INFO: Running ffprobe(\"{fname}\", {playlist:d}) ...")
-        __ffprobe__[fname][playlist] = ffprobe(fname, playlist = playlist, timeout = timeout)
+        __ffprobe__[fname][playlist] = ffprobe(fname, cwd = cwd, playlist = playlist, timeout = timeout)
 
     # Loop over streams ...
     for stream in __ffprobe__[fname][playlist]["streams"]:

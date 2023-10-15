@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_video_size(fname, /, *, debug = False, playlist = -1, timeout = 60.0):
+def return_video_size(fname, /, *, cwd = None, debug = False, playlist = -1, timeout = 60.0):
     # Import sub-functions ...
     from .__ffprobe__ import __ffprobe__
     from .ffprobe import ffprobe
@@ -13,7 +13,7 @@ def return_video_size(fname, /, *, debug = False, playlist = -1, timeout = 60.0)
     if playlist not in __ffprobe__[fname]:
         if debug:
             print(f"INFO: Running ffprobe(\"{fname}\", {playlist:d}) ...")
-        __ffprobe__[fname][playlist] = ffprobe(fname, playlist = playlist, timeout = timeout)
+        __ffprobe__[fname][playlist] = ffprobe(fname, cwd = cwd, playlist = playlist, timeout = timeout)
 
     # Loop over streams ...
     for stream in __ffprobe__[fname][playlist]["streams"]:
@@ -22,10 +22,10 @@ def return_video_size(fname, /, *, debug = False, playlist = -1, timeout = 60.0)
             continue
 
         # Check the rotation ...
-        if return_video_rotation(fname, debug = debug, playlist = playlist, timeout = timeout) in [0, 180]:
+        if return_video_rotation(fname, cwd = cwd, debug = debug, playlist = playlist, timeout = timeout) in [0, 180]:
             # Return width and height ...
             return int(stream["width"]), int(stream["height"])                  # [px], [px]
-        if return_video_rotation(fname, debug = debug, playlist = playlist, timeout = timeout) in [90, 270]:
+        if return_video_rotation(fname, cwd = cwd, debug = debug, playlist = playlist, timeout = timeout) in [90, 270]:
             # Return height and width ...
             return int(stream["height"]), int(stream["width"])                  # [px], [px]
 

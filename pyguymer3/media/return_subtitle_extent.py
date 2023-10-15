@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_subtitle_extent(fname, /, *, debug = False, playlist = -1, subtitle = 0, timeout = 60.0):
+def return_subtitle_extent(fname, /, *, cwd = None, debug = False, playlist = -1, subtitle = 0, timeout = 60.0):
     # Import standard modules ...
     import re
     import shutil
@@ -24,24 +24,28 @@ def return_subtitle_extent(fname, /, *, debug = False, playlist = -1, subtitle =
     # Find out information about video ...
     duration = return_media_duration(
         fname,
+             cwd = cwd,
            debug = debug,
         playlist = playlist,
          timeout = timeout,
     )                                                                           # [s]
     fps = return_video_frame_rate(
         fname,
+             cwd = cwd,
            debug = debug,
         playlist = playlist,
          timeout = timeout,
     )                                                                           # [Hz]
     width = return_video_width(
         fname,
+             cwd = cwd,
            debug = debug,
         playlist = playlist,
          timeout = timeout,
     )                                                                           # [px]
     height = return_video_height(
         fname,
+             cwd = cwd,
            debug = debug,
         playlist = playlist,
          timeout = timeout,
@@ -69,6 +73,7 @@ def return_subtitle_extent(fname, /, *, debug = False, playlist = -1, subtitle =
                 "/dev/null"
             ],
                check = True,
+                 cwd = cwd,
             encoding = "utf-8",
               stderr = subprocess.STDOUT,
               stdout = subprocess.PIPE,
@@ -96,6 +101,7 @@ def return_subtitle_extent(fname, /, *, debug = False, playlist = -1, subtitle =
                     "/dev/null"
                 ],
                    check = True,
+                     cwd = cwd,
                 encoding = "utf-8",
                   stderr = subprocess.STDOUT,
                   stdout = subprocess.PIPE,
@@ -122,6 +128,7 @@ def return_subtitle_extent(fname, /, *, debug = False, playlist = -1, subtitle =
                     "/dev/null"
                 ],
                    check = True,
+                     cwd = cwd,
                 encoding = "utf-8",
                   stderr = subprocess.STDOUT,
                   stdout = subprocess.PIPE,
