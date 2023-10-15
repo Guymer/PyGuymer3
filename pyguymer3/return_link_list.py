@@ -64,6 +64,7 @@ def return_link_list(path, /, *, allowHidden = False, debug = False, follow_syml
                         # list ...
                         contents += return_link_list(
                             entry.path,
+                                allowHidden = allowHidden,
                                       debug = debug,
                             follow_symlinks = follow_symlinks,
                         )

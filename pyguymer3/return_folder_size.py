@@ -66,6 +66,7 @@ def return_folder_size(path, /, *, allowHidden = False, debug = False, follow_sy
                         # total ...
                         size += return_folder_size(
                             entry.path,
+                                allowHidden = allowHidden,
                                       debug = debug,
                             follow_symlinks = follow_symlinks,
                             return_symlinks = return_symlinks,

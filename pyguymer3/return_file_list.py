@@ -66,6 +66,7 @@ def return_file_list(path, /, *, allowHidden = False, debug = False, follow_syml
                         # list ...
                         contents += return_file_list(
                             entry.path,
+                                allowHidden = allowHidden,
                                       debug = debug,
                             follow_symlinks = follow_symlinks,
                             return_symlinks = return_symlinks,

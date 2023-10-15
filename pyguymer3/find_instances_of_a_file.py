@@ -69,6 +69,7 @@ def find_instances_of_a_file(path, basename, /, *, allowHidden = False, debug = 
                         contents += find_instances_of_a_file(
                             entry.path,
                             basename,
+                                allowHidden = allowHidden,
                                       debug = debug,
                             follow_symlinks = follow_symlinks,
                             return_symlinks = return_symlinks,

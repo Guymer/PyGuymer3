@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def perms(path, /, *, debug = False, filePerms = None, folderPerms = None, follow_symlinks = True, group = None, return_symlinks = False, skips = None, user = None):
+def perms(path, /, *, allowHidden = False, debug = False, filePerms = None, folderPerms = None, follow_symlinks = True, group = None, return_symlinks = False, skips = None, user = None):
     """Set permissions within a path.
 
     This function sets the file/folder mode and group/user owner of all files
@@ -11,6 +11,8 @@ def perms(path, /, *, debug = False, filePerms = None, folderPerms = None, follo
     ----------
     path : str
         the path to set permissions within
+    allowHidden : bool, optional
+        allow hidden files
     debug : bool, optional
         print debug messages
     filePerms : int, default=None
@@ -54,12 +56,14 @@ def perms(path, /, *, debug = False, filePerms = None, folderPerms = None, follo
     # Fetch lists ...
     flist = return_file_list(
         path,
+            allowHidden = allowHidden,
                   debug = debug,
         follow_symlinks = follow_symlinks,
         return_symlinks = return_symlinks,
     )
     dlist = return_folder_list(
         path,
+            allowHidden = allowHidden,
                   debug = debug,
         follow_symlinks = follow_symlinks,
         return_symlinks = return_symlinks,
