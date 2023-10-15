@@ -11,7 +11,7 @@ def perms(path, /, *, debug = False, filePerms = None, folderPerms = None, follo
     ----------
     path : str
         the path to set permissions within
-    debug : bool, default=False
+    debug : bool, optional
         print debug messages
     filePerms : int, default=None
         desired file mode (recommended to supply integer in octal to improve clarity)
@@ -21,9 +21,9 @@ def perms(path, /, *, debug = False, filePerms = None, folderPerms = None, follo
         desired group owner
     user : str, default=None
         desired user owner
-    follow_symlinks : bool, default=True
+    follow_symlinks : bool, optional
         follow symbolic links
-    return_symlinks : bool, default=False
+    return_symlinks : bool, optional
         set permissions on symbolic links
     skips : list of str, default=[]
         a list of strings which, if any are present in a file/folder name, result in the file/folder being skipped

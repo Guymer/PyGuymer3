@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_folder_list(path, /, *, debug = False, follow_symlinks = True, return_symlinks = True):
+def return_folder_list(path, /, *, allowHidden = False, debug = False, follow_symlinks = True, return_symlinks = True):
     """Return a recursive list of folder names in a directory.
 
     This function returns a sorted list of folder names recursively in a
@@ -11,11 +11,13 @@ def return_folder_list(path, /, *, debug = False, follow_symlinks = True, return
     ----------
     path : str
         the directory to search
-    debug : bool, default=False
+    allowHidden : bool, optional
+        allow hidden files
+    debug : bool, optional
         print debug messages
-    follow_symlinks : bool, default=True
+    follow_symlinks : bool, optional
         follow symbolic links
-    return_symlinks : bool, default=True
+    return_symlinks : bool, optional
         include symbolic links in the returned list
 
     Returns
@@ -51,7 +53,7 @@ def return_folder_list(path, /, *, debug = False, follow_symlinks = True, return
                 if debug:
                     # Test if this part is illegal and print the full path for
                     # identification ...
-                    if not entry.name.startswith(".") and entry.name != make_path_safe(entry.name):
+                    if not entry.name.startswith(".") and entry.name != make_path_safe(entry.name, allowHidden = allowHidden):
                         print(f"WARNING: \"{entry.path}\" is illegal")
 
                 # Check if it might need following ...

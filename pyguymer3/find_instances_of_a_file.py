@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def find_instances_of_a_file(path, basename, /, *, debug = False, follow_symlinks = True, return_symlinks = True):
+def find_instances_of_a_file(path, basename, /, *, allowHidden = False, debug = False, follow_symlinks = True, return_symlinks = True):
     """Return a recursive list of file names in a directory that match a basename.
 
     This function returns a sorted list of desired file names recursively in a directory that match a desired basename.
@@ -12,11 +12,13 @@ def find_instances_of_a_file(path, basename, /, *, debug = False, follow_symlink
         the directory to search
     basename : str
         the desired basename
-    debug : bool, default=False
+    allowHidden : bool, optional
+        allow hidden files
+    debug : bool, optional
         print debug messages
-    follow_symlinks : bool, default=True
+    follow_symlinks : bool, optional
         follow symbolic links
-    return_symlinks : bool, default=True
+    return_symlinks : bool, optional
         include symbolic links in the returned list
 
     Returns
@@ -52,7 +54,7 @@ def find_instances_of_a_file(path, basename, /, *, debug = False, follow_symlink
                 if debug:
                     # Test if this part is illegal and print the full path for
                     # identification ...
-                    if not entry.name.startswith(".") and entry.name != make_path_safe(entry.name):
+                    if not entry.name.startswith(".") and entry.name != make_path_safe(entry.name, allowHidden = allowHidden):
                         print(f"WARNING: \"{entry.path}\" is illegal")
 
                 # Check if it might need following ...

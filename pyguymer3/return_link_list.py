@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_link_list(path, /, *, debug = False, follow_symlinks = True):
+def return_link_list(path, /, *, allowHidden = False, debug = False, follow_symlinks = True):
     """Return a recursive list of link names in a directory.
 
     This function returns a sorted list of link names recursively in a directory.
@@ -10,9 +10,11 @@ def return_link_list(path, /, *, debug = False, follow_symlinks = True):
     ----------
     path : str
         the directory to search
-    debug : bool, default=False
+    allowHidden : bool, optional
+        allow hidden files
+    debug : bool, optional
         print debug messages
-    follow_symlinks : bool, default=True
+    follow_symlinks : bool, optional
         follow symbolic links
 
     Returns
@@ -48,7 +50,7 @@ def return_link_list(path, /, *, debug = False, follow_symlinks = True):
                 if debug:
                     # Test if this part is illegal and print the full path for
                     # identification ...
-                    if not entry.name.startswith(".") and entry.name != make_path_safe(entry.name):
+                    if not entry.name.startswith(".") and entry.name != make_path_safe(entry.name, allowHidden = allowHidden):
                         print(f"WARNING: \"{entry.path}\" is illegal")
 
                 # Check if it might need following ...

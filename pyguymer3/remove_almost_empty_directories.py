@@ -11,11 +11,11 @@ def remove_almost_empty_directories(path, /, *, debug = False, ignorableFiles = 
     ----------
     path : str
         the directory to search
-    debug : bool, default=True
+    debug : bool, optional
         print debug messages
     ignorableFiles : tuple of str, default=(".directory", ".DS_Store", "._.DS_Store", "Thumbs.db")
         the tuple of file names which can safely be ignored
-    remove : bool, default=False
+    remove : bool, optional
         remove almost empty directories
 
     Returns

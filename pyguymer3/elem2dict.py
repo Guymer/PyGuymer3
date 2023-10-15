@@ -11,7 +11,7 @@ def elem2dict(elem, /, *, debug = False):
     ----------
     elem : lxml.etree._Element
         the XML element
-    debug : bool, default=False
+    debug : bool, optional
         print debug messages
 
     Returns
