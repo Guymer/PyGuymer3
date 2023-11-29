@@ -201,7 +201,7 @@ def images2mp4(frames, /, *, crf = -1.0, cwd = None, debug = False, form = "mp4"
                 encoding = "utf-8",
                   stderr = fObjErr,
                   stdout = fObjOut,
-                 timeout = timeout,
+                 timeout = None,
             )
 
     # Check libx264 bit-depth ...

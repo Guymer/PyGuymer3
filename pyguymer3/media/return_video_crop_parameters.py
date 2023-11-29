@@ -74,7 +74,7 @@ def return_video_crop_parameters(fname, /, *, cwd = None, debug = False, dt = 2.
                 encoding = "utf-8",
                   stderr = subprocess.STDOUT,
                   stdout = subprocess.PIPE,
-                 timeout = timeout,
+                 timeout = None,
             )
         else:
             # Attempt to survey the file ...
@@ -101,7 +101,7 @@ def return_video_crop_parameters(fname, /, *, cwd = None, debug = False, dt = 2.
                     encoding = "utf-8",
                       stderr = subprocess.STDOUT,
                       stdout = subprocess.PIPE,
-                     timeout = timeout,
+                     timeout = None,
                 )
             except subprocess.CalledProcessError:
                 # Fallback and attempt to find crop parameters as a raw M-JPEG
@@ -128,7 +128,7 @@ def return_video_crop_parameters(fname, /, *, cwd = None, debug = False, dt = 2.
                     encoding = "utf-8",
                       stderr = subprocess.STDOUT,
                       stdout = subprocess.PIPE,
-                     timeout = timeout,
+                     timeout = None,
                 )
 
         # Loop over lines ...

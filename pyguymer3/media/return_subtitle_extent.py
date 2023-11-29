@@ -77,7 +77,7 @@ def return_subtitle_extent(fname, /, *, cwd = None, debug = False, playlist = -1
             encoding = "utf-8",
               stderr = subprocess.STDOUT,
               stdout = subprocess.PIPE,
-             timeout = timeout,
+             timeout = None,
         )
     else:
         # Attempt to survey the file ...
@@ -105,7 +105,7 @@ def return_subtitle_extent(fname, /, *, cwd = None, debug = False, playlist = -1
                 encoding = "utf-8",
                   stderr = subprocess.STDOUT,
                   stdout = subprocess.PIPE,
-                 timeout = timeout,
+                 timeout = None,
             )
         except subprocess.CalledProcessError:
             # Fallback and attempt to find stream info as a raw M-JPEG stream ...
@@ -132,7 +132,7 @@ def return_subtitle_extent(fname, /, *, cwd = None, debug = False, playlist = -1
                 encoding = "utf-8",
                   stderr = subprocess.STDOUT,
                   stdout = subprocess.PIPE,
-                 timeout = timeout,
+                 timeout = None,
             )
 
     # Initialize values ...
