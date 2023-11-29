@@ -16,7 +16,10 @@ References
 # Import sub-functions ...
 from .__ffprobe__ import __ffprobe__
 from .does_FLAC_have_padding import does_FLAC_have_padding
+from .does_media_have_audio import does_media_have_audio
 from .does_media_have_RTP_hints import does_media_have_RTP_hints
+from .does_media_have_subtitle import does_media_have_subtitle
+from .does_media_have_video import does_media_have_video
 from .does_MP4_have_free import does_MP4_have_free
 from .ffprobe import ffprobe
 from .images2gif import images2gif
