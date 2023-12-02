@@ -24,5 +24,27 @@ def return_video_bit_depth(fname, /, *, cwd = None, debug = False, playlist = -1
         if "bits_per_raw_sample" in stream:
             return int(stream["bits_per_raw_sample"])                           # [b]
 
+    # **************************************************************************
+
+    # Loop over streams ...
+    for stream in __ffprobe__[fname][playlist]["streams"]:
+        # Skip stream if it is not video ...
+        if stream["codec_type"].strip().lower() != "video":
+            continue
+
+        # Return bit depth ...
+        # HACK: As of 29/Nov/2023, "ffprobe" does not populate the standard
+        #       "bits_per_raw_sample" field of HEVC "Main 10" videos.
+        if stream["codec_name"] == "hevc" and stream["profile"] == "Main 10":
+            return 10                                                           # [b]
+
+        # Return bit depth ...
+        # HACK: As of 2/Dec/2023, "ffprobe" does not populate the standard
+        #       "bits_per_raw_sample" field of VP9 "Profile 0" videos.
+        if stream["codec_name"] == "vp9" and stream["profile"] == "Profile 0":
+            return 8                                                            # [b]
+
+    # **************************************************************************
+
     # Return error ...
     return -1                                                                   # [b]
