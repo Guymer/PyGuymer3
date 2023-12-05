@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def add_coastlines(axis, /, *, colorName = "black", debug = False, faceOpac = -1.0, levels = None, linestyle = "solid", linewidth = 0.5, onlyValid = False, repair = False, resolution = "i"):
+def add_coastlines(axis, /, *, colorName = "black", debug = False, faceOpac = -1.0, levels = None, linestyle = "solid", linewidth = 0.5, onlyValid = False, repair = False, resolution = "i", zorder = 1.5):
     """Add coastlines to an axis.
 
     This function adds coastline boundaries to a Cartopy axis. The resolution of
@@ -32,6 +32,11 @@ def add_coastlines(axis, /, *, colorName = "black", debug = False, faceOpac = -1
         attempt to repair invalid Polygons
     resolution : str, optional
         the resolution of the coastline boundaries
+    zorder : float, optional
+        the zorder to draw the coastline boundaries with (the default value has
+        been chosen to match the value that it ends up being if the coastline
+        boundaries are not drawn with the zorder keyword specified -- obtained
+        by manual inspection on 5/Dec/2023)
 
     Notes
     -----
@@ -142,4 +147,5 @@ def add_coastlines(axis, /, *, colorName = "black", debug = False, faceOpac = -1
             facecolor = facecolor,
             linestyle = linestyle,
             linewidth = linewidth,
+               zorder = zorder,
         )
