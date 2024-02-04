@@ -6,5 +6,5 @@ max-line-length=240
 disable=bare-except,broad-exception-raised,c-extension-no-member,import-outside-toplevel,invalid-name,missing-module-docstring,too-many-arguments,too-many-branches,too-many-locals,too-many-nested-blocks,too-many-return-statements,too-many-statements
 
 [TYPECHECK]
-ignored-classes=boto3,cartopy,ephem,exifread,geojson,lxml,magic,matplotlib,numpy,PIL,pyrfc3339,pytz,requests,scipy,shapefile,shapely,sysctl
-ignored-modules=boto3,cartopy,ephem,exifread,geojson,lxml,magic,matplotlib,numpy,PIL,pyrfc3339,pytz,requests,scipy,shapefile,shapely,sysctl
+ignored-classes=boto3,cartopy,cython,ephem,exifread,geojson,lxml,magic,matplotlib,numpy,PIL,pyrfc3339,pytz,requests,scipy,shapefile,shapely,sysctl
+ignored-modules=boto3,cartopy,cython,ephem,exifread,geojson,lxml,magic,matplotlib,numpy,PIL,pyrfc3339,pytz,requests,scipy,shapefile,shapely,sysctl
