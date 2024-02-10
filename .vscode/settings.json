@@ -1,3 +1,11 @@
 {
-    "python.linting.pylintEnabled": true
+    "editor.rulers": [
+        80,
+        160
+    ],
+    "files.trimTrailingWhitespace": true,
+    "git.detectSubmodulesLimit": 512,
+    "pylint.path": [
+        "/opt/local/bin/pylint-3.11"
+    ]
 }
