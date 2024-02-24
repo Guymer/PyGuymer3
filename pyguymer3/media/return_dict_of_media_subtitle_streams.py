@@ -34,10 +34,7 @@ def return_dict_of_media_subtitle_streams(fname, /, *, cwd = None, debug = False
     # Check if it is a Blu-ray ...
     if fname.startswith("bluray:"):
         # Attempt to load the MPLS file for this playlist ...
-        nfo = parse_MPLS_file(
-            br = fname.removeprefix("bluray:"),
-            ip = playlist,
-        )
+        nfo = parse_MPLS_file(fname.removeprefix("bluray:"), playlist)
 
         # Check key ...
         if "PlayList" in nfo:
