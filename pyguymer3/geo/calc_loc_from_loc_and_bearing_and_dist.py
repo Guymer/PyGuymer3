@@ -2,11 +2,13 @@
 
 # Define function ...
 def calc_loc_from_loc_and_bearing_and_dist(lon1_deg, lat1_deg, alpha1_deg, s_m, /, *, eps = 1.0e-12, nmax = 100):
-    """Calculate the location from another location and a bearing and a distance.
+    """Calculate the location and reverse bearing from another location and a
+    forward bearing and a distance.
 
-    This function reads in coordinates (in degrees) on the surface of the Earth
-    and a heading (in degrees) and a distance (in metres) it then calculates the
-    coordinates (in degrees) that are at the end of the vector.
+    This function reads in coordinates (in degrees) on the surface of the Earth,
+    a bearing (in degrees) and a distance (in metres). It then calculates the
+    coordinates (in degrees) that are at the end of the vector and the bearing
+    (in degrees) back to the first coordinate.
 
     Parameters
     ----------
@@ -15,7 +17,7 @@ def calc_loc_from_loc_and_bearing_and_dist(lon1_deg, lat1_deg, alpha1_deg, s_m, 
     lat1_deg : float
         the latitude of the first coordinate (in degrees)
     alpha1_deg : float
-        the heading to the second coordinate from the first coordinate (in
+        the bearing to the second coordinate from the first coordinate (in
         degrees)
     s_m : float
         the distance between the two coordinates (in metres)
@@ -31,7 +33,7 @@ def calc_loc_from_loc_and_bearing_and_dist(lon1_deg, lat1_deg, alpha1_deg, s_m, 
     lat2_deg : float
         the latitude of the second coordinate (in degrees)
     alpha2_deg : float
-        the heading to the first coordinate from the second coordinate (in
+        the bearing to the first coordinate from the second coordinate (in
         degrees)
 
     Notes
