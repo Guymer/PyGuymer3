@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def add_vertical_gridlines(axis, /, *, color = "black", linestyle = ":", linewidth = 0.5, locs = None, ngrid = -1, npoint = 181):
+def add_vertical_gridlines(axis, /, *, color = "black", linestyle = ":", linewidth = 0.5, locs = None, ngrid = -1, npoint = 181, zorder = 2.0):
     """Add vertical gridlines to a Cartopy axis.
 
     Parameters
@@ -20,6 +20,11 @@ def add_vertical_gridlines(axis, /, *, color = "black", linestyle = ":", linewid
         the number of gridlines to draw
     npoint : int, optional
         the number of points along each gridline to draw
+    zorder : float, optional
+        the zorder to draw the gridlines with (the default value has been chosen
+        to match the value that it ends up being if the gridlines are not drawn
+        with the zorder keyword specified -- obtained by manual inspection on
+        5/Dec/2023)
 
     Notes
     -----
@@ -73,4 +78,5 @@ def add_vertical_gridlines(axis, /, *, color = "black", linestyle = ":", linewid
             linestyle = linestyle,
             linewidth = linewidth,
             transform = cartopy.crs.PlateCarree(),
+               zorder = zorder,
         )
