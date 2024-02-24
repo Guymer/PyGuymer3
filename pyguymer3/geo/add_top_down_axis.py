@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def add_top_down_axis(fg, lon, lat, dist, /, *, add_gridlines = False, color = "black", debug = False, eps = 1.0e-12, gridline_int = 1, gs = None, index = None, linestyle = ":", linewidth = 0.5, ncols = None, nmax = 100, nrows = None, prefix = ".", ramLimit = 1073741824, tol = 1.0e-10):
+def add_top_down_axis(fg, lon, lat, dist, /, *, add_gridlines = False, color = "black", debug = False, eps = 1.0e-12, gridline_int = 1, gs = None, index = None, linestyle = ":", linewidth = 0.5, ncols = None, nmax = 100, nrows = None, prefix = ".", ramLimit = 1073741824, tol = 1.0e-10, zorder = 2.0):
     """Add an Orthographic axis to a figure with a field-of-view based on a
     circle around a point on the surface of the Earth
 
@@ -46,6 +46,11 @@ def add_top_down_axis(fg, lon, lat, dist, /, *, add_gridlines = False, color = "
     tol : float, optional
         the Euclidean distance that defines two points as being the same (in
         degrees)
+    zorder : float, optional
+        the zorder to draw the gridlines with (the default value has been chosen
+        to match the value that it ends up being if the gridlines are not drawn
+        with the zorder keyword specified -- obtained by manual inspection on
+        5/Dec/2023)
 
     Returns
     -------
@@ -175,6 +180,7 @@ def add_top_down_axis(fg, lon, lat, dist, /, *, add_gridlines = False, color = "
                  locs = range( -90,  +90 + gridline_int, gridline_int),
                 ngrid = -1,
                npoint = 361,
+               zorder = zorder,
         )
         add_vertical_gridlines(
             ax,
@@ -184,6 +190,7 @@ def add_top_down_axis(fg, lon, lat, dist, /, *, add_gridlines = False, color = "
                  locs = range(-180, +180 + gridline_int, gridline_int),
                 ngrid = -1,
                npoint = 181,
+               zorder = zorder,
         )
 
     # Return answer ...
