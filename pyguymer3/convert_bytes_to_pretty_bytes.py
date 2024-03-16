@@ -14,7 +14,7 @@ def convert_bytes_to_pretty_bytes(size, /):
 
     Returns
     -------
-    size : int
+    size : float
         the value of bytes in *unit*
     unit : str
         the units of *size*
