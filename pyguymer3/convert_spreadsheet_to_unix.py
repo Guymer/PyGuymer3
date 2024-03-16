@@ -2,7 +2,7 @@
 
 # Define function ...
 def convert_spreadsheet_to_unix(val, /):
-    """Convert an Excel spreadsheet date to an UNIX timestamp.
+    """Convert an Excel spreadsheet date to an UNIX timestamp
 
     This function converts an Excel spreadsheet date (which is an integer) to an
     UNIX timestamp (which is also an integer).
