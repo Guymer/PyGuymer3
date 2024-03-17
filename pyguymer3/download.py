@@ -20,7 +20,7 @@ def download(sess, method, url, /, *, cookies = None, headers = None, timeout = 
     headers : dict, optional
         extra headers to send
     timeout : float, optional
-        the timeout of the GET request
+        the timeout of the GET/POST/PUT/HEAD/OPTIONS request
     verify : bool, optional
         verify the server's certificates
 

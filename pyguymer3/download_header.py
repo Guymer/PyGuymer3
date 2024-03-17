@@ -18,7 +18,7 @@ def download_header(sess, url, /, *, cookies = None, headers = None, timeout = 1
     headers : dict, optional
         extra headers to send
     timeout : float, optional
-        the timeout of the GET request
+        the timeout of the HEAD request
     verify : bool, optional
         verify the server's certificates
 
