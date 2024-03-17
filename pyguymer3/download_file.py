@@ -2,6 +2,42 @@
 
 # Define function ...
 def download_file(sess, url, fname, /, *, cookies = None, headers = None, timeout = 10.0, verify = True):
+    """GET a URL and save the content in a file
+
+    This function performs a HTTP GET operation on a URL and saves the content
+    in a file, and sets the Last-Modified time if available.
+
+    Parameters
+    ----------
+    sess : requests.sessions.Session
+        the :mod:`requests` session to use
+    url : str
+        the URL
+    fname : str
+        the name of the file to save the content in
+    cookies : dict, optional
+        the cookie jar
+    headers : dict, optional
+        extra headers to send
+    timeout : float, optional
+        the timeout of the GET request
+    verify : bool, optional
+        verify the server's certificates
+
+    Returns
+    -------
+    resp : bool
+        the success of the download
+
+    Notes
+    -----
+    Copyright 2017 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
+    """
+
     # Import standard modules ...
     import email
     import email.utils
@@ -19,7 +55,15 @@ def download_file(sess, url, fname, /, *, cookies = None, headers = None, timeou
     # **************************************************************************
 
     # Try to download the file ...
-    resp = download(sess, "get", url, cookies = cookies, headers = headers, timeout = timeout, verify = verify)
+    resp = download(
+        sess,
+        "get",
+        url,
+        cookies = cookies,
+        headers = headers,
+        timeout = timeout,
+         verify = verify,
+    )
 
     # Check response ...
     if resp is False:
