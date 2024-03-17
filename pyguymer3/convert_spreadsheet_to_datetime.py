@@ -2,10 +2,11 @@
 
 # Define function ...
 def convert_spreadsheet_to_datetime(val, /):
-    """Convert an Excel spreadsheet date to a timezone-aware ``datetime`` object
+    """Convert an Excel spreadsheet date to a timezone-aware :class:`.datetime`
+    object
 
     This function converts an Excel spreadsheet date (which is an integer) to a
-    timezone-aware ``datetime`` object.
+    timezone-aware :class:`.datetime` object.
 
     Parameters
     ----------
@@ -15,7 +16,7 @@ def convert_spreadsheet_to_datetime(val, /):
     Returns
     -------
     ans : datetime.datetime
-        the timezone-aware ``datetime`` object
+        the timezone-aware :class:`.datetime` object
 
     Notes
     -----
