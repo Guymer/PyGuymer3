@@ -24,6 +24,7 @@ from .does_MP4_have_free import does_MP4_have_free
 from .ffprobe import ffprobe
 from .images2gif import images2gif
 from .images2mp4 import images2mp4
+from .images2pdf import images2pdf
 from .images2webp import images2webp
 from .is_moov_at_beginning_of_MP4 import is_moov_at_beginning_of_MP4
 from .optimize_FLAC import optimize_FLAC
