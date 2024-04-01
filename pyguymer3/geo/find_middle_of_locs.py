@@ -120,7 +120,7 @@ def find_middle_of_locs(lons, lats, /, *, debug = False, eps = 1.0e-12, nIter = 
                         nmax = nmax,
                     )[0]
                 )                                                               # [m]
-            elif lats[iLoc] > midLon:                                           # NOTE: Location is north of the middle.
+            elif lats[iLoc] > midLat:                                           # NOTE: Location is north of the middle.
                 maxNorthDist = max(
                     maxNorthDist,
                     calc_dist_between_two_locs(
