@@ -225,13 +225,16 @@ def find_middle_of_locs(lons, lats, /, *, debug = False, eps = 1.0e-12, nIter = 
             )[0],
         )                                                                       # [m]
 
+    if debug:
+        print(f"INFO: Maximum distance is {0.001 * maxDist:,.1f} km.")
+
     # Check if a padding needs to be added ...
     if pad > 0.0:
         # Add padding ...
-        maxDist += 10.0e3                                                       # [m]
+        maxDist += pad                                                          # [m]
 
-    if debug:
-        print(f"INFO: Maximum (padded) distance is {0.001 * maxDist:,.1f} km.")
+        if debug:
+            print(f"INFO: Maximum (padded) distance is {0.001 * maxDist:,.1f} km.")
 
     # Return answer ...
     return midLon, midLat, maxDist
