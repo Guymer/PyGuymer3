@@ -127,6 +127,7 @@ from ._buffer_points_crudely import _buffer_points_crudely
 from ._debug import _debug
 from ._points2polys import _points2polys
 from .add_annotation import add_annotation
+from .add_axis import add_axis
 from .add_coastlines import add_coastlines
 from .add_global_axis import add_global_axis
 from .add_horizontal_gridlines import add_horizontal_gridlines
