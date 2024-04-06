@@ -137,18 +137,17 @@ if __name__ == "__main__":
         pyguymer3.geo.add_coastlines(ax1, resolution = "c")
 
         # Create axis ...
-        ax2 = fg.add_subplot(
-            2,
-            2,
-            2,
-            projection = cartopy.crs.Orthographic(
-                central_longitude = ring[0][0],
-                 central_latitude = ring[1][1],
-            )
+        ax2 = pyguymer3.geo.add_top_down_axis(
+            fg,
+            ring[0][0],
+            ring[1][1],
+            1.0e99,
+            nrows = 2,
+            ncols = 2,
+            index = 2,
         )
 
         # Configure axis ...
-        ax2.set_global()
         pyguymer3.geo.add_map_background(ax2)
         pyguymer3.geo.add_horizontal_gridlines(
             ax2,
