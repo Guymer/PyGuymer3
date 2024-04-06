@@ -137,7 +137,7 @@ if __name__ == "__main__":
         pyguymer3.geo.add_coastlines(ax1, resolution = "c")
 
         # Create axis ...
-        ax2 = pyguymer3.geo.add_top_down_axis(
+        ax2 = pyguymer3.geo.add_topDown_axis(
             fg,
             ring[0][0],
             ring[1][1],

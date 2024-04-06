@@ -98,7 +98,7 @@ if __name__ == "__main__":
     # Loop over resolutions ...
     for iresolution, resolution in enumerate(resolutions):
         # Create axis ...
-        ax = pyguymer3.geo.add_top_down_axis(
+        ax = pyguymer3.geo.add_topDown_axis(
             fg,
               0.0,
             +40.0,
@@ -135,7 +135,7 @@ if __name__ == "__main__":
     # Loop over resolutions ...
     for iresolution, resolution in enumerate(resolutions):
         # Create axis ...
-        ax = pyguymer3.geo.add_top_down_axis(
+        ax = pyguymer3.geo.add_topDown_axis(
             fg,
               0.0,
             +51.5,
@@ -172,7 +172,7 @@ if __name__ == "__main__":
     # Loop over resolutions ...
     for iresolution, resolution in enumerate(resolutions):
         # Create axis ...
-        ax = pyguymer3.geo.add_top_down_axis(
+        ax = pyguymer3.geo.add_topDown_axis(
             fg,
              +7.5,
             +60.5,
