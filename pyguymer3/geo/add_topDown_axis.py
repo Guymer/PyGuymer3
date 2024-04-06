@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def add_topDown_axis(fg, lon, lat, dist, /, *, add_gridlines = False, color = "black", debug = False, eps = 1.0e-12, gridline_int = 1, gs = None, index = None, linestyle = ":", linewidth = 0.5, ncols = None, nmax = 100, nrows = None, prefix = ".", ramLimit = 1073741824, tol = 1.0e-10, zorder = 2.0):
+def add_topDown_axis(fg, lon, lat, /, *, add_gridlines = False, color = "black", debug = False, dist = 1.0e99, eps = 1.0e-12, gridline_int = 1, gs = None, index = None, linestyle = ":", linewidth = 0.5, ncols = None, nmax = 100, nrows = None, prefix = ".", ramLimit = 1073741824, tol = 1.0e-10, zorder = 2.0):
     """Add an Orthographic axis to a figure with a field-of-view based on a
     circle around a point on the surface of the Earth
 
@@ -13,18 +13,20 @@ def add_topDown_axis(fg, lon, lat, dist, /, *, add_gridlines = False, color = "b
         the longitude of the point (in degrees)
     lat : float
         the latitude of the point (in degrees)
-    dist : float
-        the radius of the circle around the point (in metres)
     add_gridlines : bool, optional
         add gridlines every degree of longitude and latitude
     color : str, optional
         the colour of the gridlines
     debug : bool, optional
         print debug messages and draw the circle on the axis
+    dist : float, optional
+        the radius of the circle around the point, if larger than the Earth then
+        make the axis of global extent (in metres)
     eps : float, optional
         the tolerance of the Vincenty formula iterations
     gridline_int : int, optional
-        the interval between gridlines, best results if ``90 % gridline_int == 0`` (in degrees)
+        the interval between gridlines, best results if ``90 % gridline_int == 0``
+        (in degrees)
     gs : matplotlib.gridspec.SubplotSpec, optional
         the subset of a gridspec to locate the axis
     index : int or tuple of int, optional
