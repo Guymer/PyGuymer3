@@ -131,7 +131,7 @@ from .add_coastlines import add_coastlines
 from .add_horizontal_gridlines import add_horizontal_gridlines
 from .add_map_background import add_map_background
 from .add_map_underlay import add_map_underlay
-from .add_top_down_axis import add_top_down_axis
+from .add_topDown_axis import add_topDown_axis
 from .add_vertical_gridlines import add_vertical_gridlines
 from .area import area
 from .buffer import buffer
