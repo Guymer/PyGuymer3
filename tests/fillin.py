@@ -141,10 +141,9 @@ if __name__ == "__main__":
             fg,
             ring[0][0],
             ring[1][1],
-            1.0e99,
-            nrows = 2,
-            ncols = 2,
             index = 2,
+            ncols = 2,
+            nrows = 2,
         )
 
         # Configure axis ...

@@ -131,10 +131,9 @@ if __name__ == "__main__":
             fg,
             lon,
             lat,
-            1.0e99,
-            nrows = 2,
-            ncols = 2,
             index = 2,
+            ncols = 2,
+            nrows = 2,
         )
 
         # Configure axis ...

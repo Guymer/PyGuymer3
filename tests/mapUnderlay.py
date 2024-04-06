@@ -102,10 +102,10 @@ if __name__ == "__main__":
             fg,
               0.0,
             +40.0,
-            1000.0e3,
-            nrows = 3,
-            ncols = 1,
+             dist = 1000.0e3,
             index = iresolution + 1,
+            ncols = 1,
+            nrows = 3,
         )
 
         # Configure axis ...
@@ -139,10 +139,10 @@ if __name__ == "__main__":
             fg,
               0.0,
             +51.5,
-            25.0e3,
-            nrows = 3,
-            ncols = 1,
+             dist = 25.0e3,
             index = iresolution + 1,
+            ncols = 1,
+            nrows = 3,
         )
 
         # Configure axis ...
@@ -176,10 +176,10 @@ if __name__ == "__main__":
             fg,
              +7.5,
             +60.5,
-            50.0e3,
-            nrows = 3,
-            ncols = 1,
+             dist = 50.0e3,
             index = iresolution + 1,
+            ncols = 1,
+            nrows = 3,
         )
 
         # Configure axis ...
