@@ -96,7 +96,7 @@ def images2mp4(frames, /, *, crf = -1.0, cwd = None, debug = False, form = "mp4"
 
     # Find the dimensions (and aspect ratio) of the input images (assuming that
     # they are all the same dimensions) ...
-    inputWidth, inputHeight = return_image_size(frames[0])                      # [px], [px]
+    inputWidth, inputHeight = return_image_size(frames[0], compressed = False)  # [px], [px]
     inputRatio = float(inputWidth) / float(inputHeight)                         # [px/px]
     if debug:
         print(f"INFO: The input images are {inputWidth:,d}x{inputHeight:,d} ({inputRatio:.5f}:1).")
