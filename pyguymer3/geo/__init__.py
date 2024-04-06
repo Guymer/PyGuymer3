@@ -128,6 +128,7 @@ from ._debug import _debug
 from ._points2polys import _points2polys
 from .add_annotation import add_annotation
 from .add_coastlines import add_coastlines
+from .add_global_axis import add_global_axis
 from .add_horizontal_gridlines import add_horizontal_gridlines
 from .add_map_background import add_map_background
 from .add_map_underlay import add_map_underlay
