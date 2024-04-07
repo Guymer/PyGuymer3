@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def add_global_axis(fg, /, *, add_gridlines = False, color = "black", gridline_int = 1, gs = None, index = None, linestyle = ":", linewidth = 0.5, ncols = None, nrows = None, zorder = 2.0):
+def _add_global_axis(fg, /, *, add_gridlines = False, color = "black", gridline_int = 1, gs = None, index = None, linestyle = ":", linewidth = 0.5, ncols = None, nrows = None, zorder = 2.0):
     """Add a global Robinson axis
 
     Parameters

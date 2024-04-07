@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def add_topDown_axis(fg, lon, lat, /, *, add_gridlines = False, color = "black", debug = False, dist = 1.0e99, eps = 1.0e-12, gridline_int = 1, gs = None, index = None, linestyle = ":", linewidth = 0.5, ncols = None, nmax = 100, nrows = None, prefix = ".", ramLimit = 1073741824, tol = 1.0e-10, zorder = 2.0):
+def _add_topDown_axis(fg, lon, lat, /, *, add_gridlines = False, color = "black", debug = False, dist = 1.0e99, eps = 1.0e-12, gridline_int = 1, gs = None, index = None, linestyle = ":", linewidth = 0.5, ncols = None, nmax = 100, nrows = None, prefix = ".", ramLimit = 1073741824, tol = 1.0e-10, zorder = 2.0):
     """Add an Orthographic axis centred above a point with optionally a
     field-of-view based on a circle around the point on the surface of the Earth
 

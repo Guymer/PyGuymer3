@@ -113,7 +113,7 @@ from ._add_background import _add_background
 from ._add_bathymetry import _add_bathymetry
 from ._add_elevation import _add_elevation
 from ._add_glaciatedAreas import _add_glaciatedAreas
-from ._add_global_axis import add_global_axis
+from ._add_global_axis import _add_global_axis
 from ._add_lakes import _add_lakes
 from ._add_land import _add_land
 from ._add_minorIslands import _add_minorIslands
@@ -122,7 +122,7 @@ from ._add_railroads import _add_railroads
 from ._add_reefs import _add_reefs
 from ._add_rivers import _add_rivers
 from ._add_roads import _add_roads
-from ._add_topDown_axis import add_topDown_axis
+from ._add_topDown_axis import _add_topDown_axis
 from ._add_urbanAreas import _add_urbanAreas
 from ._area import _area
 from ._buffer_points_crudely import _buffer_points_crudely
