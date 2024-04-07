@@ -70,8 +70,8 @@ def add_axis(fg, /, *, add_gridlines = False, color = "black", debug = False, di
     """
 
     # Import sub-functions ...
-    from .add_global_axis import add_global_axis
-    from .add_topDown_axis import add_topDown_axis
+    from ._add_global_axis import _add_global_axis
+    from ._add_topDown_axis import _add_topDown_axis
 
     # **************************************************************************
 
