@@ -91,7 +91,7 @@ if __name__ == "__main__":
         fg = matplotlib.pyplot.figure(figsize = (12.8, 7.2))
 
         # Create axis ...
-        ax = fg.add_subplot(projection = cartopy.crs.Robinson())
+        ax = pyguymer3.geo.add_axis(fg)
 
         # Configure axis ...
         ax.set_global()
