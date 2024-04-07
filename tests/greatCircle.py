@@ -94,7 +94,6 @@ if __name__ == "__main__":
         ax = pyguymer3.geo.add_axis(fg)
 
         # Configure axis ...
-        ax.set_global()
         pyguymer3.geo.add_map_background(ax)
         pyguymer3.geo.add_horizontal_gridlines(
             ax,
