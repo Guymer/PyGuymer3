@@ -78,7 +78,7 @@ def add_axis(fg, /, *, add_gridlines = False, color = "black", debug = False, di
     # Check what projection should be used ...
     if lon is not None and lat is not None:
         # Return answer ...
-        return add_topDown_axis(
+        return _add_topDown_axis(
             fg,
             lon,
             lat,
@@ -102,7 +102,7 @@ def add_axis(fg, /, *, add_gridlines = False, color = "black", debug = False, di
         )
 
     # Return answer ...
-    return add_global_axis(
+    return _add_global_axis(
         fg,
         add_gridlines = add_gridlines,
                 color = color,
