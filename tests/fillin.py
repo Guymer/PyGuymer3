@@ -116,15 +116,14 @@ if __name__ == "__main__":
         fg = matplotlib.pyplot.figure()
 
         # Create axis ...
-        ax1 = fg.add_subplot(
-            2,
-            2,
-            1,
-            projection = cartopy.crs.Robinson()
+        ax1 = pyguymer3.geo.add_axis(
+            fg,
+            index = 1,
+            ncols = 2,
+            nrows = 2,
         )
 
         # Configure axis ...
-        ax1.set_global()
         pyguymer3.geo.add_map_background(ax1)
         pyguymer3.geo.add_horizontal_gridlines(
             ax1,
@@ -137,11 +136,11 @@ if __name__ == "__main__":
         pyguymer3.geo.add_coastlines(ax1, resolution = "c")
 
         # Create axis ...
-        ax2 = pyguymer3.geo.add_topDown_axis(
+        ax2 = pyguymer3.geo.add_axis(
             fg,
-            ring[0][0],
-            ring[1][1],
             index = 2,
+              lat = ring[1][1],
+              lon = ring[0][0],
             ncols = 2,
             nrows = 2,
         )

@@ -68,10 +68,14 @@ if __name__ == "__main__":
     # Loop over resolutions ...
     for iresolution, resolution in enumerate(resolutions):
         # Create axis ...
-        ax = fg.add_subplot(3, 1, iresolution + 1, projection = cartopy.crs.Robinson())
+        ax = pyguymer3.geo.add_axis(
+            fg,
+            index = iresolution + 1,
+            ncols = 1,
+            nrows = 3,
+        )
 
         # Configure axis ...
-        ax.set_global()
         ax.set_title(resolution)
         pyguymer3.geo.add_map_underlay(ax, cultural = False, linewidth = 0.0, resolution = resolution)
 
@@ -98,12 +102,12 @@ if __name__ == "__main__":
     # Loop over resolutions ...
     for iresolution, resolution in enumerate(resolutions):
         # Create axis ...
-        ax = pyguymer3.geo.add_topDown_axis(
+        ax = pyguymer3.geo.add_axis(
             fg,
-              0.0,
-            +40.0,
              dist = 1000.0e3,
             index = iresolution + 1,
+              lat = +40.0,
+              lon =   0.0,
             ncols = 1,
             nrows = 3,
         )
@@ -135,12 +139,12 @@ if __name__ == "__main__":
     # Loop over resolutions ...
     for iresolution, resolution in enumerate(resolutions):
         # Create axis ...
-        ax = pyguymer3.geo.add_topDown_axis(
+        ax = pyguymer3.geo.add_axis(
             fg,
-              0.0,
-            +51.5,
              dist = 25.0e3,
             index = iresolution + 1,
+              lat = +51.5,
+              lon =   0.0,
             ncols = 1,
             nrows = 3,
         )
@@ -172,12 +176,12 @@ if __name__ == "__main__":
     # Loop over resolutions ...
     for iresolution, resolution in enumerate(resolutions):
         # Create axis ...
-        ax = pyguymer3.geo.add_topDown_axis(
+        ax = pyguymer3.geo.add_axis(
             fg,
-             +7.5,
-            +60.5,
              dist = 50.0e3,
             index = iresolution + 1,
+              lat = +60.5,
+              lon =  +7.5,
             ncols = 1,
             nrows = 3,
         )
