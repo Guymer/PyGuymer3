@@ -95,14 +95,6 @@ if __name__ == "__main__":
 
         # Configure axis ...
         pyguymer3.geo.add_map_background(ax)
-        pyguymer3.geo.add_horizontal_gridlines(
-            ax,
-            locs = range(-90, 135, 45),
-        )
-        pyguymer3.geo.add_vertical_gridlines(
-            ax,
-            locs = range(-180, 225, 45),
-        )
         pyguymer3.geo.add_coastlines(ax, resolution = "c")
 
         # Loop over number of points ...
