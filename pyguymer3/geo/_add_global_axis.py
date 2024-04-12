@@ -25,8 +25,8 @@ def _add_global_axis(
     add_gridlines : bool, optional
         add gridlines of longitude and latitude
     gridlines_int : int, optional
-        the interval between gridlines, best results if ``90 % gridlines_int == 0``
-        (in degrees)
+        the interval between gridlines, best results if ``90 % gridlines_int == 0``;
+        the default will be 45° (in degrees)
     gridlines_linecolor : str, optional
         the colour of the gridlines
     gridlines_linestyle : str, optional
@@ -80,6 +80,10 @@ def _add_global_axis(
     from .add_vertical_gridlines import add_vertical_gridlines
 
     # **************************************************************************
+
+    # Check inputs ...
+    if gridlines_int is None:
+        gridlines_int = 45                                                      # [°]
 
     # Check where the axis should be created ...
     if gs is not None:

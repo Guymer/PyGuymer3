@@ -44,7 +44,7 @@ def add_axis(
         the tolerance of the Vincenty formula iterations
     gridlines_int : int, optional
         the interval between gridlines, best results if ``90 % gridlines_int == 0``;
-        if the axis is of global extent then the default will be 90° else it
+        if the axis is of global extent then the default will be 45° else it
         will be 1° (in degrees)
     gridlines_linecolor : str, optional
         the colour of the gridlines

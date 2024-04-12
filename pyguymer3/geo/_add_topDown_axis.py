@@ -47,7 +47,7 @@ def _add_topDown_axis(
         the tolerance of the Vincenty formula iterations
     gridlines_int : int, optional
         the interval between gridlines, best results if ``90 % gridlines_int == 0``;
-        if the axis is of global extent then the default will be 90° else it
+        if the axis is of global extent then the default will be 45° else it
         will be 1° (in degrees)
     gridlines_linecolor : str, optional
         the colour of the gridlines
@@ -118,6 +118,13 @@ def _add_topDown_axis(
     from ..consts import CIRCUMFERENCE_OF_EARTH
 
     # **************************************************************************
+
+    # Check inputs ...
+    if gridlines_int is None:
+        if dist > 0.25 * CIRCUMFERENCE_OF_EARTH:
+            gridlines_int = 45                                                  # [°]
+        else:
+            gridlines_int = 1                                                   # [°]
 
     # Create a Point ...
     point = shapely.geometry.point.Point(lon, lat)
