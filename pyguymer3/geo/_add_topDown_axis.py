@@ -112,8 +112,8 @@ def _add_topDown_axis(
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
-    from .add_horizontal_gridlines import add_horizontal_gridlines
-    from .add_vertical_gridlines import add_vertical_gridlines
+    from ._add_horizontal_gridlines import _add_horizontal_gridlines
+    from ._add_vertical_gridlines import _add_vertical_gridlines
     from .buffer import buffer
     from ..consts import CIRCUMFERENCE_OF_EARTH
 
@@ -205,7 +205,7 @@ def _add_topDown_axis(
     # Check if the user wants to add gridlines ...
     if add_gridlines:
         # Add gridlines ...
-        add_horizontal_gridlines(
+        _add_horizontal_gridlines(
             ax,
                 color = gridlines_linecolor,
             linestyle = gridlines_linestyle,
@@ -215,7 +215,7 @@ def _add_topDown_axis(
                npoint = 3601,
                zorder = gridlines_zorder,
         )
-        add_vertical_gridlines(
+        _add_vertical_gridlines(
             ax,
                 color = gridlines_linecolor,
             linestyle = gridlines_linestyle,

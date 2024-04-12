@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def add_horizontal_gridlines(axis, /, *, color = "black", linestyle = ":", linewidth = 0.5, locs = None, ngrid = -1, npoint = 361, zorder = 2.0):
+def _add_horizontal_gridlines(axis, /, *, color = "black", linestyle = ":", linewidth = 0.5, locs = None, ngrid = -1, npoint = 361, zorder = 2.0):
     """Add horizontal gridlines to a Cartopy axis.
 
     Parameters
