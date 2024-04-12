@@ -9,7 +9,7 @@ def add_axis(
                   debug = False,
                    dist = 1.0e99,
                     eps = 1.0e-12,
-          gridlines_int = 1,
+          gridlines_int = None,
     gridlines_linecolor = "black",
     gridlines_linestyle = ":",
     gridlines_linewidth = 0.5,
