@@ -7,7 +7,7 @@ def _add_topDown_axis(
     lat,
     /,
     *,
-          add_gridlines = False,
+          add_gridlines = True,
                   debug = False,
                    dist = 1.0e99,
                     eps = 1.0e-12,

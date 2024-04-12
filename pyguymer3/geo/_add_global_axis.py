@@ -5,7 +5,7 @@ def _add_global_axis(
     fg,
     /,
     *,
-          add_gridlines = False,
+          add_gridlines = True,
           gridlines_int = None,
     gridlines_linecolor = "black",
     gridlines_linestyle = ":",

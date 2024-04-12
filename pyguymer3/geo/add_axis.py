@@ -5,7 +5,7 @@ def add_axis(
     fg,
     /,
     *,
-          add_gridlines = False,
+          add_gridlines = True,
                   debug = False,
                    dist = 1.0e99,
                     eps = 1.0e-12,
