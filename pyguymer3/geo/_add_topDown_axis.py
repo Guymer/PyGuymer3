@@ -1,7 +1,30 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def _add_topDown_axis(fg, lon, lat, /, *, add_gridlines = False, color = "black", debug = False, dist = 1.0e99, eps = 1.0e-12, gridline_int = 1, gs = None, index = None, linestyle = ":", linewidth = 0.5, ncols = None, nmax = 100, nrows = None, prefix = ".", ramLimit = 1073741824, tol = 1.0e-10, zorder = 2.0):
+def _add_topDown_axis(
+    fg,
+    lon,
+    lat,
+    /,
+    *,
+          add_gridlines = False,
+                  debug = False,
+                   dist = 1.0e99,
+                    eps = 1.0e-12,
+          gridlines_int = None,
+    gridlines_linecolor = "black",
+    gridlines_linestyle = ":",
+    gridlines_linewidth = 0.5,
+       gridlines_zorder = 2.0,
+                     gs = None,
+                  index = None,
+                  ncols = None,
+                   nmax = 100,
+                  nrows = None,
+                 prefix = ".",
+               ramLimit = 1073741824,
+                    tol = 1.0e-10,
+):
     """Add an Orthographic axis centred above a point with optionally a
     field-of-view based on a circle around the point on the surface of the Earth
 
@@ -14,9 +37,7 @@ def _add_topDown_axis(fg, lon, lat, /, *, add_gridlines = False, color = "black"
     lat : float
         the latitude of the point (in degrees)
     add_gridlines : bool, optional
-        add gridlines every degree of longitude and latitude
-    color : str, optional
-        the colour of the gridlines
+        add gridlines of longitude and latitude
     debug : bool, optional
         print debug messages and draw the circle on the axis
     dist : float, optional
@@ -24,17 +45,25 @@ def _add_topDown_axis(fg, lon, lat, /, *, add_gridlines = False, color = "black"
         make the axis of global extent (in metres)
     eps : float, optional
         the tolerance of the Vincenty formula iterations
-    gridline_int : int, optional
-        the interval between gridlines, best results if ``90 % gridline_int == 0``
-        (in degrees)
+    gridlines_int : int, optional
+        the interval between gridlines, best results if ``90 % gridlines_int == 0``;
+        if the axis is of global extent then the default will be 90° else it
+        will be 1° (in degrees)
+    gridlines_linecolor : str, optional
+        the colour of the gridlines
+    gridlines_linestyle : str, optional
+        the style of the gridlines
+    gridlines_linewidth : float, optional
+        the width of the gridlines
+    gridlines_zorder : float, optional
+        the zorder to draw the gridlines with (the default value has been chosen
+        to match the value that it ends up being if the gridlines are not drawn
+        with the zorder keyword specified -- obtained by manual inspection on
+        5/Dec/2023)
     gs : matplotlib.gridspec.SubplotSpec, optional
         the subset of a gridspec to locate the axis
     index : int or tuple of int, optional
         the index of the axis in the array of axes
-    linestyle : str, optional
-        the style of the gridlines
-    linewidth : float, optional
-        the width of the gridlines
     ncols : int, optional
         the number of columns in the array of axes
     nmax : int, optional
@@ -48,11 +77,6 @@ def _add_topDown_axis(fg, lon, lat, /, *, add_gridlines = False, color = "black"
     tol : float, optional
         the Euclidean distance that defines two points as being the same (in
         degrees)
-    zorder : float, optional
-        the zorder to draw the gridlines with (the default value has been chosen
-        to match the value that it ends up being if the gridlines are not drawn
-        with the zorder keyword specified -- obtained by manual inspection on
-        5/Dec/2023)
 
     Returns
     -------
@@ -176,23 +200,23 @@ def _add_topDown_axis(fg, lon, lat, /, *, add_gridlines = False, color = "black"
         # Add gridlines ...
         add_horizontal_gridlines(
             ax,
-                color = color,
-            linestyle = linestyle,
-            linewidth = linewidth,
-                 locs = range( -90,  +90 + gridline_int, gridline_int),
+                color = gridlines_linecolor,
+            linestyle = gridlines_linestyle,
+            linewidth = gridlines_linewidth,
+                 locs = range( -90,  +90 + gridlines_int, gridlines_int),
                 ngrid = -1,
-               npoint = 361,
-               zorder = zorder,
+               npoint = 3601,
+               zorder = gridlines_zorder,
         )
         add_vertical_gridlines(
             ax,
-                color = color,
-            linestyle = linestyle,
-            linewidth = linewidth,
-                 locs = range(-180, +180 + gridline_int, gridline_int),
+                color = gridlines_linecolor,
+            linestyle = gridlines_linestyle,
+            linewidth = gridlines_linewidth,
+                 locs = range(-180, +180 + gridlines_int, gridlines_int),
                 ngrid = -1,
-               npoint = 181,
-               zorder = zorder,
+               npoint = 1801,
+               zorder = gridlines_zorder,
         )
 
     # Return answer ...

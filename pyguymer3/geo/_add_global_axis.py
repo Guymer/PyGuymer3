@@ -1,7 +1,21 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def _add_global_axis(fg, /, *, add_gridlines = False, color = "black", gridline_int = 1, gs = None, index = None, linestyle = ":", linewidth = 0.5, ncols = None, nrows = None, zorder = 2.0):
+def _add_global_axis(
+    fg,
+    /,
+    *,
+          add_gridlines = False,
+          gridlines_int = None,
+    gridlines_linecolor = "black",
+    gridlines_linestyle = ":",
+    gridlines_linewidth = 0.5,
+       gridlines_zorder = 2.0,
+                     gs = None,
+                  index = None,
+                  ncols = None,
+                  nrows = None,
+):
     """Add a global Robinson axis
 
     Parameters
@@ -9,29 +23,29 @@ def _add_global_axis(fg, /, *, add_gridlines = False, color = "black", gridline_
     fg : matplotlib.figure.Figure
         the figure to add the axis to
     add_gridlines : bool, optional
-        add gridlines every degree of longitude and latitude
-    color : str, optional
-        the colour of the gridlines
-    gridline_int : int, optional
-        the interval between gridlines, best results if ``90 % gridline_int == 0``
+        add gridlines of longitude and latitude
+    gridlines_int : int, optional
+        the interval between gridlines, best results if ``90 % gridlines_int == 0``
         (in degrees)
-    gs : matplotlib.gridspec.SubplotSpec, optional
-        the subset of a gridspec to locate the axis
-    index : int or tuple of int, optional
-        the index of the axis in the array of axes
-    linestyle : str, optional
+    gridlines_linecolor : str, optional
+        the colour of the gridlines
+    gridlines_linestyle : str, optional
         the style of the gridlines
-    linewidth : float, optional
+    gridlines_linewidth : float, optional
         the width of the gridlines
-    ncols : int, optional
-        the number of columns in the array of axes
-    nrows : int, optional
-        the number of rows in the array of axes
-    zorder : float, optional
+    gridlines_zorder : float, optional
         the zorder to draw the gridlines with (the default value has been chosen
         to match the value that it ends up being if the gridlines are not drawn
         with the zorder keyword specified -- obtained by manual inspection on
         5/Dec/2023)
+    gs : matplotlib.gridspec.SubplotSpec, optional
+        the subset of a gridspec to locate the axis
+    index : int or tuple of int, optional
+        the index of the axis in the array of axes
+    ncols : int, optional
+        the number of columns in the array of axes
+    nrows : int, optional
+        the number of rows in the array of axes
 
     Returns
     -------
@@ -96,23 +110,23 @@ def _add_global_axis(fg, /, *, add_gridlines = False, color = "black", gridline_
         # Add gridlines ...
         add_horizontal_gridlines(
             ax,
-                color = color,
-            linestyle = linestyle,
-            linewidth = linewidth,
-                 locs = range( -90,  +90 + gridline_int, gridline_int),
+                color = gridlines_linecolor,
+            linestyle = gridlines_linestyle,
+            linewidth = gridlines_linewidth,
+                 locs = range( -90,  +90 + gridlines_int, gridlines_int),
                 ngrid = -1,
-               npoint = 361,
-               zorder = zorder,
+               npoint = 3601,
+               zorder = gridlines_zorder,
         )
         add_vertical_gridlines(
             ax,
-                color = color,
-            linestyle = linestyle,
-            linewidth = linewidth,
-                 locs = range(-180, +180 + gridline_int, gridline_int),
+                color = gridlines_linecolor,
+            linestyle = gridlines_linestyle,
+            linewidth = gridlines_linewidth,
+                 locs = range(-180, +180 + gridlines_int, gridlines_int),
                 ngrid = -1,
-               npoint = 181,
-               zorder = zorder,
+               npoint = 1801,
+               zorder = gridlines_zorder,
         )
 
     # Return answer ...

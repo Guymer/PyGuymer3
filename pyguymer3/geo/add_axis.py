@@ -1,7 +1,30 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def add_axis(fg, /, *, add_gridlines = False, color = "black", debug = False, dist = 1.0e99, eps = 1.0e-12, gridline_int = 1, gs = None, index = None, lat = None, linestyle = ":", linewidth = 0.5, lon = None, ncols = None, nmax = 100, nrows = None, prefix = ".", ramLimit = 1073741824, tol = 1.0e-10, zorder = 2.0):
+def add_axis(
+    fg,
+    /,
+    *,
+          add_gridlines = False,
+                  debug = False,
+                   dist = 1.0e99,
+                    eps = 1.0e-12,
+          gridlines_int = 1,
+    gridlines_linecolor = "black",
+    gridlines_linestyle = ":",
+    gridlines_linewidth = 0.5,
+       gridlines_zorder = 2.0,
+                     gs = None,
+                  index = None,
+                    lat = None,
+                    lon = None,
+                  ncols = None,
+                   nmax = 100,
+                  nrows = None,
+                 prefix = ".",
+               ramLimit = 1073741824,
+                    tol = 1.0e-10,
+):
     """Add either a global Robinson axis or an Orthographic axis centred above a
     point with optionally a field-of-view based on a circle around the point on
     the surface of the Earth
@@ -11,9 +34,7 @@ def add_axis(fg, /, *, add_gridlines = False, color = "black", debug = False, di
     fg : matplotlib.figure.Figure
         the figure to add the axis to
     add_gridlines : bool, optional
-        add gridlines every degree of longitude and latitude
-    color : str, optional
-        the colour of the gridlines
+        add gridlines of longitude and latitude
     debug : bool, optional
         print debug messages and draw the circle on the axis
     dist : float, optional
@@ -21,19 +42,27 @@ def add_axis(fg, /, *, add_gridlines = False, color = "black", debug = False, di
         make the axis of global extent (in metres)
     eps : float, optional
         the tolerance of the Vincenty formula iterations
-    gridline_int : int, optional
-        the interval between gridlines, best results if ``90 % gridline_int == 0``
-        (in degrees)
+    gridlines_int : int, optional
+        the interval between gridlines, best results if ``90 % gridlines_int == 0``;
+        if the axis is of global extent then the default will be 90° else it
+        will be 1° (in degrees)
+    gridlines_linecolor : str, optional
+        the colour of the gridlines
+    gridlines_linestyle : str, optional
+        the style of the gridlines
+    gridlines_linewidth : float, optional
+        the width of the gridlines
+    gridlines_zorder : float, optional
+        the zorder to draw the gridlines with (the default value has been chosen
+        to match the value that it ends up being if the gridlines are not drawn
+        with the zorder keyword specified -- obtained by manual inspection on
+        5/Dec/2023)
     gs : matplotlib.gridspec.SubplotSpec, optional
         the subset of a gridspec to locate the axis
     index : int or tuple of int, optional
         the index of the axis in the array of axes
     lat : float, optional
         the latitude of the point (in degrees)
-    linestyle : str, optional
-        the style of the gridlines
-    linewidth : float, optional
-        the width of the gridlines
     lon : float, optional
         the longitude of the point (in degrees)
     ncols : int, optional
@@ -49,11 +78,6 @@ def add_axis(fg, /, *, add_gridlines = False, color = "black", debug = False, di
     tol : float, optional
         the Euclidean distance that defines two points as being the same (in
         degrees)
-    zorder : float, optional
-        the zorder to draw the gridlines with (the default value has been chosen
-        to match the value that it ends up being if the gridlines are not drawn
-        with the zorder keyword specified -- obtained by manual inspection on
-        5/Dec/2023)
 
     Returns
     -------
@@ -82,36 +106,36 @@ def add_axis(fg, /, *, add_gridlines = False, color = "black", debug = False, di
             fg,
             lon,
             lat,
-            add_gridlines = add_gridlines,
-                    color = color,
-                    debug = debug,
-                     dist = dist,
-                      eps = eps,
-             gridline_int = gridline_int,
-                       gs = gs,
-                    index = index,
-                linestyle = linestyle,
-                linewidth = linewidth,
-                    ncols = ncols,
-                     nmax = nmax,
-                    nrows = nrows,
-                   prefix = prefix,
-                 ramLimit = ramLimit,
-                      tol = tol,
-                   zorder = zorder,
+                  add_gridlines = add_gridlines,
+                          debug = debug,
+                           dist = dist,
+                            eps = eps,
+                  gridlines_int = gridlines_int,
+            gridlines_linecolor = gridlines_linecolor,
+            gridlines_linestyle = gridlines_linestyle,
+            gridlines_linewidth = gridlines_linewidth,
+               gridlines_zorder = gridlines_zorder,
+                             gs = gs,
+                          index = index,
+                          ncols = ncols,
+                           nmax = nmax,
+                          nrows = nrows,
+                         prefix = prefix,
+                       ramLimit = ramLimit,
+                            tol = tol,
         )
 
     # Return answer ...
     return _add_global_axis(
         fg,
-        add_gridlines = add_gridlines,
-                color = color,
-         gridline_int = gridline_int,
-                   gs = gs,
-                index = index,
-            linestyle = linestyle,
-            linewidth = linewidth,
-                ncols = ncols,
-                nrows = nrows,
-               zorder = zorder,
+              add_gridlines = add_gridlines,
+              gridlines_int = gridlines_int,
+        gridlines_linecolor = gridlines_linecolor,
+        gridlines_linestyle = gridlines_linestyle,
+        gridlines_linewidth = gridlines_linewidth,
+           gridlines_zorder = gridlines_zorder,
+                         gs = gs,
+                      index = index,
+                      ncols = ncols,
+                      nrows = nrows,
     )
