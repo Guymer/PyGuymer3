@@ -1,12 +1,23 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def _add_vertical_gridlines(axis, /, *, color = "black", linestyle = ":", linewidth = 0.5, locs = None, ngrid = -1, npoint = 181, zorder = 2.0):
+def _add_vertical_gridlines(
+    ax,
+    /,
+    *,
+        color = "black",
+    linestyle = ":",
+    linewidth = 0.5,
+         locs = None,
+        ngrid = -1,
+       npoint = 181,
+       zorder = 2.0,
+):
     """Add vertical gridlines to a Cartopy axis.
 
     Parameters
     ----------
-    axis : cartopy.mpl.geoaxes.GeoAxesSubplot
+    ax : cartopy.mpl.geoaxes.GeoAxesSubplot
         the axis to add the gridlines to
     color : str, optional
         the colour of the gridlines
@@ -58,7 +69,7 @@ def _add_vertical_gridlines(axis, /, *, color = "black", linestyle = ":", linewi
         raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
 
     # Create short-hand ...
-    ext = axis.get_extent(crs = cartopy.crs.PlateCarree())                        # [°]
+    ext = ax.get_extent(crs = cartopy.crs.PlateCarree())                        # [°]
 
     # Determine x-locations depending on inputs ...
     if ngrid > 1:
@@ -71,7 +82,7 @@ def _add_vertical_gridlines(axis, /, *, color = "black", linestyle = ":", linewi
     # Loop over x-locations ...
     for xloc in xlocs:
         # Add gridline to axis ...
-        axis.plot(
+        ax.plot(
             xloc * numpy.ones(npoint),
             numpy.linspace(ext[2], ext[3], num = npoint),
                 color = color,
