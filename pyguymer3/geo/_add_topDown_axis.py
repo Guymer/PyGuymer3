@@ -266,6 +266,7 @@ def _add_topDown_axis(
         # Add coastline boundaries ...
         _add_coastlines(
             ax,
+                 debug = debug,
              edgecolor = coastlines_edgecolor,
              facecolor = coastlines_facecolor,
                 levels = coastlines_levels,

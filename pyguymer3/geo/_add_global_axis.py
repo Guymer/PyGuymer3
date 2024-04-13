@@ -14,6 +14,7 @@ def _add_global_axis(
      coastlines_linewidth = 0.5,
     coastlines_resolution = "f",
         coastlines_zorder = 1.5,
+                    debug = False,
             gridlines_int = None,
       gridlines_linecolor = "black",
       gridlines_linestyle = ":",
@@ -54,6 +55,8 @@ def _add_global_axis(
         been chosen to match the value that it ends up being if the coastline
         boundaries are not drawn with the zorder keyword specified -- obtained
         by manual inspection on 5/Dec/2023)
+    debug : bool, optional
+        print debug messages
     gridlines_int : int, optional
         the interval between gridlines, best results if ``90 % gridlines_int == 0``;
         the default will be 45° (in degrees)
@@ -173,6 +176,7 @@ def _add_global_axis(
         # Add coastline boundaries ...
         _add_coastlines(
             ax,
+                 debug = debug,
              edgecolor = coastlines_edgecolor,
              facecolor = coastlines_facecolor,
                 levels = coastlines_levels,

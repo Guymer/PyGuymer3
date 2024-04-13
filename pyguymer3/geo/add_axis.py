@@ -205,6 +205,7 @@ def add_axis(
          coastlines_linewidth = coastlines_linewidth,
         coastlines_resolution = coastlines_resolution,
             coastlines_zorder = coastlines_zorder,
+                        debug = debug,
                 gridlines_int = gridlines_int,
           gridlines_linecolor = gridlines_linecolor,
           gridlines_linestyle = gridlines_linestyle,
