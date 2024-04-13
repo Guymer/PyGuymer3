@@ -1,7 +1,20 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def _add_coastlines(axis, /, *, edgecolor = "black", facecolor = "none", levels = None, linestyle = "solid", linewidth = 0.5, onlyValid = False, repair = False, resolution = "i", zorder = 1.5):
+def _add_coastlines(
+    ax,
+    /,
+    *,
+     edgecolor = "black",
+     facecolor = "none",
+        levels = None,
+     linestyle = "solid",
+     linewidth = 0.5,
+     onlyValid = False,
+        repair = False,
+    resolution = "i",
+        zorder = 1.5,
+):
     """Add coastlines to an axis.
 
     This function adds coastline boundaries to a Cartopy axis. The resolution of
@@ -123,7 +136,7 @@ def _add_coastlines(axis, /, *, edgecolor = "black", facecolor = "none", levels 
             polys += extract_polys(record.geometry, onlyValid = onlyValid, repair = repair)
 
         # Plot geometry ...
-        axis.add_geometries(
+        ax.add_geometries(
             polys,
             cartopy.crs.PlateCarree(),
             edgecolor = edgecolor,
