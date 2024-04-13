@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def add_coastlines(axis, /, *, colorName = "black", debug = False, faceOpac = -1.0, levels = None, linestyle = "solid", linewidth = 0.5, onlyValid = False, repair = False, resolution = "i", zorder = 1.5):
+def _add_coastlines(axis, /, *, colorName = "black", debug = False, faceOpac = -1.0, levels = None, linestyle = "solid", linewidth = 0.5, onlyValid = False, repair = False, resolution = "i", zorder = 1.5):
     """Add coastlines to an axis.
 
     This function adds coastline boundaries to a Cartopy axis. The resolution of
