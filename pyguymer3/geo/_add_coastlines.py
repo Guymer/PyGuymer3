@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def _add_coastlines(axis, /, *, colorName = "black", debug = False, faceOpac = -1.0, levels = None, linestyle = "solid", linewidth = 0.5, onlyValid = False, repair = False, resolution = "i", zorder = 1.5):
+def _add_coastlines(axis, /, *, edgecolor = "black", facecolor = "none", levels = None, linestyle = "solid", linewidth = 0.5, onlyValid = False, repair = False, resolution = "i", zorder = 1.5):
     """Add coastlines to an axis.
 
     This function adds coastline boundaries to a Cartopy axis. The resolution of
@@ -11,13 +11,10 @@ def _add_coastlines(axis, /, *, colorName = "black", debug = False, faceOpac = -
     ----------
     axis : cartopy.mpl.geoaxes.GeoAxesSubplot
         the axis
-    colorName : str, optional
-        the CSS4 named colour to draw the coastline boundaries with
-    debug : bool, optional
-        print debug messages
-    faceOpac : float, optional
-        if ≥ 0.0 and ≤ 1.0 then shade the Polygon faces the same colour as the
-        Polygon edges with this opacity
+    edgecolor : str, optional
+        the colour of the edges of the coastline Polygons
+    facecolor : str, optional
+        the colour of the faces of the coastline Polygons
     levels : list of int, optional
         the levels of the coastline boundaries (if None then default to
         ``[1, 6]``)
@@ -63,9 +60,6 @@ def _add_coastlines(axis, /, *, colorName = "black", debug = False, faceOpac = -
     * high ("h"); and
     * full ("f").
 
-    This function uses `CSS4 named colours
-    <https://matplotlib.org/stable/gallery/color/named_colors.html>`_ .
-
     Copyright 2017 Thomas Guymer [1]_
 
     References
@@ -108,17 +102,6 @@ def _add_coastlines(axis, /, *, colorName = "black", debug = False, faceOpac = -
     # Check inputs ...
     if levels is None:
         levels = [1, 6]
-
-    # Find the edge colour ...
-    edgecolor = matplotlib.colors.to_rgba(matplotlib.colors.CSS4_COLORS[colorName])
-    if debug:
-        print(f"INFO: \"coastlines\" is \"{colorName}\", which is ({edgecolor[0]:.6f},{edgecolor[1]:.6f},{edgecolor[2]:.6f},{edgecolor[3]:.6f}).")
-
-    # Find the face colour ...
-    if 0.0 <= faceOpac <= 1.0:
-        facecolor = (edgecolor[0], edgecolor[1], edgecolor[2], faceOpac)
-    else:
-        facecolor = "none"
 
     # Loop over levels ...
     for level in levels:
