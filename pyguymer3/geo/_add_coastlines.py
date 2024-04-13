@@ -5,6 +5,7 @@ def _add_coastlines(
     ax,
     /,
     *,
+         debug = False,
      edgecolor = "black",
      facecolor = "none",
         levels = None,
@@ -24,6 +25,8 @@ def _add_coastlines(
     ----------
     axis : cartopy.mpl.geoaxes.GeoAxesSubplot
         the axis
+    debug : bool, optional
+        print debug messages
     edgecolor : str, optional
         the colour of the edges of the coastline Polygons
     facecolor : str, optional
@@ -118,14 +121,20 @@ def _add_coastlines(
 
     # Loop over levels ...
     for level in levels:
-        # Find the Shapefile ...
+        # Deduce Shapefile name (catching missing datasets) ...
         try:
             sfile = cartopy.io.shapereader.gshhs(
                 level = level,
                 scale = resolution,
             )
         except urllib.error.HTTPError:
-            return
+            if debug:
+                print("INFO: Skipping (HTTP error).")
+            continue
+        if os.path.basename(sfile) != f"GSHHS_{resolution}_L{level:d}.shp":
+            if debug:
+                print(f"INFO: Skipping \"{sfile}\" (filename does not match request).")
+            continue
 
         # Initialize list ...
         polys = []
