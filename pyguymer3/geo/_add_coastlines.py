@@ -53,7 +53,7 @@ def _add_coastlines(
     There are two arguments relating to the `Global Self-Consistent Hierarchical
     High-Resolution Geography dataset <https://www.ngdc.noaa.gov/mgg/shorelines/>`_ :
 
-    * *level*; and
+    * *levels*; and
     * *resolution*.
 
     There are six levels to choose from:
