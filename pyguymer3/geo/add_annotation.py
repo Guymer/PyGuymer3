@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def add_annotation(axis, locLon, locLat, annotation, /, *, arrowprops = None, colorName = "black", debug = False, fontsize = 8, horizontalalignment = "center", txtLat = None, txtLon = None, txtOffsetX = None, txtOffsetY = None, verticalalignment = "center"):
+def add_annotation(axis, locLon, locLat, annotation, /, *, arrowprops = None, color = "black", fontsize = 8, horizontalalignment = "center", txtLat = None, txtLon = None, txtOffsetX = None, txtOffsetY = None, verticalalignment = "center"):
     """Add an annotation to a Cartopy axis.
 
     Parameters
@@ -17,10 +17,8 @@ def add_annotation(axis, locLon, locLat, annotation, /, *, arrowprops = None, co
     arrowprops : dict, optional
         the properties for the arrow connecting the annotation text to the
         annotation location
-    colorName : str, optional
-        the CSS4 named colour of the annotation text
-    debug : bool, optional
-        print debug messages
+    color : str, optional
+        the colour of the annotation text
     fontsize : int, optional
         the font size of the annotation text
     horizontal alignment : str, optional
@@ -42,9 +40,6 @@ def add_annotation(axis, locLon, locLat, annotation, /, *, arrowprops = None, co
 
     Notes
     -----
-    This function uses `CSS4 named colours
-    <https://matplotlib.org/stable/gallery/color/named_colors.html>`_ .
-
     Copyright 2017 Thomas Guymer [1]_
 
     References
@@ -72,11 +67,6 @@ def add_annotation(axis, locLon, locLat, annotation, /, *, arrowprops = None, co
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # **************************************************************************
-
-    # Find the colour ...
-    color = matplotlib.colors.to_rgba(matplotlib.colors.CSS4_COLORS[colorName])
-    if debug:
-        print(f"INFO: \"annotation\" is \"{colorName}\", which is ({color[0]:.6f},{color[1]:.6f},{color[2]:.6f},{color[3]:.6f}).")
 
     # Create Point(s) ...
     point1loc = shapely.geometry.point.Point(locLon, locLat)
