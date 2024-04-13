@@ -12,7 +12,7 @@ def _add_coastlines(
      linewidth = 0.5,
      onlyValid = False,
         repair = False,
-    resolution = "i",
+    resolution = "f",
         zorder = 1.5,
 ):
     """Add coastlines to an axis.

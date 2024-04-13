@@ -12,7 +12,7 @@ def _add_global_axis(
         coastlines_levels = None,
      coastlines_linestyle = "solid",
      coastlines_linewidth = 0.5,
-    coastlines_resolution = "i",
+    coastlines_resolution = "f",
         coastlines_zorder = 1.5,
             gridlines_int = None,
       gridlines_linecolor = "black",
