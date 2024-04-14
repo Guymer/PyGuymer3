@@ -118,28 +118,28 @@ if __name__ == "__main__":
         # Create axis ...
         ax1 = pyguymer3.geo.add_axis(
             fg,
-            index = 1,
-            ncols = 2,
-            nrows = 2,
+            coastlines_resolution = "c",
+                            index = 1,
+                            ncols = 2,
+                            nrows = 2,
         )
 
         # Configure axis ...
         pyguymer3.geo.add_map_background(ax1)
-        pyguymer3.geo.add_coastlines(ax1, resolution = "c")
 
         # Create axis ...
         ax2 = pyguymer3.geo.add_axis(
             fg,
-            index = 2,
-              lat = ring[1][1],
-              lon = ring[0][0],
-            ncols = 2,
-            nrows = 2,
+            coastlines_resolution = "c",
+                            index = 2,
+                              lat = ring[1][1],
+                              lon = ring[0][0],
+                            ncols = 2,
+                            nrows = 2,
         )
 
         # Configure axis ...
         pyguymer3.geo.add_map_background(ax2)
-        pyguymer3.geo.add_coastlines(ax2, resolution = "c")
 
         # Create axis ...
         ax3 = fg.add_subplot(

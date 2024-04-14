@@ -91,11 +91,13 @@ if __name__ == "__main__":
         fg = matplotlib.pyplot.figure(figsize = (12.8, 7.2))
 
         # Create axis ...
-        ax = pyguymer3.geo.add_axis(fg)
+        ax = pyguymer3.geo.add_axis(
+            fg,
+            coastlines_resolution = "c",
+        )
 
         # Configure axis ...
         pyguymer3.geo.add_map_background(ax)
-        pyguymer3.geo.add_coastlines(ax, resolution = "c")
 
         # Loop over number of points ...
         for c, npoint in enumerate(npoints):
