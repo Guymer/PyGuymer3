@@ -70,9 +70,10 @@ if __name__ == "__main__":
         # Create axis ...
         ax = pyguymer3.geo.add_axis(
             fg,
-            index = iresolution + 1,
-            ncols = 1,
-            nrows = 3,
+            add_coastlines = False,
+                     index = iresolution + 1,
+                     ncols = 1,
+                     nrows = 3,
         )
 
         # Configure axis ...
@@ -104,12 +105,13 @@ if __name__ == "__main__":
         # Create axis ...
         ax = pyguymer3.geo.add_axis(
             fg,
-             dist = 1000.0e3,
-            index = iresolution + 1,
-              lat = +40.0,
-              lon =   0.0,
-            ncols = 1,
-            nrows = 3,
+            add_coastlines = False,
+                      dist = 1000.0e3,
+                     index = iresolution + 1,
+                       lat = +40.0,
+                       lon =   0.0,
+                     ncols = 1,
+                     nrows = 3,
         )
 
         # Configure axis ...
@@ -141,12 +143,13 @@ if __name__ == "__main__":
         # Create axis ...
         ax = pyguymer3.geo.add_axis(
             fg,
-             dist = 25.0e3,
-            index = iresolution + 1,
-              lat = +51.5,
-              lon =   0.0,
-            ncols = 1,
-            nrows = 3,
+            add_coastlines = False,
+                      dist = 25.0e3,
+                     index = iresolution + 1,
+                       lat = +51.5,
+                       lon =   0.0,
+                     ncols = 1,
+                     nrows = 3,
         )
 
         # Configure axis ...
@@ -178,12 +181,13 @@ if __name__ == "__main__":
         # Create axis ...
         ax = pyguymer3.geo.add_axis(
             fg,
-             dist = 50.0e3,
-            index = iresolution + 1,
-              lat = +60.5,
-              lon =  +7.5,
-            ncols = 1,
-            nrows = 3,
+            add_coastlines = False,
+                      dist = 50.0e3,
+                     index = iresolution + 1,
+                       lat = +60.5,
+                       lon =  +7.5,
+                     ncols = 1,
+                     nrows = 3,
         )
 
         # Configure axis ...
