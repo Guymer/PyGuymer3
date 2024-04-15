@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def _add_elevation(axis, /, *, debug = False, maxElev = 8850.0, onlyValid = False, repair = False, resolution = "110m"):
+def _add_elevation(axis, /, *, debug = False, maxElev = 8850.0, onlyValid = False, repair = False, resolution = "10m"):
     """Add elevation to a Cartopy axis.
 
     Parameters

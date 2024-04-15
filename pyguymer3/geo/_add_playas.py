@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def _add_playas(axis, /, *, debug = False, linestyle = "solid", linewidth = 0.5, onlyValid = False, repair = False, resolution = "110m"):
+def _add_playas(axis, /, *, debug = False, linestyle = "solid", linewidth = 0.5, onlyValid = False, repair = False, resolution = "10m"):
     """Add playas to a Cartopy axis.
 
     Parameters

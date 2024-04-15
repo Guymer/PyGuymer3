@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def _add_glaciatedAreas(axis, /, *, debug = False, onlyValid = False, repair = False, resolution = "110m"):
+def _add_glaciatedAreas(axis, /, *, debug = False, onlyValid = False, repair = False, resolution = "10m"):
     """Add glaciated areas to a Cartopy axis.
 
     Parameters

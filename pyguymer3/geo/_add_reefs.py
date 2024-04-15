@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def _add_reefs(axis, /, *, debug = False, linestyle = "solid", linewidth = 0.5, onlyValid = False, repair = False, resolution = "110m"):
+def _add_reefs(axis, /, *, debug = False, linestyle = "solid", linewidth = 0.5, onlyValid = False, repair = False, resolution = "10m"):
     """Add reefs to a Cartopy axis.
 
     Parameters

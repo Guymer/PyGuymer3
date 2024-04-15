@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def _add_land(axis, /, *, debug = False, onlyValid = False, repair = False, resolution = "110m"):
+def _add_land(axis, /, *, debug = False, onlyValid = False, repair = False, resolution = "10m"):
     """Add land to a Cartopy axis.
 
     Parameters
