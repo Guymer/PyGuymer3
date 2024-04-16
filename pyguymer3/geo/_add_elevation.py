@@ -94,7 +94,7 @@ def _add_elevation(axis, /, *, debug = False, maxElev = 8850.0, onlyValid = Fals
 
     # Loop over elevations ...
     # NOTE: Rounded to the nearest integer, Mount Everest is 8,849m ASL.
-    for elevation in range(0, 8900, 50):
+    for elevation in range(250, 9000, 250):
         # Create short-hand ...
         name = f"{elevation:04d}m"
 
