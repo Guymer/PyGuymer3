@@ -8,7 +8,7 @@ def check(shape, /, *, prefix = "."):
 
     Parameters
     ----------
-    shape : shapely.coords.CoordinateSequence, shapely.geometry.point.Point, shapely.geometry.multipoint.MultiPoint, shapely.geometry.polygon.LinearRing, shapely.geometry.linestring.LineString, shapely.geometry.multilinestring.MultiLineString, shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
+    shape : shapely.coords.CoordinateSequence, shapely.geometry.point.Point, shapely.geometry.multipoint.MultiPoint, shapely.geometry.polygon.LinearRing, shapely.geometry.linestring.LineString, shapely.geometry.multilinestring.MultiLineString, shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon, shapely.geometry.collection.GeometryCollection
         the shape
     prefix : str, optional
         change the name of the output debugging CSVs
@@ -38,6 +38,7 @@ def check(shape, /, *, prefix = "."):
 
     # Import sub-functions ...
     from .checkSrc import check_CoordinateSequence
+    from .checkSrc import check_GeometryCollection
     from .checkSrc import check_LinearRing
     from .checkSrc import check_LineString
     from .checkSrc import check_MultiLineString
@@ -77,6 +78,10 @@ def check(shape, /, *, prefix = "."):
     # Check if it is a MultiPolygon and return it checked ...
     if isinstance(shape, shapely.geometry.multipolygon.MultiPolygon):
         return check_MultiPolygon(shape, prefix = prefix)
+
+    # Check if it is a GeometryCollection and return it checked ...
+    if isinstance(shape, shapely.geometry.collection.GeometryCollection):
+        return check_GeometryCollection(shape, prefix = prefix)
 
     # Crash ...
     raise TypeError(f"\"shape\" is an unexpected type ({repr(type(shape))})") from None
