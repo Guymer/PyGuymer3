@@ -133,6 +133,7 @@ from ._debug import _debug
 from ._points2polys import _points2polys
 from .add_annotation import add_annotation
 from .add_axis import add_axis
+from .add_GSHHG_map_underlay import add_GSHHG_map_underlay
 from .add_map_background import add_map_background
 from .add_NE_map_underlay import add_NE_map_underlay
 from .area import area
