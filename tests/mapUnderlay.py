@@ -3,7 +3,7 @@
 # Use the proper idiom in the main module ...
 # NOTE: See https://docs.python.org/3.11/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
 if __name__ == "__main__":
-    # This is a test suite for “geo.add_map_underlay()”.
+    # This is a test suite for “geo.add_NE_map_underlay()”.
 
     # Import standard modules ...
     import os
@@ -78,7 +78,7 @@ if __name__ == "__main__":
 
         # Configure axis ...
         ax.set_title(resolution)
-        pyguymer3.geo.add_map_underlay(ax, cultural = False, linewidth = 0.0, resolution = resolution)
+        pyguymer3.geo.add_NE_map_underlay(ax, cultural = False, linewidth = 0.0, resolution = resolution)
 
     # Configure figure ...
     fg.tight_layout()
@@ -116,7 +116,7 @@ if __name__ == "__main__":
 
         # Configure axis ...
         ax.set_title(resolution)
-        pyguymer3.geo.add_map_underlay(ax, cultural = False, resolution = resolution)
+        pyguymer3.geo.add_NE_map_underlay(ax, cultural = False, resolution = resolution)
 
     # Configure figure ...
     fg.tight_layout()
@@ -154,7 +154,7 @@ if __name__ == "__main__":
 
         # Configure axis ...
         ax.set_title(resolution)
-        pyguymer3.geo.add_map_underlay(ax, resolution = resolution)
+        pyguymer3.geo.add_NE_map_underlay(ax, resolution = resolution)
 
     # Configure figure ...
     fg.tight_layout()
@@ -192,7 +192,7 @@ if __name__ == "__main__":
 
         # Configure axis ...
         ax.set_title(resolution)
-        pyguymer3.geo.add_map_underlay(ax, maxElev = 2000.0, resolution = resolution)
+        pyguymer3.geo.add_NE_map_underlay(ax, maxElev = 2000.0, resolution = resolution)
 
     # Configure figure ...
     fg.tight_layout()

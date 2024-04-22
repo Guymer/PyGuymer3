@@ -1,7 +1,21 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def add_map_underlay(axis, /, *, background = True, cultural = True, debug = False, linestyle = "solid", linewidth = 0.5, maxElev = 8850.0, onlyValid = False, physical = True, repair = False, resolution = "10m"):
+def add_NE_map_underlay(
+    axis,
+    /,
+    *,
+    background = True,
+      cultural = True,
+         debug = False,
+     linestyle = "solid",
+     linewidth = 0.5,
+       maxElev = 8850.0,
+     onlyValid = False,
+      physical = True,
+        repair = False,
+    resolution = "10m",
+):
     """Add an underlay to a Cartopy axis.
 
     Parameters
