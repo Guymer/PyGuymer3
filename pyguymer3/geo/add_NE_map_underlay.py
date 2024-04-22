@@ -16,7 +16,7 @@ def add_NE_map_underlay(
         repair = False,
     resolution = "10m",
 ):
-    """Add an underlay to a Cartopy axis.
+    """Add an underlay to a Cartopy axis from Natural Earth.
 
     Parameters
     ----------
