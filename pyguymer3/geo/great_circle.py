@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def great_circle(lon1, lat1, lon2, lat2, /, *, debug = False, npoint = 5, prefix = ".", ramLimit = 1073741824):
+def great_circle(lon1, lat1, lon2, lat2, /, *, debug = False, maxdist = None, npoint = None, prefix = ".", ramLimit = 1073741824):
     """Calculate the great circle that connects two coordinates.
 
     This function reads in two coordinates (in degrees) on the surface of the
@@ -20,6 +20,8 @@ def great_circle(lon1, lat1, lon2, lat2, /, *, debug = False, npoint = 5, prefix
         the latitude of the second coordinate (in degrees)
     debug : bool, optional
         print debug messages
+    maxdist : float, optional
+        the maximum distance between points along the great circle
     npoint : int, optional
         the number of points along the great circle
     prefix : str, optional
@@ -34,6 +36,10 @@ def great_circle(lon1, lat1, lon2, lat2, /, *, debug = False, npoint = 5, prefix
 
     Notes
     -----
+    If neither maxdist nor npoint are provided then npoint will default to 5.
+    For large great circles, prettier results are obtained by using maxdist
+    rather than npoint.
+
     Copyright 2017 Thomas Guymer [1]_
 
     References
@@ -53,25 +59,101 @@ def great_circle(lon1, lat1, lon2, lat2, /, *, debug = False, npoint = 5, prefix
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
+    from .calc_dist_between_two_locs import calc_dist_between_two_locs
     from .check import check
+    from .find_middle_of_great_circle import find_middle_of_great_circle
     from .find_point_on_great_circle import find_point_on_great_circle
     from ..interpolate import interpolate
+    from ..consts import CIRCUMFERENCE_OF_EARTH
+
+    # **************************************************************************
+
+    # Set default value ...
+    if maxdist is None and npoint is None:
+        npoint = 5                                                              # [#]
 
     # Check inputs ...
-    if npoint < 3:
-        raise Exception(f"the number of points is too small ({npoint:,d} < {3:,d})") from None
+    if isinstance(maxdist, float):
+        if maxdist < 10.0:
+            raise Exception(f"the maximum distance is too small ({maxdist:,.1f}m < {10.0:,.1f}m)") from None
+        if maxdist > 0.5 * CIRCUMFERENCE_OF_EARTH:
+            raise Exception(f"the maximum distance is too large ({maxdist:,.1f}m > {0.5 * CIRCUMFERENCE_OF_EARTH:,.1f}m)") from None
+    elif isinstance(npoint, int):
+        if npoint < 3:
+            raise Exception(f"the number of points is too small ({npoint:,d} < {3:,d})") from None
+    else:
+        raise Exception("\"maxdist\" is not a float and \"npoint\" is not an integer") from None
 
-    # Check array size ...
-    if npoint * 2 * 8 > ramLimit:
-        raise Exception(f"\"circle\" is going to be {npoint * 2 * 8:,d} bytes, which is larger than {ramLimit:,d} bytes") from None
+    # **************************************************************************
 
-    # Initialize array ...
-    circle = numpy.zeros((npoint, 2), dtype = numpy.float64)                    # [°]
+    # Check if the user wants to make the great circle using either "maxdist" or
+    # "npoints" ...
+    if isinstance(maxdist, float):
+        # Create a poorly resolved great circle ...
+        points = [
+            (lon1, lat1),
+            find_point_on_great_circle(0.2, lon1, lat1, lon2, lat2),
+            find_point_on_great_circle(0.4, lon1, lat1, lon2, lat2),
+            find_point_on_great_circle(0.6, lon1, lat1, lon2, lat2),
+            (lon2, lat2),
+        ]                                                                       # [°], [°]
 
-    # Loop over points ...
-    for ipoint in range(npoint):
-        # Set point ...
-        circle[ipoint, :] = find_point_on_great_circle(float(ipoint) / float(npoint - 1), lon1, lat1, lon2, lat2)   # [°]
+        # Initialize flag ...
+        addedPoint = True
+
+        # Commence infinite loop ...
+        while addedPoint:
+            # Reset the flag ..
+            addedPoint = False
+
+            # Loop over points ...
+            for ipoint in range(1, len(points)):
+                # Calculate the distance between this point and the previous one ...
+                dist, _, _ = calc_dist_between_two_locs(
+                    points[ipoint - 1][0],
+                    points[ipoint - 1][1],
+                    points[ipoint][0],
+                    points[ipoint][1],
+                )                                                               # [m]
+
+                # Check if the distance is too large ...
+                if dist > maxdist:
+                    # Replace the list of points with one which has a new
+                    # intermediate point inserted ...
+                    points = points[:ipoint] + [
+                        find_middle_of_great_circle(
+                            points[ipoint - 1][0],
+                            points[ipoint - 1][1],
+                            points[ipoint][0],
+                            points[ipoint][1],
+                        )
+                    ] + points[ipoint:]                                         # [°], [°]
+
+                    # Set the flag ...
+                    addedPoint = True
+
+                    # Stop looping over points and start the survey again ...
+                    break
+
+        # Convert list to array and clean up ...
+        circle = numpy.array(points, dtype = numpy.float64)                     # [°]
+        del points
+    elif isinstance(npoint, int):
+        # Check array size ...
+        if npoint * 2 * 8 > ramLimit:
+            raise Exception(f"\"circle\" is going to be {npoint * 2 * 8:,d} bytes, which is larger than {ramLimit:,d} bytes") from None
+
+        # Initialize array ...
+        circle = numpy.zeros((npoint, 2), dtype = numpy.float64)                # [°]
+
+        # Loop over points ...
+        for ipoint in range(npoint):
+            # Set point ...
+            circle[ipoint, :] = find_point_on_great_circle(float(ipoint) / float(npoint - 1), lon1, lat1, lon2, lat2)   # [°]
+    else:
+        raise Exception("\"maxdist\" is not a float and \"npoint\" is not an integer") from None
+
+    # **************************************************************************
 
     # Check if the great circle crosses the anti-meridean W to E ...
     if lon2 > lon1 and (circle[1, 0] < lon1 or circle[-2, 0] > lon2):
@@ -132,6 +214,8 @@ def great_circle(lon1, lat1, lon2, lat2, /, *, debug = False, npoint = 5, prefix
 
         # Return answer ...
         return multiline
+
+    # **************************************************************************
 
     # Convert to a LineString ...
     line = shapely.geometry.linestring.LineString(circle)
