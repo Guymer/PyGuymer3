@@ -14,7 +14,7 @@ def _add_topDown_axis(
         coastlines_levels = None,
      coastlines_linestyle = "solid",
      coastlines_linewidth = 0.5,
-    coastlines_resolution = "f",
+    coastlines_resolution = "i",
         coastlines_zorder = 1.5,
                     debug = False,
                      dist = 1.0e99,

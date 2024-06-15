@@ -15,7 +15,7 @@ def add_GSHHG_map_underlay(
      onlyValid = False,
     pondIsland = True,
         repair = False,
-    resolution = "f",
+    resolution = "i",
 ):
     """Add an underlay to a Cartopy axis from the `Global Self-Consistent
     Hierarchical High-Resolution Geography dataset`
