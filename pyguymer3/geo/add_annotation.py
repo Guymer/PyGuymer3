@@ -11,8 +11,10 @@ def add_annotation(
              arrowprops = None,
                    bbox = None,
                   color = "black",
+                  debug = False,
                fontsize = 8,
     horizontalalignment = "center",
+                 prefix = ".",
                  txtLat = None,
                  txtLon = None,
              txtOffsetX = None,
@@ -39,10 +41,14 @@ def add_annotation(
         the properties for the bounding box around the annotation text
     color : str, optional
         the colour of the annotation text
+    debug : bool, optional
+        print debug messages
     fontsize : int, optional
         the font size of the annotation text
     horizontal alignment : str, optional
         the vertical alignment of the annotation text
+    prefix : str, optional
+        change the name of the output debugging CSVs
     txtLon : float, optional
         the longitude of the annotation text, which implies an arrow to connect
         it to the annotated location (in degrees)
@@ -91,15 +97,22 @@ def add_annotation(
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
+    # Import sub-functions ...
+    from .check import check
+
     # **************************************************************************
 
     # Create Point(s) ...
     point1loc = shapely.geometry.point.Point(locLon, locLat)
+    if debug:
+        check(point1loc, prefix = prefix)
     if txtLon is not None and txtLat is not None:
         point1txt = shapely.geometry.point.Point(txtLon, txtLat)
 
     # Project the Point(s) into the axis' units ...
     point2loc = ax.projection.project_geometry(point1loc)
+    if debug:
+        check(point2loc, prefix = prefix)
     if txtLon is not None and txtLat is not None:
         point2txt = ax.projection.project_geometry(point1txt)
 
