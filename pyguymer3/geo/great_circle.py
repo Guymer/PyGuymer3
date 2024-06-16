@@ -6,7 +6,7 @@ def great_circle(lon1, lat1, lon2, lat2, /, *, debug = False, maxdist = None, np
 
     This function reads in two coordinates (in degrees) on the surface of the
     Earth and calculates the great circle that connects them, correctly handling
-    crossing over the anti-meridean (should it occur).
+    crossing over the anti-meridian (should it occur).
 
     Parameters
     ----------
@@ -155,12 +155,12 @@ def great_circle(lon1, lat1, lon2, lat2, /, *, debug = False, maxdist = None, np
 
     # **************************************************************************
 
-    # Check if the great circle crosses the anti-meridean W to E ...
+    # Check if the great circle crosses the anti-meridian W to E ...
     if lon2 > lon1 and (circle[1, 0] < lon1 or circle[-2, 0] > lon2):
         if debug:
-            print("INFO: The great circle crosses the anti-meridean (point #2 is E of point #1 but the great circle goes W).")
+            print("INFO: The great circle crosses the anti-meridian (point #2 is E of point #1 but the great circle goes W).")
 
-        # Find where it crosses the anti-meridean ...
+        # Find where it crosses the anti-meridian ...
         i = numpy.diff(circle[:, 0]).argmax()
 
         # Calculate the first intersection and convert to a LineString ...
@@ -185,12 +185,12 @@ def great_circle(lon1, lat1, lon2, lat2, /, *, debug = False, maxdist = None, np
         # Return answer ...
         return multiline
 
-    # Check if the great circle crosses the anti-meridean E to W ...
+    # Check if the great circle crosses the anti-meridian E to W ...
     if lon2 < lon1 and (circle[1, 0] > lon1 or circle[-2, 0] < lon2):
         if debug:
-            print("INFO: The great circle crosses the anti-meridean (point #2 is W of point #1 but the great circle goes E).")
+            print("INFO: The great circle crosses the anti-meridian (point #2 is W of point #1 but the great circle goes E).")
 
-        # Find where it crosses the anti-meridean ...
+        # Find where it crosses the anti-meridian ...
         i = numpy.diff(circle[:, 0]).argmin()
 
         # Calculate the first intersection and convert to a LineString ...

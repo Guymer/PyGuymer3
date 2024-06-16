@@ -7,7 +7,7 @@ def find_point_on_great_circle(frac, lon1_deg, lat1_deg, lon2_deg, lat2_deg, /):
 
     This function reads in two coordinates (in degrees) on the surface of the
     Earth and calculates an arbitrary point on the great circle that connects
-    them, correctly handling crossing over the anti-meridean (should it occur).
+    them, correctly handling crossing over the anti-meridian (should it occur).
 
     Parameters
     ----------
