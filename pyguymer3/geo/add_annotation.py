@@ -9,6 +9,7 @@ def add_annotation(
     /,
     *,
              arrowprops = None,
+                   bbox = None,
                   color = "black",
                fontsize = 8,
     horizontalalignment = "center",
@@ -17,6 +18,7 @@ def add_annotation(
              txtOffsetX = None,
              txtOffsetY = None,
       verticalalignment = "center",
+                 zorder = 3.0,
 ):
     """Add an annotation to a Cartopy axis.
 
@@ -33,6 +35,8 @@ def add_annotation(
     arrowprops : dict, optional
         the properties for the arrow connecting the annotation text to the
         annotation location
+    bbox : dict, optional
+        the properties for the bounding box around the annotation text
     color : str, optional
         the colour of the annotation text
     fontsize : int, optional
@@ -53,6 +57,11 @@ def add_annotation(
         connect it to the annotated location (in points)
     vertical alignment : str, optional
         the vertical alignment of the annotation text
+    zorder : float, optional
+        the zorder of the annotation text (the default value has been chosen to
+        to match the value that it ends up being if the annotation text is not
+        drawn with the zorder keyword specified -- obtained by manual inspection
+        on 16/Jun/2024)
 
     Notes
     -----
@@ -99,33 +108,39 @@ def add_annotation(
         ax.annotate(
             annotation,
             (point2loc.coords[0][0], point2loc.coords[0][1]),
+                           bbox = bbox,
                           color = color,
                        fontsize = fontsize,
             horizontalalignment = horizontalalignment,
               verticalalignment = verticalalignment,
+                         zorder = zorder,
         )
     elif txtOffsetX is not None and txtOffsetY is not None:
         ax.annotate(
             annotation,
             (point2loc.coords[0][0], point2loc.coords[0][1]),
                      arrowprops = arrowprops,
+                           bbox = bbox,
                           color = color,
                        fontsize = fontsize,
             horizontalalignment = horizontalalignment,
                      textcoords = "offset points",
               verticalalignment = verticalalignment,
                          xytext = (txtOffsetX, txtOffsetY),
+                         zorder = zorder,
         )
     elif txtLon is not None and txtLat is not None:
         ax.annotate(
             annotation,
             (point2loc.coords[0][0], point2loc.coords[0][1]),
                      arrowprops = arrowprops,
+                           bbox = bbox,
                           color = color,
                        fontsize = fontsize,
             horizontalalignment = horizontalalignment,
               verticalalignment = verticalalignment,
                          xytext = (point2txt.coords[0][0], point2txt.coords[0][1]),
+                         zorder = zorder,
         )
     else:
         raise Exception("there is a bizarre combination of \"txtLon\", \"txtLat\", \"txtOffsetX\" and \"txtOffsetY\"") from None
