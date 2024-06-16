@@ -19,7 +19,7 @@ def great_circle(lon1, lat1, lon2, lat2, /, *, debug = False, maxdist = None, np
     lat2 : float
         the latitude of the second coordinate (in degrees)
     debug : bool, optional
-        print debug messages
+        print debug messages (in metres)
     maxdist : float, optional
         the maximum distance between points along the great circle
     npoint : int, optional
