@@ -47,14 +47,16 @@ def save_file_if_needed(fname, fcontent, /, *, debug = False, gitFiles = None, g
 
     # Check that the content is one of the two types allowed in Python 3 and set
     # the file access mode and the encoding ...
-    if isinstance(fcontent, bytes):
-        mode = "b"
-        encoding = None
-    elif isinstance(fcontent, str):
-        mode = "t"
-        encoding = "utf-8"
-    else:
-        raise TypeError("\"fcontent\" is an unexpected type") from None
+    match fcontent:
+        case bytes():
+            mode = "b"
+            encoding = None
+        case str():
+            mode = "t"
+            encoding = "utf-8"
+        case _:
+            # Crash ...
+            raise TypeError(f"\"fcontent\" is an unexpected type ({repr(type(fcontent))})") from None
 
     # Initialize trigger ...
     needsSaving = False

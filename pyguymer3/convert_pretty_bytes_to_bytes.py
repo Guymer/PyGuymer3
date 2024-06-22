@@ -39,17 +39,20 @@ def convert_pretty_bytes_to_bytes(string, /):
     size = float(re.sub(r"[a-zA-Z]", "", string).strip())                       # [?]
     units = re.sub(r"[0-9\.]", "", string).strip()
 
-    # Scale value ...
-    if units in ["KB", "KiB"]:
-        size *= 1024.0                                                          # [B]
-    elif units in ["MB", "MiB"]:
-        size *= 1024.0 * 1024.0                                                 # [B]
-    elif units in ["GB", "GiB"]:
-        size *= 1024.0 * 1024.0 * 1024.0                                        # [B]
-    elif units in ["TB", "TiB"]:
-        size *= 1024.0 * 1024.0 * 1024.0 * 1024.0                               # [B]
-    elif units in ["PB", "PiB"]:
-        size *= 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0                      # [B]
-
-    # Return answer ...
-    return size
+    # Check what the units are and return it scaled ...
+    match units:
+        case "B":
+            return size
+        case "KB" | "KiB":
+            return 1024.0 * size
+        case "MB" | "MiB":
+            return 1024.0 * 1024.0 * size
+        case "GB" | "GiB":
+            return 1024.0 * 1024.0 * 1024.0 * size
+        case "TB" | "TiB":
+            return 1024.0 * 1024.0 * 1024.0 * 1024.0 * size
+        case "PB" | "PiB":
+            return 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * size
+        case _:
+            # Crash ...
+            raise ValueError(f"\"units\" is an unexpected value ({repr(units)})") from None
