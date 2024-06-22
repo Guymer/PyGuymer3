@@ -16,11 +16,11 @@ def load_TSTypeInfoBlock(fObj, /):
 
     # Pad out the read ...
     BytesEnd = fObj.tell()
-    BytesPassed = BytesEnd - BytesStart
-    if BytesPassed < ans["Length"]:
-        l = ans["Length"] - BytesPassed
+    bytesPassed = BytesEnd - BytesStart
+    if bytesPassed < ans["Length"]:
+        l = ans["Length"] - bytesPassed
         fObj.read(l)
-    elif BytesPassed > ans["Length"]:
+    elif bytesPassed > ans["Length"]:
         raise Exception("read more bytes than the length") from None
 
     # Return answer ...
