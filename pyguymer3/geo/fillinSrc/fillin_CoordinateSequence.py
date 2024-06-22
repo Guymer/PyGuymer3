@@ -70,23 +70,25 @@ def fillin_CoordinateSequence(coords, fill, /, *, debug = False, eps = 1.0e-12, 
     points1 = numpy.array(coords)                                               # [°]
 
     # Check what space the user wants to fill in ...
-    if fillSpace == "EuclideanSpace":
-        # Find the Euclidean distance between each original point ...
-        dr = numpy.hypot(numpy.diff(points1[:, 0]), numpy.diff(points1[:, 1]))  # [°]
-    elif fillSpace == "GeodesicSpace":
-        # Find the Geodetic distance between each original point ...
-        dr = numpy.zeros(points1.shape[0] - 1, dtype = numpy.float64)           # [m]
-        for ipoint in range(dr.size):
-            dr[ipoint], _, _ = calc_dist_between_two_locs(
-                points1[ipoint    , 0],
-                points1[ipoint    , 1],
-                points1[ipoint + 1, 0],
-                points1[ipoint + 1, 1],
-                 eps = eps,
-                nmax = nmax,
-            )                                                                   # [m], [°], [°]
-    else:
-        raise Exception(f"unrecognised value of \"fillSpace\" ({fillSpace})") from None
+    match fillSpace:
+        case "EuclideanSpace":
+            # Find the Euclidean distance between each original point ...
+            dr = numpy.hypot(numpy.diff(points1[:, 0]), numpy.diff(points1[:, 1]))  # [°]
+        case "GeodesicSpace":
+            # Find the Geodetic distance between each original point ...
+            dr = numpy.zeros(points1.shape[0] - 1, dtype = numpy.float64)       # [m]
+            for ipoint in range(dr.size):
+                dr[ipoint], _, _ = calc_dist_between_two_locs(
+                    points1[ipoint    , 0],
+                    points1[ipoint    , 1],
+                    points1[ipoint + 1, 0],
+                    points1[ipoint + 1, 1],
+                     eps = eps,
+                    nmax = nmax,
+                )                                                               # [m]
+        case _:
+            # Crash ...
+            raise ValueError(f"\"fillSpace\" is an unexpected value ({repr(fillSpace)})") from None
 
     # Find the number of filled segments required between each original point ...
     # NOTE: This is the number of fence panels, not the number of fence posts.
@@ -115,65 +117,67 @@ def fillin_CoordinateSequence(coords, fill, /, *, debug = False, eps = 1.0e-12, 
     ifill = 0                                                                   # [#]
 
     # Check what space the user wants to fill in ...
-    if fillSpace == "EuclideanSpace":
-        # Loop over original points ...
-        for ipoint in range(ns.size):
-            # Check if no filling in is actually needed ...
-            if ns[ipoint] == 1:
-                # Fill in point ...
-                points2[ifill, :] = points1[ipoint, :]                          # [°]
-            else:
-                # Fill in points ...
-                points2[ifill:ifill + ns[ipoint], 0] = numpy.linspace(
-                    points1[ipoint    , 0],
-                    points1[ipoint + 1, 0],
-                    endpoint = False,
-                         num = ns[ipoint],
-                )                                                               # [°]
-                points2[ifill:ifill + ns[ipoint], 1] = numpy.linspace(
-                    points1[ipoint    , 1],
-                    points1[ipoint + 1, 1],
-                    endpoint = False,
-                         num = ns[ipoint],
-                )                                                               # [°]
+    match fillSpace:
+        case "EuclideanSpace":
+            # Loop over original points ...
+            for ipoint in range(ns.size):
+                # Check if no filling in is actually needed ...
+                if ns[ipoint] == 1:
+                    # Fill in point ...
+                    points2[ifill, :] = points1[ipoint, :]                      # [°]
+                else:
+                    # Fill in points ...
+                    points2[ifill:ifill + ns[ipoint], 0] = numpy.linspace(
+                        points1[ipoint    , 0],
+                        points1[ipoint + 1, 0],
+                        endpoint = False,
+                             num = ns[ipoint],
+                    )                                                           # [°]
+                    points2[ifill:ifill + ns[ipoint], 1] = numpy.linspace(
+                        points1[ipoint    , 1],
+                        points1[ipoint + 1, 1],
+                        endpoint = False,
+                             num = ns[ipoint],
+                    )                                                           # [°]
 
-            # Increment index ...
-            ifill += ns[ipoint]                                                 # [#]
-    elif fillSpace == "GeodesicSpace":
-        # Loop over original points ...
-        for ipoint in range(ns.size):
-            # Check if no filling in is actually needed ...
-            if ns[ipoint] == 1:
-                # Fill in point ...
-                points2[ifill, :] = points1[ipoint, :]                          # [°]
-            else:
-                # Find the great circle connecting the two original points and
-                # convert the LineString to a NumPy array ...
-                arc = great_circle(
-                    points1[ipoint    , 0],
-                    points1[ipoint    , 1],
-                    points1[ipoint + 1, 0],
-                    points1[ipoint + 1, 1],
-                       debug = debug,
-                      npoint = ns[ipoint] + 1,
-                      prefix = prefix,
-                    ramLimit = ramLimit,
-                )
-                arcCoords = numpy.array(arc.coords)                             # [°]
+                # Increment index ...
+                ifill += ns[ipoint]                                             # [#]
+        case "GeodesicSpace":
+            # Loop over original points ...
+            for ipoint in range(ns.size):
+                # Check if no filling in is actually needed ...
+                if ns[ipoint] == 1:
+                    # Fill in point ...
+                    points2[ifill, :] = points1[ipoint, :]                      # [°]
+                else:
+                    # Find the great circle connecting the two original points
+                    # and convert the LineString to a NumPy array ...
+                    arc = great_circle(
+                        points1[ipoint    , 0],
+                        points1[ipoint    , 1],
+                        points1[ipoint + 1, 0],
+                        points1[ipoint + 1, 1],
+                           debug = debug,
+                          npoint = ns[ipoint] + 1,
+                          prefix = prefix,
+                        ramLimit = ramLimit,
+                    )
+                    arcCoords = numpy.array(arc.coords)                         # [°]
 
-                # Clean up ...
-                del arc
+                    # Clean up ...
+                    del arc
 
-                # Fill in points ...
-                points2[ifill:ifill + ns[ipoint], :] = arcCoords[:-1, :]        # [°]
+                    # Fill in points ...
+                    points2[ifill:ifill + ns[ipoint], :] = arcCoords[:-1, :]    # [°]
 
-                # Clean up ...
-                del arcCoords
+                    # Clean up ...
+                    del arcCoords
 
-            # Increment index ...
-            ifill += ns[ipoint]                                                 # [#]
-    else:
-        raise Exception(f"unrecognised value of \"fillSpace\" ({fillSpace})") from None
+                # Increment index ...
+                ifill += ns[ipoint]                                             # [#]
+        case _:
+            # Crash ...
+            raise ValueError(f"\"fillSpace\" is an unexpected value ({repr(fillSpace)})") from None
 
     # Clean up ...
     del ns
