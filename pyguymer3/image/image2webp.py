@@ -64,27 +64,29 @@ def image2webp(img, webp, /, *, chunksize = 1048576, debug = False, exif = None,
         print("WARNING: You have provided EXIF data but then asked to strip metadata.")
 
     # Find out what the user supplied ...
-    if isinstance(img, str):
-        # Open image as RGB (even if it is paletted) ...
-        with PIL.Image.open(img) as iObj:
-            tmpImg = iObj.convert("RGB")
+    match img:
+        case str():
+            # Open image as RGB (even if it is paletted) ...
+            with PIL.Image.open(img) as iObj:
+                tmpImg = iObj.convert("RGB")
 
-        # Check if the user wants to scale the image down to fit within a screen
-        # size ...
-        if screenWidth >= 100 and screenHeight >= 100:
-            # Resize image in place ...
-            tmpImg.thumbnail(
-                (screenWidth, screenHeight),
-                resample = PIL.Image.Resampling.LANCZOS,
-            )
+            # Check if the user wants to scale the image down to fit within a
+            # screen size ...
+            if screenWidth >= 100 and screenHeight >= 100:
+                # Resize image in place ...
+                tmpImg.thumbnail(
+                    (screenWidth, screenHeight),
+                    resample = PIL.Image.Resampling.LANCZOS,
+                )
 
-        # Convert it to whatever mode the user asked for ...
-        tmpImg = tmpImg.convert(mode)
-    elif isinstance(img, PIL.Image.Image):
-        # Convert image to whatever mode the user asked for ...
-        tmpImg = img.convert(mode)
-    else:
-        raise TypeError(f"\"img\" is an unexpected type ({repr(type(img))})") from None
+            # Convert it to whatever mode the user asked for ...
+            tmpImg = tmpImg.convert(mode)
+        case PIL.Image.Image():
+            # Convert image to whatever mode the user asked for ...
+            tmpImg = img.convert(mode)
+        case _:
+            # Crash ...
+            raise TypeError(f"\"img\" is an unexpected type ({repr(type(img))})") from None
 
     # Save it as a WEBP ...
     # NOTE: See https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html#webp

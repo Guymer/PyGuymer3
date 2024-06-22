@@ -95,10 +95,25 @@ def save_array_as_image(img0, fname, /, *, chunksize = 1048576, ct = "grey", deb
                 img2[iy, ix, :] = cts[ct][img0[iy, ix].astype(numpy.uint8)][:]
 
     # Save image ...
-    if form == "png":
-        save_array_as_PNG(img2, fname, ftype_req = 4)
-        optimize_image(fname, debug = debug, chunksize = chunksize, strip = True, timeout = timeout)
-    elif form == "ppm":
-        save_array_as_PPM(img2, fname)
-    else:
-        raise Exception("an unknown image format was requested") from None
+    match form:
+        case "png":
+            save_array_as_PNG(
+                img2,
+                fname,
+                ftype_req = 4,
+            )
+            optimize_image(
+                fname,
+                    debug = debug,
+                chunksize = chunksize,
+                    strip = True,
+                  timeout = timeout,
+            )
+        case "ppm":
+            save_array_as_PPM(
+                img2,
+                fname,
+            )
+        case _:
+            # Crash ...
+            raise ValueError(f"\"form\" is an unexpected value ({repr(form)})") from None

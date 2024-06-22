@@ -53,27 +53,29 @@ def image2gif(img, gif, /, *, chunksize = 1048576, debug = False, mode = "RGB", 
     from .optimize_image import optimize_image
 
     # Find out what the user supplied ...
-    if isinstance(img, str):
-        # Open image as RGB (even if it is paletted) ...
-        with PIL.Image.open(img) as iObj:
-            tmpImg = iObj.convert("RGB")
+    match img:
+        case str():
+            # Open image as RGB (even if it is paletted) ...
+            with PIL.Image.open(img) as iObj:
+                tmpImg = iObj.convert("RGB")
 
-        # Check if the user wants to scale the image down to fit within a screen
-        # size ...
-        if screenWidth >= 100 and screenHeight >= 100:
-            # Resize image in place ...
-            tmpImg.thumbnail(
-                (screenWidth, screenHeight),
-                resample = PIL.Image.Resampling.LANCZOS,
-            )
+            # Check if the user wants to scale the image down to fit within a
+            # screen size ...
+            if screenWidth >= 100 and screenHeight >= 100:
+                # Resize image in place ...
+                tmpImg.thumbnail(
+                    (screenWidth, screenHeight),
+                    resample = PIL.Image.Resampling.LANCZOS,
+                )
 
-        # Convert it to whatever mode the user asked for ...
-        tmpImg = tmpImg.convert(mode)
-    elif isinstance(img, PIL.Image.Image):
-        # Convert image to whatever mode the user asked for ...
-        tmpImg = img.convert(mode)
-    else:
-        raise TypeError(f"\"img\" is an unexpected type ({repr(type(img))})") from None
+            # Convert it to whatever mode the user asked for ...
+            tmpImg = tmpImg.convert(mode)
+        case PIL.Image.Image():
+            # Convert image to whatever mode the user asked for ...
+            tmpImg = img.convert(mode)
+        case _:
+            # Crash ...
+            raise TypeError(f"\"img\" is an unexpected type ({repr(type(img))})") from None
 
     # Save it as a GIF ...
     # NOTE: See https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html#gif

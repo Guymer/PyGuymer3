@@ -26,16 +26,33 @@ def optimize_image(fname, /, *, chunksize = 1048576, debug = False, strip = Fals
     ext = os.path.splitext(fname)[1]
 
     # Optimize image depending the file extension ...
-    if ext.lower() in [".gif"]:
-        gifsicle(fname, chunksize = chunksize, debug = debug, timeout = timeout)
-    elif ext.lower() in [".jpg", ".jpeg"]:
-        jpegtran(fname, chunksize = chunksize, debug = debug, timeout = timeout)
-    elif ext.lower() in [".png"]:
-        optipng(fname, timeout = timeout)
-    else:
-        if debug:
-            print(f"WARNING: \"{ext}\" is not a recognised file extension, no optimization will take place.")
+    match ext.lower():
+        case ".gif":
+            gifsicle(
+                fname,
+                chunksize = chunksize,
+                    debug = debug,
+                  timeout = timeout,
+            )
+        case ".jpg" | ".jpeg":
+            jpegtran(
+                fname,
+                chunksize = chunksize,
+                    debug = debug,
+                  timeout = timeout,
+            )
+        case ".png":
+            optipng(
+                fname,
+                timeout = timeout,
+            )
+        case _:
+            # Crash ...
+            raise ValueError(f"\"ext.lower()\" is an unexpected value ({repr(ext.lower())})") from None
 
     # Strip metadata ...
     if strip:
-        exiftool(fname, timeout = timeout)
+        exiftool(
+            fname,
+            timeout = timeout,
+        )
