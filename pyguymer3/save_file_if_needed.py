@@ -105,6 +105,7 @@ def save_file_if_needed(fname, fcontent, /, *, debug = False, gitFiles = None, g
                     [
                         "git",
                         "add",
+                        "--intent-to-add",
                         fname,
                     ],
                        check = True,
