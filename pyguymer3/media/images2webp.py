@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def images2webp(imgs, webp, /, *, chunksize = 1048576, debug = False, exif = None, fps = 25.0, lossless = False, method = 6, minimize_size = True, mode = "RGB", quality = 100, screenHeight = -1, screenWidth = -1, strip = False, timeout = 60.0):
+def images2webp(imgs, webp, /, *, exif = None, fps = 25.0, lossless = False, method = 6, minimize_size = True, mode = "RGB", quality = 100, screenHeight = -1, screenWidth = -1):
     """Convert a sequence of images to a WEBP animation.
 
     This function makes a WEBP animation from either a list of PIL Images or a
@@ -13,8 +13,6 @@ def images2webp(imgs, webp, /, *, chunksize = 1048576, debug = False, exif = Non
         the list of input PIL Images or list of paths to the input images
     webp : str
         the path to the output WEBP
-    debug : bool, optional
-        print debug messages (default False)
     exif : dict, optional
         a dictionary of EXIF data to save in the output WEBP (default None)
     fps : float, optional
@@ -37,10 +35,6 @@ def images2webp(imgs, webp, /, *, chunksize = 1048576, debug = False, exif = Non
         the width of the screen to downscale the input images to fit within,
         currently only implemented if "imgs" is a list of str (default -1;
         integers less than 100 imply no downscaling)
-    strip : bool, optional
-        strip metadata from the output WEBP (default False)
-    timeout : float, optional
-        the timeout for any requests/subprocess calls
 
     Notes
     -----
@@ -61,11 +55,6 @@ def images2webp(imgs, webp, /, *, chunksize = 1048576, debug = False, exif = Non
 
     # Import sub-functions ...
     from ..image import dict2exif
-    from ..image import optimize_image
-
-    # Check input ...
-    if exif is not None and strip:
-        print("WARNING: You have provided EXIF data but then asked to strip metadata.")
 
     # **************************************************************************
 
@@ -113,7 +102,3 @@ def images2webp(imgs, webp, /, *, chunksize = 1048576, debug = False, exif = Non
                   quality = quality,
                  save_all = True,
     )
-
-    # Optimize WEBP ...
-    if strip:
-        optimize_image(webp, chunksize = chunksize, debug = debug, strip = strip, timeout = timeout)

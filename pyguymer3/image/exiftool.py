@@ -25,19 +25,21 @@ def exiftool(fname, /, *, timeout = 60.0):
     ext = os.path.splitext(fname)[1]
 
     # Strip all metadata depending on the file extension ...
-    # NOTE: As of 1/Sep/2022, "exiftool" cannot write WEBP images.
-    if ext.lower() not in [".webp"]:
-        # Strip all metadata ...
-        subprocess.run(
-            [
-                "exiftool",
-                "-overwrite_original",
-                "-all=",
-                fname
-            ],
-               check = True,
-            encoding = "utf-8",
-              stderr = subprocess.DEVNULL,
-              stdout = subprocess.DEVNULL,
-             timeout = timeout,
-        )
+    match ext.lower():
+        case ".gif" | ".jpg" | ".jpeg" | ".png":
+            subprocess.run(
+                [
+                    "exiftool",
+                    "-overwrite_original",
+                    "-all=",
+                    fname
+                ],
+                   check = True,
+                encoding = "utf-8",
+                  stderr = subprocess.DEVNULL,
+                  stdout = subprocess.DEVNULL,
+                 timeout = timeout,
+            )
+        case _:
+            # Crash ...
+            raise ValueError(f"\"ext.lower()\" is an unexpected value ({repr(ext.lower())})") from None
