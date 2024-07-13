@@ -29,10 +29,17 @@ jobs:
                 name: Install dependencies
                 run: |
                     python -m pip install --upgrade pip
+                    pip install numpy
                     pip install pylint
             -
                 name: Analysing the Python code with PyLint
                 run: |
                     export PYTHONPATH=${PWD}/pyguymer3:${PYTHONPATH}
+                    echo "::notice $(which f2py)"
+                    echo "::notice $(which gfortran)"
+                    echo "::notice $(which gmake)"
+                    echo "::notice $(which pip)"
+                    echo "::notice $(which python)"
                     cd main
-                    pylint --rcfile=".pylintrc" --errors-only $(git ls-files "*.py" | grep -v -F docs/ | grep -v -F f90/)
+                    gmake -r -C pyguymer3/f90 FC1=`which f2py` FC2=`which gfortran` PYTHON3=`which python`
+                    pylint --rcfile=".pylintrc" --errors-only $(git ls-files "*.py" | grep -v -F docs/)
