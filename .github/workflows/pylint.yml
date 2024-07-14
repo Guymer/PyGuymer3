@@ -1,4 +1,4 @@
-name: Pylint
+name: PyLint
 
 on: [push]
 
@@ -7,7 +7,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                python-version: ["3.10"]
+                python-version: ["3.10", "3.11", "3.12"]
         steps:
             -
                 name: Checkout project                                          # https://github.com/actions/checkout
@@ -21,23 +21,25 @@ jobs:
                 with:
                     python-version: ${{ matrix.python-version }}
             -
-                name: Install dependencies
+                name: Install Python ${{ matrix.python-version }} dependencies
                 run: |
                     python -m pip install --upgrade pip
-                    pip install matplotlib
-                    pip install numpy
+                    pip install -r main/requirements.txt
+                    pip install -r main/docs/requirements.txt
+                    pip install git+https://github.com/VACUMM/sphinx-fortran.git@master
                     pip install pylint
-                    pip install scipy
-                    pip install sphinx
             -
-                name: Analysing the Python code with PyLint
+                name: List programs
                 run: |
-                    export PYTHONPATH=${PWD}/pyguymer3:${PYTHONPATH}
                     echo "::notice $(which f2py)"
                     echo "::notice $(which gfortran)"
                     echo "::notice $(which gmake)"
                     echo "::notice $(which pip)"
+                    echo "::notice $(which pylint)"
                     echo "::notice $(which python)"
+            -
+                name: Analyse the Python ${{ matrix.python-version }} code
+                run: |
                     cd main
                     gmake -r -C pyguymer3/f90 FC1=`which f2py` FC2=`which gfortran` PYTHON3=`which python`
-                    pylint --rcfile=".pylintrc" --errors-only $(git ls-files "*.py" | grep -v -F docs/)
+                    pylint --rcfile=".pylintrc" --errors-only $(git ls-files "*.py")
