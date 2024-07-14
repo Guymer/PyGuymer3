@@ -36,6 +36,7 @@ from .getctime import getctime
 from .getmtime import getmtime
 from .git_commits import git_commits
 from .git_files import git_files
+from .git_remote import git_remote
 from .gzip import gzip
 from .hostname import hostname
 from .interpolate import interpolate
