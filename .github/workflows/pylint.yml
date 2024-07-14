@@ -29,7 +29,6 @@ jobs:
                     pip install -r main/requirements.txt
                     pip install -r main/docs/requirements.txt
                     pip install -r main/pyguymer3/f90/fortranlib/requirements.txt
-                    pip install -r main/pyguymer3/f90/fortranlib/docs/requirements.txt
                     pip install git+https://github.com/VACUMM/sphinx-fortran.git@master
                     pip install pylint
             -
@@ -45,5 +44,5 @@ jobs:
                 name: Analyse the Python ${{ matrix.python-version }} code
                 run: |
                     cd main
-                    gmake -r -C pyguymer3/f90 FC1=`which f2py` FC2=`which gfortran` PYTHON3=`which python`
+                    gmake -r -C pyguymer3/f90 FC1=`which f2py` FC2=`which gfortran` PYTHON3=`which python` compile
                     pylint --rcfile=".pylintrc" --errors-only $(git ls-files "*.py")
