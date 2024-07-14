@@ -1,0 +1,23 @@
+name: ShellCheck
+
+on: [push]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            -
+                name: Checkout project                                          # https://github.com/actions/checkout
+                uses: actions/checkout@v4
+                with:
+                    path: main
+                    submodules: true
+            -
+                name: List programs
+                run: |
+                    echo "::notice $(which shellcheck)"
+            -
+                name: Analyse the BASH code
+                run: |
+                    cd main
+                    shellcheck --severity=error $(git ls-files "*.sh")
