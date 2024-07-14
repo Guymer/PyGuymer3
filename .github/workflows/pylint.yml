@@ -7,7 +7,9 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                python-version: ["3.10", "3.11", "3.12"]
+                python-version: ["3.10", "3.11"]                                # NOTE: As of 14/July/2024, there appear to still be issues which need ironing
+                                                                                #       out in Python 3.12 relating to "distutils" being deprecated and NumPy
+                                                                                #       (and, by extension, f2py) moving towards a "meson" build backend.
         steps:
             -
                 name: Checkout project                                          # https://github.com/actions/checkout
@@ -20,10 +22,6 @@ jobs:
                 uses: actions/setup-python@v5                                   # https://github.com/actions/setup-python
                 with:
                     python-version: ${{ matrix.python-version }}
-            -
-                name: Install f2py dependencies
-                run: |
-                    sudo apt-get install meson
             -
                 name: Install Python ${{ matrix.python-version }} dependencies
                 run: |
