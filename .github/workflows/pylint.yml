@@ -21,6 +21,10 @@ jobs:
                 with:
                     python-version: ${{ matrix.python-version }}
             -
+                name: Install f2py dependencies
+                run: |
+                    sudo apt-get install meson
+            -
                 name: Install Python ${{ matrix.python-version }} dependencies
                 run: |
                     python -m pip install --upgrade pip
