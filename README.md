@@ -17,11 +17,17 @@ PyGuymer3 requires the following Python modules to be installed and available in
 * [PIL](https://pypi.org/project/Pillow/)
 * [requests](https://pypi.org/project/requests/)
 * [shapely](https://pypi.org/project/Shapely/)
+* [sphinx](https://pypi.org/project/Sphinx/)
+    * [sphinx_fortran](https://pypi.org/project/sphinx-fortran/)
+    * [sphinx_rtd_theme](https://pypi.org/project/sphinx-rtd-theme/)
 
 Additionally, due to the dependency on [my FORTRAN library](https://github.com/Guymer/fortranlib), if you want to run the FORTRAN-based functions in the [f90](pyguymer3/f90) sub-module then you will also require the following Python modules to be installed and available in your `PYTHONPATH`:
 
 * [matplotlib](https://pypi.org/project/matplotlib/)
 * [scipy](https://pypi.org/project/scipy/)
+* [sphinx](https://pypi.org/project/Sphinx/)
+    * [sphinx_fortran](https://pypi.org/project/sphinx-fortran/)
+    * [sphinx_rtd_theme](https://pypi.org/project/sphinx-rtd-theme/)
 
 Similarly, PyGuymer3 requires the following binaries to be installed and available in your `PATH`:
 
