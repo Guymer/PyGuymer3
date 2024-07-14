@@ -1,0 +1,43 @@
+name: GNU Make
+
+on: [push]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                python-version: ["3.10", "3.11"]                                # NOTE: As of 14/July/2024, there appear to still be issues which need ironing
+                                                                                #       out in Python 3.12 relating to "distutils" being deprecated and NumPy
+                                                                                #       (and, by extension, f2py) moving towards a "meson" build backend.
+        steps:
+            -
+                name: Checkout project                                          # https://github.com/actions/checkout
+                uses: actions/checkout@v4
+                with:
+                    path: main
+                    submodules: true
+            -
+                name: Set up Python ${{ matrix.python-version }}
+                uses: actions/setup-python@v5                                   # https://github.com/actions/setup-python
+                with:
+                    python-version: ${{ matrix.python-version }}
+            -
+                name: Install Python ${{ matrix.python-version }} dependencies
+                run: |
+                    python -m pip install --upgrade pip
+                    pip install -r main/requirements.txt
+                    pip install -r main/pyguymer3/f90/fortranlib/requirements.txt
+            -
+                name: List programs
+                run: |
+                    echo "::notice $(which f2py)"
+                    echo "::notice $(which gfortran)"
+                    echo "::notice $(which gmake)"
+                    echo "::notice $(which pip)"
+                    echo "::notice $(which python)"
+            -
+                name: Compile the FORTRAN code
+                run: |
+                    cd main
+                    gmake -r -C pyguymer3/f90 FC1=`which f2py` FC2=`which gfortran` PYTHON3=`which python` compile
