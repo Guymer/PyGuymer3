@@ -46,6 +46,7 @@ from .return_dict_of_media_video_streams import return_dict_of_media_video_strea
 from .return_ISO_palette import return_ISO_palette
 from .return_media_bit_rate import return_media_bit_rate
 from .return_media_duration import return_media_duration
+from .return_media_format import return_media_format
 from .return_MP4_audio_profile import return_MP4_audio_profile
 from .return_MP4_video_level import return_MP4_video_level
 from .return_MP4_video_profile import return_MP4_video_profile
