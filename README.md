@@ -1,6 +1,6 @@
 # PyGuymer3
 
-[![Documentation Status](https://readthedocs.org/projects/pyguymer3/badge/?version=latest)](https://pyguymer3.readthedocs.io/en/latest/?badge=latest)
+![Documentation Status](https://readthedocs.org/projects/pyguymer3/badge/) !["gmake" GitHub Action Status](https://github.com/Guymer/PyGuymer3/actions/workflows/gmake.yml/badge.svg) !["pylint" GitHub Action Status](https://github.com/Guymer/PyGuymer3/actions/workflows/pylint.yml/badge.svg)
 
 This is a Python 3.X port of [my Python 2.X module](https://github.com/Guymer/PyGuymer) containing a bunch of random functions that I have written over the years. The [documentation is on Read The Docs](https://pyguymer3.readthedocs.io/).
 
