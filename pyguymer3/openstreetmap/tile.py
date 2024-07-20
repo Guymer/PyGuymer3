@@ -1,7 +1,64 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def tile(xtile, ytile, zoom, sess, /, *, chunksize = 1048576, cookies = None, debug = False, headers = None, timeout = 60.0, verify = True):
+def tile(
+    xtile,
+    ytile,
+    zoom,
+    sess,
+    /,
+    *,
+    chunksize = 1048576,
+      cookies = None,
+        debug = False,
+      headers = None,
+      timeout = 60.0,
+       verify = True,
+):
+    """Fetch an OpenStreetMap tile
+
+    This function reads in a tile number and then checks to see if the tile
+    already exists in the local cache. It will load up the PNG image if it
+    exists or download the OpenStreetMap tile (and save it as both a NPY array
+    and a PNG image) if it is missing.
+
+    Parameters
+    ----------
+    xtile : int
+        the tile x location
+    ytile : int
+        the tile y location
+    zoom : int
+        the OpenStreetMap zoom level
+    sess : requests.Session
+        the session for any requests calls
+    chunksize : int, optional
+        the size of the chunks of any files which are read in (in bytes)
+    cookies : dict, optional
+        extra cookies for any requests calls
+    debug : bool, optional
+        print debug messages
+    headers : dict, optional
+        extra headers for any requests calls
+    timeout : float, optional
+        the timeout for any requests/subprocess calls (in seconds)
+    verify : bool, optional
+        verify the server's certificates for any requests calls
+
+    Returns
+    -------
+    image : PIL.Image
+        the OpenStreetMap tile
+
+    Notes
+    -----
+    Copyright 2017 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
+    """
+
     # Import standard modules ...
     import os
     import time
@@ -23,8 +80,12 @@ def tile(xtile, ytile, zoom, sess, /, *, chunksize = 1048576, cookies = None, de
     from ..image import optimize_image
 
     # Check inputs ...
+    if not 0 <= xtile < pow(2, zoom):
+        raise Exception(f"\"xtile\" is not in the required range ({xtile:d})") from None
+    if not 0 <= ytile < pow(2, zoom):
+        raise Exception(f"\"ytile\" is not in the required range ({ytile:d})") from None
     if not 0 <= zoom <= 19:
-        raise Exception(f"zoom is not in the required range ({zoom:d})") from None
+        raise Exception(f"\"zoom\" is not in the required range ({zoom:d})") from None
 
     # Populate default values ...
     if cookies is None:

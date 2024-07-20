@@ -1,7 +1,79 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def tiles(lonC_deg, latC_deg, zoom, width, height, sess, /, *, background = (255, 255, 255), chunksize = 1048576, cookies = None, debug = False, fill = (255, 0, 0, 127), headers = None, radius = None, timeout = 10.0, verify = True):
+def tiles(
+    lonC_deg,
+    latC_deg,
+    zoom,
+    width,
+    height,
+    sess,
+    /,
+    *,
+    background = (255, 255, 255),
+     chunksize = 1048576,
+       cookies = None,
+         debug = False,
+          fill = (255, 0, 0, 127),
+       headers = None,
+        radius = None,
+       timeout = 10.0,
+        verify = True,
+):
+    """Merge some OpenStreetMap tiles around a location into one large tile
+
+    This function reads in a location, a zoom and an image size. It then fetches
+    all of the OpenStreetMap tiles that are in that field-of-view and returns an
+    image of them all merged together.
+
+    Parameters
+    ----------
+    lonC_deg : float
+        the central longitude (in degrees)
+    latC_deg : float
+        the central latitude (in degrees)
+    zoom : int
+        the OpenStreetMap zoom level
+    width : int
+        the width of the merged tile (in pixels)
+    height : int
+        the height of the merged tile (in pixels)
+    sess : requests.Session
+        the session for any requests calls
+    background : tuple of int, optional
+        the background colour of the merged tile
+    chunksize : int, optional
+        the size of the chunks of any files which are read in (in bytes)
+    cookies : dict, optional
+        extra cookies for any requests calls
+    debug : bool, optional
+        print debug messages
+    fill : tuple of int, optional
+        the fill colour of the circle around the central location, if drawn
+    headers : dict, optional
+        extra headers for any requests calls
+    radius : int, optional
+        the radius of the circle around the central location, if None then no
+        circle is drawn (in pixels)
+    timeout : float, optional
+        the timeout for any requests/subprocess calls (in seconds)
+    verify : bool, optional
+        verify the server's certificates for any requests calls
+
+    Returns
+    -------
+    tilesIm : PIL.Image
+        the merged tile
+
+    Notes
+    -----
+    Copyright 2017 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
+    """
+
     # Import special modules ...
     try:
         import PIL
@@ -18,7 +90,7 @@ def tiles(lonC_deg, latC_deg, zoom, width, height, sess, /, *, background = (255
 
     # Check inputs ...
     if not 0 <= zoom <= 19:
-        raise Exception(f"zoom is not in the required range ({zoom:d})") from None
+        raise Exception(f"\"zoom\" is not in the required range ({zoom:d})") from None
 
     # Populate default values ...
     if cookies is None:
@@ -28,11 +100,15 @@ def tiles(lonC_deg, latC_deg, zoom, width, height, sess, /, *, background = (255
 
     # **************************************************************************
 
+    # Create short-hand ...
+    n = pow(2, zoom)
+
     # Find which tile contains the location ...
     xtileC, ytileC = deg2num(lonC_deg, latC_deg, zoom)                          # [#], [#]
 
     # Find where exactly the location is within the central tile (assuming that
-    # both the Euclidean and Geodesic spaces are both rectilinear and uniform) ...
+    # both the Euclidean and Geodesic spaces are both rectilinear and uniform
+    # within a single tile) ...
     lonCW_deg, latCN_deg = num2deg(xtileC, ytileC, zoom)                        # [°], [°]
     lonCE_deg, latCS_deg = num2deg(xtileC + 1, ytileC + 1, zoom)                # [°], [°]
     xoffset = int(256.0 * (lonCW_deg - lonC_deg) / (lonCW_deg - lonCE_deg))     # [px]
@@ -69,8 +145,8 @@ def tiles(lonC_deg, latC_deg, zoom, width, height, sess, /, *, background = (255
 
             # Obtain the tile ...
             tileIm = tile(
-                xtile,
-                ytile,
+                xtile % n,
+                ytile % n,
                 zoom,
                 sess,
                 chunksize = chunksize,
