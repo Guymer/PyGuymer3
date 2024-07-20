@@ -17,7 +17,8 @@ def create_map_of_points(
      ramLimit = 1073741824,
        repair = False,
       timeout = 60.0,
-          tol = 1.0e-10,
+         tol1 = 1.0e-10,
+         tol2 = 1.0e3,
 ):
     """Save a PNG map of a sequence of points
 
@@ -53,9 +54,12 @@ def create_map_of_points(
         attempt to repair invalid Polygons
     timeout : float, optional
         the timeout for any requests/subprocess calls (in seconds)
-    tol : float, optional
+    tol1 : float, optional
         the Euclidean distance that defines two points as being the same (in
         degrees)
+    tol2 : float, optional
+        the Geodetic distance that defines the middle as being converged (in
+        metres)
 
     Notes
     -----
@@ -111,8 +115,10 @@ def create_map_of_points(
         nIter = nIter,
          nmax = nmax,
           pad = 12.0 * 1852.0,
-          tol = tol,
+          tol = tol2,
     )                                                                           # [°], [°], [m]
+    if debug:
+        print(f"INFO: Centre at (lon={midLon:+.6f}°, lat={midLat:+.6f}°) with a {0.001 * maxDist:,.1f} km radius.")
 
     # **************************************************************************
 
@@ -132,13 +138,15 @@ def create_map_of_points(
            prefix = prefix,
          ramLimit = ramLimit,
            repair = repair,
-              tol = tol,
+              tol = tol1,
     )
 
     # Calculate the resolution (and zoom) depending on the half-height of the
     # figure and the resolution of the figure ...
     res = maxDist / (0.5 * fg.get_size_inches()[1] * fg.dpi)                    # [m/px]
     z = zoom(midLat, res)
+    if debug:
+        print(f"INFO: The resolution is {0.001 * res:,.1f} km/px and the OpenStreetMap zoom is {z:d}.")
 
     # Add OpenStreetMap tiles ...
     # NOTE: It appears that the background image is drawn at only 72 dpi. If you
