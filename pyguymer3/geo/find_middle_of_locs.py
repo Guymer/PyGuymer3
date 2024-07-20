@@ -1,7 +1,18 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def find_middle_of_locs(lons, lats, /, *, debug = False, eps = 1.0e-12, nIter = 10, nmax = 100, pad = 10.0e3, tol = 1.0e3):
+def find_middle_of_locs(
+    lons,
+    lats,
+    /,
+    *,
+    debug = False,
+      eps = 1.0e-12,
+    nIter = 10,
+     nmax = 100,
+      pad = 10.0e3,
+      tol = 1.0e3,
+):
     """Find the middle of some locations
 
     This function finds the middle of some locations such that the Geodetic

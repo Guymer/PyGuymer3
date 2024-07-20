@@ -1,7 +1,15 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def optimize_image(fname, /, *, chunksize = 1048576, debug = False, strip = False, timeout = 60.0):
+def optimize_image(
+    fname,
+    /,
+    *,
+    chunksize = 1048576,
+        debug = False,
+        strip = False,
+      timeout = 60.0,
+):
     """
     Please read the documentation for the four functions: "exiftool",
     "gifsicle", "jpegtran" and "optipng". It is not safe to keep on running the
