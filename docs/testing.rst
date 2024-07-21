@@ -8,6 +8,7 @@ that I might have introduced; and demonstrate some simple programming techniques
     test_buffer
     test_bufferPoint
     test_fillin
+    test_findMiddleOfLocs
     test_greatCircle
     test_mapUnderlay
     test_saveArrayAsImage
