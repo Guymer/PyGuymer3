@@ -156,4 +156,5 @@ from .find_point_on_great_circle import find_point_on_great_circle
 from .getRecordAttribute import getRecordAttribute
 from .great_circle import great_circle
 from .ll2en import ll2en
+from .max_dist import max_dist
 from .wrapLongitude import wrapLongitude
