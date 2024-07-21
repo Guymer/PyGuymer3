@@ -14,7 +14,7 @@ def fillin_MultiLineString(multiline, fill, /, *, debug = False, eps = 1.0e-12, 
     line : shapely.geometry.multilinestring.MultiLineString
         the MultiLineString
     fill : float
-        the Euclidean or Geodetic distance to fill in between each point within
+        the Euclidean or Geodesic distance to fill in between each point within
         the shape by (in degrees or metres)
     debug : bool, optional
         print debug messages

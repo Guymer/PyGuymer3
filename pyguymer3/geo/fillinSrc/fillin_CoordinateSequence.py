@@ -14,7 +14,7 @@ def fillin_CoordinateSequence(coords, fill, /, *, debug = False, eps = 1.0e-12, 
     coords : shapely.coords.CoordinateSequence
         the CoordinateSequence
     fill : float
-        the Euclidean or Geodetic distance to fill in between each point within
+        the Euclidean or Geodesic distance to fill in between each point within
         the shape by (in degrees or metres)
     debug : bool, optional
         print debug messages
@@ -75,7 +75,7 @@ def fillin_CoordinateSequence(coords, fill, /, *, debug = False, eps = 1.0e-12, 
             # Find the Euclidean distance between each original point ...
             dr = numpy.hypot(numpy.diff(points1[:, 0]), numpy.diff(points1[:, 1]))  # [°]
         case "GeodesicSpace":
-            # Find the Geodetic distance between each original point ...
+            # Find the Geodesic distance between each original point ...
             dr = numpy.zeros(points1.shape[0] - 1, dtype = numpy.float64)       # [m]
             for ipoint in range(dr.size):
                 dr[ipoint], _, _ = calc_dist_between_two_locs(

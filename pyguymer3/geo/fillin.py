@@ -13,7 +13,7 @@ def fillin(shape, fill, /, *, debug = False, eps = 1.0e-12, fillSpace = "Euclide
     shape : shapely.coords.CoordinateSequence, shapely.geometry.polygon.LinearRing, shapely.geometry.linestring.LineString, shapely.geometry.multilinestring.MultiLineString, shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
         the shape
     fill : float
-        the Euclidean or Geodetic distance to fill in between each point within
+        the Euclidean or Geodesic distance to fill in between each point within
         the shape by (in degrees or metres)
     debug : bool, optional
         print debug messages
