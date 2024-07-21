@@ -8,8 +8,10 @@ def create_map_of_points(
     /,
     *,
     chunksize = 1048576,
+         conv = 1.0e3,
         debug = False,
           eps = 1.0e-12,
+       method = "GeodesicBox",
         nIter = 10,
          nmax = 100,
     onlyValid = False,
@@ -17,8 +19,7 @@ def create_map_of_points(
      ramLimit = 1073741824,
        repair = False,
       timeout = 60.0,
-         tol1 = 1.0e-10,
-         tol2 = 1.0e3,
+          tol = 1.0e-10,
 ):
     """Save a PNG map of a sequence of points
 
@@ -35,6 +36,9 @@ def create_map_of_points(
         the name of the output PNG
     chunksize : int, optional
         the size of the chunks of any files which are read in (in bytes)
+    conv : float, optional
+        the Geodesic distance that defines the middle as being converged (in
+        metres)
     debug : bool, optional
         print debug messages and draw the circle on the axis
     eps : float, optional
@@ -54,12 +58,9 @@ def create_map_of_points(
         attempt to repair invalid Polygons
     timeout : float, optional
         the timeout for any requests/subprocess calls (in seconds)
-    tol1 : float, optional
+    tol : float, optional
         the Euclidean distance that defines two points as being the same (in
         degrees)
-    tol2 : float, optional
-        the Geodesic distance that defines the middle as being converged (in
-        metres)
 
     Notes
     -----
@@ -110,12 +111,13 @@ def create_map_of_points(
     midLon, midLat, maxDist = find_middle_of_locs(
         lons,
         lats,
+         conv = conv,
         debug = debug,
           eps = eps,
+       method = method,
         nIter = nIter,
          nmax = nmax,
           pad = 12.0 * 1852.0,
-          tol = tol2,
     )                                                                           # [°], [°], [m]
     if debug:
         print(f"INFO: Centre at (lon={midLon:+.6f}°, lat={midLat:+.6f}°) with a {0.001 * maxDist:,.1f} km radius.")
@@ -138,7 +140,7 @@ def create_map_of_points(
            prefix = prefix,
          ramLimit = ramLimit,
            repair = repair,
-              tol = tol1,
+              tol = tol,
     )
 
     # Calculate the resolution (and zoom) depending on the half-height of the
