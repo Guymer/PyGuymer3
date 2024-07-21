@@ -174,6 +174,7 @@ def _add_topDown_axis(
     from ._add_horizontal_gridlines import _add_horizontal_gridlines
     from ._add_vertical_gridlines import _add_vertical_gridlines
     from .buffer import buffer
+    from .calc_loc_from_loc_and_bearing_and_dist import calc_loc_from_loc_and_bearing_and_dist
     from ..consts import CIRCUMFERENCE_OF_EARTH
 
     # **************************************************************************
@@ -240,11 +241,53 @@ def _add_topDown_axis(
                       tol = tol,
         )
 
-        # Project the Polygon into the axis' units ...
-        polygon2 = ax.projection.project_geometry(polygon1)
+        # Calculate Northern extent ...
+        tmpLon, tmpLat, _ = calc_loc_from_loc_and_bearing_and_dist(
+            lon,
+            lat,
+            0.0,
+            dist,
+             eps = 1.0e-12,
+            nmax = 100,
+        )                                                                       # [°], [°]
+        ymax = shapely.geometry.point.Point(tmpLon, tmpLat)
+        ymax = ax.projection.project_geometry(ymax).y
 
-        # Create short-hands ...
-        xmin, ymin, xmax, ymax = polygon2.bounds
+        # Calculate Eastern extent ...
+        tmpLon, tmpLat, _ = calc_loc_from_loc_and_bearing_and_dist(
+            lon,
+            lat,
+            90.0,
+            dist,
+             eps = 1.0e-12,
+            nmax = 100,
+        )                                                                       # [°], [°]
+        xmax = shapely.geometry.point.Point(tmpLon, tmpLat)
+        xmax = ax.projection.project_geometry(xmax).x
+
+        # Calculate Southern extent ...
+        tmpLon, tmpLat, _ = calc_loc_from_loc_and_bearing_and_dist(
+            lon,
+            lat,
+            180.0,
+            dist,
+             eps = 1.0e-12,
+            nmax = 100,
+        )                                                                       # [°], [°]
+        ymin = shapely.geometry.point.Point(tmpLon, tmpLat)
+        ymin = ax.projection.project_geometry(ymin).y
+
+        # Calculate Western extent ...
+        tmpLon, tmpLat, _ = calc_loc_from_loc_and_bearing_and_dist(
+            lon,
+            lat,
+            270.0,
+            dist,
+             eps = 1.0e-12,
+            nmax = 100,
+        )                                                                       # [°], [°]
+        xmin = shapely.geometry.point.Point(tmpLon, tmpLat)
+        xmin = ax.projection.project_geometry(xmin).x
 
         # Configure axis ...
         ax.set_xlim(xmin, xmax)
