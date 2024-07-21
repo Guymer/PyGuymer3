@@ -58,7 +58,7 @@ def create_map_of_points(
         the Euclidean distance that defines two points as being the same (in
         degrees)
     tol2 : float, optional
-        the Geodetic distance that defines the middle as being converged (in
+        the Geodesic distance that defines the middle as being converged (in
         metres)
 
     Notes

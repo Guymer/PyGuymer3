@@ -5,7 +5,7 @@ def calc_dist_between_two_locs(lon1_deg, lat1_deg, lon2_deg, lat2_deg, /, *, eps
     """Calculate the distance between two coordinates.
 
     This function reads in two coordinates (in degrees) on the surface of the
-    Earth and calculates the Geodetic distance (in metres) between them and the
+    Earth and calculates the Geodesic distance (in metres) between them and the
     headings (in degrees) from each coordinate to the other one.
 
     Parameters
