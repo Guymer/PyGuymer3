@@ -13,14 +13,14 @@ def buffer_MultiLineString(multiline, dist, /, *, debug = False, eps = 1.0e-12, 
     multiline : shapely.geometry.multilinestring.MultiLineString
         the MultiLineString
     dist : float
-        the Geodetic distance to buffer each point within the MultiLineString by
+        the Geodesic distance to buffer each point within the MultiLineString by
         (in metres)
     debug : bool, optional
         print debug messages
     eps : float, optional
         the tolerance of the Vincenty formula iterations
     fill : float, optional
-        the Euclidean or Geodetic distance to fill in between each point within
+        the Euclidean or Geodesic distance to fill in between each point within
         the shapes by (in degrees or metres)
     fillSpace : str, optional
         the geometric space to perform the filling in (either "EuclideanSpace"

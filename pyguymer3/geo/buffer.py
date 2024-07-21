@@ -12,14 +12,14 @@ def buffer(shape, dist, /, *, debug = False, eps = 1.0e-12, fill = 1.0, fillSpac
     shape : shapely.coords.CoordinateSequence, shapely.geometry.point.Point, shapely.geometry.multipoint.MultiPoint, shapely.geometry.polygon.LinearRing, shapely.geometry.linestring.LineString, shapely.geometry.multilinestring.MultiLineString, shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
         the shape
     dist : float
-        the Geodetic distance to buffer each point within the shape by (in
+        the Geodesic distance to buffer each point within the shape by (in
         metres)
     debug : bool, optional
         print debug messages
     eps : float, optional
         the tolerance of the Vincenty formula iterations
     fill : float, optional
-        the Euclidean or Geodetic distance to fill in between each point within
+        the Euclidean or Geodesic distance to fill in between each point within
         the shapes by (in degrees or metres)
     fillSpace : str, optional
         the geometric space to perform the filling in (either "EuclideanSpace"

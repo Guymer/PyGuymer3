@@ -13,14 +13,14 @@ def buffer_LineString(line, dist, /, *, debug = False, eps = 1.0e-12, fill = 1.0
     line : shapely.geometry.linestring.LineString
         the LineString
     dist : float
-        the Geodetic distance to buffer each point within the LineString by (in
+        the Geodesic distance to buffer each point within the LineString by (in
         metres)
     debug : bool, optional
         print debug messages
     eps : float, optional
         the tolerance of the Vincenty formula iterations
     fill : float, optional
-        the Euclidean or Geodetic distance to fill in between each point within
+        the Euclidean or Geodesic distance to fill in between each point within
         the shapes by (in degrees or metres)
     fillSpace : str, optional
         the geometric space to perform the filling in (either "EuclideanSpace"
