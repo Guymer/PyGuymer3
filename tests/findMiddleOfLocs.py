@@ -203,6 +203,39 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
+    # Populate and save database ...
+    with open("findMiddleOfLocs/comparison.json", "wt", encoding = "utf-8") as fObj:
+        json.dump(
+            {
+                   "EuclideanBox" : {
+                     "lon" : midLon1,
+                     "lat" : midLat1,
+                    "dist" : maxDist1,
+                },
+                    "GeodesicBox" : {
+                     "lon" : midLon2,
+                     "lat" : midLat2,
+                    "dist" : maxDist2,
+                },
+                "EuclideanCircle" : {
+                     "lon" : midLon3,
+                     "lat" : midLat3,
+                    "dist" : maxDist3,
+                },
+                 "GeodesicCircle" : {
+                     "lon" : midLon4,
+                     "lat" : midLat4,
+                    "dist" : maxDist4,
+                },
+            },
+            fObj,
+            ensure_ascii = False,
+                  indent = 4,
+               sort_keys = True,
+        )
+
+    # **************************************************************************
+
     # Create figure ...
     fg = matplotlib.pyplot.figure(figsize = (2 * 12.8, 2 * 7.2))
 
@@ -339,8 +372,6 @@ if __name__ == "__main__":
         axBot[iCol].set_ylabel("Latitude [°]")
         axBot[iCol].set_ylim(-52.0, -10.0)
         axBot[iCol].set_yticks(range(-52, -8, 2))
-
-    # **************************************************************************
 
     # Configure figure ...
     fg.suptitle("Photos From My Holiday")
