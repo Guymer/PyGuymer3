@@ -203,6 +203,8 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
+    print("Making \"findMiddleOfLocs/comparison.json\" ...")
+
     # Populate and save database ...
     with open("findMiddleOfLocs/comparison.json", "wt", encoding = "utf-8") as fObj:
         json.dump(
@@ -235,6 +237,8 @@ if __name__ == "__main__":
         )
 
     # **************************************************************************
+
+    print("Making \"findMiddleOfLocs/comparison.png\" ...")
 
     # Create figure ...
     fg = matplotlib.pyplot.figure(figsize = (2 * 12.8, 2 * 7.2))
