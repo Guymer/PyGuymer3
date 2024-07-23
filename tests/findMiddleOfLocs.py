@@ -101,12 +101,12 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Load data and convert to NumPy array ...
-    with open("findMiddleOfLocs_lons.json", "rt", encoding = "utf-8") as fObj:
+    with open("findMiddleOfLocs/lons.json", "rt", encoding = "utf-8") as fObj:
         lons = json.load(fObj)                                                  # [°]
     lons = numpy.array(lons, dtype = numpy.float64)                             # [°]
 
     # Load data and convert to NumPy array ...
-    with open("findMiddleOfLocs_lats.json", "rt", encoding = "utf-8") as fObj:
+    with open("findMiddleOfLocs/lats.json", "rt", encoding = "utf-8") as fObj:
         lats = json.load(fObj)                                                  # [°]
     lats = numpy.array(lats, dtype = numpy.float64)                             # [°]
 
@@ -347,12 +347,12 @@ if __name__ == "__main__":
     fg.tight_layout()
 
     # Save figure ...
-    fg.savefig("findMiddleOfLocs.png")
+    fg.savefig("findMiddleOfLocs/comparison.png")
     matplotlib.pyplot.close(fg)
 
     # Optimize PNG ...
     pyguymer3.image.optimize_image(
-        "findMiddleOfLocs.png",
+        "findMiddleOfLocs/comparison.png",
         debug = args.debug,
         strip = True,
     )
