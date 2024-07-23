@@ -83,6 +83,12 @@ if __name__ == "__main__":
            type = int,
     )
     parser.add_argument(
+        "--ndiv",
+        default = 101,
+           help = "the number of divisions when showing the shape of the surface",
+           type = int,
+    )
+    parser.add_argument(
         "--nmax",
         default = 100,
            dest = "nmax",
@@ -205,31 +211,34 @@ if __name__ == "__main__":
 
     print("Making \"findMiddleOfLocs/comparison.json\" ...")
 
-    # Populate and save database ...
+    # Populate database ...
+    db = {
+           "EuclideanBox" : {
+             "lon" : midLon1,
+             "lat" : midLat1,
+            "dist" : maxDist1,
+        },
+            "GeodesicBox" : {
+             "lon" : midLon2,
+             "lat" : midLat2,
+            "dist" : maxDist2,
+        },
+        "EuclideanCircle" : {
+             "lon" : midLon3,
+             "lat" : midLat3,
+            "dist" : maxDist3,
+        },
+         "GeodesicCircle" : {
+             "lon" : midLon4,
+             "lat" : midLat4,
+            "dist" : maxDist4,
+        },
+    }
+
+    # Save database ...
     with open("findMiddleOfLocs/comparison.json", "wt", encoding = "utf-8") as fObj:
         json.dump(
-            {
-                   "EuclideanBox" : {
-                     "lon" : midLon1,
-                     "lat" : midLat1,
-                    "dist" : maxDist1,
-                },
-                    "GeodesicBox" : {
-                     "lon" : midLon2,
-                     "lat" : midLat2,
-                    "dist" : maxDist2,
-                },
-                "EuclideanCircle" : {
-                     "lon" : midLon3,
-                     "lat" : midLat3,
-                    "dist" : maxDist3,
-                },
-                 "GeodesicCircle" : {
-                     "lon" : midLon4,
-                     "lat" : midLat4,
-                    "dist" : maxDist4,
-                },
-            },
+            db,
             fObj,
             ensure_ascii = False,
                   indent = 4,
@@ -388,6 +397,147 @@ if __name__ == "__main__":
     # Optimize PNG ...
     pyguymer3.image.optimize_image(
         "findMiddleOfLocs/comparison.png",
+        debug = args.debug,
+        strip = True,
+    )
+
+    # **************************************************************************
+
+    # Find the extent of the bounding box of all four methods (with some
+    # padding) ...
+    minLon =  180.0                                                             # [°]
+    maxLon = -180.0                                                             # [°]
+    minLat =   90.0                                                             # [°]
+    maxLat =  -90.0                                                             # [°]
+    for method, info in db.items():
+        minLon = min(minLon, info["lon"])                                       # [°]
+        maxLon = max(maxLon, info["lon"])                                       # [°]
+        minLat = min(minLat, info["lat"])                                       # [°]
+        maxLat = max(maxLat, info["lat"])                                       # [°]
+    minLon -= 10.0 * euclideanConv                                              # [°]
+    maxLon += 10.0 * euclideanConv                                              # [°]
+    minLat -= 10.0 * euclideanConv                                              # [°]
+    maxLat += 10.0 * euclideanConv                                              # [°]
+
+    # Create some axes to survey the bounding box ...
+    lonsDiv = numpy.linspace(
+        minLon,
+        maxLon,
+        dtype = numpy.float64,
+          num = args.ndiv,
+    )                                                                           # [°]
+    latsDiv = numpy.linspace(
+        minLat,
+        maxLat,
+        dtype = numpy.float64,
+          num = args.ndiv,
+    )                                                                           # [°]
+
+    # Find the maximum Geodesic distance over the bounding box ...
+    maxDist = numpy.zeros((args.ndiv, args.ndiv), dtype = numpy.float64)        # [m]
+    for iLon in range(args.ndiv):
+        for iLat in range(args.ndiv):
+            maxDist[iLat, iLon] = pyguymer3.geo.max_dist(
+                lons,
+                lats,
+                lonsDiv[iLon],
+                latsDiv[iLat],
+                  eps = args.eps,
+                 nmax = args.nmax,
+                space = "GeodesicSpace",
+            )                                                                   # [m]
+
+    # **************************************************************************
+
+    print("Making \"findMiddleOfLocs/locations.png\" ...")
+
+    # Create figure ...
+    fg = matplotlib.pyplot.figure()
+
+    # Create axis ...
+    ax = fg.add_subplot()
+
+    # Plot data ...
+    im = ax.imshow(
+        0.001 * maxDist,
+                 cmap = "jet",
+               extent = [minLon, maxLon, minLat, maxLat],
+        interpolation = "bicubic",
+               origin = "lower",
+    )
+
+    # Plot locations ...
+    # NOTE: By manual inspection, the "zorder" of "im" is 0.0.
+    for method, info in db.items():
+        x = info["lon"]                                                         # [°]
+        y = info["lat"]                                                         # [°]
+        if x > 0.5 * (minLon + maxLon):
+            x -= 20.0 * euclideanConv                                           # [°]
+        else:
+            x += 20.0 * euclideanConv                                           # [°]
+        if "Geodesic" in method:
+            y -= 5.0 * euclideanConv                                            # [°]
+        else:
+            y += 5.0 * euclideanConv                                            # [°]
+        ax.annotate(
+            method,
+            (info["lon"], info["lat"]),
+                    arrowprops = {
+                "edgecolor" : "black",
+                "facecolor" : "white",
+                "linewidth" : 1.0,
+            },
+                          bbox = {
+                "edgecolor" : "black",
+                "facecolor" : "white",
+                "linewidth" : 1.0,
+            },
+                          color = "black",
+            horizontalalignment = "center",
+              verticalalignment = "center",
+                         xytext = (x, y),
+                         zorder = 1.0,
+        )
+        ax.scatter(
+            [info["lon"]],
+            [info["lat"]],
+            edgecolor = "black",
+            facecolor = "gold",
+            linewidth = 1.0,
+               marker = "*",
+                    s = 100.0,
+               zorder = 2.0,
+        )
+
+    # Add colour bar ...
+    cb = fg.colorbar(
+        im,
+                 ax = ax,
+        orientation = "vertical",
+    )
+
+    # Configure colour bar ...
+    cb.set_label("Distance [km]")
+
+    # Configure axis ...
+    ax.grid()
+    ax.set_aspect("equal")
+    ax.set_title("How Different Are The Methods?")
+    ax.set_xlabel("Longitude [°]")
+    ax.set_xlim(minLon, maxLon)
+    ax.set_ylabel("Latitude [°]")
+    ax.set_ylim(minLat, maxLat)
+
+    # Configure figure ...
+    fg.tight_layout()
+
+    # Save figure ...
+    fg.savefig("findMiddleOfLocs/locations.png")
+    matplotlib.pyplot.close(fg)
+
+    # Optimize PNG ...
+    pyguymer3.image.optimize_image(
+        "findMiddleOfLocs/locations.png",
         debug = args.debug,
         strip = True,
     )
