@@ -2,8 +2,14 @@
 # *                                 VARIABLES                                  *
 # ******************************************************************************
 
+# NOTE: There was a bug in NumPy (using "meson" to build) where "f2py" would
+#       copy the file to a build folder and, therefore, the relative paths to
+#       external libraries would break. To work around this I prepend the
+#       current directory to the library path to make it an absolute path. See:
+#         * https://github.com/numpy/numpy/issues/25344
+
 DEBUG     ?= false
-FTNLIB    ?= fortranlib
+FTNLIB    ?= $(PWD)/fortranlib
 LIBDIR    ?= /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib
 DEBG_OPTS := -g -fcheck=all
 LANG_OPTS := -ffree-form -ffree-line-length-none -frecursive -fno-unsafe-math-optimizations -frounding-math -fsignaling-nans -fPIC
@@ -110,6 +116,14 @@ help:
 #         * https://gcc.gnu.org/bugzilla/show_bug.cgi?id=90835
 #         * https://stackoverflow.com/a/58081934
 
+# NOTE: There was a bug in NumPy (using "meson" to build) where "f2py" would
+#       copy the file to a build folder but not copy the "INCLUDE" files and,
+#       therefore, the compilation would fail because it would not find the
+#       included file. To work around this I use the "--include-paths" argument
+#       as demonstrated in the test code added as part of the Pull Request which
+#       closed the following issue:
+#         * https://github.com/numpy/numpy/issues/25344
+
 $(FTNLIB)/%.mod																	\
 $(FTNLIB)/%.o &:	$(FTNLIB)/%.F90
 	$(MAKE) -r -C $(FTNLIB) DEBUG=$(DEBUG) FC=$(FC2) PYTHON3=$(PYTHON3) $*.o
@@ -118,5 +132,5 @@ funcs.so:			$(FTNLIB)/mod_safe.o										\
 					funcs.F90													\
 					src/*.f90
 	$(RM) -f funcs.*.so funcs.so
-	$(FC1) -c --f77exec=$(FC2) --f90exec=$(FC2) --opt="-fopenmp $(LANG_OPTS) $(WARN_OPTS) $(OPTM_OPTS)" --arch="$(MACH_OPTS)" -lgomp -m funcs -I$(FTNLIB) funcs.F90 $(FTNLIB)/mod_safe.o -L$(LIBDIR)
+	$(FC1) -c --include-paths $(PWD) --f77exec=$(FC2) --f90exec=$(FC2) --opt="-fopenmp $(LANG_OPTS) $(WARN_OPTS) $(OPTM_OPTS)" --arch="$(MACH_OPTS)" -lgomp -m funcs -I$(FTNLIB) funcs.F90 $(FTNLIB)/mod_safe.o -L$(LIBDIR)
 	$(LN) -s funcs$(SUFFIX) funcs.so
