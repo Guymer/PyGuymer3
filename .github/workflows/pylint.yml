@@ -7,7 +7,10 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                python-version: ["3.10", "3.11", "3.12"]
+                python-version: ["3.10", "3.11"]                                # As of 27/July/2024, Python 3.12 is not attempted because the version of Meson
+                                                                                # available is too old for "f2py" to succeed, see the following error last time
+                                                                                # I tried:
+                                                                                #   * meson.build:1:0: ERROR: Meson version is 0.61.2 but project requires >= 1.1.0
         steps:
             -
                 name: Checkout project                                          # https://github.com/actions/checkout
@@ -20,6 +23,10 @@ jobs:
                 uses: actions/setup-python@v5                                   # https://github.com/actions/setup-python
                 with:
                     python-version: ${{ matrix.python-version }}
+            -
+                name: Install f2py dependencies
+                run: |
+                    sudo apt-get install meson
             -
                 name: Install Python ${{ matrix.python-version }} dependencies
                 run: |
@@ -35,6 +42,7 @@ jobs:
                     echo "::notice $(which f2py)"
                     echo "::notice $(which gfortran)"
                     echo "::notice $(which gmake)"
+                    echo "::notice $(which meson)"
                     echo "::notice $(which pip)"
                     echo "::notice $(which pylint)"
                     echo "::notice $(which python)"
