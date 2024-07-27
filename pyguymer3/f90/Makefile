@@ -9,7 +9,7 @@
 #         * https://github.com/numpy/numpy/issues/25344
 
 DEBUG     ?= false
-FTNLIB    ?= $(PWD)/fortranlib
+FTNLIB    ?= $(abspath fortranlib)
 LIBDIR    ?= /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib
 DEBG_OPTS := -g -fcheck=all
 LANG_OPTS := -ffree-form -ffree-line-length-none -frecursive -fno-unsafe-math-optimizations -frounding-math -fsignaling-nans -fPIC
