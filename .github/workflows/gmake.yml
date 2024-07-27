@@ -7,9 +7,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                python-version: ["3.10", "3.11", "3.12"]                                # NOTE: As of 14/July/2024, there appear to still be issues which need ironing
-                                                                                #       out in Python 3.12 relating to "distutils" being deprecated and NumPy
-                                                                                #       (and, by extension, f2py) moving towards a "meson" build backend.
+                python-version: ["3.10", "3.11", "3.12"]
         steps:
             -
                 name: Checkout project                                          # https://github.com/actions/checkout
