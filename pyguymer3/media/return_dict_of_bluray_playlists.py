@@ -2,6 +2,12 @@
 
 # Define function ...
 def return_dict_of_bluray_playlists(dname, /, *, cwd = None, debug = False, size_threshold = 1073741824, time_threshold = 60.0, timeout = 60.0):
+    """
+    This function uses the list of MPLS files to obtain all of the possible
+    playlists in a Blu-ray, then it calls "ffprobe" on each integer to determine
+    the duration and size.
+    """
+
     # Import standard modules ...
     import glob
     import os
@@ -35,9 +41,11 @@ def return_dict_of_bluray_playlists(dname, /, *, cwd = None, debug = False, size
         if "duration" in __ffprobe__[fname][playlist]["format"]:
             if float(__ffprobe__[fname][playlist]["format"]["duration"]) >= time_threshold:
                 ans[f"{playlist:d}"] = __ffprobe__[fname][playlist]["format"]
+                continue
         if "size" in __ffprobe__[fname][playlist]["format"]:
             if int(__ffprobe__[fname][playlist]["format"]["size"]) >= size_threshold:
                 ans[f"{playlist:d}"] = __ffprobe__[fname][playlist]["format"]
+                continue
 
     # Return dictionary ...
     return ans
