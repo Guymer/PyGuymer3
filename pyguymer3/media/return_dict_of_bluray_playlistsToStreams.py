@@ -23,8 +23,12 @@ def return_dict_of_bluray_playlistsToStreams(dname, /):
 
         # Loop over playlist items ...
         for playItem in info["PlayList"]["PlayItems"]:
+            # Create short-hands ...
+            duration = float(playItem["OUTTime"] - playItem["INTime"]) / 4.5e4  # [s]
             iStream = int(playItem["ClipInformationFileName"])
-            playlist2streams[iPlaylist].append(iStream)
+
+            # Populate dictionary ...
+            playlist2streams[iPlaylist].append({iStream : duration})
 
     # Return answer ...
     return playlist2streams
