@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_dict_of_bluray_playlistsToStreams(dname, /):
+def return_dict_of_bluray_playlistsToStreams(dname, /, *, time_threshold = 60.0):
     """
     This function uses the list of MPLS files to obtain all of the possible
     playlists in a Blu-ray, then it calls "parse_MPLS_file" on each file to
@@ -39,6 +39,22 @@ def return_dict_of_bluray_playlistsToStreams(dname, /):
                     float(playItem["OUTTime"] - playItem["INTime"]) / 4.5e4,    # [s],
                 )
             )
+
+    # Loop over playlists ...
+    for iPlaylist in list(ans.keys()):
+        # Initialize total duration ...
+        totDuration = 0.0                                                       # [s]
+
+        # Loop over streams ...
+        for (_, duration) in ans[iPlaylist]:
+            # Increment total duration ...
+            totDuration += duration                                             # [s]
+
+        # Delete information if this playlist is not worthwhile (by default,
+        # "worthwhile" is defined as ≥1 minute) ...
+        if totDuration < time_threshold:
+            del ans[iPlaylist]
+            continue
 
     # Return answer ...
     return ans
