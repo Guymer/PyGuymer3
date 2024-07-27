@@ -17,7 +17,7 @@ MACH_OPTS := -march=native -m64
 
 CUT     := $(shell which cut            2> /dev/null || echo "ERROR")
 FC1     := $(shell which f2py-3.11      2> /dev/null || echo "ERROR")
-FC2     := $(shell which gfortran-mp-12 2> /dev/null || echo "ERROR")
+FC2     := $(shell which gfortran-mp-13 2> /dev/null || echo "ERROR")
 GREP    := $(shell which grep           2> /dev/null || echo "ERROR")
 LN      := $(shell which ln             2> /dev/null || echo "ERROR")
 PYTHON3 := $(shell which python3.11     2> /dev/null || echo "ERROR")
