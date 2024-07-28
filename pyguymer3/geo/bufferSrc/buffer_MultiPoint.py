@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def buffer_MultiPoint(multipoint, dist, /, *, debug = False, eps = 1.0e-12, fill = 1.0, fillSpace = "EuclideanSpace", nang = 9, nmax = 100, prefix = ".", ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
+def buffer_MultiPoint(multipoint, dist, /, *, debug = False, eps = 1.0e-12, fill = 1.0, fillSpace = "EuclideanSpace", nang = 9, nMax = 100, prefix = ".", ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
     """Buffer a MultiPoint
 
     This function reads in a MultiPoint that exists on the surface of the Earth
@@ -28,8 +28,8 @@ def buffer_MultiPoint(multipoint, dist, /, *, debug = False, eps = 1.0e-12, fill
     nang : int, optional
         the number of angles around each point within the MultiPoint that are
         calculated when buffering
-    nmax : int, optional
-        the maximum number of the Vincenty formula iterations
+    nMax : int, optional
+        the maximum number of Vincenty formula iterations
     prefix : str, optional
         change the name of the output debugging CSVs
     ramLimit : int, optional
@@ -104,7 +104,7 @@ def buffer_MultiPoint(multipoint, dist, /, *, debug = False, eps = 1.0e-12, fill
                      fill = fill,
                 fillSpace = fillSpace,
                      nang = nang,
-                     nmax = nmax,
+                     nMax = nMax,
                    prefix = prefix,
                  ramLimit = ramLimit,
                      simp = simp,
@@ -128,7 +128,7 @@ def buffer_MultiPoint(multipoint, dist, /, *, debug = False, eps = 1.0e-12, fill
                 debug = debug,
                   eps = eps,
             fillSpace = fillSpace,
-                 nmax = nmax,
+                 nMax = nMax,
                prefix = prefix,
              ramLimit = ramLimit,
                   tol = tol,

@@ -11,7 +11,7 @@ def find_middle_of_locs(
        eps = 1.0e-12,
     method = "GeodesicBox",
      nIter = 10,
-      nmax = 100,
+      nMax = 100,
        pad = 10.0e3,
 ):
     """Find the middle of some locations
@@ -35,8 +35,8 @@ def find_middle_of_locs(
         the tolerance of the Vincenty formula iterations
     nIter : int, optional
         the maximum number of iterations
-    nmax : int, optional
-        the maximum number of the Vincenty formula iterations
+    nMax : int, optional
+        the maximum number of Vincenty formula iterations
     pad : float, optional
         the padding to add to the maximum Geodesic distance from the middle to
         the most extreme location (in metres)
@@ -91,7 +91,7 @@ def find_middle_of_locs(
                 lats,
                 debug = debug,
                   eps = eps,
-                 nmax = nmax,
+                 nMax = nMax,
                   pad = pad,
             )
         case "EuclideanCircle":
@@ -103,7 +103,7 @@ def find_middle_of_locs(
                 debug = debug,
                   eps = eps,
                 nIter = nIter,
-                 nmax = nmax,
+                 nMax = nMax,
                   pad = pad,
             )
         case "GeodesicBox":
@@ -115,7 +115,7 @@ def find_middle_of_locs(
                 debug = debug,
                   eps = eps,
                 nIter = nIter,
-                 nmax = nmax,
+                 nMax = nMax,
                   pad = pad,
             )
         case "GeodesicCircle":
@@ -127,7 +127,7 @@ def find_middle_of_locs(
                 debug = debug,
                   eps = eps,
                 nIter = nIter,
-                 nmax = nmax,
+                 nMax = nMax,
                   pad = pad,
             )
         case _:

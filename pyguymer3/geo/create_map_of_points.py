@@ -13,7 +13,7 @@ def create_map_of_points(
           eps = 1.0e-12,
        method = "GeodesicBox",
         nIter = 10,
-         nmax = 100,
+         nMax = 100,
     onlyValid = False,
        prefix = ".",
      ramLimit = 1073741824,
@@ -45,8 +45,8 @@ def create_map_of_points(
         the tolerance of the Vincenty formula iterations
     nIter : int, optional
         the maximum number of iterations
-    nmax : int, optional
-        the maximum number of the Vincenty formula iterations
+    nMax : int, optional
+        the maximum number of Vincenty formula iterations
     onlyValid : bool, optional
         only return valid Polygons (checks for validity can take a while, if
         being called often)
@@ -116,7 +116,7 @@ def create_map_of_points(
           eps = eps,
        method = method,
         nIter = nIter,
-         nmax = nmax,
+         nMax = nMax,
           pad = 12.0 * 1852.0,
     )                                                                           # [°], [°], [m]
     if debug:
@@ -135,7 +135,7 @@ def create_map_of_points(
               eps = eps,
               lat = midLat,
               lon = midLon,
-             nmax = nmax,
+             nMax = nMax,
         onlyValid = onlyValid,
            prefix = prefix,
          ramLimit = ramLimit,

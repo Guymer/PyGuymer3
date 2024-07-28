@@ -9,7 +9,7 @@ def max_dist(
     /,
     *,
       eps = 1.0e-12,
-     nmax = 100,
+     nMax = 100,
     space = "EuclideanSpace",
 ):
     # Import special modules ...
@@ -50,7 +50,7 @@ def max_dist(
                 midLon,
                 midLat,
                  eps = eps,
-                nmax = nmax,
+                nMax = nMax,
             )
         case _:
             # Crash ...

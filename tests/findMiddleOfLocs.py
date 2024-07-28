@@ -89,10 +89,10 @@ if __name__ == "__main__":
            type = int,
     )
     parser.add_argument(
-        "--nmax",
+        "--nMax",
         default = 100,
-           dest = "nmax",
-           help = "the maximum number of the Vincenty formula iterations",
+           dest = "nMax",
+           help = "the maximum number of Vincenty formula iterations",
            type = int,
     )
     parser.add_argument(
@@ -130,7 +130,7 @@ if __name__ == "__main__":
            eps = args.eps,
         method = "EuclideanBox",
          nIter = 1000,
-          nmax = args.nmax,
+          nMax = args.nMax,
            pad = 10.0 * euclideanConv,
     )                                                                           # [°], [°], [°]
     EuclideanBox = shapely.geometry.point.Point(midLon1, midLat1).buffer(
@@ -148,7 +148,7 @@ if __name__ == "__main__":
            eps = args.eps,
         method = "GeodesicBox",
          nIter = 1000,
-          nmax = args.nmax,
+          nMax = args.nMax,
            pad = 10.0 * args.geodesicConv,
     )                                                                           # [°], [°], [m]
     GeodesicBox = pyguymer3.geo.buffer(
@@ -158,7 +158,7 @@ if __name__ == "__main__":
           eps = args.eps,
          fill = -1.0,
          nang = args.nang,
-         nmax = args.nmax,
+         nMax = args.nMax,
          simp = -1.0,
           tol = args.tol,
     )
@@ -173,7 +173,7 @@ if __name__ == "__main__":
            eps = args.eps,
         method = "EuclideanCircle",
          nIter = 1000,
-          nmax = args.nmax,
+          nMax = args.nMax,
            pad = 10.0 * euclideanConv,
     )                                                                           # [°], [°], [°]
     EuclideanCircle = shapely.geometry.point.Point(midLon3, midLat3).buffer(
@@ -191,7 +191,7 @@ if __name__ == "__main__":
            eps = args.eps,
         method = "GeodesicCircle",
          nIter = 1000,
-          nmax = args.nmax,
+          nMax = args.nMax,
            pad = 10.0 * args.geodesicConv,
     )                                                                           # [°], [°], [m]
     GeodesicCircle = pyguymer3.geo.buffer(
@@ -201,7 +201,7 @@ if __name__ == "__main__":
           eps = args.eps,
          fill = -1.0,
          nang = args.nang,
-         nmax = args.nmax,
+         nMax = args.nMax,
          simp = -1.0,
           tol = args.tol,
     )
@@ -273,7 +273,7 @@ if __name__ == "__main__":
                   lat = midLat1,
                   lon = midLon1,
                 ncols = 4,
-                 nmax = args.nmax,
+                 nMax = args.nMax,
                 nrows = 2,
                   tol = args.tol,
             )
@@ -443,7 +443,7 @@ if __name__ == "__main__":
                 lonsDiv[iLon],
                 latsDiv[iLat],
                   eps = args.eps,
-                 nmax = args.nmax,
+                 nMax = args.nMax,
                 space = "GeodesicSpace",
             )                                                                   # [m]
 

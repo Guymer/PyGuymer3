@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def buffer_Point(point, dist, /, *, debug = False, eps = 1.0e-12, fill = 1.0, fillSpace = "EuclideanSpace", nang = 9, nmax = 100, prefix = ".", ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
+def buffer_Point(point, dist, /, *, debug = False, eps = 1.0e-12, fill = 1.0, fillSpace = "EuclideanSpace", nang = 9, nMax = 100, prefix = ".", ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
     """Buffer a Point
 
     This function reads in a Point that exists on the surface of the Earth and
@@ -26,8 +26,8 @@ def buffer_Point(point, dist, /, *, debug = False, eps = 1.0e-12, fill = 1.0, fi
         or "GeodesicSpace")
     nang : int, optional
         the number of angles around the Point that are calculated when buffering
-    nmax : int, optional
-        the maximum number of the Vincenty formula iterations
+    nMax : int, optional
+        the maximum number of Vincenty formula iterations
     prefix : str, optional
         change the name of the output debugging CSVs
     ramLimit : int, optional
@@ -94,7 +94,7 @@ def buffer_Point(point, dist, /, *, debug = False, eps = 1.0e-12, fill = 1.0, fi
              fill = fill,
         fillSpace = fillSpace,
              nang = nang,
-             nmax = nmax,
+             nMax = nMax,
            prefix = prefix,
          ramLimit = ramLimit,
              simp = simp,

@@ -27,7 +27,7 @@ def _add_topDown_axis(
                        gs = None,
                     index = None,
                     ncols = None,
-                     nmax = 100,
+                     nMax = 100,
                     nrows = None,
                 onlyValid = False,
                    prefix = ".",
@@ -96,8 +96,8 @@ def _add_topDown_axis(
         the index of the axis in the array of axes
     ncols : int, optional
         the number of columns in the array of axes
-    nmax : int, optional
-        the maximum number of the Vincenty formula iterations
+    nMax : int, optional
+        the maximum number of Vincenty formula iterations
     nrows : int, optional
         the number of rows in the array of axes
     onlyValid : bool, optional
@@ -234,7 +234,7 @@ def _add_topDown_axis(
                 fillSpace = "EuclideanSpace",
             keepInteriors = False,
                      nang = 361,
-                     nmax = nmax,
+                     nMax = nMax,
                    prefix = prefix,
                  ramLimit = ramLimit,
                      simp = -1.0,
@@ -248,7 +248,7 @@ def _add_topDown_axis(
             0.0,
             dist,
              eps = 1.0e-12,
-            nmax = 100,
+            nMax = 100,
         )                                                                       # [°], [°]
         ymax = shapely.geometry.point.Point(tmpLon, tmpLat)
         ymax = ax.projection.project_geometry(ymax).y
@@ -260,7 +260,7 @@ def _add_topDown_axis(
             90.0,
             dist,
              eps = 1.0e-12,
-            nmax = 100,
+            nMax = 100,
         )                                                                       # [°], [°]
         xmax = shapely.geometry.point.Point(tmpLon, tmpLat)
         xmax = ax.projection.project_geometry(xmax).x
@@ -272,7 +272,7 @@ def _add_topDown_axis(
             180.0,
             dist,
              eps = 1.0e-12,
-            nmax = 100,
+            nMax = 100,
         )                                                                       # [°], [°]
         ymin = shapely.geometry.point.Point(tmpLon, tmpLat)
         ymin = ax.projection.project_geometry(ymin).y
@@ -284,7 +284,7 @@ def _add_topDown_axis(
             270.0,
             dist,
              eps = 1.0e-12,
-            nmax = 100,
+            nMax = 100,
         )                                                                       # [°], [°]
         xmin = shapely.geometry.point.Point(tmpLon, tmpLat)
         xmin = ax.projection.project_geometry(xmin).x

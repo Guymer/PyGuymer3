@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def fillin_CoordinateSequence(coords, fill, /, *, debug = False, eps = 1.0e-12, fillSpace = "EuclideanSpace", nmax = 100, prefix = ".", ramLimit = 1073741824):
+def fillin_CoordinateSequence(coords, fill, /, *, debug = False, eps = 1.0e-12, fillSpace = "EuclideanSpace", nMax = 100, prefix = ".", ramLimit = 1073741824):
     """Fill in a CoordinateSequence
 
     This function reads in a CoordinateSequence that exists on the surface of
@@ -23,8 +23,8 @@ def fillin_CoordinateSequence(coords, fill, /, *, debug = False, eps = 1.0e-12, 
     fillSpace : str, optional
         the geometric space to perform the filling in (either "EuclideanSpace"
         or "GeodesicSpace")
-    nmax : int, optional
-        the maximum number of the Vincenty formula iterations
+    nMax : int, optional
+        the maximum number of Vincenty formula iterations
     prefix : str, optional
         change the name of the output debugging CSVs
     ramLimit : int, optional
@@ -84,7 +84,7 @@ def fillin_CoordinateSequence(coords, fill, /, *, debug = False, eps = 1.0e-12, 
                     points1[ipoint + 1, 0],
                     points1[ipoint + 1, 1],
                      eps = eps,
-                    nmax = nmax,
+                    nMax = nMax,
                 )                                                               # [m]
         case _:
             # Crash ...
@@ -159,7 +159,7 @@ def fillin_CoordinateSequence(coords, fill, /, *, debug = False, eps = 1.0e-12, 
                         points1[ipoint + 1, 1],
                            debug = debug,
                              eps = eps,
-                            nmax = nmax,
+                            nMax = nMax,
                           npoint = ns[ipoint] + 1,
                           prefix = prefix,
                         ramLimit = ramLimit,

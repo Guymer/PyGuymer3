@@ -10,7 +10,7 @@ def find_middle_of_locs_euclideanCircle(
     debug = False,
       eps = 1.0e-12,
     nIter = 10,
-     nmax = 100,
+     nMax = 100,
       pad = 0.1,
 ):
     """Find the middle of some locations such that they are encompassed by the
@@ -44,7 +44,7 @@ def find_middle_of_locs_euclideanCircle(
         lats,
         debug = debug,
           eps = eps,
-         nmax = nmax,
+         nMax = nMax,
           pad = -1.0,
     )                                                                           # [°], [°]
 
@@ -73,7 +73,7 @@ def find_middle_of_locs_euclideanCircle(
             pntC[0],
             pntC[1],
               eps = eps,
-             nmax = nmax,
+             nMax = nMax,
             space = "EuclideanSpace",
         )                                                                       # [°]
         distN = max_dist(
@@ -82,7 +82,7 @@ def find_middle_of_locs_euclideanCircle(
             pntN[0],
             pntN[1],
               eps = eps,
-             nmax = nmax,
+             nMax = nMax,
             space = "EuclideanSpace",
         )                                                                       # [°]
         distNN = max_dist(
@@ -91,7 +91,7 @@ def find_middle_of_locs_euclideanCircle(
             pntNN[0],
             pntNN[1],
               eps = eps,
-             nmax = nmax,
+             nMax = nMax,
             space = "EuclideanSpace",
         )                                                                       # [°]
         distE = max_dist(
@@ -100,7 +100,7 @@ def find_middle_of_locs_euclideanCircle(
             pntE[0],
             pntE[1],
               eps = eps,
-             nmax = nmax,
+             nMax = nMax,
             space = "EuclideanSpace",
         )                                                                       # [°]
         distEE = max_dist(
@@ -109,7 +109,7 @@ def find_middle_of_locs_euclideanCircle(
             pntEE[0],
             pntEE[1],
               eps = eps,
-             nmax = nmax,
+             nMax = nMax,
             space = "EuclideanSpace",
         )                                                                       # [°]
         distS = max_dist(
@@ -118,7 +118,7 @@ def find_middle_of_locs_euclideanCircle(
             pntS[0],
             pntS[1],
               eps = eps,
-             nmax = nmax,
+             nMax = nMax,
             space = "EuclideanSpace",
         )                                                                       # [°]
         distSS = max_dist(
@@ -127,7 +127,7 @@ def find_middle_of_locs_euclideanCircle(
             pntSS[0],
             pntSS[1],
               eps = eps,
-             nmax = nmax,
+             nMax = nMax,
             space = "EuclideanSpace",
         )                                                                       # [°]
         distW = max_dist(
@@ -136,7 +136,7 @@ def find_middle_of_locs_euclideanCircle(
             pntW[0],
             pntW[1],
               eps = eps,
-             nmax = nmax,
+             nMax = nMax,
             space = "EuclideanSpace",
         )                                                                       # [°]
         distWW = max_dist(
@@ -145,7 +145,7 @@ def find_middle_of_locs_euclideanCircle(
             pntWW[0],
             pntWW[1],
               eps = eps,
-             nmax = nmax,
+             nMax = nMax,
             space = "EuclideanSpace",
         )                                                                       # [°]
 
@@ -230,7 +230,7 @@ def find_middle_of_locs_euclideanCircle(
         midLon,
         midLat,
           eps = eps,
-         nmax = nmax,
+         nMax = nMax,
         space = "EuclideanSpace",
     )                                                                           # [°]
 

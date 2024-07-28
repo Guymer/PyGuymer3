@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def fillin_MultiPolygon(multipoly, fill, /, *, debug = False, eps = 1.0e-12, fillSpace = "EuclideanSpace", nmax = 100, prefix = ".", ramLimit = 1073741824, tol = 1.0e-10):
+def fillin_MultiPolygon(multipoly, fill, /, *, debug = False, eps = 1.0e-12, fillSpace = "EuclideanSpace", nMax = 100, prefix = ".", ramLimit = 1073741824, tol = 1.0e-10):
     """Fill in a MultiPolygon
 
     This function reads in a MultiPolygon, made up of Polygons (with an exterior
@@ -24,8 +24,8 @@ def fillin_MultiPolygon(multipoly, fill, /, *, debug = False, eps = 1.0e-12, fil
     fillSpace : str, optional
         the geometric space to perform the filling in (either "EuclideanSpace"
         or "GeodesicSpace")
-    nmax : int, optional
-        the maximum number of the Vincenty formula iterations
+    nMax : int, optional
+        the maximum number of Vincenty formula iterations
     prefix : str, optional
         change the name of the output debugging CSVs
     ramLimit : int, optional
@@ -79,7 +79,7 @@ def fillin_MultiPolygon(multipoly, fill, /, *, debug = False, eps = 1.0e-12, fil
                     debug = debug,
                       eps = eps,
                 fillSpace = fillSpace,
-                     nmax = nmax,
+                     nMax = nMax,
                    prefix = prefix,
                  ramLimit = ramLimit,
                       tol = tol,

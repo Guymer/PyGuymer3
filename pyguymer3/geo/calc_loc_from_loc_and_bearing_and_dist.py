@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def calc_loc_from_loc_and_bearing_and_dist(lon1_deg, lat1_deg, alpha1_deg, s_m, /, *, eps = 1.0e-12, nmax = 100):
+def calc_loc_from_loc_and_bearing_and_dist(lon1_deg, lat1_deg, alpha1_deg, s_m, /, *, eps = 1.0e-12, nMax = 100):
     """Calculate the location and reverse bearing from another location and a
     forward bearing and a distance.
 
@@ -23,8 +23,8 @@ def calc_loc_from_loc_and_bearing_and_dist(lon1_deg, lat1_deg, alpha1_deg, s_m, 
         the distance between the two coordinates (in metres)
     eps : float, optional
         the tolerance of the Vincenty formula iterations
-    nmax : int, optional
-        the maximum number of the Vincenty formula iterations
+    nMax : int, optional
+        the maximum number of Vincenty formula iterations
 
     Returns
     -------
@@ -84,8 +84,8 @@ def calc_loc_from_loc_and_bearing_and_dist(lon1_deg, lat1_deg, alpha1_deg, s_m, 
     # Start infinite loop ...
     while True:
         # Stop looping if the function has been called too many times ...
-        if i >= nmax:
-            raise Exception(f"failed to converge; loc = ({lon1_deg:+.9f}°,{lat1_deg:+.9f}°); alpha1 = {alpha1_deg:.15e}°, s = {s_m:.15e}m; eps = {eps:.15e}; nmax = {nmax:d}") from None
+        if i >= nMax:
+            raise Exception(f"failed to converge; loc = ({lon1_deg:+.9f}°,{lat1_deg:+.9f}°); alpha1 = {alpha1_deg:.15e}°, s = {s_m:.15e}m; eps = {eps:.15e}; nMax = {nMax:d}") from None
 
         # Find new value of sigma and increment counter ...
         two_sigma_m = 2.0 * sigma1 + sigma

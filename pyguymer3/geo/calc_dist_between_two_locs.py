@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def calc_dist_between_two_locs(lon1_deg, lat1_deg, lon2_deg, lat2_deg, /, *, eps = 1.0e-12, nmax = 100):
+def calc_dist_between_two_locs(lon1_deg, lat1_deg, lon2_deg, lat2_deg, /, *, eps = 1.0e-12, nMax = 100):
     """Calculate the distance between two coordinates.
 
     This function reads in two coordinates (in degrees) on the surface of the
@@ -20,8 +20,8 @@ def calc_dist_between_two_locs(lon1_deg, lat1_deg, lon2_deg, lat2_deg, /, *, eps
         the latitude of the second coordinate (in degrees)
     eps : float, optional
         the tolerance of the Vincenty formula iterations
-    nmax : int, optional
-        the maximum number of the Vincenty formula iterations
+    nMax : int, optional
+        the maximum number of Vincenty formula iterations
 
     Returns
     -------
@@ -79,8 +79,8 @@ def calc_dist_between_two_locs(lon1_deg, lat1_deg, lon2_deg, lat2_deg, /, *, eps
     # Start infinite loop ...
     while True:
         # Stop looping if the function has been called too many times ...
-        if i >= nmax:
-            raise Exception(f"failed to converge; loc1 = ({lon1_deg:+.9f}°,{lat1_deg:+.9f}°); loc2 = ({lon2_deg:+.9f}°,{lat2_deg:+.9f}°); eps = {eps:.15e}; nmax = {nmax:d}") from None
+        if i >= nMax:
+            raise Exception(f"failed to converge; loc1 = ({lon1_deg:+.9f}°,{lat1_deg:+.9f}°); loc2 = ({lon2_deg:+.9f}°,{lat2_deg:+.9f}°); eps = {eps:.15e}; nMax = {nMax:d}") from None
 
         # Calculate new lambda and increment counter ...
         sin_sigma = math.hypot(

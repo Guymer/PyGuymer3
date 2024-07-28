@@ -10,7 +10,7 @@ def find_middle_of_locs_geodesicCircle(
     debug = False,
       eps = 1.0e-12,
     nIter = 10,
-     nmax = 100,
+     nMax = 100,
       pad = 10.0e3,
 ):
     """Find the middle of some locations such that they are encompassed by the
@@ -46,7 +46,7 @@ def find_middle_of_locs_geodesicCircle(
         lats,
         debug = debug,
           eps = eps,
-         nmax = nmax,
+         nMax = nMax,
           pad = -1.0,
     )                                                                           # [°], [°]
 
@@ -65,7 +65,7 @@ def find_middle_of_locs_geodesicCircle(
             0.0,
             conv,
              eps = eps,
-            nmax = nmax,
+            nMax = nMax,
         )[:2]                                                                   # [°], [°]
         pntNN = calc_loc_from_loc_and_bearing_and_dist(
             pntC[0],
@@ -73,7 +73,7 @@ def find_middle_of_locs_geodesicCircle(
             0.0,
             2.0 * conv,
              eps = eps,
-            nmax = nmax,
+            nMax = nMax,
         )[:2]                                                                   # [°], [°]
         pntE = calc_loc_from_loc_and_bearing_and_dist(
             pntC[0],
@@ -81,7 +81,7 @@ def find_middle_of_locs_geodesicCircle(
             90.0,
             conv,
              eps = eps,
-            nmax = nmax,
+            nMax = nMax,
         )[:2]                                                                   # [°], [°]
         pntEE = calc_loc_from_loc_and_bearing_and_dist(
             pntC[0],
@@ -89,7 +89,7 @@ def find_middle_of_locs_geodesicCircle(
             90.0,
             2.0 * conv,
              eps = eps,
-            nmax = nmax,
+            nMax = nMax,
         )[:2]                                                                   # [°], [°]
         pntS = calc_loc_from_loc_and_bearing_and_dist(
             pntC[0],
@@ -97,7 +97,7 @@ def find_middle_of_locs_geodesicCircle(
             180.0,
             conv,
              eps = eps,
-            nmax = nmax,
+            nMax = nMax,
         )[:2]                                                                   # [°], [°]
         pntSS = calc_loc_from_loc_and_bearing_and_dist(
             pntC[0],
@@ -105,7 +105,7 @@ def find_middle_of_locs_geodesicCircle(
             180.0,
             2.0 * conv,
              eps = eps,
-            nmax = nmax,
+            nMax = nMax,
         )[:2]                                                                   # [°], [°]
         pntW = calc_loc_from_loc_and_bearing_and_dist(
             pntC[0],
@@ -113,7 +113,7 @@ def find_middle_of_locs_geodesicCircle(
             270.0,
             conv,
              eps = eps,
-            nmax = nmax,
+            nMax = nMax,
         )[:2]                                                                   # [°], [°]
         pntWW = calc_loc_from_loc_and_bearing_and_dist(
             pntC[0],
@@ -121,7 +121,7 @@ def find_middle_of_locs_geodesicCircle(
             270.0,
             2.0 * conv,
              eps = eps,
-            nmax = nmax,
+            nMax = nMax,
         )[:2]                                                               # [°], [°]
 
         # Find the maximum Geodesic distance from the points to any location ...
@@ -131,7 +131,7 @@ def find_middle_of_locs_geodesicCircle(
             pntC[0],
             pntC[1],
               eps = eps,
-             nmax = nmax,
+             nMax = nMax,
             space = "GeodesicSpace",
         )                                                                       # [m]
         distN = max_dist(
@@ -140,7 +140,7 @@ def find_middle_of_locs_geodesicCircle(
             pntN[0],
             pntN[1],
               eps = eps,
-             nmax = nmax,
+             nMax = nMax,
             space = "GeodesicSpace",
         )                                                                       # [m]
         distNN = max_dist(
@@ -149,7 +149,7 @@ def find_middle_of_locs_geodesicCircle(
             pntNN[0],
             pntNN[1],
               eps = eps,
-             nmax = nmax,
+             nMax = nMax,
             space = "GeodesicSpace",
         )                                                                       # [m]
         distE = max_dist(
@@ -158,7 +158,7 @@ def find_middle_of_locs_geodesicCircle(
             pntE[0],
             pntE[1],
               eps = eps,
-             nmax = nmax,
+             nMax = nMax,
             space = "GeodesicSpace",
         )                                                                       # [m]
         distEE = max_dist(
@@ -167,7 +167,7 @@ def find_middle_of_locs_geodesicCircle(
             pntEE[0],
             pntEE[1],
               eps = eps,
-             nmax = nmax,
+             nMax = nMax,
             space = "GeodesicSpace",
         )                                                                       # [m]
         distS = max_dist(
@@ -176,7 +176,7 @@ def find_middle_of_locs_geodesicCircle(
             pntS[0],
             pntS[1],
               eps = eps,
-             nmax = nmax,
+             nMax = nMax,
             space = "GeodesicSpace",
         )                                                                       # [m]
         distSS = max_dist(
@@ -185,7 +185,7 @@ def find_middle_of_locs_geodesicCircle(
             pntSS[0],
             pntSS[1],
               eps = eps,
-             nmax = nmax,
+             nMax = nMax,
             space = "GeodesicSpace",
         )                                                                       # [m]
         distW = max_dist(
@@ -194,7 +194,7 @@ def find_middle_of_locs_geodesicCircle(
             pntW[0],
             pntW[1],
               eps = eps,
-             nmax = nmax,
+             nMax = nMax,
             space = "GeodesicSpace",
         )                                                                       # [m]
         distWW = max_dist(
@@ -203,7 +203,7 @@ def find_middle_of_locs_geodesicCircle(
             pntWW[0],
             pntWW[1],
               eps = eps,
-             nmax = nmax,
+             nMax = nMax,
             space = "GeodesicSpace",
         )                                                                       # [m]
 
@@ -260,7 +260,7 @@ def find_middle_of_locs_geodesicCircle(
             pntGuess[0],
             pntGuess[1],
              eps = eps,
-            nmax = nmax,
+            nMax = nMax,
         )                                                                       # [m], [°]
 
         # Check if we can stop iterating ...
@@ -277,7 +277,7 @@ def find_middle_of_locs_geodesicCircle(
             bear,
             conv,
              eps = eps,
-            nmax = nmax,
+            nMax = nMax,
         )                                                                       # [°], [°]
 
         if debug:
@@ -290,7 +290,7 @@ def find_middle_of_locs_geodesicCircle(
         midLon,
         midLat,
           eps = eps,
-         nmax = nmax,
+         nMax = nMax,
         space = "GeodesicSpace",
     )                                                                           # [m]
 

@@ -10,7 +10,7 @@ def find_middle_of_locs_geodesicBox(
     debug = False,
       eps = 1.0e-12,
     nIter = 10,
-     nmax = 100,
+     nMax = 100,
       pad = 10.0e3,
 ):
     """Find the middle of some locations such that: a) the Geodesic distance to
@@ -48,7 +48,7 @@ def find_middle_of_locs_geodesicBox(
         lats,
         debug = debug,
           eps = eps,
-         nmax = nmax,
+         nMax = nMax,
           pad = -1.0,
     )                                                                           # [°], [°]
 
@@ -71,7 +71,7 @@ def find_middle_of_locs_geodesicBox(
                         lons[iLoc],
                         midLat,
                          eps = eps,
-                        nmax = nmax,
+                        nMax = nMax,
                     )[0]
                 )                                                               # [m]
             elif lons[iLoc] > midLon:                                           # NOTE: Location is east of the middle.
@@ -83,7 +83,7 @@ def find_middle_of_locs_geodesicBox(
                         lons[iLoc],
                         midLat,
                          eps = eps,
-                        nmax = nmax,
+                        nMax = nMax,
                     )[0]
                 )                                                               # [m]
             else:
@@ -103,7 +103,7 @@ def find_middle_of_locs_geodesicBox(
                         midLon,
                         lats[iLoc],
                          eps = eps,
-                        nmax = nmax,
+                        nMax = nMax,
                     )[0]
                 )                                                               # [m]
             elif lats[iLoc] > midLat:                                           # NOTE: Location is north of the middle.
@@ -115,7 +115,7 @@ def find_middle_of_locs_geodesicBox(
                         midLon,
                         lats[iLoc],
                          eps = eps,
-                        nmax = nmax,
+                        nMax = nMax,
                     )[0]
                 )                                                               # [m]
             else:
@@ -138,7 +138,7 @@ def find_middle_of_locs_geodesicBox(
                 270.0,
                 0.5 * (maxWestDist - maxEastDist),
                  eps = eps,
-                nmax = nmax,
+                nMax = nMax,
             )                                                                   # [°], [°]
             if debug:
                 print(f"INFO: #{iIter + 1:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°).")
@@ -152,7 +152,7 @@ def find_middle_of_locs_geodesicBox(
                 90.0,
                 0.5 * (maxEastDist - maxWestDist),
                  eps = eps,
-                nmax = nmax,
+                nMax = nMax,
             )                                                                   # [°], [°]
             if debug:
                 print(f"INFO: #{iIter + 1:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°).")
@@ -170,7 +170,7 @@ def find_middle_of_locs_geodesicBox(
                 180.0,
                 0.5 * (maxSouthDist - maxNorthDist),
                  eps = eps,
-                nmax = nmax,
+                nMax = nMax,
             )                                                                   # [°], [°]
             if debug:
                 print(f"INFO: #{iIter + 1:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°).")
@@ -184,7 +184,7 @@ def find_middle_of_locs_geodesicBox(
                 0.0,
                 0.5 * (maxNorthDist - maxSouthDist),
                  eps = eps,
-                nmax = nmax,
+                nMax = nMax,
             )                                                                   # [°], [°]
             if debug:
                 print(f"INFO: #{iIter + 1:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°).")
@@ -203,7 +203,7 @@ def find_middle_of_locs_geodesicBox(
         midLon,
         midLat,
           eps = eps,
-         nmax = nmax,
+         nMax = nMax,
         space = "GeodesicSpace",
     )                                                                           # [m]
 

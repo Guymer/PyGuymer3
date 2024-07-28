@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def great_circle(lon1, lat1, lon2, lat2, /, *, debug = False, eps = 1.0e-12, maxdist = None, nmax = 100, npoint = None, prefix = ".", ramLimit = 1073741824):
+def great_circle(lon1, lat1, lon2, lat2, /, *, debug = False, eps = 1.0e-12, maxdist = None, nMax = 100, npoint = None, prefix = ".", ramLimit = 1073741824):
     """Calculate the great circle that connects two coordinates.
 
     This function reads in two coordinates (in degrees) on the surface of the
@@ -24,8 +24,8 @@ def great_circle(lon1, lat1, lon2, lat2, /, *, debug = False, eps = 1.0e-12, max
         the tolerance of the Vincenty formula iterations
     maxdist : float, optional
         the maximum distance between points along the great circle
-    nmax : int, optional
-        the maximum number of the Vincenty formula iterations
+    nMax : int, optional
+        the maximum number of Vincenty formula iterations
     npoint : int, optional
         the number of points along the great circle
     prefix : str, optional
@@ -119,7 +119,7 @@ def great_circle(lon1, lat1, lon2, lat2, /, *, debug = False, eps = 1.0e-12, max
                     points[ipoint][0],
                     points[ipoint][1],
                      eps = eps,
-                    nmax = nmax,
+                    nMax = nMax,
                 )                                                               # [m]
 
                 # Check if the distance is too large ...
