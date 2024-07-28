@@ -196,6 +196,11 @@ def find_middle_of_locs_geodesicBox(
         if not moved:
             break
 
+        # Stop if the end of the loop has been reached but the answer has not
+        # converged ...
+        if iIter == nIter - 1:
+            raise Exception(f"failed to converge; the middle currently ({midLon:.6f}°, {midLat:.6f}°); nIter = {nIter:d}") from None
+
     # Find the maximum Geodesic distance from the middle to any location ...
     maxDist = max_dist(
         lons,
