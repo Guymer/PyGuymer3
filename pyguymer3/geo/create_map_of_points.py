@@ -125,6 +125,20 @@ def create_map_of_points(
 
     # **************************************************************************
 
+    # Calculate the padding distance ...
+    padDist = 12.0 * 1852.0                                                     # [m]
+
+    # If the user asked for a Euclidean method then the padding distance needs
+    # converting from metres in to degrees ...
+    match method:
+        case "EuclideanBox" | "EuclideanCircle":
+            padDist /= RESOLUTION_OF_EARTH                                      # [°]
+        case "GeodesicBox" | "GeodesicCircle":
+            pass
+        case _:
+            # Crash ...
+            raise ValueError(f"\"method\" is an unexpected value ({repr(method)})") from None
+
     # Find the centre of the points ...
     midLon, midLat, maxDist = find_middle_of_locs(
         lons,
@@ -135,7 +149,7 @@ def create_map_of_points(
         method = method,
          nIter = nIter,
           nMax = nMax,
-           pad = 12.0 * 1852.0,
+           pad = padDist,
     )                                                                           # [°], [°], [°] or [m]
 
     # Check what method the user wants ...
