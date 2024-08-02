@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def add_OSM_map_background(ax, midLat, res, /, *, debug = False):
+def add_OSM_map_background(axis, midLat, res, /, *, debug = False):
     """Add OpenStreetMap map tiles as a background to a Cartopy axis.
 
     Parameters
     ----------
-    ax : cartopy.mpl.geoaxes.GeoAxesSubplot
+    axis : cartopy.mpl.geoaxes.GeoAxesSubplot
         the axis to add the OpenStreetMap map tiles as a background to
     midLat : float
         the latitude of the middle of the figure (in degrees)
@@ -67,7 +67,7 @@ def add_OSM_map_background(ax, midLat, res, /, *, debug = False):
     osm = cartopy.io.img_tiles.OSM(
         cache = True,
     )
-    ax.add_image(
+    axis.add_image(
         osm,
         z,
         interpolation = "none",         # NOTE: Due to the use of **kwargs
