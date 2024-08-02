@@ -22,6 +22,7 @@ def create_map_of_points(
         repair = False,
     resolution = "10m",
        timeout = 60.0,
+         title = None,
            tol = 1.0e-10,
 ):
     """Save a PNG map of a sequence of points
@@ -39,7 +40,7 @@ def create_map_of_points(
         the name of the output PNG
     background : str, optional
         the type of background to add (recognised values are: "GSHHG"; "image";
-        "NE"; "OSM"; and "none")
+        "NE"; "none"; and "OSM")
     chunksize : int, optional
         the size of the chunks of any files which are read in (in bytes)
     conv : float, optional
@@ -67,9 +68,11 @@ def create_map_of_points(
     repair : bool, optional
         attempt to repair invalid Polygons
     resolution : str, optional
-        the resolution of the NE or GSHHG datasets
+        the resolution of the image or NE dataset or GSHHG dataset
     timeout : float, optional
         the timeout for any requests/subprocess calls (in seconds)
+    title : str, optional
+        the title
     tol : float, optional
         the Euclidean distance that defines two points as being the same (in
         degrees)
@@ -199,6 +202,9 @@ def create_map_of_points(
                     repair = repair,
                 resolution = resolution,
             )
+        case "none":
+            # Don't add any background ...
+            pass
         case "OSM":
             # Calculate the resolution depending on the half-height of the
             # figure and the resolution of the figure ...
@@ -211,9 +217,6 @@ def create_map_of_points(
                 res,
                 debug = debug,
             )
-        case "none":
-            # Don't add any background ...
-            pass
         case _:
             # Crash ...
             raise ValueError(f"\"background\" is an unexpected value ({repr(background)})") from None
@@ -239,6 +242,10 @@ def create_map_of_points(
          transform = cartopy.crs.Geodetic(),
             zorder = 5.0,
     )
+
+    # Configure axis ...
+    if title is not None:
+        ax.set_title(title)
 
     # Configure figure ...
     fg.tight_layout()
