@@ -164,6 +164,23 @@ def _add_topDown_axis(
     except:
         raise Exception("\"cartopy\" is not installed; run \"pip install --user Cartopy\"") from None
     try:
+        import matplotlib
+        matplotlib.rcParams.update(
+            {
+                       "backend" : "Agg",                                       # NOTE: See https://matplotlib.org/stable/gallery/user_interfaces/canvasagg.html
+                    "figure.dpi" : 300,
+                "figure.figsize" : (9.6, 7.2),                                  # NOTE: See https://github.com/Guymer/misc/blob/main/README.md#matplotlib-figure-sizes
+                     "font.size" : 8,
+            }
+        )
+        import matplotlib.pyplot
+    except:
+        raise Exception("\"matplotlib\" is not installed; run \"pip install --user matplotlib\"") from None
+    try:
+        import numpy
+    except:
+        raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
+    try:
         import shapely
         import shapely.geometry
     except:
@@ -175,6 +192,7 @@ def _add_topDown_axis(
     from ._add_vertical_gridlines import _add_vertical_gridlines
     from .buffer import buffer
     from .calc_loc_from_loc_and_bearing_and_dist import calc_loc_from_loc_and_bearing_and_dist
+    from .clean import clean
     from ..consts import CIRCUMFERENCE_OF_EARTH
 
     # **************************************************************************
@@ -187,16 +205,17 @@ def _add_topDown_axis(
             gridlines_int = 1                                                   # [°]
 
     # Create a Point ...
-    point = shapely.geometry.point.Point(lon, lat)
+    point1 = shapely.geometry.point.Point(lon, lat)
 
     # Check where the axis should be created ...
+    # NOTE: See https://scitools.org.uk/cartopy/docs/latest/reference/projections.html
     if gs is not None:
         # Create axis ...
         ax = fg.add_subplot(
             gs,
             projection = cartopy.crs.Orthographic(
-                central_longitude = point.x,
-                 central_latitude = point.y,
+                central_longitude = point1.x,
+                 central_latitude = point1.y,
             ),
         )
     elif nrows is not None and ncols is not None and index is not None:
@@ -206,16 +225,16 @@ def _add_topDown_axis(
             ncols,
             index,
             projection = cartopy.crs.Orthographic(
-                central_longitude = point.x,
-                 central_latitude = point.y,
+                central_longitude = point1.x,
+                 central_latitude = point1.y,
             ),
         )
     else:
         # Create axis ...
         ax = fg.add_subplot(
             projection = cartopy.crs.Orthographic(
-                central_longitude = point.x,
-                 central_latitude = point.y,
+                central_longitude = point1.x,
+                 central_latitude = point1.y,
             ),
         )
 
@@ -226,7 +245,7 @@ def _add_topDown_axis(
     else:
         # Buffer the Point ...
         polygon1 = buffer(
-            point,
+            point1,
             dist,
                     debug = debug,
                       eps = eps,
@@ -242,7 +261,7 @@ def _add_topDown_axis(
         )
 
         # Calculate Northern extent ...
-        tmpLon, tmpLat, _ = calc_loc_from_loc_and_bearing_and_dist(
+        tmpLon, latMax, _ = calc_loc_from_loc_and_bearing_and_dist(
             lon,
             lat,
             0.0,
@@ -250,11 +269,11 @@ def _add_topDown_axis(
              eps = 1.0e-12,
             nMax = 100,
         )                                                                       # [°], [°]
-        ymax = shapely.geometry.point.Point(tmpLon, tmpLat)
-        ymax = ax.projection.project_geometry(ymax).y
+        tmpPnt = shapely.geometry.point.Point(tmpLon, latMax)
+        yMax = ax.projection.project_geometry(tmpPnt).y                         # [?]
 
         # Calculate Eastern extent ...
-        tmpLon, tmpLat, _ = calc_loc_from_loc_and_bearing_and_dist(
+        lonMax, tmpLat, _ = calc_loc_from_loc_and_bearing_and_dist(
             lon,
             lat,
             90.0,
@@ -262,11 +281,11 @@ def _add_topDown_axis(
              eps = 1.0e-12,
             nMax = 100,
         )                                                                       # [°], [°]
-        xmax = shapely.geometry.point.Point(tmpLon, tmpLat)
-        xmax = ax.projection.project_geometry(xmax).x
+        tmpPnt = shapely.geometry.point.Point(lonMax, tmpLat)
+        xMax = ax.projection.project_geometry(tmpPnt).x                         # [?]
 
         # Calculate Southern extent ...
-        tmpLon, tmpLat, _ = calc_loc_from_loc_and_bearing_and_dist(
+        tmpLon, latMin, _ = calc_loc_from_loc_and_bearing_and_dist(
             lon,
             lat,
             180.0,
@@ -274,11 +293,11 @@ def _add_topDown_axis(
              eps = 1.0e-12,
             nMax = 100,
         )                                                                       # [°], [°]
-        ymin = shapely.geometry.point.Point(tmpLon, tmpLat)
-        ymin = ax.projection.project_geometry(ymin).y
+        tmpPnt = shapely.geometry.point.Point(tmpLon, latMin)
+        yMin = ax.projection.project_geometry(tmpPnt).y                         # [?]
 
         # Calculate Western extent ...
-        tmpLon, tmpLat, _ = calc_loc_from_loc_and_bearing_and_dist(
+        lonMin, tmpLat, _ = calc_loc_from_loc_and_bearing_and_dist(
             lon,
             lat,
             270.0,
@@ -286,12 +305,38 @@ def _add_topDown_axis(
              eps = 1.0e-12,
             nMax = 100,
         )                                                                       # [°], [°]
-        xmin = shapely.geometry.point.Point(tmpLon, tmpLat)
-        xmin = ax.projection.project_geometry(xmin).x
+        tmpPnt = shapely.geometry.point.Point(lonMin, tmpLat)
+        xMin = ax.projection.project_geometry(tmpPnt).x                         # [?]
+
+        # Project the Point ...
+        point2 = ax.projection.project_geometry(point1)
+
+        # Create a correctly oriented Polygon from scratch that is the Point
+        # buffered in MatPlotLib space with the same fuzziness as Cartopy does
+        # internally ...
+        radius2 = numpy.array(
+            [
+                point2.x - xMin,
+                xMax - point2.x,
+                point2.y - yMin,
+                yMax - point2.y,
+            ],
+            dtype = numpy.float64,
+        ).mean()                                                                # [?]
+        polygon2 = point2.buffer(radius2 * 0.99999, quad_segs = (61 - 1) // 4)
+        polygon2 = clean(polygon2)
+
+        # Convert the exterior ring of the Polygon to a Path ...
+        path = matplotlib.path.Path(polygon2.exterior.coords)
 
         # Configure axis ...
-        ax.set_xlim(xmin, xmax)
-        ax.set_ylim(ymin, ymax)
+        # NOTE: The orthographic projection does not have the ability to set
+        #       either the altitude or the field-of-view. I manually do this,
+        #       which involves setting the boundary and the limits for the
+        #       MatPlotLib axis.
+        ax.set_boundary(path)
+        ax.set_xlim(xMin, xMax)
+        ax.set_ylim(yMin, yMax)
 
         # Check if the user wants to draw the circle ...
         if debug:
