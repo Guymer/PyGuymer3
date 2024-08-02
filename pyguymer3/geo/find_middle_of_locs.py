@@ -33,6 +33,8 @@ def find_middle_of_locs(
         print debug messages
     eps : float, optional
         the tolerance of the Vincenty formula iterations
+    method : str, optional
+        the method for finding the middle of the locations
     nIter : int, optional
         the maximum number of iterations
     nMax : int, optional
