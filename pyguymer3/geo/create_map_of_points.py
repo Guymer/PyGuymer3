@@ -13,6 +13,7 @@ def create_map_of_points(
          debug = False,
            eps = 1.0e-12,
         method = "GeodesicBox",
+          name = "natural-earth-1",
          nIter = 10,
           nMax = 100,
      onlyValid = False,
@@ -37,8 +38,8 @@ def create_map_of_points(
     pngOut : str
         the name of the output PNG
     background : str, optional
-        the type of background to add (recognised values are: "GSHHG"; "NE";
-        "OSM"; and "none")
+        the type of background to add (recognised values are: "GSHHG"; "image";
+        "NE"; "OSM"; and "none")
     chunksize : int, optional
         the size of the chunks of any files which are read in (in bytes)
     conv : float, optional
@@ -50,6 +51,8 @@ def create_map_of_points(
         the tolerance of the Vincenty formula iterations
     method : str, optional
         the method for finding the middle of the points
+    name : str, optional
+        the name of the image in the database
     nIter : int, optional
         the maximum number of iterations
     nMax : int, optional
@@ -110,6 +113,7 @@ def create_map_of_points(
     # Import sub-functions ...
     from .add_axis import add_axis
     from .add_GSHHG_map_underlay import add_GSHHG_map_underlay
+    from .add_map_background import add_map_background
     from .add_NE_map_underlay import add_NE_map_underlay
     from .add_OSM_map_background import add_OSM_map_background
     from .find_middle_of_locs import find_middle_of_locs
@@ -170,6 +174,14 @@ def create_map_of_points(
                  onlyValid = onlyValid,
                 pondIsland = True,
                     repair = repair,
+                resolution = resolution,
+            )
+        case "image":
+            # Add image background ...
+            add_map_background(
+                ax,
+                     debug = debug,
+                      name = name,
                 resolution = resolution,
             )
         case "NE":
