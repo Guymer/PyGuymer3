@@ -16,6 +16,7 @@ def _add_topDown_axis(
      coastlines_linewidth = 0.5,
     coastlines_resolution = "i",
         coastlines_zorder = 1.5,
+           configureAgain = False,
                     debug = False,
                      dist = 1.0e99,
                       eps = 1.0e-12,
@@ -68,6 +69,9 @@ def _add_topDown_axis(
         been chosen to match the value that it ends up being if the coastline
         boundaries are not drawn with the zorder keyword specified -- obtained
         by manual inspection on 5/Dec/2023)
+    configureAgain : bool, optional
+        configure the axis a second time (this is a hack to make narrow
+        field-of-view top-down axes work correctly with OpenStreetMap tiles)
     debug : bool, optional
         print debug messages and draw the circle on the axis
     dist : float, optional
@@ -337,6 +341,25 @@ def _add_topDown_axis(
         ax.set_boundary(path)
         ax.set_xlim(xMin, xMax)
         ax.set_ylim(yMin, yMax)
+
+        # Check if the user wants to configure the axis a second time ...
+        if configureAgain:
+            # Configure axis again ...
+            # NOTE: For some reason, "cartopy.io.img_tiles.OSM()" doesn't work
+            #       unless the first of the following protected members is also
+            #       set. All other interactions with the axis appear to be fine
+            #       without it being set though. Annoyingly, once the first
+            #       protected member is set, all other interactions with the
+            #       axis fail unless the second and third protected members are
+            #       also set. If the second and third protected members are set
+            #       then the resulting gridlines do not extend all the way to
+            #       the edge of the map. Therefore, I have chosen to not set the
+            #       second and third protected members and instead I protect
+            #       setting the first protect member by checking if the
+            #       background is going to be "OSM".
+            ax.projection._boundary = polygon2.exterior
+            # ax.projection._cw_boundary = polygon2.exterior.reverse()
+            # ax.projection._ccw_boundary = polygon2.exterior
 
         # Check if the user wants to draw the circle ...
         if debug:

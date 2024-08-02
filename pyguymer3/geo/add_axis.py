@@ -14,6 +14,7 @@ def add_axis(
      coastlines_linewidth = 0.5,
     coastlines_resolution = "i",
         coastlines_zorder = 1.5,
+           configureAgain = False,
                     debug = False,
                      dist = 1.0e99,
                       eps = 1.0e-12,
@@ -65,6 +66,9 @@ def add_axis(
         been chosen to match the value that it ends up being if the coastline
         boundaries are not drawn with the zorder keyword specified -- obtained
         by manual inspection on 5/Dec/2023)
+    configureAgain : bool, optional
+        configure the axis a second time (this is a hack to make narrow
+        field-of-view top-down axes work correctly with OpenStreetMap tiles)
     debug : bool, optional
         print debug messages and draw the circle on the axis
     dist : float, optional
@@ -173,6 +177,7 @@ def add_axis(
              coastlines_linewidth = coastlines_linewidth,
             coastlines_resolution = coastlines_resolution,
                 coastlines_zorder = coastlines_zorder,
+                   configureAgain = configureAgain,
                             debug = debug,
                              dist = dist,
                               eps = eps,
