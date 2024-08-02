@@ -16,7 +16,7 @@ def _add_coastlines(
     resolution = "i",
         zorder = 1.5,
 ):
-    """Add coastlines to an axis.
+    """Add coastlines to a Cartopy axis.
 
     This function adds coastline boundaries to a Cartopy axis. The resolution of
     the boundaries and *what* the boundaries delineate, are both configurable.
