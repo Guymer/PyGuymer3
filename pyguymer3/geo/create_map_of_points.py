@@ -7,19 +7,21 @@ def create_map_of_points(
     pngOut,
     /,
     *,
-    chunksize = 1048576,
-         conv = 1.0e3,
-        debug = False,
-          eps = 1.0e-12,
-       method = "GeodesicBox",
-        nIter = 10,
-         nMax = 100,
-    onlyValid = False,
-       prefix = ".",
-     ramLimit = 1073741824,
-       repair = False,
-      timeout = 60.0,
-          tol = 1.0e-10,
+    background = "NE",
+     chunksize = 1048576,
+          conv = 1.0e3,
+         debug = False,
+           eps = 1.0e-12,
+        method = "GeodesicBox",
+         nIter = 10,
+          nMax = 100,
+     onlyValid = False,
+        prefix = ".",
+      ramLimit = 1073741824,
+        repair = False,
+    resolution = "10m",
+       timeout = 60.0,
+           tol = 1.0e-10,
 ):
     """Save a PNG map of a sequence of points
 
@@ -34,6 +36,9 @@ def create_map_of_points(
         the sequence of latitudes
     pngOut : str
         the name of the output PNG
+    background : str, optional
+        the type of background to add (recognised values are: "GSHHG"; "NE";
+        "OSM"; and "none")
     chunksize : int, optional
         the size of the chunks of any files which are read in (in bytes)
     conv : float, optional
@@ -43,6 +48,8 @@ def create_map_of_points(
         print debug messages and draw the circle on the axis
     eps : float, optional
         the tolerance of the Vincenty formula iterations
+    method : str, optional
+        the method for finding the middle of the points
     nIter : int, optional
         the maximum number of iterations
     nMax : int, optional
@@ -56,6 +63,8 @@ def create_map_of_points(
         the maximum RAM usage of each "large" array (in bytes)
     repair : bool, optional
         attempt to repair invalid Polygons
+    resolution : str, optional
+        the resolution of the NE or GSHHG datasets
     timeout : float, optional
         the timeout for any requests/subprocess calls (in seconds)
     tol : float, optional
@@ -82,7 +91,6 @@ def create_map_of_points(
                 "cache_dir" : os.path.expanduser("~/.local/share/cartopy_cache"),
             }
         )
-        import cartopy.io.img_tiles
     except:
         raise Exception("\"cartopy\" is not installed; run \"pip install --user Cartopy\"") from None
     try:
@@ -101,9 +109,11 @@ def create_map_of_points(
 
     # Import sub-functions ...
     from .add_axis import add_axis
+    from .add_GSHHG_map_underlay import add_GSHHG_map_underlay
+    from .add_NE_map_underlay import add_NE_map_underlay
+    from .add_OSM_map_background import add_OSM_map_background
     from .find_middle_of_locs import find_middle_of_locs
     from ..image import optimize_image
-    from ..openstreetmap import zoom
 
     # **************************************************************************
 
@@ -111,13 +121,13 @@ def create_map_of_points(
     midLon, midLat, maxDist = find_middle_of_locs(
         lons,
         lats,
-         conv = conv,
-        debug = debug,
-          eps = eps,
-       method = method,
-        nIter = nIter,
-         nMax = nMax,
-          pad = 12.0 * 1852.0,
+          conv = conv,
+         debug = debug,
+           eps = eps,
+        method = method,
+         nIter = nIter,
+          nMax = nMax,
+           pad = 12.0 * 1852.0,
     )                                                                           # [°], [°], [m]
     if debug:
         print(f"INFO: Centre at (lon={midLon:+.6f}°, lat={midLat:+.6f}°) with a {0.001 * maxDist:,.1f} km radius.")
@@ -130,51 +140,71 @@ def create_map_of_points(
     # Create axis ...
     ax = add_axis(
         fg,
-            debug = debug,
-             dist = maxDist,
-              eps = eps,
-              lat = midLat,
-              lon = midLon,
-             nMax = nMax,
-        onlyValid = onlyValid,
-           prefix = prefix,
-         ramLimit = ramLimit,
-           repair = repair,
-              tol = tol,
+        add_coastlines = False,
+                 debug = debug,
+                  dist = maxDist,
+                   eps = eps,
+                   lat = midLat,
+                   lon = midLon,
+                  nMax = nMax,
+             onlyValid = onlyValid,
+                prefix = prefix,
+              ramLimit = ramLimit,
+                repair = repair,
+                   tol = tol,
     )
 
-    # Calculate the resolution (and zoom) depending on the half-height of the
-    # figure and the resolution of the figure ...
-    res = maxDist / (0.5 * fg.get_size_inches()[1] * fg.dpi)                    # [m/px]
-    z = zoom(midLat, res)
-    if debug:
-        print(f"INFO: The resolution is {0.001 * res:,.1f} km/px and the OpenStreetMap zoom is {z:d}.")
+    # Check which background the user wants ...
+    match background:
+        case "GSHHG":
+            # Add GSHHG background ...
+            add_GSHHG_map_underlay(
+                ax,
+                background = True,
+                     debug = debug,
+                  iceOcean = True,
+                islandLake = True,
+                  lakeLand = True,
+                 landOcean = True,
+                 linewidth = 0.5,
+                 onlyValid = onlyValid,
+                pondIsland = True,
+                    repair = repair,
+                resolution = resolution,
+            )
+        case "NE":
+            # Add NE background ...
+            add_NE_map_underlay(
+                ax,
+                background = True,
+                  cultural = True,
+                     debug = debug,
+                 linestyle = "solid",
+                 linewidth = 0.5,
+                   maxElev = 8850.0,
+                 onlyValid = onlyValid,
+                  physical = True,
+                    repair = repair,
+                resolution = resolution,
+            )
+        case "OSM":
+            # Calculate the resolution depending on the half-height of the
+            # figure and the resolution of the figure ...
+            res = maxDist / (0.5 * fg.get_size_inches()[1] * fg.dpi)            # [m/px]
 
-    # Add OpenStreetMap tiles ...
-    # NOTE: It appears that the background image is drawn at only 72 dpi. If you
-    #       zoom in then there are around 4 pixels in the red lines joining the
-    #       points together for every pixel in the background image (300 / 72 ~=
-    #       4). Try regenerating a map at 72 dpi and the background image will
-    #       be the same resolution as the red lines joining the points together.
-    # NOTE: Line 528 of "cartopy/lib/cartopy/mpl/geoaxes.py" is the "imshow()"
-    #       call.
-    # NOTE: Line 71 of "cartopy/lib/cartopy/io/img_tiles.py" is the
-    #       "image_for_domain()" definition.
-    # NOTE: Line 588 of "cartopy/lib/cartopy/io/img_tiles.py" is the
-    #       "_merge_tiles()" definition. My only guess is that some pixels are
-    #       not getting sliced correctly when making the merged image because
-    #       you should never do floating-point equalities on line 608.
-    osm = cartopy.io.img_tiles.OSM(
-        cache = True,
-    )
-    ax.add_image(
-        osm,
-        z,
-        interpolation = "none",         # NOTE: Due to the use of **kwargs
-                                        #       within Cartopy, this is passed
-                                        #       all the way down the stack to
-                                        #       the ".imshow()" call.
-    )
+            # Add OpenStreetMap background ...
+            add_OSM_map_background(
+                ax,
+                midLat,
+                res,
+                debug = debug,
+            )
+        case "none":
+            # Don't add any background ...
+            pass
+        case _:
+            # Crash ...
+            raise ValueError(f"\"background\" is an unexpected value ({repr(background)})") from None
 
     # Plot locations ...
     # NOTE: As of 5/Dec/2023, the default "zorder" of the coastlines is 1.5, the
