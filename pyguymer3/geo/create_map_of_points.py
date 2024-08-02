@@ -120,6 +120,7 @@ def create_map_of_points(
     from .add_NE_map_underlay import add_NE_map_underlay
     from .add_OSM_map_background import add_OSM_map_background
     from .find_middle_of_locs import find_middle_of_locs
+    from ..consts import RESOLUTION_OF_EARTH
     from ..image import optimize_image
 
     # **************************************************************************
@@ -135,9 +136,32 @@ def create_map_of_points(
          nIter = nIter,
           nMax = nMax,
            pad = 12.0 * 1852.0,
-    )                                                                           # [°], [°], [m]
-    if debug:
-        print(f"INFO: Centre at (lon={midLon:+.6f}°, lat={midLat:+.6f}°) with a {0.001 * maxDist:,.1f} km radius.")
+    )                                                                           # [°], [°], [°] or [m]
+
+    # Check what method the user wants ...
+    match method:
+        case "EuclideanBox" | "EuclideanCircle":
+            if debug:
+                print(f"INFO: Centre at (lon={midLon:+.6f}°, lat={midLat:+.6f}°) with a {maxDist:.6f}° radius.")
+        case "GeodesicBox" | "GeodesicCircle":
+            if debug:
+                print(f"INFO: Centre at (lon={midLon:+.6f}°, lat={midLat:+.6f}°) with a {0.001 * maxDist:,.1f} km radius.")
+        case _:
+            # Crash ...
+            raise ValueError(f"\"method\" is an unexpected value ({repr(method)})") from None
+
+    # If the user asked for a Euclidean method then the maximum distance needs
+    # converting from degrees in to metres ...
+    match method:
+        case "EuclideanBox" | "EuclideanCircle":
+            maxDist *= RESOLUTION_OF_EARTH                                      # [m]
+            if debug:
+                print(f"INFO: Centre at (lon={midLon:+.6f}°, lat={midLat:+.6f}°) with a {0.001 * maxDist:,.1f} km radius.")
+        case "GeodesicBox" | "GeodesicCircle":
+            pass
+        case _:
+            # Crash ...
+            raise ValueError(f"\"method\" is an unexpected value ({repr(method)})") from None
 
     # **************************************************************************
 
