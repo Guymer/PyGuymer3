@@ -136,6 +136,7 @@ from .add_axis import add_axis
 from .add_GSHHG_map_underlay import add_GSHHG_map_underlay
 from .add_map_background import add_map_background
 from .add_NE_map_underlay import add_NE_map_underlay
+from .add_OSM_map_background import add_OSM_map_background
 from .area import area
 from .buffer import buffer
 from .calc_angle_between_two_locs import calc_angle_between_two_locs
