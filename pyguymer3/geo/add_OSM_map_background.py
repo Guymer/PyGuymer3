@@ -1,7 +1,14 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def add_OSM_map_background(axis, midLat, res, /, *, debug = False):
+def add_OSM_map_background(
+    ax,
+    midLat,
+    res,
+    /,
+    *,
+    debug = False,
+):
     """Add OpenStreetMap map tiles as a background to a Cartopy axis.
 
     Parameters
@@ -67,7 +74,7 @@ def add_OSM_map_background(axis, midLat, res, /, *, debug = False):
     osm = cartopy.io.img_tiles.OSM(
         cache = True,
     )
-    axis.add_image(
+    ax.add_image(
         osm,
         z,
         interpolation = "none",         # NOTE: Due to the use of **kwargs

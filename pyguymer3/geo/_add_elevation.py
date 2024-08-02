@@ -1,7 +1,16 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def _add_elevation(axis, /, *, debug = False, maxElev = 8850.0, onlyValid = False, repair = False, resolution = "10m"):
+def _add_elevation(
+    ax,
+    /,
+    *,
+         debug = False,
+       maxElev = 8850.0,
+     onlyValid = False,
+        repair = False,
+    resolution = "10m",
+):
     """Add elevation to a Cartopy axis.
 
     Parameters
@@ -118,7 +127,7 @@ def _add_elevation(axis, /, *, debug = False, maxElev = 8850.0, onlyValid = Fals
         coll = shapely.geometry.shape(coll)
 
         # Plot geometry ...
-        axis.add_geometries(
+        ax.add_geometries(
             extract_polys(coll, onlyValid = onlyValid, repair = repair),
             cartopy.crs.PlateCarree(),
             edgecolor = "none",

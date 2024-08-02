@@ -1,7 +1,15 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def _add_land(axis, /, *, debug = False, onlyValid = False, repair = False, resolution = "10m"):
+def _add_land(
+    ax,
+    /,
+    *,
+         debug = False,
+     onlyValid = False,
+        repair = False,
+    resolution = "10m",
+):
     """Add land to a Cartopy axis.
 
     Parameters
@@ -82,7 +90,7 @@ def _add_land(axis, /, *, debug = False, onlyValid = False, repair = False, reso
     # Loop over records ...
     for record in cartopy.io.shapereader.Reader(sfile).records():
         # Plot geometry ...
-        axis.add_geometries(
+        ax.add_geometries(
             extract_polys(record.geometry, onlyValid = onlyValid, repair = repair),
             cartopy.crs.PlateCarree(),
             edgecolor = "none",

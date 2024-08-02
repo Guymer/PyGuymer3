@@ -1,7 +1,15 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def add_map_background(axis, /, *, debug = False, extent = None, name = "natural-earth-1", resolution = "medium0512px"):
+def add_map_background(
+    ax,
+    /,
+    *,
+         debug = False,
+        extent = None,
+          name = "natural-earth-1",
+    resolution = "medium0512px",
+):
     """Add an image of a map as a background to a Cartopy axis.
 
     Parameters
@@ -59,8 +67,8 @@ def add_map_background(axis, /, *, debug = False, extent = None, name = "natural
     if default:
         if debug:
             print("INFO: Drawing default background.")
-        axis.stock_img()
+        ax.stock_img()
     else:
         if debug:
             print("INFO: Drawing user-requested background.")
-        axis.background_img(name = name, resolution = resolution, extent = extent)
+        ax.background_img(name = name, resolution = resolution, extent = extent)

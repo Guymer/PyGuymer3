@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def _add_background(axis, /, *, debug = False):
+def _add_background(
+    ax,
+    /,
+    *,
+    debug = False,
+):
     """Add background to a Cartopy axis.
 
     Parameters
@@ -45,4 +50,4 @@ def _add_background(axis, /, *, debug = False):
         print(f"INFO: \"background\" is ({facecolor[0]:.6f},{facecolor[1]:.6f},{facecolor[2]:.6f},{facecolor[3]:.6f}).")
 
     # Set background ...
-    axis.set_facecolor(facecolor)
+    ax.set_facecolor(facecolor)

@@ -1,7 +1,15 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def _add_lakes(axis, /, *, debug = False, onlyValid = False, repair = False, resolution = "10m"):
+def _add_lakes(
+    ax,
+    /,
+    *,
+         debug = False,
+     onlyValid = False,
+        repair = False,
+    resolution = "10m",
+):
     """Add lakes to a Cartopy axis.
 
     Parameters
@@ -93,7 +101,7 @@ def _add_lakes(axis, /, *, debug = False, onlyValid = False, repair = False, res
         # Loop over records ...
         for record in cartopy.io.shapereader.Reader(sfile).records():
             # Plot geometry ...
-            axis.add_geometries(
+            ax.add_geometries(
                 extract_polys(record.geometry, onlyValid = onlyValid, repair = repair),
                 cartopy.crs.PlateCarree(),
                 edgecolor = "none",

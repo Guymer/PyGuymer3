@@ -2,7 +2,7 @@
 
 # Define function ...
 def add_NE_map_underlay(
-    axis,
+    ax,
     /,
     *,
     background = True,
@@ -76,7 +76,7 @@ def add_NE_map_underlay(
     if background:
         # Water ...
         _add_background(
-            axis,
+            ax,
             debug = debug,
         )
 
@@ -84,7 +84,7 @@ def add_NE_map_underlay(
     if physical:
         # Water ...
         _add_bathymetry(
-            axis,
+            ax,
                  debug = debug,
              onlyValid = onlyValid,
                 repair = repair,
@@ -93,14 +93,14 @@ def add_NE_map_underlay(
 
         # Water overlays ...
         _add_antarcticIceShelves(
-            axis,
+            ax,
                  debug = debug,
              onlyValid = onlyValid,
                 repair = repair,
             resolution = resolution,
         )
         _add_reefs(
-            axis,
+            ax,
                  debug = debug,
              linestyle = linestyle,
              linewidth = linewidth,
@@ -111,21 +111,21 @@ def add_NE_map_underlay(
 
         # Land ...
         _add_land(
-            axis,
+            ax,
                  debug = debug,
              onlyValid = onlyValid,
                 repair = repair,
             resolution = resolution,
         )
         _add_minorIslands(
-            axis,
+            ax,
                  debug = debug,
              onlyValid = onlyValid,
                 repair = repair,
             resolution = resolution,
         )
         _add_elevation(
-            axis,
+            ax,
                  debug = debug,
                maxElev = maxElev,
              onlyValid = onlyValid,
@@ -135,21 +135,21 @@ def add_NE_map_underlay(
 
         # Land overlays ...
         _add_glaciatedAreas(
-            axis,
+            ax,
                  debug = debug,
              onlyValid = onlyValid,
                 repair = repair,
             resolution = resolution,
         )
         _add_lakes(
-            axis,
+            ax,
                  debug = debug,
              onlyValid = onlyValid,
                 repair = repair,
             resolution = resolution,
         )
         _add_playas(
-            axis,
+            ax,
                  debug = debug,
              linestyle = linestyle,
              linewidth = linewidth,
@@ -162,7 +162,7 @@ def add_NE_map_underlay(
     if cultural:
         # Land ...
         _add_urbanAreas(
-            axis,
+            ax,
                  debug = debug,
              onlyValid = onlyValid,
                 repair = repair,
@@ -173,7 +173,7 @@ def add_NE_map_underlay(
     if physical:
         # Land overlays ...
         _add_rivers(
-            axis,
+            ax,
                  debug = debug,
              linestyle = linestyle,
              linewidth = linewidth,
@@ -185,7 +185,7 @@ def add_NE_map_underlay(
     if cultural:
         # Land overlays ...
         _add_railroads(
-            axis,
+            ax,
                  debug = debug,
              linestyle = linestyle,
              linewidth = linewidth,
@@ -193,7 +193,7 @@ def add_NE_map_underlay(
             resolution = resolution,
         )
         _add_roads(
-            axis,
+            ax,
                  debug = debug,
              linestyle = linestyle,
              linewidth = linewidth,

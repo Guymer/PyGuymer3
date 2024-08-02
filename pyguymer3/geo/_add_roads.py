@@ -1,7 +1,16 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def _add_roads(axis, /, *, debug = False, linestyle = "solid", linewidth = 0.5, onlyValid = False, resolution = "10m"):
+def _add_roads(
+    ax,
+    /,
+    *,
+         debug = False,
+     linestyle = "solid",
+     linewidth = 0.5,
+     onlyValid = False,
+    resolution = "10m",
+):
     """Add roads to a Cartopy axis.
 
     Parameters
@@ -92,7 +101,7 @@ def _add_roads(axis, /, *, debug = False, linestyle = "solid", linewidth = 0.5, 
         # Loop over records ...
         for record in cartopy.io.shapereader.Reader(sfile).records():
             # Plot geometry ...
-            axis.add_geometries(
+            ax.add_geometries(
                 extract_lines(record.geometry, onlyValid = onlyValid),
                 cartopy.crs.PlateCarree(),
                 edgecolor = edgecolor,
