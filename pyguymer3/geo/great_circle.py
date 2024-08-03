@@ -1,7 +1,21 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def great_circle(lon1, lat1, lon2, lat2, /, *, debug = False, eps = 1.0e-12, maxdist = None, nMax = 100, npoint = None, prefix = ".", ramLimit = 1073741824):
+def great_circle(
+    lon1,
+    lat1,
+    lon2,
+    lat2,
+    /,
+    *,
+       debug = False,
+         eps = 1.0e-12,
+     maxdist = None,
+        nMax = 100,
+      npoint = None,
+      prefix = ".",
+    ramLimit = 1073741824,
+):
     """Calculate the great circle that connects two coordinates.
 
     This function reads in two coordinates (in degrees) on the surface of the
