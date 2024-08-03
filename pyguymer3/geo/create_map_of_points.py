@@ -7,23 +7,24 @@ def create_map_of_points(
     pngOut,
     /,
     *,
-    background = "NE",
-     chunksize = 1048576,
-          conv = 1.0e3,
-         debug = False,
-           eps = 1.0e-12,
-        method = "GeodesicBox",
-          name = "natural-earth-1",
-         nIter = 10,
-          nMax = 100,
-     onlyValid = False,
-        prefix = ".",
-      ramLimit = 1073741824,
-        repair = False,
-    resolution = "10m",
-       timeout = 60.0,
-         title = None,
-           tol = 1.0e-10,
+          background = "NE",
+           chunksize = 1048576,
+                conv = 1.0e3,
+               debug = False,
+                 eps = 1.0e-12,
+              method = "GeodesicBox",
+                name = "natural-earth-1",
+               nIter = 10,
+                nMax = 100,
+           onlyValid = False,
+              prefix = ".",
+            ramLimit = 1073741824,
+              repair = False,
+          resolution = "10m",
+    satellite_height = False,
+             timeout = 60.0,
+               title = None,
+                 tol = 1.0e-10,
 ):
     """Save a PNG map of a sequence of points
 
@@ -72,6 +73,9 @@ def create_map_of_points(
         attempt to repair invalid Polygons
     resolution : str, optional
         the resolution of the image or NE dataset or GSHHG dataset
+    satellite_height : bool, optional
+        if a distance is provided then use a "NearsidePerspective" projection at
+        an altitude which has the same field-of-view as the distance
     timeout : float, optional
         the timeout for any requests/subprocess calls (in seconds)
     title : str, optional
@@ -188,19 +192,21 @@ def create_map_of_points(
     # Create axis ...
     ax = add_axis(
         fg,
-        add_coastlines = False,
-        configureAgain = bool(background == "OSM"),
-                 debug = debug,
-                  dist = maxDist,
-                   eps = eps,
-                   lat = midLat,
-                   lon = midLon,
-                  nMax = nMax,
-             onlyValid = onlyValid,
-                prefix = prefix,
-              ramLimit = ramLimit,
-                repair = repair,
-                   tol = tol,
+          add_coastlines = False,
+           add_gridlines = True,
+          configureAgain = bool(background == "OSM"),
+                   debug = debug,
+                    dist = maxDist,
+                     eps = eps,
+                     lat = midLat,
+                     lon = midLon,
+                    nMax = nMax,
+               onlyValid = onlyValid,
+                  prefix = prefix,
+                ramLimit = ramLimit,
+                  repair = repair,
+        satellite_height = satellite_height,
+                     tol = tol,
     )
 
     # Check which background the user wants ...

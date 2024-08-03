@@ -34,6 +34,7 @@ def _add_topDown_axis(
                    prefix = ".",
                  ramLimit = 1073741824,
                    repair = False,
+         satellite_height = False,
                       tol = 1.0e-10,
 ):
     """Add an Orthographic axis centred above a point with optionally a
@@ -113,6 +114,9 @@ def _add_topDown_axis(
         the maximum RAM usage of each "large" array (in bytes)
     repair : bool, optional
         attempt to repair invalid Polygons
+    satellite_height : bool, optional
+        if a distance is provided then use a "NearsidePerspective" projection at
+        an altitude which has the same field-of-view as the distance
     tol : float, optional
         the Euclidean distance that defines two points as being the same (in
         degrees)
@@ -155,6 +159,7 @@ def _add_topDown_axis(
     """
 
     # Import standard modules ...
+    import math
     import os
 
     # Import special modules ...
@@ -197,16 +202,21 @@ def _add_topDown_axis(
     from .buffer import buffer
     from .calc_loc_from_loc_and_bearing_and_dist import calc_loc_from_loc_and_bearing_and_dist
     from .clean import clean
-    from ..consts import CIRCUMFERENCE_OF_EARTH
+    from ..consts import CIRCUMFERENCE_OF_EARTH, RADIUS_OF_EARTH
 
     # **************************************************************************
 
+    # Create short-hand ...
+    globalFieldOfView = bool(dist > 0.25 * CIRCUMFERENCE_OF_EARTH)
+
     # Check inputs ...
     if gridlines_int is None:
-        if dist > 0.25 * CIRCUMFERENCE_OF_EARTH:
+        if globalFieldOfView:
             gridlines_int = 45                                                  # [°]
         else:
             gridlines_int = 1                                                   # [°]
+    if not globalFieldOfView and satellite_height:
+        alt = RADIUS_OF_EARTH / math.cos(dist / RADIUS_OF_EARTH) - RADIUS_OF_EARTH  # [m]
 
     # Create a Point ...
     point1 = shapely.geometry.point.Point(lon, lat)
@@ -214,39 +224,76 @@ def _add_topDown_axis(
     # Check where the axis should be created ...
     # NOTE: See https://scitools.org.uk/cartopy/docs/latest/reference/projections.html
     if gs is not None:
-        # Create axis ...
-        ax = fg.add_subplot(
-            gs,
-            projection = cartopy.crs.Orthographic(
-                central_longitude = point1.x,
-                 central_latitude = point1.y,
-            ),
-        )
+        # Check if a NearsidePerspective axis can be used ...
+        if not globalFieldOfView and satellite_height:
+            # Create NearsidePerspective axis ...
+            ax = fg.add_subplot(
+                gs,
+                projection = cartopy.crs.NearsidePerspective(
+                    central_longitude = point1.x,
+                     central_latitude = point1.y,
+                     satellite_height = alt,
+                ),
+            )
+        else:
+            # Create Orthographic axis ...
+            ax = fg.add_subplot(
+                gs,
+                projection = cartopy.crs.Orthographic(
+                    central_longitude = point1.x,
+                     central_latitude = point1.y,
+                ),
+            )
     elif nrows is not None and ncols is not None and index is not None:
-        # Create axis ...
-        ax = fg.add_subplot(
-            nrows,
-            ncols,
-            index,
-            projection = cartopy.crs.Orthographic(
-                central_longitude = point1.x,
-                 central_latitude = point1.y,
-            ),
-        )
+        # Check if a NearsidePerspective axis can be used ...
+        if not globalFieldOfView and satellite_height:
+            # Create NearsidePerspective axis ...
+            ax = fg.add_subplot(
+                nrows,
+                ncols,
+                index,
+                projection = cartopy.crs.NearsidePerspective(
+                    central_longitude = point1.x,
+                     central_latitude = point1.y,
+                     satellite_height = alt,
+                ),
+            )
+        else:
+            # Create Orthographic axis ...
+            ax = fg.add_subplot(
+                nrows,
+                ncols,
+                index,
+                projection = cartopy.crs.Orthographic(
+                    central_longitude = point1.x,
+                     central_latitude = point1.y,
+                ),
+            )
     else:
-        # Create axis ...
-        ax = fg.add_subplot(
-            projection = cartopy.crs.Orthographic(
-                central_longitude = point1.x,
-                 central_latitude = point1.y,
-            ),
-        )
+        # Check if a NearsidePerspective axis can be used ...
+        if not globalFieldOfView and satellite_height:
+            # Create NearsidePerspective axis ...
+            ax = fg.add_subplot(
+                projection = cartopy.crs.NearsidePerspective(
+                    central_longitude = point1.x,
+                     central_latitude = point1.y,
+                     satellite_height = alt,
+                ),
+            )
+        else:
+            # Create Orthographic axis ...
+            ax = fg.add_subplot(
+                projection = cartopy.crs.Orthographic(
+                    central_longitude = point1.x,
+                     central_latitude = point1.y,
+                ),
+            )
 
     # Check if the field-of-view is too large ...
-    if dist > 0.25 * CIRCUMFERENCE_OF_EARTH:
+    if globalFieldOfView:
         # Configure axis ...
         ax.set_global()
-    else:
+    elif not satellite_height:
         # Buffer the Point ...
         polygon1 = buffer(
             point1,
@@ -328,7 +375,12 @@ def _add_topDown_axis(
             dtype = numpy.float64,
         ).mean()                                                                # [?]
         polygon2 = point2.buffer(radius2 * 0.99999, quad_segs = (61 - 1) // 4)
-        polygon2 = clean(polygon2)
+        polygon2 = clean(
+            polygon2,
+             debug = debug,
+            prefix = prefix,
+               tol = tol,
+        )
 
         # Convert the exterior ring of the Polygon to a Path ...
         path = matplotlib.path.Path(polygon2.exterior.coords)
