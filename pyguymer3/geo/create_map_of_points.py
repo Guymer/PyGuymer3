@@ -126,7 +126,9 @@ def create_map_of_points(
     from .add_map_background import add_map_background
     from .add_NE_map_underlay import add_NE_map_underlay
     from .add_OSM_map_background import add_OSM_map_background
+    from .extract_lines import extract_lines
     from .find_middle_of_locs import find_middle_of_locs
+    from .great_circle import great_circle
     from ..consts import RESOLUTION_OF_EARTH
     from ..image import optimize_image
 
@@ -273,23 +275,43 @@ def create_map_of_points(
     # NOTE: As of 5/Dec/2023, the default "zorder" of the coastlines is 1.5, the
     #       default "zorder" of the gridlines is 2.0 and the default "zorder" of
     #       the scattered points is 1.0.
-    ax.plot(
-        lons,
-        lats,
-            color = (1.0, 0.0, 0.0, 0.5),
-        linewidth = 1.0,
-        transform = cartopy.crs.Geodetic(),
-    )
     ax.scatter(
         lons,
         lats,
-             color = (1.0, 0.0, 0.0, 0.5),
-        edgecolors = (1.0, 0.0, 0.0, 1.0),
-         linewidth = 0.1,
-                 s = 64.0,
-         transform = cartopy.crs.Geodetic(),
-            zorder = 5.0,
+        facecolor = (1.0, 0.0, 0.0, 0.5),
+        edgecolor = (1.0, 0.0, 0.0, 1.0),
+        linewidth = 0.1,
+                s = 64.0,
+        transform = cartopy.crs.Geodetic(),
+           zorder = 5.0,
     )
+
+    # Loop over locations ...
+    for i in range(lons.size - 1):
+        # Find the great circle ...
+        circle = great_circle(
+            lons[i],
+            lats[i],
+            lons[i + 1],
+            lats[i + 1],
+               debug = debug,
+                 eps = eps,
+             maxdist = 12.0 * 1852.0,
+                nMax = nMax,
+              npoint = None,
+              prefix = prefix,
+            ramLimit = ramLimit,
+        )
+
+        # Draw the great circle ...
+        ax.add_geometries(
+            extract_lines(circle),
+            cartopy.crs.PlateCarree(),
+            edgecolor = (1.0, 0.0, 0.0, 0.5),
+            facecolor = "none",
+            linewidth = 1.0,
+               zorder = 5.0,
+        )
 
     # Configure axis ...
     if title is not None:
