@@ -7,6 +7,7 @@ def optimize_image(
     *,
     chunksize = 1048576,
         debug = False,
+         pool = None,
         strip = False,
       timeout = 60.0,
 ):
@@ -18,6 +19,8 @@ def optimize_image(
     """
 
     # Import standard modules ...
+    import multiprocessing
+    import multiprocessing.pool
     import os
 
     # Import sub-functions ...
@@ -52,14 +55,15 @@ def optimize_image(
         case ".png":
             optipng(
                 fname,
+                   pool = pool,
                 timeout = timeout,
             )
         case _:
             # Crash ...
             raise ValueError(f"\"ext.lower()\" is an unexpected value ({repr(ext.lower())})") from None
 
-    # Strip metadata ...
-    if strip:
+    # Strip metadata synchronously ...
+    if strip and not isinstance(pool, multiprocessing.pool.Pool):
         exiftool(
             fname,
             timeout = timeout,
