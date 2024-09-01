@@ -374,7 +374,7 @@ def _add_topDown_axis(
             ],
             dtype = numpy.float64,
         ).mean()                                                                # [?]
-        polygon2 = point2.buffer(radius2 * 0.99999, quad_segs = (61 - 1) // 4)
+        polygon2 = point2.buffer(radius2 * 0.99999)
         polygon2 = clean(
             polygon2,
              debug = debug,
