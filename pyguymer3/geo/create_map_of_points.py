@@ -134,82 +134,108 @@ def create_map_of_points(
 
     # **************************************************************************
 
-    # Calculate the padding distance ...
-    padDist = 12.0 * 1852.0                                                     # [m]
-
-    # If the user asked for a Euclidean method then the padding distance needs
-    # converting from metres in to degrees ...
-    match method:
-        case "EuclideanBox" | "EuclideanCircle":
-            padDist /= RESOLUTION_OF_EARTH                                      # [°]
-        case "GeodesicBox" | "GeodesicCircle":
-            pass
-        case _:
-            # Crash ...
-            raise ValueError(f"\"method\" is an unexpected value ({repr(method)})") from None
-
-    # Find the centre of the points ...
-    midLon, midLat, maxDist = find_middle_of_locs(
-        lons,
-        lats,
-          conv = conv,
-         debug = debug,
-           eps = eps,
-        method = method,
-         nIter = nIter,
-          nMax = nMax,
-           pad = padDist,
-    )                                                                           # [°], [°], [°] or [m]
-
-    # Check what method the user wants ...
-    match method:
-        case "EuclideanBox" | "EuclideanCircle":
-            if debug:
-                print(f"INFO: Centre at (lon={midLon:+.6f}°, lat={midLat:+.6f}°) with a {maxDist:.6f}° radius.")
-        case "GeodesicBox" | "GeodesicCircle":
-            if debug:
-                print(f"INFO: Centre at (lon={midLon:+.6f}°, lat={midLat:+.6f}°) with a {0.001 * maxDist:,.1f} km radius.")
-        case _:
-            # Crash ...
-            raise ValueError(f"\"method\" is an unexpected value ({repr(method)})") from None
-
-    # If the user asked for a Euclidean method then the maximum distance needs
-    # converting from degrees in to metres ...
-    match method:
-        case "EuclideanBox" | "EuclideanCircle":
-            maxDist *= RESOLUTION_OF_EARTH                                      # [m]
-            if debug:
-                print(f"INFO: Centre at (lon={midLon:+.6f}°, lat={midLat:+.6f}°) with a {0.001 * maxDist:,.1f} km radius.")
-        case "GeodesicBox" | "GeodesicCircle":
-            pass
-        case _:
-            # Crash ...
-            raise ValueError(f"\"method\" is an unexpected value ({repr(method)})") from None
-
-    # **************************************************************************
-
     # Create figure ...
     fg = matplotlib.pyplot.figure(figsize = (7.2, 7.2))
 
-    # Create axis ...
-    ax = add_axis(
-        fg,
-          add_coastlines = False,
-           add_gridlines = True,
-          configureAgain = bool(background == "OSM"),
-                   debug = debug,
-                    dist = maxDist,
-                     eps = eps,
-                     lat = midLat,
-                     lon = midLon,
-                    nMax = nMax,
-               onlyValid = onlyValid,
-                  prefix = prefix,
-                ramLimit = ramLimit,
-                  repair = repair,
-        satellite_height = satellite_height,
-                     tol = tol,
-    )
+    # **************************************************************************
+
+    # Find the centre of the points very quickly ...
+    _, _, maxDistQuick = find_middle_of_locs(
+        lons,
+        lats,
+         debug = debug,
+           eps = eps,
+        method = "EuclideanBox",
+          nMax = nMax,
+           pad = -1.0,
+    )                                                                           # [°]
+
+    # Check if the points are so widely spread that the map has to have global
+    # extent to show them all ...
+    if maxDistQuick > 90.0:
+        # Create axis ...
+        ax = add_axis(
+            fg,
+            add_coastlines = False,
+             add_gridlines = True,
+                     debug = debug,
+                 onlyValid = onlyValid,
+                    repair = repair,
+        )
+    else:
+        # Calculate the padding distance ...
+        padDist = 12.0 * 1852.0                                                 # [m]
+
+        # If the user asked for a Euclidean method then the padding distance
+        # needs converting from metres in to degrees ...
+        match method:
+            case "EuclideanBox" | "EuclideanCircle":
+                padDist /= RESOLUTION_OF_EARTH                                  # [°]
+            case "GeodesicBox" | "GeodesicCircle":
+                pass
+            case _:
+                # Crash ...
+                raise ValueError(f"\"method\" is an unexpected value ({repr(method)})") from None
+
+        # Find the centre of the points ...
+        midLon, midLat, maxDist = find_middle_of_locs(
+            lons,
+            lats,
+              conv = conv,
+             debug = debug,
+               eps = eps,
+            method = method,
+             nIter = nIter,
+              nMax = nMax,
+               pad = padDist,
+        )                                                                       # [°], [°], [°] or [m]
+
+        # Check what method the user wants ...
+        match method:
+            case "EuclideanBox" | "EuclideanCircle":
+                if debug:
+                    print(f"INFO: Centre at (lon={midLon:+.6f}°, lat={midLat:+.6f}°) with a {maxDist:.6f}° radius.")
+            case "GeodesicBox" | "GeodesicCircle":
+                if debug:
+                    print(f"INFO: Centre at (lon={midLon:+.6f}°, lat={midLat:+.6f}°) with a {0.001 * maxDist:,.1f} km radius.")
+            case _:
+                # Crash ...
+                raise ValueError(f"\"method\" is an unexpected value ({repr(method)})") from None
+
+        # If the user asked for a Euclidean method then the maximum distance
+        # needs converting from degrees in to metres ...
+        match method:
+            case "EuclideanBox" | "EuclideanCircle":
+                maxDist *= RESOLUTION_OF_EARTH                                  # [m]
+                if debug:
+                    print(f"INFO: Centre at (lon={midLon:+.6f}°, lat={midLat:+.6f}°) with a {0.001 * maxDist:,.1f} km radius.")
+            case "GeodesicBox" | "GeodesicCircle":
+                pass
+            case _:
+                # Crash ...
+                raise ValueError(f"\"method\" is an unexpected value ({repr(method)})") from None
+
+        # Create axis ...
+        ax = add_axis(
+            fg,
+              add_coastlines = False,
+               add_gridlines = True,
+              configureAgain = bool(background == "OSM"),
+                       debug = debug,
+                        dist = maxDist,
+                         eps = eps,
+                         lat = midLat,
+                         lon = midLon,
+                        nMax = nMax,
+                   onlyValid = onlyValid,
+                      prefix = prefix,
+                    ramLimit = ramLimit,
+                      repair = repair,
+            satellite_height = satellite_height,
+                         tol = tol,
+        )
+
+    # **************************************************************************
 
     # Check which background the user wants ...
     match background:
