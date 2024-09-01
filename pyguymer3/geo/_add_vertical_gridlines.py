@@ -68,12 +68,9 @@ def _add_vertical_gridlines(
     except:
         raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
 
-    # Create short-hand ...
-    ext = ax.get_extent(crs = cartopy.crs.PlateCarree())                        # [°]
-
     # Determine x-locations depending on inputs ...
     if ngrid > 1:
-        xlocs = numpy.linspace(ext[0], ext[1], num = ngrid)                     # [°]
+        xlocs = numpy.linspace(-180.0, +180.0, num = ngrid)                     # [°]
     elif locs is not None:
         xlocs = numpy.array(locs)                                               # [°]
     else:
@@ -84,7 +81,7 @@ def _add_vertical_gridlines(
         # Add gridline to axis ...
         ax.plot(
             xloc * numpy.ones(npoint),
-            numpy.linspace(ext[2], ext[3], num = npoint),
+            numpy.linspace(-90.0, +90.0, num = npoint),
                 color = color,
             linestyle = linestyle,
             linewidth = linewidth,

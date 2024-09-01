@@ -68,12 +68,9 @@ def _add_horizontal_gridlines(
     except:
         raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
 
-    # Create short-hand ...
-    ext = ax.get_extent(crs = cartopy.crs.PlateCarree())                        # [°]
-
     # Determine y-locations depending on inputs ...
     if ngrid > 1:
-        ylocs = numpy.linspace(ext[2], ext[3], num = ngrid)                     # [°]
+        ylocs = numpy.linspace(-90.0, +90.0, num = ngrid)                       # [°]
     elif locs is not None:
         ylocs = numpy.array(locs)                                               # [°]
     else:
@@ -83,7 +80,7 @@ def _add_horizontal_gridlines(
     for yloc in ylocs:
         # Add gridline to axis ...
         ax.plot(
-            numpy.linspace(ext[0], ext[1], num = npoint),
+            numpy.linspace(-180.0, +180.0, num = npoint),
             yloc * numpy.ones(npoint),
                 color = color,
             linestyle = linestyle,
