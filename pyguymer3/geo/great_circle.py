@@ -104,6 +104,10 @@ def great_circle(
 
     # **************************************************************************
 
+    # Skip if the start- and end-points are the same ...
+    if lon1 == lon2 and lat1 == lat2:
+        return None
+
     # Check if the user wants to make the great circle using either "maxdist" or
     # "npoints" ...
     if isinstance(maxdist, float):
