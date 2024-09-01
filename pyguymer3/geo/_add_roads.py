@@ -100,6 +100,10 @@ def _add_roads(
 
         # Loop over records ...
         for record in cartopy.io.shapereader.Reader(sfile).records():
+            # Skip bad records ...
+            if not hasattr(record, "geometry"):
+                continue
+
             # Plot geometry ...
             ax.add_geometries(
                 extract_lines(record.geometry, onlyValid = onlyValid),

@@ -89,6 +89,10 @@ def _add_antarcticIceShelves(
 
     # Loop over records ...
     for record in cartopy.io.shapereader.Reader(sfile).records():
+        # Skip bad records ...
+        if not hasattr(record, "geometry"):
+            continue
+
         # Plot geometry ...
         ax.add_geometries(
             extract_polys(record.geometry, onlyValid = onlyValid, repair = repair),

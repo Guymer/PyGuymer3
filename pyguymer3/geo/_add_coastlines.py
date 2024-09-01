@@ -141,6 +141,10 @@ def _add_coastlines(
 
         # Loop over records ...
         for record in cartopy.io.shapereader.Reader(sfile).records():
+            # Skip bad records ...
+            if not hasattr(record, "geometry"):
+                continue
+
             # Add Polygons to the list ...
             polys += extract_polys(record.geometry, onlyValid = onlyValid, repair = repair)
 
