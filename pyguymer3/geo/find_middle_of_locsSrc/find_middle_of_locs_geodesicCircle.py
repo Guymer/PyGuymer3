@@ -273,7 +273,7 @@ def find_middle_of_locs_geodesicCircle(
             raise Exception(f"failed to converge; the middle is currently ({midLon:.6f}°, {midLat:.6f}°); nIter = {nIter:d}") from None
 
         if debug:
-            print(f"INFO: #{iIter + 1:,d}: Moving middle {0.001 * conv:,.1f} km {bear:.1f}° ...")
+            print(f"INFO: #{iIter + 1:,d}: Moving middle {0.001 * conv:,.1f} km towards {bear:.1f}° ...")
 
         # Update the middle location ...
         midLon, midLat, _ = calc_loc_from_loc_and_bearing_and_dist(

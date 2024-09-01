@@ -131,7 +131,7 @@ def find_middle_of_locs_geodesicBox(
         # Check if the middle needs moving west/east ...
         if 0.5 * (maxWestDist - maxEastDist) > conv:
             if debug:
-                print(f"INFO: #{iIter + 1:,d}: Moving middle {0.001 * 0.5 * (maxWestDist - maxEastDist):,.1f} km west ...")
+                print(f"INFO: #{iIter + 1:,d}: Moving middle {0.001 * 0.5 * (maxWestDist - maxEastDist):,.1f} km towards the west ...")
             midLon, midLat, _ = calc_loc_from_loc_and_bearing_and_dist(
                 midLon,
                 midLat,
@@ -145,7 +145,7 @@ def find_middle_of_locs_geodesicBox(
             moved = True
         elif 0.5 * (maxEastDist - maxWestDist) > conv:
             if debug:
-                print(f"INFO: #{iIter + 1:,d}: Moving middle {0.001 * 0.5 * (maxEastDist - maxWestDist):,.1f} km east ...")
+                print(f"INFO: #{iIter + 1:,d}: Moving middle {0.001 * 0.5 * (maxEastDist - maxWestDist):,.1f} km towards the east ...")
             midLon, midLat, _ = calc_loc_from_loc_and_bearing_and_dist(
                 midLon,
                 midLat,
@@ -163,7 +163,7 @@ def find_middle_of_locs_geodesicBox(
         # Check if the middle needs moving south/north ...
         if 0.5 * (maxSouthDist - maxNorthDist) > conv:
             if debug:
-                print(f"INFO: #{iIter + 1:,d}: Moving middle {0.001 * 0.5 * (maxSouthDist - maxNorthDist):,.1f} km south ...")
+                print(f"INFO: #{iIter + 1:,d}: Moving middle {0.001 * 0.5 * (maxSouthDist - maxNorthDist):,.1f} km towards the south ...")
             midLon, midLat, _ = calc_loc_from_loc_and_bearing_and_dist(
                 midLon,
                 midLat,
@@ -177,7 +177,7 @@ def find_middle_of_locs_geodesicBox(
             moved = True
         elif 0.5 * (maxNorthDist - maxSouthDist) > conv:
             if debug:
-                print(f"INFO: #{iIter + 1:,d}: Moving middle {0.001 * 0.5 * (maxNorthDist - maxSouthDist):,.1f} km north ...")
+                print(f"INFO: #{iIter + 1:,d}: Moving middle {0.001 * 0.5 * (maxNorthDist - maxSouthDist):,.1f} km towards the north ...")
             midLon, midLat, _ = calc_loc_from_loc_and_bearing_and_dist(
                 midLon,
                 midLat,

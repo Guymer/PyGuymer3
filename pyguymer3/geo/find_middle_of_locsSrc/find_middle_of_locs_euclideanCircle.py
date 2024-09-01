@@ -219,7 +219,7 @@ def find_middle_of_locs_euclideanCircle(
             raise Exception(f"failed to converge; the middle is currently ({midLon:.6f}°, {midLat:.6f}°); nIter = {nIter:d}") from None
 
         if debug:
-            print(f"INFO: #{iIter + 1:,d}: Moving middle {conv:.6f}° {bear:.1f}° ...")
+            print(f"INFO: #{iIter + 1:,d}: Moving middle {conv:.6f}° towards {bear:.1f}° ...")
 
         # Update the middle location ...
         midLon += conv * numpy.sin(numpy.radians(bear))                         # [°]
