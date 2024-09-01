@@ -286,7 +286,7 @@ def find_middle_of_locs_geodesicCircle(
         )                                                                       # [°], [°]
 
         if debug:
-            print(f"INFO: #{iIter + 1:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°).")
+            print(f"INFO: #{iIter + 1:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°) and the guess of the final location is ({pntGuess[0]:.6f}°, {pntGuess[1]:.6f}°).")
 
     # Find the maximum Geodesic distance from the middle to any location ...
     maxDist = max_dist(
