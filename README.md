@@ -16,6 +16,7 @@ PyGuymer3 requires the following Python modules to be installed and available in
 * [numpy](https://pypi.org/project/numpy/)
 * [PIL](https://pypi.org/project/Pillow/)
 * [requests](https://pypi.org/project/requests/)
+* [scipy](https://pypi.org/project/scipy/)
 * [shapely](https://pypi.org/project/Shapely/)
 * [sphinx](https://pypi.org/project/Sphinx/)
     * [sphinx_fortran](https://pypi.org/project/sphinx-fortran/)
