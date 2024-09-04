@@ -55,208 +55,91 @@ def find_middle_of_locs_geodesicCircle(
 
     # Loop over iterations ...
     for iIter in range(nIter):
-        # Create short-hand ...
-        pntC = (midLon, midLat)                                                 # [°], [°]
-
-        # Find points North/South/East/West of the central point ...
-        pntN = calc_loc_from_loc_and_bearing_and_dist(
-            pntC[0],
-            pntC[1],
-            0.0,
-            conv,
-             eps = eps,
-            nMax = nMax,
-        )[:2]                                                                   # [°], [°]
-        pntNN = calc_loc_from_loc_and_bearing_and_dist(
-            pntC[0],
-            pntC[1],
-            0.0,
-            2.0 * conv,
-             eps = eps,
-            nMax = nMax,
-        )[:2]                                                                   # [°], [°]
-        pntE = calc_loc_from_loc_and_bearing_and_dist(
-            pntC[0],
-            pntC[1],
-            90.0,
-            conv,
-             eps = eps,
-            nMax = nMax,
-        )[:2]                                                                   # [°], [°]
-        pntEE = calc_loc_from_loc_and_bearing_and_dist(
-            pntC[0],
-            pntC[1],
-            90.0,
-            2.0 * conv,
-             eps = eps,
-            nMax = nMax,
-        )[:2]                                                                   # [°], [°]
-        pntS = calc_loc_from_loc_and_bearing_and_dist(
-            pntC[0],
-            pntC[1],
-            180.0,
-            conv,
-             eps = eps,
-            nMax = nMax,
-        )[:2]                                                                   # [°], [°]
-        pntSS = calc_loc_from_loc_and_bearing_and_dist(
-            pntC[0],
-            pntC[1],
-            180.0,
-            2.0 * conv,
-             eps = eps,
-            nMax = nMax,
-        )[:2]                                                                   # [°], [°]
-        pntW = calc_loc_from_loc_and_bearing_and_dist(
-            pntC[0],
-            pntC[1],
-            270.0,
-            conv,
-             eps = eps,
-            nMax = nMax,
-        )[:2]                                                                   # [°], [°]
-        pntWW = calc_loc_from_loc_and_bearing_and_dist(
-            pntC[0],
-            pntC[1],
-            270.0,
-            2.0 * conv,
-             eps = eps,
-            nMax = nMax,
-        )[:2]                                                               # [°], [°]
-
-        # Find the maximum Geodesic distance from the points to any location ...
-        distC = max_dist(
-            lons,
-            lats,
-            pntC[0],
-            pntC[1],
-              eps = eps,
-             nMax = nMax,
-            space = "GeodesicSpace",
-        )                                                                       # [m]
-        distN = max_dist(
-            lons,
-            lats,
-            pntN[0],
-            pntN[1],
-              eps = eps,
-             nMax = nMax,
-            space = "GeodesicSpace",
-        )                                                                       # [m]
-        distNN = max_dist(
-            lons,
-            lats,
-            pntNN[0],
-            pntNN[1],
-              eps = eps,
-             nMax = nMax,
-            space = "GeodesicSpace",
-        )                                                                       # [m]
-        distE = max_dist(
-            lons,
-            lats,
-            pntE[0],
-            pntE[1],
-              eps = eps,
-             nMax = nMax,
-            space = "GeodesicSpace",
-        )                                                                       # [m]
-        distEE = max_dist(
-            lons,
-            lats,
-            pntEE[0],
-            pntEE[1],
-              eps = eps,
-             nMax = nMax,
-            space = "GeodesicSpace",
-        )                                                                       # [m]
-        distS = max_dist(
-            lons,
-            lats,
-            pntS[0],
-            pntS[1],
-              eps = eps,
-             nMax = nMax,
-            space = "GeodesicSpace",
-        )                                                                       # [m]
-        distSS = max_dist(
-            lons,
-            lats,
-            pntSS[0],
-            pntSS[1],
-              eps = eps,
-             nMax = nMax,
-            space = "GeodesicSpace",
-        )                                                                       # [m]
-        distW = max_dist(
-            lons,
-            lats,
-            pntW[0],
-            pntW[1],
-              eps = eps,
-             nMax = nMax,
-            space = "GeodesicSpace",
-        )                                                                       # [m]
-        distWW = max_dist(
-            lons,
-            lats,
-            pntWW[0],
-            pntWW[1],
-              eps = eps,
-             nMax = nMax,
-            space = "GeodesicSpace",
-        )                                                                       # [m]
-
-        # Fit Polynomials (degree 2) to the South/North line and the West/East
-        # line ...
+        # Create points South/North of the central point, find the maximum
+        # Geodesic distance from each point to any location and fit a polynomial
+        # (degree 2) to the data ...
+        pnts = []                                                               # [°], [°]
+        for iPoint in range(-12, 13):
+            pnts.append(
+                calc_loc_from_loc_and_bearing_and_dist(
+                    midLon,
+                    midLat,
+                    0.0,
+                    0.25 * float(iPoint) * conv,
+                     eps = eps,
+                    nMax = nMax,
+                )[:2]
+            )                                                                   # [°], [°]
+        dists = []                                                              # [m]
+        for pnt in pnts:
+            dists.append(
+                max_dist(
+                    lons,
+                    lats,
+                    pnt[0],
+                    pnt[1],
+                      eps = eps,
+                     nMax = nMax,
+                    space = "GeodesicSpace",
+                )
+            )                                                                   # [m]
         eqnSN = numpy.polynomial.Polynomial.fit(
-            [
-                pntSS[1],
-                pntS[1],
-                pntC[1],
-                pntN[1],
-                pntNN[1],
-            ],
-            [
-                distSS,
-                distS,
-                distC,
-                distN,
-                distNN,
-            ],
+            [pnt[1] for pnt in pnts],
+            dists,
                deg = 2,
             domain = [-90.0, +90.0],
             symbol = "y",
         )
+
+        # Create points West/East of the central point, find the maximum
+        # Geodesic distance from each point to any location and fit a polynomial
+        # (degree 2) to the data ...
+        pnts = []                                                               # [°], [°]
+        for iPoint in range(-12, 13):
+            pnts.append(
+                calc_loc_from_loc_and_bearing_and_dist(
+                    midLon,
+                    midLat,
+                    90.0,
+                    0.25 * float(iPoint) * conv,
+                     eps = eps,
+                    nMax = nMax,
+                )[:2]
+            )                                                                   # [°], [°]
+        dists = []                                                              # [m]
+        for pnt in pnts:
+            dists.append(
+                max_dist(
+                    lons,
+                    lats,
+                    pnt[0],
+                    pnt[1],
+                      eps = eps,
+                     nMax = nMax,
+                    space = "GeodesicSpace",
+                )
+            )                                                                   # [m]
         eqnWE = numpy.polynomial.Polynomial.fit(
-            [
-                pntWW[0],
-                pntW[0],
-                pntC[0],
-                pntE[0],
-                pntEE[0],
-            ],
-            [
-                distWW,
-                distW,
-                distC,
-                distE,
-                distEE,
-            ],
+            [pnt[0] for pnt in pnts],
+            dists,
                deg = 2,
             domain = [-180.0, +180.0],
             symbol = "x",
         )
 
-        # Find the roots of the two Polynomials and use them to guess where the
-        # local minimum is ...
-        pntGuess = (eqnWE.deriv().roots()[0], eqnSN.deriv().roots()[0])         # [°], [°]
+        # Find the roots of the two polynomials and use them to guess where the
+        # local minimum is (note that the roots are not clipped to be in the
+        # domain, so I must do that myself) ...
+        pntGuess = (
+            max(-180.0, min(180.0, eqnWE.deriv().roots()[0])),
+            max( -90.0, min( 90.0, eqnSN.deriv().roots()[0])),
+        )                                                                       # [°], [°]
 
         # Calculate the Geodesic distance and Geodesic bearing to the guess of
         # the local minimum ...
         dist, bear, _ = calc_dist_between_two_locs(
-            pntC[0],
-            pntC[1],
+            midLon,
+            midLat,
             pntGuess[0],
             pntGuess[1],
              eps = eps,
@@ -277,30 +160,27 @@ def find_middle_of_locs_geodesicCircle(
 
         # Update the middle location ...
         midLon, midLat, _ = calc_loc_from_loc_and_bearing_and_dist(
-            pntC[0],
-            pntC[1],
+            midLon,
+            midLat,
             bear,
             conv,
              eps = eps,
             nMax = nMax,
         )                                                                       # [°], [°]
 
+        # Find the maximum Geodesic distance from the middle to any location ...
+        maxDist = max_dist(
+            lons,
+            lats,
+            midLon,
+            midLat,
+              eps = eps,
+             nMax = nMax,
+            space = "GeodesicSpace",
+        )                                                                       # [m]
+
         if debug:
-            print(f"INFO: #{iIter + 1:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°) and the guess of the final location is ({pntGuess[0]:.6f}°, {pntGuess[1]:.6f}°).")
-
-    # Find the maximum Geodesic distance from the middle to any location ...
-    maxDist = max_dist(
-        lons,
-        lats,
-        midLon,
-        midLat,
-          eps = eps,
-         nMax = nMax,
-        space = "GeodesicSpace",
-    )                                                                           # [m]
-
-    if debug:
-        print(f"INFO: Maximum Geodesic distance is {0.001 * maxDist:,.1f} km.")
+            print(f"INFO: #{iIter + 1:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°), the maximum Geodesic distance is {0.001 * maxDist:,.1f} km and the guess of the final location is ({pntGuess[0]:.6f}°, {pntGuess[1]:.6f}°).")
 
     # **************************************************************************
 
