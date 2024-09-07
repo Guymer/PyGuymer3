@@ -6,13 +6,14 @@ def find_middle_of_locs(
     lats,
     /,
     *,
-      conv = 1.0e3,
-     debug = False,
-       eps = 1.0e-12,
-    method = "GeodesicBox",
-     nIter = 10,
-      nMax = 100,
-       pad = 10.0e3,
+        conv = 1.0e3,
+       debug = False,
+         eps = 1.0e-12,
+      method = "GeodesicBox",
+       nIter = 10,
+        nMax = 100,
+         pad = 10.0e3,
+    useSciPy = True,
 ):
     """Find the middle of some locations
 
@@ -81,6 +82,10 @@ def find_middle_of_locs(
         raise TypeError("\"lons\" is not a NumPy array") from None
     if not isinstance(lats, numpy.ndarray):
         raise TypeError("\"lats\" is not a NumPy array") from None
+    if lons.size == 1:
+        if pad > 0.0:
+            return lons[0], lats[0], pad
+        return lons[0], lats[0], 0.0
 
     # **************************************************************************
 
@@ -125,12 +130,13 @@ def find_middle_of_locs(
             return find_middle_of_locs_geodesicCircle(
                 lons,
                 lats,
-                 conv = conv,
-                debug = debug,
-                  eps = eps,
-                nIter = nIter,
-                 nMax = nMax,
-                  pad = pad,
+                    conv = conv,
+                   debug = debug,
+                     eps = eps,
+                   nIter = nIter,
+                    nMax = nMax,
+                     pad = pad,
+                useSciPy = useSciPy,
             )
         case _:
             # Crash ...
