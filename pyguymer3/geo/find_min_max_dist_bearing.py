@@ -8,6 +8,7 @@ def find_min_max_dist_bearing(
     lats,
     /,
     *,
+         angConv = 0.1,
     angHalfRange = 180.0,
            debug = False,
             dist = 1000.0,
@@ -35,6 +36,8 @@ def find_min_max_dist_bearing(
         the longitudes (in degrees)
     lats : numpy.ndarray
         the latitudes (in degrees)
+    angConv : float, optional
+        the angle change which classifies as converged
     angHalfRange : float, optional
         the angle either side of the starting angle to search over (in degrees)
     debug : bool, optional
@@ -97,7 +100,7 @@ def find_min_max_dist_bearing(
     # **************************************************************************
 
     if debug:
-        print(f"INFO: #{iIter + 1:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°), the minimum maximum distance bearing is now {startAng:.6f}°.")
+        print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°) and the minimum maximum distance bearing is now {startAng:.6f}°.")
 
     # **************************************************************************
 
@@ -196,6 +199,12 @@ def find_min_max_dist_bearing(
         deg = 2,
     )
     bestAng = eqn.deriv().roots()[0]                                            # [°]
+
+    # Check if the answer is converged ...
+    if abs(startAng - bestAng) <= angConv:
+        if debug:
+            print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: The middle is ({midLon:.6f}°, {midLat:.6f}°) and the minimum maximum distance bearing is {startAng:.6f}°.")
+        return bestAng
 
     # Return answer ...
     return find_min_max_dist_bearing(

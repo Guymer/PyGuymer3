@@ -122,8 +122,8 @@ def find_middle_of_locs_geodesicBox(
                 pass
 
         if debug:
-            print(f"INFO: #{iIter + 1:,d}: {0.001 * maxWestDist:,.1f} km west ← middle → {0.001 * maxEastDist:,.1f} km east.")
-            print(f"INFO: #{iIter + 1:,d}: {0.001 * maxSouthDist:,.1f} km south ↓ middle ↑ {0.001 * maxNorthDist:,.1f} km north.")
+            print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: {0.001 * maxWestDist:,.1f} km west ← middle → {0.001 * maxEastDist:,.1f} km east.")
+            print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: {0.001 * maxSouthDist:,.1f} km south ↓ middle ↑ {0.001 * maxNorthDist:,.1f} km north.")
 
         # Initialize flag ...
         moved = False
@@ -131,7 +131,7 @@ def find_middle_of_locs_geodesicBox(
         # Check if the middle needs moving west/east ...
         if 0.5 * (maxWestDist - maxEastDist) > conv:
             if debug:
-                print(f"INFO: #{iIter + 1:,d}: Moving middle {0.001 * 0.5 * (maxWestDist - maxEastDist):,.1f} km towards the west ...")
+                print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: Moving middle {0.001 * 0.5 * (maxWestDist - maxEastDist):,.1f} km towards the west ...")
             midLon, midLat, _ = calc_loc_from_loc_and_bearing_and_dist(
                 midLon,
                 midLat,
@@ -141,11 +141,11 @@ def find_middle_of_locs_geodesicBox(
                 nMax = nMax,
             )                                                                   # [°], [°]
             if debug:
-                print(f"INFO: #{iIter + 1:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°).")
+                print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°).")
             moved = True
         elif 0.5 * (maxEastDist - maxWestDist) > conv:
             if debug:
-                print(f"INFO: #{iIter + 1:,d}: Moving middle {0.001 * 0.5 * (maxEastDist - maxWestDist):,.1f} km towards the east ...")
+                print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: Moving middle {0.001 * 0.5 * (maxEastDist - maxWestDist):,.1f} km towards the east ...")
             midLon, midLat, _ = calc_loc_from_loc_and_bearing_and_dist(
                 midLon,
                 midLat,
@@ -155,7 +155,7 @@ def find_middle_of_locs_geodesicBox(
                 nMax = nMax,
             )                                                                   # [°], [°]
             if debug:
-                print(f"INFO: #{iIter + 1:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°).")
+                print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°).")
             moved = True
         else:
             pass
@@ -163,7 +163,7 @@ def find_middle_of_locs_geodesicBox(
         # Check if the middle needs moving south/north ...
         if 0.5 * (maxSouthDist - maxNorthDist) > conv:
             if debug:
-                print(f"INFO: #{iIter + 1:,d}: Moving middle {0.001 * 0.5 * (maxSouthDist - maxNorthDist):,.1f} km towards the south ...")
+                print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: Moving middle {0.001 * 0.5 * (maxSouthDist - maxNorthDist):,.1f} km towards the south ...")
             midLon, midLat, _ = calc_loc_from_loc_and_bearing_and_dist(
                 midLon,
                 midLat,
@@ -173,11 +173,11 @@ def find_middle_of_locs_geodesicBox(
                 nMax = nMax,
             )                                                                   # [°], [°]
             if debug:
-                print(f"INFO: #{iIter + 1:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°).")
+                print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°).")
             moved = True
         elif 0.5 * (maxNorthDist - maxSouthDist) > conv:
             if debug:
-                print(f"INFO: #{iIter + 1:,d}: Moving middle {0.001 * 0.5 * (maxNorthDist - maxSouthDist):,.1f} km towards the north ...")
+                print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: Moving middle {0.001 * 0.5 * (maxNorthDist - maxSouthDist):,.1f} km towards the north ...")
             midLon, midLat, _ = calc_loc_from_loc_and_bearing_and_dist(
                 midLon,
                 midLat,
@@ -187,7 +187,7 @@ def find_middle_of_locs_geodesicBox(
                 nMax = nMax,
             )                                                                   # [°], [°]
             if debug:
-                print(f"INFO: #{iIter + 1:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°).")
+                print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°).")
             moved = True
         else:
             pass
@@ -199,7 +199,7 @@ def find_middle_of_locs_geodesicBox(
         # Stop if the end of the loop has been reached but the answer has not
         # converged ...
         if iIter == nIter - 1:
-            raise Exception(f"failed to converge; the middle is currently ({midLon:.6f}°, {midLat:.6f}°); nIter = {nIter:d}") from None
+            raise Exception(f"failed to converge; the middle is currently ({midLon:.6f}°, {midLat:.6f}°); nIter = {nIter:,d}") from None
 
     # Find the maximum Geodesic distance from the middle to any location ...
     maxDist = max_dist(

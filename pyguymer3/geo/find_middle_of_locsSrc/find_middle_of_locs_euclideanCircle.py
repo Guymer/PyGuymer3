@@ -216,17 +216,17 @@ def find_middle_of_locs_euclideanCircle(
         # Stop if the end of the loop has been reached but the answer has not
         # converged ...
         if iIter == nIter - 1:
-            raise Exception(f"failed to converge; the middle is currently ({midLon:.6f}°, {midLat:.6f}°); nIter = {nIter:d}") from None
+            raise Exception(f"failed to converge; the middle is currently ({midLon:.6f}°, {midLat:.6f}°); nIter = {nIter:,d}") from None
 
         if debug:
-            print(f"INFO: #{iIter + 1:,d}: Moving middle {conv:.6f}° towards {bear:.1f}° ...")
+            print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: Moving middle {conv:.6f}° towards {bear:.1f}° ...")
 
         # Update the middle location ...
         midLon += conv * numpy.sin(numpy.radians(bear))                         # [°]
         midLat += conv * numpy.cos(numpy.radians(bear))                         # [°]
 
         if debug:
-            print(f"INFO: #{iIter + 1:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°).")
+            print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°).")
 
     # Find the maximum Euclidean distance from the middle to any location ...
     maxDist = max_dist(

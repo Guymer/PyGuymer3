@@ -32,6 +32,7 @@ def find_middle_of_locs_geodesicCircle(
     from .find_middle_of_locs_euclideanBox import find_middle_of_locs_euclideanBox
     from ..calc_dist_between_two_locs import calc_dist_between_two_locs
     from ..calc_loc_from_loc_and_bearing_and_dist import calc_loc_from_loc_and_bearing_and_dist
+    from ..find_min_max_dist_bearing import find_min_max_dist_bearing
     from ..max_dist import max_dist
     from ...consts import RESOLUTION_OF_EARTH
 
@@ -125,132 +126,61 @@ def find_middle_of_locs_geodesicCircle(
     else:
         # Loop over iterations ...
         for iIter in range(nIter):
-            # Create points South/North of the central point, find the maximum
-            # Geodesic distance from each point to any location and fit a
-            # polynomial (degree 2) to the data ...
-            pnts = []                                                           # [°], [°]
-            for iPoint in range(-12, 13):
-                pnts.append(
-                    calc_loc_from_loc_and_bearing_and_dist(
-                        midLon,
-                        midLat,
-                        0.0,
-                        0.25 * float(iPoint) * conv,
-                         eps = eps,
-                        nMax = nMax,
-                    )[:2]
-                )                                                               # [°], [°]
-            dists = []                                                          # [m]
-            for pnt in pnts:
-                dists.append(
-                    max_dist(
-                        lons,
-                        lats,
-                        pnt[0],
-                        pnt[1],
-                          eps = eps,
-                         nMax = nMax,
-                        space = "GeodesicSpace",
-                    )
-                )                                                               # [m]
-            eqnSN = numpy.polynomial.Polynomial.fit(
-                [pnt[1] for pnt in pnts],
-                dists,
-                   deg = 2,
-                domain = [-90.0, +90.0],
-                symbol = "y",
-            )
-
-            # Create points West/East of the central point, find the maximum
-            # Geodesic distance from each point to any location and fit a
-            # polynomial (degree 2) to the data ...
-            pnts = []                                                           # [°], [°]
-            for iPoint in range(-12, 13):
-                pnts.append(
-                    calc_loc_from_loc_and_bearing_and_dist(
-                        midLon,
-                        midLat,
-                        90.0,
-                        0.25 * float(iPoint) * conv,
-                         eps = eps,
-                        nMax = nMax,
-                    )[:2]
-                )                                                               # [°], [°]
-            dists = []                                                          # [m]
-            for pnt in pnts:
-                dists.append(
-                    max_dist(
-                        lons,
-                        lats,
-                        pnt[0],
-                        pnt[1],
-                          eps = eps,
-                         nMax = nMax,
-                        space = "GeodesicSpace",
-                    )
-                )                                                               # [m]
-            eqnWE = numpy.polynomial.Polynomial.fit(
-                [pnt[0] for pnt in pnts],
-                dists,
-                   deg = 2,
-                domain = [-180.0, +180.0],
-                symbol = "x",
-            )
-
-            # Find the roots of the two polynomials and use them to guess where
-            # the local minimum is (note that the roots are not clipped to be in
-            # the domain, so I must do that myself) ...
-            pntGuess = (
-                max(-180.0, min(180.0, eqnWE.deriv().roots()[0])),
-                max( -90.0, min( 90.0, eqnSN.deriv().roots()[0])),
-            )                                                                   # [°], [°]
-
-            # Calculate the Geodesic distance and Geodesic bearing to the guess
-            # of the local minimum ...
-            dist, bear, _ = calc_dist_between_two_locs(
+            # Find the angle towards the minimum maximum distance ...
+            minAng = find_min_max_dist_bearing(
                 midLon,
                 midLat,
-                pntGuess[0],
-                pntGuess[1],
-                 eps = eps,
-                nMax = nMax,
-            )                                                                   # [m], [°]
-
-            # Check if we can stop iterating ...
-            if dist < conv:
-                break
-
-            # Stop if the end of the loop has been reached but the answer has
-            # not converged ...
-            if iIter == nIter - 1:
-                raise Exception(f"failed to converge; the middle is currently ({midLon:.6f}°, {midLat:.6f}°); nIter = {nIter:d}") from None
+                lons,
+                lats,
+                debug = debug,
+                 dist = conv,
+                  eps = eps,
+                nIter = nIter,
+                 nMax = nMax,
+            )                                                                   # [°]
 
             if debug:
-                print(f"INFO: #{iIter + 1:,d}: Moving middle {0.001 * conv:,.1f} km towards {bear:.1f}° ...")
+                print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: Moving middle {0.001 * conv:,.1f} km towards {minAng:.1f}° ...")
 
-            # Update the middle location ...
-            midLon, midLat, _ = calc_loc_from_loc_and_bearing_and_dist(
+            # Find the new location ...
+            newMidLon, newMidLat, _ = calc_loc_from_loc_and_bearing_and_dist(
                 midLon,
                 midLat,
-                bear,
+                minAng,
                 conv,
                  eps = eps,
                 nMax = nMax,
             )                                                                   # [°], [°]
 
             # Find the maximum Geodesic distance from the middle to any location ...
-            maxDist = max_dist(
+            newMaxDist = max_dist(
                 lons,
                 lats,
-                midLon,
-                midLat,
+                newMidLon,
+                newMidLat,
                   eps = eps,
                  nMax = nMax,
                 space = "GeodesicSpace",
             )                                                                   # [m]
 
+            # Stop iterating if the answer isn't getting any better ...
+            if newMaxDist > maxDist:
+                if debug:
+                    print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: The middle is ({midLon:.6f}°, {midLat:.6f}°) and the maximum Geodesic distance is {0.001 * maxDist:,.1f} km.")
+                break
+
+            # Update values ...
+            maxDist = newMaxDist                                                # [m]
+            midLon = newMidLon                                                  # [°]
+            midLat = newMidLat                                                  # [°]
+
+            # Stop if the end of the loop has been reached but the answer has
+            # not converged ...
+            if iIter == nIter - 1:
+                raise Exception(f"failed to converge; the middle is currently ({midLon:.6f}°, {midLat:.6f}°); nIter = {nIter:,d}") from None
+
             if debug:
-                print(f"INFO: #{iIter + 1:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°), the maximum Geodesic distance is now {0.001 * maxDist:,.1f} km and the guess of the final location is now ({pntGuess[0]:.6f}°, {pntGuess[1]:.6f}°).")
+                print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°) and the maximum Geodesic distance is now {0.001 * maxDist:,.1f} km.")
 
     # **************************************************************************
 
