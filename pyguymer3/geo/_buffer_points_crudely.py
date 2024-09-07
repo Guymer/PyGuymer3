@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def _buffer_points_crudely(points1, dist, nang, /, *, eps = 1.0e-12, nMax = 100, ramLimit = 1073741824):
+def _buffer_points_crudely(points1, dist, nang, /, *, eps = 1.0e-12, nIter = 100, ramLimit = 1073741824):
     """Buffer some points
 
     This function reads in an array of coordinates (in degrees) that exist on
@@ -18,6 +18,10 @@ def _buffer_points_crudely(points1, dist, nang, /, *, eps = 1.0e-12, nMax = 100,
     nang : int
         the number of angles around the (lon,lat) coordinates that are
         calculated when buffering (must be odd; must be ≥ 9)
+    eps : float, optional
+        the tolerance of the Vincenty formula iterations
+    nIter : int, optional
+        the maximum number of iterations (particularly the Vincenty formula)
     ramLimit : int, optional
         the maximum RAM usage of each "large" array (in bytes)
 
@@ -73,8 +77,8 @@ def _buffer_points_crudely(points1, dist, nang, /, *, eps = 1.0e-12, nMax = 100,
                 points1[ipoint, 1],
                 ang1 % 360.0,
                 dist,
-                 eps = eps,
-                nMax = nMax,
+                  eps = eps,
+                nIter = nIter,
             )                                                                   # [°], [°]
 
     # Loop over points ...

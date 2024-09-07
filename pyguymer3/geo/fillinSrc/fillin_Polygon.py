@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def fillin_Polygon(poly, fill, /, *, debug = False, eps = 1.0e-12, fillSpace = "EuclideanSpace", nMax = 100, prefix = ".", ramLimit = 1073741824, tol = 1.0e-10):
+def fillin_Polygon(poly, fill, /, *, debug = False, eps = 1.0e-12, fillSpace = "EuclideanSpace", nIter = 100, prefix = ".", ramLimit = 1073741824, tol = 1.0e-10):
     """Fill in a Polygon
 
     This function reads in a Polygon (with an exterior and any number of
@@ -23,8 +23,8 @@ def fillin_Polygon(poly, fill, /, *, debug = False, eps = 1.0e-12, fillSpace = "
     fillSpace : str, optional
         the geometric space to perform the filling in (either "EuclideanSpace"
         or "GeodesicSpace")
-    nMax : int, optional
-        the maximum number of Vincenty formula iterations
+    nIter : int, optional
+        the maximum number of iterations (particularly the Vincenty formula)
     prefix : str, optional
         change the name of the output debugging CSVs
     ramLimit : int, optional
@@ -72,7 +72,7 @@ def fillin_Polygon(poly, fill, /, *, debug = False, eps = 1.0e-12, fillSpace = "
             debug = debug,
               eps = eps,
         fillSpace = fillSpace,
-             nMax = nMax,
+            nIter = nIter,
            prefix = prefix,
          ramLimit = ramLimit,
     )
@@ -96,7 +96,7 @@ def fillin_Polygon(poly, fill, /, *, debug = False, eps = 1.0e-12, fillSpace = "
                     debug = debug,
                       eps = eps,
                 fillSpace = fillSpace,
-                     nMax = nMax,
+                    nIter = nIter,
                    prefix = prefix,
                  ramLimit = ramLimit,
             )

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def fillin_MultiLineString(multiline, fill, /, *, debug = False, eps = 1.0e-12, fillSpace = "EuclideanSpace", nMax = 100, prefix = ".", ramLimit = 1073741824):
+def fillin_MultiLineString(multiline, fill, /, *, debug = False, eps = 1.0e-12, fillSpace = "EuclideanSpace", nIter = 100, prefix = ".", ramLimit = 1073741824):
     """Fill in a MultiLineString
 
     This function reads in a MultiLineString that exists on the surface of the
@@ -23,8 +23,8 @@ def fillin_MultiLineString(multiline, fill, /, *, debug = False, eps = 1.0e-12, 
     fillSpace : str, optional
         the geometric space to perform the filling in (either "EuclideanSpace"
         or "GeodesicSpace")
-    nMax : int, optional
-        the maximum number of Vincenty formula iterations
+    nIter : int, optional
+        the maximum number of iterations (particularly the Vincenty formula)
     prefix : str, optional
         change the name of the output debugging CSVs
     ramLimit : int, optional
@@ -74,7 +74,7 @@ def fillin_MultiLineString(multiline, fill, /, *, debug = False, eps = 1.0e-12, 
                     debug = debug,
                       eps = eps,
                 fillSpace = fillSpace,
-                     nMax = nMax,
+                    nIter = nIter,
                    prefix = prefix,
                  ramLimit = ramLimit,
             )

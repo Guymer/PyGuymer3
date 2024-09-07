@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def _area(triangle, /, *, eps = 1.0e-12, nMax = 100):
+def _area(triangle, /, *, eps = 1.0e-12, nIter = 100):
     """Find the area of a triangle.
 
     Parameters
@@ -10,8 +10,8 @@ def _area(triangle, /, *, eps = 1.0e-12, nMax = 100):
         the triangle
     eps : float, optional
         the tolerance of the Vincenty formula iterations
-    nMax : int, optional
-        the maximum number of Vincenty formula iterations
+    nIter : int, optional
+        the maximum number of iterations (particularly the Vincenty formula)
 
     Returns
     -------
@@ -40,8 +40,8 @@ def _area(triangle, /, *, eps = 1.0e-12, nMax = 100):
         triangle.exterior.coords[1][1],
         triangle.exterior.coords[0][0],
         triangle.exterior.coords[0][1],
-         eps = eps,
-        nMax = nMax,
+          eps = eps,
+        nIter = nIter,
     )                                                                           # [m], [°]
 
     # Find the distance from the second point to the third point, and the
@@ -51,8 +51,8 @@ def _area(triangle, /, *, eps = 1.0e-12, nMax = 100):
         triangle.exterior.coords[1][1],
         triangle.exterior.coords[2][0],
         triangle.exterior.coords[2][1],
-         eps = eps,
-        nMax = nMax,
+          eps = eps,
+        nIter = nIter,
     )                                                                           # [m], [°]
 
     # Use the two bearings to find the interior angle between the first and

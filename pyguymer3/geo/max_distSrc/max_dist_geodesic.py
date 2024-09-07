@@ -8,8 +8,8 @@ def max_dist_geodesic(
     midLat,
     /,
     *,
-     eps = 1.0e-12,
-    nMax = 100,
+      eps = 1.0e-12,
+    nIter = 100,
 ):
     # Import special modules ...
     try:
@@ -40,8 +40,8 @@ def max_dist_geodesic(
                 midLat,
                 lons[iLoc],
                 lats[iLoc],
-                 eps = eps,
-                nMax = nMax,
+                  eps = eps,
+                nIter = nIter,
             )[0],
         )                                                                       # [m]
 

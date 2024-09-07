@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def buffer_MultiPolygon(multipoly, dist, /, *, debug = False, eps = 1.0e-12, fill = 1.0, fillSpace = "EuclideanSpace", keepInteriors = True, nang = 9, nMax = 100, prefix = ".", ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
+def buffer_MultiPolygon(multipoly, dist, /, *, debug = False, eps = 1.0e-12, fill = 1.0, fillSpace = "EuclideanSpace", keepInteriors = True, nang = 9, nIter = 100, prefix = ".", ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
     """Buffer a MultiPolygon
 
     This function reads in a MultiPolygon, made up of Polygons (with an exterior
@@ -31,8 +31,8 @@ def buffer_MultiPolygon(multipoly, dist, /, *, debug = False, eps = 1.0e-12, fil
     nang : int, optional
         the number of angles around each point within the MultiPolygon that are
         calculated when buffering
-    nMax : int, optional
-        the maximum number of Vincenty formula iterations
+    nIter : int, optional
+        the maximum number of iterations (particularly the Vincenty formula)
     prefix : str, optional
         change the name of the output debugging CSVs
     ramLimit : int, optional
@@ -108,7 +108,7 @@ def buffer_MultiPolygon(multipoly, dist, /, *, debug = False, eps = 1.0e-12, fil
                     fillSpace = fillSpace,
                 keepInteriors = keepInteriors,
                          nang = nang,
-                         nMax = nMax,
+                        nIter = nIter,
                        prefix = prefix,
                      ramLimit = ramLimit,
                          simp = simp,
@@ -132,7 +132,7 @@ def buffer_MultiPolygon(multipoly, dist, /, *, debug = False, eps = 1.0e-12, fil
                 debug = debug,
                   eps = eps,
             fillSpace = fillSpace,
-                 nMax = nMax,
+                nIter = nIter,
                prefix = prefix,
              ramLimit = ramLimit,
                   tol = tol,

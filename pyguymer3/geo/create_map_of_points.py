@@ -14,8 +14,7 @@ def create_map_of_points(
                  eps = 1.0e-12,
               method = "GeodesicBox",
                 name = "natural-earth-1",
-               nIter = 10,
-                nMax = 100,
+               nIter = 100,
            onlyValid = False,
               prefix = ".",
             ramLimit = 1073741824,
@@ -59,9 +58,7 @@ def create_map_of_points(
     name : str, optional
         the name of the image in the database
     nIter : int, optional
-        the maximum number of iterations
-    nMax : int, optional
-        the maximum number of Vincenty formula iterations
+        the maximum number of iterations (particularly the Vincenty formula)
     onlyValid : bool, optional
         only return valid Polygons (checks for validity can take a while, if
         being called often)
@@ -146,7 +143,7 @@ def create_map_of_points(
          debug = debug,
            eps = eps,
         method = "EuclideanBox",
-          nMax = nMax,
+         nIter = nIter,
            pad = -1.0,
     )                                                                           # [°]
 
@@ -186,7 +183,6 @@ def create_map_of_points(
                eps = eps,
             method = method,
              nIter = nIter,
-              nMax = nMax,
                pad = padDist,
         )                                                                       # [°], [°], [°] or [m]
 
@@ -226,7 +222,7 @@ def create_map_of_points(
                          eps = eps,
                          lat = midLat,
                          lon = midLon,
-                        nMax = nMax,
+                       nIter = nIter,
                    onlyValid = onlyValid,
                       prefix = prefix,
                     ramLimit = ramLimit,
@@ -323,7 +319,7 @@ def create_map_of_points(
                debug = debug,
                  eps = eps,
              maxdist = 12.0 * 1852.0,
-                nMax = nMax,
+               nIter = nIter,
               npoint = None,
               prefix = prefix,
             ramLimit = ramLimit,

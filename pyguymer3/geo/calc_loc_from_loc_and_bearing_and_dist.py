@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def calc_loc_from_loc_and_bearing_and_dist(lon1_deg, lat1_deg, alpha1_deg, s_m, /, *, eps = 1.0e-12, nMax = 100):
+def calc_loc_from_loc_and_bearing_and_dist(lon1_deg, lat1_deg, alpha1_deg, s_m, /, *, eps = 1.0e-12, nIter = 100):
     """Calculate the location and reverse bearing from another location and a
     forward bearing and a distance.
 
@@ -23,8 +23,8 @@ def calc_loc_from_loc_and_bearing_and_dist(lon1_deg, lat1_deg, alpha1_deg, s_m, 
         the distance between the two coordinates (in metres)
     eps : float, optional
         the tolerance of the Vincenty formula iterations
-    nMax : int, optional
-        the maximum number of Vincenty formula iterations
+    nIter : int, optional
+        the maximum number of iterations (particularly the Vincenty formula)
 
     Returns
     -------
@@ -79,22 +79,22 @@ def calc_loc_from_loc_and_bearing_and_dist(lon1_deg, lat1_deg, alpha1_deg, s_m, 
 
     # Set initial value of sigma and initialize counter ...
     sigma = s_m / (b * bigA)
-    i = 0                                                                       # [#]
+    iIter = 0                                                                   # [#]
 
     # Start infinite loop ...
     while True:
         # Stop looping if the function has been called too many times ...
-        if i >= nMax:
-            raise Exception(f"failed to converge; loc = ({lon1_deg:+.9f}°,{lat1_deg:+.9f}°); alpha1 = {alpha1_deg:.15e}°, s = {s_m:.15e}m; eps = {eps:.15e}; nMax = {nMax:d}") from None
+        if iIter >= nIter:
+            raise Exception(f"failed to converge; loc = ({lon1_deg:+.9f}°,{lat1_deg:+.9f}°); alpha1 = {alpha1_deg:.15e}°, s = {s_m:.15e}m; eps = {eps:.15e}; nIter = {nIter:,d}") from None
 
         # Find new value of sigma and increment counter ...
         two_sigma_m = 2.0 * sigma1 + sigma
         delta_sigma = bigB * math.sin(sigma) * (math.cos(two_sigma_m) + 0.25 * bigB * (math.cos(sigma) * (2.0 * math.cos(two_sigma_m) ** 2 - 1.0) - bigB * math.cos(two_sigma_m) * (4.0 * math.sin(sigma) ** 2 - 3.0) * (4.0 * math.cos(two_sigma_m) ** 2 - 3.0) / 6.0))
         sigmaNew = s_m / (b * bigA) + delta_sigma
-        i += 1                                                                  # [#]
+        iIter += 1                                                              # [#]
 
         # Only check the solution after at least 3 function calls ...
-        if i >= 3:
+        if iIter >= 3:
             if sigmaNew == sigma:
                 # Replace old sigma with new sigma ...
                 sigma = sigmaNew

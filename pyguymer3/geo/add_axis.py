@@ -28,7 +28,7 @@ def add_axis(
                       lat = None,
                       lon = None,
                     ncols = None,
-                     nMax = 100,
+                    nIter = 100,
                     nrows = None,
                 onlyValid = False,
                    prefix = ".",
@@ -102,8 +102,8 @@ def add_axis(
         the longitude of the point (in degrees)
     ncols : int, optional
         the number of columns in the array of axes
-    nMax : int, optional
-        the maximum number of Vincenty formula iterations
+    nIter : int, optional
+        the maximum number of iterations (particularly the Vincenty formula)
     nrows : int, optional
         the number of rows in the array of axes
     onlyValid : bool, optional
@@ -193,7 +193,7 @@ def add_axis(
                                gs = gs,
                             index = index,
                             ncols = ncols,
-                             nMax = nMax,
+                            nIter = nIter,
                             nrows = nrows,
                         onlyValid = onlyValid,
                            prefix = prefix,

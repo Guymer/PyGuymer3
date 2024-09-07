@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def fillin_LinearRing(ring, fill, /, *, debug = False, eps = 1.0e-12, fillSpace = "EuclideanSpace", nMax = 100, prefix = ".", ramLimit = 1073741824):
+def fillin_LinearRing(ring, fill, /, *, debug = False, eps = 1.0e-12, fillSpace = "EuclideanSpace", nIter = 100, prefix = ".", ramLimit = 1073741824):
     """Fill in a LinearRing
 
     This function reads in a LinearRing that exists on the surface of the Earth
@@ -23,8 +23,8 @@ def fillin_LinearRing(ring, fill, /, *, debug = False, eps = 1.0e-12, fillSpace 
     fillSpace : str, optional
         the geometric space to perform the filling in (either "EuclideanSpace"
         or "GeodesicSpace")
-    nMax : int, optional
-        the maximum number of Vincenty formula iterations
+    nIter : int, optional
+        the maximum number of iterations (particularly the Vincenty formula)
     prefix : str, optional
         change the name of the output debugging CSVs
     ramLimit : int, optional
@@ -68,7 +68,7 @@ def fillin_LinearRing(ring, fill, /, *, debug = False, eps = 1.0e-12, fillSpace 
             debug = debug,
               eps = eps,
         fillSpace = fillSpace,
-             nMax = nMax,
+             nIter = nIter,
            prefix = prefix,
          ramLimit = ramLimit,
     )

@@ -11,7 +11,7 @@ def great_circle(
        debug = False,
          eps = 1.0e-12,
      maxdist = None,
-        nMax = 100,
+       nIter = 100,
       npoint = None,
       prefix = ".",
     ramLimit = 1073741824,
@@ -38,8 +38,8 @@ def great_circle(
         the tolerance of the Vincenty formula iterations
     maxdist : float, optional
         the maximum distance between points along the great circle
-    nMax : int, optional
-        the maximum number of Vincenty formula iterations
+    nIter : int, optional
+        the maximum number of iterations (particularly the Vincenty formula)
     npoint : int, optional
         the number of points along the great circle
     prefix : str, optional
@@ -136,8 +136,8 @@ def great_circle(
                     points[ipoint - 1][1],
                     points[ipoint][0],
                     points[ipoint][1],
-                     eps = eps,
-                    nMax = nMax,
+                      eps = eps,
+                    nIter = nIter,
                 )                                                               # [m]
 
                 # Check if the distance is too large ...

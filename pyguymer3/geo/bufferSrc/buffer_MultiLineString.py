@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def buffer_MultiLineString(multiline, dist, /, *, debug = False, eps = 1.0e-12, fill = 1.0, fillSpace = "EuclideanSpace", nang = 9, nMax = 100, prefix = ".", ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
+def buffer_MultiLineString(multiline, dist, /, *, debug = False, eps = 1.0e-12, fill = 1.0, fillSpace = "EuclideanSpace", nang = 9, nIter = 100, prefix = ".", ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
     """Buffer a MultiLineString
 
     This function reads in a MultiLineString that exists on the surface of the
@@ -28,8 +28,8 @@ def buffer_MultiLineString(multiline, dist, /, *, debug = False, eps = 1.0e-12, 
     nang : int, optional
         the number of angles around each point within the MultiLineString that
         are calculated when buffering
-    nMax : int, optional
-        the maximum number of Vincenty formula iterations
+    nIter : int, optional
+        the maximum number of iterations (particularly the Vincenty formula)
     prefix : str, optional
         change the name of the output debugging CSVs
     ramLimit : int, optional
@@ -104,7 +104,7 @@ def buffer_MultiLineString(multiline, dist, /, *, debug = False, eps = 1.0e-12, 
                      fill = fill,
                 fillSpace = fillSpace,
                      nang = nang,
-                     nMax = nMax,
+                    nIter = nIter,
                    prefix = prefix,
                  ramLimit = ramLimit,
                      simp = simp,
@@ -128,7 +128,7 @@ def buffer_MultiLineString(multiline, dist, /, *, debug = False, eps = 1.0e-12, 
                 debug = debug,
                   eps = eps,
             fillSpace = fillSpace,
-                 nMax = nMax,
+                nIter = nIter,
                prefix = prefix,
              ramLimit = ramLimit,
                   tol = tol,

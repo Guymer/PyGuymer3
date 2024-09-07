@@ -28,7 +28,7 @@ def _add_topDown_axis(
                        gs = None,
                     index = None,
                     ncols = None,
-                     nMax = 100,
+                    nIter = 100,
                     nrows = None,
                 onlyValid = False,
                    prefix = ".",
@@ -101,8 +101,8 @@ def _add_topDown_axis(
         the index of the axis in the array of axes
     ncols : int, optional
         the number of columns in the array of axes
-    nMax : int, optional
-        the maximum number of Vincenty formula iterations
+    nIter : int, optional
+        the maximum number of iterations (particularly the Vincenty formula)
     nrows : int, optional
         the number of rows in the array of axes
     onlyValid : bool, optional
@@ -304,7 +304,7 @@ def _add_topDown_axis(
                 fillSpace = "EuclideanSpace",
             keepInteriors = False,
                      nang = 361,
-                     nMax = nMax,
+                    nIter = nIter,
                    prefix = prefix,
                  ramLimit = ramLimit,
                      simp = -1.0,
@@ -317,22 +317,22 @@ def _add_topDown_axis(
             lat,
             0.0,
             dist,
-             eps = 1.0e-12,
-            nMax = 100,
+              eps = 1.0e-12,
+            nIter = 100,
         )                                                                       # [°], [°]
         tmpPnt = shapely.geometry.point.Point(tmpLon, latMax)
         yMax = ax.projection.project_geometry(tmpPnt).y                         # [?]
 
         # Calculate Eastern extent ...
-        lonMax, tmpLat, _ = calc_loc_from_loc_and_bearing_and_dist(
+        lonIter, tmpLat, _ = calc_loc_from_loc_and_bearing_and_dist(
             lon,
             lat,
             90.0,
             dist,
-             eps = 1.0e-12,
-            nMax = 100,
+              eps = 1.0e-12,
+            nIter = 100,
         )                                                                       # [°], [°]
-        tmpPnt = shapely.geometry.point.Point(lonMax, tmpLat)
+        tmpPnt = shapely.geometry.point.Point(lonIter, tmpLat)
         xMax = ax.projection.project_geometry(tmpPnt).x                         # [?]
 
         # Calculate Southern extent ...
@@ -341,8 +341,8 @@ def _add_topDown_axis(
             lat,
             180.0,
             dist,
-             eps = 1.0e-12,
-            nMax = 100,
+              eps = 1.0e-12,
+            nIter = 100,
         )                                                                       # [°], [°]
         tmpPnt = shapely.geometry.point.Point(tmpLon, latMin)
         yMin = ax.projection.project_geometry(tmpPnt).y                         # [?]
@@ -353,8 +353,8 @@ def _add_topDown_axis(
             lat,
             270.0,
             dist,
-             eps = 1.0e-12,
-            nMax = 100,
+              eps = 1.0e-12,
+            nIter = 100,
         )                                                                       # [°], [°]
         tmpPnt = shapely.geometry.point.Point(lonMin, tmpLat)
         xMin = ax.projection.project_geometry(tmpPnt).x                         # [?]

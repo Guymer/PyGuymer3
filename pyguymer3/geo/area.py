@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def area(shape, /, *, eps = 1.0e-12, level = 1, nMax = 100, onlyValid = False, repair = False):
+def area(shape, /, *, eps = 1.0e-12, level = 1, nIter = 100, onlyValid = False, repair = False):
     """Find the area of a shape.
 
     Parameters
@@ -12,8 +12,8 @@ def area(shape, /, *, eps = 1.0e-12, level = 1, nMax = 100, onlyValid = False, r
         the tolerance of the Vincenty formula iterations
     level : int, optional
         the number of levels to split the shape into
-    nMax : int, optional
-        the maximum number of Vincenty formula iterations
+    nIter : int, optional
+        the maximum number of iterations (particularly the Vincenty formula)
     onlyValid : bool, optional
         only add valid Polygons (checks for validity can take a while, if being
         being called often)
@@ -59,7 +59,7 @@ def area(shape, /, *, eps = 1.0e-12, level = 1, nMax = 100, onlyValid = False, r
                 # Check if the user wants this level of refinement ...
                 if level == 1:
                     # Increment the total and move on to the next one ...
-                    tot += _area(triangle1, eps = eps, nMax = nMax)             # [m2]
+                    tot += _area(triangle1, eps = eps, nIter = nIter)             # [m2]
                     continue
 
                 # Loop over triangles within the triangle ...
@@ -67,7 +67,7 @@ def area(shape, /, *, eps = 1.0e-12, level = 1, nMax = 100, onlyValid = False, r
                     # Check if the user wants this level of refinement ...
                     if level == 2:
                         # Increment the total and move on to the next one ...
-                        tot += _area(triangle2, eps = eps, nMax = nMax)         # [m2]
+                        tot += _area(triangle2, eps = eps, nIter = nIter)       # [m2]
                         continue
 
                     # Loop over triangles within the triangle ...
@@ -75,7 +75,7 @@ def area(shape, /, *, eps = 1.0e-12, level = 1, nMax = 100, onlyValid = False, r
                         # Check if the user wants this level of refinement ...
                         if level == 3:
                             # Increment the total and move on to the next one ...
-                            tot += _area(triangle3, eps = eps, nMax = nMax)     # [m2]
+                            tot += _area(triangle3, eps = eps, nIter = nIter)   # [m2]
                             continue
 
                         # Loop over triangles within the triangle ...
@@ -84,7 +84,7 @@ def area(shape, /, *, eps = 1.0e-12, level = 1, nMax = 100, onlyValid = False, r
                             if level == 4:
                                 # Increment the total and move on to the next
                                 # one ...
-                                tot += _area(triangle4, eps = eps, nMax = nMax) # [m2]
+                                tot += _area(triangle4, eps = eps, nIter = nIter)   # [m2]
                                 continue
 
                             # Cry ...

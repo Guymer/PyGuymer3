@@ -9,8 +9,7 @@ def find_middle_of_locs_geodesicBox(
      conv = 1.0e3,
     debug = False,
       eps = 1.0e-12,
-    nIter = 10,
-     nMax = 100,
+    nIter = 100,
       pad = 10.0e3,
 ):
     """Find the middle of some locations such that: a) the Geodesic distance to
@@ -48,7 +47,7 @@ def find_middle_of_locs_geodesicBox(
         lats,
         debug = debug,
           eps = eps,
-         nMax = nMax,
+        nIter = nIter,
           pad = -1.0,
     )                                                                           # [°], [°]
 
@@ -70,8 +69,8 @@ def find_middle_of_locs_geodesicBox(
                         midLat,
                         lons[iLoc],
                         midLat,
-                         eps = eps,
-                        nMax = nMax,
+                          eps = eps,
+                        nIter = nIter,
                     )[0]
                 )                                                               # [m]
             elif lons[iLoc] > midLon:                                           # NOTE: Location is east of the middle.
@@ -82,8 +81,8 @@ def find_middle_of_locs_geodesicBox(
                         midLat,
                         lons[iLoc],
                         midLat,
-                         eps = eps,
-                        nMax = nMax,
+                          eps = eps,
+                        nIter = nIter,
                     )[0]
                 )                                                               # [m]
             else:
@@ -102,8 +101,8 @@ def find_middle_of_locs_geodesicBox(
                         midLat,
                         midLon,
                         lats[iLoc],
-                         eps = eps,
-                        nMax = nMax,
+                          eps = eps,
+                        nIter = nIter,
                     )[0]
                 )                                                               # [m]
             elif lats[iLoc] > midLat:                                           # NOTE: Location is north of the middle.
@@ -114,8 +113,8 @@ def find_middle_of_locs_geodesicBox(
                         midLat,
                         midLon,
                         lats[iLoc],
-                         eps = eps,
-                        nMax = nMax,
+                          eps = eps,
+                        nIter = nIter,
                     )[0]
                 )                                                               # [m]
             else:
@@ -137,8 +136,8 @@ def find_middle_of_locs_geodesicBox(
                 midLat,
                 270.0,
                 0.5 * (maxWestDist - maxEastDist),
-                 eps = eps,
-                nMax = nMax,
+                  eps = eps,
+                nIter = nIter,
             )                                                                   # [°], [°]
             if debug:
                 print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°).")
@@ -151,8 +150,8 @@ def find_middle_of_locs_geodesicBox(
                 midLat,
                 90.0,
                 0.5 * (maxEastDist - maxWestDist),
-                 eps = eps,
-                nMax = nMax,
+                  eps = eps,
+                nIter = nIter,
             )                                                                   # [°], [°]
             if debug:
                 print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°).")
@@ -169,8 +168,8 @@ def find_middle_of_locs_geodesicBox(
                 midLat,
                 180.0,
                 0.5 * (maxSouthDist - maxNorthDist),
-                 eps = eps,
-                nMax = nMax,
+                  eps = eps,
+                nIter = nIter,
             )                                                                   # [°], [°]
             if debug:
                 print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°).")
@@ -183,8 +182,8 @@ def find_middle_of_locs_geodesicBox(
                 midLat,
                 0.0,
                 0.5 * (maxNorthDist - maxSouthDist),
-                 eps = eps,
-                nMax = nMax,
+                  eps = eps,
+                nIter = nIter,
             )                                                                   # [°], [°]
             if debug:
                 print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°).")
@@ -208,7 +207,7 @@ def find_middle_of_locs_geodesicBox(
         midLon,
         midLat,
           eps = eps,
-         nMax = nMax,
+        nIter = nIter,
         space = "GeodesicSpace",
     )                                                                           # [m]
 

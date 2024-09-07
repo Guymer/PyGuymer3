@@ -17,7 +17,6 @@ def find_min_max_dist_bearing(
            iIter = 0,
             nAng = 9,
            nIter = 100,
-            nMax = 100,
         startAng = 180.0,
 ):
     """Find the bearing which points towards the minimum maximum distance to
@@ -56,9 +55,7 @@ def find_min_max_dist_bearing(
     nAng : int, optional
         the number of angles around the middle location to search over
     nIter : int, optional
-        the maximum number of iterations
-    nMax : int, optional
-        the maximum number of Vincenty formula iterations
+        the maximum number of iterations (particularly the Vincenty formula)
     startAng : float, optional
         the starting angle to search over (in degrees)
 
@@ -143,8 +140,8 @@ def find_min_max_dist_bearing(
             midLat,
             (fakeAngs[iAng] + 360.0) % 360.0,
             dist,
-             eps = eps,
-            nMax = nMax,
+              eps = eps,
+            nIter = nIter,
         )                                                                       # [°], [°]
 
     # **************************************************************************
@@ -163,7 +160,7 @@ def find_min_max_dist_bearing(
             angLons[iAng],
             angLats[iAng],
               eps = eps,
-             nMax = nMax,
+            nIter = nIter,
             space = "GeodesicSpace",
         )                                                                       # [m]
 
@@ -188,7 +185,6 @@ def find_min_max_dist_bearing(
                    iIter = iIter + 1,
                     nAng = nAng,
                    nIter = nIter,
-                    nMax = nMax,
                 startAng = (fakeAngs[iAng] + 360.0) % 360.0,
         )
 
@@ -220,6 +216,5 @@ def find_min_max_dist_bearing(
                iIter = iIter + 1,
                 nAng = nAng,
                nIter = nIter,
-                nMax = nMax,
             startAng = (bestAng + 360.0) % 360.0,
     )
