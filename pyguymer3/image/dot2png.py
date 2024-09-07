@@ -24,4 +24,11 @@ def dot2png(dot, png, /, *, chunksize = 1048576, debug = False, strip = False, t
     )
 
     # Optimize PNG ...
-    optimize_image(png, chunksize = chunksize, debug = debug, strip = strip, timeout = timeout)
+    optimize_image(
+        png,
+        chunksize = chunksize,
+            debug = debug,
+             pool = None,
+            strip = strip,
+          timeout = timeout,
+    )

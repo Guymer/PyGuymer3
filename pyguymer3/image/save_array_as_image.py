@@ -106,6 +106,7 @@ def save_array_as_image(img0, fname, /, *, chunksize = 1048576, ct = "grey", deb
                 fname,
                     debug = debug,
                 chunksize = chunksize,
+                     pool = None,
                     strip = True,
                   timeout = timeout,
             )

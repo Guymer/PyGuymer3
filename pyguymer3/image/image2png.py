@@ -94,4 +94,11 @@ def image2png(img, png, /, *, chunksize = 1048576, debug = False, exif = None, m
 
     # Optimize PNG ...
     if optimize or strip:
-        optimize_image(png, chunksize = chunksize, debug = debug, strip = strip, timeout = timeout)
+        optimize_image(
+            png,
+            chunksize = chunksize,
+                debug = debug,
+                 pool = None,
+                strip = strip,
+              timeout = timeout,
+        )

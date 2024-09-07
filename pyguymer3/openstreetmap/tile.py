@@ -130,6 +130,7 @@ def tile(
             png,
             chunksize = chunksize,
                 debug = debug,
+                 pool = None,
                 strip = True,
               timeout = timeout,
         )

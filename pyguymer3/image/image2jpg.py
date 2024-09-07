@@ -100,4 +100,11 @@ def image2jpg(img, jpg, /, *, chunksize = 1048576, debug = False, exif = None, m
 
     # Optimize JPG ...
     if optimize or strip:
-        optimize_image(jpg, chunksize = chunksize, debug = debug, strip = strip, timeout = timeout)
+        optimize_image(
+            jpg,
+            chunksize = chunksize,
+                debug = debug,
+                 pool = None,
+                strip = strip,
+              timeout = timeout,
+        )

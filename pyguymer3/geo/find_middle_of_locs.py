@@ -6,10 +6,12 @@ def find_middle_of_locs(
     lats,
     /,
     *,
+     angConv = 0.1,
         conv = 1.0e3,
        debug = False,
          eps = 1.0e-12,
       method = "GeodesicBox",
+        nAng = 9,
        nIter = 100,
          pad = 10.0e3,
     useSciPy = True,
@@ -26,6 +28,8 @@ def find_middle_of_locs(
         the longitudes (in degrees)
     lats : numpy.ndarray
         the latitudes (in degrees)
+    angConv : float, optional
+        the angle change which classifies as converged
     conv : float, optional
         the Geodesic distance that defines the middle as being converged (in
         metres)
@@ -35,11 +39,15 @@ def find_middle_of_locs(
         the tolerance of the Vincenty formula iterations
     method : str, optional
         the method for finding the middle of the locations
+    nAng : int, optional
+        the number of angles around the middle location to search over
     nIter : int, optional
         the maximum number of iterations (particularly the Vincenty formula)
     pad : float, optional
         the padding to add to the maximum Geodesic distance from the middle to
         the most extreme location (in metres)
+    useSciPy : bool, optional
+        use "scipy.optimize.minimize" or my own minimizer
 
     Returns
     -------
@@ -125,9 +133,11 @@ def find_middle_of_locs(
             return find_middle_of_locs_geodesicCircle(
                 lons,
                 lats,
+                 angConv = angConv,
                     conv = conv,
                    debug = debug,
                      eps = eps,
+                    nAng = nAng,
                    nIter = nIter,
                      pad = pad,
                 useSciPy = useSciPy,

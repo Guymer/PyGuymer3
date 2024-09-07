@@ -99,4 +99,11 @@ def images2gif(imgs, gif, /, *, chunksize = 1048576, debug = False, fps = 25.0, 
 
     # Optimize GIF ...
     if strip:
-        optimize_image(gif, chunksize = chunksize, debug = debug, strip = strip, timeout = timeout)
+        optimize_image(
+            gif,
+            chunksize = chunksize,
+                debug = debug,
+                 pool = None,
+                strip = strip,
+              timeout = timeout,
+        )

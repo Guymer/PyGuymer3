@@ -7,13 +7,16 @@ def create_map_of_points(
     pngOut,
     /,
     *,
+             angConv = 0.1,
           background = "NE",
            chunksize = 1048576,
                 conv = 1.0e3,
                debug = False,
                  eps = 1.0e-12,
+              extent = None,
               method = "GeodesicBox",
                 name = "natural-earth-1",
+                nAng = 9,
                nIter = 100,
            onlyValid = False,
               prefix = ".",
@@ -24,6 +27,7 @@ def create_map_of_points(
              timeout = 60.0,
                title = None,
                  tol = 1.0e-10,
+            useSciPy = True,
 ):
     """Save a PNG map of a sequence of points
 
@@ -38,6 +42,8 @@ def create_map_of_points(
         the sequence of latitudes
     pngOut : str
         the name of the output PNG
+    angConv : float, optional
+        the angle change which classifies as converged
     background : str, optional
         the type of background to add (recognised values are: "GSHHG"; "image";
         "NE"; "none"; and "OSM")
@@ -53,10 +59,15 @@ def create_map_of_points(
         print debug messages and draw the circle on the axis
     eps : float, optional
         the tolerance of the Vincenty formula iterations
+    extent : list of floats
+        for high-resolution images, save time by specifying the extent that is
+        to be added
     method : str, optional
         the method for finding the middle of the points
     name : str, optional
         the name of the image in the database
+    nAng : int, optional
+        the number of angles around the middle location to search over
     nIter : int, optional
         the maximum number of iterations (particularly the Vincenty formula)
     onlyValid : bool, optional
@@ -80,6 +91,8 @@ def create_map_of_points(
     tol : float, optional
         the Euclidean distance that defines two points as being the same (in
         degrees)
+    useSciPy : bool, optional
+        use "scipy.optimize.minimize" or my own minimizer
 
     Notes
     -----
@@ -140,11 +153,15 @@ def create_map_of_points(
     _, _, maxDistQuick = find_middle_of_locs(
         lons,
         lats,
-         debug = debug,
-           eps = eps,
-        method = "EuclideanBox",
-         nIter = nIter,
-           pad = -1.0,
+         angConv = None,
+            conv = None,
+           debug = debug,
+             eps = eps,
+          method = "EuclideanBox",
+            nAng = None,
+           nIter = nIter,
+             pad = -1.0,
+        useSciPy = None,
     )                                                                           # [°]
 
     # Check if the points are so widely spread that the map has to have global
@@ -178,12 +195,15 @@ def create_map_of_points(
         midLon, midLat, maxDist = find_middle_of_locs(
             lons,
             lats,
-              conv = conv,
-             debug = debug,
-               eps = eps,
-            method = method,
-             nIter = nIter,
-               pad = padDist,
+             angConv = angConv,
+                conv = conv,
+               debug = debug,
+                 eps = eps,
+              method = method,
+                nAng = nAng,
+               nIter = nIter,
+                 pad = padDist,
+            useSciPy = useSciPy,
         )                                                                       # [°], [°], [°] or [m]
 
         # Check what method the user wants ...
@@ -256,6 +276,7 @@ def create_map_of_points(
             add_map_background(
                 ax,
                      debug = debug,
+                    extent = extent,
                       name = name,
                 resolution = resolution,
             )
@@ -327,7 +348,7 @@ def create_map_of_points(
 
         # Draw the great circle ...
         ax.add_geometries(
-            extract_lines(circle),
+            extract_lines(circle, onlyValid = onlyValid),
             cartopy.crs.PlateCarree(),
             edgecolor = (1.0, 0.0, 0.0, 0.5),
             facecolor = "none",
@@ -351,6 +372,7 @@ def create_map_of_points(
         pngOut,
         chunksize = chunksize,
             debug = debug,
+             pool = None,
             strip = True,
           timeout = timeout,
     )
