@@ -147,8 +147,8 @@ def find_min_max_dist_bearing(
         # Check what space the user wants ...
         match space:
             case "EuclideanSpace":
-                angLons[iAng] = midLon + dist * math.sin(math.degrees(fakeAngs[iAng]))  # [°]
-                angLats[iAng] = midLat + dist * math.cos(math.degrees(fakeAngs[iAng]))  # [°]
+                angLons[iAng] = midLon + dist * math.sin(math.radians(fakeAngs[iAng]))  # [°]
+                angLats[iAng] = midLat + dist * math.cos(math.radians(fakeAngs[iAng]))  # [°]
             case "GeodesicSpace":
                 angLons[iAng], angLats[iAng], _ = calc_loc_from_loc_and_bearing_and_dist(
                     midLon,

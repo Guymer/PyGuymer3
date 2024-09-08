@@ -153,8 +153,8 @@ def find_middle_of_locs_euclideanCircle(
                 print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: Moving middle {conv:.6f}° towards {minAng:.1f}° ...")
 
             # Find the new location ...
-            newMidLon = midLon + conv * math.sin(math.degrees(minAng))          # [°]
-            newMidLat = midLat + conv * math.cos(math.degrees(minAng))          # [°]
+            newMidLon = midLon + conv * math.sin(math.radians(minAng))          # [°]
+            newMidLat = midLat + conv * math.cos(math.radians(minAng))          # [°]
 
             # Find the maximum Euclidean distance from the middle to any
             # location ...
