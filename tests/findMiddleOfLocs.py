@@ -173,7 +173,6 @@ if __name__ == "__main__":
          debug = args.debug,
            eps = args.eps,
         method = "EuclideanCircle",
-          nAng = args.nAng,
          nIter = args.nIter,
            pad = 10.0 * euclideanConv,
     )                                                                           # [°], [°], [°]
