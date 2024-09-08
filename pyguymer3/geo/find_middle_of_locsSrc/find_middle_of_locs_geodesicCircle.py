@@ -15,7 +15,7 @@ def find_middle_of_locs_geodesicCircle(
         nAng = 9,
        nIter = 100,
          pad = 10.0e3,
-    useSciPy = True,
+    useSciPy = False,
 ):
     """Find the middle of some locations such that they are encompassed by the
     smallest Geodesic circle possible.
@@ -80,7 +80,7 @@ def find_middle_of_locs_geodesicCircle(
     if maxDist < conv:
         pass
     elif useSciPy:
-        # Use SciPy to minimum the maximum Geodesic distance ...
+        # Use SciPy to find the minimum maximum Geodesic distance ...
         ans = scipy.optimize.minimize(
             lambda x: max_dist(
                 lons,
@@ -125,11 +125,11 @@ def find_middle_of_locs_geodesicCircle(
         )                                                                       # [m]
 
         if debug:
-            print(f"INFO: The middle is now ({midLon:.6f}°, {midLat:.6f}°) and the maximum Geodesic distance is now {0.001 * maxDist:,.1f} km.")
+            print(f"INFO: The middle is finally ({midLon:.6f}°, {midLat:.6f}°) and the maximum Geodesic distance is finally {0.001 * maxDist:,.1f} km.")
     else:
         # Loop over iterations ...
         for iIter in range(nIter):
-            # Find the angle towards the minimum maximum distance ...
+            # Find the angle towards the minimum maximum Geodesic distance ...
             minAng = find_min_max_dist_bearing(
                 midLon,
                 midLat,
@@ -144,6 +144,7 @@ def find_middle_of_locs_geodesicCircle(
                        iIter = 0,
                         nAng = nAng,
                        nIter = nIter,
+                       space = "GeodesicSpace",
                     startAng = 180.0,
             )                                                                   # [°]
 
@@ -174,7 +175,7 @@ def find_middle_of_locs_geodesicCircle(
             # Stop iterating if the answer isn't getting any better ...
             if newMaxDist > maxDist:
                 if debug:
-                    print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: The middle is ({midLon:.6f}°, {midLat:.6f}°) and the maximum Geodesic distance is {0.001 * maxDist:,.1f} km.")
+                    print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: The middle is finally ({midLon:.6f}°, {midLat:.6f}°) and the maximum Geodesic distance is finally {0.001 * maxDist:,.1f} km.")
                 break
 
             # Update values ...
@@ -198,7 +199,7 @@ def find_middle_of_locs_geodesicCircle(
         maxDist += pad                                                          # [m]
 
         if debug:
-            print(f"INFO: Maximum (padded) Geodesic distance is {0.001 * maxDist:,.1f} km.")
+            print(f"INFO: Maximum (padded) Geodesic distance is finally {0.001 * maxDist:,.1f} km.")
 
     # Return answer ...
     return midLon, midLat, maxDist
