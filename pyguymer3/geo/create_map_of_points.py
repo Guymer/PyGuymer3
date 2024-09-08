@@ -43,7 +43,7 @@ def create_map_of_points(
     pngOut : str
         the name of the output PNG
     angConv : float, optional
-        the angle change which classifies as converged
+        the angle change which classifies as converged (in degrees)
     background : str, optional
         the type of background to add (recognised values are: "GSHHG"; "image";
         "NE"; "none"; and "OSM")
