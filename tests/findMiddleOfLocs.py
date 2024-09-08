@@ -71,20 +71,22 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--geodesic-convergence",
-        default = 1000.0,
+        default = 10000.0,
            dest = "geodesicConv",
-           help = "the Geodesic distance that defines the middle as being converged (in metres)",
+           help = "the *initial* Geodesic distance that defines the middle as being converged (in metres)",
            type = float,
     )
     parser.add_argument(
         "--nAng",
         default = 361,
+           dest = "nAng",
            help = "the number of angles around each circle",
            type = int,
     )
     parser.add_argument(
         "--nDiv",
         default = 100,
+           dest = "nDiv",
            help = "the number of divisions when showing the shape of the surface",
            type = int,
     )
@@ -93,6 +95,13 @@ if __name__ == "__main__":
         default = 1000000,
            dest = "nIter",
            help = "the maximum number of iterations (particularly the Vincenty formula)",
+           type = int,
+    )
+    parser.add_argument(
+        "--nRefine",
+        default = 6,
+           dest = "nRefine",
+           help = "the number of refinements to make (each refinement halves the \"geodesic-convergence\" distance)",
            type = int,
     )
     parser.add_argument(
@@ -119,8 +128,8 @@ if __name__ == "__main__":
     # Calculate convergence criteria ...
     euclideanConv = args.geodesicConv / pyguymer3.RESOLUTION_OF_EARTH           # [°]
 
-    print(f"The Geodesic convergence criteria is {0.001 * args.geodesicConv:,.1f} km.")
-    print(f"The Euclidean convergence criteria is {euclideanConv:.6f}°.")
+    print(f"The *initial* Geodesic convergence criteria is {0.001 * args.geodesicConv:,.1f} km.")
+    print(f"The *initial* Euclidean convergence criteria is {euclideanConv:.6f}°.")
 
     # **************************************************************************
 
@@ -128,29 +137,30 @@ if __name__ == "__main__":
     midLon1, midLat1, maxDist1 = pyguymer3.geo.find_middle_of_locs(
         lons,
         lats,
-          conv = euclideanConv,
+          conv = euclideanConv,                                                 # ~10 km
          debug = args.debug,
            eps = args.eps,
         method = "EuclideanBox",
          nIter = args.nIter,
-           pad = 10.0 * euclideanConv,
+           pad = euclideanConv,                                                 # ~10 km
     )                                                                           # [°], [°], [°]
     EuclideanBox = shapely.geometry.point.Point(midLon1, midLat1).buffer(
         maxDist1,
         quad_segs = (args.nAng - 1) // 4,
     )
-    print(f"   EuclideanBox: ({midLon1:.6f}°, {midLat1:.6f}°) and {maxDist1:.6f}°.")
+    print(f"   EuclideanBox: ({midLon1:.6f}°, {midLat1:.6f}°) and {maxDist1:.6f}° (inc. padding).")
 
     # Calculate the Geodesic bounding box ...
     midLon2, midLat2, maxDist2 = pyguymer3.geo.find_middle_of_locs(
         lons,
         lats,
-          conv = args.geodesicConv,
-         debug = args.debug,
-           eps = args.eps,
-        method = "GeodesicBox",
-         nIter = args.nIter,
-           pad = 10.0 * args.geodesicConv,
+           conv = args.geodesicConv,                                            # 10 km
+          debug = args.debug,
+            eps = args.eps,
+         method = "GeodesicBox",
+          nIter = args.nIter,
+        nRefine = args.nRefine,                                                 # 156.25 m
+            pad = args.geodesicConv,                                            # 10 km
     )                                                                           # [°], [°], [m]
     GeodesicBox = pyguymer3.geo.buffer(
         shapely.geometry.point.Point(midLon2, midLat2),
@@ -163,35 +173,37 @@ if __name__ == "__main__":
          simp = -1.0,
           tol = args.tol,
     )
-    print(f"    GeodesicBox: ({midLon2:.6f}°, {midLat2:.6f}°) and {0.001 * maxDist2:,.1f} km.")
+    print(f"    GeodesicBox: ({midLon2:.6f}°, {midLat2:.6f}°) and {0.001 * maxDist2:,.1f} km (inc. padding).")
 
     # Calculate the Euclidean bounding circle ...
     midLon3, midLat3, maxDist3 = pyguymer3.geo.find_middle_of_locs(
         lons,
         lats,
-          conv = euclideanConv,
-         debug = args.debug,
-           eps = args.eps,
-        method = "EuclideanCircle",
-         nIter = args.nIter,
-           pad = 10.0 * euclideanConv,
+           conv = euclideanConv,                                                # ~10 km
+          debug = args.debug,
+            eps = args.eps,
+         method = "EuclideanCircle",
+          nIter = args.nIter,
+        nRefine = args.nRefine,                                                 # ~156.25 m
+            pad = euclideanConv,                                                # ~10 km
     )                                                                           # [°], [°], [°]
     EuclideanCircle = shapely.geometry.point.Point(midLon3, midLat3).buffer(
         maxDist3,
         quad_segs = (args.nAng - 1) // 4,
     )
-    print(f"EuclideanCircle: ({midLon3:.6f}°, {midLat3:.6f}°) and {maxDist3:.6f}°.")
+    print(f"EuclideanCircle: ({midLon3:.6f}°, {midLat3:.6f}°) and {maxDist3:.6f}° (inc. padding).")
 
     # Calculate the Geodesic bounding circle ...
     midLon4, midLat4, maxDist4 = pyguymer3.geo.find_middle_of_locs(
         lons,
         lats,
-          conv = args.geodesicConv,
-         debug = args.debug,
-           eps = args.eps,
-        method = "GeodesicCircle",
-         nIter = args.nIter,
-           pad = 10.0 * args.geodesicConv,
+           conv = args.geodesicConv,                                            # 10 km
+          debug = args.debug,
+            eps = args.eps,
+         method = "GeodesicCircle",
+          nIter = args.nIter,
+        nRefine = args.nRefine,                                                 # 156.25 m
+            pad = args.geodesicConv,                                            # 10 km
     )                                                                           # [°], [°], [m]
     GeodesicCircle = pyguymer3.geo.buffer(
         shapely.geometry.point.Point(midLon4, midLat4),
@@ -204,7 +216,7 @@ if __name__ == "__main__":
          simp = -1.0,
           tol = args.tol,
     )
-    print(f" GeodesicCircle: ({midLon4:.6f}°, {midLat4:.6f}°) and {0.001 * maxDist4:,.1f} km.")
+    print(f" GeodesicCircle: ({midLon4:.6f}°, {midLat4:.6f}°) and {0.001 * maxDist4:,.1f} km (inc. padding).")
 
     # **************************************************************************
 
@@ -311,8 +323,8 @@ if __name__ == "__main__":
         linestyle = "solid",
         linewidth = 1.0,
     )
-    axBot[0].set_title(f"EuclideanBox: ({midLon1:.6f}°, {midLat1:.6f}°) and {maxDist1:.6f}°.")
-    axTop[0].set_title(f"EuclideanBox: ({midLon1:.6f}°, {midLat1:.6f}°) and {maxDist1:.6f}°.")
+    axBot[0].set_title(f"EuclideanBox: ({midLon1:.6f}°, {midLat1:.6f}°) and {maxDist1:.6f}° (inc. padding).")
+    axTop[0].set_title(f"EuclideanBox: ({midLon1:.6f}°, {midLat1:.6f}°) and {maxDist1:.6f}° (inc. padding).")
 
     # Plot the Geodesic bounding box and configure axes ...
     for poly in pyguymer3.geo.extract_polys(GeodesicBox):
@@ -331,8 +343,8 @@ if __name__ == "__main__":
         linestyle = "solid",
         linewidth = 1.0,
     )
-    axBot[1].set_title(f"GeodesicBox: ({midLon2:.6f}°, {midLat2:.6f}°) and {0.001 * maxDist2:,.1f} km.")
-    axTop[1].set_title(f"GeodesicBox: ({midLon2:.6f}°, {midLat2:.6f}°) and {0.001 * maxDist2:,.1f} km.")
+    axBot[1].set_title(f"GeodesicBox: ({midLon2:.6f}°, {midLat2:.6f}°) and {0.001 * maxDist2:,.1f} km (inc. padding).")
+    axTop[1].set_title(f"GeodesicBox: ({midLon2:.6f}°, {midLat2:.6f}°) and {0.001 * maxDist2:,.1f} km (inc. padding).")
 
     # Plot the Euclidean bounding circle and configure axes ...
     for poly in pyguymer3.geo.extract_polys(EuclideanCircle):
@@ -351,8 +363,8 @@ if __name__ == "__main__":
         linestyle = "solid",
         linewidth = 1.0,
     )
-    axBot[2].set_title(f"EuclideanCircle: ({midLon3:.6f}°, {midLat3:.6f}°) and {maxDist3:.6f}°.")
-    axTop[2].set_title(f"EuclideanCircle: ({midLon3:.6f}°, {midLat3:.6f}°) and {maxDist3:.6f}°.")
+    axBot[2].set_title(f"EuclideanCircle: ({midLon3:.6f}°, {midLat3:.6f}°) and {maxDist3:.6f}° (inc. padding).")
+    axTop[2].set_title(f"EuclideanCircle: ({midLon3:.6f}°, {midLat3:.6f}°) and {maxDist3:.6f}° (inc. padding).")
 
     # Plot the Geodesic bounding circle and configure axes ...
     for poly in pyguymer3.geo.extract_polys(GeodesicCircle):
@@ -371,8 +383,8 @@ if __name__ == "__main__":
         linestyle = "solid",
         linewidth = 1.0,
     )
-    axBot[3].set_title(f"GeodesicCircle: ({midLon4:.6f}°, {midLat4:.6f}°) and {0.001 * maxDist4:,.1f} km.")
-    axTop[3].set_title(f"GeodesicCircle: ({midLon4:.6f}°, {midLat4:.6f}°) and {0.001 * maxDist4:,.1f} km.")
+    axBot[3].set_title(f"GeodesicCircle: ({midLon4:.6f}°, {midLat4:.6f}°) and {0.001 * maxDist4:,.1f} km (inc. padding).")
+    axTop[3].set_title(f"GeodesicCircle: ({midLon4:.6f}°, {midLat4:.6f}°) and {0.001 * maxDist4:,.1f} km (inc. padding).")
 
     # Configure axes ...
     for iCol in range(4):
@@ -413,10 +425,10 @@ if __name__ == "__main__":
         maxLon = max(maxLon, info["lon"])                                       # [°]
         minLat = min(minLat, info["lat"])                                       # [°]
         maxLat = max(maxLat, info["lat"])                                       # [°]
-    minLon -= 10.0 * euclideanConv                                              # [°]
-    maxLon += 10.0 * euclideanConv                                              # [°]
-    minLat -= 15.0 * euclideanConv                                              # [°]
-    maxLat += 15.0 * euclideanConv                                              # [°]
+    minLon -= euclideanConv                                                     # [°]
+    maxLon += euclideanConv                                                     # [°]
+    minLat -= 1.5 * euclideanConv                                               # [°]
+    maxLat += 1.5 * euclideanConv                                               # [°]
 
     # Calculate the ranges and the minimum range ...
     lonRange = maxLon - minLon                                                  # [°]
@@ -489,19 +501,19 @@ if __name__ == "__main__":
     # Plot locations ...
     for method, info in db.items():
         if "Geodesic" in method:
-            label = f'{method}\n{0.001 * info["dist"]:,.1f} km'
+            label = f'{method}\n{0.001 * info["dist"]:,.1f} km (inc. padding)'
         else:
-            label = f'{method}\n{info["dist"]:.6f}°'
+            label = f'{method}\n{info["dist"]:.6f}° (inc. padding)'
         x = info["lon"]                                                         # [°]
         if x > 0.5 * (minLon + maxLon):
-            x -= 30.0 * euclideanConv                                           # [°]
+            x -= 3.0 * euclideanConv                                            # [°]
         else:
-            x += 30.0 * euclideanConv                                           # [°]
+            x += 3.0 * euclideanConv                                            # [°]
         y = info["lat"]                                                         # [°]
         if "Geodesic" in method:
-            y -= 5.0 * euclideanConv                                            # [°]
+            y -= 0.5 * euclideanConv                                            # [°]
         else:
-            y += 5.0 * euclideanConv                                            # [°]
+            y += 0.5 * euclideanConv                                            # [°]
         ax.annotate(
             label,
             (info["lon"], info["lat"]),
@@ -540,7 +552,7 @@ if __name__ == "__main__":
     )
 
     # Configure colour bar ...
-    cb.set_label("Geodesic Distance [km]")
+    cb.set_label("Geodesic Distance (excl. padding) [km]")
 
     # Configure axis ...
     ax.grid()
