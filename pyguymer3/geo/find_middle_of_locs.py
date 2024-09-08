@@ -16,7 +16,7 @@ def find_middle_of_locs(
         nAng = 9,
        nIter = 100,
          pad = 10.0e3,
-    useSciPy = True,
+    useSciPy = False,
 ):
     """Find the middle of some locations
 
@@ -31,7 +31,7 @@ def find_middle_of_locs(
     lats : numpy.ndarray
         the latitudes (in degrees)
     angConv : float, optional
-        the angle change which classifies as converged
+        the angle change which classifies as converged (in degrees)
     conv : float, optional
         the Geodesic distance that defines the middle as being converged (in
         metres)
@@ -113,26 +113,29 @@ def find_middle_of_locs(
             return find_middle_of_locs_euclideanCircle(
                 lons,
                 lats,
-                 conv = conv,
-                debug = debug,
-                  eps = eps,
-               midLat = midLat,
-               midLon = midLon,
-                nIter = nIter,
-                  pad = pad,
+                 angConv = angConv,
+                    conv = conv,
+                   debug = debug,
+                     eps = eps,
+                  midLat = midLat,
+                  midLon = midLon,
+                    nAng = nAng,
+                   nIter = nIter,
+                     pad = pad,
+                useSciPy = useSciPy,
             )
         case "GeodesicBox":
             # Return answer ...
             return find_middle_of_locs_geodesicBox(
                 lons,
                 lats,
-                 conv = conv,
-                debug = debug,
-                  eps = eps,
-               midLat = midLat,
-               midLon = midLon,
-                nIter = nIter,
-                  pad = pad,
+                  conv = conv,
+                 debug = debug,
+                   eps = eps,
+                midLat = midLat,
+                midLon = midLon,
+                 nIter = nIter,
+                   pad = pad,
             )
         case "GeodesicCircle":
             # Return answer ...
