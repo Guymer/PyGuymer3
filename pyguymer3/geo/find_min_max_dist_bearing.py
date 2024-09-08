@@ -17,13 +17,15 @@ def find_min_max_dist_bearing(
            iIter = 0,
             nAng = 9,
            nIter = 100,
+           space = "EuclideanSpace",
         startAng = 180.0,
 ):
     """Find the bearing which points towards the minimum maximum distance to
     some locations
 
     This function finds the bearing which points towards the minimum maximum
-    distance to some locations around a middle location.
+    distance (in either Euclidean space or Geodesic space) to some locations
+    around a middle location.
 
     Parameters
     ----------
@@ -36,13 +38,14 @@ def find_min_max_dist_bearing(
     lats : numpy.ndarray
         the latitudes (in degrees)
     angConv : float, optional
-        the angle change which classifies as converged
+        the angle change which classifies as converged (in degrees)
     angHalfRange : float, optional
         the angle either side of the starting angle to search over (in degrees)
     debug : bool, optional
         print debug messages
     dist : float, optional
-        the distance around the middle location to search over (in metres)
+        the distance around the middle location to search over (in degrees or
+        metres)
     eps : float, optional
         the tolerance of the Vincenty formula iterations
     first : bool, optional
@@ -56,6 +59,9 @@ def find_min_max_dist_bearing(
         the number of angles around the middle location to search over
     nIter : int, optional
         the maximum number of iterations (particularly the Vincenty formula)
+    space : str, optional
+        the geometric space to perform the distance calculation in (either
+        "EuclideanSpace" or "GeodesicSpace")
     startAng : float, optional
         the starting angle to search over (in degrees)
 
@@ -73,6 +79,9 @@ def find_min_max_dist_bearing(
     ----------
     .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
+
+    # Import standard modules ...
+    import math
 
     # Import special modules ...
     try:
@@ -135,14 +144,23 @@ def find_min_max_dist_bearing(
     # Populate location arrays ...
     # NOTE: Taking care not to stray outside of 0° and 360°.
     for iAng in range(fakeAngs.size):
-        angLons[iAng], angLats[iAng], _ = calc_loc_from_loc_and_bearing_and_dist(
-            midLon,
-            midLat,
-            (fakeAngs[iAng] + 360.0) % 360.0,
-            dist,
-              eps = eps,
-            nIter = nIter,
-        )                                                                       # [°], [°]
+        # Check what space the user wants ...
+        match space:
+            case "EuclideanSpace":
+                angLons[iAng] = midLon + dist * math.sin(math.degrees(fakeAngs[iAng]))  # [°]
+                angLats[iAng] = midLat + dist * math.cos(math.degrees(fakeAngs[iAng]))  # [°]
+            case "GeodesicSpace":
+                angLons[iAng], angLats[iAng], _ = calc_loc_from_loc_and_bearing_and_dist(
+                    midLon,
+                    midLat,
+                    (fakeAngs[iAng] + 360.0) % 360.0,
+                    dist,
+                      eps = eps,
+                    nIter = nIter,
+                )                                                               # [°], [°]
+            case _:
+                # Crash ...
+                raise ValueError(f"\"space\" is an unexpected value ({repr(space)})") from None
 
     # **************************************************************************
 
@@ -150,7 +168,7 @@ def find_min_max_dist_bearing(
     maxDists = numpy.zeros(
         fakeAngs.size,
         dtype = numpy.float64,
-    )                                                                           # [m]
+    )                                                                           # [°] or [m]
 
     # Populate distance array ...
     for iAng in range(fakeAngs.size):
@@ -161,8 +179,8 @@ def find_min_max_dist_bearing(
             angLats[iAng],
               eps = eps,
             nIter = nIter,
-            space = "GeodesicSpace",
-        )                                                                       # [m]
+            space = space,
+        )                                                                       # [°] or [m]
 
     # **************************************************************************
 
@@ -186,6 +204,7 @@ def find_min_max_dist_bearing(
                    iIter = iIter + 1,
                     nAng = nAng,
                    nIter = nIter,
+                   space = space,
                 startAng = (fakeAngs[iAng] + 360.0) % 360.0,
         )
 
@@ -218,5 +237,6 @@ def find_min_max_dist_bearing(
                iIter = iIter + 1,
                 nAng = nAng,
                nIter = nIter,
+               space = space,
             startAng = (bestAng + 360.0) % 360.0,
     )
