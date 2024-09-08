@@ -6,26 +6,37 @@ def find_middle_of_locs_euclideanCircle(
     lats,
     /,
     *,
-      conv = 0.01,
-     debug = False,
-       eps = 1.0e-12,
-    midLat = None,
-    midLon = None,
-     nIter = 100,
-       pad = 0.1,
+     angConv = 0.1,
+        conv = 0.01,
+       debug = False,
+         eps = 1.0e-12,
+      midLat = None,
+      midLon = None,
+        nAng = 9,
+       nIter = 100,
+         pad = 0.1,
+    useSciPy = False,
 ):
     """Find the middle of some locations such that they are encompassed by the
     smallest Euclidean circle possible.
     """
+
+    # Import standard modules ...
+    import math
 
     # Import special modules ...
     try:
         import numpy
     except:
         raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
+    try:
+        import scipy
+    except:
+        raise Exception("\"scipy\" is not installed; run \"pip install --user scipy\"") from None
 
     # Import sub-functions ...
     from .find_middle_of_locs_euclideanBox import find_middle_of_locs_euclideanBox
+    from ..find_min_max_dist_bearing import find_min_max_dist_bearing
     from ..max_dist import max_dist
 
     # **************************************************************************
@@ -64,179 +75,44 @@ def find_middle_of_locs_euclideanCircle(
     if debug:
         print(f"INFO: The initial middle is ({midLon:.6f}°, {midLat:.6f}°) and the initial maximum Euclidean distance is {maxDist:.6f}°.")
 
-    # Loop over iterations ...
-    for iIter in range(nIter):
-        # Create short-hand ...
-        pntC = (midLon, midLat)                                                 # [°], [°]
+    # **************************************************************************
 
-        # Find points North/South/East/West of the central point ...
-        pntN = (pntC[0], pntC[1] + conv)                                        # [°], [°]
-        pntNN = (pntC[0], pntC[1] + 2.0 * conv)                                 # [°], [°]
-        pntE = (pntC[0] + conv, pntC[1])                                        # [°], [°]
-        pntEE = (pntC[0] + 2.0 * conv, pntC[1])                                 # [°], [°]
-        pntS = (pntC[0], pntC[1] - conv)                                        # [°], [°]
-        pntSS = (pntC[0], pntC[1] - 2.0 * conv)                                 # [°], [°]
-        pntW = (pntC[0] - conv, pntC[1])                                        # [°], [°]
-        pntWW = (pntC[0] - 2.0 * conv, pntC[1])                                 # [°], [°]
-
-        # Find the maximum Euclidean distance from the points to any location ...
-        distC = max_dist(
-            lons,
-            lats,
-            pntC[0],
-            pntC[1],
-              eps = eps,
-            nIter = nIter,
-            space = "EuclideanSpace",
-        )                                                                       # [°]
-        distN = max_dist(
-            lons,
-            lats,
-            pntN[0],
-            pntN[1],
-              eps = eps,
-            nIter = nIter,
-            space = "EuclideanSpace",
-        )                                                                       # [°]
-        distNN = max_dist(
-            lons,
-            lats,
-            pntNN[0],
-            pntNN[1],
-              eps = eps,
-            nIter = nIter,
-            space = "EuclideanSpace",
-        )                                                                       # [°]
-        distE = max_dist(
-            lons,
-            lats,
-            pntE[0],
-            pntE[1],
-              eps = eps,
-            nIter = nIter,
-            space = "EuclideanSpace",
-        )                                                                       # [°]
-        distEE = max_dist(
-            lons,
-            lats,
-            pntEE[0],
-            pntEE[1],
-              eps = eps,
-            nIter = nIter,
-            space = "EuclideanSpace",
-        )                                                                       # [°]
-        distS = max_dist(
-            lons,
-            lats,
-            pntS[0],
-            pntS[1],
-              eps = eps,
-            nIter = nIter,
-            space = "EuclideanSpace",
-        )                                                                       # [°]
-        distSS = max_dist(
-            lons,
-            lats,
-            pntSS[0],
-            pntSS[1],
-              eps = eps,
-            nIter = nIter,
-            space = "EuclideanSpace",
-        )                                                                       # [°]
-        distW = max_dist(
-            lons,
-            lats,
-            pntW[0],
-            pntW[1],
-              eps = eps,
-            nIter = nIter,
-            space = "EuclideanSpace",
-        )                                                                       # [°]
-        distWW = max_dist(
-            lons,
-            lats,
-            pntWW[0],
-            pntWW[1],
-              eps = eps,
-            nIter = nIter,
-            space = "EuclideanSpace",
-        )                                                                       # [°]
-
-        # Fit Polynomials (degree 2) to the South/North line and the West/East
-        # line ...
-        eqnSN = numpy.polynomial.Polynomial.fit(
-            [
-                pntSS[1],
-                pntS[1],
-                pntC[1],
-                pntN[1],
-                pntNN[1],
+    # Check if the input is already converged or if the user wants to use SciPy ...
+    if maxDist < conv:
+        pass
+    elif useSciPy:
+        # Use SciPy to find the minimum maximum Euclidean distance ...
+        ans = scipy.optimize.minimize(
+            lambda x: max_dist(
+                lons,
+                lats,
+                x[0],
+                x[1],
+                  eps = eps,
+                nIter = nIter,
+                space = "EuclideanSpace",
+            ),
+            [midLon, midLat],
+            bounds = [
+                (-180.0, +180.0),
+                ( -90.0,  +90.0),
             ],
-            [
-                distSS,
-                distS,
-                distC,
-                distN,
-                distNN,
-            ],
-               deg = 2,
-            domain = [-90.0, +90.0],
-            symbol = "y",
+             method = "L-BFGS-B",
+            options = {
+                   "disp" : debug,
+                "maxiter" : nIter,
+            },
+                tol = conv,
         )
-        eqnWE = numpy.polynomial.Polynomial.fit(
-            [
-                pntWW[0],
-                pntW[0],
-                pntC[0],
-                pntE[0],
-                pntEE[0],
-            ],
-            [
-                distWW,
-                distW,
-                distC,
-                distE,
-                distEE,
-            ],
-               deg = 2,
-            domain = [-180.0, +180.0],
-            symbol = "x",
-        )
-
-        # Find the roots of the two Polynomials and use them to guess where the
-        # local minimum is ...
-        pntGuess = (eqnWE.deriv().roots()[0], eqnSN.deriv().roots()[0])         # [°], [°]
-
-        # Calculate the Euclidean distance and Euclidean bearing to the guess of
-        # the local minimum ...
-        dist = numpy.hypot(
-            pntGuess[1] - pntC[1],
-            pntGuess[0] - pntC[0],
-        )                                                                       # [°]
-        bear = (
-            360.0 - numpy.degrees(
-                numpy.arctan2(
-                    pntGuess[1] - pntC[1],
-                    pntGuess[0] - pntC[0],
-                ) % (2.0 * numpy.pi)
-            ) + 90.0
-        ) % 360.0                                                               # [°]
-
-        # Check if we can stop iterating ...
-        if dist < conv:
-            break
-
-        # Stop if the end of the loop has been reached but the answer has not
-        # converged ...
-        if iIter == nIter - 1:
-            raise Exception(f"failed to converge; the middle is currently ({midLon:.6f}°, {midLat:.6f}°); nIter = {nIter:,d}") from None
-
-        if debug:
-            print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: Moving middle {conv:.6f}° towards {bear:.1f}° ...")
+        if not ans.success:
+            print(lons)
+            print(lats)
+            print(ans)
+            raise Exception("failed to converge") from None
 
         # Update the middle location ...
-        midLon += conv * numpy.sin(numpy.radians(bear))                         # [°]
-        midLat += conv * numpy.cos(numpy.radians(bear))                         # [°]
+        midLon = ans.x[0]                                                       # [°]
+        midLat = ans.x[1]                                                       # [°]
 
         # Find the maximum Euclidean distance from the middle to any location ...
         maxDist = max_dist(
@@ -250,21 +126,66 @@ def find_middle_of_locs_euclideanCircle(
         )                                                                       # [°]
 
         if debug:
-            print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°) and the maximum Euclidean distance is now {maxDist:.6f}°.")
+            print(f"INFO: The middle is finally ({midLon:.6f}°, {midLat:.6f}°) and the maximum Euclidean distance is finally {maxDist:.6f}°.")
+    else:
+        # Loop over iterations ...
+        for iIter in range(nIter):
+            # Find the angle towards the minimum maximum Euclidean distance ...
+            minAng = find_min_max_dist_bearing(
+                midLon,
+                midLat,
+                lons,
+                lats,
+                     angConv = angConv,
+                angHalfRange = 180.0,
+                       debug = debug,
+                        dist = conv,
+                         eps = eps,
+                       first = True,
+                       iIter = 0,
+                        nAng = nAng,
+                       nIter = nIter,
+                       space = "EuclideanSpace",
+                    startAng = 180.0,
+            )                                                                   # [°]
 
-    # Find the maximum Euclidean distance from the middle to any location ...
-    maxDist = max_dist(
-        lons,
-        lats,
-        midLon,
-        midLat,
-          eps = eps,
-        nIter = nIter,
-        space = "EuclideanSpace",
-    )                                                                           # [°]
+            if debug:
+                print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: Moving middle {conv:.6f}° towards {minAng:.1f}° ...")
 
-    if debug:
-        print(f"INFO: Maximum Euclidean distance is {maxDist:.6f}°.")
+            # Find the new location ...
+            newMidLon = midLon + conv * math.sin(math.degrees(minAng))          # [°]
+            newMidLat = midLat + conv * math.cos(math.degrees(minAng))          # [°]
+
+            # Find the maximum Euclidean distance from the middle to any
+            # location ...
+            newMaxDist = max_dist(
+                lons,
+                lats,
+                newMidLon,
+                newMidLat,
+                  eps = eps,
+                nIter = nIter,
+                space = "EuclideanSpace",
+            )                                                                   # [°]
+
+            # Stop iterating if the answer isn't getting any better ...
+            if newMaxDist > maxDist:
+                if debug:
+                    print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: The middle is finally ({midLon:.6f}°, {midLat:.6f}°) and the maximum Euclidean distance is finally {maxDist:.6f}°.")
+                break
+
+            # Update values ...
+            maxDist = newMaxDist                                                # [°]
+            midLon = newMidLon                                                  # [°]
+            midLat = newMidLat                                                  # [°]
+
+            # Stop if the end of the loop has been reached but the answer has
+            # not converged ...
+            if iIter == nIter - 1:
+                raise Exception(f"failed to converge; the middle is currently ({midLon:.6f}°, {midLat:.6f}°); nIter = {nIter:,d}") from None
+
+            if debug:
+                print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°) and the maximum Euclidean distance is now {maxDist:.6f}°.")
 
     # **************************************************************************
 
@@ -274,7 +195,7 @@ def find_middle_of_locs_euclideanCircle(
         maxDist += pad                                                          # [°]
 
         if debug:
-            print(f"INFO: Maximum (padded) Euclidean distance is {maxDist:.6f}°.")
+            print(f"INFO: Maximum (padded) Euclidean distance is finally {maxDist:.6f}°.")
 
     # Return answer ...
     return midLon, midLat, maxDist
