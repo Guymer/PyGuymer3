@@ -6,13 +6,15 @@ def find_middle_of_locs_geodesicBox(
     lats,
     /,
     *,
-      conv = 1.0e3,
-     debug = False,
-       eps = 1.0e-12,
-    midLat = None,
-    midLon = None,
-     nIter = 100,
-       pad = 10.0e3,
+       conv = 1.0e3,
+      debug = False,
+        eps = 1.0e-12,
+    iRefine = 0,
+     midLat = None,
+     midLon = None,
+      nIter = 100,
+    nRefine = 1,
+        pad = 10.0e3,
 ):
     """Find the middle of some locations such that: a) the Geodesic distance to
     the most Northern point is the same as the Geodesic distance to the most
@@ -239,4 +241,18 @@ def find_middle_of_locs_geodesicBox(
             print(f"INFO: Maximum (padded) Geodesic distance is {0.001 * maxDist:,.1f} km.")
 
     # Return answer ...
-    return midLon, midLat, maxDist
+    if iRefine == nRefine - 1:
+        return midLon, midLat, maxDist
+    return find_middle_of_locs_geodesicBox(
+        lons,
+        lats,
+           conv = 0.5 * conv,
+          debug = debug,
+            eps = eps,
+        iRefine = iRefine + 1,
+         midLat = midLat,
+         midLon = midLon,
+          nIter = nIter,
+        nRefine = nRefine,
+            pad = pad,
+    )

@@ -10,10 +10,12 @@ def find_middle_of_locs_geodesicCircle(
         conv = 1.0e3,
        debug = False,
          eps = 1.0e-12,
+     iRefine = 0,
       midLat = None,
       midLon = None,
         nAng = 9,
        nIter = 100,
+     nRefine = 1,
          pad = 10.0e3,
     useSciPy = False,
 ):
@@ -202,4 +204,21 @@ def find_middle_of_locs_geodesicCircle(
             print(f"INFO: Maximum (padded) Geodesic distance is finally {0.001 * maxDist:,.1f} km.")
 
     # Return answer ...
-    return midLon, midLat, maxDist
+    if iRefine == nRefine - 1:
+        return midLon, midLat, maxDist
+    return find_middle_of_locs_geodesicCircle(
+        lons,
+        lats,
+         angConv = angConv,
+            conv = 0.5 * conv,
+           debug = debug,
+             eps = eps,
+         iRefine = iRefine + 1,
+          midLat = midLat,
+          midLon = midLon,
+            nAng = nAng,
+           nIter = nIter,
+         nRefine = nRefine,
+             pad = pad,
+        useSciPy = useSciPy,
+    )

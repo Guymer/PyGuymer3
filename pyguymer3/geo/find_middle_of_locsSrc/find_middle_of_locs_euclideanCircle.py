@@ -10,10 +10,12 @@ def find_middle_of_locs_euclideanCircle(
         conv = 0.01,
        debug = False,
          eps = 1.0e-12,
+     iRefine = 0,
       midLat = None,
       midLon = None,
         nAng = 9,
        nIter = 100,
+     nRefine = 1,
          pad = 0.1,
     useSciPy = False,
 ):
@@ -198,4 +200,21 @@ def find_middle_of_locs_euclideanCircle(
             print(f"INFO: Maximum (padded) Euclidean distance is finally {maxDist:.6f}°.")
 
     # Return answer ...
-    return midLon, midLat, maxDist
+    if iRefine == nRefine - 1:
+        return midLon, midLat, maxDist
+    return find_middle_of_locs_euclideanCircle(
+        lons,
+        lats,
+         angConv = angConv,
+            conv = 0.5 * conv,
+           debug = debug,
+             eps = eps,
+         iRefine = iRefine + 1,
+          midLat = midLat,
+          midLon = midLon,
+            nAng = nAng,
+           nIter = nIter,
+         nRefine = nRefine,
+             pad = pad,
+        useSciPy = useSciPy,
+    )

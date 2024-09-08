@@ -10,11 +10,13 @@ def find_middle_of_locs(
         conv = 1.0e3,
        debug = False,
          eps = 1.0e-12,
+     iRefine = 0,
       method = "GeodesicBox",
       midLat = None,
       midLon = None,
         nAng = 9,
        nIter = 100,
+     nRefine = 1,
          pad = 10.0e3,
     useSciPy = False,
 ):
@@ -33,21 +35,26 @@ def find_middle_of_locs(
     angConv : float, optional
         the angle change which classifies as converged (in degrees)
     conv : float, optional
-        the Geodesic distance that defines the middle as being converged (in
+        the distance that defines the middle as being converged (in degrees or
         metres)
     debug : bool, optional
         print debug messages
     eps : float, optional
         the tolerance of the Vincenty formula iterations
+    iRefine : int, optional
+        the current refinement
     method : str, optional
         the method for finding the middle of the locations
     nAng : int, optional
         the number of angles around the middle location to search over
     nIter : int, optional
         the maximum number of iterations (particularly the Vincenty formula)
+    nRefine : int, optional
+        the number of refinements to make (each refinement halves the "conv"
+        distance)
     pad : float, optional
-        the padding to add to the maximum Geodesic distance from the middle to
-        the most extreme location (in metres)
+        the padding to add to the maximum distance from the middle to the most
+        extreme location (in degrees or metres)
     useSciPy : bool, optional
         use "scipy.optimize.minimize" or my own minimizer
 
@@ -117,10 +124,12 @@ def find_middle_of_locs(
                     conv = conv,
                    debug = debug,
                      eps = eps,
+                 iRefine = iRefine,
                   midLat = midLat,
                   midLon = midLon,
                     nAng = nAng,
                    nIter = nIter,
+                 nRefine = nRefine,
                      pad = pad,
                 useSciPy = useSciPy,
             )
@@ -129,13 +138,15 @@ def find_middle_of_locs(
             return find_middle_of_locs_geodesicBox(
                 lons,
                 lats,
-                  conv = conv,
-                 debug = debug,
-                   eps = eps,
-                midLat = midLat,
-                midLon = midLon,
-                 nIter = nIter,
-                   pad = pad,
+                   conv = conv,
+                  debug = debug,
+                    eps = eps,
+                iRefine = iRefine,
+                 midLat = midLat,
+                 midLon = midLon,
+                  nIter = nIter,
+                nRefine = nRefine,
+                    pad = pad,
             )
         case "GeodesicCircle":
             # Return answer ...
@@ -146,10 +157,12 @@ def find_middle_of_locs(
                     conv = conv,
                    debug = debug,
                      eps = eps,
+                 iRefine = iRefine,
                   midLat = midLat,
                   midLon = midLon,
                     nAng = nAng,
                    nIter = nIter,
+                 nRefine = nRefine,
                      pad = pad,
                 useSciPy = useSciPy,
             )
