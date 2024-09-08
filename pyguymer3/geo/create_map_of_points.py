@@ -27,7 +27,7 @@ def create_map_of_points(
              timeout = 60.0,
                title = None,
                  tol = 1.0e-10,
-            useSciPy = True,
+            useSciPy = False,
 ):
     """Save a PNG map of a sequence of points
 
@@ -150,7 +150,7 @@ def create_map_of_points(
     # **************************************************************************
 
     # Find the centre of the points very quickly ...
-    _, _, maxDistQuick = find_middle_of_locs(
+    midLonQuick, midLatQuick, maxDistQuick = find_middle_of_locs(
         lons,
         lats,
          angConv = None,
@@ -158,6 +158,8 @@ def create_map_of_points(
            debug = debug,
              eps = eps,
           method = "EuclideanBox",
+          midLat = None,
+          midLon = None,
             nAng = None,
            nIter = nIter,
              pad = -1.0,
@@ -200,6 +202,8 @@ def create_map_of_points(
                debug = debug,
                  eps = eps,
               method = method,
+              midLat = midLatQuick,
+              midLon = midLonQuick,
                 nAng = nAng,
                nIter = nIter,
                  pad = padDist,
