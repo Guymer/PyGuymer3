@@ -83,14 +83,14 @@ if __name__ == "__main__":
            type = int,
     )
     parser.add_argument(
-        "--ndiv",
-        default = 101,
+        "--nDiv",
+        default = 100,
            help = "the number of divisions when showing the shape of the surface",
            type = int,
     )
     parser.add_argument(
         "--nIter",
-        default = 100,
+        default = 1000000,
            dest = "nIter",
            help = "the maximum number of iterations (particularly the Vincenty formula)",
            type = int,
@@ -119,8 +119,8 @@ if __name__ == "__main__":
     # Calculate convergence criteria ...
     euclideanConv = args.geodesicConv / pyguymer3.RESOLUTION_OF_EARTH           # [°]
 
-    print(f"The Geodesic convergence criteria is {0.001 * args.geodesicConv:,.1} km.")
-    print(f"The Euclidean convergence criteria is {euclideanConv:.6}°.")
+    print(f"The Geodesic convergence criteria is {0.001 * args.geodesicConv:,.1f} km.")
+    print(f"The Euclidean convergence criteria is {euclideanConv:.6f}°.")
 
     # **************************************************************************
 
@@ -415,27 +415,34 @@ if __name__ == "__main__":
         maxLat = max(maxLat, info["lat"])                                       # [°]
     minLon -= 10.0 * euclideanConv                                              # [°]
     maxLon += 10.0 * euclideanConv                                              # [°]
-    minLat -= 10.0 * euclideanConv                                              # [°]
-    maxLat += 10.0 * euclideanConv                                              # [°]
+    minLat -= 15.0 * euclideanConv                                              # [°]
+    maxLat += 15.0 * euclideanConv                                              # [°]
+
+    # Calculate the ranges and the minimum range ...
+    lonRange = maxLon - minLon                                                  # [°]
+    latRange = maxLat - minLat                                                  # [°]
+    maxRange = max(lonRange, latRange)                                          # [°]
 
     # Create some axes to survey the bounding box ...
+    # NOTE: Make the fence panels the same Euclidean size in both axes.
     lonsDiv = numpy.linspace(
         minLon,
         maxLon,
         dtype = numpy.float64,
-          num = args.ndiv,
+          num = 1 + round(args.nDiv * lonRange / maxRange),
     )                                                                           # [°]
     latsDiv = numpy.linspace(
         minLat,
         maxLat,
         dtype = numpy.float64,
-          num = args.ndiv,
+          num = 1 + round(args.nDiv * latRange / maxRange),
     )                                                                           # [°]
 
-    # Find the maximum Geodesic distance over the bounding box ...
-    maxDist = numpy.zeros((args.ndiv, args.ndiv), dtype = numpy.float64)        # [m]
-    for iLon in range(args.ndiv):
-        for iLat in range(args.ndiv):
+    # Find the maximum Geodesic distance over the bounding box and convert to
+    # useful units ...
+    maxDist = numpy.zeros((latsDiv.size, lonsDiv.size), dtype = numpy.float64)  # [m]
+    for iLon in range(lonsDiv.size):
+        for iLat in range(latsDiv.size):
             maxDist[iLat, iLon] = pyguymer3.geo.max_dist(
                 lons,
                 lats,
@@ -445,41 +452,58 @@ if __name__ == "__main__":
                 nIter = args.nIter,
                 space = "GeodesicSpace",
             )                                                                   # [m]
+    maxDist *= 0.001                                                            # [km]
 
     # **************************************************************************
 
     print("Making \"findMiddleOfLocs/locations.png\" ...")
 
     # Create figure ...
-    fg = matplotlib.pyplot.figure()
+    fg = matplotlib.pyplot.figure(figsize = (12.8, 7.2))
 
     # Create axis ...
     ax = fg.add_subplot()
 
     # Plot data ...
-    im = ax.imshow(
-        0.001 * maxDist,
-                 cmap = "jet",
-               extent = [minLon, maxLon, minLat, maxLat],
-        interpolation = "bicubic",
-               origin = "lower",
+    im = ax.pcolormesh(
+        lonsDiv,
+        latsDiv,
+        maxDist,
+           cmap = "jet",
+        shading = "nearest",
+         zorder = 1.0,
+    )
+    ax.contour(
+        lonsDiv,
+        latsDiv,
+        maxDist,
+        colors = "white",
+        levels = numpy.linspace(
+            maxDist.min() +  2.0,
+            maxDist.min() + 20.0,
+            num = 10,
+        ),
+        zorder = 1.5,
     )
 
     # Plot locations ...
-    # NOTE: By manual inspection, the "zorder" of "im" is 0.0.
     for method, info in db.items():
-        x = info["lon"]                                                         # [°]
-        y = info["lat"]                                                         # [°]
-        if x > 0.5 * (minLon + maxLon):
-            x -= 20.0 * euclideanConv                                           # [°]
+        if "Geodesic" in method:
+            label = f'{method}\n{0.001 * info["dist"]:,.1f} km'
         else:
-            x += 20.0 * euclideanConv                                           # [°]
+            label = f'{method}\n{info["dist"]:.6f}°'
+        x = info["lon"]                                                         # [°]
+        if x > 0.5 * (minLon + maxLon):
+            x -= 30.0 * euclideanConv                                           # [°]
+        else:
+            x += 30.0 * euclideanConv                                           # [°]
+        y = info["lat"]                                                         # [°]
         if "Geodesic" in method:
             y -= 5.0 * euclideanConv                                            # [°]
         else:
             y += 5.0 * euclideanConv                                            # [°]
         ax.annotate(
-            method,
+            label,
             (info["lon"], info["lat"]),
                     arrowprops = {
                 "edgecolor" : "black",
@@ -495,7 +519,7 @@ if __name__ == "__main__":
             horizontalalignment = "center",
               verticalalignment = "center",
                          xytext = (x, y),
-                         zorder = 1.0,
+                         zorder = 2.0,
         )
         ax.scatter(
             [info["lon"]],
@@ -505,7 +529,7 @@ if __name__ == "__main__":
             linewidth = 1.0,
                marker = "*",
                     s = 100.0,
-               zorder = 2.0,
+               zorder = 2.5,
         )
 
     # Add colour bar ...
@@ -516,7 +540,7 @@ if __name__ == "__main__":
     )
 
     # Configure colour bar ...
-    cb.set_label("Distance [km]")
+    cb.set_label("Geodesic Distance [km]")
 
     # Configure axis ...
     ax.grid()
