@@ -6,11 +6,13 @@ def find_middle_of_locs_geodesicBox(
     lats,
     /,
     *,
-     conv = 1.0e3,
-    debug = False,
-      eps = 1.0e-12,
-    nIter = 100,
-      pad = 10.0e3,
+      conv = 1.0e3,
+     debug = False,
+       eps = 1.0e-12,
+    midLat = None,
+    midLon = None,
+     nIter = 100,
+       pad = 10.0e3,
 ):
     """Find the middle of some locations such that: a) the Geodesic distance to
     the most Northern point is the same as the Geodesic distance to the most
@@ -41,18 +43,30 @@ def find_middle_of_locs_geodesicBox(
     # **************************************************************************
 
     # Calculate the middle of the Euclidean bounding box to use as a decent
-    # starting guess ...
-    midLon, midLat, _ = find_middle_of_locs_euclideanBox(
+    # starting guess (if the user has not provided one) ...
+    if midLon is None or midLat is None:
+        midLon, midLat, _ = find_middle_of_locs_euclideanBox(
+            lons,
+            lats,
+            debug = debug,
+              eps = eps,
+            nIter = nIter,
+              pad = -1.0,
+        )                                                                       # [°], [°]
+
+    # Find the maximum Geodesic distance from the middle to any location ...
+    maxDist = max_dist(
         lons,
         lats,
-        debug = debug,
+        midLon,
+        midLat,
           eps = eps,
         nIter = nIter,
-          pad = -1.0,
-    )                                                                           # [°], [°]
+        space = "GeodesicSpace",
+    )                                                                           # [m]
 
     if debug:
-        print(f"INFO: The initial middle is ({midLon:.6f}°, {midLat:.6f}°).")
+        print(f"INFO: The initial middle is ({midLon:.6f}°, {midLat:.6f}°) and the initial maximum Geodesic distance is {0.001 * maxDist:,.1f} km.")
 
     # Loop over iterations ...
     for iIter in range(nIter):

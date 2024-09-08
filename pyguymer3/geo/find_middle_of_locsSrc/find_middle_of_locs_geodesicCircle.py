@@ -10,6 +10,8 @@ def find_middle_of_locs_geodesicCircle(
         conv = 1.0e3,
        debug = False,
          eps = 1.0e-12,
+      midLat = None,
+      midLon = None,
         nAng = 9,
        nIter = 100,
          pad = 10.0e3,
@@ -47,15 +49,16 @@ def find_middle_of_locs_geodesicCircle(
     # **************************************************************************
 
     # Calculate the middle of the Euclidean bounding box to use as a decent
-    # starting guess ...
-    midLon, midLat, _ = find_middle_of_locs_euclideanBox(
-        lons,
-        lats,
-        debug = debug,
-          eps = eps,
-        nIter = nIter,
-          pad = -1.0,
-    )                                                                           # [°], [°]
+    # starting guess (if the user has not provided one) ...
+    if midLon is None or midLat is None:
+        midLon, midLat, _ = find_middle_of_locs_euclideanBox(
+            lons,
+            lats,
+            debug = debug,
+              eps = eps,
+            nIter = nIter,
+              pad = -1.0,
+        )                                                                       # [°], [°]
 
     # Find the maximum Geodesic distance from the middle to any location ...
     maxDist = max_dist(
