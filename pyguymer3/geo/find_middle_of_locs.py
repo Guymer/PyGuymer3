@@ -10,7 +10,6 @@ def find_middle_of_locs(
         conv = 1.0e3,
        debug = False,
          eps = 1.0e-12,
-     iRefine = 0,
       method = "GeodesicBox",
       midLat = None,
       midLon = None,
@@ -41,8 +40,6 @@ def find_middle_of_locs(
         print debug messages
     eps : float, optional
         the tolerance of the Vincenty formula iterations
-    iRefine : int, optional
-        the current refinement
     method : str, optional
         the method for finding the middle of the locations
     nAng : int, optional
@@ -124,7 +121,7 @@ def find_middle_of_locs(
                     conv = conv,
                    debug = debug,
                      eps = eps,
-                 iRefine = iRefine,
+                 iRefine = 0,
                   midLat = midLat,
                   midLon = midLon,
                     nAng = nAng,
@@ -141,7 +138,7 @@ def find_middle_of_locs(
                    conv = conv,
                   debug = debug,
                     eps = eps,
-                iRefine = iRefine,
+                iRefine = 0,
                  midLat = midLat,
                  midLon = midLon,
                   nIter = nIter,
@@ -157,7 +154,7 @@ def find_middle_of_locs(
                     conv = conv,
                    debug = debug,
                      eps = eps,
-                 iRefine = iRefine,
+                 iRefine = 0,
                   midLat = midLat,
                   midLon = midLon,
                     nAng = nAng,
