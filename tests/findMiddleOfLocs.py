@@ -71,13 +71,13 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--geodesic-convergence",
-        default = 1.0e3,
+        default = 1000.0,
            dest = "geodesicConv",
            help = "the Geodesic distance that defines the middle as being converged (in metres)",
            type = float,
     )
     parser.add_argument(
-        "--nang",
+        "--nAng",
         default = 361,
            help = "the number of angles around each circle",
            type = int,
@@ -89,10 +89,10 @@ if __name__ == "__main__":
            type = int,
     )
     parser.add_argument(
-        "--nMax",
+        "--nIter",
         default = 100,
-           dest = "nMax",
-           help = "the maximum number of Vincenty formula iterations",
+           dest = "nIter",
+           help = "the maximum number of iterations (particularly the Vincenty formula)",
            type = int,
     )
     parser.add_argument(
@@ -119,6 +119,9 @@ if __name__ == "__main__":
     # Calculate convergence criteria ...
     euclideanConv = args.geodesicConv / pyguymer3.RESOLUTION_OF_EARTH           # [°]
 
+    print(f"The Geodesic convergence criteria is {0.001 * args.geodesicConv:,.1} km.")
+    print(f"The Euclidean convergence criteria is {euclideanConv:.6}°.")
+
     # **************************************************************************
 
     # Calculate the Euclidean bounding box ...
@@ -129,13 +132,12 @@ if __name__ == "__main__":
          debug = args.debug,
            eps = args.eps,
         method = "EuclideanBox",
-         nIter = 1000,
-          nMax = args.nMax,
+         nIter = args.nIter,
            pad = 10.0 * euclideanConv,
     )                                                                           # [°], [°], [°]
     EuclideanBox = shapely.geometry.point.Point(midLon1, midLat1).buffer(
         maxDist1,
-        quad_segs = (args.nang - 1) // 4,
+        quad_segs = (args.nAng - 1) // 4,
     )
     print(f"   EuclideanBox: ({midLon1:.6f}°, {midLat1:.6f}°) and {maxDist1:.6f}°.")
 
@@ -147,8 +149,7 @@ if __name__ == "__main__":
          debug = args.debug,
            eps = args.eps,
         method = "GeodesicBox",
-         nIter = 1000,
-          nMax = args.nMax,
+         nIter = args.nIter,
            pad = 10.0 * args.geodesicConv,
     )                                                                           # [°], [°], [m]
     GeodesicBox = pyguymer3.geo.buffer(
@@ -157,8 +158,8 @@ if __name__ == "__main__":
         debug = args.debug,
           eps = args.eps,
          fill = -1.0,
-         nang = args.nang,
-         nMax = args.nMax,
+         nang = args.nAng,
+        nIter = args.nIter,
          simp = -1.0,
           tol = args.tol,
     )
@@ -172,13 +173,13 @@ if __name__ == "__main__":
          debug = args.debug,
            eps = args.eps,
         method = "EuclideanCircle",
-         nIter = 1000,
-          nMax = args.nMax,
+          nAng = args.nAng,
+         nIter = args.nIter,
            pad = 10.0 * euclideanConv,
     )                                                                           # [°], [°], [°]
     EuclideanCircle = shapely.geometry.point.Point(midLon3, midLat3).buffer(
         maxDist3,
-        quad_segs = (args.nang - 1) // 4,
+        quad_segs = (args.nAng - 1) // 4,
     )
     print(f"EuclideanCircle: ({midLon3:.6f}°, {midLat3:.6f}°) and {maxDist3:.6f}°.")
 
@@ -190,8 +191,7 @@ if __name__ == "__main__":
          debug = args.debug,
            eps = args.eps,
         method = "GeodesicCircle",
-         nIter = 1000,
-          nMax = args.nMax,
+         nIter = args.nIter,
            pad = 10.0 * args.geodesicConv,
     )                                                                           # [°], [°], [m]
     GeodesicCircle = pyguymer3.geo.buffer(
@@ -200,8 +200,8 @@ if __name__ == "__main__":
         debug = args.debug,
           eps = args.eps,
          fill = -1.0,
-         nang = args.nang,
-         nMax = args.nMax,
+         nang = args.nAng,
+        nIter = args.nIter,
          simp = -1.0,
           tol = args.tol,
     )
@@ -273,7 +273,7 @@ if __name__ == "__main__":
                   lat = midLat1,
                   lon = midLon1,
                 ncols = 4,
-                 nMax = args.nMax,
+                nIter = args.nIter,
                 nrows = 2,
                   tol = args.tol,
             )
@@ -443,7 +443,7 @@ if __name__ == "__main__":
                 lonsDiv[iLon],
                 latsDiv[iLat],
                   eps = args.eps,
-                 nMax = args.nMax,
+                nIter = args.nIter,
                 space = "GeodesicSpace",
             )                                                                   # [m]
 
