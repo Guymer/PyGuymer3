@@ -18,6 +18,7 @@ def create_map_of_points(
                 name = "natural-earth-1",
                 nAng = 9,
                nIter = 100,
+             nRefine = 1,
            onlyValid = False,
               prefix = ".",
             ramLimit = 1073741824,
@@ -70,6 +71,9 @@ def create_map_of_points(
         the number of angles around the middle location to search over
     nIter : int, optional
         the maximum number of iterations (particularly the Vincenty formula)
+    nRefine : int, optional
+        the number of refinements to make (each refinement halves the "conv"
+        distance)
     onlyValid : bool, optional
         only return valid Polygons (checks for validity can take a while, if
         being called often)
@@ -162,6 +166,7 @@ def create_map_of_points(
           midLon = None,
             nAng = None,
            nIter = nIter,
+         nRefine = nRefine,
              pad = -1.0,
         useSciPy = None,
     )                                                                           # [°]
@@ -206,6 +211,7 @@ def create_map_of_points(
               midLon = midLonQuick,
                 nAng = nAng,
                nIter = nIter,
+             nRefine = nRefine,
                  pad = padDist,
             useSciPy = useSciPy,
         )                                                                       # [°], [°], [°] or [m]
