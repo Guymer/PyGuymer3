@@ -7,11 +7,13 @@ version: 2
 build:
     apt_packages:
         - gfortran-12
+        - meson
     jobs:
         post_install:
             - which f2py
             - which gfortran-12
             - which gmake
+            - which meson
             - which pip3
             - which python3
             - gmake -r -C pyguymer3/f90 FC1=`which f2py` FC2=`which gfortran-12` PYTHON3=`which python3`
@@ -21,7 +23,9 @@ build:
 
 python:
     install:
+        - requirements: requirements.txt
         - requirements: docs/requirements.txt
+        - requirements: pyguymer3/f90/fortranlib/requirements.txt
 
 submodules:
     include: all
