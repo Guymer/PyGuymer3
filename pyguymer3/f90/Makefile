@@ -10,7 +10,6 @@
 
 DEBUG     ?= false
 FTNLIB    ?= $(abspath fortranlib)
-LIBDIR    ?= /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib
 DEBG_OPTS := -g -fcheck=all
 LANG_OPTS := -ffree-form -ffree-line-length-none -frecursive -fno-unsafe-math-optimizations -frounding-math -fsignaling-nans -fPIC
 WARN_OPTS := -Wall -Wextra -Waliasing -Wcharacter-truncation -Wconversion-extra -Wimplicit-interface -Wimplicit-procedure -Wunderflow -Wtabs
@@ -22,8 +21,7 @@ MACH_OPTS := -march=native -m64
 # ******************************************************************************
 
 CUT     := $(shell which cut            2> /dev/null || echo "ERROR")
-FC1     := $(shell which f2py-3.11      2> /dev/null || echo "ERROR")
-FC2     := $(shell which gfortran-mp-13 2> /dev/null || echo "ERROR")
+FC      := $(shell which gfortran-mp-14 2> /dev/null || echo "ERROR")
 GREP    := $(shell which grep           2> /dev/null || echo "ERROR")
 LN      := $(shell which ln             2> /dev/null || echo "ERROR")
 PYTHON3 := $(shell which python3.11     2> /dev/null || echo "ERROR")
@@ -44,11 +42,8 @@ endif
 ifeq ($(CUT),ERROR)
     $(error The binary "cut" is not installed)
 endif
-ifeq ($(FC1),ERROR)
-    $(error The binary "fc1" is not installed)
-endif
-ifeq ($(FC2),ERROR)
-    $(error The binary "fc2" is not installed)
+ifeq ($(FC),ERROR)
+    $(error The binary "fc" is not installed)
 endif
 ifeq ($(GREP),ERROR)
     $(error The binary "grep" is not installed)
@@ -87,7 +82,7 @@ all:		compile
 # "gmake -r clean"   = removes the compiled code
 clean:
 	$(RM) -f *.mod *.o *.so
-	$(MAKE) -r -C $(FTNLIB) FC=$(FC2) PYTHON3=$(PYTHON3) clean
+	$(MAKE) -r -C $(FTNLIB) FC=$(FC) PYTHON3=$(PYTHON3) clean
 
 # "gmake -r compile" = compiles the code
 compile:	funcs.so
@@ -124,13 +119,15 @@ help:
 #       closed the following issue:
 #         * https://github.com/numpy/numpy/issues/25344
 
+# NOTE: See https://numpy.org/doc/stable/f2py/buildtools/distutils-to-meson.html
+
 $(FTNLIB)/%.mod																	\
 $(FTNLIB)/%.o &:	$(FTNLIB)/%.F90
-	$(MAKE) -r -C $(FTNLIB) DEBUG=$(DEBUG) FC=$(FC2) PYTHON3=$(PYTHON3) $*.o
+	$(MAKE) -r -C $(FTNLIB) DEBUG=$(DEBUG) FC=$(FC) PYTHON3=$(PYTHON3) $*.o
 
 funcs.so:			$(FTNLIB)/mod_safe.o										\
 					funcs.F90													\
 					src/*.f90
 	$(RM) -f funcs.*.so funcs.so
-	$(FC1) -c --include-paths $(PWD) --f77exec=$(FC2) --f90exec=$(FC2) --opt="-fopenmp $(LANG_OPTS) $(WARN_OPTS) $(OPTM_OPTS)" --arch="$(MACH_OPTS)" -lgomp -m funcs -I$(FTNLIB) funcs.F90 $(FTNLIB)/mod_safe.o -L$(LIBDIR)
+	FC=$(FC) FFLAGS="-fopenmp $(LANG_OPTS) $(WARN_OPTS) $(OPTM_OPTS) $(MACH_OPTS)" $(PYTHON3) -m numpy.f2py -c funcs.F90 -m funcs --backend meson -lgomp -I$(FTNLIB) -I$(PWD)
 	$(LN) -s funcs$(SUFFIX) funcs.so
