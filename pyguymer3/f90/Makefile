@@ -2,12 +2,6 @@
 # *                                 VARIABLES                                  *
 # ******************************************************************************
 
-# NOTE: There was a bug in NumPy (using "meson" to build) where "f2py" would
-#       copy the file to a build folder and, therefore, the relative paths to
-#       external libraries would break. To work around this I prepend the
-#       current directory to the library path to make it an absolute path. See:
-#         * https://github.com/numpy/numpy/issues/25344
-
 DEBUG     ?= false
 FTNLIB    ?= $(abspath fortranlib)
 DEBG_OPTS := -g -fcheck=all
@@ -103,20 +97,10 @@ help:
 # *                        INTERNALLY-SPECIFIED TARGETS                        *
 # ******************************************************************************
 
-# NOTE: As of 01/Nov/2019 there is still a bug in "gcc9" from MacPorts which
-#       results in it being unable to find some system libraries. Below are
-#       links to the MacPorts ticket and the GCC ticket as well as the reference
-#       for my chosen (hopefully temporary) workaround.
-#         * https://trac.macports.org/ticket/59113
-#         * https://gcc.gnu.org/bugzilla/show_bug.cgi?id=90835
-#         * https://stackoverflow.com/a/58081934
-
 # NOTE: There was a bug in NumPy (using "meson" to build) where "f2py" would
-#       copy the file to a build folder but not copy the "INCLUDE" files and,
-#       therefore, the compilation would fail because it would not find the
-#       included file. To work around this I use the "--include-paths" argument
-#       as demonstrated in the test code added as part of the Pull Request which
-#       closed the following issue:
+#       copy the file to a build folder and, therefore, the relative paths to
+#       external libraries would break. To work around this I prepend the
+#       current directory to the library path to make it an absolute path. See:
 #         * https://github.com/numpy/numpy/issues/25344
 
 # NOTE: See https://numpy.org/doc/stable/f2py/buildtools/distutils-to-meson.html
