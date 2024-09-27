@@ -7,19 +7,16 @@ version: 2
 build:
     apt_packages:
         - gfortran-12
-        - meson
     jobs:
         post_install:
-            - which f2py
             - which gfortran-12
             - which gmake
-            - which meson
             - which pip3
             - which python3
             - gmake -r -C pyguymer3/f90 FC=`which gfortran-12` PYTHON3=`which python3`
     os: ubuntu-22.04
     tools:
-        python: "3.11"
+        python: "3.12"
 
 python:
     install:
