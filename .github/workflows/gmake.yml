@@ -46,4 +46,4 @@ jobs:
                 name: Compile the FORTRAN code
                 run: |
                     cd main
-                    gmake -r -C pyguymer3/f90 FC1=`which f2py` FC2=`which gfortran` PYTHON3=`which python` compile
+                    gmake -r -C pyguymer3/f90 FC=`which gfortran` PYTHON3=`which python` compile

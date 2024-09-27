@@ -50,5 +50,5 @@ jobs:
                 name: Analyse the Python ${{ matrix.python-version }} code
                 run: |
                     cd main
-                    gmake -r -C pyguymer3/f90 FC1=`which f2py` FC2=`which gfortran` PYTHON3=`which python` compile
+                    gmake -r -C pyguymer3/f90 FC=`which gfortran` PYTHON3=`which python` compile
                     pylint --rcfile=".pylintrc" --errors-only $(git ls-files "*.py")
