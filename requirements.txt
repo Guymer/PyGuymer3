@@ -7,8 +7,10 @@ exifread
 geojson
 lxml
 matplotlib
+meson
 numpy
 requests
+scipy
 shapely
 sphinx
 sphinx_rtd_theme
