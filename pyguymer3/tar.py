@@ -21,7 +21,7 @@ def tar(tarName, fnames, /, *, cwd = None, stderr = None, stdout = None, timeout
 
     Notes
     -----
-    I still need to provide justification for using this function over https://docs.python.org/3.11/library/tarfile.html
+    I still need to provide justification for using this function over https://docs.python.org/3.12/library/tarfile.html
 
     Copyright 2017 Thomas Guymer [1]_
 

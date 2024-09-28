@@ -4,7 +4,7 @@
 
 CUT     := $(shell which cut        2> /dev/null || echo "ERROR")
 GREP    := $(shell which grep       2> /dev/null || echo "ERROR")
-PYTHON3 := $(shell which python3.11 2> /dev/null || echo "ERROR")
+PYTHON3 := $(shell which python3.12 2> /dev/null || echo "ERROR")
 
 # ******************************************************************************
 # *                               CHECK BINARIES                               *

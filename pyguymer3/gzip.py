@@ -19,7 +19,7 @@ def gzip(fname, /, *, cwd = None, stderr = None, stdout = None, timeout = 60.0):
 
     Notes
     -----
-    I still need to provide justification for using this function over https://docs.python.org/3.11/library/gzip.html
+    I still need to provide justification for using this function over https://docs.python.org/3.12/library/gzip.html
 
     Copyright 2017 Thomas Guymer [1]_
 
