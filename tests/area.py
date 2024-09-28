@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Use the proper idiom in the main module ...
-# NOTE: See https://docs.python.org/3.11/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
+# NOTE: See https://docs.python.org/3.12/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
 if __name__ == "__main__":
     # Import standard modules ...
     import math
