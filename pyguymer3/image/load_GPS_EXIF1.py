@@ -117,7 +117,7 @@ def load_GPS_EXIF1(fname, /):
                          minute = mi,
                          second = se,
                     microsecond = us,
-                         tzinfo = datetime.timezone.utc,
+                         tzinfo = datetime.UTC,
                 )
 
                 # Deduce time precision ...

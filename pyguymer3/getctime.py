@@ -33,5 +33,5 @@ def getctime(fname, /):
     # Return answer ...
     return datetime.datetime.fromtimestamp(
         os.path.getctime(fname),
-        tz = datetime.timezone.utc,
+        tz = datetime.UTC,
     )

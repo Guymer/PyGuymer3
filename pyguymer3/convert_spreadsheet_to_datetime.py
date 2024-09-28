@@ -36,5 +36,5 @@ def convert_spreadsheet_to_datetime(val, /):
     # Return answer ..
     return datetime.datetime.fromtimestamp(
         convert_spreadsheet_to_unix(val),
-        tz = datetime.timezone.utc,
+        tz = datetime.UTC,
     )

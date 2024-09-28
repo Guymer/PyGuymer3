@@ -85,7 +85,7 @@ def load_GPS_EXIF2(fname, /, *, compressed = False, timeout = 60.0):
                  minute = mi,
                  second = se,
             microsecond = us,
-                 tzinfo = datetime.timezone.utc,
+                 tzinfo = datetime.UTC,
         )
 
     # Check that there is location information ...

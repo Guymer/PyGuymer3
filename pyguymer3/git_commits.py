@@ -40,7 +40,7 @@ def git_commits(cwd, /, *, fname = None, timeout = 60.0):
     # objects ...
     commits = []
     for line in resp.stdout.strip().splitlines():
-        commits.append(datetime.datetime.fromtimestamp(int(line), tz = datetime.timezone.utc))
+        commits.append(datetime.datetime.fromtimestamp(int(line), tz = datetime.UTC))
 
     # Return answer ...
     return commits

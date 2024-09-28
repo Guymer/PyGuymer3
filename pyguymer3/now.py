@@ -26,5 +26,5 @@ def now():
 
     # Return answer ...
     return datetime.datetime.now(
-        tz = datetime.timezone.utc,
+        tz = datetime.UTC,
     )
