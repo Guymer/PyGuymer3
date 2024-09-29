@@ -80,3 +80,8 @@ def is_moov_at_beginning_of_MP4(fname, /):
         raise Exception(f"did not find mdat atom in \"{fname}\"") from None
     if not foundMOOV:
         raise Exception(f"did not find moov atom in \"{fname}\"") from None
+
+    # Return answer ...
+    # NOTE: This cannot happen, but PyLint can't figure that out, so I have
+    #       added a return statement to shut PyLint up.
+    return False
