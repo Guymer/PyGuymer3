@@ -1,7 +1,22 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def buffer_Point(point, dist, /, *, debug = False, eps = 1.0e-12, fill = 1.0, fillSpace = "EuclideanSpace", nang = 9, nIter = 100, prefix = ".", ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
+def buffer_Point(
+    point,
+    dist,
+    /,
+    *,
+        debug = False,
+          eps = 1.0e-12,
+         fill = 1.0,
+    fillSpace = "EuclideanSpace",
+         nang = 9,
+        nIter = 100,
+       prefix = ".",
+     ramLimit = 1073741824,
+         simp = 0.1,
+          tol = 1.0e-10,
+):
     """Buffer a Point
 
     This function reads in a Point that exists on the surface of the Earth and
@@ -80,8 +95,7 @@ def buffer_Point(point, dist, /, *, debug = False, eps = 1.0e-12, fill = 1.0, fi
     from .buffer_CoordinateSequence import buffer_CoordinateSequence
 
     # Check argument ...
-    if not isinstance(point, shapely.geometry.point.Point):
-        raise TypeError("\"point\" is not a Point") from None
+    assert isinstance(point, shapely.geometry.point.Point), "\"point\" is not a Point"
     if debug:
         check(point, prefix = prefix)
 

@@ -1,7 +1,23 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def buffer_MultiPolygon(multipoly, dist, /, *, debug = False, eps = 1.0e-12, fill = 1.0, fillSpace = "EuclideanSpace", keepInteriors = True, nang = 9, nIter = 100, prefix = ".", ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
+def buffer_MultiPolygon(
+    multipoly,
+    dist,
+    /,
+    *,
+            debug = False,
+              eps = 1.0e-12,
+             fill = 1.0,
+        fillSpace = "EuclideanSpace",
+    keepInteriors = True,
+             nang = 9,
+            nIter = 100,
+           prefix = ".",
+         ramLimit = 1073741824,
+             simp = 0.1,
+              tol = 1.0e-10,
+):
     """Buffer a MultiPolygon
 
     This function reads in a MultiPolygon, made up of Polygons (with an exterior
@@ -87,8 +103,7 @@ def buffer_MultiPolygon(multipoly, dist, /, *, debug = False, eps = 1.0e-12, fil
     from .buffer_Polygon import buffer_Polygon
 
     # Check argument ...
-    if not isinstance(multipoly, shapely.geometry.multipolygon.MultiPolygon):
-        raise TypeError("\"multipoly\" is not a MultiPolygon") from None
+    assert isinstance(multipoly, shapely.geometry.multipolygon.MultiPolygon), "\"multipoly\" is not a MultiPolygon"
     if debug:
         check(multipoly, prefix = prefix)
 

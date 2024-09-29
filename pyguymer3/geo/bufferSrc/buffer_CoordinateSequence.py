@@ -1,7 +1,22 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def buffer_CoordinateSequence(coords, dist, /, *, debug = False, eps = 1.0e-12, fill = 1.0, fillSpace = "EuclideanSpace", nang = 9, nIter = 100, prefix = ".", ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
+def buffer_CoordinateSequence(
+    coords,
+    dist,
+    /,
+    *,
+        debug = False,
+          eps = 1.0e-12,
+         fill = 1.0,
+    fillSpace = "EuclideanSpace",
+         nang = 9,
+        nIter = 100,
+       prefix = ".",
+     ramLimit = 1073741824,
+         simp = 0.1,
+          tol = 1.0e-10,
+):
     """Buffer a CoordinateSequence
 
     This function reads in a CoordinateSequence that exists on the surface of
@@ -94,28 +109,26 @@ def buffer_CoordinateSequence(coords, dist, /, *, debug = False, eps = 1.0e-12, 
         if debug:
             print("INFO: Will find the rings using FORTRAN.")
         fortran = True
+    except ImportError:
+        if debug:
+            print("INFO: Will find the rings using Python (error when attempting to import found FORTRAN).")
+        fortran = False
     except ModuleNotFoundError:
         if debug:
-            print("INFO: Will find the rings using Python.")
+            print("INFO: Will find the rings using Python (did not find FORTRAN module).")
         fortran = False
 
     # Check argument ...
-    if not isinstance(coords, shapely.coords.CoordinateSequence):
-        raise TypeError("\"coords\" is not a CoordinateSequence") from None
+    assert isinstance(coords, shapely.coords.CoordinateSequence), "\"coords\" is not a CoordinateSequence"
     if debug:
         check(coords, prefix = prefix)
 
     # Check inputs ...
-    if dist < 10.0:
-        raise Exception(f"the buffering distance is too small ({dist:,.1f}m < {10.0:,.1f}m)") from None
-    if dist > 0.5 * CIRCUMFERENCE_OF_EARTH:
-        raise Exception(f"the buffering distance is too large ({dist:,.1f}m > {0.5 * CIRCUMFERENCE_OF_EARTH:,.1f}m)") from None
-    if nang < 9:
-        raise Exception(f"the number of angles is too small ({nang:,d} < {9:,d})") from None
-    if nang % 2 == 0:
-        raise Exception(f"the number of angles is even ({nang:,d})") from None
-    if (nang - 1) % 4 != 0:
-        raise Exception(f"the number of angles is not 4n+1 ({nang:,d})") from None
+    assert dist >= 10.0, f"the buffering distance is too small ({dist:,.1f}m < {10.0:,.1f}m)"
+    assert dist <= 0.5 * CIRCUMFERENCE_OF_EARTH, f"the buffering distance is too large ({dist:,.1f}m > {0.5 * CIRCUMFERENCE_OF_EARTH:,.1f}m)"
+    assert nang >= 9, f"the number of angles is too small ({nang:,d} < {9:,d})"
+    assert nang % 2 == 1, f"the number of angles is even ({nang:,d})"
+    assert (nang - 1) % 4 == 0, f"the number of angles is not 4n+1 ({nang:,d})"
 
     # **************************************************************************
     # Step 1: Convert the CoordinateSequence to a NumPy array of the original  #

@@ -1,7 +1,23 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def buffer_Polygon(poly, dist, /, *, debug = False, eps = 1.0e-12, fill = 1.0, fillSpace = "EuclideanSpace", keepInteriors = True, nang = 9, nIter = 100, prefix = ".", ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
+def buffer_Polygon(
+    poly,
+    dist,
+    /,
+    *,
+            debug = False,
+              eps = 1.0e-12,
+             fill = 1.0,
+        fillSpace = "EuclideanSpace",
+    keepInteriors = True,
+             nang = 9,
+            nIter = 100,
+           prefix = ".",
+         ramLimit = 1073741824,
+             simp = 0.1,
+              tol = 1.0e-10,
+):
     """Buffer a Polygon
 
     This function reads in a Polygon (with an exterior and any number of
@@ -87,8 +103,7 @@ def buffer_Polygon(poly, dist, /, *, debug = False, eps = 1.0e-12, fill = 1.0, f
     from .buffer_LinearRing import buffer_LinearRing
 
     # Check argument ...
-    if not isinstance(poly, shapely.geometry.polygon.Polygon):
-        raise TypeError("\"poly\" is not a Polygon") from None
+    assert isinstance(poly, shapely.geometry.polygon.Polygon), "\"poly\" is not a Polygon"
     if debug:
         check(poly, prefix = prefix)
 

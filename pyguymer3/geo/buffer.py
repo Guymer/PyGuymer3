@@ -1,7 +1,23 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def buffer(shape, dist, /, *, debug = False, eps = 1.0e-12, fill = 1.0, fillSpace = "EuclideanSpace", keepInteriors = True, nang = 9, nIter = 100, prefix = ".", ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
+def buffer(
+    shape,
+    dist,
+    /,
+    *,
+            debug = False,
+              eps = 1.0e-12,
+             fill = 1.0,
+        fillSpace = "EuclideanSpace",
+    keepInteriors = True,
+             nang = 9,
+            nIter = 100,
+           prefix = ".",
+         ramLimit = 1073741824,
+             simp = 0.1,
+              tol = 1.0e-10,
+):
     """Buffer a shape
 
     This function reads in a shape that exists on the surface of the Earth and
@@ -88,143 +104,138 @@ def buffer(shape, dist, /, *, debug = False, eps = 1.0e-12, fill = 1.0, fillSpac
     from .bufferSrc import buffer_Point
     from .bufferSrc import buffer_Polygon
 
-    # Check if it is a CoordinateSequence and return it buffered ...
-    if isinstance(shape, shapely.coords.CoordinateSequence):
-        return buffer_CoordinateSequence(
-            shape,
-            dist,
-                debug = debug,
-                  eps = eps,
-                 fill = fill,
-            fillSpace = fillSpace,
-                 nang = nang,
-                nIter = nIter,
-               prefix = prefix,
-             ramLimit = ramLimit,
-                 simp = simp,
-                  tol = tol,
-        )
-
-    # Check if it is a Point and return it buffered ...
-    if isinstance(shape, shapely.geometry.point.Point):
-        return buffer_Point(
-            shape,
-            dist,
-                debug = debug,
-                  eps = eps,
-                 fill = fill,
-            fillSpace = fillSpace,
-                 nang = nang,
-                nIter = nIter,
-               prefix = prefix,
-             ramLimit = ramLimit,
-                 simp = simp,
-                  tol = tol,
-        )
-
-    # Check if it is a MultiPoint and return it buffered ...
-    if isinstance(shape, shapely.geometry.multipoint.MultiPoint):
-        return buffer_MultiPoint(
-            shape,
-            dist,
-                debug = debug,
-                  eps = eps,
-                 fill = fill,
-            fillSpace = fillSpace,
-                 nang = nang,
-                nIter = nIter,
-               prefix = prefix,
-             ramLimit = ramLimit,
-                 simp = simp,
-                  tol = tol,
-        )
-
-    # Check if it is a LinearRing and return it buffered ...
-    if isinstance(shape, shapely.geometry.polygon.LinearRing):
-        return buffer_LinearRing(
-            shape,
-            dist,
-                debug = debug,
-                  eps = eps,
-                 fill = fill,
-            fillSpace = fillSpace,
-                 nang = nang,
-                nIter = nIter,
-               prefix = prefix,
-             ramLimit = ramLimit,
-                 simp = simp,
-                  tol = tol,
-        )
-
-    # Check if it is a LineString and return it buffered ...
-    if isinstance(shape, shapely.geometry.linestring.LineString):
-        return buffer_LineString(
-            shape,
-            dist,
-                debug = debug,
-                  eps = eps,
-                 fill = fill,
-            fillSpace = fillSpace,
-                 nang = nang,
-                nIter = nIter,
-               prefix = prefix,
-             ramLimit = ramLimit,
-                 simp = simp,
-                  tol = tol,
-        )
-
-    # Check if it is a MultiLineString and return it buffered ...
-    if isinstance(shape, shapely.geometry.multilinestring.MultiLineString):
-        return buffer_MultiLineString(
-            shape,
-            dist,
-                debug = debug,
-                  eps = eps,
-                 fill = fill,
-            fillSpace = fillSpace,
-                 nang = nang,
-                nIter = nIter,
-               prefix = prefix,
-             ramLimit = ramLimit,
-                 simp = simp,
-                  tol = tol,
-        )
-
-    # Check if it is a Polygon and return it buffered ...
-    if isinstance(shape, shapely.geometry.polygon.Polygon):
-        return buffer_Polygon(
-            shape,
-            dist,
+    # Check what type it is ...
+    match shape:
+        case shapely.coords.CoordinateSequence():
+            # Return it buffered ...
+            return buffer_CoordinateSequence(
+                shape,
+                dist,
                     debug = debug,
                       eps = eps,
                      fill = fill,
                 fillSpace = fillSpace,
-            keepInteriors = keepInteriors,
                      nang = nang,
                     nIter = nIter,
                    prefix = prefix,
                  ramLimit = ramLimit,
                      simp = simp,
                       tol = tol,
-        )
-
-    # Check if it is a MultiPolygon and return it buffered ...
-    if isinstance(shape, shapely.geometry.multipolygon.MultiPolygon):
-        return buffer_MultiPolygon(
-            shape,
-            dist,
+            )
+        case shapely.geometry.point.Point():
+            # Return it buffered ...
+            return buffer_Point(
+                shape,
+                dist,
                     debug = debug,
                       eps = eps,
                      fill = fill,
                 fillSpace = fillSpace,
-            keepInteriors = keepInteriors,
                      nang = nang,
                     nIter = nIter,
                    prefix = prefix,
                  ramLimit = ramLimit,
                      simp = simp,
                       tol = tol,
-        )
-
-    # Crash ...
-    raise TypeError(f"\"shape\" is an unexpected type ({repr(type(shape))})") from None
+            )
+        case shapely.geometry.multipoint.MultiPoint():
+            # Return it buffered ...
+            return buffer_MultiPoint(
+                shape,
+                dist,
+                    debug = debug,
+                      eps = eps,
+                     fill = fill,
+                fillSpace = fillSpace,
+                     nang = nang,
+                    nIter = nIter,
+                   prefix = prefix,
+                 ramLimit = ramLimit,
+                     simp = simp,
+                      tol = tol,
+            )
+        case shapely.geometry.polygon.LinearRing():
+            # Return it buffered ...
+            return buffer_LinearRing(
+                shape,
+                dist,
+                    debug = debug,
+                      eps = eps,
+                     fill = fill,
+                fillSpace = fillSpace,
+                     nang = nang,
+                    nIter = nIter,
+                   prefix = prefix,
+                 ramLimit = ramLimit,
+                     simp = simp,
+                      tol = tol,
+            )
+        case shapely.geometry.linestring.LineString():
+            # Return it buffered ...
+            return buffer_LineString(
+                shape,
+                dist,
+                    debug = debug,
+                      eps = eps,
+                     fill = fill,
+                fillSpace = fillSpace,
+                     nang = nang,
+                    nIter = nIter,
+                   prefix = prefix,
+                 ramLimit = ramLimit,
+                     simp = simp,
+                      tol = tol,
+            )
+        case shapely.geometry.multilinestring.MultiLineString():
+            # Return it buffered ...
+            return buffer_MultiLineString(
+                shape,
+                dist,
+                    debug = debug,
+                      eps = eps,
+                     fill = fill,
+                fillSpace = fillSpace,
+                     nang = nang,
+                    nIter = nIter,
+                   prefix = prefix,
+                 ramLimit = ramLimit,
+                     simp = simp,
+                      tol = tol,
+            )
+        case shapely.geometry.polygon.Polygon():
+            # Return it buffered ...
+            return buffer_Polygon(
+                shape,
+                dist,
+                        debug = debug,
+                          eps = eps,
+                         fill = fill,
+                    fillSpace = fillSpace,
+                keepInteriors = keepInteriors,
+                         nang = nang,
+                        nIter = nIter,
+                       prefix = prefix,
+                     ramLimit = ramLimit,
+                         simp = simp,
+                          tol = tol,
+            )
+        case shapely.geometry.multipolygon.MultiPolygon():
+            # Return it buffered ...
+            return buffer_MultiPolygon(
+                shape,
+                dist,
+                        debug = debug,
+                          eps = eps,
+                         fill = fill,
+                    fillSpace = fillSpace,
+                keepInteriors = keepInteriors,
+                         nang = nang,
+                        nIter = nIter,
+                       prefix = prefix,
+                     ramLimit = ramLimit,
+                         simp = simp,
+                          tol = tol,
+            )
+        case _:
+            # Cry ...
+            raise TypeError(f"\"shape\" is an unexpected type ({repr(type(shape))})") from None

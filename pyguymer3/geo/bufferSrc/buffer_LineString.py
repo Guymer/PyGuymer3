@@ -1,7 +1,22 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def buffer_LineString(line, dist, /, *, debug = False, eps = 1.0e-12, fill = 1.0, fillSpace = "EuclideanSpace", nang = 9, nIter = 100, prefix = ".", ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
+def buffer_LineString(
+    line,
+    dist,
+    /,
+    *,
+        debug = False,
+          eps = 1.0e-12,
+         fill = 1.0,
+    fillSpace = "EuclideanSpace",
+         nang = 9,
+        nIter = 100,
+       prefix = ".",
+     ramLimit = 1073741824,
+         simp = 0.1,
+          tol = 1.0e-10,
+):
     """Buffer a LineString
 
     This function reads in a LineString that exists on the surface of the Earth
@@ -82,8 +97,7 @@ def buffer_LineString(line, dist, /, *, debug = False, eps = 1.0e-12, fill = 1.0
     from .buffer_CoordinateSequence import buffer_CoordinateSequence
 
     # Check argument ...
-    if not isinstance(line, shapely.geometry.linestring.LineString):
-        raise TypeError("\"line\" is not a LineString") from None
+    assert isinstance(line, shapely.geometry.linestring.LineString), "\"line\" is not a LineString"
     if debug:
         check(line, prefix = prefix)
 

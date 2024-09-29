@@ -1,7 +1,22 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def buffer_LinearRing(ring, dist, /, *, debug = False, eps = 1.0e-12, fill = 1.0, fillSpace = "EuclideanSpace", nang = 9, nIter = 100, prefix = ".", ramLimit = 1073741824, simp = 0.1, tol = 1.0e-10):
+def buffer_LinearRing(
+    ring,
+    dist,
+    /,
+    *,
+        debug = False,
+          eps = 1.0e-12,
+         fill = 1.0,
+    fillSpace = "EuclideanSpace",
+         nang = 9,
+        nIter = 100,
+       prefix = ".",
+     ramLimit = 1073741824,
+         simp = 0.1,
+          tol = 1.0e-10,
+):
     """Buffer a LinearRing
 
     This function reads in a LinearRing that exists on the surface of the Earth
@@ -82,8 +97,7 @@ def buffer_LinearRing(ring, dist, /, *, debug = False, eps = 1.0e-12, fill = 1.0
     from .buffer_CoordinateSequence import buffer_CoordinateSequence
 
     # Check argument ...
-    if not isinstance(ring, shapely.geometry.polygon.LinearRing):
-        raise TypeError("\"ring\" is not a LinearRing") from None
+    assert isinstance(ring, shapely.geometry.polygon.LinearRing), "\"ring\" is not a LinearRing"
     if debug:
         check(ring, prefix = prefix)
 
