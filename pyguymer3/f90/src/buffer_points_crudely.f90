@@ -74,8 +74,8 @@ SUBROUTINE buffer_points_crudely(points1, dist, nang, npoint, points2)
             ! Loop over points ...
             DO ipoint = 1_C_LONG_LONG, npoint
                 ! Force the last point to be the same as the first point ...
-                points2(ipoint, nang, 1) = points2(ipoint, 1, 1)
-                points2(ipoint, nang, 2) = points2(ipoint, 1, 2)
+                points2(ipoint, nang, 1) = points2(ipoint, 1, 1)                ! [°]
+                points2(ipoint, nang, 2) = points2(ipoint, 1, 2)                ! [°]
             END DO
         !$omp end do
     !$omp end parallel

@@ -58,6 +58,6 @@ SUBROUTINE buffer_point_crudely(lon1, lat1, dist, nang, ring)
     !$omp end parallel
 
     ! Force the last point to be the same as the first point ...
-    ring(nang, 1) = ring(1, 1)
-    ring(nang, 2) = ring(1, 2)
+    ring(nang, 1) = ring(1, 1)                                                  ! [°]
+    ring(nang, 2) = ring(1, 2)                                                  ! [°]
 END SUBROUTINE buffer_point_crudely
