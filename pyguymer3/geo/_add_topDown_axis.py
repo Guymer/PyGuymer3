@@ -409,7 +409,7 @@ def _add_topDown_axis(
             #       second and third protected members and instead I protect
             #       setting the first protect member by checking if the
             #       background is going to be "OSM".
-            ax.projection._boundary = polygon2.exterior
+            ax.projection._boundary = polygon2.exterior                         # pylint: disable=W0212
             # ax.projection._cw_boundary = polygon2.exterior.reverse()
             # ax.projection._ccw_boundary = polygon2.exterior
 
