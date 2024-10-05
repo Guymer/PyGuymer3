@@ -6,6 +6,6 @@
     "files.trimTrailingWhitespace": true,
     "git.detectSubmodulesLimit": 512,
     "pylint.path": [
-        "/opt/local/bin/pylint-3.11"
+        "/opt/local/bin/pylint-3.12"
     ]
 }
