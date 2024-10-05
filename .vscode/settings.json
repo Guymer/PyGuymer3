@@ -11,5 +11,5 @@
     "pylint.path" : [
         "/opt/local/bin/pylint-3.12"
     ],
-    "python.defaultInterpreterPath" : "/opt/local/bin/python3.12",
+    "python.defaultInterpreterPath" : "/opt/local/bin/python3.12"
 }
