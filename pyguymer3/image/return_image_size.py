@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_image_size(fname, /, *, compressed = False):
+def return_image_size(
+    fname,
+    /,
+    *,
+    compressed = False,
+):
     # Import standard modules ...
     import gzip
 

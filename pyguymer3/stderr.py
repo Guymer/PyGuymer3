@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def stderr(arr, /, *, dof = 1):
+def stderr(
+    arr,
+    /,
+    *,
+    dof = 1,
+):
     """Find the standard error of an array.
 
     This function finds the standard error of an array, with optionally

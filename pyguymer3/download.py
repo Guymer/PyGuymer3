@@ -1,7 +1,17 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def download(sess, method, url, /, *, cookies = None, headers = None, timeout = 10.0, verify = True):
+def download(
+    sess,
+    method,
+    url,
+    /,
+    *,
+    cookies = None,
+    headers = None,
+    timeout = 10.0,
+     verify = True,
+):
     """Call a URL and return the response
 
     This function performs a HTTP call, with a GET/POST/PUT/HEAD/OPTIONS method,

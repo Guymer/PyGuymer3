@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_dict_of_ISO_tracks(fname, /, *, timeout = 60.0):
+def return_dict_of_ISO_tracks(
+    fname,
+    /,
+    *,
+    timeout = 60.0,
+):
     # Import standard modules ...
     import html
     import shutil

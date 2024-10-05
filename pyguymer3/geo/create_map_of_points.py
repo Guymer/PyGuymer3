@@ -11,7 +11,7 @@ def create_map_of_points(
           background = "NE",
            chunksize = 1048576,
                 conv = 1.0e3,
-               debug = False,
+               debug = __debug__,
                  eps = 1.0e-12,
               extent = None,
               method = "GeodesicBox",

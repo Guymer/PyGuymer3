@@ -1,7 +1,15 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_dict_of_media_subtitle_streams(fname, /, *, cwd = None, debug = False, playlist = -1, timeout = 60.0):
+def return_dict_of_media_subtitle_streams(
+    fname,
+    /,
+    *,
+         cwd = None,
+       debug = __debug__,
+    playlist = -1,
+     timeout = 60.0,
+):
     # Import sub-functions ...
     from .__ffprobe__ import __ffprobe__
     from .ffprobe import ffprobe

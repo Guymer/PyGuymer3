@@ -6,7 +6,7 @@ def buffer_LineString(
     dist,
     /,
     *,
-        debug = False,
+        debug = __debug__,
           eps = 1.0e-12,
          fill = 1.0,
     fillSpace = "EuclideanSpace",
@@ -95,6 +95,8 @@ def buffer_LineString(
     # Import sub-functions ...
     from ..check import check
     from .buffer_CoordinateSequence import buffer_CoordinateSequence
+
+    # **************************************************************************
 
     # Check argument ...
     assert isinstance(line, shapely.geometry.linestring.LineString), "\"line\" is not a LineString"

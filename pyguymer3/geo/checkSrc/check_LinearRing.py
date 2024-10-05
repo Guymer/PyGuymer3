@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def check_LinearRing(ring, /, *, prefix = "."):
+def check_LinearRing(
+    ring,
+    /,
+    *,
+    prefix = ".",
+):
     """Check LinearRing
 
     This function checks if a LinearRing is valid.
@@ -40,9 +45,10 @@ def check_LinearRing(ring, /, *, prefix = "."):
     # Import sub-functions ...
     from .._debug import _debug
 
+    # **************************************************************************
+
     # Check argument ...
-    if not isinstance(ring, shapely.geometry.polygon.LinearRing):
-        raise TypeError("\"ring\" is not a LinearRing") from None
+    assert isinstance(ring, shapely.geometry.polygon.LinearRing), "\"ring\" is not a LinearRing"
     if not ring.is_valid:
         _debug(ring, prefix = prefix)
         raise Exception(f"\"ring\" is not a valid LinearRing ({shapely.validation.explain_validity(ring)})") from None

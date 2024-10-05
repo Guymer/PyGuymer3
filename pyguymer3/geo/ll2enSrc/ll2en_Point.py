@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def ll2en_Point(point1, /, *, debug = False, prefix = "."):
+def ll2en_Point(
+    point1,
+    /,
+    *,
+     debug = __debug__,
+    prefix = ".",
+):
     """Transform a Point from Longitudes/Latitudes to Eastings/Northings
 
     This function reads in a Point whose coordinates are Longitudes/Latitudes
@@ -57,9 +63,10 @@ def ll2en_Point(point1, /, *, debug = False, prefix = "."):
     # Import sub-functions ...
     from ..check import check
 
+    # **************************************************************************
+
     # Check argument ...
-    if not isinstance(point1, shapely.geometry.point.Point):
-        raise TypeError("\"point1\" is not a Point") from None
+    assert isinstance(point1, shapely.geometry.point.Point), "\"point1\" is not a Point"
     if debug:
         check(point1, prefix = prefix)
 

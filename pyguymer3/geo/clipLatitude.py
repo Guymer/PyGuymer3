@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def clipLatitude(lat, /):
+def clipLatitude(
+    lat,
+    /,
+):
     """Clip latitude to be between -90° (inclusive) and +90° (inclusive)
 
     Parameters

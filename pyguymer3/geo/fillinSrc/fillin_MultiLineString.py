@@ -1,7 +1,18 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def fillin_MultiLineString(multiline, fill, /, *, debug = False, eps = 1.0e-12, fillSpace = "EuclideanSpace", nIter = 100, prefix = ".", ramLimit = 1073741824):
+def fillin_MultiLineString(
+    multiline,
+    fill,
+    /,
+    *,
+        debug = __debug__,
+          eps = 1.0e-12,
+    fillSpace = "EuclideanSpace",
+        nIter = 100,
+       prefix = ".",
+     ramLimit = 1073741824,
+):
     """Fill in a MultiLineString
 
     This function reads in a MultiLineString that exists on the surface of the
@@ -55,9 +66,10 @@ def fillin_MultiLineString(multiline, fill, /, *, debug = False, eps = 1.0e-12, 
     from ..check import check
     from .fillin_LineString import fillin_LineString
 
+    # **************************************************************************
+
     # Check argument ...
-    if not isinstance(multiline, shapely.geometry.multilinestring.MultiLineString):
-        raise TypeError("\"multiline\" is not a MultiLineString") from None
+    assert isinstance(multiline, shapely.geometry.multilinestring.MultiLineString), "\"multiline\" is not a MultiLineString"
     if debug:
         check(multiline, prefix = prefix)
 

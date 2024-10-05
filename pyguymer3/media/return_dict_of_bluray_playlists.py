@@ -1,7 +1,16 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_dict_of_bluray_playlists(dname, /, *, cwd = None, debug = False, size_threshold = 1073741824, time_threshold = 60.0, timeout = 60.0):
+def return_dict_of_bluray_playlists(
+    dname,
+    /,
+    *,
+               cwd = None,
+             debug = __debug__,
+    size_threshold = 1073741824,
+    time_threshold = 60.0,
+           timeout = 60.0,
+):
     """
     This function uses the list of MPLS files to obtain all of the possible
     playlists in a Blu-ray, then it calls "ffprobe" on each integer to determine

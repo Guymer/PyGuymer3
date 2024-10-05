@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def _area(triangle, /, *, eps = 1.0e-12, nIter = 100):
+def _area(
+    triangle,
+    /,
+    *,
+      eps = 1.0e-12,
+    nIter = 100,
+):
     """Find the area of a triangle.
 
     Parameters
@@ -32,6 +38,8 @@ def _area(triangle, /, *, eps = 1.0e-12, nIter = 100):
 
     # Import sub-functions ...
     from .calc_dist_between_two_locs import calc_dist_between_two_locs
+
+    # **************************************************************************
 
     # Find the distance from the second point to the first point, and the
     # bearing of the first point as viewed from the second point ...

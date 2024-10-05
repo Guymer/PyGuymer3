@@ -1,7 +1,14 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def gifsicle(fname1, /, *, chunksize = 1048576, debug = False, timeout = 60.0):
+def gifsicle(
+    fname1,
+    /,
+    *,
+    chunksize = 1048576,
+        debug = __debug__,
+      timeout = 60.0,
+):
     """
     "gifsicle" does modify, and it does touch, the image even if it cannot make
     it smaller, therefore it is NOT safe to keep on running "gifsicle" on the

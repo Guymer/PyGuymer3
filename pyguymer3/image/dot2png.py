@@ -1,7 +1,16 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def dot2png(dot, png, /, *, chunksize = 1048576, debug = False, strip = False, timeout = 60.0):
+def dot2png(
+    dot,
+    png,
+    /,
+    *,
+    chunksize = 1048576,
+        debug = __debug__,
+        strip = False,
+      timeout = 60.0,
+):
     # Import standard modules ...
     import shutil
     import subprocess

@@ -1,7 +1,16 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def _buffer_points_crudely(points1, dist, nang, /, *, eps = 1.0e-12, nIter = 100, ramLimit = 1073741824):
+def _buffer_points_crudely(
+    points1,
+    dist,
+    nang,
+    /,
+    *,
+         eps = 1.0e-12,
+       nIter = 100,
+    ramLimit = 1073741824,
+):
     """Buffer some points
 
     This function reads in an array of coordinates (in degrees) that exist on
@@ -48,6 +57,8 @@ def _buffer_points_crudely(points1, dist, nang, /, *, eps = 1.0e-12, nIter = 100
 
     # Import sub-functions ...
     from .calc_loc_from_loc_and_bearing_and_dist import calc_loc_from_loc_and_bearing_and_dist
+
+    # **************************************************************************
 
     # Create short-hand ...
     npoint = points1.shape[0]

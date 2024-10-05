@@ -7,7 +7,7 @@ def add_OSM_map_background(
     res,
     /,
     *,
-    debug = False,
+    debug = __debug__,
 ):
     """Add OpenStreetMap map tiles as a background to a Cartopy axis.
 

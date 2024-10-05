@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def wrapLongitude(lon, /):
+def wrapLongitude(
+    lon,
+    /,
+):
     """Wrap longitude to be between -180° (inclusive) and +180° (exclusive)
 
     Parameters

@@ -6,7 +6,7 @@ def optimize_image(
     /,
     *,
     chunksize = 1048576,
-        debug = False,
+        debug = __debug__,
          pool = None,
         strip = False,
       timeout = 60.0,

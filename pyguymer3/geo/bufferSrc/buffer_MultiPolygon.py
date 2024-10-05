@@ -6,7 +6,7 @@ def buffer_MultiPolygon(
     dist,
     /,
     *,
-            debug = False,
+            debug = __debug__,
               eps = 1.0e-12,
              fill = 1.0,
         fillSpace = "EuclideanSpace",
@@ -101,6 +101,8 @@ def buffer_MultiPolygon(
     from ..check import check
     from ..fillin import fillin
     from .buffer_Polygon import buffer_Polygon
+
+    # **************************************************************************
 
     # Check argument ...
     assert isinstance(multipoly, shapely.geometry.multipolygon.MultiPolygon), "\"multipoly\" is not a MultiPolygon"

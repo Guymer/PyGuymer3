@@ -1,7 +1,14 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def clean(shape, /, *, debug = False, prefix = ".", tol = 1.0e-10):
+def clean(
+    shape,
+    /,
+    *,
+     debug = __debug__,
+    prefix = ".",
+       tol = 1.0e-10,
+):
     """Clean a shape
 
     This function cleans a shape by removing bad points.
@@ -53,6 +60,8 @@ def clean(shape, /, *, debug = False, prefix = ".", tol = 1.0e-10):
     from .cleanSrc import clean_MultiLineString
     from .cleanSrc import clean_MultiPolygon
     from .cleanSrc import clean_Polygon
+
+    # **************************************************************************
 
     # Check if it is a CoordinateSequence and return it cleaned ...
     if isinstance(shape, shapely.coords.CoordinateSequence):

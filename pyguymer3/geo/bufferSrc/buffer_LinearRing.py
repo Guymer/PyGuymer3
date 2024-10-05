@@ -6,7 +6,7 @@ def buffer_LinearRing(
     dist,
     /,
     *,
-        debug = False,
+        debug = __debug__,
           eps = 1.0e-12,
          fill = 1.0,
     fillSpace = "EuclideanSpace",
@@ -95,6 +95,8 @@ def buffer_LinearRing(
     # Import sub-functions ...
     from ..check import check
     from .buffer_CoordinateSequence import buffer_CoordinateSequence
+
+    # **************************************************************************
 
     # Check argument ...
     assert isinstance(ring, shapely.geometry.polygon.LinearRing), "\"ring\" is not a LinearRing"

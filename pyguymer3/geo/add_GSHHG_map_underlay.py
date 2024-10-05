@@ -6,7 +6,7 @@ def add_GSHHG_map_underlay(
     /,
     *,
     background = True,
-         debug = False,
+         debug = __debug__,
       iceOcean = True,
     islandLake = True,
       lakeLand = True,

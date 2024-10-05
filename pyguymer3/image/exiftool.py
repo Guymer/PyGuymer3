@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def exiftool(fname, /, *, timeout = 60.0):
+def exiftool(
+    fname,
+    /,
+    *,
+    timeout = 60.0,
+):
     """
     "exiftool" does not modify, and it does not touch, the image even if it
     cannot strip anything, therefore it is safe to keep on running "exiftool" on

@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def extract_points(shape, /, *, onlyValid = False):
+def extract_points(
+    shape,
+    /,
+    *,
+    onlyValid = False,
+):
     """Extract the Points from the shape
 
     This function accepts any Shapely geometry and returns a flat list of all of

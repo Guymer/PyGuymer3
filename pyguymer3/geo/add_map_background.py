@@ -5,7 +5,7 @@ def add_map_background(
     ax,
     /,
     *,
-         debug = False,
+         debug = __debug__,
         extent = None,
           name = "natural-earth-1",
     resolution = "medium0512px",
@@ -44,6 +44,8 @@ def add_map_background(
     # Import standard modules ...
     import json
     import os
+
+    # **************************************************************************
 
     # Initialize trigger ...
     default = True

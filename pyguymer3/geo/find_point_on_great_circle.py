@@ -1,7 +1,14 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def find_point_on_great_circle(frac, lon1_deg, lat1_deg, lon2_deg, lat2_deg, /):
+def find_point_on_great_circle(
+    frac,
+    lon1_deg,
+    lat1_deg,
+    lon2_deg,
+    lat2_deg,
+    /,
+):
     """Calculate an arbitrary point on the great circle that connects two
     coordinates.
 
@@ -44,6 +51,8 @@ def find_point_on_great_circle(frac, lon1_deg, lat1_deg, lon2_deg, lat2_deg, /):
 
     # Import sub-functions ...
     from .calc_angle_between_two_locs import calc_angle_between_two_locs
+
+    # **************************************************************************
 
     # Check arguments ...
     if lon1_deg == lon2_deg and lat1_deg == lat2_deg:

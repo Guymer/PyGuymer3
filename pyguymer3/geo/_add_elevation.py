@@ -5,7 +5,7 @@ def _add_elevation(
     ax,
     /,
     *,
-         debug = False,
+         debug = __debug__,
        maxElev = 8850.0,
      onlyValid = False,
         repair = False,

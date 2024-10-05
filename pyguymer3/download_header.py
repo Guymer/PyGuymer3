@@ -1,7 +1,16 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def download_header(sess, url, /, *, cookies = None, headers = None, timeout = 10.0, verify = True):
+def download_header(
+    sess,
+    url,
+    /,
+    *,
+    cookies = None,
+    headers = None,
+    timeout = 10.0,
+     verify = True,
+):
     """HEAD a URL and return the headers
 
     This function performs a HTTP HEAD operation on a URL and returns the

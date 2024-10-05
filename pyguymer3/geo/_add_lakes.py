@@ -5,7 +5,7 @@ def _add_lakes(
     ax,
     /,
     *,
-         debug = False,
+         debug = __debug__,
      onlyValid = False,
         repair = False,
     resolution = "10m",

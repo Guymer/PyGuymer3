@@ -1,7 +1,16 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def download_text(sess, url, /, *, cookies = None, headers = None, timeout = 10.0, verify = True):
+def download_text(
+    sess,
+    url,
+    /,
+    *,
+    cookies = None,
+    headers = None,
+    timeout = 10.0,
+     verify = True,
+):
     """GET a URL and return the text
 
     This function performs a HTTP GET operation on a URL and returns the content

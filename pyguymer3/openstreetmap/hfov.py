@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def hfov(xtile, ytile, zoom, /):
+def hfov(
+    xtile,
+    ytile,
+    zoom,
+    /,
+):
     # NOTE: https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#Resolution_and_Scale
 
     # Import standard modules ...

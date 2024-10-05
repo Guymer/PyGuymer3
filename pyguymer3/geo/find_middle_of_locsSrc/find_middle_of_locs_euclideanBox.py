@@ -6,7 +6,7 @@ def find_middle_of_locs_euclideanBox(
     lats,
     /,
     *,
-    debug = False,
+    debug = __debug__,
       eps = 1.0e-12,
     nIter = 100,
       pad = 0.1,
@@ -29,10 +29,8 @@ def find_middle_of_locs_euclideanBox(
     # **************************************************************************
 
     # Check arguments ...
-    if not isinstance(lons, numpy.ndarray):
-        raise TypeError("\"lons\" is not a NumPy array") from None
-    if not isinstance(lats, numpy.ndarray):
-        raise TypeError("\"lats\" is not a NumPy array") from None
+    assert isinstance(lons, numpy.ndarray), "\"lons\" is not a NumPy array"
+    assert isinstance(lats, numpy.ndarray), "\"lats\" is not a NumPy array"
 
     # **************************************************************************
 

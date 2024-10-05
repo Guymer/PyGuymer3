@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def getatime(fname, /):
+def getatime(
+    fname,
+    /,
+):
     """Get the access time of a file as a timezone-aware ``datetime`` object.
 
     This function aims to mimic ``os.path.getatime()`` but instead of returning

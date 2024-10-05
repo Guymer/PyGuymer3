@@ -1,7 +1,21 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def image2png(img, png, /, *, chunksize = 1048576, debug = False, exif = None, mode = "RGB", optimize = True, screenHeight = -1, screenWidth = -1, strip = False, timeout = 60.0):
+def image2png(
+    img,
+    png,
+    /,
+    *,
+       chunksize = 1048576,
+           debug = __debug__,
+            exif = None,
+            mode = "RGB",
+        optimize = True,
+    screenHeight = -1,
+     screenWidth = -1,
+           strip = False,
+         timeout = 60.0,
+):
     """Save an image as a PNG
 
     This function accepts either a PIL Image or a file path and saves the image

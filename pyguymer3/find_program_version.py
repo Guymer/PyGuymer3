@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def find_program_version(prog, /, *, timeout = 60.0):
+def find_program_version(
+    prog,
+    /,
+    *,
+    timeout = 60.0,
+):
     # Import standard modules ...
     import shutil
     import subprocess

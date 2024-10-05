@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def en2ll_LineString(line1, /, *, debug = False, prefix = "."):
+def en2ll_LineString(
+    line1,
+    /,
+    *,
+     debug = __debug__,
+    prefix = ".",
+):
     """Transform a LineString from Eastings/Northings to Longitudes/Latitudes
 
     This function reads in a LineString whose coordinates are Eastings/Northings
@@ -57,9 +63,10 @@ def en2ll_LineString(line1, /, *, debug = False, prefix = "."):
     # Import sub-functions ...
     from ..check import check
 
+    # **************************************************************************
+
     # Check argument ...
-    if not isinstance(line1, shapely.geometry.linestring.LineString):
-        raise TypeError("\"line1\" is not a LineString") from None
+    assert isinstance(line1, shapely.geometry.linestring.LineString), "\"line1\" is not a LineString"
     if debug:
         check(line1, prefix = prefix)
 

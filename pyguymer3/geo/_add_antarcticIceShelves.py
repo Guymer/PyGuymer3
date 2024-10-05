@@ -5,7 +5,7 @@ def _add_antarcticIceShelves(
     ax,
     /,
     *,
-         debug = False,
+         debug = __debug__,
      onlyValid = False,
         repair = False,
     resolution = "10m",

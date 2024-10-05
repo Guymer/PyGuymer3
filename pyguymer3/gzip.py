@@ -1,7 +1,15 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def gzip(fname, /, *, cwd = None, stderr = None, stdout = None, timeout = 60.0):
+def gzip(
+    fname,
+    /,
+    *,
+        cwd = None,
+     stderr = None,
+     stdout = None,
+    timeout = 60.0,
+):
     """Compress a file using "gzip".
 
     Parameters

@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def git_remote(cwd, /, *, name = "origin", timeout = 60.0):
+def git_remote(
+    cwd,
+    /,
+    *,
+       name = "origin",
+    timeout = 60.0,
+):
     # Import standard modules ...
     import shutil
     import subprocess

@@ -1,7 +1,16 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def tar(tarName, fnames, /, *, cwd = None, stderr = None, stdout = None, timeout = 60.0):
+def tar(
+    tarName,
+    fnames,
+    /,
+    *,
+        cwd = None,
+     stderr = None,
+     stdout = None,
+    timeout = 60.0,
+):
     """Create a PAX formatted TAR file (without any frills or size limits).
 
     Parameters

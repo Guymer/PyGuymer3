@@ -1,7 +1,19 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def fillin_Polygon(poly, fill, /, *, debug = False, eps = 1.0e-12, fillSpace = "EuclideanSpace", nIter = 100, prefix = ".", ramLimit = 1073741824, tol = 1.0e-10):
+def fillin_Polygon(
+    poly,
+    fill,
+    /,
+    *,
+        debug = __debug__,
+          eps = 1.0e-12,
+    fillSpace = "EuclideanSpace",
+        nIter = 100,
+       prefix = ".",
+     ramLimit = 1073741824,
+          tol = 1.0e-10,
+):
     """Fill in a Polygon
 
     This function reads in a Polygon (with an exterior and any number of
@@ -59,9 +71,10 @@ def fillin_Polygon(poly, fill, /, *, debug = False, eps = 1.0e-12, fillSpace = "
     from ..check import check
     from .fillin_LinearRing import fillin_LinearRing
 
+    # **************************************************************************
+
     # Check argument ...
-    if not isinstance(poly, shapely.geometry.polygon.Polygon):
-        raise TypeError("\"poly\" is not a Polygon") from None
+    assert isinstance(poly, shapely.geometry.polygon.Polygon), "\"poly\" is not a Polygon"
     if debug:
         check(poly, prefix = prefix)
 

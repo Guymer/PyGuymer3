@@ -8,7 +8,7 @@ def great_circle(
     lat2,
     /,
     *,
-       debug = False,
+       debug = __debug__,
          eps = 1.0e-12,
      maxdist = None,
        nIter = 100,
@@ -92,13 +92,10 @@ def great_circle(
 
     # Check inputs ...
     if isinstance(maxdist, float):
-        if maxdist < 10.0:
-            raise Exception(f"the maximum distance is too small ({maxdist:,.1f}m < {10.0:,.1f}m)") from None
-        if maxdist > 0.5 * CIRCUMFERENCE_OF_EARTH:
-            raise Exception(f"the maximum distance is too large ({maxdist:,.1f}m > {0.5 * CIRCUMFERENCE_OF_EARTH:,.1f}m)") from None
+        assert maxdist >= 10.0, f"the maximum distance is too small ({maxdist:,.1f}m < {10.0:,.1f}m)"
+        assert maxdist <= 0.5 * CIRCUMFERENCE_OF_EARTH, f"the maximum distance is too large ({maxdist:,.1f}m > {0.5 * CIRCUMFERENCE_OF_EARTH:,.1f}m)"
     elif isinstance(npoint, int):
-        if npoint < 3:
-            raise Exception(f"the number of points is too small ({npoint:,d} < {3:,d})") from None
+        assert npoint >= 3, f"the number of points is too small ({npoint:,d} < {3:,d})"
     else:
         raise Exception("\"maxdist\" is not a float and \"npoint\" is not an integer") from None
 

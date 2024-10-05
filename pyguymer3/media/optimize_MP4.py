@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def optimize_MP4(fname1, /, *, debug = False, timeout = 60.0):
+def optimize_MP4(
+    fname1,
+    /,
+    *,
+      debug = __debug__,
+    timeout = 60.0,
+):
     """
     "mp4file" does modify, and it does touch, the MP4 even if it cannot optimize
     it, therefore it is NOT safe to keep on running "mp4file" on the same MP4

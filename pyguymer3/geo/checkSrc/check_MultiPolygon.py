@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def check_MultiPolygon(multipoly, /, *, prefix = "."):
+def check_MultiPolygon(
+    multipoly,
+    /,
+    *,
+    prefix = ".",
+):
     """Check MultiPolygon
 
     This function checks if a MultiPolygon is valid.
@@ -42,9 +47,10 @@ def check_MultiPolygon(multipoly, /, *, prefix = "."):
     # Import sub-functions ...
     from .._debug import _debug
 
+    # **************************************************************************
+
     # Check argument ...
-    if not isinstance(multipoly, shapely.geometry.multipolygon.MultiPolygon):
-        raise TypeError("\"multipoly\" is not a MultiPolygon") from None
+    assert isinstance(multipoly, shapely.geometry.multipolygon.MultiPolygon), "\"multipoly\" is not a MultiPolygon"
     if not multipoly.is_valid:
         _debug(multipoly, prefix = prefix)
         raise Exception(f"\"multipoly\" is not a valid MultiPolygon ({shapely.validation.explain_validity(multipoly)})") from None

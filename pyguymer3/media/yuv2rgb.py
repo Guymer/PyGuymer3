@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def yuv2rgb(im, /, *, version = "SDTV"):
+def yuv2rgb(
+    im,
+    /,
+    *,
+    version = "SDTV",
+):
     """
     Convert array-like YUV image to RGB colourspace
 

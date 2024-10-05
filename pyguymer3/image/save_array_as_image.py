@@ -1,7 +1,20 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def save_array_as_image(img0, fname, /, *, chunksize = 1048576, ct = "grey", debug = False, form = "png", pc_bot = 0.0, pc_top = 0.0, scale = False, timeout = 60.0):
+def save_array_as_image(
+    img0,
+    fname,
+    /,
+    *,
+    chunksize = 1048576,
+           ct = "grey",
+        debug = __debug__,
+         form = "png",
+       pc_bot = 0.0,
+       pc_top = 0.0,
+        scale = False,
+      timeout = 60.0,
+):
     """Save an array as an image
 
     This function accepts a NumPy array, with optional scaling and/or colour

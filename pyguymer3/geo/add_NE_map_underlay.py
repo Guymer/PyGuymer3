@@ -7,7 +7,7 @@ def add_NE_map_underlay(
     *,
     background = True,
       cultural = True,
-         debug = False,
+         debug = __debug__,
      linestyle = "solid",
      linewidth = 0.5,
        maxElev = 8850.0,

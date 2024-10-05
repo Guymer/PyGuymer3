@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def stddev(arr, /, *, dof = 0):
+def stddev(
+    arr,
+    /,
+    *,
+    dof = 0,
+):
     """Find the standard deviation of an array.
 
     This function finds the standard deviation of an array, with optionally

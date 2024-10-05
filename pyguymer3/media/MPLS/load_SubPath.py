@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def load_SubPath(fObj, /):
+def load_SubPath(
+    fObj,
+    /,
+):
     # NOTE: See https://github.com/lw/BluRay/wiki/SubPath
 
     # Import standard modules ...

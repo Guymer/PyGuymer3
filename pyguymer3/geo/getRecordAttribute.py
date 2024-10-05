@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def getRecordAttribute(record, attribute, /, *, strict = False):
+def getRecordAttribute(
+    record,
+    attribute,
+    /,
+    *,
+    strict = False,
+):
     """Get an attribute of a Shapefile record
 
     This function gets an attribute of a Shapefile record, falling back on
@@ -65,9 +71,10 @@ def getRecordAttribute(record, attribute, /, *, strict = False):
     except:
         raise Exception("\"cartopy\" is not installed; run \"pip install --user Cartopy\"") from None
 
+    # **************************************************************************
+
     # Check argument ...
-    if not isinstance(record, cartopy.io.shapereader.Record):
-        raise TypeError("\"record\" is not a Record") from None
+    assert isinstance(record, cartopy.io.shapereader.Record), "\"record\" is not a Record"
 
     # Loop over possible attribute names ...
     for posAttribute in [attribute.upper(), attribute.lower()]:

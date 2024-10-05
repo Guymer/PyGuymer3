@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_x264_crf(w, h, /):
+def return_x264_crf(
+    w,
+    h,
+    /,
+):
     # Import modules ...
     import math
 

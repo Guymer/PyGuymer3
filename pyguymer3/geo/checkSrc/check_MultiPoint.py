@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def check_MultiPoint(multipoint, /, *, prefix = "."):
+def check_MultiPoint(
+    multipoint,
+    /,
+    *,
+    prefix = ".",
+):
     """Check MultiPoint
 
     This function checks if a MultiPoint is valid.
@@ -40,9 +45,10 @@ def check_MultiPoint(multipoint, /, *, prefix = "."):
     # Import sub-functions ...
     from .._debug import _debug
 
+    # **************************************************************************
+
     # Check argument ...
-    if not isinstance(multipoint, shapely.geometry.multipoint.MultiPoint):
-        raise TypeError("\"multipoint\" is not a MultiPoint") from None
+    assert isinstance(multipoint, shapely.geometry.multipoint.MultiPoint), "\"multipoint\" is not a MultiPoint"
     if not multipoint.is_valid:
         _debug(multipoint, prefix = prefix)
         raise Exception(f"\"multipoint\" is not a valid MultiPoint ({shapely.validation.explain_validity(multipoint)})") from None

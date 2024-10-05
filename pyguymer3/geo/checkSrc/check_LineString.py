@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def check_LineString(line, /, *, prefix = "."):
+def check_LineString(
+    line,
+    /,
+    *,
+    prefix = ".",
+):
     """Check LineString
 
     This function checks if a LineString is valid.
@@ -40,9 +45,10 @@ def check_LineString(line, /, *, prefix = "."):
     # Import sub-functions ...
     from .._debug import _debug
 
+    # **************************************************************************
+
     # Check argument ...
-    if not isinstance(line, shapely.geometry.linestring.LineString):
-        raise TypeError("\"line\" is not a LineString") from None
+    assert isinstance(line, shapely.geometry.linestring.LineString), "\"line\" is not a LineString"
     if not line.is_valid:
         _debug(line, prefix = prefix)
         raise Exception(f"\"line\" is not a valid LineString ({shapely.validation.explain_validity(line)})") from None

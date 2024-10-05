@@ -5,7 +5,7 @@ def _add_coastlines(
     ax,
     /,
     *,
-         debug = False,
+         debug = __debug__,
      edgecolor = "black",
      facecolor = "none",
         levels = None,

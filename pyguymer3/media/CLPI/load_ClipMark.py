@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def load_ClipMark(fObj, /):
+def load_ClipMark(
+    fObj,
+    /,
+):
     # NOTE: See https://github.com/lw/BluRay/wiki/ClipMark
 
     # Import standard modules ...

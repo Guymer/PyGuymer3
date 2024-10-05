@@ -25,10 +25,8 @@ def max_dist(
     # **************************************************************************
 
     # Check arguments ...
-    if not isinstance(lons, numpy.ndarray):
-        raise TypeError("\"lons\" is not a NumPy array") from None
-    if not isinstance(lats, numpy.ndarray):
-        raise TypeError("\"lats\" is not a NumPy array") from None
+    assert isinstance(lons, numpy.ndarray), "\"lons\" is not a NumPy array"
+    assert isinstance(lats, numpy.ndarray), "\"lats\" is not a NumPy array"
 
     # **************************************************************************
 

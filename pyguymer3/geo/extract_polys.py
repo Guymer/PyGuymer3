@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def extract_polys(shape, /, *, onlyValid = False, repair = False):
+def extract_polys(
+    shape,
+    /,
+    *,
+    onlyValid = False,
+       repair = False,
+):
     """Extract the Polygons from the shape
 
     This function accepts any Shapely geometry and returns a flat list of all of

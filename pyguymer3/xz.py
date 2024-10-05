@@ -1,7 +1,16 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def xz(fname, /, *, cwd = None, stderr = None, stdout = None, threads = 0, timeout = 60.0):
+def xz(
+    fname,
+    /,
+    *,
+        cwd = None,
+     stderr = None,
+     stdout = None,
+    threads = 0,
+    timeout = 60.0,
+):
     """Compress a file using "xz" (with SHA-256 integrity checks).
 
     Parameters

@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def dict2exif(exif, /, *, mode = "RGB"):
+def dict2exif(
+    exif,
+    /,
+    *,
+    mode = "RGB",
+):
     """Convert a dictionary to an EXIF class
 
     This function accepts a dictionary of key/value pairs and uses it to

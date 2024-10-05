@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def convert_spreadsheet_to_datetime(val, /):
+def convert_spreadsheet_to_datetime(
+    val,
+    /,
+):
     """Convert an Excel spreadsheet date to a timezone-aware :class:`.datetime`
     object
 

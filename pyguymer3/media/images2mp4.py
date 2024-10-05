@@ -1,7 +1,21 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def images2mp4(frames, /, *, crf = -1.0, cwd = None, debug = False, form = "mp4", fps = 25.0, level = "ERROR", profile = "ERROR", screenHeight = -1, screenWidth = -1, timeout = 60.0):
+def images2mp4(
+    frames,
+    /,
+    *,
+             crf = -1.0,
+             cwd = None,
+           debug = __debug__,
+            form = "mp4",
+             fps = 25.0,
+           level = "ERROR",
+         profile = "ERROR",
+    screenHeight = -1,
+     screenWidth = -1,
+         timeout = 60.0,
+):
     """Convert a sequence of images to a MP4 video.
 
     This function makes a MP4 video from a list of file paths. The user is able

@@ -1,7 +1,19 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def image2webp(img, webp, /, *, exif = None, lossless = False, method = 6, mode = "RGB", quality = 100, screenHeight = -1, screenWidth = -1):
+def image2webp(
+    img,
+    webp,
+    /,
+    *,
+            exif = None,
+        lossless = False,
+          method = 6,
+            mode = "RGB",
+         quality = 100,
+    screenHeight = -1,
+     screenWidth = -1,
+):
     """Save an image as a WEBP
 
     This function accepts either a PIL Image or a file path and saves the image

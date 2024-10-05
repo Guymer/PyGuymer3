@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_ISO_palette(fname, /, *, timeout = 60.0, usr_track = -1):
+def return_ISO_palette(
+    fname,
+    /,
+    *,
+      timeout = 60.0,
+    usr_track = -1,
+):
     # Import standard modules ...
     import html
     import shutil

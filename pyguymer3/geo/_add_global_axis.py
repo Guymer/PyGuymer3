@@ -14,7 +14,7 @@ def _add_global_axis(
      coastlines_linewidth = 0.5,
     coastlines_resolution = "i",
         coastlines_zorder = 1.5,
-                    debug = False,
+                    debug = __debug__,
             gridlines_int = None,
       gridlines_linecolor = "black",
       gridlines_linestyle = ":",

@@ -7,7 +7,7 @@ def find_middle_of_locs_geodesicBox(
     /,
     *,
        conv = 1.0e3,
-      debug = False,
+      debug = __debug__,
         eps = 1.0e-12,
     iRefine = 0,
      midLat = None,
@@ -37,10 +37,8 @@ def find_middle_of_locs_geodesicBox(
     # **************************************************************************
 
     # Check arguments ...
-    if not isinstance(lons, numpy.ndarray):
-        raise TypeError("\"lons\" is not a NumPy array") from None
-    if not isinstance(lats, numpy.ndarray):
-        raise TypeError("\"lats\" is not a NumPy array") from None
+    assert isinstance(lons, numpy.ndarray), "\"lons\" is not a NumPy array"
+    assert isinstance(lats, numpy.ndarray), "\"lats\" is not a NumPy array"
 
     # **************************************************************************
 

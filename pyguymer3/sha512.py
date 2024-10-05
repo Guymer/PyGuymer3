@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def sha512(fname, /, *, chunksize = 1048576):
+def sha512(
+    fname,
+    /,
+    *,
+    chunksize = 1048576,
+):
     """
     This function runs hashlib.sha512() on a file using chunks to ensure that
     too much RAM is not used.

@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def sha512_of_GZ(fname, /, *, ignoreModificationTime = True):
+def sha512_of_GZ(
+    fname,
+    /,
+    *,
+    ignoreModificationTime = True,
+):
     """
     This function returns the SHA-512 hash of the passed GZ file as if the first
     "Modification Time" field is set to zero. Using this function it is possible

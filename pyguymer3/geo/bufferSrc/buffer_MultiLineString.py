@@ -6,7 +6,7 @@ def buffer_MultiLineString(
     dist,
     /,
     *,
-        debug = False,
+        debug = __debug__,
           eps = 1.0e-12,
          fill = 1.0,
     fillSpace = "EuclideanSpace",
@@ -97,6 +97,8 @@ def buffer_MultiLineString(
     from ..check import check
     from ..fillin import fillin
     from .buffer_LineString import buffer_LineString
+
+    # **************************************************************************
 
     # Check argument ...
     assert isinstance(multiline, shapely.geometry.multilinestring.MultiLineString), "\"multiline\" is not a MultiLineString"

@@ -6,7 +6,7 @@ def buffer_Point(
     dist,
     /,
     *,
-        debug = False,
+        debug = __debug__,
           eps = 1.0e-12,
          fill = 1.0,
     fillSpace = "EuclideanSpace",
@@ -93,6 +93,8 @@ def buffer_Point(
     # Import sub-functions ...
     from ..check import check
     from .buffer_CoordinateSequence import buffer_CoordinateSequence
+
+    # **************************************************************************
 
     # Check argument ...
     assert isinstance(point, shapely.geometry.point.Point), "\"point\" is not a Point"

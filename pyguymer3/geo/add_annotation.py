@@ -11,7 +11,7 @@ def add_annotation(
              arrowprops = None,
                    bbox = None,
                   color = "black",
-                  debug = False,
+                  debug = __debug__,
                fontsize = 8,
     horizontalalignment = "center",
                  prefix = ".",

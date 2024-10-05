@@ -1,7 +1,15 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_folder_size(path, /, *, allowHidden = False, debug = False, follow_symlinks = True, return_symlinks = True):
+def return_folder_size(
+    path,
+    /,
+    *,
+        allowHidden = False,
+              debug = __debug__,
+    follow_symlinks = True,
+    return_symlinks = True,
+):
     """Return the total size of all files in a directory.
 
     This function returns the total size of all files recursively in a directory.

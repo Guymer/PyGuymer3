@@ -1,7 +1,14 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def ll2en(shape1, /, *, debug = False, prefix = ".", tol = 1.0e-10):
+def ll2en(
+    shape1,
+    /,
+    *,
+     debug = __debug__,
+    prefix = ".",
+       tol = 1.0e-10,
+):
     """Transform from Longitudes/Latitudes to Eastings/Northings
 
     This function reads in a shape whose coordinates are Longitudes/Latitudes
@@ -50,6 +57,8 @@ def ll2en(shape1, /, *, debug = False, prefix = ".", tol = 1.0e-10):
     from .ll2enSrc import ll2en_MultiPolygon
     from .ll2enSrc import ll2en_Point
     from .ll2enSrc import ll2en_Polygon
+
+    # **************************************************************************
 
     # Check if it is a Point and return it transformed ...
     if isinstance(shape1, shapely.geometry.point.Point):

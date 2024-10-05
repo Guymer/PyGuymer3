@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def stat(fname, /, *, follow_symlinks = True):
+def stat(
+    fname,
+    /,
+    *,
+    follow_symlinks = True,
+):
     """
     This function aims to mimic os.stat() but instead of returning a stat_result
     object with attributes it returns a dictionary with keys (for more user-

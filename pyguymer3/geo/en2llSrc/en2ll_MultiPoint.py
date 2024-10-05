@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def en2ll_MultiPoint(multipoint1, /, *, debug = False, prefix = "."):
+def en2ll_MultiPoint(
+    multipoint1,
+    /,
+    *,
+     debug = __debug__,
+    prefix = ".",
+):
     """Transform a MultiPoint from Eastings/Northings to Longitudes/Latitudes
 
     This function reads in a MultiPoint whose coordinates are Eastings/Northings
@@ -43,9 +49,10 @@ def en2ll_MultiPoint(multipoint1, /, *, debug = False, prefix = "."):
     from ..check import check
     from .en2ll_Point import en2ll_Point
 
+    # **************************************************************************
+
     # Check argument ...
-    if not isinstance(multipoint1, shapely.geometry.multipoint.MultiPoint):
-        raise TypeError("\"multipoint1\" is not a MultiPoint") from None
+    assert isinstance(multipoint1, shapely.geometry.multipoint.MultiPoint), "\"multipoint1\" is not a MultiPoint"
     if debug:
         check(multipoint1, prefix = prefix)
 

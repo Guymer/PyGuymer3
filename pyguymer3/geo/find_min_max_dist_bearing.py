@@ -10,7 +10,7 @@ def find_min_max_dist_bearing(
     *,
          angConv = 0.1,
     angHalfRange = 180.0,
-           debug = False,
+           debug = __debug__,
             dist = 1000.0,
              eps = 1.0e-12,
            first = True,
@@ -96,10 +96,8 @@ def find_min_max_dist_bearing(
     # **************************************************************************
 
     # Check arguments ...
-    if not isinstance(lons, numpy.ndarray):
-        raise TypeError("\"lons\" is not a NumPy array") from None
-    if not isinstance(lats, numpy.ndarray):
-        raise TypeError("\"lats\" is not a NumPy array") from None
+    assert isinstance(lons, numpy.ndarray), "\"lons\" is not a NumPy array"
+    assert isinstance(lats, numpy.ndarray), "\"lats\" is not a NumPy array"
     if iIter == nIter - 1:
         raise Exception(f"failed to converge; the middle is currently ({midLon:.6f}°, {midLat:.6f}°); nIter = {nIter:,d}") from None
 

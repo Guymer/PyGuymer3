@@ -1,7 +1,16 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def calc_loc_from_loc_and_bearing_and_dist(lon1_deg, lat1_deg, alpha1_deg, s_m, /, *, eps = 1.0e-12, nIter = 100):
+def calc_loc_from_loc_and_bearing_and_dist(
+    lon1_deg,
+    lat1_deg,
+    alpha1_deg,
+    s_m,
+    /,
+    *,
+      eps = 1.0e-12,
+    nIter = 100,
+):
     """Calculate the location and reverse bearing from another location and a
     forward bearing and a distance.
 
@@ -55,6 +64,8 @@ def calc_loc_from_loc_and_bearing_and_dist(lon1_deg, lat1_deg, alpha1_deg, s_m, 
 
     # Import standard modules ...
     import math
+
+    # **************************************************************************
 
     # Convert to radians ...
     lon1 = math.radians(lon1_deg)                                               # [rad]

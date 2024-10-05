@@ -1,7 +1,16 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def save_file_if_needed(fname, fcontent, /, *, debug = False, gitFiles = None, gitMessage = "regenerated", timeout = 60.0):
+def save_file_if_needed(
+    fname,
+    fcontent,
+    /,
+    *,
+         debug = __debug__,
+      gitFiles = None,
+    gitMessage = "regenerated",
+       timeout = 60.0,
+):
     """Save a file. If the file already exists, then only overwrite it if the
     content is different.
 

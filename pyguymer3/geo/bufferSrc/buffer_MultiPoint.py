@@ -6,7 +6,7 @@ def buffer_MultiPoint(
     dist,
     /,
     *,
-        debug = False,
+        debug = __debug__,
           eps = 1.0e-12,
          fill = 1.0,
     fillSpace = "EuclideanSpace",
@@ -97,6 +97,8 @@ def buffer_MultiPoint(
     from ..check import check
     from ..fillin import fillin
     from .buffer_Point import buffer_Point
+
+    # **************************************************************************
 
     # Check argument ...
     assert isinstance(multipoint, shapely.geometry.multipoint.MultiPoint), "\"multipoint\" is not a MultiPoint"

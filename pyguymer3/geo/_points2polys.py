@@ -1,7 +1,16 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def _points2polys(point, points, /, *, debug = False, huge = False, prefix = ".", tol = 1.0e-10):
+def _points2polys(
+    point,
+    points,
+    /,
+    *,
+     debug = __debug__,
+      huge = False,
+    prefix = ".",
+       tol = 1.0e-10,
+):
     """Convert a buffered point to a list of Polygons
 
     This function reads in a coordinate that exists on the surface of the Earth,
@@ -62,11 +71,11 @@ def _points2polys(point, points, /, *, debug = False, huge = False, prefix = "."
     from .wrapLongitude import wrapLongitude
     from ..interpolate import interpolate
 
+    # **************************************************************************
+
     # Check arguments ...
-    if not isinstance(point, numpy.ndarray):
-        raise TypeError("\"point\" is not a NumPy array") from None
-    if not isinstance(points, numpy.ndarray):
-        raise TypeError("\"points\" is not a NumPy array") from None
+    assert isinstance(point, numpy.ndarray), "\"point\" is not a NumPy array"
+    assert isinstance(points, numpy.ndarray), "\"points\" is not a NumPy array"
 
     # **************************************************************************
 

@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def load_SequenceInfo(fObj, /):
+def load_SequenceInfo(
+    fObj,
+    /,
+):
     # NOTE: See https://github.com/lw/BluRay/wiki/SequenceInfo
 
     # Import standard modules ...

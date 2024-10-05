@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def check_GeometryCollection(geometrycollection, /, *, prefix = "."):
+def check_GeometryCollection(
+    geometrycollection,
+    /,
+    *,
+    prefix = ".",
+):
     """Check GeometryCollection
 
     This function checks if a GeometryCollection is valid.
@@ -42,9 +47,10 @@ def check_GeometryCollection(geometrycollection, /, *, prefix = "."):
     # Import sub-functions ...
     from .._debug import _debug
 
+    # **************************************************************************
+
     # Check argument ...
-    if not isinstance(geometrycollection, shapely.geometry.collection.GeometryCollection):
-        raise TypeError("\"geometrycollection\" is not a GeometryCollection") from None
+    assert isinstance(geometrycollection, shapely.geometry.collection.GeometryCollection), "\"geometrycollection\" is not a GeometryCollection"
     if not geometrycollection.is_valid:
         _debug(geometrycollection, prefix = prefix)
         raise Exception(f"\"geometrycollection\" is not a valid GeometryCollection ({shapely.validation.explain_validity(geometrycollection)})") from None

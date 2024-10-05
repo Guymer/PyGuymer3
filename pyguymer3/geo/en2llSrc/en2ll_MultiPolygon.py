@@ -1,7 +1,14 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def en2ll_MultiPolygon(multipoly1, /, *, debug = False, prefix = ".", tol = 1.0e-10):
+def en2ll_MultiPolygon(
+    multipoly1,
+    /,
+    *,
+     debug = __debug__,
+    prefix = ".",
+       tol = 1.0e-10,
+):
     """Transform a MultiPolygon from Eastings/Northings to Longitudes/Latitudes
 
     This function reads in a MultiPolygon whose coordinates are
@@ -46,9 +53,10 @@ def en2ll_MultiPolygon(multipoly1, /, *, debug = False, prefix = ".", tol = 1.0e
     from ..check import check
     from .en2ll_Polygon import en2ll_Polygon
 
+    # **************************************************************************
+
     # Check argument ...
-    if not isinstance(multipoly1, shapely.geometry.multipolygon.MultiPolygon):
-        raise TypeError("\"multipoly1\" is not a MultiPolygon") from None
+    assert isinstance(multipoly1, shapely.geometry.multipolygon.MultiPolygon), "\"multipoly1\" is not a MultiPolygon"
     if debug:
         check(multipoly1, prefix = prefix)
 

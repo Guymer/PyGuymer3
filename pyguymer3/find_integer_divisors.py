@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def find_integer_divisors(n, /):
+def find_integer_divisors(
+    n,
+    /,
+):
     # Check input ...
     if n <= 2:
         # Return answer ...

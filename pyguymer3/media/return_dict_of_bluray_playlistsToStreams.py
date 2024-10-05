@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_dict_of_bluray_playlistsToStreams(dname, /, *, time_threshold = 60.0):
+def return_dict_of_bluray_playlistsToStreams(
+    dname,
+    /,
+    *,
+    time_threshold = 60.0,
+):
     """
     This function uses the list of MPLS files to obtain all of the possible
     playlists in a Blu-ray, then it calls "parse_MPLS_file" on each file to

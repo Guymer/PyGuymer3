@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def elem2dict(elem, /, *, debug = False):
+def elem2dict(
+    elem,
+    /,
+    *,
+    debug = __debug__,
+):
     """Convert a XML element into a Python dictionary
 
     This function accepts a XML element and recursively turns it in to a Python

@@ -15,7 +15,7 @@ def add_axis(
     coastlines_resolution = "i",
         coastlines_zorder = 1.5,
            configureAgain = False,
-                    debug = False,
+                    debug = __debug__,
                      dist = 1.0e99,
                       eps = 1.0e-12,
             gridlines_int = None,

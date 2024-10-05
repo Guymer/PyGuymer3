@@ -6,7 +6,7 @@ def buffer_CoordinateSequence(
     dist,
     /,
     *,
-        debug = False,
+        debug = __debug__,
           eps = 1.0e-12,
          fill = 1.0,
     fillSpace = "EuclideanSpace",
@@ -117,6 +117,8 @@ def buffer_CoordinateSequence(
         if debug:
             print("INFO: Will find the rings using Python (did not find FORTRAN module).")
         fortran = False
+
+    # **************************************************************************
 
     # Check argument ...
     assert isinstance(coords, shapely.coords.CoordinateSequence), "\"coords\" is not a CoordinateSequence"

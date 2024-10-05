@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def make_path_safe(path, /, *, allowHidden = False):
+def make_path_safe(
+    path,
+    /,
+    *,
+    allowHidden = False,
+):
     """Make a path safe for using on a filesystem.
 
     Parameters

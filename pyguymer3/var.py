@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def var(arr, /, *, dof = 0):
+def var(
+    arr,
+    /,
+    *,
+    dof = 0,
+):
     """Find the variance of an array.
 
     This function finds the variance of an array, with optionally specified

@@ -1,7 +1,16 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def area(shape, /, *, eps = 1.0e-12, level = 1, nIter = 100, onlyValid = False, repair = False):
+def area(
+    shape,
+    /,
+    *,
+          eps = 1.0e-12,
+        level = 1,
+        nIter = 100,
+    onlyValid = False,
+       repair = False,
+):
     """Find the area of a shape.
 
     Parameters

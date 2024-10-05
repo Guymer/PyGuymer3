@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def git_commits(cwd, /, *, fname = None, timeout = 60.0):
+def git_commits(
+    cwd,
+    /,
+    *,
+      fname = None,
+    timeout = 60.0,
+):
     # Import standard modules ...
     import datetime
     import shutil

@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def convert_seconds_to_pretty_time(secFlt, /):
+def convert_seconds_to_pretty_time(
+    secFlt,
+    /,
+):
     """Convert a value of seconds to a pretty value of time
 
     This function reads in a value of seconds and returns the same value

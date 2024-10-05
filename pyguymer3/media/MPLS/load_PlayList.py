@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def load_PlayList(fObj, /):
+def load_PlayList(
+    fObj,
+    /,
+):
     # NOTE: See https://github.com/lw/BluRay/wiki/PlayList
 
     # Import standard modules ...

@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def res(lat_deg, zoom, /):
+def res(
+    lat_deg,
+    zoom,
+    /,
+):
     """
     Calculate the resolution in the centre of a tile at a given latitude and for
     a given zoom.

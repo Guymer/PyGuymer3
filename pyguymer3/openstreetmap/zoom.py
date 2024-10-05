@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def zoom(lat_deg, res, /):
+def zoom(
+    lat_deg,
+    res,
+    /,
+):
     """
     Calculate the required zoom to achieve a given resolution in the centre of a tile at a given latitude.
 

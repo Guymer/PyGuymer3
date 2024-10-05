@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def load_PlayListMark(fObj, /):
+def load_PlayListMark(
+    fObj,
+    /,
+):
     # NOTE: See https://github.com/lw/BluRay/wiki/PlayListMark
 
     # Import standard modules ...

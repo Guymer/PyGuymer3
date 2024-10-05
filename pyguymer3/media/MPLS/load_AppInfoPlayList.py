@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def load_AppInfoPlayList(fObj, /):
+def load_AppInfoPlayList(
+    fObj,
+    /,
+):
     # NOTE: See https://github.com/lw/BluRay/wiki/AppInfoPlayList
 
     # Import standard modules ...

@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def mean(arr, /, *, dof = 0):
+def mean(
+    arr,
+    /,
+    *,
+    dof = 0,
+):
     """Find the arithmetic mean of an array.
 
     This function finds the arithmetic mean of an array, with optionally

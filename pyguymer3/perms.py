@@ -1,7 +1,20 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def perms(path, /, *, allowHidden = False, debug = False, filePerms = None, folderPerms = None, follow_symlinks = True, group = None, return_symlinks = False, skips = None, user = None):
+def perms(
+    path,
+    /,
+    *,
+        allowHidden = False,
+              debug = __debug__,
+          filePerms = None,
+        folderPerms = None,
+    follow_symlinks = True,
+              group = None,
+    return_symlinks = False,
+              skips = None,
+               user = None,
+):
     """Set permissions within a path.
 
     This function sets the file/folder mode and group/user owner of all files

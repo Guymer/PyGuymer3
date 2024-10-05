@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def check_MultiLineString(multiline, /, *, prefix = "."):
+def check_MultiLineString(
+    multiline,
+    /,
+    *,
+    prefix = ".",
+):
     """Check MultiLineString
 
     This function checks if a MultiLineString is valid.
@@ -40,9 +45,10 @@ def check_MultiLineString(multiline, /, *, prefix = "."):
     # Import sub-functions ...
     from .._debug import _debug
 
+    # **************************************************************************
+
     # Check argument ...
-    if not isinstance(multiline, shapely.geometry.multilinestring.MultiLineString):
-        raise TypeError("\"multiline\" is not a MultiLineString") from None
+    assert isinstance(multiline, shapely.geometry.multilinestring.MultiLineString), "\"multiline\" is not a MultiLineString"
     if not multiline.is_valid:
         _debug(multiline, prefix = prefix)
         raise Exception(f"\"multiline\" is not a valid MultiLineString ({shapely.validation.explain_validity(multiline)})") from None

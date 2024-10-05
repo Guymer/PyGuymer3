@@ -1,7 +1,15 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_subtitle_bit_rate(fname, /, *, cwd = None, debug = False, playlist = -1, timeout = 60.0):
+def return_subtitle_bit_rate(
+    fname,
+    /,
+    *,
+         cwd = None,
+       debug = __debug__,
+    playlist = -1,
+     timeout = 60.0,
+):
     """
     Return the bit rate of the first subtitle stream in the media file.
     """

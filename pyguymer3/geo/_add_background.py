@@ -5,7 +5,7 @@ def _add_background(
     ax,
     /,
     *,
-    debug = False,
+    debug = __debug__,
 ):
     """Add background to a Cartopy axis.
 

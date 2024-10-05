@@ -1,7 +1,14 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def clean_Polygon(poly, /, *, debug = False, prefix = ".", tol = 1.0e-10):
+def clean_Polygon(
+    poly,
+    /,
+    *,
+     debug = __debug__,
+    prefix = ".",
+       tol = 1.0e-10,
+):
     """Clean a Polygon
 
     This function cleans a Polygon (with an exterior and any number of
@@ -52,9 +59,10 @@ def clean_Polygon(poly, /, *, debug = False, prefix = ".", tol = 1.0e-10):
     from ..check import check
     from .clean_LinearRing import clean_LinearRing
 
+    # **************************************************************************
+
     # Check argument ...
-    if not isinstance(poly, shapely.geometry.polygon.Polygon):
-        raise TypeError("\"poly\" is not a Polygon") from None
+    assert isinstance(poly, shapely.geometry.polygon.Polygon), "\"poly\" is not a Polygon"
 
     # Clean exterior LinearRing ...
     exterior = clean_LinearRing(

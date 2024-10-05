@@ -1,7 +1,15 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_subtitle_format(fname, /, *, cwd = None, debug = False, playlist = -1, timeout = 60.0):
+def return_subtitle_format(
+    fname,
+    /,
+    *,
+         cwd = None,
+       debug = __debug__,
+    playlist = -1,
+     timeout = 60.0,
+):
     """Return the format of the first subtitle stream in a media file
 
     This function will return a pretty string of the format of the first

@@ -1,7 +1,15 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def does_media_have_subtitle(fname, /, *, cwd = None, debug = False, playlist = -1, timeout = 60.0):
+def does_media_have_subtitle(
+    fname,
+    /,
+    *,
+         cwd = None,
+       debug = __debug__,
+    playlist = -1,
+     timeout = 60.0,
+):
     """
     Return True/False if the media has subtitle.
     """

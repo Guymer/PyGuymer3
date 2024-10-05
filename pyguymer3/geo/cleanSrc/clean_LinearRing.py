@@ -1,7 +1,14 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def clean_LinearRing(ring, /, *, debug = False, prefix = ".", tol = 1.0e-10):
+def clean_LinearRing(
+    ring,
+    /,
+    *,
+     debug = __debug__,
+    prefix = ".",
+       tol = 1.0e-10,
+):
     """Clean a LinearRing
 
     This function cleans a LinearRing by removing bad points.
@@ -49,9 +56,10 @@ def clean_LinearRing(ring, /, *, debug = False, prefix = ".", tol = 1.0e-10):
     # Import sub-functions ...
     from .clean_CoordinateSequence import clean_CoordinateSequence
 
+    # **************************************************************************
+
     # Check argument ...
-    if not isinstance(ring, shapely.geometry.polygon.LinearRing):
-        raise TypeError("\"ring\" is not a LinearRing") from None
+    assert isinstance(ring, shapely.geometry.polygon.LinearRing), "\"ring\" is not a LinearRing"
 
     # Return cleaned LinearRing ...
     return clean_CoordinateSequence(

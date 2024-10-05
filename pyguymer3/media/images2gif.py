@@ -1,7 +1,21 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def images2gif(imgs, gif, /, *, chunksize = 1048576, debug = False, fps = 25.0, mode = "RGB", optimize = True, screenHeight = -1, screenWidth = -1, strip = False, timeout = 60.0):
+def images2gif(
+    imgs,
+    gif,
+    /,
+    *,
+       chunksize = 1048576,
+           debug = __debug__,
+             fps = 25.0,
+            mode = "RGB",
+        optimize = True,
+    screenHeight = -1,
+     screenWidth = -1,
+           strip = False,
+         timeout = 60.0,
+):
     """Convert a sequence of images to a GIF animation.
 
     This function makes a GIF animation from either a list of PIL Images or a

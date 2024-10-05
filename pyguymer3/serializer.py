@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def serializer(obj, /, *, evaluate = False):
+def serializer(
+    obj,
+    /,
+    *,
+    evaluate = False,
+):
     """Serialize an object into an intrinsic type
 
     Serializer for objects not serializable by Python's default :mod:`json`

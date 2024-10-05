@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def parse_MPLS_file(br, ip, /):
+def parse_MPLS_file(
+    br,
+    ip,
+    /,
+):
     # Import sub-functions ...
     from .MPLS import load_header
     from .MPLS import load_AppInfoPlayList

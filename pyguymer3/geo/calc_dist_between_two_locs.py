@@ -1,7 +1,16 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def calc_dist_between_two_locs(lon1_deg, lat1_deg, lon2_deg, lat2_deg, /, *, eps = 1.0e-12, nIter = 100):
+def calc_dist_between_two_locs(
+    lon1_deg,
+    lat1_deg,
+    lon2_deg,
+    lat2_deg,
+    /,
+    *,
+      eps = 1.0e-12,
+    nIter = 100,
+):
     """Calculate the distance between two coordinates.
 
     This function reads in two coordinates (in degrees) on the surface of the
@@ -53,6 +62,8 @@ def calc_dist_between_two_locs(lon1_deg, lat1_deg, lon2_deg, lat2_deg, /, *, eps
 
     # Import standard modules ...
     import math
+
+    # **************************************************************************
 
     # Skip if the start- and end-points are the same ...
     if lon1_deg == lon2_deg and lat1_deg == lat2_deg:

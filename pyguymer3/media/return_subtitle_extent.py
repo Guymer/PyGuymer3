@@ -1,7 +1,16 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_subtitle_extent(fname, /, *, cwd = None, debug = False, playlist = -1, subtitle = 0, timeout = 60.0):
+def return_subtitle_extent(
+    fname,
+    /,
+    *,
+         cwd = None,
+       debug = __debug__,
+    playlist = -1,
+    subtitle = 0,
+     timeout = 60.0,
+):
     # Import standard modules ...
     import re
     import shutil

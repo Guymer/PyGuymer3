@@ -10,7 +10,7 @@ def tile(
     *,
     chunksize = 1048576,
       cookies = None,
-        debug = False,
+        debug = __debug__,
       headers = None,
       timeout = 60.0,
        verify = True,

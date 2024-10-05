@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def convert_bytes_to_pretty_bytes(size, /):
+def convert_bytes_to_pretty_bytes(
+    size,
+    /,
+):
     """Convert a value of bytes to a pretty value of bytes with some units
 
     This function reads in a value of bytes and returns the same value expressed

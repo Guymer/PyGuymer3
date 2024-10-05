@@ -1,7 +1,14 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def optimize_FLAC(fname1, /, *, chunksize = 1048576, debug = False, timeout = 60.0):
+def optimize_FLAC(
+    fname1,
+    /,
+    *,
+    chunksize = 1048576,
+        debug = __debug__,
+      timeout = 60.0,
+):
     """
     "metaflac" does not modify, but it does touch, the FLAC even if it cannot
     make it smaller, therefore it is NOT safe to keep on running "metaflac" on

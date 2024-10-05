@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def num2deg(xtile, ytile, zoom, /):
+def num2deg(
+    xtile,
+    ytile,
+    zoom,
+    /,
+):
     """
     This function returns the NW corner of the tile.
     """

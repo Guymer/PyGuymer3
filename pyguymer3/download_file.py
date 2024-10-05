@@ -1,7 +1,17 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def download_file(sess, url, fname, /, *, cookies = None, headers = None, timeout = 10.0, verify = True):
+def download_file(
+    sess,
+    url,
+    fname,
+    /,
+    *,
+    cookies = None,
+    headers = None,
+    timeout = 10.0,
+     verify = True,
+):
     """GET a URL and save the content in a file
 
     This function performs a HTTP GET operation on a URL and saves the content

@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def load_CPI(fObj, /):
+def load_CPI(
+    fObj,
+    /,
+):
     # NOTE: See https://github.com/lw/BluRay/wiki/CPI
     # NOTE: See https://patents.google.com/patent/US20090238539
 

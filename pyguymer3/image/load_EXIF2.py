@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def load_EXIF2(fname, /, *, compressed = False, timeout = 60.0):
+def load_EXIF2(
+    fname,
+    /,
+    *,
+    compressed = False,
+       timeout = 60.0,
+):
     # Import standard modules ...
     import json
     import shutil

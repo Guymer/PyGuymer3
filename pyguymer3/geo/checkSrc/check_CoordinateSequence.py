@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def check_CoordinateSequence(coords, /):
+def check_CoordinateSequence(
+    coords,
+    /,
+):
     """Check CoordinateSequence
 
     This function checks if a CoordinateSequence is valid.
@@ -33,9 +36,10 @@ def check_CoordinateSequence(coords, /):
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
+    # **************************************************************************
+
     # Check argument ...
-    if not isinstance(coords, shapely.coords.CoordinateSequence):
-        raise TypeError("\"coords\" is not a CoordinateSequence") from None
+    assert isinstance(coords, shapely.coords.CoordinateSequence), "\"coords\" is not a CoordinateSequence"
 
     # Return answer ...
     return True

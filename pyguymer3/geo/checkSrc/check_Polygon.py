@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def check_Polygon(poly, /, *, prefix = "."):
+def check_Polygon(
+    poly,
+    /,
+    *,
+    prefix = ".",
+):
     """Check Polygon
 
     This function checks if a Polygon is valid.
@@ -40,9 +45,10 @@ def check_Polygon(poly, /, *, prefix = "."):
     # Import sub-functions ...
     from .._debug import _debug
 
+    # **************************************************************************
+
     # Check argument ...
-    if not isinstance(poly, shapely.geometry.polygon.Polygon):
-        raise TypeError("\"poly\" is not a Polygon") from None
+    assert isinstance(poly, shapely.geometry.polygon.Polygon), "\"poly\" is not a Polygon"
     if not poly.is_valid:
         _debug(poly, prefix = prefix)
         raise Exception(f"\"poly\" is not a valid Polygon ({shapely.validation.explain_validity(poly)})") from None

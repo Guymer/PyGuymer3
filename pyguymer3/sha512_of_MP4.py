@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def sha512_of_MP4(fname, /, *, ignoreModificationTime = True):
+def sha512_of_MP4(
+    fname,
+    /,
+    *,
+    ignoreModificationTime = True,
+):
     """
     This function returns the SHA-512 hash of the passed MP4 file as if the
     "Modification Time" field (in the "mvhd" atom in the "moov" atom) is set to

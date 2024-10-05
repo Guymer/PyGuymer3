@@ -1,7 +1,18 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def fillin_LineString(line, fill, /, *, debug = False, eps = 1.0e-12, fillSpace = "EuclideanSpace", nIter = 100, prefix = ".", ramLimit = 1073741824):
+def fillin_LineString(
+    line,
+    fill,
+    /,
+    *,
+        debug = __debug__,
+          eps = 1.0e-12,
+    fillSpace = "EuclideanSpace",
+        nIter = 100,
+       prefix = ".",
+     ramLimit = 1073741824,
+):
     """Fill in a LineString
 
     This function reads in a LineString that exists on the surface of the Earth
@@ -55,9 +66,10 @@ def fillin_LineString(line, fill, /, *, debug = False, eps = 1.0e-12, fillSpace 
     from ..check import check
     from .fillin_CoordinateSequence import fillin_CoordinateSequence
 
+    # **************************************************************************
+
     # Check argument ...
-    if not isinstance(line, shapely.geometry.linestring.LineString):
-        raise TypeError("\"line\" is not a LineString") from None
+    assert isinstance(line, shapely.geometry.linestring.LineString), "\"line\" is not a LineString"
     if debug:
         check(line, prefix = prefix)
 

@@ -68,6 +68,8 @@ def _add_vertical_gridlines(
     except:
         raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
 
+    # **************************************************************************
+
     # Determine x-locations depending on inputs ...
     if ngrid > 1:
         xlocs = numpy.linspace(-180.0, +180.0, num = ngrid)                     # [°]

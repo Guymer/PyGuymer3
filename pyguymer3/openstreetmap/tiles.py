@@ -13,7 +13,7 @@ def tiles(
     background = (255, 255, 255),
      chunksize = 1048576,
        cookies = None,
-         debug = False,
+         debug = __debug__,
           fill = (255, 0, 0, 127),
        headers = None,
         radius = None,

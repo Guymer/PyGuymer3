@@ -1,7 +1,19 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def fillin_MultiPolygon(multipoly, fill, /, *, debug = False, eps = 1.0e-12, fillSpace = "EuclideanSpace", nIter = 100, prefix = ".", ramLimit = 1073741824, tol = 1.0e-10):
+def fillin_MultiPolygon(
+    multipoly,
+    fill,
+    /,
+    *,
+        debug = __debug__,
+          eps = 1.0e-12,
+    fillSpace = "EuclideanSpace",
+        nIter = 100,
+       prefix = ".",
+     ramLimit = 1073741824,
+          tol = 1.0e-10,
+):
     """Fill in a MultiPolygon
 
     This function reads in a MultiPolygon, made up of Polygons (with an exterior
@@ -60,9 +72,10 @@ def fillin_MultiPolygon(multipoly, fill, /, *, debug = False, eps = 1.0e-12, fil
     from ..check import check
     from .fillin_Polygon import fillin_Polygon
 
+    # **************************************************************************
+
     # Check argument ...
-    if not isinstance(multipoly, shapely.geometry.multipolygon.MultiPolygon):
-        raise TypeError("\"multipoly\" is not a MultiPolygon") from None
+    assert isinstance(multipoly, shapely.geometry.multipolygon.MultiPolygon), "\"multipoly\" is not a MultiPolygon"
     if debug:
         check(multipoly, prefix = prefix)
 

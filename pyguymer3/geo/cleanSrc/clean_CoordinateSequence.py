@@ -1,7 +1,14 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def clean_CoordinateSequence(coords, /, *, debug = False, prefix = ".", tol = 1.0e-10):
+def clean_CoordinateSequence(
+    coords,
+    /,
+    *,
+     debug = __debug__,
+    prefix = ".",
+       tol = 1.0e-10,
+):
     """Clean a CoordinateSequence
 
     This function cleans a CoordinateSequence by removing bad points.
@@ -53,9 +60,10 @@ def clean_CoordinateSequence(coords, /, *, debug = False, prefix = ".", tol = 1.
     # Import sub-functions ...
     from ..check import check
 
+    # **************************************************************************
+
     # Check argument ...
-    if not isinstance(coords, shapely.coords.CoordinateSequence):
-        raise TypeError("\"coords\" is not a CoordinateSequence") from None
+    assert isinstance(coords, shapely.coords.CoordinateSequence), "\"coords\" is not a CoordinateSequence"
 
     # Convert the CoordinateSequence to a NumPy array ...
     points1 = numpy.array(coords)                                               # [°]

@@ -1,7 +1,16 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def find_instances_of_a_file(path, basename, /, *, allowHidden = False, debug = False, follow_symlinks = True, return_symlinks = True):
+def find_instances_of_a_file(
+    path,
+    basename,
+    /,
+    *,
+        allowHidden = False,
+              debug = __debug__,
+    follow_symlinks = True,
+    return_symlinks = True,
+):
     """Return a recursive list of file names in a directory that match a basename.
 
     This function returns a sorted list of desired file names recursively in a directory that match a desired basename.

@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def en2ll_MultiLineString(multiline1, /, *, debug = False, prefix = "."):
+def en2ll_MultiLineString(
+    multiline1,
+    /,
+    *,
+     debug = __debug__,
+    prefix = ".",
+):
     """Transform a MultiLineString from Eastings/Northings to
     Longitudes/Latitudes
 
@@ -44,9 +50,10 @@ def en2ll_MultiLineString(multiline1, /, *, debug = False, prefix = "."):
     from ..check import check
     from .en2ll_LineString import en2ll_LineString
 
+    # **************************************************************************
+
     # Check argument ...
-    if not isinstance(multiline1, shapely.geometry.multilinestring.MultiLineString):
-        raise TypeError("\"multiline1\" is not a MultiLineString") from None
+    assert isinstance(multiline1, shapely.geometry.multilinestring.MultiLineString), "\"multiline1\" is not a MultiLineString"
     if debug:
         check(multiline1, prefix = prefix)
 

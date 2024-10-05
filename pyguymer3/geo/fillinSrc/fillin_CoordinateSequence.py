@@ -1,7 +1,18 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def fillin_CoordinateSequence(coords, fill, /, *, debug = False, eps = 1.0e-12, fillSpace = "EuclideanSpace", nIter = 100, prefix = ".", ramLimit = 1073741824):
+def fillin_CoordinateSequence(
+    coords,
+    fill,
+    /,
+    *,
+        debug = __debug__,
+          eps = 1.0e-12,
+    fillSpace = "EuclideanSpace",
+        nIter = 100,
+       prefix = ".",
+     ramLimit = 1073741824,
+):
     """Fill in a CoordinateSequence
 
     This function reads in a CoordinateSequence that exists on the surface of
@@ -60,9 +71,10 @@ def fillin_CoordinateSequence(coords, fill, /, *, debug = False, eps = 1.0e-12, 
     from ..check import check
     from ..great_circle import great_circle
 
+    # **************************************************************************
+
     # Check argument ...
-    if not isinstance(coords, shapely.coords.CoordinateSequence):
-        raise TypeError("\"coords\" is not a CoordinateSequence") from None
+    assert isinstance(coords, shapely.coords.CoordinateSequence), "\"coords\" is not a CoordinateSequence"
     if debug:
         check(coords, prefix = prefix)
 

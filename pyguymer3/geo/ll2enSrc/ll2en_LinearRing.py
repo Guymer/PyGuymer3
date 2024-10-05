@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def ll2en_LinearRing(ring1, /, *, debug = False, prefix = "."):
+def ll2en_LinearRing(
+    ring1,
+    /,
+    *,
+     debug = __debug__,
+    prefix = ".",
+):
     """Transform a LinearRing from Longitudes/Latitudes to Eastings/Northings
 
     This function reads in a LinearRing whose coordinates are
@@ -57,9 +63,10 @@ def ll2en_LinearRing(ring1, /, *, debug = False, prefix = "."):
     # Import sub-functions ...
     from ..check import check
 
+    # **************************************************************************
+
     # Check argument ...
-    if not isinstance(ring1, shapely.geometry.polygon.LinearRing):
-        raise TypeError("\"ring1\" is not a LinearRing") from None
+    assert isinstance(ring1, shapely.geometry.polygon.LinearRing), "\"ring1\" is not a LinearRing"
     if debug:
         check(ring1, prefix = prefix)
 

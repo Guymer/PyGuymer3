@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def _debug(badGeoms, /, *, prefix = "."):
+def _debug(
+    badGeoms,
+    /,
+    *,
+    prefix = ".",
+):
     """Save CSVs for debugging
 
     Parameters
@@ -24,6 +29,8 @@ def _debug(badGeoms, /, *, prefix = "."):
     from .extract_lines import extract_lines
     from .extract_points import extract_points
     from .extract_polys import extract_polys
+
+    # **************************************************************************
 
     # Loop over all the bad Points in this [Multi]Point ...
     for i, badGeom in enumerate(extract_points(badGeoms, onlyValid = False)):

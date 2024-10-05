@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def check_Point(point, /, *, prefix = "."):
+def check_Point(
+    point,
+    /,
+    *,
+    prefix = ".",
+):
     """Check Point
 
     This function checks if a Point is valid.
@@ -40,9 +45,10 @@ def check_Point(point, /, *, prefix = "."):
     # Import sub-functions ...
     from .._debug import _debug
 
+    # **************************************************************************
+
     # Check argument ...
-    if not isinstance(point, shapely.geometry.point.Point):
-        raise TypeError("\"point\" is not a Point") from None
+    assert isinstance(point, shapely.geometry.point.Point), "\"point\" is not a Point"
     if not point.is_valid:
         _debug(point, prefix = prefix)
         raise Exception(f"\"point\" is not a valid Point ({shapely.validation.explain_validity(point)})") from None

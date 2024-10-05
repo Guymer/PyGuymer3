@@ -1,7 +1,15 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def return_file_list(path, /, *, allowHidden = False, debug = False, follow_symlinks = True, return_symlinks = True):
+def return_file_list(
+    path,
+    /,
+    *,
+        allowHidden = False,
+              debug = __debug__,
+    follow_symlinks = True,
+    return_symlinks = True,
+):
     """Return a recursive list of file names in a directory.
 
     This function returns a sorted list of file names recursively in a directory.

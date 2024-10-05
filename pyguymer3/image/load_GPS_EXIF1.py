@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def load_GPS_EXIF1(fname, /):
+def load_GPS_EXIF1(
+    fname,
+    /,
+):
     # NOTE: The following web pages were helpful:
     #       * https://gist.github.com/snakeye/fdc372dbf11370fe29eb
     #       * https://sno.phy.queensu.ca/~phil/exiftool/TagNames/GPS.html

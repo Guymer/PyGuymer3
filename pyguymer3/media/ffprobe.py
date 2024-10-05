@@ -1,7 +1,14 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def ffprobe(fname, /, *, cwd = None, playlist = -1, timeout = 60.0):
+def ffprobe(
+    fname,
+    /,
+    *,
+         cwd = None,
+    playlist = -1,
+     timeout = 60.0,
+):
     """
     Run "ffprobe" on a file and return the format and stream information.
 

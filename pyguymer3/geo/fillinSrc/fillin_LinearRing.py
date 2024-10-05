@@ -1,7 +1,18 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def fillin_LinearRing(ring, fill, /, *, debug = False, eps = 1.0e-12, fillSpace = "EuclideanSpace", nIter = 100, prefix = ".", ramLimit = 1073741824):
+def fillin_LinearRing(
+    ring,
+    fill,
+    /,
+    *,
+        debug = __debug__,
+          eps = 1.0e-12,
+    fillSpace = "EuclideanSpace",
+        nIter = 100,
+       prefix = ".",
+     ramLimit = 1073741824,
+):
     """Fill in a LinearRing
 
     This function reads in a LinearRing that exists on the surface of the Earth
@@ -55,9 +66,10 @@ def fillin_LinearRing(ring, fill, /, *, debug = False, eps = 1.0e-12, fillSpace 
     from ..check import check
     from .fillin_CoordinateSequence import fillin_CoordinateSequence
 
+    # **************************************************************************
+
     # Check argument ...
-    if not isinstance(ring, shapely.geometry.polygon.LinearRing):
-        raise TypeError("\"ring\" is not a LinearRing") from None
+    assert isinstance(ring, shapely.geometry.polygon.LinearRing), "\"ring\" is not a LinearRing"
     if debug:
         check(ring, prefix = prefix)
 

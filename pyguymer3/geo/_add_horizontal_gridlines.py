@@ -68,6 +68,8 @@ def _add_horizontal_gridlines(
     except:
         raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
 
+    # **************************************************************************
+
     # Determine y-locations depending on inputs ...
     if ngrid > 1:
         ylocs = numpy.linspace(-90.0, +90.0, num = ngrid)                       # [°]

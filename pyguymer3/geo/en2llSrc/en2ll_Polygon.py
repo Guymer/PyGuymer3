@@ -1,7 +1,14 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def en2ll_Polygon(poly1, /, *, debug = False, prefix = ".", tol = 1.0e-10):
+def en2ll_Polygon(
+    poly1,
+    /,
+    *,
+     debug = __debug__,
+    prefix = ".",
+       tol = 1.0e-10,
+):
     """Transform a Polygon from Eastings/Northings to Longitudes/Latitudes
 
     This function reads in a Polygon whose coordinates are Eastings/Northings on
@@ -45,9 +52,10 @@ def en2ll_Polygon(poly1, /, *, debug = False, prefix = ".", tol = 1.0e-10):
     from ..check import check
     from .en2ll_LinearRing import en2ll_LinearRing
 
+    # **************************************************************************
+
     # Check argument ...
-    if not isinstance(poly1, shapely.geometry.polygon.Polygon):
-        raise TypeError("\"poly1\" is not a Polygon") from None
+    assert isinstance(poly1, shapely.geometry.polygon.Polygon), "\"poly1\" is not a Polygon"
     if debug:
         check(poly1, prefix = prefix)
 

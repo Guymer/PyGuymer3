@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def checkSudokuBoard(board, /):
+def checkSudokuBoard(
+    board,
+    /,
+):
     """Check a Sudoku board is valid
 
     This function reads in a 2D array representing the values in a Sudoku board

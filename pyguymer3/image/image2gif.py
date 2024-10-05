@@ -1,7 +1,20 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def image2gif(img, gif, /, *, chunksize = 1048576, debug = False, mode = "RGB", optimize = True, screenHeight = -1, screenWidth = -1, strip = False, timeout = 60.0):
+def image2gif(
+    img,
+    gif,
+    /,
+    *,
+       chunksize = 1048576,
+           debug = __debug__,
+            mode = "RGB",
+        optimize = True,
+    screenHeight = -1,
+     screenWidth = -1,
+           strip = False,
+         timeout = 60.0,
+):
     """Save an image as a GIF
 
     This function accepts either a PIL Image or a file path and saves the image

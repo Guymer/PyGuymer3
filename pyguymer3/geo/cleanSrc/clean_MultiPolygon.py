@@ -1,7 +1,14 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def clean_MultiPolygon(multipoly, /, *, debug = False, prefix = ".", tol = 1.0e-10):
+def clean_MultiPolygon(
+    multipoly,
+    /,
+    *,
+     debug = __debug__,
+    prefix = ".",
+       tol = 1.0e-10,
+):
     """Clean a MultiPolygon
 
     This function cleans a MultiPolygon, made up of Polygons (with an exterior
@@ -52,9 +59,10 @@ def clean_MultiPolygon(multipoly, /, *, debug = False, prefix = ".", tol = 1.0e-
     from ..check import check
     from .clean_Polygon import clean_Polygon
 
+    # **************************************************************************
+
     # Check argument ...
-    if not isinstance(multipoly, shapely.geometry.multipolygon.MultiPolygon):
-        raise TypeError("\"multipoly\" is not a MultiPolygon") from None
+    assert isinstance(multipoly, shapely.geometry.multipolygon.MultiPolygon), "\"multipoly\" is not a MultiPolygon"
 
     # Initialize list ...
     polys = []

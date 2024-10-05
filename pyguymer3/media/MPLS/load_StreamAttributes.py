@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def load_StreamAttributes(fObj, /):
+def load_StreamAttributes(
+    fObj,
+    /,
+):
     # NOTE: See https://github.com/lw/BluRay/wiki/StreamAttributes
 
     # Import standard modules ...

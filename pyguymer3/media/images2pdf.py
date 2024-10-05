@@ -1,7 +1,23 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def images2pdf(imgs, pdf, /, *, author = "My Author", keywords = "My Keywords", mode = "RGB", optimize = True, progressive = False, quality = 95, resolution = 300, screenHeight = -1, screenWidth = -1, subject = "My Subject", title = "My Title"):
+def images2pdf(
+    imgs,
+    pdf,
+    /,
+    *,
+          author = "My Author",
+        keywords = "My Keywords",
+            mode = "RGB",
+        optimize = True,
+     progressive = False,
+         quality = 95,
+      resolution = 300,
+    screenHeight = -1,
+     screenWidth = -1,
+         subject = "My Subject",
+           title = "My Title",
+):
     """Convert a sequence of images to a PDF slide pack.
 
     This function makes a PDF slide pack from either a list of PIL Images or a

@@ -5,7 +5,7 @@ def _add_reefs(
     ax,
     /,
     *,
-         debug = False,
+         debug = __debug__,
      linestyle = "solid",
      linewidth = 0.5,
      onlyValid = False,

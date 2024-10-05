@@ -1,7 +1,14 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def clean_MultiLineString(multiline, /, *, debug = False, prefix = ".", tol = 1.0e-10):
+def clean_MultiLineString(
+    multiline,
+    /,
+    *,
+     debug = __debug__,
+    prefix = ".",
+       tol = 1.0e-10,
+):
     """Clean a MultiLineString
 
     This function cleans a MultiLineString by removing bad points.
@@ -50,9 +57,10 @@ def clean_MultiLineString(multiline, /, *, debug = False, prefix = ".", tol = 1.
     from ..check import check
     from .clean_LineString import clean_LineString
 
+    # **************************************************************************
+
     # Check argument ...
-    if not isinstance(multiline, shapely.geometry.multilinestring.MultiLineString):
-        raise TypeError("\"multiline\" is not a MultiLineString") from None
+    assert isinstance(multiline, shapely.geometry.multilinestring.MultiLineString), "\"multiline\" is not a MultiLineString"
 
     # Initialize list ...
     lines = []

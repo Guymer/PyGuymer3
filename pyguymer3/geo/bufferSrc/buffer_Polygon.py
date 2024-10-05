@@ -6,7 +6,7 @@ def buffer_Polygon(
     dist,
     /,
     *,
-            debug = False,
+            debug = __debug__,
               eps = 1.0e-12,
              fill = 1.0,
         fillSpace = "EuclideanSpace",
@@ -101,6 +101,8 @@ def buffer_Polygon(
     from ..check import check
     from ..fillin import fillin
     from .buffer_LinearRing import buffer_LinearRing
+
+    # **************************************************************************
 
     # Check argument ...
     assert isinstance(poly, shapely.geometry.polygon.Polygon), "\"poly\" is not a Polygon"
