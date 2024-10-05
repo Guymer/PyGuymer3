@@ -109,13 +109,13 @@ def buffer_CoordinateSequence(
         if debug:
             print("INFO: Will find the rings using FORTRAN.")
         fortran = True
-    except ImportError:
-        if debug:
-            print("INFO: Will find the rings using Python (error when attempting to import found FORTRAN).")
-        fortran = False
     except ModuleNotFoundError:
         if debug:
             print("INFO: Will find the rings using Python (did not find FORTRAN module).")
+        fortran = False
+    except ImportError:
+        if debug:
+            print("INFO: Will find the rings using Python (error when attempting to import found FORTRAN).")
         fortran = False
 
     # **************************************************************************
