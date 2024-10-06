@@ -10,6 +10,7 @@ def xz(
      stdout = None,
     threads = 0,
     timeout = 60.0,
+     xzPath = None,
 ):
     """Compress a file using "xz" (with SHA-256 integrity checks).
 
@@ -27,6 +28,9 @@ def xz(
         the number of threads to use (default 0)
     timeout : float, optional
         the timeout for any requests/subprocess calls
+    xzPath : str, optional
+        the path to the "xz" binary (if not provided then Python will attempt to
+        find the binary itself)
 
     Notes
     -----
@@ -43,9 +47,12 @@ def xz(
     import shutil
     import subprocess
 
-    # Check that "xz" is installed ...
-    if shutil.which("xz") is None:
-        raise Exception("\"xz\" is not installed") from None
+    # **************************************************************************
+
+    # Try to find the paths if the user did not provide them ...
+    if xzPath is None:
+        xzPath = shutil.which("xz")
+    assert xzPath is not None, "\"xz\" is not installed"
 
     # Check inputs ...
     if not isinstance(threads, int):
@@ -54,13 +61,13 @@ def xz(
     # Compress file ...
     subprocess.run(
         [
-            "xz",
+            xzPath,
             "--compress",
             "-9e",
             "--check=sha256",
             "--format=xz",
             f"--threads={threads:d}",
-            fname
+            fname,
         ],
            check = True,
              cwd = cwd,

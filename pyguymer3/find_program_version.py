@@ -5,43 +5,70 @@ def find_program_version(
     prog,
     /,
     *,
-    timeout = 60.0,
+       pkgPath = None,
+      portPath = None,
+       timeout = 60.0,
+    zypperPath = None,
 ):
     # Import standard modules ...
     import shutil
     import subprocess
 
+    # **************************************************************************
+
+    # Try to find the paths if the user did not provide them ...
+    if pkgPath is None:
+        pkgPath = shutil.which("pkg")
+    if portPath is None:
+        portPath = shutil.which("port")
+    if zypperPath is None:
+        zypperPath = shutil.which("zypper")
+
     # Try lots of different package managers ...
-    if shutil.which("pkg") is not None:
+    if pkgPath is not None:
         # NOTE: It is FreeBSD.
 
         # Find raw string ...
         resp = subprocess.run(
-            ["pkg", "info", prog],
+            [
+                pkgPath,
+                "info",
+                prog,
+            ],
                check = True,
             encoding = "utf-8",
               stderr = subprocess.STDOUT,
               stdout = subprocess.PIPE,
              timeout = timeout,
         )
-    elif shutil.which("port") is not None:
+    elif portPath is not None:
         # NOTE: It is MacPorts.
 
         # Find raw string ...
         resp = subprocess.run(
-            ["port", "info", "--version", prog],
+            [
+                portPath,
+                "info",
+                "--version",
+                prog,
+            ],
                check = True,
             encoding = "utf-8",
               stderr = subprocess.STDOUT,
               stdout = subprocess.PIPE,
              timeout = timeout,
         )
-    elif shutil.which("zypper") is not None:
+    elif zypperPath is not None:
         # NOTE: It is OpenSUSE.
 
         # Find raw string ...
         resp = subprocess.run(
-            ["zypper", "--disable-repositories", "info", prog],
+            [
+                zypperPath,
+                "--disable-repositories",
+                "info",
+                prog,
+            ],
                check = True,
             encoding = "utf-8",
               stderr = subprocess.STDOUT,

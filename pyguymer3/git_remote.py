@@ -5,6 +5,7 @@ def git_remote(
     cwd,
     /,
     *,
+    gitPath = None,
        name = "origin",
     timeout = 60.0,
 ):
@@ -12,13 +13,21 @@ def git_remote(
     import shutil
     import subprocess
 
-    # Check that "git" is installed ...
-    if shutil.which("git") is None:
-        raise Exception("\"git\" is not installed") from None
+    # **************************************************************************
+
+    # Try to find the paths if the user did not provide them ...
+    if gitPath is None:
+        gitPath = shutil.which("git")
+    assert gitPath is not None, "\"git\" is not installed"
 
     # Find the remote URL of the repository ...
     resp = subprocess.run(
-        ["git", "remote", "get-url", name],
+        [
+            gitPath,
+            "remote",
+            "get-url",
+            name,
+        ],
            check = True,
              cwd = cwd,
         encoding = "utf-8",

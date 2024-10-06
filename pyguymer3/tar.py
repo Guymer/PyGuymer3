@@ -9,6 +9,7 @@ def tar(
         cwd = None,
      stderr = None,
      stdout = None,
+    tarPath = None,
     timeout = 60.0,
 ):
     """Create a PAX formatted TAR file (without any frills or size limits).
@@ -25,6 +26,9 @@ def tar(
         the destination of STDERR (default None)
     stdout : subprocess.PIPE, subprocess.DEVNULL, io.TextIOWrapper, optional
         the destination of STDOUT (default None)
+    tarPath : str, optional
+        the path to the "tar" binary (if not provided then Python will attempt
+        to find the binary itself)
     timeout : float, optional
         the timeout for any requests/subprocess calls
 
@@ -44,9 +48,12 @@ def tar(
     import subprocess
     import tempfile
 
-    # Check that "tar" is installed ...
-    if shutil.which("tar") is None:
-        raise Exception("\"tar\" is not installed") from None
+    # **************************************************************************
+
+    # Try to find the paths if the user did not provide them ...
+    if tarPath is None:
+        tarPath = shutil.which("tar")
+    assert tarPath is not None, "\"tar\" is not installed"
 
     # Check inputs ...
     if not isinstance(fnames, list):
@@ -67,14 +74,14 @@ def tar(
         # Make archive ...
         subprocess.run(
             [
-                "tar",
+                tarPath,
                 "--create",
                 "--file", tarName,
                 "--files-from", tmpName,
                 "--format", "pax",
                 "--no-acls",
                 "--no-fflags",
-                "--no-xattrs"
+                "--no-xattrs",
             ],
                check = True,
                  cwd = cwd,

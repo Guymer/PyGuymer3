@@ -5,10 +5,11 @@ def gzip(
     fname,
     /,
     *,
-        cwd = None,
-     stderr = None,
-     stdout = None,
-    timeout = 60.0,
+         cwd = None,
+    gzipPath = None,
+      stderr = None,
+      stdout = None,
+     timeout = 60.0,
 ):
     """Compress a file using "gzip".
 
@@ -18,6 +19,9 @@ def gzip(
         the name of the file to compress
     cwd : str, optional
         the child working directory (default None)
+    gzipPath : str, optional
+        the path to the "gzip" binary (if not provided then Python will attempt
+        to find the binary itself)
     stderr : subprocess.PIPE, subprocess.DEVNULL, io.TextIOWrapper, optional
         the destination of STDERR (default None)
     stdout : subprocess.PIPE, subprocess.DEVNULL, io.TextIOWrapper, optional
@@ -40,16 +44,19 @@ def gzip(
     import shutil
     import subprocess
 
-    # Check that "gzip" is installed ...
-    if shutil.which("gzip") is None:
-        raise Exception("\"gzip\" is not installed") from None
+    # **************************************************************************
+
+    # Try to find the paths if the user did not provide them ...
+    if gzipPath is None:
+        gzipPath = shutil.which("gzip")
+    assert gzipPath is not None, "\"gzip\" is not installed"
 
     # Compress file ...
     subprocess.run(
         [
-            "gzip",
+            gzipPath,
             "-9",
-            fname
+            fname,
         ],
            check = True,
              cwd = cwd,

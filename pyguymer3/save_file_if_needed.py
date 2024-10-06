@@ -9,6 +9,7 @@ def save_file_if_needed(
          debug = __debug__,
       gitFiles = None,
     gitMessage = "regenerated",
+       gitPath = None,
        timeout = 60.0,
 ):
     """Save a file. If the file already exists, then only overwrite it if the
@@ -28,6 +29,9 @@ def save_file_if_needed(
     gitMessage : str, optional
         the Git commit message, if the file ends up being saved and then commit
         it to Git
+    gitPath : str, optional
+        the path to the "git" binary (if not provided then Python will attempt
+        to find the binary itself)
     timeout : float, optional
         the timeout for any requests/subprocess calls
 
@@ -50,9 +54,12 @@ def save_file_if_needed(
     import shutil
     import subprocess
 
-    # Check that "git" is installed ...
-    if shutil.which("git") is None:
-        raise Exception("\"git\" is not installed") from None
+    # **************************************************************************
+
+    # Try to find the paths if the user did not provide them ...
+    if gitPath is None:
+        gitPath = shutil.which("git")
+    assert gitPath is not None, "\"git\" is not installed"
 
     # Check that the content is one of the two types allowed in Python 3 and set
     # the file access mode and the encoding ...
@@ -112,7 +119,7 @@ def save_file_if_needed(
                 # Add the file to Git ...
                 subprocess.run(
                     [
-                        "git",
+                        gitPath,
                         "add",
                         "--intent-to-add",
                         fname,
@@ -132,7 +139,7 @@ def save_file_if_needed(
                 # Commit the file to Git ...
                 subprocess.run(
                     [
-                        "git",
+                        gitPath,
                         "commit",
                         fname,
                         "-m", gitMessage,

@@ -6,6 +6,7 @@ def git_commits(
     /,
     *,
       fname = None,
+    gitPath = None,
     timeout = 60.0,
 ):
     # Import standard modules ...
@@ -13,16 +14,23 @@ def git_commits(
     import shutil
     import subprocess
 
-    # Check that "git" is installed ...
-    if shutil.which("git") is None:
-        raise Exception("\"git\" is not installed") from None
+    # **************************************************************************
+
+    # Try to find the paths if the user did not provide them ...
+    if gitPath is None:
+        gitPath = shutil.which("git")
+    assert gitPath is not None, "\"git\" is not installed"
 
     # Check if the user wants the commit for the whole repository or just a
     # single file ...
     if fname is None:
         # Find the UNIX timestamps of all of the commits in the repository ...
         resp = subprocess.run(
-            ["git", "log", "--format=format:%ct"],
+            [
+                gitPath,
+                "log",
+                "--format=format:%ct",
+            ],
                check = True,
                  cwd = cwd,
             encoding = "utf-8",
@@ -33,7 +41,13 @@ def git_commits(
     else:
         # Find the UNIX timestamps of all of the commits for the file ...
         resp = subprocess.run(
-            ["git", "log", "--follow", "--format=format:%ct", fname],
+            [
+                gitPath,
+                "log",
+                "--follow",
+                "--format=format:%ct",
+                fname,
+            ],
                check = True,
                  cwd = cwd,
             encoding = "utf-8",
