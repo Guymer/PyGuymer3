@@ -5,6 +5,7 @@ def return_dict_of_ISO_audio_streams(
     fname,
     /,
     *,
+    lsdvdPath = None,
       timeout = 60.0,
     usr_track = -1,
 ):
@@ -20,13 +21,16 @@ def return_dict_of_ISO_audio_streams(
     except:
         raise Exception("\"lxml\" is not installed; run \"pip install --user lxml\"") from None
 
+    # **************************************************************************
+
+    # Try to find the paths if the user did not provide them ...
+    if lsdvdPath is None:
+        lsdvdPath = shutil.which("lsdvd")
+    assert lsdvdPath is not None, "\"lsdvd\" is not installed"
+
     # Check input ...
     if usr_track == -1:
         raise Exception("no track was requested") from None
-
-    # Check that "lsdvd" is installed ...
-    if shutil.which("lsdvd") is None:
-        raise Exception("\"lsdvd\" is not installed") from None
 
     # Find track info ...
     # NOTE: "lsdvd" specifies the output encoding in the accompanying XML
@@ -40,10 +44,10 @@ def return_dict_of_ISO_audio_streams(
     #       will probably not be valid XML if standard error is not empty.
     resp = subprocess.run(
         [
-            "lsdvd",
+            lsdvdPath,
             "-x",
             "-Ox",
-            fname
+            fname,
         ],
            check = True,
         encoding = "utf-8",
@@ -77,12 +81,12 @@ def return_dict_of_ISO_audio_streams(
         for audio in track.findall("audio"):
             # Append information ...
             ans[audio.find("streamid").text] = {
-                "content" : audio.find("content").text,
-                "langcode" : audio.find("langcode").text,
-                "language" : audio.find("language").text,
-                "form" : audio.find("format").text.upper(),
+                  "content" : audio.find("content").text,
+                 "langcode" : audio.find("langcode").text,
+                 "language" : audio.find("language").text,
+                     "form" : audio.find("format").text.upper(),
                 "frequency" : int(audio.find("frequency").text),                # [Hz]
-                "channels" : int(audio.find("channels").text)
+                 "channels" : int(audio.find("channels").text),
             }
 
         # Return dictionary ...

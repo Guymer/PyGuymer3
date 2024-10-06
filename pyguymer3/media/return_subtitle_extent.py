@@ -5,11 +5,12 @@ def return_subtitle_extent(
     fname,
     /,
     *,
-         cwd = None,
-       debug = __debug__,
-    playlist = -1,
-    subtitle = 0,
-     timeout = 60.0,
+           cwd = None,
+         debug = __debug__,
+    ffmpegPath = None,
+      playlist = -1,
+      subtitle = 0,
+       timeout = 60.0,
 ):
     # Import standard modules ...
     import re
@@ -22,13 +23,16 @@ def return_subtitle_extent(
     from .return_video_height import return_video_height
     from .return_video_width import return_video_width
 
+    # **************************************************************************
+
+    # Try to find the paths if the user did not provide them ...
+    if ffmpegPath is None:
+        ffmpegPath = shutil.which("ffmpeg")
+    assert ffmpegPath is not None, "\"ffmpeg\" is not installed"
+
     # Check input ...
     if fname.startswith("bluray:") and playlist < 0:
         raise Exception("a Blu-ray was specified but no playlist was supplied") from None
-
-    # Check that "ffmpeg" is installed ...
-    if shutil.which("ffmpeg") is None:
-        raise Exception("\"ffmpeg\" is not installed") from None
 
     # Find out information about video ...
     duration = return_media_duration(
@@ -65,7 +69,7 @@ def return_subtitle_extent(
         # Find stream info ...
         resp = subprocess.run(
             [
-                "ffmpeg",
+                ffmpegPath,
                 "-hide_banner",
                 "-probesize", "3G",
                 "-analyzeduration", "1800M",
@@ -79,7 +83,7 @@ def return_subtitle_extent(
                 "-vn",
                 "-y",
                 "-f", "null",
-                "/dev/null"
+                "/dev/null",
             ],
                check = True,
                  cwd = cwd,
@@ -94,7 +98,7 @@ def return_subtitle_extent(
             # Find stream info ...
             resp = subprocess.run(
                 [
-                    "ffmpeg",
+                    ffmpegPath,
                     "-hide_banner",
                     "-probesize", "3G",
                     "-analyzeduration", "1800M",
@@ -107,7 +111,7 @@ def return_subtitle_extent(
                     "-vn",
                     "-y",
                     "-f", "null",
-                    "/dev/null"
+                    "/dev/null",
                 ],
                    check = True,
                      cwd = cwd,
@@ -120,7 +124,7 @@ def return_subtitle_extent(
             # Fallback and attempt to find stream info as a raw M-JPEG stream ...
             resp = subprocess.run(
                 [
-                    "ffmpeg",
+                    ffmpegPath,
                     "-hide_banner",
                     "-probesize", "3G",
                     "-analyzeduration", "1800M",
@@ -134,7 +138,7 @@ def return_subtitle_extent(
                     "-vn",
                     "-y",
                     "-f", "null",
-                    "/dev/null"
+                    "/dev/null",
                 ],
                    check = True,
                      cwd = cwd,

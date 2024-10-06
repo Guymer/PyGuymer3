@@ -5,7 +5,8 @@ def return_dict_of_ISO_tracks(
     fname,
     /,
     *,
-    timeout = 60.0,
+    lsdvdPath = None,
+      timeout = 60.0,
 ):
     # Import standard modules ...
     import html
@@ -19,9 +20,12 @@ def return_dict_of_ISO_tracks(
     except:
         raise Exception("\"lxml\" is not installed; run \"pip install --user lxml\"") from None
 
-    # Check that "lsdvd" is installed ...
-    if shutil.which("lsdvd") is None:
-        raise Exception("\"lsdvd\" is not installed") from None
+    # **************************************************************************
+
+    # Try to find the paths if the user did not provide them ...
+    if lsdvdPath is None:
+        lsdvdPath = shutil.which("lsdvd")
+    assert lsdvdPath is not None, "\"lsdvd\" is not installed"
 
     # Find track info ...
     # NOTE: "lsdvd" specifies the output encoding in the accompanying XML
@@ -35,10 +39,10 @@ def return_dict_of_ISO_tracks(
     #       will probably not be valid XML if standard error is not empty.
     resp = subprocess.run(
         [
-            "lsdvd",
+            lsdvdPath,
             "-x",
             "-Ox",
-            fname
+            fname,
         ],
            check = True,
         encoding = "utf-8",

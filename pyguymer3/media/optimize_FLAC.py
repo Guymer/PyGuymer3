@@ -5,9 +5,10 @@ def optimize_FLAC(
     fname1,
     /,
     *,
-    chunksize = 1048576,
-        debug = __debug__,
-      timeout = 60.0,
+       chunksize = 1048576,
+           debug = __debug__,
+    metaflacPath = None,
+         timeout = 60.0,
 ):
     """
     "metaflac" does not modify, but it does touch, the FLAC even if it cannot
@@ -25,9 +26,12 @@ def optimize_FLAC(
     from .does_FLAC_have_padding import does_FLAC_have_padding
     from ..sha512 import sha512
 
-    # Check that "metaflac" is installed ...
-    if shutil.which("metaflac") is None:
-        raise Exception("\"metaflac\" is not installed") from None
+    # **************************************************************************
+
+    # Try to find the paths if the user did not provide them ...
+    if metaflacPath is None:
+        metaflacPath = shutil.which("metaflac")
+    assert metaflacPath is not None, "\"metaflac\" is not installed"
 
     # Check that the FLAC exists ...
     if not os.path.exists(fname1):
@@ -50,11 +54,11 @@ def optimize_FLAC(
         # Optimise FLAC ...
         subprocess.run(
             [
-                "metaflac",
+                metaflacPath,
                 "--dont-use-padding",
                 "--remove",
                 "--block-type=PADDING",
-                fname2
+                fname2,
             ],
                check = True,
             encoding = "utf-8",

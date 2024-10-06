@@ -5,9 +5,10 @@ def ffprobe(
     fname,
     /,
     *,
-         cwd = None,
-    playlist = -1,
-     timeout = 60.0,
+            cwd = None,
+    ffprobePath = None,
+       playlist = -1,
+        timeout = 60.0,
 ):
     """
     Run "ffprobe" on a file and return the format and stream information.
@@ -18,6 +19,9 @@ def ffprobe(
         the file to be surveyed
     cwd : str, optional
         the child working directory
+    ffprobePath : str, optional
+        the path to the "ffprobe" binary (if not provided then Python will
+        attempt to find the binary itself)
     playlist : int, optional
         the playlist within the Blu-ray folder structure to be surveyed
     timeout : float, optional
@@ -42,13 +46,16 @@ def ffprobe(
     import shutil
     import subprocess
 
+    # **************************************************************************
+
+    # Try to find the paths if the user did not provide them ...
+    if ffprobePath is None:
+        ffprobePath = shutil.which("ffprobe")
+    assert ffprobePath is not None, "\"ffprobe\" is not installed"
+
     # Check input ...
     if fname.startswith("bluray:") and playlist < 0:
         raise Exception("a Blu-ray was specified but no playlist was supplied") from None
-
-    # Check that "ffprobe" is installed ...
-    if shutil.which("ffprobe") is None:
-        raise Exception("\"ffprobe\" is not installed") from None
 
     # Check if it is a Blu-ray ...
     if fname.startswith("bluray:"):
@@ -63,7 +70,7 @@ def ffprobe(
         #       standard out together.
         resp = subprocess.run(
             [
-                "ffprobe",
+                ffprobePath,
                 "-hide_banner",
                 "-loglevel", "quiet",
                 "-probesize", "3G",
@@ -72,7 +79,7 @@ def ffprobe(
                 "-show_format",
                 "-show_streams",
                 "-playlist", f"{playlist:d}",
-                fname
+                fname,
             ],
                check = True,
                  cwd = cwd,
@@ -95,7 +102,7 @@ def ffprobe(
             #       standard out together.
             resp = subprocess.run(
                 [
-                    "ffprobe",
+                    ffprobePath,
                     "-hide_banner",
                     "-loglevel", "quiet",
                     "-probesize", "3G",
@@ -103,7 +110,7 @@ def ffprobe(
                     "-print_format", "json",
                     "-show_format",
                     "-show_streams",
-                    fname
+                    fname,
                 ],
                    check = True,
                      cwd = cwd,
@@ -124,7 +131,7 @@ def ffprobe(
             #       standard out together.
             resp = subprocess.run(
                 [
-                    "ffprobe",
+                    ffprobePath,
                     "-hide_banner",
                     "-loglevel", "quiet",
                     "-probesize", "3G",
@@ -133,7 +140,7 @@ def ffprobe(
                     "-show_format",
                     "-show_streams",
                     "-f", "mjpeg",
-                    fname
+                    fname,
                 ],
                    check = True,
                      cwd = cwd,

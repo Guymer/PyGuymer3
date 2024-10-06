@@ -5,11 +5,12 @@ def return_video_crop_parameters(
     fname,
     /,
     *,
-         cwd = None,
-       debug = __debug__,
-          dt = 2.0,
-    playlist = -1,
-     timeout = 60.0,
+           cwd = None,
+         debug = __debug__,
+            dt = 2.0,
+    ffmpegPath = None,
+      playlist = -1,
+       timeout = 60.0,
 ):
     # Import standard modules ...
     import shutil
@@ -20,13 +21,16 @@ def return_video_crop_parameters(
     from .return_video_height import return_video_height
     from .return_video_width import return_video_width
 
+    # **************************************************************************
+
+    # Try to find the paths if the user did not provide them ...
+    if ffmpegPath is None:
+        ffmpegPath = shutil.which("ffmpeg")
+    assert ffmpegPath is not None, "\"ffmpeg\" is not installed"
+
     # Check input ...
     if fname.startswith("bluray:") and playlist < 0:
         raise Exception("a Blu-ray was specified but no playlist was supplied") from None
-
-    # Check that "ffmpeg" is installed ...
-    if shutil.which("ffmpeg") is None:
-        raise Exception("\"ffmpeg\" is not installed") from None
 
     # Initialize variables ...
     dur = return_media_duration(
@@ -63,7 +67,7 @@ def return_video_crop_parameters(
             # Find crop parameters ...
             resp = subprocess.run(
                 [
-                    "ffmpeg",
+                    ffmpegPath,
                     "-hide_banner",
                     "-probesize", "3G",
                     "-analyzeduration", "1800M",
@@ -76,7 +80,7 @@ def return_video_crop_parameters(
                     "-vf", "cropdetect",
                     "-y",
                     "-f", "null",
-                    "/dev/null"
+                    "/dev/null",
                 ],
                    check = True,
                      cwd = cwd,
@@ -91,7 +95,7 @@ def return_video_crop_parameters(
                 # Find crop parameters ...
                 resp = subprocess.run(
                     [
-                        "ffmpeg",
+                        ffmpegPath,
                         "-hide_banner",
                         "-probesize", "3G",
                         "-analyzeduration", "1800M",
@@ -103,7 +107,7 @@ def return_video_crop_parameters(
                         "-vf", "cropdetect",
                         "-y",
                         "-f", "null",
-                        "/dev/null"
+                        "/dev/null",
                     ],
                        check = True,
                          cwd = cwd,
@@ -117,7 +121,7 @@ def return_video_crop_parameters(
                 # stream ...
                 resp = subprocess.run(
                     [
-                        "ffmpeg",
+                        ffmpegPath,
                         "-hide_banner",
                         "-probesize", "3G",
                         "-analyzeduration", "1800M",
@@ -130,7 +134,7 @@ def return_video_crop_parameters(
                         "-vf", "cropdetect",
                         "-y",
                         "-f", "null",
-                        "/dev/null"
+                        "/dev/null",
                     ],
                        check = True,
                          cwd = cwd,

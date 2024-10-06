@@ -5,8 +5,9 @@ def optimize_MP4(
     fname1,
     /,
     *,
-      debug = __debug__,
-    timeout = 60.0,
+          debug = __debug__,
+    mp4filePath = None,
+        timeout = 60.0,
 ):
     """
     "mp4file" does modify, and it does touch, the MP4 even if it cannot optimize
@@ -25,9 +26,12 @@ def optimize_MP4(
     from .is_moov_at_beginning_of_MP4 import is_moov_at_beginning_of_MP4
     from ..sha512_of_MP4 import sha512_of_MP4
 
-    # Check that "mp4file" is installed ...
-    if shutil.which("mp4file") is None:
-        raise Exception("\"mp4file\" is not installed") from None
+    # **************************************************************************
+
+    # Try to find the paths if the user did not provide them ...
+    if mp4filePath is None:
+        mp4filePath = shutil.which("mp4file")
+    assert mp4filePath is not None, "\"mp4file\" is not installed"
 
     # Check that the MP4 exists ...
     if not os.path.exists(fname1):
@@ -51,9 +55,9 @@ def optimize_MP4(
         # Optimize MP4 ...
         subprocess.run(
             [
-                "mp4file",
+                mp4filePath,
                 "--optimize",
-                fname2
+                fname2,
             ],
                check = True,
             encoding = "utf-8",

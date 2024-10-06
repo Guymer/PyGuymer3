@@ -8,6 +8,7 @@ def images2mp4(
              crf = -1.0,
              cwd = None,
            debug = __debug__,
+      ffmpegPath = None,
             form = "mp4",
              fps = 25.0,
            level = "ERROR",
@@ -27,28 +28,38 @@ def images2mp4(
     frames : list of str
         the list of strings which are the paths to the images
     crf : float, optional
-        the CRF to be passed to libx264, default -1.0 (which means choose one using the function :func:`return_x264_crf`)
+        the CRF to be passed to libx264, default -1.0 (which means choose one
+        using the function :func:`return_x264_crf`)
     debug : bool, optional
         print debug messages
+    ffmpegPath : str, optional
+        the path to the "ffmpeg" binary (if not provided then Python will
+        attempt to find the binary itself)
     form : str, optional
-        the format to be passed to ffmpeg, default "mp4" (the only two sensible options are "ipod" and "mp4")
+        the format to be passed to ffmpeg, default "mp4" (the only two sensible
+        options are "ipod" and "mp4")
     fps : float, optional
         the framerate, default 25.0
     level : str, optional
-        the level to be passed to libx264, default "ERROR" (which means choose one using the function :func:`return_x264_level`)
+        the level to be passed to libx264, default "ERROR" (which means choose
+        one using the function :func:`return_x264_level`)
     profile : str, optional
-        the profile to be passed to libx264, default "ERROR" (which means choose one using the function :func:`return_x264_profile`)
+        the profile to be passed to libx264, default "ERROR" (which means choose
+        one using the function :func:`return_x264_profile`)
     screenHeight : int, optional
-        the height of the screen to downscale the input images to fit within, default -1 (integers less than 100 imply no downscaling)
+        the height of the screen to downscale the input images to fit within,
+        default -1 (integers less than 100 imply no downscaling)
     screenWidth : int, optional
-        the width of the screen to downscale the input images to fit within, default -1 (integers less than 100 imply no downscaling)
+        the width of the screen to downscale the input images to fit within,
+        default -1 (integers less than 100 imply no downscaling)
     timeout : float, optional
         the timeout for any requests/subprocess calls
 
     Returns
     -------
     path : str
-        the path to the MP4 in a temporary directory (to be copied/moved by the user themselves)
+        the path to the MP4 in a temporary directory (to be copied/moved by the
+        user themselves)
 
     Notes
     -----
@@ -75,9 +86,12 @@ def images2mp4(
     from ..find_program_version import find_program_version
     from ..image import return_image_size
 
-    # Check that "ffmpeg" is installed ...
-    if shutil.which("ffmpeg") is None:
-        raise Exception("\"ffmpeg\" is not installed") from None
+    # **************************************************************************
+
+    # Try to find the paths if the user did not provide them ...
+    if ffmpegPath is None:
+        ffmpegPath = shutil.which("ffmpeg")
+    assert ffmpegPath is not None, "\"ffmpeg\" is not installed"
 
     # **************************************************************************
 
@@ -176,7 +190,7 @@ def images2mp4(
     # Convert the input images to the output video ...
     # NOTE: Audio and subtitle streams are explicitly disabled just to be safe.
     cmd = [
-        "ffmpeg",
+        ffmpegPath,
         "-hide_banner",
         "-probesize", "3G",
         "-analyzeduration", "1800M",
