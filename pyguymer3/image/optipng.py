@@ -5,8 +5,8 @@ def optipng(
     fname,
     /,
     *,
-           pool = None,
     optipngPath = None,
+           pool = None,
         timeout = 60.0,
 ):
     """
