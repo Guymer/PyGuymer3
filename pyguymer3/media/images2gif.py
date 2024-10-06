@@ -8,9 +8,13 @@ def images2gif(
     *,
        chunksize = 1048576,
            debug = __debug__,
+    exiftoolPath = None,
              fps = 25.0,
+    gifsiclePath = None,
+    jpegtranPath = None,
             mode = "RGB",
         optimize = True,
+     optipngPath = None,
     screenHeight = -1,
      screenWidth = -1,
            strip = False,
@@ -29,12 +33,24 @@ def images2gif(
         the path to the output GIF
     debug : bool, optional
         print debug messages (default False)
+    exiftoolPath : str, optional
+        the path to the "exiftool" binary (if not provided then Python will attempt to
+        find the binary itself)
     fps : float, optional
         the framerate, default 25.0
+    gifsiclePath : str, optional
+        the path to the "gifsicle" binary (if not provided then Python will attempt to
+        find the binary itself)
+    jpegtranPath : str, optional
+        the path to the "jpegtran" binary (if not provided then Python will attempt to
+        find the binary itself)
     mode : str, optional
         the mode of the outout GIF (default "RGB")
     optimize : bool, optional
         optimize the output GIF (default True)
+    optipngPath : str, optional
+        the path to the "optipng" binary (if not provided then Python will attempt to
+        find the binary itself)
     screenHeight : int, optional
         the height of the screen to downscale the input images to fit within,
         currently only implemented if "imgs" is a list of str (default -1;
@@ -115,9 +131,13 @@ def images2gif(
     if strip:
         optimize_image(
             gif,
-            chunksize = chunksize,
-                debug = debug,
-                 pool = None,
-                strip = strip,
-              timeout = timeout,
+               chunksize = chunksize,
+                   debug = debug,
+            exiftoolPath = exiftoolPath,
+            gifsiclePath = gifsiclePath,
+            jpegtranPath = jpegtranPath,
+             optipngPath = optipngPath,
+                    pool = None,
+                   strip = strip,
+                 timeout = timeout,
         )

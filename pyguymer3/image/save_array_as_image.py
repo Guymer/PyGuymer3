@@ -6,14 +6,18 @@ def save_array_as_image(
     fname,
     /,
     *,
-    chunksize = 1048576,
-           ct = "grey",
-        debug = __debug__,
-         form = "png",
-       pc_bot = 0.0,
-       pc_top = 0.0,
-        scale = False,
-      timeout = 60.0,
+       chunksize = 1048576,
+              ct = "grey",
+           debug = __debug__,
+    exiftoolPath = None,
+            form = "png",
+    gifsiclePath = None,
+    jpegtranPath = None,
+     optipngPath = None,
+          pc_bot = 0.0,
+          pc_top = 0.0,
+           scale = False,
+         timeout = 60.0,
 ):
     """Save an array as an image
 
@@ -27,20 +31,32 @@ def save_array_as_image(
         a 2D NumPy array of any type with shape (ny,nx)
     fname : str
         output file name
+    ct : str, optional
+        the colour table to apply (the default is no colour mapping, i.e.,
+        greyscale)
+    exiftoolPath : str, optional
+        the path to the "exiftool" binary (if not provided then Python will attempt to
+        find the binary itself)
     form : str, optional
         output image format (default "png")
-    scale : bool, optional
-        Does the input need scaling? If not, then the input array must be ≥ 0
-        and ≤ 255. (default False)
+    gifsiclePath : str, optional
+        the path to the "gifsicle" binary (if not provided then Python will attempt to
+        find the binary itself)
+    jpegtranPath : str, optional
+        the path to the "jpegtran" binary (if not provided then Python will attempt to
+        find the binary itself)
+    optipngPath : str, optional
+        the path to the "optipng" binary (if not provided then Python will attempt to
+        find the binary itself)
     pc_bot : float, optional
         the percentage to clip off the bottom of the histogram, if scaling is
         requested (default 0.0)
     pc_top : float, optional
         the percentage to clip off the top of the histogram, if scaling is
         requested (default 0.0)
-    ct : str, optional
-        the colour table to apply (the default is no colour mapping, i.e.,
-        greyscale)
+    scale : bool, optional
+        Does the input need scaling? If not, then the input array must be ≥ 0
+        and ≤ 255. (default False)
     timeout : float, optional
         the timeout for any requests/subprocess calls
 
@@ -117,11 +133,15 @@ def save_array_as_image(
             )
             optimize_image(
                 fname,
-                    debug = debug,
-                chunksize = chunksize,
-                     pool = None,
-                    strip = True,
-                  timeout = timeout,
+                   chunksize = chunksize,
+                       debug = debug,
+                exiftoolPath = exiftoolPath,
+                gifsiclePath = gifsiclePath,
+                jpegtranPath = jpegtranPath,
+                 optipngPath = optipngPath,
+                        pool = None,
+                       strip = True,
+                     timeout = timeout,
             )
         case "ppm":
             save_array_as_PPM(

@@ -8,12 +8,16 @@ def tile(
     sess,
     /,
     *,
-    chunksize = 1048576,
-      cookies = None,
-        debug = __debug__,
-      headers = None,
-      timeout = 60.0,
-       verify = True,
+       chunksize = 1048576,
+         cookies = None,
+           debug = __debug__,
+    exiftoolPath = None,
+    gifsiclePath = None,
+         headers = None,
+    jpegtranPath = None,
+     optipngPath = None,
+         timeout = 60.0,
+          verify = True,
 ):
     """Fetch an OpenStreetMap tile
 
@@ -38,8 +42,20 @@ def tile(
         extra cookies for any requests calls
     debug : bool, optional
         print debug messages
+    exiftoolPath : str, optional
+        the path to the "exiftool" binary (if not provided then Python will attempt to
+        find the binary itself)
+    gifsiclePath : str, optional
+        the path to the "gifsicle" binary (if not provided then Python will attempt to
+        find the binary itself)
     headers : dict, optional
         extra headers for any requests calls
+    jpegtranPath : str, optional
+        the path to the "jpegtran" binary (if not provided then Python will attempt to
+        find the binary itself)
+    optipngPath : str, optional
+        the path to the "optipng" binary (if not provided then Python will attempt to
+        find the binary itself)
     timeout : float, optional
         the timeout for any requests/subprocess calls (in seconds)
     verify : bool, optional
@@ -128,11 +144,15 @@ def tile(
         # Optimize tile ...
         optimize_image(
             png,
-            chunksize = chunksize,
-                debug = debug,
-                 pool = None,
-                strip = True,
-              timeout = timeout,
+               chunksize = chunksize,
+                   debug = debug,
+            exiftoolPath = exiftoolPath,
+            gifsiclePath = gifsiclePath,
+            jpegtranPath = jpegtranPath,
+             optipngPath = optipngPath,
+                    pool = None,
+                   strip = True,
+                 timeout = timeout,
         )
 
         # Sleep ...

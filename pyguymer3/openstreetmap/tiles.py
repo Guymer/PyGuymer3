@@ -10,15 +10,19 @@ def tiles(
     sess,
     /,
     *,
-    background = (255, 255, 255),
-     chunksize = 1048576,
-       cookies = None,
-         debug = __debug__,
-          fill = (255, 0, 0, 127),
-       headers = None,
-        radius = None,
-       timeout = 10.0,
-        verify = True,
+      background = (255, 255, 255),
+       chunksize = 1048576,
+         cookies = None,
+           debug = __debug__,
+    exiftoolPath = None,
+            fill = (255, 0, 0, 127),
+    gifsiclePath = None,
+         headers = None,
+    jpegtranPath = None,
+     optipngPath = None,
+          radius = None,
+         timeout = 10.0,
+          verify = True,
 ):
     """Merge some OpenStreetMap tiles around a location into one large tile
 
@@ -48,10 +52,22 @@ def tiles(
         extra cookies for any requests calls
     debug : bool, optional
         print debug messages
+    exiftoolPath : str, optional
+        the path to the "exiftool" binary (if not provided then Python will attempt to
+        find the binary itself)
     fill : tuple of int, optional
         the fill colour of the circle around the central location, if drawn
+    gifsiclePath : str, optional
+        the path to the "gifsicle" binary (if not provided then Python will attempt to
+        find the binary itself)
     headers : dict, optional
         extra headers for any requests calls
+    jpegtranPath : str, optional
+        the path to the "jpegtran" binary (if not provided then Python will attempt to
+        find the binary itself)
+    optipngPath : str, optional
+        the path to the "optipng" binary (if not provided then Python will attempt to
+        find the binary itself)
     radius : int, optional
         the radius of the circle around the central location, if None then no
         circle is drawn (in pixels)
@@ -149,12 +165,16 @@ def tiles(
                 ytile % n,
                 zoom,
                 sess,
-                chunksize = chunksize,
-                  cookies = cookies,
-                    debug = debug,
-                  headers = headers,
-                  timeout = timeout,
-                   verify = verify,
+                   chunksize = chunksize,
+                     cookies = cookies,
+                       debug = debug,
+                exiftoolPath = exiftoolPath,
+                gifsiclePath = gifsiclePath,
+                     headers = headers,
+                jpegtranPath = jpegtranPath,
+                 optipngPath = optipngPath,
+                     timeout = timeout,
+                      verify = verify,
             )
 
             # Check if the tile doesn't exist ...

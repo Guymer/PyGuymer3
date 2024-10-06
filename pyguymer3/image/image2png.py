@@ -9,8 +9,12 @@ def image2png(
        chunksize = 1048576,
            debug = __debug__,
             exif = None,
+    exiftoolPath = None,
+    gifsiclePath = None,
+    jpegtranPath = None,
             mode = "RGB",
         optimize = True,
+     optipngPath = None,
     screenHeight = -1,
      screenWidth = -1,
            strip = False,
@@ -31,10 +35,22 @@ def image2png(
         print debug messages (default False)
     exif : dict, optional
         a dictionary of EXIF data to save in the output PNG (default None)
+    exiftoolPath : str, optional
+        the path to the "exiftool" binary (if not provided then Python will attempt to
+        find the binary itself)
+    gifsiclePath : str, optional
+        the path to the "gifsicle" binary (if not provided then Python will attempt to
+        find the binary itself)
+    jpegtranPath : str, optional
+        the path to the "jpegtran" binary (if not provided then Python will attempt to
+        find the binary itself)
     mode : str, optional
         the mode of the outout PNG (default "RGB")
     optimize : bool, optional
         optimize the output PNG (default True)
+    optipngPath : str, optional
+        the path to the "optipng" binary (if not provided then Python will attempt to
+        find the binary itself)
     screenHeight : int, optional
         the height of the screen to downscale the input image to fit within,
         currently only implemented if "img" is a str (default -1; integers less
@@ -110,9 +126,13 @@ def image2png(
     if optimize or strip:
         optimize_image(
             png,
-            chunksize = chunksize,
-                debug = debug,
-                 pool = None,
-                strip = strip,
-              timeout = timeout,
+               chunksize = chunksize,
+                   debug = debug,
+            exiftoolPath = exiftoolPath,
+            gifsiclePath = gifsiclePath,
+            jpegtranPath = jpegtranPath,
+             optipngPath = optipngPath,
+                    pool = None,
+                   strip = strip,
+                 timeout = timeout,
         )

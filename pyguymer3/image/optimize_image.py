@@ -5,11 +5,15 @@ def optimize_image(
     fname,
     /,
     *,
-    chunksize = 1048576,
-        debug = __debug__,
-         pool = None,
-        strip = False,
-      timeout = 60.0,
+       chunksize = 1048576,
+           debug = __debug__,
+    exiftoolPath = None,
+    gifsiclePath = None,
+    jpegtranPath = None,
+     optipngPath = None,
+            pool = None,
+           strip = False,
+         timeout = 60.0,
 ):
     """
     Please read the documentation for the four functions: "exiftool",
@@ -41,22 +45,25 @@ def optimize_image(
         case ".gif":
             gifsicle(
                 fname,
-                chunksize = chunksize,
-                    debug = debug,
-                  timeout = timeout,
+                   chunksize = chunksize,
+                       debug = debug,
+                gifsiclePath = gifsiclePath,
+                     timeout = timeout,
             )
         case ".jpg" | ".jpeg":
             jpegtran(
                 fname,
-                chunksize = chunksize,
-                    debug = debug,
-                  timeout = timeout,
+                   chunksize = chunksize,
+                       debug = debug,
+                jpegtranPath = jpegtranPath,
+                     timeout = timeout,
             )
         case ".png":
             optipng(
                 fname,
-                   pool = pool,
-                timeout = timeout,
+                optipngPath = optipngPath,
+                       pool = pool,
+                    timeout = timeout,
             )
         case _:
             # Crash ...
@@ -66,5 +73,6 @@ def optimize_image(
     if strip and not isinstance(pool, multiprocessing.pool.Pool):
         exiftool(
             fname,
-            timeout = timeout,
+            exiftoolPath = exiftoolPath,
+                 timeout = timeout,
         )

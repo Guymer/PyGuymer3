@@ -13,10 +13,14 @@ def images2mp4(
             form = "mp4",
              fps = 25.0,
            level = "ERROR",
+     mp4filePath = None,
+         pkgPath = None,
+        portPath = None,
          profile = "ERROR",
     screenHeight = -1,
      screenWidth = -1,
          timeout = 60.0,
+      zypperPath = None,
 ):
     """Convert a sequence of images to a MP4 video.
 
@@ -47,6 +51,15 @@ def images2mp4(
     level : str, optional
         the level to be passed to libx264, default "ERROR" (which means choose
         one using the function :func:`return_x264_level`)
+    mp4filePath : str, optional
+        the path to the "mp4file" binary (if not provided then Python will
+        attempt to find the binary itself)
+    pkgPath : str, optional
+        the path to the "pkg" binary (if not provided then Python will
+        attempt to find the binary itself)
+    portPath : str, optional
+        the path to the "port" binary (if not provided then Python will
+        attempt to find the binary itself)
     profile : str, optional
         the profile to be passed to libx264, default "ERROR" (which means choose
         one using the function :func:`return_x264_profile`)
@@ -58,6 +71,9 @@ def images2mp4(
         default -1 (integers less than 100 imply no downscaling)
     timeout : float, optional
         the timeout for any requests/subprocess calls
+    zypperPath : str, optional
+        the path to the "zypper" binary (if not provided then Python will
+        attempt to find the binary itself)
 
     Returns
     -------
@@ -218,7 +234,7 @@ def images2mp4(
         "-f", form,
         "-map_chapters", "-1",
         "-map_metadata", "-1",
-        "-metadata", f"comment=Converted to a {form.upper()} using ffmpeg (version {find_program_version(ffmpeg, timeout = timeout)}) which used libx264 (version {find_program_version(libx264, timeout = timeout)}) using a CRF of {crf:.1f} for libx264 (which adhered to the {profile} profile and level {level}).",
+        "-metadata", f"comment=Converted to a {form.upper()} using ffmpeg (version {find_program_version(ffmpeg, pkgPath = pkgPath, portPath = portPath, timeout = timeout, zypperPath = zypperPath)}) which used libx264 (version {find_program_version(libx264, pkgPath = pkgPath, portPath = portPath, timeout = timeout, zypperPath = zypperPath)}) using a CRF of {crf:.1f} for libx264 (which adhered to the {profile} profile and level {level}).",
         "-threads", f"{os.cpu_count() - 1:d}",
         f"{tmpname}/video.mp4",
     ]
@@ -248,7 +264,12 @@ def images2mp4(
         raise Exception(f"successfully converted the input images to a not-8-bit MP4; see \"{tmpname}\" for clues") from None
 
     # Optimize output video ...
-    optimize_MP4(f"{tmpname}/video.mp4", debug = debug, timeout = timeout)
+    optimize_MP4(
+        f"{tmpname}/video.mp4",
+              debug = debug,
+        mp4filePath = mp4filePath,
+            timeout = timeout,
+    )
 
     # Return path to output video ...
     return f"{tmpname}/video.mp4"

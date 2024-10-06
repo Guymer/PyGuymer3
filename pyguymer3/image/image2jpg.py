@@ -9,8 +9,12 @@ def image2jpg(
        chunksize = 1048576,
            debug = __debug__,
             exif = None,
+    exiftoolPath = None,
+    gifsiclePath = None,
+    jpegtranPath = None,
             mode = "RGB",
         optimize = True,
+     optipngPath = None,
      progressive = False,
          quality = 95,
     screenHeight = -1,
@@ -33,10 +37,22 @@ def image2jpg(
         print debug messages (default False)
     exif : dict, optional
         a dictionary of EXIF data to save in the output JPG (default None)
+    exiftoolPath : str, optional
+        the path to the "exiftool" binary (if not provided then Python will attempt to
+        find the binary itself)
+    gifsiclePath : str, optional
+        the path to the "gifsicle" binary (if not provided then Python will attempt to
+        find the binary itself)
+    jpegtranPath : str, optional
+        the path to the "jpegtran" binary (if not provided then Python will attempt to
+        find the binary itself)
     mode : str, optional
         the mode of the outout JPG (default "RGB")
     optimize : bool, optional
         optimize the output JPG (default True)
+    optipngPath : str, optional
+        the path to the "optipng" binary (if not provided then Python will attempt to
+        find the binary itself)
     progressive : bool, optional
         save a progressive JPG (default False)
     quality : int, optional
@@ -118,9 +134,13 @@ def image2jpg(
     if optimize or strip:
         optimize_image(
             jpg,
-            chunksize = chunksize,
-                debug = debug,
-                 pool = None,
-                strip = strip,
-              timeout = timeout,
+               chunksize = chunksize,
+                   debug = debug,
+            exiftoolPath = exiftoolPath,
+            gifsiclePath = gifsiclePath,
+            jpegtranPath = jpegtranPath,
+             optipngPath = optipngPath,
+                    pool = None,
+                   strip = strip,
+                 timeout = timeout,
         )

@@ -5,9 +5,10 @@ def load_GPS_EXIF(
     fname,
     /,
     *,
-    compressed = False,
-        python = True,
-       timeout = 60.0,
+      compressed = False,
+    exiftoolPath = None,
+          python = True,
+         timeout = 60.0,
 ):
     # Import sub-functions ...
     from .load_GPS_EXIF1 import load_GPS_EXIF1
@@ -19,4 +20,9 @@ def load_GPS_EXIF(
         return load_GPS_EXIF1(fname)
 
     # Will use the binary "exiftool" ...
-    return load_GPS_EXIF2(fname, compressed = compressed, timeout = timeout)
+    return load_GPS_EXIF2(
+        fname,
+          compressed = compressed,
+        exiftoolPath = exiftoolPath,
+             timeout = timeout,
+    )

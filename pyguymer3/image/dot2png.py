@@ -6,11 +6,15 @@ def dot2png(
     png,
     /,
     *,
-    chunksize = 1048576,
-        debug = __debug__,
-      dotPath = None,
-        strip = False,
-      timeout = 60.0,
+       chunksize = 1048576,
+           debug = __debug__,
+         dotPath = None,
+    exiftoolPath = None,
+    gifsiclePath = None,
+    jpegtranPath = None,
+     optipngPath = None,
+           strip = False,
+         timeout = 60.0,
 ):
     # Import standard modules ...
     import shutil
@@ -44,9 +48,13 @@ def dot2png(
     # Optimize PNG ...
     optimize_image(
         png,
-        chunksize = chunksize,
-            debug = debug,
-             pool = None,
-            strip = strip,
-          timeout = timeout,
+           chunksize = chunksize,
+               debug = debug,
+        exiftoolPath = exiftoolPath,
+        gifsiclePath = gifsiclePath,
+        jpegtranPath = jpegtranPath,
+         optipngPath = optipngPath,
+                pool = None,
+               strip = strip,
+             timeout = timeout,
     )
