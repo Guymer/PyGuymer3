@@ -13,13 +13,17 @@ def create_map_of_points(
                 conv = 1.0e3,
                debug = __debug__,
                  eps = 1.0e-12,
+        exiftoolPath = None,
               extent = None,
+        gifsiclePath = None,
+        jpegtranPath = None,
               method = "GeodesicBox",
                 name = "natural-earth-1",
                 nAng = 9,
                nIter = 100,
              nRefine = 1,
            onlyValid = False,
+         optipngPath = None,
               prefix = ".",
             ramLimit = 1073741824,
               repair = False,
@@ -60,9 +64,18 @@ def create_map_of_points(
         print debug messages and draw the circle on the axis
     eps : float, optional
         the tolerance of the Vincenty formula iterations
+    exiftoolPath : str, optional
+        the path to the "exiftool" binary (if not provided then Python will attempt to
+        find the binary itself)
     extent : list of floats
         for high-resolution images, save time by specifying the extent that is
         to be added
+    gifsiclePath : str, optional
+        the path to the "gifsicle" binary (if not provided then Python will attempt to
+        find the binary itself)
+    jpegtranPath : str, optional
+        the path to the "jpegtran" binary (if not provided then Python will attempt to
+        find the binary itself)
     method : str, optional
         the method for finding the middle of the points
     name : str, optional
@@ -77,6 +90,9 @@ def create_map_of_points(
     onlyValid : bool, optional
         only return valid Polygons (checks for validity can take a while, if
         being called often)
+    optipngPath : str, optional
+        the path to the "optipng" binary (if not provided then Python will attempt to
+        find the binary itself)
     prefix : str, optional
         change the name of the output debugging CSVs
     ramLimit : int, optional
@@ -180,8 +196,13 @@ def create_map_of_points(
             add_coastlines = False,
              add_gridlines = True,
                      debug = debug,
+                       eps = eps,
+                     nIter = nIter,
                  onlyValid = onlyValid,
+                    prefix = prefix,
+                  ramLimit = ramLimit,
                     repair = repair,
+                       tol = tol,
         )
     else:
         # Calculate the padding distance ...
@@ -380,9 +401,13 @@ def create_map_of_points(
     # Optimize PNG ...
     optimize_image(
         pngOut,
-        chunksize = chunksize,
-            debug = debug,
-             pool = None,
-            strip = True,
-          timeout = timeout,
+           chunksize = chunksize,
+               debug = debug,
+        exiftoolPath = exiftoolPath,
+        gifsiclePath = gifsiclePath,
+        jpegtranPath = jpegtranPath,
+         optipngPath = optipngPath,
+                pool = None,
+               strip = True,
+             timeout = timeout,
     )
