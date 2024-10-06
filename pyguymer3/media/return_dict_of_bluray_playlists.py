@@ -7,6 +7,7 @@ def return_dict_of_bluray_playlists(
     *,
                cwd = None,
              debug = __debug__,
+       ffprobePath = None,
     size_threshold = 1073741824,
     time_threshold = 60.0,
            timeout = 60.0,
@@ -43,7 +44,13 @@ def return_dict_of_bluray_playlists(
         if playlist not in __ffprobe__[fname]:
             if debug:
                 print(f"INFO: Running ffprobe(\"{fname}\", {playlist:d}) ...")
-            __ffprobe__[fname][playlist] = ffprobe(fname, cwd = cwd, playlist = playlist, timeout = timeout)
+            __ffprobe__[fname][playlist] = ffprobe(
+            fname,
+                    cwd = cwd,
+            ffprobePath = ffprobePath,
+               playlist = playlist,
+                timeout = timeout,
+        )
 
         # Append information if this playlist is worthwhile (by default,
         # "worthwhile" is defined as ≥1 GiB and/or ≥1 minute) ...

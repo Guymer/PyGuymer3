@@ -5,12 +5,13 @@ def return_video_crop_parameters(
     fname,
     /,
     *,
-           cwd = None,
-         debug = __debug__,
-            dt = 2.0,
-    ffmpegPath = None,
-      playlist = -1,
-       timeout = 60.0,
+            cwd = None,
+          debug = __debug__,
+             dt = 2.0,
+     ffmpegPath = None,
+    ffprobePath = None,
+       playlist = -1,
+        timeout = 60.0,
 ):
     # Import standard modules ...
     import shutil
@@ -35,24 +36,27 @@ def return_video_crop_parameters(
     # Initialize variables ...
     dur = return_media_duration(
         fname,
-             cwd = cwd,
-           debug = debug,
-        playlist = playlist,
-         timeout = timeout,
+                cwd = cwd,
+              debug = debug,
+        ffprobePath = ffprobePath,
+           playlist = playlist,
+            timeout = timeout,
     )                                                                           # [s]
     inW = return_video_width(
         fname,
-             cwd = cwd,
-           debug = debug,
-        playlist = playlist,
-         timeout = timeout,
+                cwd = cwd,
+              debug = debug,
+        ffprobePath = ffprobePath,
+           playlist = playlist,
+            timeout = timeout,
     )                                                                           # [px]
     inH = return_video_height(
         fname,
-             cwd = cwd,
-           debug = debug,
-        playlist = playlist,
-         timeout = timeout,
+                cwd = cwd,
+              debug = debug,
+        ffprobePath = ffprobePath,
+           playlist = playlist,
+            timeout = timeout,
     )                                                                           # [px]
     outX = 0                                                                    # [px]
     outY = 0                                                                    # [px]

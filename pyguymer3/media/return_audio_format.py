@@ -5,10 +5,11 @@ def return_audio_format(
     fname,
     /,
     *,
-         cwd = None,
-       debug = __debug__,
-    playlist = -1,
-     timeout = 60.0,
+            cwd = None,
+          debug = __debug__,
+    ffprobePath = None,
+       playlist = -1,
+        timeout = 60.0,
 ):
     """Return the format of the first audio stream in a media file
 
@@ -23,6 +24,9 @@ def return_audio_format(
         the directory to change to before running "ffprobe"
     debug : bool, optional
         print debug messages
+    ffprobePath : str, optional
+        the path to the "ffprobe" binary (if not provided then Python will
+        attempt to find the binary itself)
     playlist : int, optional
         for media files containing playlists, specify which playlist wants to be
         surveyed
@@ -53,7 +57,13 @@ def return_audio_format(
     if playlist not in __ffprobe__[fname]:
         if debug:
             print(f"INFO: Running ffprobe(\"{fname}\", {playlist:d}) ...")
-        __ffprobe__[fname][playlist] = ffprobe(fname, cwd = cwd, playlist = playlist, timeout = timeout)
+        __ffprobe__[fname][playlist] = ffprobe(
+            fname,
+                    cwd = cwd,
+            ffprobePath = ffprobePath,
+               playlist = playlist,
+                timeout = timeout,
+        )
 
     # Loop over streams ...
     for stream in __ffprobe__[fname][playlist]["streams"]:

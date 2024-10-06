@@ -5,10 +5,11 @@ def return_video_source_aspect_ratio(
     fname,
     /,
     *,
-         cwd = None,
-       debug = __debug__,
-    playlist = -1,
-     timeout = 60.0,
+            cwd = None,
+          debug = __debug__,
+    ffprobePath = None,
+       playlist = -1,
+        timeout = 60.0,
 ):
     # Import sub-functions ...
     from .__ffprobe__ import __ffprobe__
@@ -23,7 +24,13 @@ def return_video_source_aspect_ratio(
     if playlist not in __ffprobe__[fname]:
         if debug:
             print(f"INFO: Running ffprobe(\"{fname}\", {playlist:d}) ...")
-        __ffprobe__[fname][playlist] = ffprobe(fname, cwd = cwd, playlist = playlist, timeout = timeout)
+        __ffprobe__[fname][playlist] = ffprobe(
+            fname,
+                    cwd = cwd,
+            ffprobePath = ffprobePath,
+               playlist = playlist,
+                timeout = timeout,
+        )
 
     # Loop over streams ...
     for stream in __ffprobe__[fname][playlist]["streams"]:
@@ -34,17 +41,19 @@ def return_video_source_aspect_ratio(
         # Find common dimensions divisors ...
         w = return_video_width(
             fname,
-                 cwd = cwd,
-               debug = debug,
-            playlist = playlist,
-             timeout = timeout,
+                    cwd = cwd,
+                  debug = debug,
+            ffprobePath = ffprobePath,
+               playlist = playlist,
+                timeout = timeout,
         )                                                                       # [px]
         h = return_video_height(
             fname,
-                 cwd = cwd,
-               debug = debug,
-            playlist = playlist,
-             timeout = timeout,
+                    cwd = cwd,
+                  debug = debug,
+            ffprobePath = ffprobePath,
+               playlist = playlist,
+                timeout = timeout,
         )                                                                       # [px]
         w_divs = find_integer_divisors(w)
         h_divs = find_integer_divisors(h)

@@ -9,6 +9,7 @@ def images2mp4(
              cwd = None,
            debug = __debug__,
       ffmpegPath = None,
+     ffprobePath = None,
             form = "mp4",
              fps = 25.0,
            level = "ERROR",
@@ -34,6 +35,9 @@ def images2mp4(
         print debug messages
     ffmpegPath : str, optional
         the path to the "ffmpeg" binary (if not provided then Python will
+        attempt to find the binary itself)
+    ffprobePath : str, optional
+        the path to the "ffprobe" binary (if not provided then Python will
         attempt to find the binary itself)
     form : str, optional
         the format to be passed to ffmpeg, default "mp4" (the only two sensible
@@ -233,7 +237,14 @@ def images2mp4(
             )
 
     # Check libx264 bit-depth ...
-    if return_video_bit_depth(f"{tmpname}/video.mp4", cwd = cwd, debug = debug, playlist = -1, timeout = timeout) != 8:
+    if return_video_bit_depth(
+        f"{tmpname}/video.mp4",
+                cwd = cwd,
+              debug = debug,
+        ffprobePath = ffprobePath,
+           playlist = -1,
+            timeout = timeout,
+    ) != 8:
         raise Exception(f"successfully converted the input images to a not-8-bit MP4; see \"{tmpname}\" for clues") from None
 
     # Optimize output video ...

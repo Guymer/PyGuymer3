@@ -5,10 +5,11 @@ def return_video_bit_depth(
     fname,
     /,
     *,
-         cwd = None,
-       debug = __debug__,
-    playlist = -1,
-     timeout = 60.0,
+            cwd = None,
+          debug = __debug__,
+    ffprobePath = None,
+       playlist = -1,
+        timeout = 60.0,
 ):
     # Import sub-functions ...
     from .__ffprobe__ import __ffprobe__
@@ -20,7 +21,13 @@ def return_video_bit_depth(
     if playlist not in __ffprobe__[fname]:
         if debug:
             print(f"INFO: Running ffprobe(\"{fname}\", {playlist:d}) ...")
-        __ffprobe__[fname][playlist] = ffprobe(fname, cwd = cwd, playlist = playlist, timeout = timeout)
+        __ffprobe__[fname][playlist] = ffprobe(
+            fname,
+                    cwd = cwd,
+            ffprobePath = ffprobePath,
+               playlist = playlist,
+                timeout = timeout,
+        )
 
     # Loop over streams ...
     for stream in __ffprobe__[fname][playlist]["streams"]:
