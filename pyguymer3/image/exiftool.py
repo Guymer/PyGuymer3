@@ -5,7 +5,8 @@ def exiftool(
     fname,
     /,
     *,
-    timeout = 60.0,
+    exiftoolPath = None,
+         timeout = 60.0,
 ):
     """
     "exiftool" does not modify, and it does not touch, the image even if it
@@ -18,9 +19,12 @@ def exiftool(
     import shutil
     import subprocess
 
-    # Check that "exiftool" is installed ...
-    if shutil.which("exiftool") is None:
-        raise Exception("\"exiftool\" is not installed") from None
+    # **************************************************************************
+
+    # Try to find the paths if the user did not provide them ...
+    if exiftoolPath is None:
+        exiftoolPath = shutil.which("exiftool")
+    assert exiftoolPath is not None, "\"exiftool\" is not installed"
 
     # Check that the image exists ...
     if not os.path.exists(fname):
@@ -34,10 +38,10 @@ def exiftool(
         case ".gif" | ".jpg" | ".jpeg" | ".png":
             subprocess.run(
                 [
-                    "exiftool",
+                    exiftoolPath,
                     "-overwrite_original",
                     "-all=",
-                    fname
+                    fname,
                 ],
                    check = True,
                 encoding = "utf-8",

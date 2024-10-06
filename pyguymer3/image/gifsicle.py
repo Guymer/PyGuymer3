@@ -5,9 +5,10 @@ def gifsicle(
     fname1,
     /,
     *,
-    chunksize = 1048576,
-        debug = __debug__,
-      timeout = 60.0,
+       chunksize = 1048576,
+           debug = __debug__,
+    gifsiclePath = None,
+         timeout = 60.0,
 ):
     """
     "gifsicle" does modify, and it does touch, the image even if it cannot make
@@ -31,9 +32,12 @@ def gifsicle(
     # Import sub-functions ...
     from ..sha512 import sha512
 
-    # Check that "gifsicle" is installed ...
-    if shutil.which("gifsicle") is None:
-        raise Exception("\"gifsicle\" is not installed") from None
+    # **************************************************************************
+
+    # Try to find the paths if the user did not provide them ...
+    if gifsiclePath is None:
+        gifsiclePath = shutil.which("gifsicle")
+    assert gifsiclePath is not None, "\"gifsicle\" is not installed"
 
     # Check that the image exists ...
     if not os.path.exists(fname1):
@@ -47,11 +51,11 @@ def gifsicle(
         # Optimise GIF ...
         subprocess.run(
             [
-                "gifsicle",
+                gifsiclePath,
                 "--unoptimize",
                 "--optimize=3",
                 "--output", fname2,
-                fname1
+                fname1,
             ],
                check = True,
             encoding = "utf-8",

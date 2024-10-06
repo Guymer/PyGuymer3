@@ -8,6 +8,7 @@ def dot2png(
     *,
     chunksize = 1048576,
         debug = __debug__,
+      dotPath = None,
         strip = False,
       timeout = 60.0,
 ):
@@ -18,13 +19,21 @@ def dot2png(
     # Import sub-functions ...
     from .optimize_image import optimize_image
 
-    # Check that "dot" is installed ...
-    if shutil.which("dot") is None:
-        raise Exception("\"dot\" is not installed") from None
+    # **************************************************************************
+
+    # Try to find the paths if the user did not provide them ...
+    if dotPath is None:
+        dotPath = shutil.which("dot")
+    assert dotPath is not None, "\"dot\" is not installed"
 
     # Create image ...
     subprocess.run(
-        ["dot", "-Tpng", dot, "-o", png],
+        [
+            dotPath,
+            "-Tpng",
+            dot,
+            "-o", png,
+        ],
            check = True,
         encoding = "utf-8",
           stderr = subprocess.DEVNULL,

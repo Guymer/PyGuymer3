@@ -5,8 +5,9 @@ def optipng(
     fname,
     /,
     *,
-       pool = None,
-    timeout = 60.0,
+           pool = None,
+    optipngPath = None,
+        timeout = 60.0,
 ):
     """
     "optipng" does not modify, and it does not touch, the image even if it
@@ -21,9 +22,12 @@ def optipng(
     import shutil
     import subprocess
 
-    # Check that "optipng" is installed ...
-    if shutil.which("optipng") is None:
-        raise Exception("\"optipng\" is not installed") from None
+    # **************************************************************************
+
+    # Try to find the paths if the user did not provide them ...
+    if optipngPath is None:
+        optipngPath = shutil.which("optipng")
+    assert optipngPath is not None, "\"optipng\" is not installed"
 
     # Check that the image exists ...
     if not os.path.exists(fname):
@@ -38,7 +42,7 @@ def optipng(
             subprocess.run,
             [
                 [
-                    "optipng",
+                    optipngPath,
                     "-strip", "all",
                     "--",
                     fname,
@@ -58,7 +62,7 @@ def optipng(
         #       supplies a file name which starts with "-".
         subprocess.run(
             [
-                "optipng",
+                optipngPath,
                 "-strip", "all",
                 "--",
                 fname,

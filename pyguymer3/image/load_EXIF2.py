@@ -5,21 +5,25 @@ def load_EXIF2(
     fname,
     /,
     *,
-    compressed = False,
-       timeout = 60.0,
+      compressed = False,
+    exiftoolPath = None,
+         timeout = 60.0,
 ):
     # Import standard modules ...
     import json
     import shutil
     import subprocess
 
-    # Check that "exiftool" is installed ...
-    if shutil.which("exiftool") is None:
-        raise Exception("\"exiftool\" is not installed") from None
+    # **************************************************************************
+
+    # Try to find the paths if the user did not provide them ...
+    if exiftoolPath is None:
+        exiftoolPath = shutil.which("exiftool")
+    assert exiftoolPath is not None, "\"exiftool\" is not installed"
 
     # Create "exiftool" command ...
     cmd = [
-        "exiftool",
+        exiftoolPath,
         "-api", "largefilesupport=1",
         "-json",
     ]

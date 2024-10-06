@@ -5,9 +5,10 @@ def jpegtran(
     fname1,
     /,
     *,
-    chunksize = 1048576,
-        debug = __debug__,
-      timeout = 60.0,
+       chunksize = 1048576,
+           debug = __debug__,
+    jpegtranPath = None,
+         timeout = 60.0,
 ):
     """
     "jpegtran" does not modify, but it does touch, the image even if it cannot
@@ -24,9 +25,12 @@ def jpegtran(
     # Import sub-functions ...
     from ..sha512 import sha512
 
-    # Check that "jpegtran" is installed ...
-    if shutil.which("jpegtran") is None:
-        raise Exception("\"jpegtran\" is not installed") from None
+    # **************************************************************************
+
+    # Try to find the paths if the user did not provide them ...
+    if jpegtranPath is None:
+        jpegtranPath = shutil.which("jpegtran")
+    assert jpegtranPath is not None, "\"jpegtran\" is not installed"
 
     # Check that the image exists ...
     if not os.path.exists(fname1):
@@ -40,12 +44,12 @@ def jpegtran(
         # Optimise JP[E]G ...
         subprocess.run(
             [
-                "jpegtran",
+                jpegtranPath,
                 "-copy", "all",
                 "-optimise",
                 "-outfile", fname2,
                 "-perfect",
-                fname1
+                fname1,
             ],
                check = True,
             encoding = "utf-8",
