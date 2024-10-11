@@ -55,6 +55,11 @@ def return_link_list(
             for entry in scanObj:
                 # Check if the user wants to perform debugging ...
                 if debug:
+                    # Test if this part is hidden and print the full path for
+                    # identification ...
+                    if not allowHidden and entry.name.startswith("."):
+                        print(f"WARNING: \"{entry.path}\" is hidden")
+
                     # Test if this part is illegal and print the full path for
                     # identification ...
                     if not entry.name.startswith(".") and entry.name != make_path_safe(entry.name, allowHidden = allowHidden):
