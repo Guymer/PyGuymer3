@@ -9,10 +9,14 @@ def remove_almost_empty_directories(
     ignorableFiles = (
         ".directory",
         ".DS_Store",
-        "._.DS_Store",
         "cover.jpg",
         "cover.png",
         "Thumbs.db",
+        "._.directory",
+        "._.DS_Store",
+        "._cover.jpg",
+        "._cover.png",
+        "._Thumbs.db",
     ),
             remove = False,
 ):
@@ -27,7 +31,7 @@ def remove_almost_empty_directories(
         the directory to search
     debug : bool, optional
         print debug messages
-    ignorableFiles : tuple of str, default=(".directory", ".DS_Store", "._.DS_Store", "Thumbs.db")
+    ignorableFiles : tuple of str, optional
         the tuple of file names which can safely be ignored
     remove : bool, optional
         remove almost empty directories
