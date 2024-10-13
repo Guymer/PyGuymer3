@@ -9,8 +9,8 @@ def return_dict_of_bluray_playlists(
             debug = __debug__,
       ffprobePath = None,
     sizeThreshold = 1073741824,
-    timeThreshold = 60.0,
           timeout = 60.0,
+    timeThreshold = 60.0,
 ):
     """
     This function uses the list of MPLS files to obtain all of the possible
