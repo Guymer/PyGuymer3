@@ -5,12 +5,12 @@ def return_dict_of_bluray_playlists(
     dname,
     /,
     *,
-               cwd = None,
-             debug = __debug__,
-       ffprobePath = None,
-    size_threshold = 1073741824,
-    time_threshold = 60.0,
-           timeout = 60.0,
+              cwd = None,
+            debug = __debug__,
+      ffprobePath = None,
+    sizeThreshold = 1073741824,
+    timeThreshold = 60.0,
+          timeout = 60.0,
 ):
     """
     This function uses the list of MPLS files to obtain all of the possible
@@ -55,11 +55,11 @@ def return_dict_of_bluray_playlists(
         # Append information if this playlist is worthwhile (by default,
         # "worthwhile" is defined as ≥1 GiB and/or ≥1 minute) ...
         if "duration" in __ffprobe__[fname][playlist]["format"]:
-            if float(__ffprobe__[fname][playlist]["format"]["duration"]) >= time_threshold:
+            if float(__ffprobe__[fname][playlist]["format"]["duration"]) >= timeThreshold:
                 ans[f"{playlist:d}"] = __ffprobe__[fname][playlist]["format"]
                 continue
         if "size" in __ffprobe__[fname][playlist]["format"]:
-            if int(__ffprobe__[fname][playlist]["format"]["size"]) >= size_threshold:
+            if int(__ffprobe__[fname][playlist]["format"]["size"]) >= sizeThreshold:
                 ans[f"{playlist:d}"] = __ffprobe__[fname][playlist]["format"]
                 continue
 

@@ -5,7 +5,7 @@ def return_dict_of_bluray_playlistsToStreams(
     dname,
     /,
     *,
-    time_threshold = 60.0,
+    timeThreshold = 60.0,
 ):
     """
     This function uses the list of MPLS files to obtain all of the possible
@@ -57,7 +57,7 @@ def return_dict_of_bluray_playlistsToStreams(
 
         # Delete information if this playlist is not worthwhile (by default,
         # "worthwhile" is defined as ≥1 minute) ...
-        if totDuration < time_threshold:
+        if totDuration < timeThreshold:
             del ans[iPlaylist]
             continue
 
