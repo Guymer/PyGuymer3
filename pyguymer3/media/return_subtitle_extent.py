@@ -76,7 +76,7 @@ def return_subtitle_extent(
             [
                 ffmpegPath,
                 "-hide_banner",
-                "-probesize", "3G",
+                "-probesize", "1G",
                 "-analyzeduration", "1800M",
                 "-f", "lavfi",
                 "-i", f"color=color=black:size={width:d}x{height:d}:rate={fps:f}:duration={duration:f},format=yuv420p",
@@ -105,7 +105,7 @@ def return_subtitle_extent(
                 [
                     ffmpegPath,
                     "-hide_banner",
-                    "-probesize", "3G",
+                    "-probesize", "1G",
                     "-analyzeduration", "1800M",
                     "-f", "lavfi",
                     "-i", f"color=color=black:size={width:d}x{height:d}:rate={fps:f}:duration={duration:f},format=yuv420p",
@@ -131,7 +131,7 @@ def return_subtitle_extent(
                 [
                     ffmpegPath,
                     "-hide_banner",
-                    "-probesize", "3G",
+                    "-probesize", "1G",
                     "-analyzeduration", "1800M",
                     "-f", "lavfi",
                     "-i", f"color=color=black:size={width:d}x{height:d}:rate={fps:f}:duration={duration:f},format=yuv420p",

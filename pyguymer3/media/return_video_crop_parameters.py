@@ -73,7 +73,7 @@ def return_video_crop_parameters(
                 [
                     ffmpegPath,
                     "-hide_banner",
-                    "-probesize", "3G",
+                    "-probesize", "1G",
                     "-analyzeduration", "1800M",
                     "-playlist", f"{playlist:d}",
                     "-ss", f"{t:.3f}",
@@ -101,7 +101,7 @@ def return_video_crop_parameters(
                     [
                         ffmpegPath,
                         "-hide_banner",
-                        "-probesize", "3G",
+                        "-probesize", "1G",
                         "-analyzeduration", "1800M",
                         "-ss", f"{t:.3f}",
                         "-i", fname,
@@ -127,7 +127,7 @@ def return_video_crop_parameters(
                     [
                         ffmpegPath,
                         "-hide_banner",
-                        "-probesize", "3G",
+                        "-probesize", "1G",
                         "-analyzeduration", "1800M",
                         "-ss", f"{t:.3f}",
                         "-f", "mjpeg",

@@ -212,7 +212,7 @@ def images2mp4(
     cmd = [
         ffmpegPath,
         "-hide_banner",
-        "-probesize", "3G",
+        "-probesize", "1G",
         "-analyzeduration", "1800M",
         "-f", "image2",
         "-framerate", f"{fps:.1f}",

@@ -14,7 +14,7 @@ was started because, as of February 2018,
 language information for the audio streams in a Blu-ray playlist.
 
 For example, running
-``ffprobe -probesize 3G -analyzeduration 1800M -playlist 820 bluray:/path/to/br``
+``ffprobe -probesize 1G -analyzeduration 1800M -playlist 820 bluray:/path/to/br``
 yields::
 
     ffprobe version 3.4 Copyright (c) 2007-2017 the FFmpeg developers
