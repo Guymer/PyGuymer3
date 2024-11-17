@@ -111,7 +111,10 @@ def images2mp4(
     # Try to find the paths if the user did not provide them ...
     if ffmpegPath is None:
         ffmpegPath = shutil.which("ffmpeg")
+    if ffprobePath is None:
+        ffprobePath = shutil.which("ffprobe")
     assert ffmpegPath is not None, "\"ffmpeg\" is not installed"
+    assert ffprobePath is not None, "\"ffprobe\" is not installed"
 
     # **************************************************************************
 
