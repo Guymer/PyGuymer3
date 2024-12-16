@@ -54,9 +54,6 @@ def create_map_of_points(
         "NE"; "none"; and "OSM")
     chunksize : int, optional
         the size of the chunks of any files which are read in (in bytes)
-    configureAgain : bool, optional
-        configure the axis a second time (this is a hack to make narrow
-        field-of-view top-down axes work correctly with OpenStreetMap tiles)
     conv : float, optional
         the Geodesic distance that defines the middle as being converged (in
         metres)
@@ -195,6 +192,7 @@ def create_map_of_points(
             fg,
             add_coastlines = False,
              add_gridlines = True,
+            configureAgain = bool(background == "OSM"),
                      debug = debug,
                        eps = eps,
                      nIter = nIter,
