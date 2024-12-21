@@ -33,6 +33,10 @@ def max_dist(
     # Check what space the user wants to measure in ...
     match space:
         case "EuclideanSpace":
+            # Check arguments ...
+            assert eps is None, "\"eps\" is not None but \"space\" is \"EuclideanSpace\""
+            assert nIter is None, "\"nIter\" is not None but \"space\" is \"EuclideanSpace\""
+
             # Return answer ...
             return max_dist_euclidean(
                 lons,
