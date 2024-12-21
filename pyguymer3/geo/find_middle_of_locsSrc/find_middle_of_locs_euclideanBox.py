@@ -7,8 +7,6 @@ def find_middle_of_locs_euclideanBox(
     /,
     *,
     debug = __debug__,
-      eps = 1.0e-12,
-    nIter = 100,
       pad = 0.1,
 ):
     """Find the middle of some locations such that: a) the Euclidean distance to
@@ -47,8 +45,8 @@ def find_middle_of_locs_euclideanBox(
         lats,
         midLon,
         midLat,
-          eps = eps,
-        nIter = nIter,
+          eps = None,
+        nIter = None,
         space = "EuclideanSpace",
     )                                                                           # [°]
 

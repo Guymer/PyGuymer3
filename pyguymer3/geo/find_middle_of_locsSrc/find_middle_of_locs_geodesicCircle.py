@@ -55,8 +55,6 @@ def find_middle_of_locs_geodesicCircle(
             lons,
             lats,
             debug = debug,
-              eps = eps,
-            nIter = nIter,
               pad = -1.0,
         )                                                                       # [°], [°]
 

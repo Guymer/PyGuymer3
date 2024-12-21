@@ -9,7 +9,6 @@ def find_middle_of_locs_euclideanCircle(
      angConv = 0.1,
         conv = 0.01,
        debug = __debug__,
-         eps = 1.0e-12,
      iRefine = 0,
       midLat = None,
       midLon = None,
@@ -56,8 +55,6 @@ def find_middle_of_locs_euclideanCircle(
             lons,
             lats,
             debug = debug,
-              eps = eps,
-            nIter = nIter,
               pad = -1.0,
         )                                                                       # [°], [°]
 
@@ -67,8 +64,8 @@ def find_middle_of_locs_euclideanCircle(
         lats,
         midLon,
         midLat,
-          eps = eps,
-        nIter = nIter,
+          eps = None,
+        nIter = None,
         space = "EuclideanSpace",
     )                                                                           # [°]
 
@@ -88,8 +85,8 @@ def find_middle_of_locs_euclideanCircle(
                 lats,
                 x[0],
                 x[1],
-                  eps = eps,
-                nIter = nIter,
+                  eps = None,
+                nIter = None,
                 space = "EuclideanSpace",
             ),
             [midLon, midLat],
@@ -120,8 +117,8 @@ def find_middle_of_locs_euclideanCircle(
             lats,
             midLon,
             midLat,
-              eps = eps,
-            nIter = nIter,
+              eps = None,
+            nIter = None,
             space = "EuclideanSpace",
         )                                                                       # [°]
 
@@ -140,7 +137,7 @@ def find_middle_of_locs_euclideanCircle(
                 angHalfRange = 180.0,
                        debug = debug,
                         dist = conv,
-                         eps = eps,
+                         eps = None,
                        first = True,
                        iIter = 0,
                         nAng = nAng,
@@ -163,8 +160,8 @@ def find_middle_of_locs_euclideanCircle(
                 lats,
                 newMidLon,
                 newMidLat,
-                  eps = eps,
-                nIter = nIter,
+                  eps = None,
+                nIter = None,
                 space = "EuclideanSpace",
             )                                                                   # [°]
 
@@ -206,7 +203,6 @@ def find_middle_of_locs_euclideanCircle(
          angConv = angConv,
             conv = 0.5 * conv,
            debug = debug,
-             eps = eps,
          iRefine = iRefine + 1,
           midLat = midLat,
           midLon = midLon,

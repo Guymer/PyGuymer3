@@ -106,8 +106,6 @@ def find_middle_of_locs(
                 lons,
                 lats,
                 debug = debug,
-                  eps = eps,
-                nIter = nIter,
                   pad = pad,
             )
         case "EuclideanCircle":
@@ -118,7 +116,6 @@ def find_middle_of_locs(
                  angConv = angConv,
                     conv = conv,
                    debug = debug,
-                     eps = eps,
                  iRefine = 0,
                   midLat = midLat,
                   midLon = midLon,
