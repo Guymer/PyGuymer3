@@ -303,7 +303,7 @@ def _add_topDown_axis(
                      fill = +1.0,
                 fillSpace = "EuclideanSpace",
             keepInteriors = False,
-                     nang = 361,
+                     nAng = 361,
                     nIter = nIter,
                    prefix = prefix,
                  ramLimit = ramLimit,

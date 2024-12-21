@@ -4,7 +4,7 @@
 def _buffer_points_crudely(
     points1,
     dist,
-    nang,
+    nAng,
     /,
     *,
          eps = 1.0e-12,
@@ -24,7 +24,7 @@ def _buffer_points_crudely(
         the (npoint, 2) array of (lon,lat) coordinates (in degrees)
     dist : float
         the distance to buffer the (lon,lat) coordinates by (in metres)
-    nang : int
+    nAng : int
         the number of angles around the (lon,lat) coordinates that are
         calculated when buffering (must be odd; must be ≥ 9)
     eps : float, optional
@@ -37,7 +37,7 @@ def _buffer_points_crudely(
     Returns
     -------
     points2 : numpy.ndarray
-        the (npoint, nang, 2) array of (lon,lat) coordinates around the
+        the (npoint, nAng, 2) array of (lon,lat) coordinates around the
         (lon,lat) coordinates (in degrees)
 
     Notes
@@ -64,21 +64,21 @@ def _buffer_points_crudely(
     npoint = points1.shape[0]
 
     # Check array size ...
-    if npoint * nang * 2 * 8 > ramLimit:
-        raise Exception(f"\"points2\" is going to be {npoint * nang * 2 * 8:,d} bytes, which is larger than {ramLimit:,d} bytes") from None
+    if npoint * nAng * 2 * 8 > ramLimit:
+        raise Exception(f"\"points2\" is going to be {npoint * nAng * 2 * 8:,d} bytes, which is larger than {ramLimit:,d} bytes") from None
 
     # Initialize array ...
-    points2 = numpy.zeros((npoint, nang, 2), dtype = numpy.float64)             # [°]
+    points2 = numpy.zeros((npoint, nAng, 2), dtype = numpy.float64)             # [°]
 
     # Loop over angles ...
     # NOTE: The first and last angles will *always* be exactly North (therefore,
     #       use that as a check later on).
     # NOTE: The middle angle will *always* be exactly South (therefore, use that
     #       as a check later on).
-    # NOTE: The most two subsequent points can be apart is ~45° (with nang ≥ 9).
-    for iang in range(nang - 1):
+    # NOTE: The most two subsequent points can be apart is ~45° (with nAng ≥ 9).
+    for iang in range(nAng - 1):
         # Calculate initial angle ...
-        ang1 = 360.0 * float(nang - 1 - iang) / float(nang - 1)                 # [°]
+        ang1 = 360.0 * float(nAng - 1 - iang) / float(nAng - 1)                 # [°]
 
         # Loop over points ...
         for ipoint in range(npoint):

@@ -23,7 +23,7 @@ def _points2polys(
     point : numpy.ndarray
         the (2) array of (lon,lat) coordinate (in degrees)
     points : numpy.ndarray
-        the (nang, 2) array of (lon,lat) coordinates around the (lon,lat)
+        the (nAng, 2) array of (lon,lat) coordinates around the (lon,lat)
         coordinate (in degrees)
     debug : bool, optional
         print debug messages
@@ -80,8 +80,8 @@ def _points2polys(
     # **************************************************************************
 
     # Create short-hands ...
-    nang = points.shape[0]
-    mang = (nang - 1) // 2
+    nAng = points.shape[0]
+    mang = (nAng - 1) // 2
 
     # Determine if the ring crosses the North Pole ...
     if (wrapLongitude(point[0]) - tol) < wrapLongitude(points[0, 0]) < (wrapLongitude(point[0]) + tol):
@@ -122,7 +122,7 @@ def _points2polys(
         ring.append((-180.0, latCross))
 
         # Loop over points ...
-        for iang in range(nang - 1):
+        for iang in range(nAng - 1):
             # Add point ...
             ring.append((points[keys[iang], 0], points[keys[iang], 1]))
 
@@ -192,7 +192,7 @@ def _points2polys(
         rings[iring].append(point)
 
     # Loop over angles ...
-    for iang in range(nang - 1):
+    for iang in range(nAng - 1):
         # Check if the ring has crossed the [anti-]meridian ...
         if dists[iang] >= 180.0:
             # Check if it was the anti-meridian or the meridian ...

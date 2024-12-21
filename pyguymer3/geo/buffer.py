@@ -11,7 +11,7 @@ def buffer(
              fill = 1.0,
         fillSpace = "EuclideanSpace",
     keepInteriors = True,
-             nang = 9,
+             nAng = 9,
             nIter = 100,
            prefix = ".",
          ramLimit = 1073741824,
@@ -42,7 +42,7 @@ def buffer(
         or "GeodesicSpace")
     keepInteriors : bool, optional
         keep the interiors of the Polygon
-    nang : int, optional
+    nAng : int, optional
         the number of angles around each point within the shape that are
         calculated when buffering
     nIter : int, optional
@@ -117,7 +117,7 @@ def buffer(
                       eps = eps,
                      fill = fill,
                 fillSpace = fillSpace,
-                     nang = nang,
+                     nAng = nAng,
                     nIter = nIter,
                    prefix = prefix,
                  ramLimit = ramLimit,
@@ -133,7 +133,7 @@ def buffer(
                       eps = eps,
                      fill = fill,
                 fillSpace = fillSpace,
-                     nang = nang,
+                     nAng = nAng,
                     nIter = nIter,
                    prefix = prefix,
                  ramLimit = ramLimit,
@@ -149,7 +149,7 @@ def buffer(
                       eps = eps,
                      fill = fill,
                 fillSpace = fillSpace,
-                     nang = nang,
+                     nAng = nAng,
                     nIter = nIter,
                    prefix = prefix,
                  ramLimit = ramLimit,
@@ -165,7 +165,7 @@ def buffer(
                       eps = eps,
                      fill = fill,
                 fillSpace = fillSpace,
-                     nang = nang,
+                     nAng = nAng,
                     nIter = nIter,
                    prefix = prefix,
                  ramLimit = ramLimit,
@@ -181,7 +181,7 @@ def buffer(
                       eps = eps,
                      fill = fill,
                 fillSpace = fillSpace,
-                     nang = nang,
+                     nAng = nAng,
                     nIter = nIter,
                    prefix = prefix,
                  ramLimit = ramLimit,
@@ -197,7 +197,7 @@ def buffer(
                       eps = eps,
                      fill = fill,
                 fillSpace = fillSpace,
-                     nang = nang,
+                     nAng = nAng,
                     nIter = nIter,
                    prefix = prefix,
                  ramLimit = ramLimit,
@@ -214,7 +214,7 @@ def buffer(
                          fill = fill,
                     fillSpace = fillSpace,
                 keepInteriors = keepInteriors,
-                         nang = nang,
+                         nAng = nAng,
                         nIter = nIter,
                        prefix = prefix,
                      ramLimit = ramLimit,
@@ -231,7 +231,7 @@ def buffer(
                          fill = fill,
                     fillSpace = fillSpace,
                 keepInteriors = keepInteriors,
-                         nang = nang,
+                         nAng = nAng,
                         nIter = nIter,
                        prefix = prefix,
                      ramLimit = ramLimit,
