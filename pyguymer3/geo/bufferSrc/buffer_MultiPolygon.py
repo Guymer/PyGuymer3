@@ -11,7 +11,7 @@ def buffer_MultiPolygon(
              fill = 1.0,
         fillSpace = "EuclideanSpace",
     keepInteriors = True,
-             nang = 9,
+             nAng = 9,
             nIter = 100,
            prefix = ".",
          ramLimit = 1073741824,
@@ -44,7 +44,7 @@ def buffer_MultiPolygon(
         or "GeodesicSpace")
     keepInteriors : bool, optional
         keep the interiors of the Polygon
-    nang : int, optional
+    nAng : int, optional
         the number of angles around each point within the MultiPolygon that are
         calculated when buffering
     nIter : int, optional
@@ -124,7 +124,7 @@ def buffer_MultiPolygon(
                          fill = fill,
                     fillSpace = fillSpace,
                 keepInteriors = keepInteriors,
-                         nang = nang,
+                         nAng = nAng,
                         nIter = nIter,
                        prefix = prefix,
                      ramLimit = ramLimit,

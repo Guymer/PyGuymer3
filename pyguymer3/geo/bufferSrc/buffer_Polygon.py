@@ -11,7 +11,7 @@ def buffer_Polygon(
              fill = 1.0,
         fillSpace = "EuclideanSpace",
     keepInteriors = True,
-             nang = 9,
+             nAng = 9,
             nIter = 100,
            prefix = ".",
          ramLimit = 1073741824,
@@ -44,7 +44,7 @@ def buffer_Polygon(
         or "GeodesicSpace")
     keepInteriors : bool, optional
         keep the interiors of the Polygon
-    nang : int, optional
+    nAng : int, optional
         the number of angles around each point within the Polygon that are
         calculated when buffering
     nIter : int, optional
@@ -135,7 +135,7 @@ def buffer_Polygon(
                   eps = eps,
                  fill = fill,
             fillSpace = fillSpace,
-                 nang = nang,
+                 nAng = nAng,
                 nIter = nIter,
                prefix = prefix,
              ramLimit = ramLimit,
@@ -163,7 +163,7 @@ def buffer_Polygon(
                           eps = eps,
                          fill = fill,
                     fillSpace = fillSpace,
-                         nang = nang,
+                         nAng = nAng,
                         nIter = nIter,
                        prefix = prefix,
                      ramLimit = ramLimit,

@@ -10,7 +10,7 @@ def buffer_Point(
           eps = 1.0e-12,
          fill = 1.0,
     fillSpace = "EuclideanSpace",
-         nang = 9,
+         nAng = 9,
         nIter = 100,
        prefix = ".",
      ramLimit = 1073741824,
@@ -39,7 +39,7 @@ def buffer_Point(
     fillSpace : str, optional
         the geometric space to perform the filling in (either "EuclideanSpace"
         or "GeodesicSpace")
-    nang : int, optional
+    nAng : int, optional
         the number of angles around the Point that are calculated when buffering
     nIter : int, optional
         the maximum number of iterations (particularly the Vincenty formula)
@@ -109,7 +109,7 @@ def buffer_Point(
               eps = eps,
              fill = fill,
         fillSpace = fillSpace,
-             nang = nang,
+             nAng = nAng,
             nIter = nIter,
            prefix = prefix,
          ramLimit = ramLimit,

@@ -10,7 +10,7 @@ def buffer_CoordinateSequence(
           eps = 1.0e-12,
          fill = 1.0,
     fillSpace = "EuclideanSpace",
-         nang = 9,
+         nAng = 9,
         nIter = 100,
        prefix = ".",
      ramLimit = 1073741824,
@@ -40,7 +40,7 @@ def buffer_CoordinateSequence(
     fillSpace : str, optional
         the geometric space to perform the filling in (either "EuclideanSpace"
         or "GeodesicSpace")
-    nang : int, optional
+    nAng : int, optional
         the number of angles around each point within the CoordinateSequence
         that are calculated when buffering
     nIter : int, optional
@@ -128,9 +128,9 @@ def buffer_CoordinateSequence(
     # Check inputs ...
     assert dist >= 10.0, f"the buffering distance is too small ({dist:,.1f}m < {10.0:,.1f}m)"
     assert dist <= 0.5 * CIRCUMFERENCE_OF_EARTH, f"the buffering distance is too large ({dist:,.1f}m > {0.5 * CIRCUMFERENCE_OF_EARTH:,.1f}m)"
-    assert nang >= 9, f"the number of angles is too small ({nang:,d} < {9:,d})"
-    assert nang % 2 == 1, f"the number of angles is even ({nang:,d})"
-    assert (nang - 1) % 4 == 0, f"the number of angles is not 4n+1 ({nang:,d})"
+    assert nAng >= 9, f"the number of angles is too small ({nAng:,d} < {9:,d})"
+    assert nAng % 2 == 1, f"the number of angles is even ({nAng:,d})"
+    assert (nAng - 1) % 4 == 0, f"the number of angles is not 4n+1 ({nAng:,d})"
 
     # **************************************************************************
     # Step 1: Convert the CoordinateSequence to a NumPy array of the original  #
@@ -178,13 +178,13 @@ def buffer_CoordinateSequence(
         points2 = funcs.buffer_points_crudely(
             points1,
             dist,
-            nang,
+            nAng,
         )                                                                       # [°]
     else:
         points2 = _buffer_points_crudely(
             points1,
             dist,
-            nang,
+            nAng,
                  eps = eps,
                nIter = nIter,
             ramLimit = ramLimit,
