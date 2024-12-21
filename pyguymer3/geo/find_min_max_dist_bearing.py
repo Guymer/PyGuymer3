@@ -139,15 +139,21 @@ def find_min_max_dist_bearing(
         dtype = numpy.float64,
     )                                                                           # [°]
 
-    # Populate location arrays ...
-    # NOTE: Taking care not to stray outside of 0° and 360°.
+    # Loop over angles ...
     for iAng in range(fakeAngs.size):
         # Check what space the user wants ...
         match space:
             case "EuclideanSpace":
+                # Check arguments ...
+                assert eps is None, "\"eps\" is not None but \"space\" is \"EuclideanSpace\""
+
+                # Populate location arrays ...
+                # NOTE: Taking care not to stray outside of 0° and 360°.
                 angLons[iAng] = midLon + dist * math.sin(math.radians(fakeAngs[iAng]))  # [°]
                 angLats[iAng] = midLat + dist * math.cos(math.radians(fakeAngs[iAng]))  # [°]
             case "GeodesicSpace":
+                # Populate location arrays ...
+                # NOTE: Taking care not to stray outside of 0° and 360°.
                 angLons[iAng], angLats[iAng], _ = calc_loc_from_loc_and_bearing_and_dist(
                     midLon,
                     midLat,
@@ -176,7 +182,7 @@ def find_min_max_dist_bearing(
             angLons[iAng],
             angLats[iAng],
               eps = eps,
-            nIter = nIter,
+            nIter = None if space == "EuclideanSpace" else nIter,
             space = space,
         )                                                                       # [°] or [m]
 
