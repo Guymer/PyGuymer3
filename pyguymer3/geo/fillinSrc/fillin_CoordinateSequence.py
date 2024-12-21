@@ -173,7 +173,7 @@ def fillin_CoordinateSequence(
                              eps = eps,
                          maxdist = None,
                            nIter = nIter,
-                          npoint = ns[ipoint] + 1,
+                          npoint = int(ns[ipoint]) + 1,
                           prefix = prefix,
                         ramLimit = ramLimit,
                     )

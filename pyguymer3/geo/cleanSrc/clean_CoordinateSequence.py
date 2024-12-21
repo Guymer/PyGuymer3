@@ -69,7 +69,7 @@ def clean_CoordinateSequence(
     points1 = numpy.array(coords)                                               # [°]
 
     # Create short-hand ...
-    npoint = points1.shape[0]
+    npoint = int(points1.shape[0])                                              # [#]
 
     # Don't clean points ...
     if npoint == 1:

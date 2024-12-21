@@ -166,7 +166,7 @@ def buffer_CoordinateSequence(
         points1 = numpy.array(coords)                                           # [°]
 
     # Create short-hand ...
-    npoint = points1.shape[0]
+    npoint = int(points1.shape[0])                                              # [#]
 
     # **************************************************************************
     # Step 2: Buffer the NumPy array of the original points to get a NumPy     #

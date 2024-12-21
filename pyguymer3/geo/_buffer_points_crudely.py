@@ -61,7 +61,7 @@ def _buffer_points_crudely(
     # **************************************************************************
 
     # Create short-hand ...
-    npoint = points1.shape[0]
+    npoint = int(points1.shape[0])                                              # [#]
 
     # Check array size ...
     if npoint * nAng * 2 * 8 > ramLimit:
