@@ -14,6 +14,7 @@ if __name__ == "__main__":
     # projection so that you can check it, along with an equirectangular plot.
 
     # Import standard modules ...
+    import argparse
     import multiprocessing
     import os
 
@@ -67,11 +68,32 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
+    # Create argument parser and parse the arguments ...
+    parser = argparse.ArgumentParser(
+           allow_abbrev = False,
+            description = "Buffer a point twice.",
+        formatter_class = argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument(
+        "--debug",
+        action = "store_true",
+          help = "print debug messages",
+    )
+    parser.add_argument(
+        "--timeout",
+        default = 60.0,
+           help = "the timeout for any requests/subprocess calls (in seconds)",
+           type = float,
+    )
+    args = parser.parse_args()
+
+    # **************************************************************************
+
     # Configure functions ...
-    debug = False
     fill = 1.0                                                                  # [°]
     fillSpace = "EuclideanSpace"
-    nang = 361                                                                  # [#]
+    nAng = 361                                                                  # [#]
+    nIter = 100                                                                 # [#]
     simp = -1.0                                                                 # [°]
     tol = 1.0e-10                                                               # [°]
 
@@ -112,28 +134,44 @@ if __name__ == "__main__":
             # Create axis ...
             ax1 = pyguymer3.geo.add_axis(
                 fg,
+                       add_coastlines = True,
+                        add_gridlines = True,
                 coastlines_resolution = "c",
+                                debug = args.debug,
                                 index = 1,
                                 ncols = 2,
+                                nIter = nIter,
                                 nrows = 2,
             )
 
             # Configure axis ...
-            pyguymer3.geo.add_map_background(ax1)
+            pyguymer3.geo.add_map_background(
+                ax1,
+                     debug = args.debug,
+                resolution = "large1024px",
+            )
 
             # Create axis ...
             ax2 = pyguymer3.geo.add_axis(
                 fg,
+                       add_coastlines = True,
+                        add_gridlines = True,
                 coastlines_resolution = "c",
+                                debug = args.debug,
                                 index = 2,
                                   lat = lat,
                                   lon = lon,
                                 ncols = 2,
+                                nIter = nIter,
                                 nrows = 2,
             )
 
             # Configure axis ...
-            pyguymer3.geo.add_map_background(ax2)
+            pyguymer3.geo.add_map_background(
+                ax2,
+                     debug = args.debug,
+                resolution = "large1024px",
+            )
 
             # Create axis ...
             ax3 = fg.add_subplot(2, 2, (3, 4))
@@ -155,10 +193,11 @@ if __name__ == "__main__":
             buff0 = pyguymer3.geo.buffer(
                 point,
                 dist1 + dist2,
-                    debug = debug,
+                    debug = args.debug,
                      fill = fill,
                 fillSpace = fillSpace,
-                     nang = nang,
+                     nAng = nAng,
+                    nIter = nIter,
                      simp = simp,
                       tol = tol,
             )
@@ -188,10 +227,11 @@ if __name__ == "__main__":
             buff1 = pyguymer3.geo.buffer(
                 point,
                 dist1,
-                    debug = debug,
+                    debug = args.debug,
                      fill = fill,
                 fillSpace = fillSpace,
-                     nang = nang,
+                     nAng = nAng,
+                    nIter = nIter,
                      simp = simp,
                       tol = tol,
             )
@@ -221,10 +261,11 @@ if __name__ == "__main__":
             buff2 = pyguymer3.geo.buffer(
                 buff1,
                 dist2,
-                    debug = debug,
+                    debug = args.debug,
                      fill = fill,
                 fillSpace = fillSpace,
-                     nang = nang,
+                     nAng = nAng,
+                    nIter = nIter,
                      simp = simp,
                       tol = tol,
             )
@@ -271,8 +312,10 @@ if __name__ == "__main__":
             # Optimize PNG ..
             pyguymer3.image.optimize_image(
                 fname,
-                 pool = pObj,
-                strip = True,
+                  debug = args.debug,
+                   pool = pObj,
+                  strip = True,
+                timeout = args.timeout,
             )
 
         # Close the pool of worker processes and wait for all of the tasks to

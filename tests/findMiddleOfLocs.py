@@ -105,6 +105,12 @@ if __name__ == "__main__":
            type = int,
     )
     parser.add_argument(
+        "--timeout",
+        default = 60.0,
+           help = "the timeout for any requests/subprocess calls (in seconds)",
+           type = float,
+    )
+    parser.add_argument(
         "--tolerance",
         default = 1.0e-10,
            dest = "tol",
@@ -137,12 +143,14 @@ if __name__ == "__main__":
     midLon1, midLat1, maxDist1 = pyguymer3.geo.find_middle_of_locs(
         lons,
         lats,
-          conv = euclideanConv,                                                 # ~10 km
-         debug = args.debug,
-           eps = args.eps,
-        method = "EuclideanBox",
-         nIter = args.nIter,
-           pad = euclideanConv,                                                 # ~10 km
+           conv = None,
+          debug = args.debug,
+            eps = None,
+         method = "EuclideanBox",
+           nAng = None,
+          nIter = None,
+        nRefine = None,
+            pad = euclideanConv,                                                # ~10 km
     )                                                                           # [°], [°], [°]
     EuclideanBox = shapely.geometry.point.Point(midLon1, midLat1).buffer(
         maxDist1,
@@ -158,6 +166,7 @@ if __name__ == "__main__":
           debug = args.debug,
             eps = args.eps,
          method = "GeodesicBox",
+           nAng = args.nAng,
           nIter = args.nIter,
         nRefine = args.nRefine,                                                 # 156.25 m
             pad = args.geodesicConv,                                            # 10 km
@@ -168,7 +177,7 @@ if __name__ == "__main__":
         debug = args.debug,
           eps = args.eps,
          fill = -1.0,
-         nang = args.nAng,
+         nAng = args.nAng,
         nIter = args.nIter,
          simp = -1.0,
           tol = args.tol,
@@ -181,8 +190,9 @@ if __name__ == "__main__":
         lats,
            conv = euclideanConv,                                                # ~10 km
           debug = args.debug,
-            eps = args.eps,
+            eps = None,
          method = "EuclideanCircle",
+           nAng = args.nAng,
           nIter = args.nIter,
         nRefine = args.nRefine,                                                 # ~156.25 m
             pad = euclideanConv,                                                # ~10 km
@@ -201,6 +211,7 @@ if __name__ == "__main__":
           debug = args.debug,
             eps = args.eps,
          method = "GeodesicCircle",
+           nAng = args.nAng,
           nIter = args.nIter,
         nRefine = args.nRefine,                                                 # 156.25 m
             pad = args.geodesicConv,                                            # 10 km
@@ -211,7 +222,7 @@ if __name__ == "__main__":
         debug = args.debug,
           eps = args.eps,
          fill = -1.0,
-         nang = args.nAng,
+         nAng = args.nAng,
         nIter = args.nIter,
          simp = -1.0,
           tol = args.tol,
@@ -277,16 +288,19 @@ if __name__ == "__main__":
         axTop.append(
             pyguymer3.geo.add_axis(
                 fg,
-                debug = args.debug,
-                 dist = maxDist1 * pyguymer3.RESOLUTION_OF_EARTH,
-                  eps = args.eps,
-                index = iCol + 1,
-                  lat = midLat1,
-                  lon = midLon1,
-                ncols = 4,
-                nIter = args.nIter,
-                nrows = 2,
-                  tol = args.tol,
+                  add_coastlines = True,
+                   add_gridlines = True,
+                           debug = args.debug,
+                            dist = maxDist1 * pyguymer3.RESOLUTION_OF_EARTH,
+                             eps = args.eps,
+                           index = iCol + 1,
+                             lat = midLat1,
+                             lon = midLon1,
+                           ncols = 4,
+                           nIter = args.nIter,
+                           nrows = 2,
+                satellite_height = False,
+                             tol = args.tol,
             )
         )
 
@@ -408,8 +422,9 @@ if __name__ == "__main__":
     # Optimize PNG ...
     pyguymer3.image.optimize_image(
         "findMiddleOfLocs/comparison.png",
-        debug = args.debug,
-        strip = True,
+          debug = args.debug,
+          strip = True,
+        timeout = args.timeout,
     )
 
     # **************************************************************************
@@ -573,6 +588,7 @@ if __name__ == "__main__":
     # Optimize PNG ...
     pyguymer3.image.optimize_image(
         "findMiddleOfLocs/locations.png",
-        debug = args.debug,
-        strip = True,
+          debug = args.debug,
+          strip = True,
+        timeout = args.timeout,
     )

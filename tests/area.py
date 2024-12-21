@@ -4,6 +4,7 @@
 # NOTE: See https://docs.python.org/3.12/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
 if __name__ == "__main__":
     # Import standard modules ...
+    import argparse
     import math
 
     # Import special modules ...
@@ -24,6 +25,21 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
+    # Create argument parser and parse the arguments ...
+    parser = argparse.ArgumentParser(
+           allow_abbrev = False,
+            description = "Find the area of a circle.",
+        formatter_class = argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument(
+        "--debug",
+        action = "store_true",
+          help = "print debug messages",
+    )
+    args = parser.parse_args()
+
+    # **************************************************************************
+
     # Define starting location ...
     lon = -1.0                                                                  # [°]
     lat = 50.5                                                                  # [°]
@@ -32,10 +48,10 @@ if __name__ == "__main__":
     dist = 1000.0e3                                                             # [m]
 
     # Configure functions ...
-    debug = False
     fill = -1.0                                                                 # [°]
     fillSpace = "EuclideanSpace"
-    nang = 36001                                                                # [#]
+    nAng = 36001                                                                # [#]
+    nIter = 100                                                                 # [#]
     simp = -1.0                                                                 # [°]
     tol = 1.0e-10                                                               # [°]
 
@@ -46,10 +62,11 @@ if __name__ == "__main__":
     buff = pyguymer3.geo.buffer(
         point,
         dist,
-            debug = debug,
+            debug = args.debug,
              fill = fill,
         fillSpace = fillSpace,
-             nang = nang,
+             nAng = nAng,
+            nIter = nIter,
              simp = simp,
               tol = tol,
     )
@@ -60,6 +77,10 @@ if __name__ == "__main__":
     # Loop over levels ...
     for level in range(4):
         # Find area ...
-        estimArea = pyguymer3.geo.area(buff, level = level + 1)                 # [m2]
+        estimArea = pyguymer3.geo.area(
+            buff,
+            level = level + 1,
+            nIter = nIter,
+        )                                                                       # [m2]
 
-        print(f"level={level + 1:d} :: {estimArea / 1.0e6:,.1f} km2 ({100.0 * ((estimArea / exactArea) - 1.0):+,.2f}%)")
+        print(f"level={level + 1:d} :: {estimArea / 1.0e6:,.1f} km2 ({100.0 * ((estimArea / exactArea) - 1.0):+,.6f}%)")

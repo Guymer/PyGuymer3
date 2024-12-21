@@ -6,6 +6,7 @@ if __name__ == "__main__":
     # This is a test suite for “geo.add_NE_map_underlay()”.
 
     # Import standard modules ...
+    import argparse
     import os
 
     # Import special modules ...
@@ -44,6 +45,27 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
+    # Create argument parser and parse the arguments ...
+    parser = argparse.ArgumentParser(
+           allow_abbrev = False,
+            description = "Demonstrate some Natural Earth mapu underlays.",
+        formatter_class = argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument(
+        "--debug",
+        action = "store_true",
+          help = "print debug messages",
+    )
+    parser.add_argument(
+        "--timeout",
+        default = 60.0,
+           help = "the timeout for any requests/subprocess calls (in seconds)",
+           type = float,
+    )
+    args = parser.parse_args()
+
+    # **************************************************************************
+
     # Define resolutions ...
     resolutions = [
          "10m",
@@ -71,14 +93,25 @@ if __name__ == "__main__":
         ax = pyguymer3.geo.add_axis(
             fg,
             add_coastlines = False,
+             add_gridlines = True,
+                     debug = args.debug,
                      index = iresolution + 1,
                      ncols = 1,
+                     nIter = None,
                      nrows = 3,
         )
 
         # Configure axis ...
         ax.set_title(resolution)
-        pyguymer3.geo.add_NE_map_underlay(ax, cultural = False, linewidth = 0.0, resolution = resolution)
+        pyguymer3.geo.add_NE_map_underlay(
+            ax,
+              cultural = False,
+                 debug = args.debug,
+             linewidth = 0.0,
+               maxElev = 8850.0,
+              physical = True,
+            resolution = resolution,
+        )
 
     # Configure figure ...
     fg.tight_layout()
@@ -88,7 +121,12 @@ if __name__ == "__main__":
     matplotlib.pyplot.close(fg)
 
     # Optimize PNG ...
-    pyguymer3.image.optimize_image(fname, strip = True)
+    pyguymer3.image.optimize_image(
+        fname,
+          debug = args.debug,
+          strip = True,
+        timeout = args.timeout,
+    )
 
     # **************************************************************************
 
@@ -106,17 +144,28 @@ if __name__ == "__main__":
         ax = pyguymer3.geo.add_axis(
             fg,
             add_coastlines = False,
+             add_gridlines = True,
+                     debug = args.debug,
                       dist = 1000.0e3,
                      index = iresolution + 1,
                        lat = +40.0,
                        lon =   0.0,
                      ncols = 1,
+                     nIter = 100,
                      nrows = 3,
         )
 
         # Configure axis ...
         ax.set_title(resolution)
-        pyguymer3.geo.add_NE_map_underlay(ax, cultural = False, resolution = resolution)
+        pyguymer3.geo.add_NE_map_underlay(
+            ax,
+              cultural = False,
+                 debug = args.debug,
+             linewidth = 0.5,
+               maxElev = 8850.0,
+              physical = True,
+            resolution = resolution,
+        )
 
     # Configure figure ...
     fg.tight_layout()
@@ -126,7 +175,12 @@ if __name__ == "__main__":
     matplotlib.pyplot.close(fg)
 
     # Optimize PNG ...
-    pyguymer3.image.optimize_image(fname, strip = True)
+    pyguymer3.image.optimize_image(
+        fname,
+          debug = args.debug,
+          strip = True,
+        timeout = args.timeout,
+    )
 
     # **************************************************************************
 
@@ -144,17 +198,28 @@ if __name__ == "__main__":
         ax = pyguymer3.geo.add_axis(
             fg,
             add_coastlines = False,
+             add_gridlines = True,
+                     debug = args.debug,
                       dist = 25.0e3,
                      index = iresolution + 1,
                        lat = +51.5,
                        lon =   0.0,
                      ncols = 1,
+                     nIter = 100,
                      nrows = 3,
         )
 
         # Configure axis ...
         ax.set_title(resolution)
-        pyguymer3.geo.add_NE_map_underlay(ax, resolution = resolution)
+        pyguymer3.geo.add_NE_map_underlay(
+            ax,
+              cultural = True,
+                 debug = args.debug,
+             linewidth = 0.5,
+               maxElev = 8850.0,
+              physical = True,
+            resolution = resolution,
+        )
 
     # Configure figure ...
     fg.tight_layout()
@@ -164,7 +229,12 @@ if __name__ == "__main__":
     matplotlib.pyplot.close(fg)
 
     # Optimize PNG ...
-    pyguymer3.image.optimize_image(fname, strip = True)
+    pyguymer3.image.optimize_image(
+        fname,
+          debug = args.debug,
+          strip = True,
+        timeout = args.timeout,
+    )
 
     # **************************************************************************
 
@@ -182,17 +252,28 @@ if __name__ == "__main__":
         ax = pyguymer3.geo.add_axis(
             fg,
             add_coastlines = False,
+             add_gridlines = True,
+                     debug = args.debug,
                       dist = 50.0e3,
                      index = iresolution + 1,
                        lat = +60.5,
                        lon =  +7.5,
                      ncols = 1,
+                     nIter = 100,
                      nrows = 3,
         )
 
         # Configure axis ...
         ax.set_title(resolution)
-        pyguymer3.geo.add_NE_map_underlay(ax, maxElev = 2000.0, resolution = resolution)
+        pyguymer3.geo.add_NE_map_underlay(
+            ax,
+              cultural = True,
+                 debug = args.debug,
+             linewidth = 0.5,
+               maxElev = 2000.0,
+              physical = True,
+            resolution = resolution,
+        )
 
     # Configure figure ...
     fg.tight_layout()
@@ -202,4 +283,9 @@ if __name__ == "__main__":
     matplotlib.pyplot.close(fg)
 
     # Optimize PNG ...
-    pyguymer3.image.optimize_image(fname, strip = True)
+    pyguymer3.image.optimize_image(
+        fname,
+          debug = args.debug,
+          strip = True,
+        timeout = args.timeout,
+    )

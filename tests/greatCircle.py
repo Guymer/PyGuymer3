@@ -6,6 +6,7 @@ if __name__ == "__main__":
     # This is a test suite for “geo.great_circle()”.
 
     # Import standard modules ...
+    import argparse
     import os
 
     # Import special modules ...
@@ -53,8 +54,26 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
-    # Configure functions ...
-    debug = False
+    # Create argument parser and parse the arguments ...
+    parser = argparse.ArgumentParser(
+           allow_abbrev = False,
+            description = "Demonstrate the convergence of some great circles.",
+        formatter_class = argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument(
+        "--debug",
+        action = "store_true",
+          help = "print debug messages",
+    )
+    parser.add_argument(
+        "--timeout",
+        default = 60.0,
+           help = "the timeout for any requests/subprocess calls (in seconds)",
+           type = float,
+    )
+    args = parser.parse_args()
+
+    # **************************************************************************
 
     # Define pairs of coordinates ...
     coords1 = [
@@ -93,11 +112,19 @@ if __name__ == "__main__":
         # Create axis ...
         ax = pyguymer3.geo.add_axis(
             fg,
+                   add_coastlines = True,
+                    add_gridlines = True,
             coastlines_resolution = "c",
+                            debug = args.debug,
+                            nIter = None,
         )
 
         # Configure axis ...
-        pyguymer3.geo.add_map_background(ax)
+        pyguymer3.geo.add_map_background(
+            ax,
+                 debug = args.debug,
+            resolution = "large2048px",
+        )
 
         # Loop over number of points ...
         for c, npoint in enumerate(npoints):
@@ -107,8 +134,10 @@ if __name__ == "__main__":
                 coord1[1],
                 coord2[0],
                 coord2[1],
-                 debug = debug,
-                npoint = npoint,
+                  debug = args.debug,
+                maxdist = None,
+                  nIter = None,
+                 npoint = npoint,
             )
 
             # Save GeoJSON ...
@@ -157,4 +186,9 @@ if __name__ == "__main__":
         matplotlib.pyplot.close(fg)
 
         # Optimize figure ...
-        pyguymer3.image.optimize_image(fname, strip = True)
+        pyguymer3.image.optimize_image(
+            fname,
+              debug = args.debug,
+              strip = True,
+            timeout = args.timeout,
+        )

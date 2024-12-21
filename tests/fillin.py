@@ -8,6 +8,7 @@ if __name__ == "__main__":
     # projection so that you can check it, along with an equirectangular plot.
 
     # Import standard modules ...
+    import argparse
     import os
 
     # Import special modules ...
@@ -60,6 +61,27 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
+    # Create argument parser and parse the arguments ...
+    parser = argparse.ArgumentParser(
+           allow_abbrev = False,
+            description = "Fillin a ring.",
+        formatter_class = argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument(
+        "--debug",
+        action = "store_true",
+          help = "print debug messages",
+    )
+    parser.add_argument(
+        "--timeout",
+        default = 60.0,
+           help = "the timeout for any requests/subprocess calls (in seconds)",
+           type = float,
+    )
+    args = parser.parse_args()
+
+    # **************************************************************************
+
     # Define rings ...
     rings = [
         [
@@ -95,6 +117,7 @@ if __name__ == "__main__":
     # Define filling ...
     euclideanFill = 1.0                                                         # [°]
     geodesicFill = 10000.0                                                      # [m]
+    nIter = 100                                                                 # [#]
     tol = 1.0e-10                                                               # [°]
 
     # Make output directory ...
@@ -118,28 +141,44 @@ if __name__ == "__main__":
         # Create axis ...
         ax1 = pyguymer3.geo.add_axis(
             fg,
+                   add_coastlines = True,
+                    add_gridlines = True,
             coastlines_resolution = "c",
+                            debug = args.debug,
                             index = 1,
                             ncols = 2,
+                            nIter = nIter,
                             nrows = 2,
         )
 
         # Configure axis ...
-        pyguymer3.geo.add_map_background(ax1)
+        pyguymer3.geo.add_map_background(
+            ax1,
+                 debug = args.debug,
+            resolution = "large1024px",
+        )
 
         # Create axis ...
         ax2 = pyguymer3.geo.add_axis(
             fg,
+                   add_coastlines = True,
+                    add_gridlines = True,
             coastlines_resolution = "c",
+                            debug = args.debug,
                             index = 2,
                               lat = ring[1][1],
                               lon = ring[0][0],
                             ncols = 2,
+                            nIter = nIter,
                             nrows = 2,
         )
 
         # Configure axis ...
-        pyguymer3.geo.add_map_background(ax2)
+        pyguymer3.geo.add_map_background(
+            ax2,
+                 debug = args.debug,
+            resolution = "large1024px",
+        )
 
         # Create axis ...
         ax3 = fg.add_subplot(
@@ -165,8 +204,9 @@ if __name__ == "__main__":
         denseRing1 = pyguymer3.geo.fillin(
             sparseRing,
             euclideanFill,
-                debug = False,
+                debug = args.debug,
             fillSpace = "EuclideanSpace",
+                nIter = nIter,
                   tol = tol,
         )
         ax1.add_geometries(
@@ -204,8 +244,9 @@ if __name__ == "__main__":
         denseRing2 = pyguymer3.geo.fillin(
             sparseRing,
             geodesicFill,
-                debug = False,
+                debug = args.debug,
             fillSpace = "GeodesicSpace",
+                nIter = nIter,
                   tol = tol,
         )
         ax1.add_geometries(
@@ -248,4 +289,9 @@ if __name__ == "__main__":
         matplotlib.pyplot.close(fg)
 
         # Optimize PNG ...
-        pyguymer3.image.optimize_image(fname, strip = True)
+        pyguymer3.image.optimize_image(
+            fname,
+              debug = args.debug,
+              strip = True,
+            timeout = args.timeout,
+        )

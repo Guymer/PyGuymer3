@@ -4,7 +4,9 @@
 # NOTE: See https://docs.python.org/3.12/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
 if __name__ == "__main__":
     # Import standard modules ...
+    import argparse
     import os
+    import platform
     import shutil
 
     # Import special modules ...
@@ -64,15 +66,56 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
+    # Create argument parser and parse the arguments ...
+    parser = argparse.ArgumentParser(
+           allow_abbrev = False,
+            description = "Animate a point being buffered.",
+        formatter_class = argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument(
+        "--debug",
+        action = "store_true",
+          help = "print debug messages",
+    )
+    parser.add_argument(
+        "--ffmpeg-path",
+        default = shutil.which("ffmpeg7") if platform.system() == "Darwin" else shutil.which("ffmpeg"),
+           dest = "ffmpegPath",
+           help = "the path to the \"ffmpeg\" binary",
+           type = str,
+    )
+    parser.add_argument(
+        "--ffprobe-path",
+        default = shutil.which("ffprobe7") if platform.system() == "Darwin" else shutil.which("ffprobe"),
+           dest = "ffprobePath",
+           help = "the path to the \"ffprobe\" binary",
+           type = str,
+    )
+    parser.add_argument(
+        "--timeout",
+        default = 60.0,
+           help = "the timeout for any requests/subprocess calls (in seconds)",
+           type = float,
+    )
+    args = parser.parse_args()
+
+    # Check that "ffmpeg" is installed ...
+    assert args.ffmpegPath is not None, "\"ffmpeg\" is not installed"
+
+    # Check that "ffprobe" is installed ...
+    assert args.ffprobePath is not None, "\"ffprobe\" is not installed"
+
+    # **************************************************************************
+
     # Define starting location ...
     lon = -1.0                                                                  # [°]
     lat = 50.5                                                                  # [°]
 
     # Configure functions ...
-    debug = False
     fill = 1.0                                                                  # [°]
     fillSpace = "EuclideanSpace"
-    nang = 361                                                                  # [#]
+    nAng = 361                                                                  # [#]
+    nIter = 100                                                                 # [#]
     simp = -1.0                                                                 # [°]
     tol = 1.0e-10                                                               # [°]
 
@@ -100,28 +143,45 @@ if __name__ == "__main__":
         # Create axis ...
         ax1 = pyguymer3.geo.add_axis(
             fg,
+                   add_coastlines = True,
+                    add_gridlines = True,
             coastlines_resolution = "c",
+                            debug = args.debug,
                             index = 1,
                             ncols = 2,
+                            nIter = nIter,
                             nrows = 2,
         )
 
         # Configure axis ...
-        pyguymer3.geo.add_map_background(ax1)
+        pyguymer3.geo.add_map_background(
+            ax1,
+                 debug = args.debug,
+            resolution = "large1024px",
+        )
 
         # Create axis ...
         ax2 = pyguymer3.geo.add_axis(
             fg,
+                   add_coastlines = True,
+                    add_gridlines = True,
             coastlines_resolution = "c",
+                            debug = args.debug,
                             index = 2,
                               lat = lat,
                               lon = lon,
                             ncols = 2,
+                            nIter = nIter,
                             nrows = 2,
+                 satellite_height = False,
         )
 
         # Configure axis ...
-        pyguymer3.geo.add_map_background(ax2)
+        pyguymer3.geo.add_map_background(
+            ax2,
+                 debug = args.debug,
+            resolution = "large1024px",
+        )
 
         # Create axis ...
         ax3 = fg.add_subplot(
@@ -147,10 +207,11 @@ if __name__ == "__main__":
         buff = pyguymer3.geo.buffer(
             point,
             float(1000 * dist),
-                debug = debug,
+                debug = args.debug,
                  fill = fill,
             fillSpace = fillSpace,
-                 nang = nang,
+                 nAng = nAng,
+                nIter = nIter,
                  simp = simp,
                   tol = tol,
         )
@@ -197,7 +258,12 @@ if __name__ == "__main__":
         matplotlib.pyplot.close(fg)
 
         # Optimize PNG ...
-        pyguymer3.image.optimize_image(fname, strip = True)
+        pyguymer3.image.optimize_image(
+            fname,
+              debug = args.debug,
+              strip = True,
+            timeout = args.timeout,
+        )
 
     # **************************************************************************
 
@@ -217,8 +283,11 @@ if __name__ == "__main__":
     # Save 60fps MP4 ...
     vname = pyguymer3.media.images2mp4(
         frames,
-        debug = debug,
-          fps = 60.0,
+              debug = args.debug,
+         ffmpegPath = args.ffmpegPath,
+        ffprobePath = args.ffprobePath,
+                fps = 60.0,
+            timeout = 3600.0,
     )
     shutil.move(vname, "animateExpandPoint.mp4")
 
@@ -233,9 +302,12 @@ if __name__ == "__main__":
         # Save 60fps MP4 ...
         vname = pyguymer3.media.images2mp4(
             frames,
-                   debug = debug,
+                   debug = args.debug,
+              ffmpegPath = args.ffmpegPath,
+             ffprobePath = args.ffprobePath,
                      fps = 60.0,
              screenWidth = height,
             screenHeight = height,
+                 timeout = 3600.0,
         )
         shutil.move(vname, f"animateExpandPoint{height:04d}px.mp4")
