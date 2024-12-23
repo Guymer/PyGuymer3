@@ -24,7 +24,10 @@ def stat(
     import pwd
 
     # Stat the file ...
-    info = os.stat(fname, follow_symlinks = follow_symlinks)
+    info = os.stat(
+        fname,
+        follow_symlinks = follow_symlinks,
+    )
 
     # Create a dictionary from the stat_result object ...
     ans = {}
