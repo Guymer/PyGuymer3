@@ -32,6 +32,8 @@ def return_video_crop_parameters(
     assert ffmpegPath is not None, "\"ffmpeg\" is not installed"
     assert ffprobePath is not None, "\"ffprobe\" is not installed"
 
+    # **************************************************************************
+
     # Check input ...
     if fname.startswith("bluray:") and playlist < 0:
         raise Exception("a Blu-ray was specified but no playlist was supplied") from None

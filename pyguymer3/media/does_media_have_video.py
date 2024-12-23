@@ -15,9 +15,21 @@ def does_media_have_video(
     Return True/False if the media has video.
     """
 
+    # Import standard modules ...
+    import shutil
+
     # Import sub-functions ...
     from .__ffprobe__ import __ffprobe__
     from .ffprobe import ffprobe
+
+    # **************************************************************************
+
+    # Try to find the paths if the user did not provide them ...
+    if ffprobePath is None:
+        ffprobePath = shutil.which("ffprobe")
+    assert ffprobePath is not None, "\"ffprobe\" is not installed"
+
+    # **************************************************************************
 
     # Make sure that this fname/playlist combination is in the global dictionary ...
     if fname not in __ffprobe__:

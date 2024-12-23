@@ -21,10 +21,20 @@ def return_dict_of_bluray_playlists(
     # Import standard modules ...
     import glob
     import os
+    import shutil
 
     # Import sub-functions ...
     from .__ffprobe__ import __ffprobe__
     from .ffprobe import ffprobe
+
+    # **************************************************************************
+
+    # Try to find the paths if the user did not provide them ...
+    if ffprobePath is None:
+        ffprobePath = shutil.which("ffprobe")
+    assert ffprobePath is not None, "\"ffprobe\" is not installed"
+
+    # **************************************************************************
 
     # Create short-hand ...
     fname = f"bluray:{dname}"
