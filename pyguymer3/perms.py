@@ -116,7 +116,11 @@ def perms(
                 if stat.S_IMODE(info["st_mode"]) != filePerms:
                     if debug:
                         print(f'INFO: Changing file permissions of \"{name}\" to \"{oct(filePerms)}\" (it is \"{oct(stat.S_IMODE(info["st_mode"]))}\").')
-                    os.chmod(name, filePerms)
+                    os.chmod(
+                        name,
+                        filePerms,
+                        follow_symlinks = follow_symlinks,
+                    )
 
         # Set folder permissions if it is wrong ...
         if stat.S_ISDIR(info["st_mode"]):
@@ -124,4 +128,8 @@ def perms(
                 if stat.S_IMODE(info["st_mode"]) != folderPerms:
                     if debug:
                         print(f'INFO: Changing folder permissions of \"{name}\" to \"{oct(folderPerms)}\" (it is \"{oct(stat.S_IMODE(info["st_mode"]))}\").')
-                    os.chmod(name, folderPerms)
+                    os.chmod(
+                        name,
+                        folderPerms,
+                        follow_symlinks = follow_symlinks,
+                    )
