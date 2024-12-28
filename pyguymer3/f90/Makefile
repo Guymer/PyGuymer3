@@ -5,7 +5,7 @@
 DEBUG     ?= false
 FTNLIB    ?= $(abspath fortranlib)
 DEBG_OPTS := -g -fcheck=all
-LANG_OPTS := -ffree-form -ffree-line-length-none -frecursive -fno-unsafe-math-optimizations -frounding-math -fsignaling-nans -fPIC
+LANG_OPTS := -fopenmp -ffree-form -ffree-line-length-none -frecursive -fno-unsafe-math-optimizations -frounding-math -fsignaling-nans -fPIC
 WARN_OPTS := -Wall -Wextra -Waliasing -Wcharacter-truncation -Wconversion-extra -Wimplicit-interface -Wimplicit-procedure -Wunderflow -Wtabs
 OPTM_OPTS := -O2
 MACH_OPTS := -march=native -m64
@@ -113,5 +113,5 @@ funcs.so:			$(FTNLIB)/mod_safe.o										\
 					funcs.F90													\
 					src/*.f90
 	$(RM) -f funcs.*.so funcs.so
-	FC=$(FC) FFLAGS="-fopenmp $(LANG_OPTS) $(WARN_OPTS) $(OPTM_OPTS) $(MACH_OPTS)" $(PYTHON3) -m numpy.f2py -c funcs.F90 -m funcs --backend meson -lgomp -I$(FTNLIB) -I$(CURDIR)
+	FC=$(FC) FFLAGS="$(LANG_OPTS) $(WARN_OPTS) $(OPTM_OPTS) $(MACH_OPTS)" $(PYTHON3) -m numpy.f2py -c funcs.F90 -m funcs --backend meson -lgomp -I$(FTNLIB) -I$(CURDIR)
 	$(LN) -s funcs$(SUFFIX) funcs.so
