@@ -9,6 +9,10 @@ This is a Python 3.X port of [my Python 2.X module](https://github.com/Guymer/Py
 To install PyGuymer3 then just run:
 
 ```sh
+# To install the latest released version:
+pip install --user PyGuymer3
+
+# To install the latest development version:
 pip install --user git+https://github.com/Guymer/PyGuymer3.git
 ```
 
