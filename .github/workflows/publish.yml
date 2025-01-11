@@ -3,93 +3,100 @@ name: Publish Python 🐍 distribution 📦 to PyPI and TestPyPI
 on: [push]
 
 jobs:
-  build:
-    name: Build distribution 📦
-    runs-on: ubuntu-24.04
-
-    steps:
-    - uses: actions/checkout@v4
-      with:
-        persist-credentials: false
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: "3.x"
-    - name: Install pypa/build
-      run: >-
-        python3 -m
-        pip install
-        build
-        --user
-    - name: Build a binary wheel and a source tarball
-      run: python3 -m build
-    - name: Store the distribution packages
-      uses: actions/upload-artifact@v4
-      with:
-        name: python-package-distributions
-        path: dist/
-
-  publish-to-pypi:
-    name: >-
-      Publish Python 🐍 distribution 📦 to PyPI
-    if: startsWith(github.ref, 'refs/tags/')  # only publish to PyPI on tag pushes
-    needs:
-    - build
-    runs-on: ubuntu-24.04
-    environment:
-      name: pypi
-      url: https://pypi.org/p/PyGuymer3
-    permissions:
-      id-token: write  # IMPORTANT: mandatory for trusted publishing
-
-    steps:
-    - name: Download all the dists
-      uses: actions/download-artifact@v4
-      with:
-        name: python-package-distributions
-        path: dist/
-    - name: Publish distribution 📦 to PyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
-
-  github-release:
-    name: >-
-      Sign the Python 🐍 distribution 📦 with Sigstore
-      and upload them to GitHub Release
-    needs:
-    - publish-to-pypi
-    runs-on: ubuntu-24.04
-
-    permissions:
-      contents: write  # IMPORTANT: mandatory for making GitHub Releases
-      id-token: write  # IMPORTANT: mandatory for sigstore
-
-    steps:
-    - name: Download all the dists
-      uses: actions/download-artifact@v4
-      with:
-        name: python-package-distributions
-        path: dist/
-    - name: Sign the dists with Sigstore
-      uses: sigstore/gh-action-sigstore-python@v3.0.0
-      with:
-        inputs: >-
-          ./dist/*.tar.gz
-          ./dist/*.whl
-    - name: Create GitHub Release
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
-      run: >-
-        gh release create
-        "$GITHUB_REF_NAME"
-        --repo "$GITHUB_REPOSITORY"
-        --notes ""
-    - name: Upload artifact signatures to GitHub Release
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
-      # Upload to GitHub Release using the `gh` CLI.
-      # `dist/` contains the built packages, and the
-      # sigstore-produced signatures and certificates.
-      run: >-
-        gh release upload
-        "$GITHUB_REF_NAME" dist/**
-        --repo "$GITHUB_REPOSITORY"
+    build:
+        name: Build distribution 📦
+        runs-on: ubuntu-24.04
+        strategy:
+            matrix:
+                python-version: ["3.12"]
+        steps:
+            -
+                name: Checkout project                                          # https://github.com/actions/checkout
+                uses: actions/checkout@v4
+                with:
+                    path: main
+                    persist-credentials: false
+                    submodules: true
+            -
+                name: Set up Python ${{ matrix.python-version }}
+                uses: actions/setup-python@v5                                   # https://github.com/actions/setup-python
+                with:
+                    python-version: ${{ matrix.python-version }}
+            -
+                name: Install Python ${{ matrix.python-version }} dependencies
+                run: |
+                    python -m pip install --upgrade pip
+                    pip install --user build
+            -
+                name: List programs
+                run: |
+                    echo "::notice $(which pip)"
+                    echo "::notice $(which python)"
+            -
+                name: Build a binary wheel and a source tarball
+                run: |
+                    python3 -m build
+            -
+                name: Store the distribution packages
+                uses: actions/upload-artifact@v4                                # https://github.com/actions/upload-artifact
+                with:
+                    name: python-package-distributions
+                    path: dist/
+    publish-to-pypi:
+        name: Publish Python 🐍 distribution 📦 to PyPI
+        if: startsWith(github.ref, 'refs/tags/')                                # Only publish to PyPI on tag pushes.
+        needs:
+            - build
+        runs-on: ubuntu-24.04
+        environment:
+            name: pypi
+            url: https://pypi.org/p/PyGuymer3
+        permissions:
+            id-token: write                                                     # Mandatory for trusted publishing.
+        steps:
+            -
+                name: Download all the dists
+                uses: actions/download-artifact@v4                              # https://github.com/actions/download-artifact
+                with:
+                    name: python-package-distributions
+                    path: dist/
+            -
+                name: Publish distribution 📦 to PyPI
+                uses: pypa/gh-action-pypi-publish@release/v1                    # https://github.com/pypa/gh-action-pypi-publish
+    github-release:
+        name: Sign the Python 🐍 distribution 📦 with Sigstore and upload them to GitHub Release
+        needs:
+            - publish-to-pypi
+        runs-on: ubuntu-24.04
+        permissions:
+            contents: write                                                     # Mandatory for making GitHub Releases.
+            id-token: write                                                     # Mandatory for Sigstore.
+        steps:
+            -
+                name: Download all the dists
+                uses: actions/download-artifact@v4                              # https://github.com/actions/download-artifact
+                with:
+                    name: python-package-distributions
+                    path: dist/
+            -
+                name: Sign the dists with Sigstore
+                uses: sigstore/gh-action-sigstore-python@v3.0.0                 # https://github.com/sigstore/gh-action-sigstore-python
+                with:
+                    inputs: >-
+                    ./dist/*.tar.gz
+                    ./dist/*.whl
+            -
+                name: Create GitHub Release
+                env:
+                    GITHUB_TOKEN: ${{ github.token }}
+                run: |
+                    gh release create "${GITHUB_REF_NAME}" --repo "${GITHUB_REPOSITORY}" --notes ""
+            -
+                name: Upload artifact signatures to GitHub Release
+                env:
+                    GITHUB_TOKEN: ${{ github.token }}
+                # Upload to GitHub Release using the "gh" CLI. "dist/" contains
+                # the built packages, and the Sigstore-produced signatures and
+                # certificates.
+                run: |
+                    gh release upload "${GITHUB_REF_NAME}" dist/** --repo "${GITHUB_REPOSITORY}"
