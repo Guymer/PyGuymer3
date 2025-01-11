@@ -1,0 +1,51 @@
+# NOTE: See https://packaging.python.org/en/latest/tutorials/packaging-projects/
+
+[build-system]
+requires = [
+    "setuptools",                       # NOTE: See https://setuptools.pypa.io/en/latest/userguide/
+    "setuptools_scm",                   # NOTE: See https://setuptools-scm.readthedocs.io/en/latest/usage/
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "PyGuymer3"
+description = "A Python 3 module containing a bunch of random functions that I have written over the years"
+dynamic = ["version"]
+readme = "README.md"
+license = {file = "LICENCE.txt"}
+authors = [
+    {name = "Thomas Guymer"}
+]
+maintainers = [
+    {name = "Thomas Guymer"}
+]
+classifiers = [                         # NOTE: See https://pypi.org/classifiers/
+    "Development Status :: 5 - Production/Stable",
+    "License :: OSI Approved :: Apache Software License",
+    "Natural Language :: English",
+    "Operating System :: MacOS :: MacOS X",
+    "Operating System :: POSIX :: BSD :: FreeBSD",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Fortran",
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "cartopy",
+    "exifread",
+    "geojson",
+    "lxml",
+    "matplotlib",
+    "numpy",
+    "pillow",
+    "requests",
+    "scipy",
+    "shapely",
+]
+requires-python = ">=3.10"
+
+[project.urls]
+Homepage = "https://github.com/Guymer/PyGuymer3"
+Documentation = "https://pyguymer3.readthedocs.io"
+Issues = "https://github.com/Guymer/PyGuymer3/issues"
+
+[tool.setuptools_scm]
