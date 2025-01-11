@@ -83,8 +83,8 @@ jobs:
                 uses: sigstore/gh-action-sigstore-python@v3.0.0                 # https://github.com/sigstore/gh-action-sigstore-python
                 with:
                     inputs: >-
-                    ./dist/*.tar.gz
-                    ./dist/*.whl
+                        ./dist/*.tar.gz
+                        ./dist/*.whl
             -
                 name: Create GitHub Release
                 env:
