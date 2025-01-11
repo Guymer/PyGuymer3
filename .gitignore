@@ -18,8 +18,10 @@ shellcheck.log
 # Ignore compiler generated files ...
 *.so
 *.so.dSYM
+dist
 docs/_autosummary
 docs/_build
+PyGuymer3.egg-info
 
 # Hide large datasets ...
 debug.*.csv
