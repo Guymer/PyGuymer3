@@ -5,7 +5,10 @@ Welcome to PyGuymer3's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-This is a Python 3.X port of `my Python 2.X module <https://github.com/Guymer/PyGuymer>`_ containing a bunch of random functions that I have written over the years.
+This is a Python 3.X port of
+`my Python 2.X module <https://github.com/Guymer/PyGuymer>`_ containing a bunch
+of random functions that I have written over the years. The
+`module is on PyPI <https://pypi.org/project/PyGuymer3/>`_.
 
 .. include:: installation.rst
 
