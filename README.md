@@ -4,6 +4,16 @@
 
 This is a Python 3.X port of [my Python 2.X module](https://github.com/Guymer/PyGuymer) containing a bunch of random functions that I have written over the years. The [documentation is on Read The Docs](https://pyguymer3.readthedocs.io/).
 
+## Installation
+
+To install PyGuymer3 then just run:
+
+```sh
+pip install --user git+https://github.com/Guymer/PyGuymer3.git
+```
+
+... and everything should "just work".
+
 ## Dependencies
 
 PyGuymer3 requires the following Python modules to be installed and available in your `PYTHONPATH`:
