@@ -60,7 +60,7 @@ if __name__ == "__main__":
         import pyguymer3.image
         import pyguymer3.media
     except:
-        raise Exception("\"pyguymer3\" is not installed; you need to have the Python module from https://github.com/Guymer/PyGuymer3 located somewhere in your $PYTHONPATH") from None
+        raise Exception("\"pyguymer3\" is not installed; run \"pip install --user PyGuymer3\"") from None
 
     print(f"Testing \"{pyguymer3.__path__[0]}\" ...")
 
