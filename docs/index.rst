@@ -7,6 +7,8 @@ Welcome to PyGuymer3's documentation!
 
 This is a Python 3.X port of `my Python 2.X module <https://github.com/Guymer/PyGuymer>`_ containing a bunch of random functions that I have written over the years.
 
+.. include:: installation.rst
+
 .. include:: dependencies.rst
 
 .. include:: testing.rst
