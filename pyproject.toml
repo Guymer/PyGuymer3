@@ -12,7 +12,7 @@ name = "PyGuymer3"
 description = "A Python 3 module containing a bunch of random functions that I have written over the years"
 dynamic = ["version"]
 readme = "README.md"
-license = {file = "LICENCE.txt"}
+license = {text = "Apache-2.0"}
 authors = [
     {name = "Thomas Guymer"}
 ]
@@ -21,6 +21,11 @@ maintainers = [
 ]
 classifiers = [                         # NOTE: See https://pypi.org/classifiers/
     "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: System Administrators",
     "License :: OSI Approved :: Apache Software License",
     "Natural Language :: English",
     "Operating System :: MacOS :: MacOS X",
@@ -28,6 +33,7 @@ classifiers = [                         # NOTE: See https://pypi.org/classifiers
     "Operating System :: POSIX :: Linux",
     "Programming Language :: Fortran",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Unix Shell",
 ]
 dependencies = [
     "cartopy",
