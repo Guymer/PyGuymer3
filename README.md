@@ -6,7 +6,7 @@ This is a Python 3.X port of [my Python 2.X module](https://github.com/Guymer/Py
 
 ## Installation
 
-To install PyGuymer3 then just run:
+To install PyGuymer3, run:
 
 ```sh
 # To install the latest released version from PyPI:

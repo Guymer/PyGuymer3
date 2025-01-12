@@ -1,6 +1,6 @@
 Installation
 ------------
-To install PyGuymer3 then just run::
+To install PyGuymer3, run::
 
     # To install the latest released version from PyPI:
     pip install --user PyGuymer3
