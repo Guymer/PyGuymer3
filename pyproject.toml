@@ -1,4 +1,6 @@
 # NOTE: See https://packaging.python.org/en/latest/tutorials/packaging-projects/
+# NOTE: See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/
+# NOTE: See https://packaging.python.org/en/latest/specifications/pyproject-toml/
 
 [build-system]
 requires = [
@@ -35,7 +37,7 @@ classifiers = [                         # NOTE: See https://pypi.org/classifiers
     "Programming Language :: Python :: 3",
     "Programming Language :: Unix Shell",
 ]
-dependencies = [
+dependencies = [                        # NOTE: See "requirements.txt"
     "cartopy",
     "exifread",
     "geojson",
@@ -50,8 +52,9 @@ dependencies = [
 requires-python = ">=3.10"
 
 [project.urls]
-Homepage = "https://github.com/Guymer/PyGuymer3"
 Documentation = "https://pyguymer3.readthedocs.io"
+Homepage = "https://github.com/Guymer/PyGuymer3"
 Issues = "https://github.com/Guymer/PyGuymer3/issues"
+Funding = "https://github.com/sponsors/Guymer"
 
 [tool.setuptools_scm]
