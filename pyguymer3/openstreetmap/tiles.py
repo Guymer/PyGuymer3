@@ -123,8 +123,9 @@ def tiles(
 
     # **************************************************************************
 
-    # Create short-hand ...
+    # Create short-hands ...
     n = pow(2, zoom)
+    tileSize = scale * 256                                                      # [px]
 
     # Find which tile contains the location ...
     xtileC, ytileC = deg2num(lonC_deg, latC_deg, zoom)                          # [#], [#]
@@ -134,14 +135,14 @@ def tiles(
     # within a single tile) ...
     lonCW_deg, latCN_deg = num2deg(xtileC, ytileC, zoom)                        # [°], [°]
     lonCE_deg, latCS_deg = num2deg(xtileC + 1, ytileC + 1, zoom)                # [°], [°]
-    xoffset = int(256.0 * (lonCW_deg - lonC_deg) / (lonCW_deg - lonCE_deg))     # [px]
-    yoffset = int(256.0 * (latCN_deg - latC_deg) / (latCN_deg - latCS_deg))     # [px]
+    xoffset = int(float(tileSize) * (lonCW_deg - lonC_deg) / (lonCW_deg - lonCE_deg))   # [px]
+    yoffset = int(float(tileSize) * (latCN_deg - latC_deg) / (latCN_deg - latCS_deg))   # [px]
 
     # Find out where to start and finish the loops ...
-    xtileW = xtileC - (width // 2 // 256) - 1                                   # [#]
-    xtileE = xtileC + (width // 2 // 256) + 1                                   # [#]
-    ytileN = ytileC - (height // 2 // 256) - 1                                  # [#]
-    ytileS = ytileC + (height // 2 // 256) + 1                                  # [#]
+    xtileW = xtileC - (width // 2 // tileSize) - 1                              # [#]
+    xtileE = xtileC + (width // 2 // tileSize) + 1                              # [#]
+    ytileN = ytileC - (height // 2 // tileSize) - 1                             # [#]
+    ytileS = ytileC + (height // 2 // tileSize) + 1                             # [#]
 
     # **************************************************************************
 
@@ -159,12 +160,12 @@ def tiles(
     # Loop over columns ...
     for xtile in range(xtileW, xtileE + 1):
         # Find where to put the top-left corner of this tile ...
-        x = width // 2 - xoffset - (xtileC - xtile) * 256                       # [px]
+        x = width // 2 - xoffset - (xtileC - xtile) * tileSize                  # [px]
 
         # Loop over rows ...
         for ytile in range(ytileN, ytileS + 1):
             # Find where to put the top-left corner of this tile ...
-            y = height // 2 - yoffset - (ytileC - ytile) * 256                  # [px]
+            y = height // 2 - yoffset - (ytileC - ytile) * tileSize             # [px]
 
             # Obtain the tile ...
             tileIm = tile(

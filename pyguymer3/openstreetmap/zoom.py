@@ -42,8 +42,12 @@ def zoom(
     # Import sub-functions ...
     from ..consts import CIRCUMFERENCE_OF_EARTH
 
+    # Create short-hand ...
+    tileSize = scale * 256                                                      # [px]
+
+    # Calculate zoom ...
     lat_rad = math.radians(lat_deg)                                             # [rad]
-    zoomOfEarth = math.log2(CIRCUMFERENCE_OF_EARTH * math.cos(lat_rad) / (float(scale) * 256.0 * res))
+    zoomOfEarth = math.log2(CIRCUMFERENCE_OF_EARTH * math.cos(lat_rad) / (float(tileSize) * res))
 
     # Return answer ...
     return round(math.ceil(zoomOfEarth))

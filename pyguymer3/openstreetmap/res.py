@@ -43,9 +43,13 @@ def res(
     # Import sub-functions ...
     from ..consts import CIRCUMFERENCE_OF_EARTH
 
-    lat_rad = math.radians(lat_deg)                                             # [rad]
+    # Create short-hands ...
     n = pow(2, zoom)
-    resOfEarth = CIRCUMFERENCE_OF_EARTH * math.cos(lat_rad) / (float(scale) * 256.0 * n)    # [m/px]
+    tileSize = scale * 256                                                      # [px]
+
+    # Calculate resolution ...
+    lat_rad = math.radians(lat_deg)                                             # [rad]
+    resOfEarth = CIRCUMFERENCE_OF_EARTH * math.cos(lat_rad) / (float(tileSize) * n) # [m/px]
 
     # Return answer ...
     return resOfEarth
