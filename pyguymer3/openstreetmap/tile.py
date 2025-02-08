@@ -8,16 +8,18 @@ def tile(
     sess,
     /,
     *,
-       chunksize = 1048576,
-         cookies = None,
-           debug = __debug__,
-    exiftoolPath = None,
-    gifsiclePath = None,
-         headers = None,
-    jpegtranPath = None,
-     optipngPath = None,
-         timeout = 60.0,
-          verify = True,
+           chunksize = 1048576,
+             cookies = None,
+               debug = __debug__,
+        exiftoolPath = None,
+        gifsiclePath = None,
+             headers = None,
+        jpegtranPath = None,
+         optipngPath = None,
+               scale = 1,
+    thunderforestKey = None,
+             timeout = 60.0,
+              verify = True,
 ):
     """Fetch an OpenStreetMap tile
 
@@ -43,19 +45,24 @@ def tile(
     debug : bool, optional
         print debug messages
     exiftoolPath : str, optional
-        the path to the "exiftool" binary (if not provided then Python will attempt to
-        find the binary itself)
+        the path to the "exiftool" binary (if not provided then Python will
+        attempt to find the binary itself)
     gifsiclePath : str, optional
-        the path to the "gifsicle" binary (if not provided then Python will attempt to
-        find the binary itself)
+        the path to the "gifsicle" binary (if not provided then Python will
+        attempt to find the binary itself)
     headers : dict, optional
         extra headers for any requests calls
     jpegtranPath : str, optional
-        the path to the "jpegtran" binary (if not provided then Python will attempt to
-        find the binary itself)
+        the path to the "jpegtran" binary (if not provided then Python will
+        attempt to find the binary itself)
     optipngPath : str, optional
-        the path to the "optipng" binary (if not provided then Python will attempt to
-        find the binary itself)
+        the path to the "optipng" binary (if not provided then Python will
+        attempt to find the binary itself)
+    scale : int, optional
+        the scale of the tile
+    thunderforestKey : string, optional
+        your personal API key for the Thunderforest service (if provided then it
+        is assumed that you want to use the Thunderforest service)
     timeout : float, optional
         the timeout for any requests/subprocess calls (in seconds)
     verify : bool, optional
@@ -111,17 +118,21 @@ def tile(
 
     # **************************************************************************
 
-    # Deduce tile names ...
-    npy = os.path.expanduser(f"~/.local/share/cartopy_cache/OSM/{xtile:d}_{ytile:d}_{zoom:d}.npy")
-    png = os.path.expanduser(f"~/.local/share/openstreetmap/tiles/{zoom:d}/{xtile:d}/{ytile:d}.png")
+    # Deduce tile names and URL ...
+    # NOTE: See https://www.thunderforest.com/docs/map-tiles-api/
+    if thunderforestKey is not None:
+        npy = None
+        png = os.path.expanduser(f"~/.local/share/thunderforest/tiles/{scale:d}/{zoom:d}/{xtile:d}/{ytile:d}.png")
+        url = f"https://tile.thunderforest.com/atlas/{zoom:d}/{xtile:d}/{ytile:d}@{scale:d}x.png?apikey={thunderforestKey}"
+    else:
+        npy = os.path.expanduser(f"~/.local/share/cartopy_cache/OSM/{xtile:d}_{ytile:d}_{zoom:d}.npy")
+        png = os.path.expanduser(f"~/.local/share/openstreetmap/tiles/{zoom:d}/{xtile:d}/{ytile:d}.png")
+        url = f"https://tile.openstreetmap.org/{zoom:d}/{xtile:d}/{ytile:d}.png"
 
     # **************************************************************************
 
     # Check if the tile is missing ...
     if not os.path.exists(png):
-        # Deduce tile URL ...
-        url = f"https://tile.openstreetmap.org/{zoom:d}/{xtile:d}/{ytile:d}.png"
-
         if debug:
             print(f"INFO: Downloading \"{url}\" to \"{png}\" ...")
 
@@ -167,7 +178,7 @@ def tile(
     # **************************************************************************
 
     # Check if the tile is missing ...
-    if not os.path.exists(npy):
+    if npy is not None and not os.path.exists(npy):
         if debug:
             print(f"INFO: Making \"{npy}\" from \"{png}\" ...")
 
