@@ -123,7 +123,10 @@ def tile(
     if thunderforestKey is not None:
         npy = None
         png = os.path.expanduser(f"~/.local/share/thunderforest/tiles/{scale:d}/{zoom:d}/{xtile:d}/{ytile:d}.png")
-        url = f"https://tile.thunderforest.com/atlas/{zoom:d}/{xtile:d}/{ytile:d}@{scale:d}x.png?apikey={thunderforestKey}"
+        if scale == 1:
+            url = f"https://tile.thunderforest.com/atlas/{zoom:d}/{xtile:d}/{ytile:d}.png?apikey={thunderforestKey}"
+        else:
+            url = f"https://tile.thunderforest.com/atlas/{zoom:d}/{xtile:d}/{ytile:d}@{scale:d}x.png?apikey={thunderforestKey}"
     else:
         npy = os.path.expanduser(f"~/.local/share/cartopy_cache/OSM/{xtile:d}_{ytile:d}_{zoom:d}.npy")
         png = os.path.expanduser(f"~/.local/share/openstreetmap/tiles/{zoom:d}/{xtile:d}/{ytile:d}.png")
