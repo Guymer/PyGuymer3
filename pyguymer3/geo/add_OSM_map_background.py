@@ -8,6 +8,7 @@ def add_OSM_map_background(
     /,
     *,
     debug = __debug__,
+    scale = 1,
 ):
     """Add OpenStreetMap map tiles as a background to a Cartopy axis.
 
@@ -21,6 +22,8 @@ def add_OSM_map_background(
         the resolution of the figure (in m/px)
     debug : bool, optional
         print debug statements
+    scale : int, optional
+        the scale of the tiles
 
     Notes
     -----
@@ -53,7 +56,7 @@ def add_OSM_map_background(
 
     # Calculate the zoom depending on the central latitude and the resolution of
     # the figure ...
-    z = zoom(midLat, res)
+    z = zoom(midLat, res, scale = scale)
     if debug:
         print(f"INFO: The resolution is {0.001 * res:,.1f} km/px and the OpenStreetMap zoom is {z:d}.")
 

@@ -29,6 +29,7 @@ def create_map_of_points(
               repair = False,
           resolution = "10m",
     satellite_height = False,
+               scale = 1,
              timeout = 60.0,
                title = None,
                  tol = 1.0e-10,
@@ -101,6 +102,8 @@ def create_map_of_points(
     satellite_height : bool, optional
         if a distance is provided then use a "NearsidePerspective" projection at
         an altitude which has the same field-of-view as the distance
+    scale : int, optional
+        the scale of the tiles
     timeout : float, optional
         the timeout for any requests/subprocess calls (in seconds)
     title : str, optional
@@ -346,6 +349,7 @@ def create_map_of_points(
                 midLat,
                 res,
                 debug = debug,
+                scale = scale,
             )
         case _:
             # Crash ...
