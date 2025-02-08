@@ -5,6 +5,8 @@ def res(
     lat_deg,
     zoom,
     /,
+    *,
+    scale = 1,
 ):
     """
     Calculate the resolution in the centre of a tile at a given latitude and for
@@ -16,6 +18,8 @@ def res(
         the latitude (in degrees)
     zoom : int
         the zoom
+    scale : int, optional
+        the scale of the tile
 
     Returns
     -------
@@ -41,7 +45,7 @@ def res(
 
     lat_rad = math.radians(lat_deg)                                             # [rad]
     n = pow(2, zoom)
-    resOfEarth = CIRCUMFERENCE_OF_EARTH * math.cos(lat_rad) / (256.0 * n)       # [m/px]
+    resOfEarth = CIRCUMFERENCE_OF_EARTH * math.cos(lat_rad) / (float(scale) * 256.0 * n)    # [m/px]
 
     # Return answer ...
     return resOfEarth

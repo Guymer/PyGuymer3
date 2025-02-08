@@ -5,6 +5,8 @@ def zoom(
     lat_deg,
     res,
     /,
+    *,
+    scale = 1,
 ):
     """
     Calculate the required zoom to achieve a given resolution in the centre of a tile at a given latitude.
@@ -15,6 +17,8 @@ def zoom(
         the latitude (in degrees)
     res : float
         the resolution (in metres/pixel)
+    scale : int, optional
+        the scale of the tile
 
     Returns
     -------
@@ -39,7 +43,7 @@ def zoom(
     from ..consts import CIRCUMFERENCE_OF_EARTH
 
     lat_rad = math.radians(lat_deg)                                             # [rad]
-    zoomOfEarth = math.log2(CIRCUMFERENCE_OF_EARTH * math.cos(lat_rad) / (256.0 * res))
+    zoomOfEarth = math.log2(CIRCUMFERENCE_OF_EARTH * math.cos(lat_rad) / (float(scale) * 256.0 * res))
 
     # Return answer ...
     return round(math.ceil(zoomOfEarth))
