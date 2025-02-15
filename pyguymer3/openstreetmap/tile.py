@@ -18,6 +18,7 @@ def tile(
          optipngPath = None,
                scale = 1,
     thunderforestKey = None,
+    thunderforestMap = "atlas",
              timeout = 60.0,
               verify = True,
 ):
@@ -63,6 +64,8 @@ def tile(
     thunderforestKey : string, optional
         your personal API key for the Thunderforest service (if provided then it
         is assumed that you want to use the Thunderforest service)
+    thunderforestMap : string, optional
+        the Thunderforest map style (see https://www.thunderforest.com/maps/)
     timeout : float, optional
         the timeout for any requests/subprocess calls (in seconds)
     verify : bool, optional
@@ -122,11 +125,11 @@ def tile(
     # NOTE: See https://www.thunderforest.com/docs/map-tiles-api/
     if thunderforestKey is not None:
         npy = None
-        png = os.path.expanduser(f"~/.local/share/thunderforest/tiles/{scale:d}/{zoom:d}/{xtile:d}/{ytile:d}.png")
+        png = os.path.expanduser(f"~/.local/share/thunderforest/tiles/{thunderforestMap}/{scale:d}/{zoom:d}/{xtile:d}/{ytile:d}.png")
         if scale == 1:
-            url = f"https://tile.thunderforest.com/atlas/{zoom:d}/{xtile:d}/{ytile:d}.png?apikey={thunderforestKey}"
+            url = f"https://tile.thunderforest.com/{thunderforestMap}/{zoom:d}/{xtile:d}/{ytile:d}.png?apikey={thunderforestKey}"
         else:
-            url = f"https://tile.thunderforest.com/atlas/{zoom:d}/{xtile:d}/{ytile:d}@{scale:d}x.png?apikey={thunderforestKey}"
+            url = f"https://tile.thunderforest.com/{thunderforestMap}/{zoom:d}/{xtile:d}/{ytile:d}@{scale:d}x.png?apikey={thunderforestKey}"
     else:
         npy = os.path.expanduser(f"~/.local/share/cartopy_cache/OSM/{xtile:d}_{ytile:d}_{zoom:d}.npy")
         png = os.path.expanduser(f"~/.local/share/openstreetmap/tiles/{zoom:d}/{xtile:d}/{ytile:d}.png")

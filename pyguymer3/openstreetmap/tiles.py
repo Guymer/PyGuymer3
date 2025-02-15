@@ -23,6 +23,7 @@ def tiles(
               radius = None,
                scale = 1,
     thunderforestKey = None,
+    thunderforestMap = "atlas",
              timeout = 10.0,
               verify = True,
 ):
@@ -78,6 +79,8 @@ def tiles(
     thunderforestKey : string, optional
         your personal API key for the Thunderforest service (if provided then it
         is assumed that you want to use the Thunderforest service)
+    thunderforestMap : string, optional
+        the Thunderforest map style (see https://www.thunderforest.com/maps/)
     timeout : float, optional
         the timeout for any requests/subprocess calls (in seconds)
     verify : bool, optional
@@ -183,6 +186,7 @@ def tiles(
                      optipngPath = optipngPath,
                            scale = scale,
                 thunderforestKey = thunderforestKey,
+                thunderforestMap = thunderforestMap,
                          timeout = timeout,
                           verify = verify,
             )
