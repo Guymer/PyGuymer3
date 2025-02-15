@@ -64,7 +64,7 @@ def mer2ll_LinearRing(
     # Project from Longitudes/Latitudes to Mercator fractions in place
     # (including elevation) ...
     points[:, 0] = (points[:, 0] * 360.0) - 180.0                               # [°]
-    points[:, 1] = numpy.degrees(numpy.atan(numpy.sinh(numpy.pi * (1.0 - 2.0 * points[:, 1])))) # [°]
+    points[:, 1] = numpy.degrees(numpy.arctan(numpy.sinh(numpy.pi * (1.0 - 2.0 * points[:, 1])))) # [°]
 
     # Convert array of points to a LinearRing (ignoring elevation) ...
     ring2 = shapely.geometry.polygon.LinearRing(points[:, :2])

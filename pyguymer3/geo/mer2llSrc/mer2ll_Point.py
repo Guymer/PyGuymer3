@@ -64,7 +64,7 @@ def mer2ll_Point(
     # Project from Longitudes/Latitudes to Mercator fractions in place
     # (including elevation) ...
     points[:, 0] = (points[:, 0] * 360.0) - 180.0                               # [°]
-    points[:, 1] = numpy.degrees(numpy.atan(numpy.sinh(numpy.pi * (1.0 - 2.0 * points[:, 1])))) # [°]
+    points[:, 1] = numpy.degrees(numpy.arctan(numpy.sinh(numpy.pi * (1.0 - 2.0 * points[:, 1])))) # [°]
 
     # Convert array of points to a Point (ignoring elevation) ...
     point2 = shapely.geometry.point.Point(points[0, 0], points[0, 1])
