@@ -123,9 +123,6 @@ def create_image_of_points(
     .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
-    # Import standard modules ...
-    import math
-
     # Import special modules ...
     try:
         import numpy
@@ -150,6 +147,7 @@ def create_image_of_points(
     from .extract_polys import extract_polys
     from .great_circle import great_circle
     from .ll2mer import ll2mer
+    from .mer2ll import mer2ll
     from ..image import image2png
     from ..openstreetmap import tiles
 
@@ -159,15 +157,18 @@ def create_image_of_points(
     n = pow(2, zoom)
     nPnts = len(pntLons)                                                        # [#]
 
-    # Create a MultiPoint from the lists of longitudes and latitudes ...
-    pnts = []                                                                   # [°], [°]
+    # Create a [Multi]Point from the lists of longitudes and latitudes ...
+    pntsLonLat = []
     for pntLon, pntLat in zip(pntLons, pntLats):
-        pnts.append(shapely.geometry.point.Point(pntLon, pntLat))               # [°], [°]
-    pnts = shapely.geometry.multipoint.MultiPoint(pnts)
+        pntsLonLat.append(shapely.geometry.point.Point(pntLon, pntLat))
+    pntsLonLat = shapely.geometry.multipoint.MultiPoint(pntsLonLat)
+    if debug:
+        print(f"DEBUG: The points extend from {pntsLonLat.bounds[0]:+.6f}° to {pntsLonLat.bounds[2]:+.6f}° longitude.")
+        print(f"DEBUG: The points extend from {pntsLonLat.bounds[1]:+.6f}° to {pntsLonLat.bounds[3]:+.6f}° latitude.")
 
-    # Buffer the MultiPoint and clean up ...
-    polys = buffer(
-        pnts,
+    # Buffer the [Multi]Point ...
+    polysLonLat = buffer(
+        pntsLonLat,
         12.0 * 1852.0,
                 debug = debug,
                   eps = eps,
@@ -181,42 +182,34 @@ def create_image_of_points(
                  simp = -1.0,
                   tol = tol,
     )
-    del pnts
+    if debug:
+        print(f"DEBUG: The 12 NM buffer of the points extends from {polysLonLat.bounds[0]:+.6f}° to {polysLonLat.bounds[2]:+.6f}° longitude.")
+        print(f"DEBUG: The 12 NM buffer of the points extends from {polysLonLat.bounds[1]:+.6f}° to {polysLonLat.bounds[3]:+.6f}° latitude.")
 
-    # Find the bounds and middle of the buffer in the Mercator projection and
-    # clean up ...
-    pntMerXs = numpy.zeros(0, dtype = numpy.float64)                            # [°]
-    pntMerYs = numpy.zeros(0, dtype = numpy.float64)                            # [°]
-    for poly in extract_polys(
-        polys,
-        onlyValid = onlyValid,
-           repair = repair,
-    ):
-        coords = numpy.array(poly.exterior.coords)                              # [°]
-        pntMerXs = numpy.append(pntMerXs, coords[:, 0])                         # [°]
-        pntMerYs = numpy.append(pntMerYs, coords[:, 1])                         # [°]
-        del coords
-    del polys
-    pntMerXs = (pntMerXs + 180.0) / 360.0 * float(n)                            # [#]
-    pntMerYs = (1.0 - numpy.arcsinh(numpy.tan(numpy.radians(pntMerYs))) / numpy.pi) / 2.0 * float(n)    # [#]
-    minMerX = pntMerXs.min()                                                    # [°]
-    maxMerX = pntMerXs.max()                                                    # [°]
-    minMerY = pntMerYs.min()                                                    # [°]
-    maxMerY = pntMerYs.max()                                                    # [°]
-    del pntMerXs, pntMerYs
+    # Convert [Multi]Polygon to the Mercator projection and create short-hands ...
+    polysMer = ll2mer(polysLonLat)
+    if debug:
+        print(f"DEBUG: The Mercator projection of the 12 NM buffer of the points extends from {polysMer.bounds[0]:.6f} to {polysMer.bounds[2]:.6f} in the x-axis of the Mercator projection.")
+        print(f"DEBUG: The Mercator projection of the 12 NM buffer of the points extends from {polysMer.bounds[1]:.6f} to {polysMer.bounds[3]:.6f} in the y-axis of the Mercator projection.")
+    minMerX, minMerY, maxMerX, maxMerY = polysMer.bounds                        # [#]
     midMerX = 0.5 * (minMerX + maxMerX)                                         # [°]
     midMerY = 0.5 * (minMerY + maxMerY)                                         # [°]
+    if debug:
+        print(f"DEBUG: The middle of the Mercator projection of the 12 NM buffer of the points is at ({midMerX:.6f}, {midMerY:.6f}) in the Mercator projection.")
 
     # Convert the middle from Mercator projection back in to longitude and
     # latitude ...
-    midLon = midMerX / float(n) * 360.0 - 180.0                                 # [°]
-    midLat = math.degrees(math.atan(math.sinh(math.pi * (1.0 - 2.0 * midMerY / float(n))))) # [°]
+    midLon, midLat = mer2ll(shapely.geometry.point.Point(midMerX, midMerY)).coords[0]   # [°], [°]
+    if debug:
+        print(f"DEBUG: The middle of the Mercator projection of the 12 NM buffer of the points is at ({midLon:+.6f}°, {midLat:+.6f}°).")
 
     # Calculate the size of the image ...
-    imgWidth = (maxMerX - minMerX) * float(scale * 256)                         # [px]
-    imgHeight = (maxMerY - minMerY) * float(scale * 256)                        # [px]
+    imgWidth = (maxMerX - minMerX) * float(n * scale * 256)                     # [px]
+    imgHeight = (maxMerY - minMerY) * float(n * scale * 256)                    # [px]
     imgWidth = 2 * round(imgWidth / 2.0)                                        # [px]
     imgHeight = 2 * round(imgHeight / 2.0)                                      # [px]
+    if debug:
+        print(f"DEBUG: The image is {imgWidth:,d} px × {imgHeight:,d} px.")
 
     # Make the image ...
     img = tiles(
@@ -245,29 +238,35 @@ def create_image_of_points(
     )
 
     # Create short-hands ...
-    midImgX = float(imgWidth // 2)                                              # [px]
-    midImgY = float(imgHeight // 2)                                             # [px]
+    midImgX = imgWidth // 2                                                     # [px]
+    midImgY = imgHeight // 2                                                    # [px]
+    if debug:
+        print(f"DEBUG: The middle of the image image is at ({midImgX:,d} px, {midImgY:,d} px).")
 
     # Draw the points ...
     draw = PIL.ImageDraw.Draw(img, "RGBA")
     for pntLon, pntLat in zip(pntLons, pntLats):
-        pntMerX = (pntLon + 180.0) / 360.0 * float(n)                           # [#]
-        pntMerY = (1.0 - math.asinh(math.tan(math.radians(pntLat))) / math.pi) / 2.0 * float(n) # [#]
+        pntMerX, pntMerY = ll2mer(shapely.geometry.point.Point(pntLon, pntLat)).coords[0]   # [#], [#]
         difMerX = pntMerX - midMerX                                             # [#]
         difMerY = pntMerY - midMerY                                             # [#]
-        difImgX = difMerX * float(scale * 256)                                  # [px]
-        difImgY = difMerY * float(scale * 256)                                  # [px]
-        pntImgX = midImgX + difImgX                                             # [px]
-        pntImgY = midImgY + difImgY                                             # [px]
+        difImgX = difMerX * float(n * scale * 256)                              # [px]
+        difImgY = difMerY * float(n * scale * 256)                              # [px]
+        pntImgX = float(midImgX) + difImgX                                      # [px]
+        pntImgY = float(midImgY) + difImgY                                      # [px]
         draw.ellipse(
-            [pntImgX - 10.0, pntImgY - 10.0, pntImgX + 10.0, pntImgY + 10.0],
+            [
+                pntImgX - 10.0,
+                pntImgY - 10.0,
+                pntImgX + 10.0,
+                pntImgY + 10.0,
+            ],
             fill = fill,
         )
 
     # Loop over locations ...
     for iPnt in range(nPnts - 1):
         # Find the great circle ...
-        circle = great_circle(
+        circleLonLat = great_circle(
             pntLons[iPnt],
             pntLats[iPnt],
             pntLons[iPnt + 1],
@@ -281,34 +280,22 @@ def create_image_of_points(
             ramLimit = ramLimit,
         )
 
-        # Loop over lines in the great circle ...
-        for line in extract_lines(circle, onlyValid = onlyValid):
-            # Make arrays of the points in the Mercator projection ...
-            coordsMer = []                                                      # [#], [#]
-            for coord in line.coords:
-                coordsMer.append(ll2mer(coord[0], coord[1]))                    # [#], [#]
-            coordsMerX, coordsMerY = zip(*coordsMer)                            # [#], [#]
-            del coordsMer
-            coordsMerX = numpy.array(coordsMerX)                                # [#], [#]
-            coordsMerY = numpy.array(coordsMerY)                                # [#], [#]
-            coordsMerX *= float(n)                                              # [#], [#]
-            coordsMerY *= float(n)                                              # [#], [#]
+        # Loop over LineStrings in the great circle ...
+        for lineLonLat in extract_lines(circleLonLat, onlyValid = onlyValid):
+            # Convert LineString to the Mercator projection ...
+            lineMer = ll2mer(lineLonLat)
 
-            # Make an array of the points in the image and clean up ...
-            coordsImgX = midImgX + (coordsMerX - midMerX) * float(scale * 256)  # [px], [px]
-            coordsImgY = midImgY + (coordsMerY - midMerY) * float(scale * 256)  # [px], [px]
-            del coordsMerX, coordsMerY
+            # Convert LineString to the image projection ...
+            coordsMer = numpy.array(lineMer.coords)                             # [#]
+            coordsImgX = float(midImgX) + (coordsMer[:, 0] - midMerX) * float(n * scale * 256)  # [px]
+            coordsImgY = float(midImgY) + (coordsMer[:, 1] - midMerY) * float(n * scale * 256)  # [px]
 
-            # Draw the line and clean up ...
+            # Draw the line ...
             draw.line(
                 list(zip(coordsImgX, coordsImgY)),
                  fill = fill,
                 width = 4,
             )
-            del coordsImgX, coordsImgY
-
-        # Clean up ...
-        del circle
 
     # Save map ...
     image2png(
