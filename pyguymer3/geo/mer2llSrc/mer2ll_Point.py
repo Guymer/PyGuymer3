@@ -37,19 +37,7 @@ def mer2ll_Point(
     .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
-    # Import standard modules ...
-    import os
-
     # Import special modules ...
-    try:
-        import cartopy
-        cartopy.config.update(
-            {
-                "cache_dir" : os.path.expanduser("~/.local/share/cartopy_cache"),
-            }
-        )
-    except:
-        raise Exception("\"cartopy\" is not installed; run \"pip install --user Cartopy\"") from None
     try:
         import numpy
     except:
@@ -71,21 +59,20 @@ def mer2ll_Point(
         check(point1, prefix = prefix)
 
     # Convert the Point to a NumPy array ...
-    points1 = numpy.array(point1.coords)                                        # [m]
+    points = numpy.array(point1.coords)
 
-    # Project from Mercator fractions to Longitudes/Latitudes ...
-    points2 = cartopy.crs.Geodetic().transform_points(cartopy.crs.Mercator(), points1[:, 0], points1[:, 1]) # [°]
-
-    # Clean up ...
-    del points1
+    # Project from Longitudes/Latitudes to Mercator fractions in place
+    # (including elevation) ...
+    points[:, 0] = (points[:, 0] * 360.0) - 180.0                               # [°]
+    points[:, 1] = numpy.degrees(numpy.atan(numpy.sinh(numpy.pi * (1.0 - 2.0 * points[:, 1])))) # [°]
 
     # Convert array of points to a Point (ignoring elevation) ...
-    point2 = shapely.geometry.point.Point(points2[0, 0], points2[0, 1])
+    point2 = shapely.geometry.point.Point(points[0, 0], points[0, 1])
     if debug:
         check(point2, prefix = prefix)
 
     # Clean up ...
-    del points2
+    del points
 
     # Return answer ...
     return point2

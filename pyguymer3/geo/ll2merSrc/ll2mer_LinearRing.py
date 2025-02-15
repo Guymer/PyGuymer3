@@ -37,19 +37,7 @@ def ll2mer_LinearRing(
     .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
-    # Import standard modules ...
-    import os
-
     # Import special modules ...
-    try:
-        import cartopy
-        cartopy.config.update(
-            {
-                "cache_dir" : os.path.expanduser("~/.local/share/cartopy_cache"),
-            }
-        )
-    except:
-        raise Exception("\"cartopy\" is not installed; run \"pip install --user Cartopy\"") from None
     try:
         import numpy
     except:
@@ -70,22 +58,21 @@ def ll2mer_LinearRing(
     if debug:
         check(ring1, prefix = prefix)
 
-    # Convert the LinearRing to a NumPy array ...
-    points1 = numpy.array(ring1.coords)                                         # [m]
+    # Convert the Point to a NumPy array ...
+    points = numpy.array(ring1.coords)
 
-    # Project from Longitudes/Latitudes to Mercator fractions ...
-    points2 = cartopy.crs.Mercator().transform_points(cartopy.crs.Geodetic(), points1[:, 0], points1[:, 1]) # [°]
-
-    # Clean up ...
-    del points1
+    # Project from Longitudes/Latitudes to Mercator fractions in place
+    # (including elevation) ...
+    points[:, 0] = (points[:, 0] + 180.0) / 360.0
+    points[:, 1] = (1.0 - numpy.arcsinh(numpy.tan(numpy.radians(points[:, 1]))) / numpy.pi) / 2.0
 
     # Convert array of points to a LinearRing (ignoring elevation) ...
-    ring2 = shapely.geometry.polygon.LinearRing(points2[:, :2])
+    ring2 = shapely.geometry.polygon.LinearRing(points[:, :2])
     if debug:
         check(ring2, prefix = prefix)
 
     # Clean up ...
-    del points2
+    del points
 
     # Return answer ...
     return ring2
