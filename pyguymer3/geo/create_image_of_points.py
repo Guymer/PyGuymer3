@@ -25,7 +25,6 @@ def create_image_of_points(
          optipngPath = None,
               prefix = ".",
             ramLimit = 1073741824,
-              repair = False,
                scale = 1,
     thunderforestKey = None,
     thunderforestMap = "atlas",
@@ -93,8 +92,6 @@ def create_image_of_points(
         change the name of the output debugging CSVs
     ramLimit : int, optional
         the maximum RAM usage of each "large" array (in bytes)
-    repair : bool, optional
-        attempt to repair invalid Polygons
     resolution : str, optional
         the resolution of the image or NE dataset or GSHHG dataset
     satellite_height : bool, optional
@@ -144,7 +141,6 @@ def create_image_of_points(
     # Import sub-functions ...
     from .buffer import buffer
     from .extract_lines import extract_lines
-    from .extract_polys import extract_polys
     from .great_circle import great_circle
     from .ll2mer import ll2mer
     from .mer2ll import mer2ll
