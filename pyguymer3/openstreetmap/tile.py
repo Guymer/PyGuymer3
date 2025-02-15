@@ -125,7 +125,7 @@ def tile(
     # NOTE: See https://www.thunderforest.com/docs/map-tiles-api/
     if thunderforestKey is not None:
         npy = None
-        png = os.path.expanduser(f"~/.local/share/thunderforest/tiles/{thunderforestMap}/{scale:d}/{zoom:d}/{xtile:d}/{ytile:d}.png")
+        png = os.path.expanduser(f"~/.local/share/thunderforest/tiles/map={thunderforestMap}/scale={scale:d}/zoom={zoom:d}/x={xtile:d}/y={ytile:d}.png")
         if scale == 1:
             url = f"https://tile.thunderforest.com/{thunderforestMap}/{zoom:d}/{xtile:d}/{ytile:d}.png?apikey={thunderforestKey}"
         else:
