@@ -120,19 +120,3 @@ def mer2ll(
 
     # Crash ...
     raise TypeError(f"\"shape1\" is an unexpected type ({repr(type(shape1))})") from None
-
-# Define function ...
-# def mer2ll(
-#     merX,
-#     merY,
-#     /,
-# ):
-#     # Improt standard modules ...
-#     import math
-#
-#     # Calculate values ...
-#     lon = merX * 360.0 - 180.0                                                  # [°]
-#     lat = math.degrees(math.atan(math.sinh(math.pi * (1.0 - 2.0 * merY))))      # [°]
-#
-#     # Return answer ...
-#     return lon, lat
