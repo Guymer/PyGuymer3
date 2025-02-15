@@ -183,7 +183,12 @@ def create_image_of_points(
         print(f"DEBUG: The 12 NM buffer of the points extends from {polysLonLat.bounds[1]:+.6f}° to {polysLonLat.bounds[3]:+.6f}° latitude.")
 
     # Convert [Multi]Polygon to the Mercator projection and create short-hands ...
-    polysMer = ll2mer(polysLonLat)
+    polysMer = ll2mer(
+        polysLonLat,
+         debug = debug,
+        prefix = prefix,
+           tol = tol,
+    )
     if debug:
         print(f"DEBUG: The Mercator projection of the 12 NM buffer of the points extends from {polysMer.bounds[0]:.6f} to {polysMer.bounds[2]:.6f} in the x-axis of the Mercator projection.")
         print(f"DEBUG: The Mercator projection of the 12 NM buffer of the points extends from {polysMer.bounds[1]:.6f} to {polysMer.bounds[3]:.6f} in the y-axis of the Mercator projection.")
@@ -195,7 +200,12 @@ def create_image_of_points(
 
     # Convert the middle from Mercator projection back in to longitude and
     # latitude ...
-    midLon, midLat = mer2ll(shapely.geometry.point.Point(midMerX, midMerY)).coords[0]   # [°], [°]
+    midLon, midLat = mer2ll(
+        shapely.geometry.point.Point(midMerX, midMerY),
+         debug = debug,
+        prefix = prefix,
+           tol = tol,
+    ).coords[0]                                                                 # [°], [°]
     if debug:
         print(f"DEBUG: The middle of the Mercator projection of the 12 NM buffer of the points is at ({midLon:+.6f}°, {midLat:+.6f}°).")
 
@@ -242,7 +252,12 @@ def create_image_of_points(
     # Draw the points ...
     draw = PIL.ImageDraw.Draw(img, "RGBA")
     for pntLon, pntLat in zip(pntLons, pntLats):
-        pntMerX, pntMerY = ll2mer(shapely.geometry.point.Point(pntLon, pntLat)).coords[0]   # [#], [#]
+        pntMerX, pntMerY = ll2mer(
+            shapely.geometry.point.Point(pntLon, pntLat),
+             debug = debug,
+            prefix = prefix,
+               tol = tol,
+        ).coords[0]                                                             # [#], [#]
         difMerX = pntMerX - midMerX                                             # [#]
         difMerY = pntMerY - midMerY                                             # [#]
         difImgX = difMerX * float(n * scale * 256)                              # [px]
@@ -279,7 +294,12 @@ def create_image_of_points(
         # Loop over LineStrings in the great circle ...
         for lineLonLat in extract_lines(circleLonLat, onlyValid = onlyValid):
             # Convert LineString to the Mercator projection ...
-            lineMer = ll2mer(lineLonLat)
+            lineMer = ll2mer(
+                lineLonLat,
+                 debug = debug,
+                prefix = prefix,
+                   tol = tol,
+            )
 
             # Convert LineString to the image projection ...
             coordsMer = numpy.array(lineMer.coords)                             # [#]
