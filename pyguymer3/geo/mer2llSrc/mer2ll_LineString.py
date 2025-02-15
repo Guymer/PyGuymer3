@@ -1,23 +1,23 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def en2ll_LinearRing(
-    ring1,
+def mer2ll_LineString(
+    line1,
     /,
     *,
-    debug = __debug__,
+     debug = __debug__,
     prefix = ".",
 ):
-    """Transform a LinearRing from Eastings/Northings to Longitudes/Latitudes
+    """Transform a LineString from Mercator fractions to Longitudes/Latitudes
 
-    This function reads in a LinearRing whose coordinates are Eastings/Northings
-    on the Ordnance Survey National Grid and returns a LinearRing whose
-    coordinates are Longitudes/Latitudes.
+    This function reads in a LineString whose coordinates are fractions on the
+    Mercator projection and returns a LineString whose coordinates are
+    Longitudes/Latitudes.
 
     Parameters
     ----------
-    ring1 : shapely.geometry.polygon.LinearRing
-        the LinearRing
+    line1 : shapely.geometry.linestring.LineString
+        the LineString
     debug : bool, optional
         print debug messages
     prefix : str, optional
@@ -25,8 +25,8 @@ def en2ll_LinearRing(
 
     Returns
     -------
-    ring2 : shapely.geometry.polygon.LinearRing
-        the transformed LinearRing
+    line2 : shapely.geometry.linestring.LineString
+        the transformed LineString
 
     Notes
     -----
@@ -66,26 +66,26 @@ def en2ll_LinearRing(
     # **************************************************************************
 
     # Check argument ...
-    assert isinstance(ring1, shapely.geometry.polygon.LinearRing), "\"ring1\" is not a LinearRing"
+    assert isinstance(line1, shapely.geometry.linestring.LineString), "\"line1\" is not a LineString"
     if debug:
-        check(ring1, prefix = prefix)
+        check(line1, prefix = prefix)
 
-    # Convert the LinearRing to a NumPy array ...
-    points1 = numpy.array(ring1.coords)                                         # [m]
+    # Convert the LineString to a NumPy array ...
+    points1 = numpy.array(line1.coords)                                         # [m]
 
-    # Project from Eastings/Northings to Longitudes/Latitudes ...
-    points2 = cartopy.crs.Geodetic().transform_points(cartopy.crs.OSGB(), points1[:, 0], points1[:, 1]) # [°]
+    # Project from Mercator fractions to Longitudes/Latitudes ...
+    points2 = cartopy.crs.Geodetic().transform_points(cartopy.crs.Mercator(), points1[:, 0], points1[:, 1]) # [°]
 
     # Clean up ...
     del points1
 
-    # Convert array of points to a LinearRing (ignoring elevation) ...
-    ring2 = shapely.geometry.polygon.LinearRing(points2[:, :2])
+    # Convert array of points to a LineString (ignoring elevation) ...
+    line2 = shapely.geometry.linestring.LineString(points2[:, :2])
     if debug:
-        check(ring2, prefix = prefix)
+        check(line2, prefix = prefix)
 
     # Clean up ...
     del points2
 
     # Return answer ...
-    return ring2
+    return line2

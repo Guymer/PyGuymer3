@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def en2ll_LinearRing(
+def mer2ll_LinearRing(
     ring1,
     /,
     *,
-    debug = __debug__,
+     debug = __debug__,
     prefix = ".",
 ):
-    """Transform a LinearRing from Eastings/Northings to Longitudes/Latitudes
+    """Transform a LinearRing from Mercator fractions to Longitudes/Latitudes
 
-    This function reads in a LinearRing whose coordinates are Eastings/Northings
-    on the Ordnance Survey National Grid and returns a LinearRing whose
-    coordinates are Longitudes/Latitudes.
+    This function reads in a LinearRing whose coordinates are fractions on the
+    Mercator projection and returns a LinearRing whose coordinates are
+    Longitudes/Latitudes.
 
     Parameters
     ----------
@@ -73,8 +73,8 @@ def en2ll_LinearRing(
     # Convert the LinearRing to a NumPy array ...
     points1 = numpy.array(ring1.coords)                                         # [m]
 
-    # Project from Eastings/Northings to Longitudes/Latitudes ...
-    points2 = cartopy.crs.Geodetic().transform_points(cartopy.crs.OSGB(), points1[:, 0], points1[:, 1]) # [°]
+    # Project from Mercator fractions to Longitudes/Latitudes ...
+    points2 = cartopy.crs.Geodetic().transform_points(cartopy.crs.Mercator(), points1[:, 0], points1[:, 1]) # [°]
 
     # Clean up ...
     del points1
