@@ -88,15 +88,27 @@ def EXIF_datetime(
                 match len(info["EXIF"]["SubSecTimeOriginal"]):
                     case 1:
                         ans += datetime.timedelta(
-                            milliseconds = int(100 * info["EXIF"]["SubSecTimeOriginal"]),
+                            microseconds = 100000 * int(info["EXIF"]["SubSecTimeOriginal"]),
                         )
                     case 2:
                         ans += datetime.timedelta(
-                            milliseconds = int(10 * info["EXIF"]["SubSecTimeOriginal"]),
+                            microseconds = 10000 * int(info["EXIF"]["SubSecTimeOriginal"]),
                         )
                     case 3:
                         ans += datetime.timedelta(
-                            milliseconds = int(info["EXIF"]["SubSecTimeOriginal"]),
+                            microseconds = 1000 * int(info["EXIF"]["SubSecTimeOriginal"]),
+                        )
+                    case 4:
+                        ans += datetime.timedelta(
+                            microseconds = 100 * int(info["EXIF"]["SubSecTimeOriginal"]),
+                        )
+                    case 5:
+                        ans += datetime.timedelta(
+                            microseconds = 10 * int(info["EXIF"]["SubSecTimeOriginal"]),
+                        )
+                    case 6:
+                        ans += datetime.timedelta(
+                            microseconds = int(info["EXIF"]["SubSecTimeOriginal"]),
                         )
                     case _:
                         raise Exception(f'\"{info["EXIF"]["SubSecTimeOriginal"]}\" is an unexpected length') from None
