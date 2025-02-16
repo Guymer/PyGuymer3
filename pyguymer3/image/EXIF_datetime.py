@@ -20,8 +20,11 @@ def EXIF_datetime(
     # Import standard modules ...
     import datetime
 
-    # Perform some basic checks ...
-    assert "EXIF" in info
+    # Check input ...
+    if "EXIF" not in info:
+        if debug:
+            print("DEBUG: There isn't a \"EXIF\" key.")
+        return False
 
     # If GPS data is present then is the DOP good enough to use the date/time
     # information ...
@@ -49,8 +52,11 @@ def EXIF_datetime(
         if ans.microsecond != 0:
             raise Exception("the GPS data has sub-second information, this is not possible given the strptime() string") from None
     else:
-        # Perform some basic checks ...
-        assert "DateTimeOriginal" in info["EXIF"]
+        # Check input ...
+        if "DateTimeOriginal" not in info["EXIF"]:
+            if debug:
+                print("DEBUG: There isn't a \"EXIF::DateTimeOriginal\" key.")
+            return False
 
         # Determine date/time that the photo was taken (assuming that the EXIF
         # data is in UTC) ...
@@ -75,7 +81,7 @@ def EXIF_datetime(
                 hours = int(info["EXIF"]["TimeZoneOffset"].split(" ")[0]),
             )
         elif debug:
-            print("DEBUG: There isn't a \"OffsetTimeOriginal\" key or a \"TimeZoneOffset\" key.")
+            print("DEBUG: There isn't a \"EXIF::OffsetTimeOriginal\" key or a \"EXIF::TimeZoneOffset\" key.")
 
     # Apply the sub-second offset (if it is present) ...
     if "SubSecTimeOriginal" in info["EXIF"]:
@@ -115,7 +121,7 @@ def EXIF_datetime(
             case _:
                 raise Exception(f'\"{repr(type(info["EXIF"]["SubSecTimeOriginal"]))}\" is an unexpected type') from None
     elif debug:
-        print("DEBUG: There isn't a \"SubSecTimeOriginal\" key.")
+        print("DEBUG: There isn't a \"EXIF::SubSecTimeOriginal\" key.")
 
     # Return answer ...
     return ans
