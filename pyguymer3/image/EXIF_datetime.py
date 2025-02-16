@@ -13,35 +13,15 @@ def EXIF_datetime(
     #       bad DOP values:
     #         * https://en.wikipedia.org/wiki/Dilution_of_precision_(navigation)
 
+    # NOTE: It is assumed that the dictionary of EXIF data is parsed from
+    #       "exiftool". There is a handy table on what all the keys are:
+    #         * https://exiftool.org/TagNames/EXIF.html
+
     # Import standard modules ...
     import datetime
 
     # Perform some basic checks ...
     assert "EXIF" in info
-    assert "DateTimeOriginal" in info["EXIF"]
-
-    # Check that all the date/time information is identical (so it doesn't
-    # matter which key we use later) ...
-    if "DateTime" in info["EXIF"]:
-        assert info["EXIF"]["DateTimeOriginal"] == info["EXIF"]["DateTime"]
-    if "DateTimeDigitized" in info["EXIF"]:
-        assert info["EXIF"]["DateTimeOriginal"] == info["EXIF"]["DateTimeDigitized"]
-
-    # Check that all the time zone information is identical (so it doesn't
-    # matter which key we use later) ...
-    if "OffsetTimeOriginal" in info["EXIF"]:
-        if "OffsetTime" in info["EXIF"]:
-            assert info["EXIF"]["OffsetTimeOriginal"] == info["EXIF"]["OffsetTime"]
-        if "OffsetTimeDigitized" in info["EXIF"]:
-            assert info["EXIF"]["OffsetTimeOriginal"] == info["EXIF"]["OffsetTimeDigitized"]
-
-    # Check that all the sub-second information is identical (so it doesn't
-    # matter which key we use later) ...
-    if "SubSecTimeOriginal" in info["EXIF"]:
-        if "SubSecTime" in info["EXIF"]:
-            assert info["EXIF"]["SubSecTimeOriginal"] == info["EXIF"]["SubSecTime"]
-        if "SubSecTimeDigitized" in info["EXIF"]:
-            assert info["EXIF"]["SubSecTimeOriginal"] == info["EXIF"]["SubSecTimeDigitized"]
 
     # If GPS data is present then is the DOP good enough to use the date/time
     # information ...
@@ -69,6 +49,9 @@ def EXIF_datetime(
         if ans.microsecond != 0:
             raise Exception("the GPS data has sub-second information, this is not possible given the strptime() string") from None
     else:
+        # Perform some basic checks ...
+        assert "DateTimeOriginal" in info["EXIF"]
+
         # Determine date/time that the photo was taken (assuming that the EXIF
         # data is in UTC) ...
         ans = datetime.datetime.strptime(
@@ -88,14 +71,6 @@ def EXIF_datetime(
                     minutes = int(mm),
                 )
         elif "TimeZoneOffset" in info["EXIF"]:
-            # NOTE: According to ISO/DIS 12234-2, the two values of the
-            #       "TimeZoneOffset" key are:
-            #         * Time Zone Offset (in hours) of DateTimeOriginal tag
-            #           value relative to Greenwich Mean Time.
-            #         * If present, Time Zone Offset (in hours) of DateTime tag
-            #           value relative to Greenwich Mean Time.
-            #       The Internet Archive has an old copy:
-            #         * https://web.archive.org/web/20050109201514/http://www.broomscloset.com/closet/photo/exif/TAG2000-22_DIS12234-2.PDF
             ans -= datetime.timedelta(
                 hours = int(info["EXIF"]["TimeZoneOffset"].split(" ")[0]),
             )
