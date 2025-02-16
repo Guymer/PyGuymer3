@@ -87,6 +87,20 @@ def EXIF_datetime(
                       hours = int(hh),
                     minutes = int(mm),
                 )
+        elif "TimeZoneOffset" in info["EXIF"]:
+            # NOTE: According to ISO/DIS 12234-2, the two values of the
+            #       "TimeZoneOffset" key are:
+            #         * Time Zone Offset (in hours) of DateTimeOriginal tag
+            #           value relative to Greenwich Mean Time.
+            #         * If present, Time Zone Offset (in hours) of DateTime tag
+            #           value relative to Greenwich Mean Time.
+            #       The Internet Archive has an old copy:
+            #         * https://web.archive.org/web/20050109201514/http://www.broomscloset.com/closet/photo/exif/TAG2000-22_DIS12234-2.PDF
+            ans -= datetime.timedelta(
+                hours = int(info["EXIF"]["TimeZoneOffset"].split(" ")[0]),
+            )
+        elif debug:
+            print("DEBUG: There isn't a \"OffsetTimeOriginal\" key or a \"TimeZoneOffset\" key.")
 
     # Apply the sub-second offset (if it is present) ...
     if "SubSecTimeOriginal" in info["EXIF"]:
@@ -105,6 +119,8 @@ def EXIF_datetime(
                 )
             case _:
                 raise Exception(f'\"{info["EXIF"]["SubSecTimeOriginal"]}\" is an unexpected length') from None
+    elif debug:
+        print("DEBUG: There isn't a \"SubSecTimeOriginal\" key.")
 
     # Return answer ...
     return ans
