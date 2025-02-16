@@ -104,21 +104,29 @@ def EXIF_datetime(
 
     # Apply the sub-second offset (if it is present) ...
     if "SubSecTimeOriginal" in info["EXIF"]:
-        match len(info["EXIF"]["SubSecTimeOriginal"]):
-            case 1:
+        match info["EXIF"]["SubSecTimeOriginal"]:
+            case int():
                 ans += datetime.timedelta(
-                    milliseconds = int(100 * info["EXIF"]["SubSecTimeOriginal"]),
+                    milliseconds = info["EXIF"]["SubSecTimeOriginal"],
                 )
-            case 2:
-                ans += datetime.timedelta(
-                    milliseconds = int(10 * info["EXIF"]["SubSecTimeOriginal"]),
-                )
-            case 3:
-                ans += datetime.timedelta(
-                    milliseconds = int(info["EXIF"]["SubSecTimeOriginal"]),
-                )
+            case str():
+                match len(info["EXIF"]["SubSecTimeOriginal"]):
+                    case 1:
+                        ans += datetime.timedelta(
+                            milliseconds = int(100 * info["EXIF"]["SubSecTimeOriginal"]),
+                        )
+                    case 2:
+                        ans += datetime.timedelta(
+                            milliseconds = int(10 * info["EXIF"]["SubSecTimeOriginal"]),
+                        )
+                    case 3:
+                        ans += datetime.timedelta(
+                            milliseconds = int(info["EXIF"]["SubSecTimeOriginal"]),
+                        )
+                    case _:
+                        raise Exception(f'\"{info["EXIF"]["SubSecTimeOriginal"]}\" is an unexpected length') from None
             case _:
-                raise Exception(f'\"{info["EXIF"]["SubSecTimeOriginal"]}\" is an unexpected length') from None
+                raise Exception(f'\"{repr(type(info["EXIF"]["SubSecTimeOriginal"]))}\" is an unexpected type') from None
     elif debug:
         print("DEBUG: There isn't a \"SubSecTimeOriginal\" key.")
 
