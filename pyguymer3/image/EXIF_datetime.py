@@ -45,12 +45,14 @@ def EXIF_datetime(
     if goodDOP:
         # Determine date/time that the photo was taken (assuming that the GPS
         # data is in UTC) ...
+        us = 0                                                                  # [μs]
+        if "." in info["EXIF"]["GPSTimeStamp"]:
+            us = info["EXIF"]["GPSTimeStamp"].split(".")[1]
+            us = int(f"{us:<6s}".replace(" ", "0"))                             # [μs]
         ans = datetime.datetime.strptime(
-            f'{info["EXIF"]["GPSDateStamp"]} {info["EXIF"]["GPSTimeStamp"]}',
-            "%Y:%m:%d %H:%M:%S",
+            f'{info["EXIF"]["GPSDateStamp"]} {info["EXIF"]["GPSTimeStamp"].split(".")[0]}.{us:06d}',
+            "%Y:%m:%d %H:%M:%S.%f",
         ).replace(tzinfo = datetime.UTC)
-        if ans.microsecond != 0:
-            raise Exception("the GPS data has sub-second information, this is not possible given the strptime() string") from None
     else:
         # Check input ...
         if "DateTimeOriginal" not in info["EXIF"]:
@@ -83,8 +85,9 @@ def EXIF_datetime(
         elif debug:
             print("DEBUG: There isn't a \"EXIF::OffsetTimeOriginal\" key or a \"EXIF::TimeZoneOffset\" key.")
 
-    # Apply the sub-second offset (if it is present) ...
-    if "SubSecTimeOriginal" in info["EXIF"]:
+    # Apply the sub-second offset (if GPS data was not used and if it is
+    # present) ...
+    if ans.microsecond == 0 and "SubSecTimeOriginal" in info["EXIF"]:
         match info["EXIF"]["SubSecTimeOriginal"]:
             case int():
                 ans += datetime.timedelta(
