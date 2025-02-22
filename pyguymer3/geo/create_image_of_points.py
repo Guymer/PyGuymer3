@@ -23,6 +23,7 @@ def create_image_of_points(
                nIter = 100,
            onlyValid = False,
          optipngPath = None,
+             padDist = 12.0 * 1852.0,
               prefix = ".",
             ramLimit = 1073741824,
                scale = 1,
@@ -39,22 +40,22 @@ def create_image_of_points(
 
     Parameters
     ----------
-    lons : numpy.ndarray
+    pntLons : numpy.ndarray
         the sequence of longitudes
-    lats : numpy.ndarray
+    pntLats : numpy.ndarray
         the sequence of latitudes
+    zoom : int
+        the OpenStreetMap zoom level
+    sess : requests.Session
+        the session for any requests calls
     pngOut : str
         the name of the output PNG
-    angConv : float, optional
-        the angle change which classifies as converged (in degrees)
-    background : str, optional
-        the type of background to add (recognised values are: "GSHHG"; "image";
-        "NE"; "none"; and "OSM")
+    background : tuple of int, optional
+        the background colour of the merged tile
     chunksize : int, optional
         the size of the chunks of any files which are read in (in bytes)
-    conv : float, optional
-        the Geodesic distance that defines the middle as being converged (in
-        metres)
+    cookies : dict, optional
+        extra cookies for any requests calls
     debug : bool, optional
         print debug messages and draw the circle on the axis
     eps : float, optional
@@ -62,54 +63,46 @@ def create_image_of_points(
     exiftoolPath : str, optional
         the path to the "exiftool" binary (if not provided then Python will attempt to
         find the binary itself)
-    extent : list of floats
-        for high-resolution images, save time by specifying the extent that is
-        to be added
+    fill : tuple of int, optional
+        the fill colour of the points
     gifsiclePath : str, optional
         the path to the "gifsicle" binary (if not provided then Python will attempt to
         find the binary itself)
+    headers : dict, optional
+        extra headers for any requests calls
     jpegtranPath : str, optional
         the path to the "jpegtran" binary (if not provided then Python will attempt to
         find the binary itself)
-    method : str, optional
-        the method for finding the middle of the points
-    name : str, optional
-        the name of the image in the database
     nAng : int, optional
         the number of angles around the middle location to search over
     nIter : int, optional
         the maximum number of iterations (particularly the Vincenty formula)
-    nRefine : int, optional
-        the number of refinements to make (each refinement halves the "conv"
-        distance)
     onlyValid : bool, optional
         only return valid Polygons (checks for validity can take a while, if
         being called often)
     optipngPath : str, optional
         the path to the "optipng" binary (if not provided then Python will attempt to
         find the binary itself)
+    padDist : float, optional
+        the padding to draw around the points (in metres)
     prefix : str, optional
         change the name of the output debugging CSVs
     ramLimit : int, optional
         the maximum RAM usage of each "large" array (in bytes)
-    resolution : str, optional
-        the resolution of the image or NE dataset or GSHHG dataset
-    satellite_height : bool, optional
-        if a distance is provided then use a "NearsidePerspective" projection at
-        an altitude which has the same field-of-view as the distance
     scale : int, optional
         the scale of the tiles
+    thunderforestKey : string, optional
+        your personal API key for the Thunderforest service (if provided then it
+        is assumed that you want to use the Thunderforest service)
     thunderforestMap : string, optional
         the Thunderforest map style (see https://www.thunderforest.com/maps/)
     timeout : float, optional
         the timeout for any requests/subprocess calls (in seconds)
-    title : str, optional
-        the title
     tol : float, optional
         the Euclidean distance that defines two points as being the same (in
         degrees)
-    useSciPy : bool, optional
-        use "scipy.optimize.minimize" or my own minimizer
+    verify : bool, optional
+        verify the server's certificates for any requests calls
 
     Notes
     -----
@@ -165,7 +158,7 @@ def create_image_of_points(
     # Buffer the [Multi]Point ...
     polysLonLat = buffer(
         pntsLonLat,
-        12.0 * 1852.0,
+        padDist,
                 debug = debug,
                   eps = eps,
                  fill = -1.0,

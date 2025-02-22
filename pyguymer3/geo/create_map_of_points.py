@@ -24,6 +24,7 @@ def create_map_of_points(
              nRefine = 1,
            onlyValid = False,
          optipngPath = None,
+             padDist = 12.0 * 1852.0,
               prefix = ".",
             ramLimit = 1073741824,
               repair = False,
@@ -91,6 +92,8 @@ def create_map_of_points(
     optipngPath : str, optional
         the path to the "optipng" binary (if not provided then Python will attempt to
         find the binary itself)
+    padDist : float, optional
+        the padding to draw around the points (in metres)
     prefix : str, optional
         change the name of the output debugging CSVs
     ramLimit : int, optional
@@ -99,7 +102,7 @@ def create_map_of_points(
         attempt to repair invalid Polygons
     resolution : str, optional
         the resolution of the image or NE dataset or GSHHG dataset
-    satellite_height : bool, optional
+    satellite_height : float, optional
         if a distance is provided then use a "NearsidePerspective" projection at
         an altitude which has the same field-of-view as the distance
     scale : int, optional
@@ -210,9 +213,6 @@ def create_map_of_points(
                        tol = tol,
         )
     else:
-        # Calculate the padding distance ...
-        padDist = 12.0 * 1852.0                                                 # [m]
-
         # If the user asked for a Euclidean method then the padding distance
         # needs converting from metres in to degrees ...
         match method:
