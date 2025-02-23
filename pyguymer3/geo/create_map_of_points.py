@@ -158,6 +158,10 @@ def create_map_of_points(
         import matplotlib.pyplot
     except:
         raise Exception("\"matplotlib\" is not installed; run \"pip install --user matplotlib\"") from None
+    try:
+        import numpy
+    except:
+        raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
 
     # Import sub-functions ...
     from .add_axis import add_axis
