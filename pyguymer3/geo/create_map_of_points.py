@@ -384,8 +384,8 @@ def create_map_of_points(
     ax.scatter(
         pntLons[numpy.logical_not(skips)],
         pntLats[numpy.logical_not(skips)],
-        facecolor = fillColor,
         edgecolor = "none",
+        facecolor = fillColor,
         linewidth = 0.1,
                 s = 64.0,
         transform = cartopy.crs.Geodetic(),
@@ -399,8 +399,8 @@ def create_map_of_points(
     ax.scatter(
         pntLons[skips],
         pntLats[skips],
-        facecolor = skipFillColor,
         edgecolor = "none",
+        facecolor = skipFillColor,
         linewidth = 0.1,
                 s = 64.0,
         transform = cartopy.crs.Geodetic(),
