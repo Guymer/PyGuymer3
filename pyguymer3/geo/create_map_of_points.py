@@ -414,13 +414,13 @@ def create_map_of_points(
     )
 
     # Loop over locations ...
-    for i in range(pntLons.size - 1):
+    for iPnt in range(pntLons.size - 1):
         # Find the great circle ...
         circle = great_circle(
-            pntLons[i],
-            pntLats[i],
-            pntLons[i + 1],
-            pntLats[i + 1],
+            pntLons[iPnt],
+            pntLats[iPnt],
+            pntLons[iPnt + 1],
+            pntLats[iPnt + 1],
                debug = debug,
                  eps = eps,
              maxdist = 12.0 * 1852.0,
