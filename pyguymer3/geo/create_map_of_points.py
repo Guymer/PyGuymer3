@@ -30,6 +30,8 @@ def create_map_of_points(
             ramLimit = 1073741824,
               repair = False,
           resolution = "10m",
+               route = None,
+      routeFillColor = (  0, 128,   0),
     satellite_height = False,
                scale = 1,
        skipFillColor = (255, 165,   0),
@@ -107,6 +109,10 @@ def create_map_of_points(
         attempt to repair invalid Polygons
     resolution : str, optional
         the resolution of the image or NE dataset or GSHHG dataset
+    route : shapely.geometry.linestring.LineString, optional
+        an extra line to draw on the map
+    routeFillColor : tuple of int, optional
+        the fill colour of the extra route
     satellite_height : float, optional
         if a distance is provided then use a "NearsidePerspective" projection at
         an altitude which has the same field-of-view as the distance
@@ -429,6 +435,18 @@ def create_map_of_points(
             extract_lines(circle, onlyValid = onlyValid),
             cartopy.crs.PlateCarree(),
             edgecolor = skipFillColor if skips[iPnt] or skips[iPnt + 1] else fillColor,
+            facecolor = "none",
+            linewidth = 1.0,
+               zorder = 5.0,
+        )
+
+    # Check that an extra route was passed ...
+    if route is not None:
+        # Draw the extra route ...
+        ax.add_geometries(
+            extract_lines(route, onlyValid = onlyValid),
+            cartopy.crs.PlateCarree(),
+            edgecolor = routeFillColor,
             facecolor = "none",
             linewidth = 1.0,
                zorder = 5.0,

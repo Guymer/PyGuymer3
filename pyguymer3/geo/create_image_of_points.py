@@ -26,6 +26,8 @@ def create_image_of_points(
              padDist = 12.0 * 1852.0,
               prefix = ".",
             ramLimit = 1073741824,
+               route = None,
+      routeFillColor = (  0, 128,   0),
                scale = 1,
        skipFillColor = (255, 165,   0),
                skips = None,
@@ -91,6 +93,10 @@ def create_image_of_points(
         change the name of the output debugging CSVs
     ramLimit : int, optional
         the maximum RAM usage of each "large" array (in bytes)
+    route : shapely.geometry.linestring.LineString, optional
+        an extra line to draw on the map
+    routeFillColor : tuple of int, optional
+        the fill colour of the extra route
     scale : int, optional
         the scale of the tiles
     skipFillColor : tuple of int, optional
@@ -319,6 +325,30 @@ def create_image_of_points(
             draw.line(
                 list(zip(coordsImgX, coordsImgY, strict = True)),
                  fill = skipFillColor if skips[iPnt] or skips[iPnt + 1] else fillColor,
+                width = 4,
+            )
+
+    # Check that an extra route was passed ...
+    if route is not None:
+        # Loop over LineStrings in the extra route ...
+        for lineLonLat in extract_lines(route, onlyValid = onlyValid):
+            # Convert LineString to the Mercator projection ...
+            lineMer = ll2mer(
+                lineLonLat,
+                 debug = debug,
+                prefix = prefix,
+                   tol = tol,
+            )
+
+            # Convert LineString to the image projection ...
+            coordsMer = numpy.array(lineMer.coords)                             # [#]
+            coordsImgX = float(midImgX) + (coordsMer[:, 0] - midMerX) * float(n * scale * 256)  # [px]
+            coordsImgY = float(midImgY) + (coordsMer[:, 1] - midMerY) * float(n * scale * 256)  # [px]
+
+            # Draw the line ...
+            draw.line(
+                list(zip(coordsImgX, coordsImgY, strict = True)),
+                 fill = routeFillColor,
                 width = 4,
             )
 
