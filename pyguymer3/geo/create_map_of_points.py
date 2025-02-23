@@ -15,6 +15,7 @@ def create_map_of_points(
                  eps = 1.0e-12,
         exiftoolPath = None,
               extent = None,
+                fill = (255, 0, 0, 127),
         gifsiclePath = None,
         jpegtranPath = None,
               method = "GeodesicBox",
@@ -31,6 +32,7 @@ def create_map_of_points(
           resolution = "10m",
     satellite_height = False,
                scale = 1,
+            skipFill = (255, 165, 0, 127),
                skips = None,
              timeout = 60.0,
                title = None,
@@ -70,6 +72,8 @@ def create_map_of_points(
     extent : list of floats
         for high-resolution images, save time by specifying the extent that is
         to be added
+    fill : tuple of int, optional
+        the fill colour of the points
     gifsiclePath : str, optional
         the path to the "gifsicle" binary (if not provided then Python will attempt to
         find the binary itself)
@@ -108,6 +112,8 @@ def create_map_of_points(
         an altitude which has the same field-of-view as the distance
     scale : int, optional
         the scale of the tiles
+    skipFill : tuple of int, optional
+        the fill colour of the skipped points
     skips : numpy.ndarray, optional
         an array of booleans as to whether to include/exclude each individual
         point from calculating the image's field-of-view (this allows the great
@@ -378,8 +384,8 @@ def create_map_of_points(
     ax.scatter(
         pntLons,
         pntLats,
-        facecolor = (1.0, 0.0, 0.0, 0.5),
-        edgecolor = (1.0, 0.0, 0.0, 1.0),
+        facecolor = fill,
+        edgecolor = "none",
         linewidth = 0.1,
                 s = 64.0,
         transform = cartopy.crs.Geodetic(),
@@ -407,7 +413,7 @@ def create_map_of_points(
         ax.add_geometries(
             extract_lines(circle, onlyValid = onlyValid),
             cartopy.crs.PlateCarree(),
-            edgecolor = (1.0, 0.0, 0.0, 0.5),
+            edgecolor = fill,
             facecolor = "none",
             linewidth = 1.0,
                zorder = 5.0,

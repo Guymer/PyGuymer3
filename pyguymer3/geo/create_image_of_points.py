@@ -27,6 +27,7 @@ def create_image_of_points(
               prefix = ".",
             ramLimit = 1073741824,
                scale = 1,
+            skipFill = (255, 165, 0, 127),
                skips = None,
     thunderforestKey = None,
     thunderforestMap = "atlas",
@@ -92,6 +93,8 @@ def create_image_of_points(
         the maximum RAM usage of each "large" array (in bytes)
     scale : int, optional
         the scale of the tiles
+    skipFill : tuple of int, optional
+        the fill colour of the skipped points
     skips : numpy.ndarray, optional
         an array of booleans as to whether to include/exclude each individual
         point from calculating the image's field-of-view (this allows the great
@@ -257,7 +260,7 @@ def create_image_of_points(
 
     # Draw the points ...
     draw = PIL.ImageDraw.Draw(img, "RGBA")
-    for pntLon, pntLat in zip(pntLons, pntLats, strict = True):
+    for pntLon, pntLat, skip in zip(pntLons, pntLats, skips, strict = True):
         pntMerX, pntMerY = ll2mer(
             shapely.geometry.point.Point(pntLon, pntLat),
              debug = debug,
@@ -277,7 +280,7 @@ def create_image_of_points(
                 pntImgX + 10.0,
                 pntImgY + 10.0,
             ],
-            fill = fill,
+            fill = skipFill if skip else fill,
         )
 
     # Loop over locations ...
@@ -315,7 +318,7 @@ def create_image_of_points(
             # Draw the line ...
             draw.line(
                 list(zip(coordsImgX, coordsImgY, strict = True)),
-                 fill = fill,
+                 fill = skipFill if skips[iPnt] or skips[iPnt + 1] else fill,
                 width = 4,
             )
 
