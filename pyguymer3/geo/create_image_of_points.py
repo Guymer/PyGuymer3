@@ -92,8 +92,8 @@ def create_image_of_points(
         the maximum RAM usage of each "large" array (in bytes)
     scale : int, optional
         the scale of the tiles
-    skips : list of bool, optional
-        a list of booleans as to whether to include/exclude each individual
+    skips : numpy.ndarray, optional
+        an array of booleans as to whether to include/exclude each individual
         point from calculating the image's field-of-view (this allows the great
         circles from flights to be drawn but for them to not expand the image to
         fit in the departing airport); if not provided then all points are used
@@ -150,13 +150,12 @@ def create_image_of_points(
 
     # Check inputs ...
     if skips is None:
-        skips = len(pntLons) * [False]
+        skips = numpy.zeros(pntLons.size, dtype = bool)
 
     # **************************************************************************
 
     # Create short-hands ...
     n = pow(2, zoom)
-    nPnts = len(pntLons)                                                        # [#]
 
     # Create a [Multi]Point from the lists of longitudes and latitudes ...
     pntsLonLat = []
@@ -282,7 +281,7 @@ def create_image_of_points(
         )
 
     # Loop over locations ...
-    for iPnt in range(nPnts - 1):
+    for iPnt in range(pntLons.size - 1):
         # Find the great circle ...
         circleLonLat = great_circle(
             pntLons[iPnt],

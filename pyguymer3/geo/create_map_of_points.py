@@ -2,8 +2,8 @@
 
 # Define function ...
 def create_map_of_points(
-    lons,
-    lats,
+    pntLons,
+    pntLats,
     pngOut,
     /,
     *,
@@ -31,6 +31,7 @@ def create_map_of_points(
           resolution = "10m",
     satellite_height = False,
                scale = 1,
+               skips = None,
              timeout = 60.0,
                title = None,
                  tol = 1.0e-10,
@@ -43,9 +44,9 @@ def create_map_of_points(
 
     Parameters
     ----------
-    lons : numpy.ndarray
+    pntLons : numpy.ndarray
         the sequence of longitudes
-    lats : numpy.ndarray
+    pntLats : numpy.ndarray
         the sequence of latitudes
     pngOut : str
         the name of the output PNG
@@ -107,6 +108,11 @@ def create_map_of_points(
         an altitude which has the same field-of-view as the distance
     scale : int, optional
         the scale of the tiles
+    skips : numpy.ndarray, optional
+        an array of booleans as to whether to include/exclude each individual
+        point from calculating the image's field-of-view (this allows the great
+        circles from flights to be drawn but for them to not expand the image to
+        fit in the departing airport); if not provided then all points are used
     timeout : float, optional
         the timeout for any requests/subprocess calls (in seconds)
     title : str, optional
@@ -167,6 +173,12 @@ def create_map_of_points(
 
     # **************************************************************************
 
+    # Check inputs ...
+    if skips is None:
+        skips = numpy.zeros(pntLons.size, dtype = bool)
+
+    # **************************************************************************
+
     # Create figure ...
     fg = matplotlib.pyplot.figure(figsize = (7.2, 7.2))
 
@@ -174,8 +186,8 @@ def create_map_of_points(
 
     # Find the centre of the points very quickly ...
     midLonQuick, midLatQuick, maxDistQuick = find_middle_of_locs(
-        lons,
-        lats,
+        pntLons[numpy.logical_not(skips)],
+        pntLats[numpy.logical_not(skips)],
          angConv = None,
             conv = None,
            debug = debug,
@@ -226,8 +238,8 @@ def create_map_of_points(
 
         # Find the centre of the points ...
         midLon, midLat, maxDist = find_middle_of_locs(
-            lons,
-            lats,
+            pntLons[numpy.logical_not(skips)],
+            pntLats[numpy.logical_not(skips)],
              angConv = angConv,
                 conv = conv,
                debug = debug,
@@ -360,8 +372,8 @@ def create_map_of_points(
     #       default "zorder" of the gridlines is 2.0 and the default "zorder" of
     #       the scattered points is 1.0.
     ax.scatter(
-        lons,
-        lats,
+        pntLons,
+        pntLats,
         facecolor = (1.0, 0.0, 0.0, 0.5),
         edgecolor = (1.0, 0.0, 0.0, 1.0),
         linewidth = 0.1,
@@ -371,13 +383,13 @@ def create_map_of_points(
     )
 
     # Loop over locations ...
-    for i in range(lons.size - 1):
+    for i in range(pntLons.size - 1):
         # Find the great circle ...
         circle = great_circle(
-            lons[i],
-            lats[i],
-            lons[i + 1],
-            lats[i + 1],
+            pntLons[i],
+            pntLats[i],
+            pntLons[i + 1],
+            pntLats[i + 1],
                debug = debug,
                  eps = eps,
              maxdist = 12.0 * 1852.0,
