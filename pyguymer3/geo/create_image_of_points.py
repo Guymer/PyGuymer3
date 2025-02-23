@@ -188,8 +188,8 @@ def create_image_of_points(
                   tol = tol,
     )
     if debug:
-        print(f"DEBUG: The 12 NM buffer of the points extends from {polysLonLat.bounds[0]:+.6f}° to {polysLonLat.bounds[2]:+.6f}° longitude.")
-        print(f"DEBUG: The 12 NM buffer of the points extends from {polysLonLat.bounds[1]:+.6f}° to {polysLonLat.bounds[3]:+.6f}° latitude.")
+        print(f"DEBUG: The {0.001 * padDist:,.1f} km buffer of the points extends from {polysLonLat.bounds[0]:+.6f}° to {polysLonLat.bounds[2]:+.6f}° longitude.")
+        print(f"DEBUG: The {0.001 * padDist:,.1f} km buffer of the points extends from {polysLonLat.bounds[1]:+.6f}° to {polysLonLat.bounds[3]:+.6f}° latitude.")
 
     # Convert [Multi]Polygon to the Mercator projection and create short-hands ...
     polysMer = ll2mer(
@@ -199,13 +199,13 @@ def create_image_of_points(
            tol = tol,
     )
     if debug:
-        print(f"DEBUG: The Mercator projection of the 12 NM buffer of the points extends from {polysMer.bounds[0]:.6f} to {polysMer.bounds[2]:.6f} in the x-axis of the Mercator projection.")
-        print(f"DEBUG: The Mercator projection of the 12 NM buffer of the points extends from {polysMer.bounds[1]:.6f} to {polysMer.bounds[3]:.6f} in the y-axis of the Mercator projection.")
+        print(f"DEBUG: The Mercator projection of the {0.001 * padDist:,.1f} km buffer of the points extends from {polysMer.bounds[0]:.6f} to {polysMer.bounds[2]:.6f} in the x-axis of the Mercator projection.")
+        print(f"DEBUG: The Mercator projection of the {0.001 * padDist:,.1f} km buffer of the points extends from {polysMer.bounds[1]:.6f} to {polysMer.bounds[3]:.6f} in the y-axis of the Mercator projection.")
     minMerX, minMerY, maxMerX, maxMerY = polysMer.bounds                        # [#]
     midMerX = 0.5 * (minMerX + maxMerX)                                         # [°]
     midMerY = 0.5 * (minMerY + maxMerY)                                         # [°]
     if debug:
-        print(f"DEBUG: The middle of the Mercator projection of the 12 NM buffer of the points is at ({midMerX:.6f}, {midMerY:.6f}) in the Mercator projection.")
+        print(f"DEBUG: The middle of the Mercator projection of the {0.001 * padDist:,.1f} km buffer of the points is at ({midMerX:.6f}, {midMerY:.6f}) in the Mercator projection.")
 
     # Convert the middle from Mercator projection back in to longitude and
     # latitude ...
@@ -216,7 +216,7 @@ def create_image_of_points(
            tol = tol,
     ).coords[0]                                                                 # [°], [°]
     if debug:
-        print(f"DEBUG: The middle of the Mercator projection of the 12 NM buffer of the points is at ({midLon:+.6f}°, {midLat:+.6f}°).")
+        print(f"DEBUG: The middle of the Mercator projection of the {0.001 * padDist:,.1f} km buffer of the points is at ({midLon:+.6f}°, {midLat:+.6f}°).")
 
     # Calculate the size of the image ...
     imgWidth = (maxMerX - minMerX) * float(n * scale * 256)                     # [px]
