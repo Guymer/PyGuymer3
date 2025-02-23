@@ -27,6 +27,7 @@ def create_image_of_points(
               prefix = ".",
             ramLimit = 1073741824,
                scale = 1,
+               skips = None,
     thunderforestKey = None,
     thunderforestMap = "atlas",
              timeout = 60.0,
@@ -91,6 +92,11 @@ def create_image_of_points(
         the maximum RAM usage of each "large" array (in bytes)
     scale : int, optional
         the scale of the tiles
+    skips : list of bool, optional
+        a list of booleans as to whether to include/exclude each individual
+        point from calculating the image's field-of-view (this allows the great
+        circles from flights to be drawn but for them to not expand the image to
+        fit in the departing airport); if not provided then all points are used
     thunderforestKey : string, optional
         your personal API key for the Thunderforest service (if provided then it
         is assumed that you want to use the Thunderforest service)
@@ -142,13 +148,21 @@ def create_image_of_points(
 
     # **************************************************************************
 
+    # Check inputs ...
+    if skips is None:
+        skips = len(pntLons) * [False]
+
+    # **************************************************************************
+
     # Create short-hands ...
     n = pow(2, zoom)
     nPnts = len(pntLons)                                                        # [#]
 
     # Create a [Multi]Point from the lists of longitudes and latitudes ...
     pntsLonLat = []
-    for pntLon, pntLat in zip(pntLons, pntLats):
+    for pntLon, pntLat, skip in zip(pntLons, pntLats, skips, strict = True):
+        if skip:
+            continue
         pntsLonLat.append(shapely.geometry.point.Point(pntLon, pntLat))
     pntsLonLat = shapely.geometry.multipoint.MultiPoint(pntsLonLat)
     if debug:
@@ -244,7 +258,7 @@ def create_image_of_points(
 
     # Draw the points ...
     draw = PIL.ImageDraw.Draw(img, "RGBA")
-    for pntLon, pntLat in zip(pntLons, pntLats):
+    for pntLon, pntLat in zip(pntLons, pntLats, strict = True):
         pntMerX, pntMerY = ll2mer(
             shapely.geometry.point.Point(pntLon, pntLat),
              debug = debug,
@@ -301,7 +315,7 @@ def create_image_of_points(
 
             # Draw the line ...
             draw.line(
-                list(zip(coordsImgX, coordsImgY)),
+                list(zip(coordsImgX, coordsImgY, strict = True)),
                  fill = fill,
                 width = 4,
             )
