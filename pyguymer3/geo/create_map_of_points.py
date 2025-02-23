@@ -15,7 +15,7 @@ def create_map_of_points(
                  eps = 1.0e-12,
         exiftoolPath = None,
               extent = None,
-                fill = (255, 0, 0, 127),
+           fillColor = (255, 0, 0, 127),
         gifsiclePath = None,
         jpegtranPath = None,
               method = "GeodesicBox",
@@ -32,7 +32,7 @@ def create_map_of_points(
           resolution = "10m",
     satellite_height = False,
                scale = 1,
-            skipFill = (255, 165, 0, 127),
+       skipFillColor = (255, 165, 0, 127),
                skips = None,
              timeout = 60.0,
                title = None,
@@ -72,7 +72,7 @@ def create_map_of_points(
     extent : list of floats
         for high-resolution images, save time by specifying the extent that is
         to be added
-    fill : tuple of int, optional
+    fillColor : tuple of int, optional
         the fill colour of the points
     gifsiclePath : str, optional
         the path to the "gifsicle" binary (if not provided then Python will attempt to
@@ -112,7 +112,7 @@ def create_map_of_points(
         an altitude which has the same field-of-view as the distance
     scale : int, optional
         the scale of the tiles
-    skipFill : tuple of int, optional
+    skipFillColor : tuple of int, optional
         the fill colour of the skipped points
     skips : numpy.ndarray, optional
         an array of booleans as to whether to include/exclude each individual
@@ -382,9 +382,24 @@ def create_map_of_points(
     #       default "zorder" of the gridlines is 2.0 and the default "zorder" of
     #       the scattered points is 1.0.
     ax.scatter(
-        pntLons,
-        pntLats,
-        facecolor = fill,
+        pntLons[numpy.logical_not(skips)],
+        pntLats[numpy.logical_not(skips)],
+        facecolor = fillColor,
+        edgecolor = "none",
+        linewidth = 0.1,
+                s = 64.0,
+        transform = cartopy.crs.Geodetic(),
+           zorder = 5.0,
+    )
+
+    # Plot locations ...
+    # NOTE: As of 5/Dec/2023, the default "zorder" of the coastlines is 1.5, the
+    #       default "zorder" of the gridlines is 2.0 and the default "zorder" of
+    #       the scattered points is 1.0.
+    ax.scatter(
+        pntLons[skips],
+        pntLats[skips],
+        facecolor = skipFillColor,
         edgecolor = "none",
         linewidth = 0.1,
                 s = 64.0,
@@ -413,7 +428,7 @@ def create_map_of_points(
         ax.add_geometries(
             extract_lines(circle, onlyValid = onlyValid),
             cartopy.crs.PlateCarree(),
-            edgecolor = fill,
+            edgecolor = skipFillColor if skips[iPnt] or skips[iPnt + 1] else fillColor,
             facecolor = "none",
             linewidth = 1.0,
                zorder = 5.0,

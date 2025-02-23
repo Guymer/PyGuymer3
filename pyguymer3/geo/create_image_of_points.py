@@ -15,7 +15,7 @@ def create_image_of_points(
                debug = __debug__,
                  eps = 1.0e-12,
         exiftoolPath = None,
-                fill = (255, 0, 0, 127),
+           fillColor = (255, 0, 0, 127),
         gifsiclePath = None,
              headers = None,
         jpegtranPath = None,
@@ -27,7 +27,7 @@ def create_image_of_points(
               prefix = ".",
             ramLimit = 1073741824,
                scale = 1,
-            skipFill = (255, 165, 0, 127),
+       skipFillColor = (255, 165, 0, 127),
                skips = None,
     thunderforestKey = None,
     thunderforestMap = "atlas",
@@ -65,7 +65,7 @@ def create_image_of_points(
     exiftoolPath : str, optional
         the path to the "exiftool" binary (if not provided then Python will attempt to
         find the binary itself)
-    fill : tuple of int, optional
+    fillColor : tuple of int, optional
         the fill colour of the points
     gifsiclePath : str, optional
         the path to the "gifsicle" binary (if not provided then Python will attempt to
@@ -93,7 +93,7 @@ def create_image_of_points(
         the maximum RAM usage of each "large" array (in bytes)
     scale : int, optional
         the scale of the tiles
-    skipFill : tuple of int, optional
+    skipFillColor : tuple of int, optional
         the fill colour of the skipped points
     skips : numpy.ndarray, optional
         an array of booleans as to whether to include/exclude each individual
@@ -239,7 +239,7 @@ def create_image_of_points(
                  cookies = cookies,
                    debug = debug,
             exiftoolPath = exiftoolPath,
-                    fill = fill,
+                    fill = fillColor,
             gifsiclePath = gifsiclePath,
                  headers = headers,
             jpegtranPath = jpegtranPath,
@@ -280,7 +280,7 @@ def create_image_of_points(
                 pntImgX + 10.0,
                 pntImgY + 10.0,
             ],
-            fill = skipFill if skip else fill,
+            fill = skipFillColor if skip else fillColor,
         )
 
     # Loop over locations ...
@@ -318,7 +318,7 @@ def create_image_of_points(
             # Draw the line ...
             draw.line(
                 list(zip(coordsImgX, coordsImgY, strict = True)),
-                 fill = skipFill if skips[iPnt] or skips[iPnt + 1] else fill,
+                 fill = skipFillColor if skips[iPnt] or skips[iPnt + 1] else fillColor,
                 width = 4,
             )
 
