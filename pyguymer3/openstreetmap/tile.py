@@ -156,6 +156,7 @@ def tile(
         # Check if the download failed ...
         if resp is False:
             # Return answer ...
+            print(f"WARNING: Failed to download the tile for x={xtile:d}, y={ytile:d}, scale={scale:d} and zoom={zoom:d}.")
             return None
 
         # Optimize tile ...
@@ -174,6 +175,8 @@ def tile(
 
         # Sleep ...
         time.sleep(1.0)
+    elif debug:
+        print(f"INFO: Already downloaded \"{url}\" to \"{png}\".")
 
     # **************************************************************************
 
