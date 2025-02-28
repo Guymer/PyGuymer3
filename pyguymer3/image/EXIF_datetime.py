@@ -65,6 +65,9 @@ def EXIF_datetime(
     if actuallyUseGPS:
         # Determine date/time that the photo was taken (assuming that the GPS
         # data is in UTC) ...
+        # NOTE: My old Motorola Moto G3 took a photo at "2016:10:24 24:00:11Z"
+        #       once, who knows what time that actually was. Either way,
+        #       "strptime()" cannot parse it so I must work around it here.
         us = 0                                                                  # [μs]
         if "." in info["EXIF"]["GPSTimeStamp"]:
             us = info["EXIF"]["GPSTimeStamp"].split(".")[1]
@@ -72,7 +75,7 @@ def EXIF_datetime(
         elif debug:
             print("DEBUG: There isn't any subsecond informaton in the \"EXIF::GPSTimeStamp\" key.")
         ans = datetime.datetime.strptime(
-            f'{info["EXIF"]["GPSDateStamp"]} {info["EXIF"]["GPSTimeStamp"].split(".")[0]}.{us:06d}',
+            f'{info["EXIF"]["GPSDateStamp"]} {info["EXIF"]["GPSTimeStamp"].split(".")[0]}.{us:06d}'.replace(" 24:", " 00:"),
             "%Y:%m:%d %H:%M:%S.%f",
         ).replace(tzinfo = datetime.UTC)
     else:
@@ -84,8 +87,11 @@ def EXIF_datetime(
 
         # Determine date/time that the photo was taken (assuming that the EXIF
         # data is in UTC) ...
+        # NOTE: My old Motorola Moto G3 took a photo at "2016:10:24 24:00:11Z"
+        #       once, who knows what time that actually was. Either way,
+        #       "strptime()" cannot parse it so I must work around it here.
         ans = datetime.datetime.strptime(
-            info["EXIF"]["DateTimeOriginal"],
+            info["EXIF"]["DateTimeOriginal"].replace(" 24:", " 00:"),
             "%Y:%m:%d %H:%M:%S",
         ).replace(tzinfo = datetime.UTC)
 
