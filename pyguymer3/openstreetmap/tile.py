@@ -135,6 +135,11 @@ def tile(
         png = os.path.expanduser(f"~/.local/share/openstreetmap/tiles/{zoom:d}/{xtile:d}/{ytile:d}.png")
         url = f"https://tile.openstreetmap.org/{zoom:d}/{xtile:d}/{ytile:d}.png"
 
+    # Make output folders if they are missing ...
+    os.makedirs(os.path.dirname(png), exist_ok = True)
+    if npy is not None:
+        os.makedirs(os.path.dirname(npy), exist_ok = True)
+
     # **************************************************************************
 
     # Check if the tile is missing ...
