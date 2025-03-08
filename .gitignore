@@ -11,7 +11,8 @@ Thumbs.db
 # Hide compiled code ...
 __pycache__
 
-# Hide output of PyLint/ShellCheck ...
+# Hide output of MyPy/PyLint/ShellCheck ...
+mypy.log
 pylint.log
 shellcheck.log
 
