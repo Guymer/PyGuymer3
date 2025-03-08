@@ -2,9 +2,9 @@
 
 # Define function ...
 def convert_pretty_bytes_to_bytes(
-    string,
+    prettyString : str,
     /,
-):
+) -> float:
     """Convert a pretty string of a bytes with some units to a value of bytes
 
     This function reads in a string of a human-readable value of bytes with some
@@ -12,12 +12,12 @@ def convert_pretty_bytes_to_bytes(
 
     Parameters
     ----------
-    string : str
+    prettyString : str
         the human-readable value of bytes with some units
 
     Returns
     -------
-    size : float
+    prettySize : float
         the value of bytes
 
     Notes
@@ -39,23 +39,23 @@ def convert_pretty_bytes_to_bytes(
     import re
 
     # Extract digits (with decimal point) and letters separately ...
-    size = float(re.sub(r"[a-zA-Z]", "", string).strip())                       # [?]
-    units = re.sub(r"[0-9\.]", "", string).strip()
+    prettySize : float = float(re.sub(r"[a-zA-Z]", "", prettyString).strip())   # [?]
+    units : str = re.sub(r"[0-9\.]", "", prettyString).strip()
 
     # Check what the units are and return it scaled ...
     match units:
         case "B":
-            return size
+            return prettySize
         case "KB" | "KiB":
-            return 1024.0 * size
+            return 1024.0 * prettySize
         case "MB" | "MiB":
-            return 1024.0 * 1024.0 * size
+            return 1024.0 * 1024.0 * prettySize
         case "GB" | "GiB":
-            return 1024.0 * 1024.0 * 1024.0 * size
+            return 1024.0 * 1024.0 * 1024.0 * prettySize
         case "TB" | "TiB":
-            return 1024.0 * 1024.0 * 1024.0 * 1024.0 * size
+            return 1024.0 * 1024.0 * 1024.0 * 1024.0 * prettySize
         case "PB" | "PiB":
-            return 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * size
+            return 1024.0 * 1024.0 * 1024.0 * 1024.0 * 1024.0 * prettySize
         case _:
             # Crash ...
             raise ValueError(f"\"units\" is an unexpected value ({repr(units)})") from None

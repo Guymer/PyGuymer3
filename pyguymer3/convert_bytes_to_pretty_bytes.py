@@ -2,9 +2,9 @@
 
 # Define function ...
 def convert_bytes_to_pretty_bytes(
-    size,
+    uglySize : int,
     /,
-):
+) -> tuple[float, str]:
     """Convert a value of bytes to a pretty value of bytes with some units
 
     This function reads in a value of bytes and returns the same value expressed
@@ -12,15 +12,15 @@ def convert_bytes_to_pretty_bytes(
 
     Parameters
     ----------
-    size : int
+    uglySize : int
         the value of bytes
 
     Returns
     -------
-    size : float
+    prettySize : float
         the value of bytes in *unit*
     unit : str
-        the units of *size*
+        the units of *prettySize*
 
     Notes
     -----
@@ -37,25 +37,25 @@ def convert_bytes_to_pretty_bytes(
     """
 
     # Convert input to float and set default units ...
-    size = float(size)
-    unit = "B"
+    prettySize : float = float(uglySize)                                        # [B]
+    unit : str = "B"
 
     # Convert to useful units ...
-    if size >= 1024.0:
-        size /= 1024.0
+    if prettySize >= 1024.0:
+        prettySize /= 1024.0                                                    # [KiB]
         unit = "KiB"
-    if size >= 1024.0:
-        size /= 1024.0
+    if prettySize >= 1024.0:
+        prettySize /= 1024.0                                                    # [MiB]
         unit = "MiB"
-    if size >= 1024.0:
-        size /= 1024.0
+    if prettySize >= 1024.0:
+        prettySize /= 1024.0                                                    # [GiB]
         unit = "GiB"
-    if size >= 1024.0:
-        size /= 1024.0
+    if prettySize >= 1024.0:
+        prettySize /= 1024.0                                                    # [TiB]
         unit = "TiB"
-    if size >= 1024.0:
-        size /= 1024.0
+    if prettySize >= 1024.0:
+        prettySize /= 1024.0                                                    # [PiB]
         unit = "PiB"
 
     # Return answer ...
-    return size, unit
+    return prettySize, unit
