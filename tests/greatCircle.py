@@ -165,7 +165,7 @@ if __name__ == "__main__":
                     points[:, 1],
                     transform = cartopy.crs.Robinson(),
                     linewidth = 1.0,
-                        color = matplotlib.pyplot.cm.rainbow(float(c) / float(len(npoints) - 1)),
+                        color = matplotlib.colormaps["rainbow"](float(c) / float(len(npoints) - 1)),
                 )
 
         # Plot great circle ...
