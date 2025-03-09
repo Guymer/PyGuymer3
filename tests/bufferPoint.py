@@ -119,7 +119,10 @@ if __name__ == "__main__":
 
     # Create a pool of worker processes which use almost all of the available
     # logical CPUs in the system ...
-    with multiprocessing.Pool(maxtasksperchild = 1, processes = (os.cpu_count() or 1) - 1) as pObj:
+    with multiprocessing.Pool(
+        maxtasksperchild = 1,
+               processes = max(1, (os.cpu_count() or 1) - 1),
+    ) as pObj:
         # Loop over points ...
         for i, (lon, lat, dist) in enumerate(points):
             # Determine file names ...
