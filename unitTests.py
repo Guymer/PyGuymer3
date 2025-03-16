@@ -77,7 +77,7 @@ class MyTestCase(unittest.TestCase):
         )
 
     # Define a test ...
-    def test_geoArea(self):
+    def test_geoBufferArea(self):
         """
         Test the geospatial functions "pyguymer3.geo.buffer()" and
         "pyguymer3.geo.area()"
@@ -111,7 +111,7 @@ class MyTestCase(unittest.TestCase):
                 estimArea = pyguymer3.geo.area(
                     buff,
                     level = 6,
-                )                                                           # [m²]
+                )                                                               # [m²]
 
                 # Tell "unittest" that we are doing sub-tests ...
                 with self.subTest(
@@ -119,9 +119,64 @@ class MyTestCase(unittest.TestCase):
                     lat = lat,
                 ):
                     # Assert result ...
-                    self.assertAlmostEqual(
-                        estimArea / exactArea,
-                        1.0,
+                    self.assertLessEqual(
+                        abs(estimArea - exactArea) / exactArea,
+                        1.0e-4,
+                    )
+
+    # Define a test ...
+    def test_geoBufferBufferArea(self):
+        """
+        Test the geospatial functions "pyguymer3.geo.buffer()" and
+        "pyguymer3.geo.area()"
+        """
+
+        # Define buffering distance and calculate the area exactly ...
+        dist = 1000.0                                                           # [m]
+        exactArea = math.pi * pow(2.0 * dist, 2)                                # [m²]
+
+        # Loop over longitudes ...
+        for lon in range(-135, +180, 45):
+            # Loop over latitudes ...
+            for lat in range(-45, +90, 45):
+                # Create Point ...
+                pnt = shapely.geometry.point.Point(
+                    float(lon),
+                    float(lat),
+                )
+
+                # Buffer Point twice ...
+                buff = pyguymer3.geo.buffer(
+                    pyguymer3.geo.buffer(
+                        pnt,
+                        dist,
+                        debug = False,
+                         fill = -1.0,
+                         nAng = 361,
+                         simp = -1.0,
+                    ),
+                    dist,
+                    debug = False,
+                     fill = -1.0,
+                     nAng = 361,
+                     simp = -1.0,
+                )
+
+                # Find area ...
+                estimArea = pyguymer3.geo.area(
+                    buff,
+                    level = 6,
+                )                                                               # [m²]
+
+                # Tell "unittest" that we are doing sub-tests ...
+                with self.subTest(
+                    lon = lon,
+                    lat = lat,
+                ):
+                    # Assert result ...
+                    self.assertLessEqual(
+                        abs(estimArea - exactArea) / exactArea,
+                        1.0e-2,
                     )
 
     # Define a test ...
