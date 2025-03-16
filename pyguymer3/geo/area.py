@@ -97,7 +97,7 @@ def area(
                                 continue
 
                             # Cry ...
-                            raise Exception(f"\"level\" is too large (f{level:,d})") from None
+                            raise Exception(f"\"level\" is too large (\"{level:,d}\")") from None
 
     # Return total ...
     return tot
