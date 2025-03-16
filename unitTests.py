@@ -88,13 +88,13 @@ class MyTestCase(unittest.TestCase):
         exactArea = math.pi * pow(dist, 2)                                      # [m²]
 
         # Loop over longitudes ...
-        for lon in range(-135, +180, 45):
+        for lon in range(-180, +180, 5):
             # Loop over latitudes ...
-            for lat in range(-45, +90, 45):
+            for lat in range(-90, +90, 5):
                 # Create Point ...
                 pnt = shapely.geometry.point.Point(
-                    float(lon),
-                    float(lat),
+                    float(lon) + 2.5,
+                    float(lat) + 2.5,
                 )
 
                 # Buffer Point ...
@@ -115,8 +115,8 @@ class MyTestCase(unittest.TestCase):
 
                 # Tell "unittest" that we are doing sub-tests ...
                 with self.subTest(
-                    lon = lon,
-                    lat = lat,
+                    lon = float(lon) + 2.5,
+                    lat = float(lat) + 2.5,
                 ):
                     # Assert result ...
                     self.assertLessEqual(
@@ -136,13 +136,13 @@ class MyTestCase(unittest.TestCase):
         exactArea = math.pi * pow(2.0 * dist, 2)                                # [m²]
 
         # Loop over longitudes ...
-        for lon in range(-135, +180, 45):
+        for lon in range(-180, +180, 5):
             # Loop over latitudes ...
-            for lat in range(-45, +90, 45):
+            for lat in range(-90, +90, 5):
                 # Create Point ...
                 pnt = shapely.geometry.point.Point(
-                    float(lon),
-                    float(lat),
+                    float(lon) + 2.5,
+                    float(lat) + 2.5,
                 )
 
                 # Buffer Point twice ...
@@ -170,8 +170,8 @@ class MyTestCase(unittest.TestCase):
 
                 # Tell "unittest" that we are doing sub-tests ...
                 with self.subTest(
-                    lon = lon,
-                    lat = lat,
+                    lon = float(lon) + 2.5,
+                    lat = float(lat) + 2.5,
                 ):
                     # Assert result ...
                     self.assertLessEqual(
