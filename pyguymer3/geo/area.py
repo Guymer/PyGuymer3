@@ -96,8 +96,28 @@ def area(
                                 tot += _area(triangle4, eps = eps, nIter = nIter)   # [m2]
                                 continue
 
-                            # Cry ...
-                            raise Exception(f"\"level\" is too large (\"{level:,d}\")") from None
+                            # Loop over triangles within the triangle ...
+                            for triangle5 in extract_polys(shapely.ops.triangulate(triangle4), onlyValid = onlyValid, repair = repair):
+                                # Check if the user wants this level of
+                                # refinement ...
+                                if level == 5:
+                                    # Increment the total and move on to the
+                                    # next one ...
+                                    tot += _area(triangle5, eps = eps, nIter = nIter)   # [m2]
+                                    continue
+
+                                # Loop over triangles within the triangle ...
+                                for triangle6 in extract_polys(shapely.ops.triangulate(triangle5), onlyValid = onlyValid, repair = repair):
+                                    # Check if the user wants this level of
+                                    # refinement ...
+                                    if level == 6:
+                                        # Increment the total and move on to the
+                                        # next one ...
+                                        tot += _area(triangle6, eps = eps, nIter = nIter)   # [m2]
+                                        continue
+
+                                    # Cry ...
+                                    raise Exception(f"\"level\" is too large (\"{level:,d}\")") from None
 
     # Return total ...
     return tot
