@@ -4,7 +4,6 @@ The following links contain some basic tests to (hopefully) find any simple bugs
 that I might have introduced; and demonstrate some simple programming techniques.
 
 .. toctree::
-    test_area
     test_buffer
     test_bufferPoint
     test_fillin
