@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 # Import standard modules ...
+import math
 import unittest
 
 # Import special modules ...
@@ -8,10 +9,16 @@ try:
     import numpy
 except:
     raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
+try:
+    import shapely
+    import shapely.geometry
+except:
+    raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
 # Import my modules ...
 try:
     import pyguymer3
+    import pyguymer3.geo
 except:
     raise Exception("\"pyguymer3\" is not installed; run \"pip install --user PyGuymer3\"") from None
 
@@ -27,6 +34,7 @@ class MyTestCase(unittest.TestCase):
         Test the function "pyguymer3.convert_bytes_to_pretty_bytes()"
         """
 
+        # Assert result ...
         self.assertSequenceEqual(
             pyguymer3.convert_bytes_to_pretty_bytes(16.0 * 1024.0 * 1024.0),
             (16.0, "MiB"),
@@ -38,6 +46,7 @@ class MyTestCase(unittest.TestCase):
         Test the function "pyguymer3.convert_pretty_bytes_to_bytes()"
         """
 
+        # Assert result ...
         self.assertEqual(
             pyguymer3.convert_pretty_bytes_to_bytes("16.0 MiB"),
             16.0 * 1024.0 * 1024.0,
@@ -49,6 +58,7 @@ class MyTestCase(unittest.TestCase):
         Test the function "pyguymer3.convert_seconds_to_pretty_time()"
         """
 
+        # Assert result ...
         self.assertEqual(
             pyguymer3.convert_seconds_to_pretty_time(7326.311),
             "2h 2m 6.3s",
@@ -60,10 +70,59 @@ class MyTestCase(unittest.TestCase):
         Test the function "pyguymer3.find_integer_divisors()"
         """
 
+        # Assert result ...
         self.assertSequenceEqual(
             pyguymer3.find_integer_divisors(12),
             [2, 3, 4, 6],
         )
+
+    # Define a test ...
+    def test_geoArea(self):
+        """
+        Test the geospatial functions "pyguymer3.geo.buffer()" and
+        "pyguymer3.geo.area()"
+        """
+
+        # Define buffering distance and calculate the area exactly ...
+        dist = 1000.0                                                           # [m]
+        exactArea = math.pi * pow(dist, 2)                                      # [m²]
+
+        # Loop over longitudes ...
+        for lon in range(-135, +180, 45):
+            # Loop over latitudes ...
+            for lat in range(-45, +90, 45):
+                # Create Point ...
+                pnt = shapely.geometry.point.Point(
+                    float(lon),
+                    float(lat),
+                )
+
+                # Buffer Point ...
+                buff = pyguymer3.geo.buffer(
+                    pnt,
+                    dist,
+                    debug = False,
+                     fill = -1.0,
+                     nAng = 361,
+                     simp = -1.0,
+                )
+
+                # Find area ...
+                estimArea = pyguymer3.geo.area(
+                    buff,
+                    level = 6,
+                )                                                           # [m²]
+
+                # Tell "unittest" that we are doing sub-tests ...
+                with self.subTest(
+                    lon = lon,
+                    lat = lat,
+                ):
+                    # Assert result ...
+                    self.assertAlmostEqual(
+                        estimArea / exactArea,
+                        1.0,
+                    )
 
     # Define a test ...
     def test_interpolate(self):
@@ -71,6 +130,7 @@ class MyTestCase(unittest.TestCase):
         Test the function "pyguymer3.interpolate()"
         """
 
+        # Assert result ...
         self.assertEqual(
             pyguymer3.interpolate(1.0, 3.0, 2.0, 4.0, 2.0),
             3.0,
@@ -82,6 +142,7 @@ class MyTestCase(unittest.TestCase):
         Test the function "pyguymer3.intersection()"
         """
 
+        # Assert result ...
         self.assertSequenceEqual(
             pyguymer3.intersection(
                 (1.0, 3.0),
@@ -98,6 +159,7 @@ class MyTestCase(unittest.TestCase):
         Test the function "pyguymer3.make_path_safe()"
         """
 
+        # Assert results ...
         self.assertEqual(
             pyguymer3.make_path_safe(".what do you think of this path?", allowHidden = True),
             ".what do you think of this path",
@@ -139,6 +201,7 @@ class MyTestCase(unittest.TestCase):
             dtype = numpy.float64,
         )
 
+        # Assert results ...
         self.assertAlmostEqual(
             pyguymer3.mean(arr1),
             30.015,
