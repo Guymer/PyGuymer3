@@ -39,6 +39,10 @@ jobs:
                     echo "::notice $(which python)"
             -
                 name: Analyse (and test) the Python ${{ matrix.python-version }} code
+                # NOTE: Every function that is included in a "__init__.py" file
+                #       will show at least one line as being covered. Whilst I
+                #       accept that this is accurate it is not useful. See:
+                #         * https://coverage.readthedocs.io/en/7.6.12/faq.html#q-why-are-my-function-definitions-marked-as-run-when-i-haven-t-tested-them
                 run: |
                     cd main
                     gmake -r -C pyguymer3/f90 FC=`which gfortran` PYTHON3=`which python` compile
