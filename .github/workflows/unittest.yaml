@@ -1,0 +1,43 @@
+name: Unittest
+
+on: [push]
+
+jobs:
+    build:
+        runs-on: ubuntu-24.04
+        strategy:
+            matrix:
+                python-version: ["3.11", "3.12", "3.13"]
+        steps:
+            -
+                name: Checkout project                                          # https://github.com/actions/checkout
+                uses: actions/checkout@v4
+                with:
+                    path: main
+                    submodules: true
+            -
+                name: Set up Python ${{ matrix.python-version }}
+                uses: actions/setup-python@v5                                   # https://github.com/actions/setup-python
+                with:
+                    python-version: ${{ matrix.python-version }}
+            -
+                name: Install Python ${{ matrix.python-version }} dependencies
+                run: |
+                    python -m pip install --upgrade pip
+                    pip install -r main/requirements.txt
+                    pip install -r main/docs/requirements.txt
+                    pip install -r main/pyguymer3/f90/fortranlib/requirements.txt
+                    pip install git+https://github.com/VACUMM/sphinx-fortran.git@master
+            -
+                name: List programs
+                run: |
+                    echo "::notice $(which gfortran)"
+                    echo "::notice $(which gmake)"
+                    echo "::notice $(which pip)"
+                    echo "::notice $(which python)"
+            -
+                name: Test the Python ${{ matrix.python-version }} code
+                run: |
+                    cd main
+                    gmake -r -C pyguymer3/f90 FC=`which gfortran` PYTHON3=`which python` compile
+                    python -m unittest unitTests.py

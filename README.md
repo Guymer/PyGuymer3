@@ -1,6 +1,6 @@
 # PyGuymer3
 
-![Documentation Status](https://readthedocs.org/projects/pyguymer3/badge/) !["gmake" GitHub Action Status](https://github.com/Guymer/PyGuymer3/actions/workflows/gmake.yaml/badge.svg) !["mypy" GitHub Action Status](https://github.com/Guymer/PyGuymer3/actions/workflows/mypy.yaml/badge.svg) !["publish" GitHub Action Status](https://github.com/Guymer/PyGuymer3/actions/workflows/publish.yaml/badge.svg) !["pylint" GitHub Action Status](https://github.com/Guymer/PyGuymer3/actions/workflows/pylint.yaml/badge.svg)
+![Documentation Status](https://readthedocs.org/projects/pyguymer3/badge/) !["coverage" GitHub Action Status](https://github.com/Guymer/PyGuymer3/actions/workflows/coverage.yaml/badge.svg) !["gmake" GitHub Action Status](https://github.com/Guymer/PyGuymer3/actions/workflows/gmake.yaml/badge.svg) !["mypy" GitHub Action Status](https://github.com/Guymer/PyGuymer3/actions/workflows/mypy.yaml/badge.svg) !["publish" GitHub Action Status](https://github.com/Guymer/PyGuymer3/actions/workflows/publish.yaml/badge.svg) !["pylint" GitHub Action Status](https://github.com/Guymer/PyGuymer3/actions/workflows/pylint.yaml/badge.svg) !["unittest" GitHub Action Status](https://github.com/Guymer/PyGuymer3/actions/workflows/unittest.yaml/badge.svg)
 
 This is a Python 3.X port of [my Python 2.X module](https://github.com/Guymer/PyGuymer) containing a bunch of random functions that I have written over the years. The [documentation is on Read The Docs](https://pyguymer3.readthedocs.io/) and the [module is on PyPI](https://pypi.org/project/PyGuymer3/).
 
