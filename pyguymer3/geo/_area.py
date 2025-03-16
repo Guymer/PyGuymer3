@@ -39,6 +39,9 @@ def _area(
     # Import sub-functions ...
     from .calc_dist_between_two_locs import calc_dist_between_two_locs
 
+    # Check inputs ...
+    assert len(triangle.exterior.coords) == 4, "\"triangle\" is not a triangle"
+
     # **************************************************************************
 
     # Find the distance from the second point to the first point, and the
