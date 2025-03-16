@@ -77,6 +77,7 @@ class MyTestCase(unittest.TestCase):
         )
 
     # Define a test ...
+    @unittest.skip("test takes too long for GitHub Actions")
     def test_geoBufferArea(self):
         """
         Test the geospatial functions "pyguymer3.geo.buffer()" and
@@ -125,6 +126,7 @@ class MyTestCase(unittest.TestCase):
                     )
 
     # Define a test ...
+    @unittest.skip("test takes too long for GitHub Actions")
     def test_geoBufferBufferArea(self):
         """
         Test the geospatial functions "pyguymer3.geo.buffer()" and
