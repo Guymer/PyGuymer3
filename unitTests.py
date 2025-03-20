@@ -7,6 +7,11 @@ import unittest
 
 # Import special modules ...
 try:
+    import geojson
+    geojson.geometry.Geometry.__init__.__defaults__ = (None, False, 12)     # NOTE: See https://github.com/jazzband/geojson/issues/135#issuecomment-596509669
+except:
+    raise Exception("\"geojson\" is not installed; run \"pip install --user geojson\"") from None
+try:
     import numpy
 except:
     raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
@@ -276,6 +281,85 @@ class MyTestCase(unittest.TestCase):
             maxDist,
             db["GeodesicCircle"]["dist"],
         )
+
+    # Define a test ...
+    def test_geoGreatCircle(self):
+        """
+        Test the function "pyguymer3.geo.great_circle()"
+        """
+
+        # Define pairs of coordinates ...
+        coords1 = [
+            ( -90.0, +15.0),                                                    # [°], [°]
+            (  +1.0, +50.7),                                                    # [°], [°]
+            (-122.4, +37.6),                                                    # [°], [°]
+            ( +91.0, +15.0),                                                    # [°], [°]
+        ]
+        coords2 = [
+            ( +90.0, +15.0),                                                    # [°], [°]
+            (-178.0, -88.0),                                                    # [°], [°]
+            (+140.4, +35.8),                                                    # [°], [°]
+            ( -91.0, +15.0),                                                    # [°], [°]
+        ]
+
+        # Define number of points ...
+        npoints = [3, 4, 8, 16, 1000]                                           # [#]
+
+        # Loop over tests ...
+        for iCoord, (coord1, coord2) in enumerate(
+            zip(
+                coords1,
+                coords2,
+                strict = True,
+            )
+        ):
+            # Loop over number of points ...
+            for iPoint, npoint in enumerate(npoints):
+                # Load GeoJSON ...
+                with open(f"tests/greatCircle/greatCircle{iCoord:d}_{iPoint:d}.geojson", "rt", encoding = "utf-8") as fObj:
+                    savedCircle = shapely.geometry.shape(geojson.load(fObj))
+
+                # Find the great circle ...
+                calculatedCircle = pyguymer3.geo.great_circle(
+                    coord1[0],
+                    coord1[1],
+                    coord2[0],
+                    coord2[1],
+                      debug = False,
+                    maxdist = None,
+                      nIter = None,
+                     npoint = npoint,
+                )
+
+                # Loop over lines in the great circles ...
+                for iLine, (savedLine, calculatedLine) in enumerate(
+                    zip(
+                        pyguymer3.geo.extract_lines(savedCircle),
+                        pyguymer3.geo.extract_lines(calculatedCircle),
+                        strict = True,
+                    )
+                ):
+                    # Extract the coordinates from the lines ...
+                    savedCoords = numpy.array(savedLine.coords)                 # [°]
+                    calculatedCoords = numpy.array(calculatedLine.coords)       # [°]
+
+                    # Tell "unittest" that we are doing sub-tests ...
+                    with self.subTest(
+                        iCoord = iCoord,
+                        iPoint = iPoint,
+                         iLine = iLine,
+                    ):
+                        # Assert result ...
+                        self.assertAlmostEqual(
+                            numpy.hypot(
+                                numpy.diff(calculatedCoords[:, 0]),
+                                numpy.diff(calculatedCoords[:, 1]),
+                            ).sum(),
+                            numpy.hypot(
+                                numpy.diff(savedCoords[:, 0]),
+                                numpy.diff(savedCoords[:, 1]),
+                            ).sum(),
+                        )
 
     # Define a test ...
     def test_interpolate(self):
