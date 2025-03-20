@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 # Import standard modules ...
+import json
 import math
 import unittest
 
@@ -180,6 +181,101 @@ class MyTestCase(unittest.TestCase):
                         abs(estimArea - exactArea) / exactArea,
                         1.0e-2,
                     )
+
+    # Define a test ...
+    def test_geoFindMiddleOfLocsGeodesicBox(self):
+        """
+        Test the function "pyguymer3.geo.find_middle_of_locs()"
+        """
+
+        # Load data ...
+        with open("tests/findMiddleOfLocs/comparison.json", "rt", encoding = "utf-8") as fObj:
+            db = json.load(fObj)
+
+        # Load data and convert to NumPy array ...
+        with open("tests/findMiddleOfLocs/lons.json", "rt", encoding = "utf-8") as fObj:
+            lons = json.load(fObj)                                              # [°]
+        lons = numpy.array(lons, dtype = numpy.float64)                         # [°]
+
+        # Load data and convert to NumPy array ...
+        with open("tests/findMiddleOfLocs/lats.json", "rt", encoding = "utf-8") as fObj:
+            lats = json.load(fObj)                                              # [°]
+        lats = numpy.array(lats, dtype = numpy.float64)                         # [°]
+
+        # Calculate the Geodesic bounding box ...
+        midLon, midLat, maxDist = pyguymer3.geo.find_middle_of_locs(
+            lons,
+            lats,
+               conv = 10000.0,                                                  # 10 km
+              debug = False,
+             method = "GeodesicBox",
+               nAng = 361,
+              nIter = 1000000,
+            nRefine = 6,                                                        # 156.25 m
+                pad = 10000.0,                                                  # 10 km
+        )                                                                       # [°], [°], [m]
+
+        # Assert results ...
+        self.assertAlmostEqual(
+            midLon,
+            db["GeodesicBox"]["lon"],
+        )
+        self.assertAlmostEqual(
+            midLat,
+            db["GeodesicBox"]["lat"],
+        )
+        self.assertAlmostEqual(
+            maxDist,
+            db["GeodesicBox"]["dist"],
+        )
+
+    # Define a test ...
+    @unittest.skip("test takes too long for GitHub Actions")
+    def test_geoFindMiddleOfLocsGeodesicCircle(self):
+        """
+        Test the function "pyguymer3.geo.find_middle_of_locs()"
+        """
+
+        # Load data ...
+        with open("tests/findMiddleOfLocs/comparison.json", "rt", encoding = "utf-8") as fObj:
+            db = json.load(fObj)
+
+        # Load data and convert to NumPy array ...
+        with open("tests/findMiddleOfLocs/lons.json", "rt", encoding = "utf-8") as fObj:
+            lons = json.load(fObj)                                              # [°]
+        lons = numpy.array(lons, dtype = numpy.float64)                         # [°]
+
+        # Load data and convert to NumPy array ...
+        with open("tests/findMiddleOfLocs/lats.json", "rt", encoding = "utf-8") as fObj:
+            lats = json.load(fObj)                                              # [°]
+        lats = numpy.array(lats, dtype = numpy.float64)                         # [°]
+
+        # Calculate the Geodesic bounding circle ...
+        midLon, midLat, maxDist = pyguymer3.geo.find_middle_of_locs(
+            lons,
+            lats,
+               conv = 10000.0,                                                  # 10 km
+              debug = False,
+             method = "GeodesicCircle",
+               nAng = 361,
+              nIter = 1000000,
+            nRefine = 6,                                                        # 156.25 m
+                pad = 10000.0,                                                  # 10 km
+        )                                                                       # [°], [°], [m]
+
+        # Assert results ...
+        self.assertAlmostEqual(
+            midLon,
+            db["GeodesicCircle"]["lon"],
+        )
+        self.assertAlmostEqual(
+            midLat,
+            db["GeodesicCircle"]["lat"],
+        )
+        self.assertAlmostEqual(
+            maxDist,
+            db["GeodesicCircle"]["dist"],
+        )
 
     # Define a test ...
     def test_interpolate(self):
