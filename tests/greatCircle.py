@@ -100,11 +100,10 @@ if __name__ == "__main__":
 
     # Loop over tests ...
     for i, (coord1, coord2) in enumerate(zip(coords1, coords2, strict = True)):
-        # Determine file names ...
-        fname = f"greatCircle/greatCircle{i:d}.png"
-        jname = f"greatCircle/greatCircle{i:d}.geojson"
+        # Determine file name ...
+        pname = f"greatCircle/greatCircle{i:d}.png"
 
-        print(f" > Making \"{jname}\" and \"{fname}\" ...")
+        print(f" > Making \"{pname}\" ...")
 
         # Create figure ...
         fg = matplotlib.pyplot.figure(figsize = (12.8, 7.2))
@@ -128,6 +127,11 @@ if __name__ == "__main__":
 
         # Loop over number of points ...
         for c, npoint in enumerate(npoints):
+            # Determine file name ...
+            jname = f"greatCircle/greatCircle{i:d}_{c:d}.geojson"
+
+            print(f"   > Making \"{jname}\" ...")
+
             # Find the great circle ...
             circle = pyguymer3.geo.great_circle(
                 coord1[0],
@@ -182,12 +186,12 @@ if __name__ == "__main__":
         fg.tight_layout()
 
         # Save figure ...
-        fg.savefig(fname)
+        fg.savefig(pname)
         matplotlib.pyplot.close(fg)
 
         # Optimize figure ...
         pyguymer3.image.optimize_image(
-            fname,
+            pname,
               debug = args.debug,
               strip = True,
             timeout = args.timeout,
