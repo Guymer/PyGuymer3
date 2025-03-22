@@ -8,7 +8,7 @@ import unittest
 # Import special modules ...
 try:
     import geojson
-    geojson.geometry.Geometry.__init__.__defaults__ = (None, False, 12)     # NOTE: See https://github.com/jazzband/geojson/issues/135#issuecomment-596509669
+    geojson.geometry.Geometry.__init__.__defaults__ = (None, False, 12)         # NOTE: See https://github.com/jazzband/geojson/issues/135#issuecomment-596509669
 except:
     raise Exception("\"geojson\" is not installed; run \"pip install --user geojson\"") from None
 try:
@@ -458,6 +458,97 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(
             pyguymer3.make_path_safe(".what do you think of this path?", allowHidden = False),
             "what do you think of this path",
+        )
+
+    # Define a test ...
+    def test_mediaDoesMediaHaveAudio(self):
+        """
+        Test the function "pyguymer3.media.does_media_have_audio()"
+        """
+
+        # Assert result ...
+        self.assertTrue(
+            pyguymer3.media.does_media_have_audio("tests/BigBuckBunny.mp4", debug = False),
+        )
+
+    # Define a test ...
+    def test_mediaDoesMediaHaveRtpHints(self):
+        """
+        Test the function "pyguymer3.media.does_media_have_RTP_hints()"
+        """
+
+        # Assert result ...
+        self.assertFalse(
+            pyguymer3.media.does_media_have_RTP_hints("tests/BigBuckBunny.mp4", debug = False),
+        )
+
+    # Define a test ...
+    def test_mediaDoesMediaHaveSubtitle(self):
+        """
+        Test the function "pyguymer3.media.does_media_have_subtitle()"
+        """
+
+        # Assert result ...
+        self.assertFalse(
+            pyguymer3.media.does_media_have_subtitle("tests/BigBuckBunny.mp4", debug = False),
+        )
+
+    # Define a test ...
+    def test_mediaDoesMediaHaveVideo(self):
+        """
+        Test the function "pyguymer3.media.does_media_have_video()"
+        """
+
+        # Assert result ...
+        self.assertTrue(
+            pyguymer3.media.does_media_have_video("tests/BigBuckBunny.mp4", debug = False),
+        )
+
+    # Define a test ...
+    def test_mediaDoesMp4HaveFree(self):
+        """
+        Test the function "pyguymer3.media.does_MP4_have_free()"
+        """
+
+        # Assert result ...
+        self.assertFalse(
+            pyguymer3.media.does_MP4_have_free("tests/BigBuckBunny.mp4"),
+        )
+
+    # Define a test ...
+    def test_mediaIsMoovAtBeginningOfMp4(self):
+        """
+        Test the function "pyguymer3.media.is_moov_at_beginning_of_MP4()"
+        """
+
+        # Assert result ...
+        self.assertTrue(
+            pyguymer3.media.is_moov_at_beginning_of_MP4("tests/BigBuckBunny.mp4"),
+        )
+
+    # Define a test ...
+    def test_shaOfMp4(self):
+        """
+        Test the functions "pyguymer3.sha256_of_MP4()" and
+        "pyguymer3.sha512_of_MP4()"
+        """
+
+        # Assert results ...
+        self.assertEqual(
+            pyguymer3.sha256_of_MP4("tests/BigBuckBunny.mp4", ignoreModificationTime = True),
+            "3bf2f25a339896f6440b8b9bd90ba2b32d835620aec6147fd411ed34961c4dda",
+        )
+        self.assertEqual(
+            pyguymer3.sha256_of_MP4("tests/BigBuckBunny.mp4", ignoreModificationTime = False),
+            "fe9f981c1c2ff75306bc7c7c9d193e1683af4101221e6a567ba28c66370f1ac1",
+        )
+        self.assertEqual(
+            pyguymer3.sha512_of_MP4("tests/BigBuckBunny.mp4", ignoreModificationTime = True),
+            "1bbc3836c4fc0faa611b040582aedfef368daf3f20f095c5c5b1e4b683a9635c81304078ccfcdb9a02cf0bcb4f122a186ee34c61ed46d0814e721cd404aec46a",
+        )
+        self.assertEqual(
+            pyguymer3.sha512_of_MP4("tests/BigBuckBunny.mp4", ignoreModificationTime = False),
+            "92fa11caccbe37481ecb61a46693f5cb9cea1d95cb458ad17339153ba057455e4af40f413d79a7121314b338a2ec47874420a635e2caacafbc542a591c584356",
         )
 
     # Define a test ...
