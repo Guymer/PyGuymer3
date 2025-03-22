@@ -323,7 +323,6 @@ class MyTestCase(unittest.TestCase):
         )
 
     # Define a test ...
-    @unittest.skip("test takes too long for GitHub Actions")
     def test_geoFindMiddleOfLocsGeodesicCircle(self):
         """
         Test the function "pyguymer3.geo.find_middle_of_locs()"

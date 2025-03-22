@@ -4,6 +4,12 @@ on: [push]
 
 jobs:
     build:
+        # NOTE: On my MacBook Pro, running "unitTests.py" takes 38.477s when
+        #       running it normally but that increases to 260.779s when run
+        #       within "coverage". As of 22/March/2025, I have decided that the
+        #       latter duration is too long to run regularly in GitHub Actions,
+        #       therefore, this GitHub Action is only run on tag pushes now.
+        if: startsWith(github.ref, 'refs/tags/')                                # Only calculate coverage on tag pushes.
         runs-on: ubuntu-24.04
         strategy:
             matrix:
