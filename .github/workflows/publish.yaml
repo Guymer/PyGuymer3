@@ -13,8 +13,8 @@ jobs:
                 python-version: ["3.12"]
         steps:
             -
-                name: Checkout project                                          # https://github.com/actions/checkout
-                uses: actions/checkout@v4
+                name: Checkout project
+                uses: actions/checkout@v4                                       # https://github.com/actions/checkout
                 with:
                     persist-credentials: false
                     submodules: true
