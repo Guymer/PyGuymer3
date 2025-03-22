@@ -603,9 +603,10 @@ class MyTestCase(unittest.TestCase):
             pyguymer3.media.return_MP4_video_profile("tests/BigBuckBunny.mp4"),
             "High",
         )
-        self.assertEqual(
-            round(pyguymer3.media.return_audio_bit_rate("tests/BigBuckBunny.mp4"), -1),
-            round(69631, -1),
+        self.assertAlmostEqual(
+            pyguymer3.media.return_audio_bit_rate("tests/BigBuckBunny.mp4"),
+            69631,
+            delta = 1,
         )
         self.assertEqual(
             pyguymer3.media.return_audio_channels("tests/BigBuckBunny.mp4"),
@@ -619,9 +620,10 @@ class MyTestCase(unittest.TestCase):
             pyguymer3.media.return_audio_sample_rate("tests/BigBuckBunny.mp4"),
             48000,
         )
-        self.assertEqual(
-            round(pyguymer3.media.return_media_bit_rate("tests/BigBuckBunny.mp4"), -1),
-            round(533985, -1),
+        self.assertAlmostEqual(
+            pyguymer3.media.return_media_bit_rate("tests/BigBuckBunny.mp4"),
+            533985,
+            delta = 1,
         )
         self.assertEqual(
             pyguymer3.media.return_media_duration("tests/BigBuckBunny.mp4"),
@@ -635,9 +637,10 @@ class MyTestCase(unittest.TestCase):
             pyguymer3.media.return_video_bit_depth("tests/BigBuckBunny.mp4"),
             8,
         )
-        self.assertEqual(
-            round(pyguymer3.media.return_video_bit_rate("tests/BigBuckBunny.mp4"), -1),
-            round(452617, -1),
+        self.assertAlmostEqual(
+            pyguymer3.media.return_video_bit_rate("tests/BigBuckBunny.mp4"),
+            452617,
+            delta = 1,
         )
         self.assertSequenceEqual(
             pyguymer3.media.return_video_crop_parameters("tests/BigBuckBunny.mp4"),
