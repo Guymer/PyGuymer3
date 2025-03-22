@@ -5,6 +5,7 @@ exclude .github/*
 exclude .github/*/*
 exclude .gitignore
 exclude .gitmodules
+exclude .mypy.ini
 exclude .pylintrc
 exclude .readthedocs.yaml
 exclude .shellcheckrc
