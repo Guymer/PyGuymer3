@@ -758,6 +758,10 @@ class MyTestCase(unittest.TestCase):
         Test the function "pyguymer3.return_folder_list()"
         """
 
+        # Pretend that the scripts in "tests" have been run ...
+        os.makedirs("tests/animateBufferPoint")
+        os.makedirs("tests/animateExpandPoint")
+
         # Assert result ...
         self.assertSequenceEqual(
             pyguymer3.return_folder_list("tests"),
