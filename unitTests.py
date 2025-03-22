@@ -321,6 +321,54 @@ class MyTestCase(unittest.TestCase):
             lats = json.load(fObj)                                              # [°]
         lats = numpy.array(lats, dtype = numpy.float64)                         # [°]
 
+        # Assert results ...
+        self.assertAlmostEqual(
+            pyguymer3.geo.max_dist(
+                lons,
+                lats,
+                lons.mean(),
+                lats.mean(),
+                  eps = None,
+                nIter = None,
+                space = "EuclideanSpace",
+            ),
+            27.9289451900862,
+        )
+        self.assertAlmostEqual(
+            pyguymer3.geo.max_dist(
+                lons,
+                lats,
+                lons.mean(),
+                lats.mean(),
+                nIter = 1000000,
+                space = "GeodesicSpace",
+            ),
+            2964937.2004250353,
+        )
+        self.assertAlmostEqual(
+            pyguymer3.geo.min_dist(
+                lons,
+                lats,
+                lons.mean(),
+                lats.mean(),
+                  eps = None,
+                nIter = None,
+                space = "EuclideanSpace",
+            ),
+            7.703375722764471,
+        )
+        self.assertAlmostEqual(
+            pyguymer3.geo.min_dist(
+                lons,
+                lats,
+                lons.mean(),
+                lats.mean(),
+                nIter = 1000000,
+                space = "GeodesicSpace",
+            ),
+            746061.0481588101,
+        )
+
         # Loop over methods (and the convergence/padding in their appropriate
         # units) ...
         for convPad, method in [
