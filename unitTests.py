@@ -276,7 +276,7 @@ class MyTestCase(unittest.TestCase):
                     )
 
     # Define a test ...
-    def test_geoFindMiddleOfLocsGeodesicBox(self):
+    def test_geoFindMiddleOfLocsMatrix(self):
         """
         Test the function "pyguymer3.geo.find_middle_of_locs()"
         """
@@ -295,82 +295,49 @@ class MyTestCase(unittest.TestCase):
             lats = json.load(fObj)                                              # [°]
         lats = numpy.array(lats, dtype = numpy.float64)                         # [°]
 
-        # Calculate the Geodesic bounding box ...
-        midLon, midLat, maxDist = pyguymer3.geo.find_middle_of_locs(
-            lons,
-            lats,
-               conv = 10000.0,                                                  # 10 km
-              debug = False,
-             method = "GeodesicBox",
-               nAng = 361,
-              nIter = 1000000,
-            nRefine = 6,                                                        # 156.25 m
-                pad = 10000.0,                                                  # 10 km
-        )                                                                       # [°], [°], [m]
+        # Loop over methods (and the convergence/padding in their appropriate
+        # units) ...
+        for convPad, method in [
+            (10000.0 / pyguymer3.RESOLUTION_OF_EARTH, "EuclideanBox"   ,),
+            (10000.0 / pyguymer3.RESOLUTION_OF_EARTH, "EuclideanCircle",),
+            (10000.0                                , "GeodesicBox"    ,),
+            (10000.0                                , "GeodesicCircle" ,),
+        ]:
+            # Calculate the bounding box ...
+            midLon, midLat, maxDist = pyguymer3.geo.find_middle_of_locs(
+                lons,
+                lats,
+                   conv = convPad,                                              # ~10 km
+                  debug = False,
+                 method = method,
+                   nAng = 361,
+                  nIter = 1000000,
+                nRefine = 6,                                                    # ~156.25 m
+                    pad = convPad,                                              # ~10 km
+            )                                                                   # [°], [°], [°] or [m]
 
-        # Assert results ...
-        self.assertAlmostEqual(
-            midLon,
-            db["GeodesicBox"]["lon"],
-        )
-        self.assertAlmostEqual(
-            midLat,
-            db["GeodesicBox"]["lat"],
-        )
-        self.assertAlmostEqual(
-            maxDist,
-            db["GeodesicBox"]["dist"],
-        )
-
-    # Define a test ...
-    def test_geoFindMiddleOfLocsGeodesicCircle(self):
-        """
-        Test the function "pyguymer3.geo.find_middle_of_locs()"
-        """
-
-        # Load data ...
-        with open("tests/findMiddleOfLocs/comparison.json", "rt", encoding = "utf-8") as fObj:
-            db = json.load(fObj)
-
-        # Load data and convert to NumPy array ...
-        with open("tests/findMiddleOfLocs/lons.json", "rt", encoding = "utf-8") as fObj:
-            lons = json.load(fObj)                                              # [°]
-        lons = numpy.array(lons, dtype = numpy.float64)                         # [°]
-
-        # Load data and convert to NumPy array ...
-        with open("tests/findMiddleOfLocs/lats.json", "rt", encoding = "utf-8") as fObj:
-            lats = json.load(fObj)                                              # [°]
-        lats = numpy.array(lats, dtype = numpy.float64)                         # [°]
-
-        # Calculate the Geodesic bounding circle ...
-        midLon, midLat, maxDist = pyguymer3.geo.find_middle_of_locs(
-            lons,
-            lats,
-               conv = 10000.0,                                                  # 10 km
-              debug = False,
-             method = "GeodesicCircle",
-               nAng = 361,
-              nIter = 1000000,
-            nRefine = 6,                                                        # 156.25 m
-                pad = 10000.0,                                                  # 10 km
-        )                                                                       # [°], [°], [m]
-
-        # Assert results ...
-        self.assertAlmostEqual(
-            midLon,
-            db["GeodesicCircle"]["lon"],
-        )
-        self.assertAlmostEqual(
-            midLat,
-            db["GeodesicCircle"]["lat"],
-        )
-        self.assertAlmostEqual(
-            maxDist,
-            db["GeodesicCircle"]["dist"],
-        )
+            # Tell "unittest" that we are doing sub-tests ...
+            with self.subTest(
+                  conv = convPad,
+                method = method,
+                   pad = convPad,
+            ):
+                # Assert results ...
+                self.assertAlmostEqual(
+                    midLon,
+                    db[method]["lon"],
+                )
+                self.assertAlmostEqual(
+                    midLat,
+                    db[method]["lat"],
+                )
+                self.assertAlmostEqual(
+                    maxDist,
+                    db[method]["dist"],
+                )
 
     # Define a test ...
-    def test_geoGreatCircle(self):
+    def test_geoGreatCircleMatrix(self):
         """
         Test the function "pyguymer3.geo.great_circle()"
         """
