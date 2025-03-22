@@ -774,13 +774,54 @@ class MyTestCase(unittest.TestCase):
         )
 
     # Define a test ...
+    def test_shaOfGz(self):
+        """
+        Test the functions "pyguymer3.sha256()", "pyguymer3.sha256_of_GZ()",
+        "pyguymer3.sha512()" and "pyguymer3.sha512_of_GZ()"
+        """
+
+        # Assert result ...
+        self.assertEqual(
+            pyguymer3.sha256("tests/Lorem Ipsum.txt.gz"),
+            pyguymer3.sha256_of_GZ("tests/Lorem Ipsum.txt.gz", ignoreModificationTime = False),
+        )
+        self.assertEqual(
+            pyguymer3.sha512("tests/Lorem Ipsum.txt.gz"),
+            pyguymer3.sha512_of_GZ("tests/Lorem Ipsum.txt.gz", ignoreModificationTime = False),
+        )
+        self.assertEqual(
+            pyguymer3.sha256_of_GZ("tests/Lorem Ipsum.txt.gz", ignoreModificationTime = True),
+            "393ac251b9c74617c0dd45b633803957134f8250fc5debe54ffb9fe659e03ac6",
+        )
+        self.assertEqual(
+            pyguymer3.sha256_of_GZ("tests/Lorem Ipsum.txt.gz", ignoreModificationTime = False),
+            "8a3b42132f26934e171c6a5202eecf73ba6cbb5a64ff6023536d293fcce54faf",
+        )
+        self.assertEqual(
+            pyguymer3.sha512_of_GZ("tests/Lorem Ipsum.txt.gz", ignoreModificationTime = True),
+            "989c6186d7e0cc8104cfe3d445e170d09d19ac29afbbbe5d328f62cbf98ef50b8ab06cdcd811f07f5522a05620d7678e5ba0dd6ec6d9c6febebee7563b4cff42",
+        )
+        self.assertEqual(
+            pyguymer3.sha512_of_GZ("tests/Lorem Ipsum.txt.gz", ignoreModificationTime = False),
+            "286f9e328bc285741dcc935d2d56d75bca907e82cc09345ecc161129ad265828aee946848e00c91acd5564a8680637e7edff52a82aa94a327bf7c8666ed7c1e4",
+        )
+
+    # Define a test ...
     def test_shaOfMp4(self):
         """
-        Test the functions "pyguymer3.sha256_of_MP4()" and
-        "pyguymer3.sha512_of_MP4()"
+        Test the functions "pyguymer3.sha256()", "pyguymer3.sha256_of_MP4()",
+        "pyguymer3.sha512()" and "pyguymer3.sha512_of_MP4()"
         """
 
         # Assert results ...
+        self.assertEqual(
+            pyguymer3.sha256("tests/BigBuckBunny.mp4"),
+            pyguymer3.sha256_of_MP4("tests/BigBuckBunny.mp4", ignoreModificationTime = False),
+        )
+        self.assertEqual(
+            pyguymer3.sha512("tests/BigBuckBunny.mp4"),
+            pyguymer3.sha512_of_MP4("tests/BigBuckBunny.mp4", ignoreModificationTime = False),
+        )
         self.assertEqual(
             pyguymer3.sha256_of_MP4("tests/BigBuckBunny.mp4", ignoreModificationTime = True),
             "3bf2f25a339896f6440b8b9bd90ba2b32d835620aec6147fd411ed34961c4dda",
