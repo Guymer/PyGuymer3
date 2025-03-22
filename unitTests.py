@@ -74,6 +74,38 @@ class MyTestCase(unittest.TestCase):
         )
 
     # Define a test ...
+    def test_findInstancesOfAFile(self):
+        """
+        Test the function "pyguymer3.find_instances_of_a_file()"
+        """
+
+        # Assert result ...
+        self.assertSequenceEqual(
+            pyguymer3.find_instances_of_a_file("pyguymer3", "__init__.py"),
+            [
+                "pyguymer3/__init__.py",
+                "pyguymer3/f90/__init__.py",
+                "pyguymer3/geo/__init__.py",
+                "pyguymer3/geo/bufferSrc/__init__.py",
+                "pyguymer3/geo/checkSrc/__init__.py",
+                "pyguymer3/geo/cleanSrc/__init__.py",
+                "pyguymer3/geo/en2llSrc/__init__.py",
+                "pyguymer3/geo/fillinSrc/__init__.py",
+                "pyguymer3/geo/find_middle_of_locsSrc/__init__.py",
+                "pyguymer3/geo/ll2enSrc/__init__.py",
+                "pyguymer3/geo/ll2merSrc/__init__.py",
+                "pyguymer3/geo/max_distSrc/__init__.py",
+                "pyguymer3/geo/mer2llSrc/__init__.py",
+                "pyguymer3/geo/min_distSrc/__init__.py",
+                "pyguymer3/image/__init__.py",
+                "pyguymer3/media/CLPI/__init__.py",
+                "pyguymer3/media/MPLS/__init__.py",
+                "pyguymer3/media/__init__.py",
+                "pyguymer3/openstreetmap/__init__.py",
+            ],
+        )
+
+    # Define a test ...
     def test_findIntegerDivisors(self):
         """
         Test the function "pyguymer3.find_integer_divisors()"
@@ -454,6 +486,32 @@ class MyTestCase(unittest.TestCase):
 
     # Define a test ...
     def test_media(self):
+        """
+        Test the function "pyguymer3.media.return_MP4_audio_profile()",
+        "pyguymer3.media.return_MP4_video_level()",
+        "pyguymer3.media.return_MP4_video_profile()",
+        "pyguymer3.media.return_audio_bit_rate()",
+        "pyguymer3.media.return_audio_channels()",
+        "pyguymer3.media.return_audio_format()",
+        "pyguymer3.media.return_audio_sample_rate()",
+        "pyguymer3.media.return_media_bit_rate()",
+        "pyguymer3.media.return_media_duration()",
+        "pyguymer3.media.return_media_format()",
+        "pyguymer3.media.return_video_bit_depth()",
+        "pyguymer3.media.return_video_bit_rate()",
+        "pyguymer3.media.return_video_crop_parameters()",
+        "pyguymer3.media.return_video_display_aspect_ratio()",
+        "pyguymer3.media.return_video_format()",
+        "pyguymer3.media.return_video_frame_rate()",
+        "pyguymer3.media.return_video_height()",
+        "pyguymer3.media.return_video_pixel_aspect_ratio()",
+        "pyguymer3.media.return_video_ratios()",
+        "pyguymer3.media.return_video_rotation()",
+        "pyguymer3.media.return_video_size()",
+        "pyguymer3.media.return_video_source_aspect_ratio()" and
+        "pyguymer3.media.return_video_width()"
+        """
+
         # Assert results ...
         self.assertEqual(
             pyguymer3.media.return_MP4_audio_profile("tests/BigBuckBunny.mp4"),
@@ -612,6 +670,29 @@ class MyTestCase(unittest.TestCase):
         # Assert result ...
         self.assertTrue(
             pyguymer3.media.is_moov_at_beginning_of_MP4("tests/BigBuckBunny.mp4"),
+        )
+
+    # Define a test ...
+    def test_returnFolderList(self):
+        """
+        Test the function "pyguymer3.return_folder_list()"
+        """
+
+        # Assert result ...
+        self.assertSequenceEqual(
+            pyguymer3.return_folder_list("tests"),
+            [
+                "tests/animateBufferPoint",
+                "tests/animateExpandPoint",
+                "tests/area",
+                "tests/buffer",
+                "tests/bufferPoint",
+                "tests/fillin",
+                "tests/findMiddleOfLocs",
+                "tests/greatCircle",
+                "tests/mapUnderlay",
+                "tests/saveArrayAsImage",
+            ],
         )
 
     # Define a test ...
