@@ -25,6 +25,9 @@ except:
 try:
     import pyguymer3
     import pyguymer3.geo
+    import pyguymer3.image
+    import pyguymer3.media
+    import pyguymer3.openstreetmap
 except:
     raise Exception("\"pyguymer3\" is not installed; run \"pip install --user PyGuymer3\"") from None
 
@@ -83,8 +86,47 @@ class MyTestCase(unittest.TestCase):
         )
 
     # Define a test ...
-    @unittest.skip("test takes too long for GitHub Actions")
     def test_geoBufferArea(self):
+        """
+        Test the geospatial functions "pyguymer3.geo.buffer()" and
+        "pyguymer3.geo.area()"
+        """
+
+        # Define buffering distance and calculate the area exactly ...
+        dist = 1000.0                                                           # [m]
+        exactArea = math.pi * pow(dist, 2)                                      # [m²]
+
+        # Create Point ...
+        pnt = shapely.geometry.point.Point(
+            -1.0,
+            50.5,
+        )
+
+        # Buffer Point ...
+        buff = pyguymer3.geo.buffer(
+            pnt,
+            dist,
+            debug = False,
+             fill = -1.0,
+             nAng = 361,
+             simp = -1.0,
+        )
+
+        # Find area ...
+        estimArea = pyguymer3.geo.area(
+            buff,
+            level = 6,
+        )                                                                       # [m²]
+
+        # Assert result ...
+        self.assertLessEqual(
+            abs(estimArea - exactArea) / exactArea,
+            1.0e-4,
+        )
+
+    # Define a test ...
+    @unittest.skip("test takes too long for GitHub Actions")
+    def test_geoBufferAreaMatrix(self):
         """
         Test the geospatial functions "pyguymer3.geo.buffer()" and
         "pyguymer3.geo.area()"
@@ -132,8 +174,54 @@ class MyTestCase(unittest.TestCase):
                     )
 
     # Define a test ...
-    @unittest.skip("test takes too long for GitHub Actions")
     def test_geoBufferBufferArea(self):
+        """
+        Test the geospatial functions "pyguymer3.geo.buffer()" and
+        "pyguymer3.geo.area()"
+        """
+
+        # Define buffering distance and calculate the area exactly ...
+        dist = 1000.0                                                           # [m]
+        exactArea = math.pi * pow(2.0 * dist, 2)                                # [m²]
+
+        # Create Point ...
+        pnt = shapely.geometry.point.Point(
+            -1.0,
+            50.5,
+        )
+
+        # Buffer Point twice ...
+        buff = pyguymer3.geo.buffer(
+            pyguymer3.geo.buffer(
+                pnt,
+                dist,
+                debug = False,
+                 fill = -1.0,
+                 nAng = 361,
+                 simp = -1.0,
+            ),
+            dist,
+            debug = False,
+             fill = -1.0,
+             nAng = 361,
+             simp = -1.0,
+        )
+
+        # Find area ...
+        estimArea = pyguymer3.geo.area(
+            buff,
+            level = 6,
+        )                                                                       # [m²]
+
+        # Assert result ...
+        self.assertLessEqual(
+            abs(estimArea - exactArea) / exactArea,
+            1.0e-2,
+        )
+
+    # Define a test ...
+    @unittest.skip("test takes too long for GitHub Actions")
+    def test_geoBufferBufferAreaMatrix(self):
         """
         Test the geospatial functions "pyguymer3.geo.buffer()" and
         "pyguymer3.geo.area()"
