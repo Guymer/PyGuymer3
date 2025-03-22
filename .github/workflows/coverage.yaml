@@ -47,12 +47,11 @@ jobs:
                     cd main
                     gmake -r -C pyguymer3/f90 FC=`which gfortran` PYTHON3=`which python` compile
                     coverage run -m unittest unitTests.py
-                    # coverage report --skip-covered --skip-empty
                     coverage html --directory=coverage-output
             -
                 name: Upload coverage report (for future download)
                 uses: actions/upload-artifact@v4                                # https://github.com/actions/upload-artifact
                 with:
                     name: coverage-report
-                    path: coverage-output
+                    path: main/coverage-output
                     compression-level: 9
