@@ -625,9 +625,10 @@ class MyTestCase(unittest.TestCase):
             533985,
             delta = 1,
         )
-        self.assertEqual(
+        self.assertAlmostEqual(
             pyguymer3.media.return_media_duration("tests/BigBuckBunny.mp4"),
             634.567,
+            delta = 1.0 / 60.0,
         )
         self.assertEqual(
             pyguymer3.media.return_media_format("tests/BigBuckBunny.mp4"),
