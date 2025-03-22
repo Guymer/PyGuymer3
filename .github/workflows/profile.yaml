@@ -46,5 +46,5 @@ jobs:
                 run: |
                     cd main
                     gmake -r -C pyguymer3/f90 FC=`which gfortran` PYTHON3=`which python` compile
-                    python -m cProfile -o profile.log -m unittest unitTests.py
-                    python -c 'import pstats; p = pstats.Stats("profile.log"); p.sort_stats(pstats.SortKey.CUMULATIVE).print_stats("pyguymer3/pyguymer3", 25)'
+                    python -m cProfile -o cProfile.log -m unittest unitTests.py
+                    python -c 'import pstats; p = pstats.Stats("cProfile.log"); p.sort_stats(pstats.SortKey.CUMULATIVE).print_stats("pyguymer3/pyguymer3", 25)'
