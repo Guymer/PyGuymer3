@@ -440,6 +440,18 @@ class MyTestCase(unittest.TestCase):
                         )
 
     # Define a test ...
+    def test_imageReturnImageSize(self):
+        """
+        Test the function "pyguymer3.image.return_image_size()"
+        """
+
+        # Assert result ...
+        self.assertSequenceEqual(
+            pyguymer3.image.return_image_size("tests/saveArrayAsImage/saveArrayAsImage0.png"),
+            (16, 32),
+        )
+
+    # Define a test ...
     def test_interpolate(self):
         """
         Test the function "pyguymer3.interpolate()"
@@ -670,6 +682,24 @@ class MyTestCase(unittest.TestCase):
         # Assert result ...
         self.assertTrue(
             pyguymer3.media.is_moov_at_beginning_of_MP4("tests/BigBuckBunny.mp4"),
+        )
+
+    # Define a test ...
+    def test_returnFileList(self):
+        """
+        Test the function "pyguymer3.return_file_list()"
+        """
+
+        # Assert result ...
+        self.assertSequenceEqual(
+            pyguymer3.return_file_list("tests/findMiddleOfLocs"),
+            [
+                "tests/findMiddleOfLocs/comparison.json",
+                "tests/findMiddleOfLocs/comparison.png",
+                "tests/findMiddleOfLocs/lats.json",
+                "tests/findMiddleOfLocs/locations.png",
+                "tests/findMiddleOfLocs/lons.json",
+            ],
         )
 
     # Define a test ...
