@@ -572,6 +572,22 @@ class MyTestCase(unittest.TestCase):
         "pyguymer3.media.return_video_size()",
         "pyguymer3.media.return_video_source_aspect_ratio()" and
         "pyguymer3.media.return_video_width()"
+
+        It appears that different builds of "ffprobe" round the bit-rate
+        differently. I have just had this amazing error from GitHub:
+
+        Traceback (most recent call last):
+        File "/home/runner/work/PyGuymer3/PyGuymer3/main/unitTests.py", line 606, in test_media
+            self.assertEqual(
+            ~~~~~~~~~~~~~~~~^
+                pyguymer3.media.return_media_bit_rate("tests/BigBuckBunny.mp4"),
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                533985,
+                ^^^^^^^
+            )
+            ^
+        AssertionError: 533986 != 533985
+
         """
 
         # Assert results ...
@@ -588,8 +604,8 @@ class MyTestCase(unittest.TestCase):
             "High",
         )
         self.assertEqual(
-            pyguymer3.media.return_audio_bit_rate("tests/BigBuckBunny.mp4"),
-            69631,
+            round(pyguymer3.media.return_audio_bit_rate("tests/BigBuckBunny.mp4"), -1),
+            round(69631, -1),
         )
         self.assertEqual(
             pyguymer3.media.return_audio_channels("tests/BigBuckBunny.mp4"),
@@ -604,8 +620,8 @@ class MyTestCase(unittest.TestCase):
             48000,
         )
         self.assertEqual(
-            pyguymer3.media.return_media_bit_rate("tests/BigBuckBunny.mp4"),
-            533985,
+            round(pyguymer3.media.return_media_bit_rate("tests/BigBuckBunny.mp4"), -1),
+            round(533985, -1),
         )
         self.assertEqual(
             pyguymer3.media.return_media_duration("tests/BigBuckBunny.mp4"),
@@ -620,8 +636,8 @@ class MyTestCase(unittest.TestCase):
             8,
         )
         self.assertEqual(
-            pyguymer3.media.return_video_bit_rate("tests/BigBuckBunny.mp4"),
-            452617,
+            round(pyguymer3.media.return_video_bit_rate("tests/BigBuckBunny.mp4"), -1),
+            round(452617, -1),
         )
         self.assertSequenceEqual(
             pyguymer3.media.return_video_crop_parameters("tests/BigBuckBunny.mp4"),
