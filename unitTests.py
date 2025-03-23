@@ -549,7 +549,7 @@ class MyTestCase(unittest.TestCase):
     # Define a test ...
     def test_media(self):
         """
-        Test the function "pyguymer3.media.return_MP4_audio_profile()",
+        Test the media functions "pyguymer3.media.return_MP4_audio_profile()",
         "pyguymer3.media.return_MP4_video_level()",
         "pyguymer3.media.return_MP4_video_profile()",
         "pyguymer3.media.return_audio_bit_rate()",
