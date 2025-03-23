@@ -67,3 +67,12 @@ jobs:
                     name: coverage-report (${{ matrix.python-version }})
                     path: main/coverage-output
                     compression-level: 9
+
+            # TODO: Once the HTML coverage report has been made then publish it
+            #       to GitHub Pages for everyone to view without logging in to
+            #       GitHub. See:
+            #         * https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-with-a-custom-github-actions-workflow
+            #         * https://github.com/actions/deploy-pages
+            #         * https://github.com/actions/starter-workflows/blob/main/pages/static.yml
+            #       Once it has been published then it will be available at:
+            #         * http://username.github.io/repository
