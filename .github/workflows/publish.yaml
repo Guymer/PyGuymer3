@@ -10,7 +10,7 @@ jobs:
         runs-on: ubuntu-24.04
         strategy:
             matrix:
-                python-version: ["3.12"]
+                python-version: ["3.11", "3.12", "3.13"]
         steps:
             -
                 name: Checkout project
@@ -41,7 +41,7 @@ jobs:
                 name: Upload the distribution packages
                 uses: actions/upload-artifact@v4                                # https://github.com/actions/upload-artifact
                 with:
-                    name: python-package-distributions
+                    name: python-package-distributions (${{ matrix.python-version }})
                     path: dist/
     publish-to-pypi:
         name: Publish distribution to PyPI
@@ -59,7 +59,7 @@ jobs:
                 name: Download the distribution packages
                 uses: actions/download-artifact@v4                              # https://github.com/actions/download-artifact
                 with:
-                    name: python-package-distributions
+                    name: python-package-distributions (3.11)
                     path: dist/
             -
                 name: Publish distribution to PyPI
@@ -77,7 +77,7 @@ jobs:
                 name: Download the distribution packages
                 uses: actions/download-artifact@v4                              # https://github.com/actions/download-artifact
                 with:
-                    name: python-package-distributions
+                    name: python-package-distributions (3.11)
                     path: dist/
             -
                 name: Sign distribution with Sigstore
