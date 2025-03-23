@@ -59,7 +59,7 @@ jobs:
                     cd main
                     gmake -r -C pyguymer3/f90 FC=`which gfortran` PYTHON3=`which python` compile
                     coverage run -m unittest unitTests.py
-                    coverage html --directory=coverage-output
+                    coverage html --directory=coverage-output --include="pyguymer3/*"
             -
                 name: Upload coverage report (for future download)
                 uses: actions/upload-artifact@v4                                # https://github.com/actions/upload-artifact
