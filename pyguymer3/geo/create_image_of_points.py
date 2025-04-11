@@ -67,6 +67,12 @@ def create_image_of_points(
         extra cookies for any requests calls
     debug : bool, optional
         print debug messages and draw the circle on the axis
+    drawGreatCircles : bool, optional
+        whether to draw the great circles between the points
+    drawPointBuffers : bool, optional
+        whether to draw the buffers around the points
+    drawPoints : bool, optional
+        whether to draw the points
     eps : float, optional
         the tolerance of the Vincenty formula iterations
     exiftoolPath : str, optional
@@ -77,6 +83,12 @@ def create_image_of_points(
     gifsiclePath : str, optional
         the path to the "gifsicle" binary (if not provided then Python will attempt to
         find the binary itself)
+    globalExtent : bool, optional
+        whether to override the calculation of the extent of the points and just
+        make the image of global extent
+    globalRatio : float, optional
+        the ratio to make the image when it is global extent (because the
+        Mercator projection looks silly at the poles)
     headers : dict, optional
         extra headers for any requests calls
     jpegtranPath : str, optional
