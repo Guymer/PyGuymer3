@@ -13,6 +13,7 @@ def create_image_of_points(
            chunksize = 1048576,
              cookies = None,
                debug = __debug__,
+    drawGreatCircles = True,
                  eps = 1.0e-12,
         exiftoolPath = None,
            fillColor = (255,   0,   0),
@@ -302,44 +303,46 @@ def create_image_of_points(
             fill = skipFillColor if skip else fillColor,
         )
 
+    # Check if the user wants to draw the great circles between locations ...
     # Loop over locations ...
-    for iPnt in range(pntLons.size - 1):
-        # Find the great circle ...
-        circleLonLat = great_circle(
-            pntLons[iPnt],
-            pntLats[iPnt],
-            pntLons[iPnt + 1],
-            pntLats[iPnt + 1],
-               debug = debug,
-                 eps = eps,
-             maxdist = 12.0 * 1852.0,
-               nIter = nIter,
-              npoint = None,
-              prefix = prefix,
-            ramLimit = ramLimit,
-        )
-
-        # Loop over LineStrings in the great circle ...
-        for lineLonLat in extract_lines(circleLonLat, onlyValid = onlyValid):
-            # Convert LineString to the Mercator projection ...
-            lineMer = ll2mer(
-                lineLonLat,
-                 debug = debug,
-                prefix = prefix,
-                   tol = tol,
+    if drawGreatCircles:
+        for iPnt in range(pntLons.size - 1):
+            # Find the great circle from this location to the next ...
+            circleLonLat = great_circle(
+                pntLons[iPnt],
+                pntLats[iPnt],
+                pntLons[iPnt + 1],
+                pntLats[iPnt + 1],
+                   debug = debug,
+                     eps = eps,
+                 maxdist = 12.0 * 1852.0,
+                   nIter = nIter,
+                  npoint = None,
+                  prefix = prefix,
+                ramLimit = ramLimit,
             )
 
-            # Convert LineString to the image projection ...
-            coordsMer = numpy.array(lineMer.coords)                             # [#]
-            coordsImgX = float(midImgX) + (coordsMer[:, 0] - midMerX) * float(n * scale * 256)  # [px]
-            coordsImgY = float(midImgY) + (coordsMer[:, 1] - midMerY) * float(n * scale * 256)  # [px]
+            # Loop over LineStrings in the great circle ...
+            for lineLonLat in extract_lines(circleLonLat, onlyValid = onlyValid):
+                # Convert LineString to the Mercator projection ...
+                lineMer = ll2mer(
+                    lineLonLat,
+                     debug = debug,
+                    prefix = prefix,
+                       tol = tol,
+                )
 
-            # Draw the line ...
-            draw.line(
-                list(zip(coordsImgX, coordsImgY, strict = True)),
-                 fill = skipFillColor if skips[iPnt] or skips[iPnt + 1] else fillColor,
-                width = 4,
-            )
+                # Convert LineString to the image projection ...
+                coordsMer = numpy.array(lineMer.coords)                         # [#]
+                coordsImgX = float(midImgX) + (coordsMer[:, 0] - midMerX) * float(n * scale * 256)  # [px]
+                coordsImgY = float(midImgY) + (coordsMer[:, 1] - midMerY) * float(n * scale * 256)  # [px]
+
+                # Draw the line ...
+                draw.line(
+                    list(zip(coordsImgX, coordsImgY, strict = True)),
+                     fill = skipFillColor if skips[iPnt] or skips[iPnt + 1] else fillColor,
+                    width = 4,
+                )
 
     # Check that an extra route was passed ...
     if route is not None:
