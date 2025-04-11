@@ -14,6 +14,7 @@ def create_image_of_points(
              cookies = None,
                debug = __debug__,
     drawGreatCircles = True,
+    drawPointBuffers = False,
           drawPoints = True,
                  eps = 1.0e-12,
         exiftoolPath = None,
@@ -153,6 +154,7 @@ def create_image_of_points(
     # Import sub-functions ...
     from .buffer import buffer
     from .extract_lines import extract_lines
+    from .extract_polys import extract_polys
     from .great_circle import great_circle
     from .ll2mer import ll2mer
     from .mer2ll import mer2ll
@@ -281,6 +283,24 @@ def create_image_of_points(
 
     # Create short-hand ...
     draw = PIL.ImageDraw.Draw(img, "RGBA")
+
+    # Check if the user wants to draw the buffers of the points ...
+    if drawPointBuffers:
+        # Loop over Polygons in the buffer of the points ...
+        for polyMer in extract_polys(polysMer):
+            # Draw the Polygon ...
+            pntImgXYs = []                                                      # [px]
+            for coord in polyMer.exterior.coords:
+                pntImgXYs.append(
+                    (
+                        float(midImgX) + (coord[0] - midMerX) * float(n * scale * 256),
+                        float(midImgY) + (coord[1] - midMerY) * float(n * scale * 256),
+                    )
+                )                                                               # [px]
+            draw.polygon(
+                pntImgXYs,
+                fill = fillColor,
+            )
 
     # Check if the user wants to draw the points ...
     if drawPoints:
