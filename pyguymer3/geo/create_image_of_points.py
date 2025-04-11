@@ -17,6 +17,8 @@ def create_image_of_points(
         exiftoolPath = None,
            fillColor = (255,   0,   0),
         gifsiclePath = None,
+        globalExtent = False,
+         globalRatio = 16.0 / 9.0,
              headers = None,
         jpegtranPath = None,
                 nAng = 9,
@@ -207,7 +209,18 @@ def create_image_of_points(
     if debug:
         print(f"DEBUG: The Mercator projection of the {0.001 * padDist:,.1f} km buffer of the points extends from {polysMer.bounds[0]:.6f} to {polysMer.bounds[2]:.6f} in the x-axis of the Mercator projection.")
         print(f"DEBUG: The Mercator projection of the {0.001 * padDist:,.1f} km buffer of the points extends from {polysMer.bounds[1]:.6f} to {polysMer.bounds[3]:.6f} in the y-axis of the Mercator projection.")
-    minMerX, minMerY, maxMerX, maxMerY = polysMer.bounds                        # [#]
+    if globalExtent:
+        # NOTE: I want the final image to have an aspect ratio of 16:9, which
+        #       means that if the width is 1.0 then the height should be 0.5625,
+        #       which means that the top should start at 0.21875 and the bottom
+        #       should finish at 0.78125.
+        globalBand = (1.0 - (1.0 / globalRatio))                                # [#]
+        minMerX = 0.0                                                           # [#]
+        minMerY = 0.5 * globalBand                                              # [#]
+        maxMerX = 1.0                                                           # [#]
+        maxMerY = 1.0 - 0.5 * globalBand                                        # [#]
+    else:
+        minMerX, minMerY, maxMerX, maxMerY = polysMer.bounds                    # [#], [#], [#], [#]
     midMerX = 0.5 * (minMerX + maxMerX)                                         # [°]
     midMerY = 0.5 * (minMerY + maxMerY)                                         # [°]
     if debug:
