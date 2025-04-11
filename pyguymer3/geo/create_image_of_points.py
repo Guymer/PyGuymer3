@@ -14,6 +14,7 @@ def create_image_of_points(
              cookies = None,
                debug = __debug__,
     drawGreatCircles = True,
+          drawPoints = True,
                  eps = 1.0e-12,
         exiftoolPath = None,
            fillColor = (255,   0,   0),
@@ -278,36 +279,41 @@ def create_image_of_points(
     if debug:
         print(f"DEBUG: The middle of the image image is at ({midImgX:,d} px, {midImgY:,d} px).")
 
-    # Draw the points ...
+    # Create short-hand ...
     draw = PIL.ImageDraw.Draw(img, "RGBA")
-    for pntLon, pntLat, skip in zip(pntLons, pntLats, skips, strict = True):
-        pntMerX, pntMerY = ll2mer(
-            shapely.geometry.point.Point(pntLon, pntLat),
-             debug = debug,
-            prefix = prefix,
-               tol = tol,
-        ).coords[0]                                                             # [#], [#]
-        difMerX = pntMerX - midMerX                                             # [#]
-        difMerY = pntMerY - midMerY                                             # [#]
-        difImgX = difMerX * float(n * scale * 256)                              # [px]
-        difImgY = difMerY * float(n * scale * 256)                              # [px]
-        pntImgX = float(midImgX) + difImgX                                      # [px]
-        pntImgY = float(midImgY) + difImgY                                      # [px]
-        draw.ellipse(
-            [
-                pntImgX - 10.0,
-                pntImgY - 10.0,
-                pntImgX + 10.0,
-                pntImgY + 10.0,
-            ],
-            fill = skipFillColor if skip else fillColor,
-        )
 
-    # Check if the user wants to draw the great circles between locations ...
-    # Loop over locations ...
+    # Check if the user wants to draw the points ...
+    if drawPoints:
+        # Loop over points ...
+        for pntLon, pntLat, skip in zip(pntLons, pntLats, skips, strict = True):
+            # Draw the point ...
+            pntMerX, pntMerY = ll2mer(
+                shapely.geometry.point.Point(pntLon, pntLat),
+                 debug = debug,
+                prefix = prefix,
+                   tol = tol,
+            ).coords[0]                                                         # [#], [#]
+            difMerX = pntMerX - midMerX                                         # [#]
+            difMerY = pntMerY - midMerY                                         # [#]
+            difImgX = difMerX * float(n * scale * 256)                          # [px]
+            difImgY = difMerY * float(n * scale * 256)                          # [px]
+            pntImgX = float(midImgX) + difImgX                                  # [px]
+            pntImgY = float(midImgY) + difImgY                                  # [px]
+            draw.ellipse(
+                [
+                    pntImgX - 10.0,
+                    pntImgY - 10.0,
+                    pntImgX + 10.0,
+                    pntImgY + 10.0,
+                ],
+                fill = skipFillColor if skip else fillColor,
+            )
+
+    # Check if the user wants to draw the great circles between points ...
     if drawGreatCircles:
+        # Loop over points ...
         for iPnt in range(pntLons.size - 1):
-            # Find the great circle from this location to the next ...
+            # Find the great circle from this point to the next ...
             circleLonLat = great_circle(
                 pntLons[iPnt],
                 pntLats[iPnt],
