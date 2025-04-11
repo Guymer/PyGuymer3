@@ -235,10 +235,12 @@ def create_image_of_points(
         minMerY = 0.5 * globalBand                                              # [#]
         maxMerX = 1.0                                                           # [#]
         maxMerY = 1.0 - 0.5 * globalBand                                        # [#]
+        midMerX = 0.5                                                           # [#]
+        midMerY = 0.5                                                           # [#]
     else:
         minMerX, minMerY, maxMerX, maxMerY = polysMer.bounds                    # [#], [#], [#], [#]
-    midMerX = 0.5 * (minMerX + maxMerX)                                         # [°]
-    midMerY = 0.5 * (minMerY + maxMerY)                                         # [°]
+        midMerX = 0.5 * (minMerX + maxMerX)                                     # [#]
+        midMerY = 0.5 * (minMerY + maxMerY)                                     # [#]
     if debug:
         print(f"DEBUG: The middle of the Mercator projection of the {0.001 * padDist:,.1f} km buffer of the points is at ({midMerX:.6f}, {midMerY:.6f}) in the Mercator projection.")
 
@@ -300,17 +302,14 @@ def create_image_of_points(
     if drawPointBuffers:
         # Loop over Polygons in the buffer of the points ...
         for polyMer in extract_polys(polysMer, onlyValid = onlyValid):
+            # Convert LineString to the image projection ...
+            coordsMer = numpy.array(polyMer.exterior.coords)                    # [#]
+            coordsImgX = float(midImgX) + (coordsMer[:, 0] - midMerX) * float(n * scale * 256)  # [px]
+            coordsImgY = float(midImgY) + (coordsMer[:, 1] - midMerY) * float(n * scale * 256)  # [px]
+
             # Draw the Polygon ...
-            pntImgXYs = []                                                      # [px]
-            for coord in polyMer.exterior.coords:
-                pntImgXYs.append(
-                    (
-                        float(midImgX) + (coord[0] - midMerX) * float(n * scale * 256),
-                        float(midImgY) + (coord[1] - midMerY) * float(n * scale * 256),
-                    )
-                )                                                               # [px]
             draw.polygon(
-                pntImgXYs,
+                list(zip(coordsImgX, coordsImgY, strict = True)),
                 fill = fillColor,
             )
 
