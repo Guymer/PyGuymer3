@@ -76,13 +76,13 @@ def create_image_of_points(
     eps : float, optional
         the tolerance of the Vincenty formula iterations
     exiftoolPath : str, optional
-        the path to the "exiftool" binary (if not provided then Python will attempt to
-        find the binary itself)
+        the path to the "exiftool" binary (if not provided then Python will
+        attempt to find the binary itself)
     fillColor : tuple of int, optional
         the fill colour of the points
     gifsiclePath : str, optional
-        the path to the "gifsicle" binary (if not provided then Python will attempt to
-        find the binary itself)
+        the path to the "gifsicle" binary (if not provided then Python will
+        attempt to find the binary itself)
     globalExtent : bool, optional
         whether to override the calculation of the extent of the points and just
         make the image of global extent
@@ -92,8 +92,8 @@ def create_image_of_points(
     headers : dict, optional
         extra headers for any requests calls
     jpegtranPath : str, optional
-        the path to the "jpegtran" binary (if not provided then Python will attempt to
-        find the binary itself)
+        the path to the "jpegtran" binary (if not provided then Python will
+        attempt to find the binary itself)
     nAng : int, optional
         the number of angles around the middle location to search over
     nIter : int, optional
@@ -102,8 +102,8 @@ def create_image_of_points(
         only return valid Polygons (checks for validity can take a while, if
         being called often)
     optipngPath : str, optional
-        the path to the "optipng" binary (if not provided then Python will attempt to
-        find the binary itself)
+        the path to the "optipng" binary (if not provided then Python will
+        attempt to find the binary itself)
     padDist : float, optional
         the padding to draw around the points (in metres)
     prefix : str, optional
