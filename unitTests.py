@@ -39,6 +39,10 @@ class MyTestCase(unittest.TestCase):
     Test the module "pyguymer3"
     """
 
+    # Define constants from the environment ...
+    myAllTests = bool("ALLTESTS" in os.environ)
+    myDebug = bool("DEBUG" in os.environ)
+
     # Define a test ...
     def test_convertBytesToPrettyBytes(self):
         """
@@ -83,7 +87,11 @@ class MyTestCase(unittest.TestCase):
 
         # Assert result ...
         self.assertSequenceEqual(
-            pyguymer3.find_instances_of_a_file("pyguymer3", "__init__.py"),
+            pyguymer3.find_instances_of_a_file(
+                "pyguymer3",
+                "__init__.py",
+                debug = self.myDebug,
+            ),
             [
                 "pyguymer3/__init__.py",
                 "pyguymer3/f90/__init__.py",
@@ -140,9 +148,10 @@ class MyTestCase(unittest.TestCase):
         buff = pyguymer3.geo.buffer(
             pnt,
             dist,
-            fill = -1.0,
-            nAng = 361,
-            simp = -1.0,
+            debug = self.myDebug,
+             fill = -1.0,
+             nAng = 361,
+             simp = -1.0,
         )
 
         # Find area ...
@@ -183,9 +192,10 @@ class MyTestCase(unittest.TestCase):
                 buff = pyguymer3.geo.buffer(
                     pnt,
                     dist,
-                    fill = -1.0,
-                    nAng = 361,
-                    simp = -1.0,
+                    debug = self.myDebug,
+                     fill = -1.0,
+                     nAng = 361,
+                     simp = -1.0,
                 )
 
                 # Find area ...
@@ -227,14 +237,16 @@ class MyTestCase(unittest.TestCase):
             pyguymer3.geo.buffer(
                 pnt,
                 dist,
-                fill = -1.0,
-                nAng = 361,
-                simp = -1.0,
+                debug = self.myDebug,
+                 fill = -1.0,
+                 nAng = 361,
+                 simp = -1.0,
             ),
             dist,
-            fill = -1.0,
-            nAng = 361,
-            simp = -1.0,
+            debug = self.myDebug,
+             fill = -1.0,
+             nAng = 361,
+             simp = -1.0,
         )
 
         # Find area ...
@@ -276,14 +288,16 @@ class MyTestCase(unittest.TestCase):
                     pyguymer3.geo.buffer(
                         pnt,
                         dist,
-                        fill = -1.0,
-                        nAng = 361,
-                        simp = -1.0,
+                        debug = self.myDebug,
+                         fill = -1.0,
+                         nAng = 361,
+                         simp = -1.0,
                     ),
                     dist,
-                    fill = -1.0,
-                    nAng = 361,
-                    simp = -1.0,
+                    debug = self.myDebug,
+                     fill = -1.0,
+                     nAng = 361,
+                     simp = -1.0,
                 )
 
                 # Find area ...
@@ -384,6 +398,7 @@ class MyTestCase(unittest.TestCase):
                 lons,
                 lats,
                    conv = convPad,                                              # ~10 km
+                  debug = self.myDebug,
                  method = method,
                    nAng = 361,
                   nIter = 1000000,
@@ -454,6 +469,7 @@ class MyTestCase(unittest.TestCase):
                     coord1[1],
                     coord2[0],
                     coord2[1],
+                      debug = self.myDebug,
                     maxdist = None,
                       nIter = None,
                      npoint = npoint,
@@ -592,99 +608,168 @@ class MyTestCase(unittest.TestCase):
 
         # Assert results ...
         self.assertEqual(
-            pyguymer3.media.return_MP4_audio_profile("tests/BigBuckBunny.mp4"),
+            pyguymer3.media.return_MP4_audio_profile(
+                "tests/BigBuckBunny.mp4",
+                debug = self.myDebug,
+            ),
             "LC",
         )
         self.assertEqual(
-            pyguymer3.media.return_MP4_video_level("tests/BigBuckBunny.mp4"),
+            pyguymer3.media.return_MP4_video_level(
+                "tests/BigBuckBunny.mp4",
+                debug = self.myDebug,
+            ),
             40,
         )
         self.assertEqual(
-            pyguymer3.media.return_MP4_video_profile("tests/BigBuckBunny.mp4"),
+            pyguymer3.media.return_MP4_video_profile(
+                "tests/BigBuckBunny.mp4",
+                debug = self.myDebug,
+            ),
             "High",
         )
         self.assertAlmostEqual(
-            pyguymer3.media.return_audio_bit_rate("tests/BigBuckBunny.mp4"),
+            pyguymer3.media.return_audio_bit_rate(
+                "tests/BigBuckBunny.mp4",
+                debug = self.myDebug,
+            ),
             69631,
             delta = 1,
         )
         self.assertEqual(
-            pyguymer3.media.return_audio_channels("tests/BigBuckBunny.mp4"),
+            pyguymer3.media.return_audio_channels(
+                "tests/BigBuckBunny.mp4",
+                debug = self.myDebug,
+            ),
             1,
         )
         self.assertEqual(
-            pyguymer3.media.return_audio_format("tests/BigBuckBunny.mp4"),
+            pyguymer3.media.return_audio_format(
+                "tests/BigBuckBunny.mp4",
+                debug = self.myDebug,
+            ),
             "AAC",
         )
         self.assertEqual(
-            pyguymer3.media.return_audio_sample_rate("tests/BigBuckBunny.mp4"),
+            pyguymer3.media.return_audio_sample_rate(
+                "tests/BigBuckBunny.mp4",
+                debug = self.myDebug,
+            ),
             48000,
         )
         self.assertAlmostEqual(
-            pyguymer3.media.return_media_bit_rate("tests/BigBuckBunny.mp4"),
+            pyguymer3.media.return_media_bit_rate(
+                "tests/BigBuckBunny.mp4",
+                debug = self.myDebug,
+            ),
             533985,
             delta = 1,
         )
         self.assertAlmostEqual(
-            pyguymer3.media.return_media_duration("tests/BigBuckBunny.mp4"),
+            pyguymer3.media.return_media_duration(
+                "tests/BigBuckBunny.mp4",
+                debug = self.myDebug,
+            ),
             634.567,
             delta = 1.0 / 60.0,         # The video is 60 fps
         )
         self.assertEqual(
-            pyguymer3.media.return_media_format("tests/BigBuckBunny.mp4"),
+            pyguymer3.media.return_media_format(
+                "tests/BigBuckBunny.mp4",
+                debug = self.myDebug,
+            ),
             "MP4 (ISO/IEC 14496-12)",
         )
         self.assertEqual(
-            pyguymer3.media.return_video_bit_depth("tests/BigBuckBunny.mp4"),
+            pyguymer3.media.return_video_bit_depth(
+                "tests/BigBuckBunny.mp4",
+                debug = self.myDebug,
+            ),
             8,
         )
         self.assertAlmostEqual(
-            pyguymer3.media.return_video_bit_rate("tests/BigBuckBunny.mp4"),
+            pyguymer3.media.return_video_bit_rate(
+                "tests/BigBuckBunny.mp4",
+                debug = self.myDebug,
+            ),
             452617,
             delta = 1,
         )
         self.assertSequenceEqual(
-            pyguymer3.media.return_video_crop_parameters("tests/BigBuckBunny.mp4"),
+            pyguymer3.media.return_video_crop_parameters(
+                "tests/BigBuckBunny.mp4",
+                debug = self.myDebug,
+            ),
             (0, 2, 320, 176, "320:176:0:2"),
         )
         self.assertEqual(
-            pyguymer3.media.return_video_display_aspect_ratio("tests/BigBuckBunny.mp4"),
+            pyguymer3.media.return_video_display_aspect_ratio(
+                "tests/BigBuckBunny.mp4",
+                debug = self.myDebug,
+            ),
             "16:9",
         )
         self.assertEqual(
-            pyguymer3.media.return_video_format("tests/BigBuckBunny.mp4"),
+            pyguymer3.media.return_video_format(
+                "tests/BigBuckBunny.mp4",
+                debug = self.myDebug,
+            ),
             "H.264",
         )
         self.assertEqual(
-            pyguymer3.media.return_video_frame_rate("tests/BigBuckBunny.mp4"),
+            pyguymer3.media.return_video_frame_rate(
+                "tests/BigBuckBunny.mp4",
+                debug = self.myDebug,
+            ),
             60.0,
         )
         self.assertEqual(
-            pyguymer3.media.return_video_height("tests/BigBuckBunny.mp4"),
+            pyguymer3.media.return_video_height(
+                "tests/BigBuckBunny.mp4",
+                debug = self.myDebug,
+            ),
             180,
         )
         self.assertEqual(
-            pyguymer3.media.return_video_pixel_aspect_ratio("tests/BigBuckBunny.mp4"),
+            pyguymer3.media.return_video_pixel_aspect_ratio(
+                "tests/BigBuckBunny.mp4",
+                debug = self.myDebug,
+            ),
             "1:1",
         )
         self.assertSequenceEqual(
-            pyguymer3.media.return_video_ratios("tests/BigBuckBunny.mp4"),
+            pyguymer3.media.return_video_ratios(
+                "tests/BigBuckBunny.mp4",
+                debug = self.myDebug,
+            ),
             ("16:9", "1:1", "16:9"),
         )
         self.assertEqual(
-            pyguymer3.media.return_video_rotation("tests/BigBuckBunny.mp4"),
+            pyguymer3.media.return_video_rotation(
+                "tests/BigBuckBunny.mp4",
+                debug = self.myDebug,
+            ),
             0,
         )
         self.assertSequenceEqual(
-            pyguymer3.media.return_video_size("tests/BigBuckBunny.mp4"),
+            pyguymer3.media.return_video_size(
+                "tests/BigBuckBunny.mp4",
+                debug = self.myDebug,
+            ),
             (320, 180),
         )
         self.assertEqual(
-            pyguymer3.media.return_video_source_aspect_ratio("tests/BigBuckBunny.mp4"),
+            pyguymer3.media.return_video_source_aspect_ratio(
+                "tests/BigBuckBunny.mp4",
+                debug = self.myDebug,
+            ),
             "16:9",
         )
         self.assertEqual(
-            pyguymer3.media.return_video_width("tests/BigBuckBunny.mp4"),
+            pyguymer3.media.return_video_width(
+                "tests/BigBuckBunny.mp4",
+                debug = self.myDebug,
+            ),
             320,
         )
 
@@ -696,7 +781,10 @@ class MyTestCase(unittest.TestCase):
 
         # Assert result ...
         self.assertTrue(
-            pyguymer3.media.does_media_have_audio("tests/BigBuckBunny.mp4"),
+            pyguymer3.media.does_media_have_audio(
+                "tests/BigBuckBunny.mp4",
+                debug = self.myDebug,
+            ),
         )
 
     # Define a test ...
@@ -707,7 +795,10 @@ class MyTestCase(unittest.TestCase):
 
         # Assert result ...
         self.assertFalse(
-            pyguymer3.media.does_media_have_RTP_hints("tests/BigBuckBunny.mp4"),
+            pyguymer3.media.does_media_have_RTP_hints(
+                "tests/BigBuckBunny.mp4",
+                debug = self.myDebug,
+            ),
         )
 
     # Define a test ...
@@ -718,7 +809,10 @@ class MyTestCase(unittest.TestCase):
 
         # Assert result ...
         self.assertFalse(
-            pyguymer3.media.does_media_have_subtitle("tests/BigBuckBunny.mp4"),
+            pyguymer3.media.does_media_have_subtitle(
+                "tests/BigBuckBunny.mp4",
+                debug = self.myDebug,
+            ),
         )
 
     # Define a test ...
@@ -729,7 +823,10 @@ class MyTestCase(unittest.TestCase):
 
         # Assert result ...
         self.assertTrue(
-            pyguymer3.media.does_media_have_video("tests/BigBuckBunny.mp4"),
+            pyguymer3.media.does_media_have_video(
+                "tests/BigBuckBunny.mp4",
+                debug = self.myDebug,
+            ),
         )
 
     # Define a test ...
@@ -762,7 +859,10 @@ class MyTestCase(unittest.TestCase):
 
         # Assert result ...
         self.assertSequenceEqual(
-            pyguymer3.return_file_list("tests/findMiddleOfLocs"),
+            pyguymer3.return_file_list(
+                "tests/findMiddleOfLocs",
+                debug = self.myDebug,
+            ),
             [
                 "tests/findMiddleOfLocs/comparison.json",
                 "tests/findMiddleOfLocs/comparison.png",
@@ -784,7 +884,10 @@ class MyTestCase(unittest.TestCase):
 
         # Assert result ...
         self.assertSequenceEqual(
-            pyguymer3.return_folder_list("tests"),
+            pyguymer3.return_folder_list(
+                "tests",
+                debug = self.myDebug,
+            ),
             [
                 "tests/animateBufferPoint",
                 "tests/animateExpandPoint",
