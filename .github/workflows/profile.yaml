@@ -25,6 +25,7 @@ jobs:
                 name: Install Python dependencies
                 run: |
                     sudo apt-get install ffmpeg
+                    sudo apt-get install optipng
             -
                 name: Install Python ${{ matrix.python-version }} dependencies
                 run: |
@@ -40,6 +41,7 @@ jobs:
                     echo "::notice $(which ffprobe)"
                     echo "::notice $(which gfortran)"
                     echo "::notice $(which gmake)"
+                    echo "::notice $(which optipng)"
                     echo "::notice $(which pip)"
                     echo "::notice $(which python)"
             -
