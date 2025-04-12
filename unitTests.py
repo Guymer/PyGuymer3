@@ -58,6 +58,7 @@ class MyTestCase(unittest.TestCase):
     #           Ran 27 tests in 5564.652s
     #
     #           OK
+    #       Yes, you read that right: 1h 32m 44.7s to run the unit tests!
     myAllTests = bool("ALLTESTS" in os.environ)
     myDebug = bool("DEBUG" in os.environ)
 
