@@ -1053,6 +1053,17 @@ class MyTestCase(unittest.TestCase):
         )
 
     # Define a test ...
+    def test_mediaDoesFlacHavePadding(self):
+        """
+        Test the function "pyguymer3.media.does_FLAC_have_padding()"
+        """
+
+        # Assert result ...
+        self.assertFalse(
+            pyguymer3.media.does_FLAC_have_padding("tests/BigBuckBunny.flac"),
+        )
+
+    # Define a test ...
     def test_mediaDoesMp4HaveFree(self):
         """
         Test the function "pyguymer3.media.does_MP4_have_free()"

@@ -47,7 +47,7 @@ Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'bbb_sunflower_native_60fps_normal.mp4':
         audio service type: main
 ```
 
-I then converted the video to a much lower size using the following two commands:
+I then converted the video to a much smaller size using the following two commands:
 
 ```sh
 ffmpeg7                                                                         \
@@ -108,4 +108,52 @@ Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'BigBuckBunny.mp4':
         vendor_id       : [0][0][0][0]
 ```
 
-I will use [BigBuckBunny.mp4](BigBuckBunny.mp4) as example input for testing my Python module.
+I then converted the smaller sized video to audio-only using the following three commands:
+
+```sh
+ffmpeg7                                                                         \
+    -hide_banner                                                                \
+    -probesize 1G                                                               \
+    -analyzeduration 1800M                                                      \
+    -i BigBuckBunny.mp4                                                         \
+    -c:a flac                                                                   \
+    -compression_level 12                                                       \
+    -sn                                                                         \
+    -vn                                                                         \
+    -f flac                                                                     \
+    -map_chapters -1                                                            \
+    -map_metadata -1                                                            \
+    -threads 8                                                                  \
+    BigBuckBunny.flac
+metaflac                                                                        \
+    --dont-use-padding                                                          \
+    --no-utf8-convert                                                           \
+    --remove-all-tags                                                           \
+    BigBuckBunny.flac
+metaflac                                                                        \
+    --dont-use-padding                                                          \
+    --remove                                                                    \
+    --block-type=PADDING                                                        \
+    BigBuckBunny.flac
+```
+
+[The resultant file](BigBuckBunny.flac) is 40,448,968 bytes (38.6 MiB). The result of running `ffprobe7` on [the file](BigBuckBunny.flac) is:
+
+```txt
+ffprobe version 7.1.1 Copyright (c) 2007-2025 the FFmpeg developers
+  built with Apple clang version 16.0.0 (clang-1600.0.26.6)
+  configuration: --cc=/usr/bin/clang --datadir=/opt/local/libexec/ffmpeg7/share/data --docdir=/opt/local/libexec/ffmpeg7/share/doc --progs-suffix=7 --prefix=/opt/local/libexec/ffmpeg7 --enable-audiotoolbox --disable-indev=jack --disable-libjack --disable-libopencore-amrnb --disable-libopencore-amrwb --disable-libplacebo --disable-libvmaf --disable-libxcb --disable-libxcb-shm --disable-libxcb-xfixes --disable-metal --enable-opencl --disable-outdev=xv --enable-sdl2 --disable-securetransport --enable-videotoolbox --disable-xlib --enable-avfilter --enable-fontconfig --enable-gnutls --enable-lcms2 --enable-libass --enable-libbluray --enable-libdav1d --enable-libfreetype --enable-libfribidi --enable-libmodplug --enable-libmp3lame --enable-libopenjpeg --enable-libopus --enable-librsvg --enable-libsoxr --enable-libspeex --enable-libtheora --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libzimg --enable-libzvbi --enable-lzma --enable-pthreads --enable-shared --enable-swscale --enable-zlib --enable-libaom --enable-libsvtav1 --arch=arm64 --enable-gpl --enable-libvidstab --enable-libx264 --enable-libx265 --enable-libxvid --enable-postproc --enable-libfdk-aac --enable-nonfree --enable-libvmaf
+  libavutil      59. 39.100 / 59. 39.100
+  libavcodec     61. 19.101 / 61. 19.101
+  libavformat    61.  7.100 / 61.  7.100
+  libavdevice    61.  3.100 / 61.  3.100
+  libavfilter    10.  4.100 / 10.  4.100
+  libswscale      8.  3.100 /  8.  3.100
+  libswresample   5.  3.100 /  5.  3.100
+  libpostproc    58.  3.100 / 58.  3.100
+Input #0, flac, from 'BigBuckBunny.flac':
+  Duration: 00:10:34.15, start: 0.000000, bitrate: 510 kb/s
+  Stream #0:0: Audio: flac, 48000 Hz, mono, s32 (24 bit)
+```
+
+I will use [BigBuckBunny.flac](BigBuckBunny.flac) and [BigBuckBunny.mp4](BigBuckBunny.mp4) as example inputs for testing my Python module.
