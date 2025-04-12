@@ -612,6 +612,8 @@ class MyTestCase(unittest.TestCase):
             for iy in range(ny):
                 arr[iy, ix] = 0.5 * float(ix * iy)
 
+        # **********************************************************************
+
         # Save array as PNGs ...
         pyguymer3.image.save_array_as_image(
             arr,
@@ -671,6 +673,68 @@ class MyTestCase(unittest.TestCase):
 
                 # Clean up ...
                 os.remove(png)
+
+        # **********************************************************************
+
+        # Save array as PPMs ...
+        pyguymer3.image.save_array_as_image(
+            arr,
+            "saveArrayAsImage0.ppm",
+            form = "ppm",
+        )
+        pyguymer3.image.save_array_as_image(
+            arr,
+            "saveArrayAsImage1.ppm",
+            form = "ppm",
+            scale = True,
+        )
+        pyguymer3.image.save_array_as_image(
+            arr,
+            "saveArrayAsImage2.ppm",
+              form = "ppm",
+            pc_bot = 5.0,
+            pc_top = 5.0,
+             scale = True,
+        )
+        pyguymer3.image.save_array_as_image(
+            arr,
+            "saveArrayAsImage3.ppm",
+                ct = "fire",
+              form = "ppm",
+            pc_bot = 5.0,
+            pc_top = 5.0,
+             scale = True,
+        )
+        pyguymer3.image.save_array_as_image(
+            arr,
+            "saveArrayAsImage4.ppm",
+                ct = "rainbow",
+              form = "ppm",
+            pc_bot = 5.0,
+            pc_top = 5.0,
+             scale = True,
+        )
+
+        # Loop over output ...
+        for ppm in [
+            "saveArrayAsImage0.ppm",
+            "saveArrayAsImage1.ppm",
+            "saveArrayAsImage2.ppm",
+            "saveArrayAsImage3.ppm",
+            "saveArrayAsImage4.ppm",
+        ]:
+            # Tell "unittest" that we are doing sub-tests ...
+            with self.subTest(
+                ppm = ppm,
+            ):
+                # Assert result ...
+                self.assertEqual(
+                    pyguymer3.sha256(ppm),
+                    pyguymer3.sha256(f"tests/saveArrayAsImage/{ppm}"),
+                )
+
+                # Clean up ...
+                os.remove(ppm)
 
     # Define a test ...
     def test_interpolate(self):
