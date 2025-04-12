@@ -481,7 +481,9 @@ class MyTestCase(unittest.TestCase):
     # Define a test ...
     def test_geoGreatCircleMatrix(self):
         """
-        Test the function "pyguymer3.geo.great_circle()"
+        Test the function "pyguymer3.geo.find_middle_of_great_circle()",
+        "pyguymer3.geo.find_point_on_great_circle()" and
+        "pyguymer3.geo.great_circle()"
         """
 
         # Define pairs of coordinates ...
@@ -509,6 +511,31 @@ class MyTestCase(unittest.TestCase):
                 strict = True,
             )
         ):
+            # Tell "unittest" that we are doing sub-tests ...
+            with self.subTest(
+                iCoord = iCoord,
+            ):
+                # Assert result ...
+                self.assertAlmostEqual(
+                    numpy.hypot(
+                        *pyguymer3.geo.find_middle_of_great_circle(
+                            coord1[0],
+                            coord1[1],
+                            coord2[0],
+                            coord2[1],
+                        )
+                    ),
+                    numpy.hypot(
+                        *pyguymer3.geo.find_point_on_great_circle(
+                            0.5,
+                            coord1[0],
+                            coord1[1],
+                            coord2[0],
+                            coord2[1],
+                        )
+                    ),
+                )
+
             # Loop over number of points ...
             for iPoint, npoint in enumerate(npoints):
                 # Load GeoJSON ...
