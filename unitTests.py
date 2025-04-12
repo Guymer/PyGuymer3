@@ -830,6 +830,62 @@ class MyTestCase(unittest.TestCase):
         """
 
         # Assert results ...
+        # NOTE: For some reason "ffprobe" is not returning a bit rate for the
+        #       audio stream in the FLAC file.
+        # self.assertAlmostEqual(
+        #     pyguymer3.media.return_audio_bit_rate(
+        #         "tests/BigBuckBunny.flac",
+        #         debug = self.myDebug,
+        #     ),
+        #     69631,
+        #     delta = 1,
+        # )
+        self.assertEqual(
+            pyguymer3.media.return_audio_channels(
+                "tests/BigBuckBunny.flac",
+                debug = self.myDebug,
+            ),
+            1,
+        )
+        self.assertEqual(
+            pyguymer3.media.return_audio_format(
+                "tests/BigBuckBunny.flac",
+                debug = self.myDebug,
+            ),
+            "FLAC",
+        )
+        self.assertEqual(
+            pyguymer3.media.return_audio_sample_rate(
+                "tests/BigBuckBunny.flac",
+                debug = self.myDebug,
+            ),
+            48000,
+        )
+        self.assertAlmostEqual(
+            pyguymer3.media.return_media_bit_rate(
+                "tests/BigBuckBunny.flac",
+                debug = self.myDebug,
+            ),
+            510272,
+            delta = 1,
+        )
+        self.assertAlmostEqual(
+            pyguymer3.media.return_media_duration(
+                "tests/BigBuckBunny.flac",
+                debug = self.myDebug,
+            ),
+            634.155,
+            delta = 1.0 / 60.0,         # The original video was 60 fps
+        )
+        self.assertEqual(
+            pyguymer3.media.return_media_format(
+                "tests/BigBuckBunny.flac",
+                debug = self.myDebug,
+            ),
+            "FLAC",
+        )
+
+        # Assert results ...
         self.assertEqual(
             pyguymer3.media.return_MP4_audio_profile(
                 "tests/BigBuckBunny.mp4",
@@ -894,7 +950,7 @@ class MyTestCase(unittest.TestCase):
                 debug = self.myDebug,
             ),
             634.567,
-            delta = 1.0 / 60.0,         # The video is 60 fps
+            delta = 1.0 / 60.0,         # The original video was 60 fps
         )
         self.assertEqual(
             pyguymer3.media.return_media_format(
