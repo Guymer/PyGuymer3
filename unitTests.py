@@ -531,6 +531,82 @@ class MyTestCase(unittest.TestCase):
         )
 
     # Define a test ...
+    def test_imageSaveArrayAsImage(self):
+        """
+        Test the function "pyguymer3.image.save_array_as_image()" and
+        "pyguymer3.sha256()"
+        """
+
+        # Set image size ...
+        nx, ny = 16, 32                                                         # [px], [px]
+
+        # Create array ...
+        arr = numpy.zeros((ny, nx), dtype = numpy.float64)
+        for ix in range(nx):
+            for iy in range(ny):
+                arr[iy, ix] = 0.5 * float(ix * iy)
+
+        # Save array as PNGs ...
+        pyguymer3.image.save_array_as_image(
+            arr,
+            "saveArrayAsImage0.png",
+            debug = self.myDebug,
+        )
+        pyguymer3.image.save_array_as_image(
+            arr,
+            "saveArrayAsImage1.png",
+            debug = self.myDebug,
+            scale = True,
+        )
+        pyguymer3.image.save_array_as_image(
+            arr,
+            "saveArrayAsImage2.png",
+             debug = self.myDebug,
+            pc_bot = 5.0,
+            pc_top = 5.0,
+             scale = True,
+        )
+        pyguymer3.image.save_array_as_image(
+            arr,
+            "saveArrayAsImage3.png",
+                ct = "fire",
+             debug = self.myDebug,
+            pc_bot = 5.0,
+            pc_top = 5.0,
+             scale = True,
+        )
+        pyguymer3.image.save_array_as_image(
+            arr,
+            "saveArrayAsImage4.png",
+                ct = "rainbow",
+             debug = self.myDebug,
+            pc_bot = 5.0,
+            pc_top = 5.0,
+             scale = True,
+        )
+
+        # Loop over output ...
+        for png in [
+            "saveArrayAsImage0.png",
+            "saveArrayAsImage1.png",
+            "saveArrayAsImage2.png",
+            "saveArrayAsImage3.png",
+            "saveArrayAsImage4.png",
+        ]:
+            # Tell "unittest" that we are doing sub-tests ...
+            with self.subTest(
+                png = png,
+            ):
+                # Assert result ...
+                self.assertEqual(
+                    pyguymer3.sha256(png),
+                    pyguymer3.sha256(f"tests/saveArrayAsImage/{png}"),
+                )
+
+                # Clean up ...
+                os.remove(png)
+
+    # Define a test ...
     def test_interpolate(self):
         """
         Test the function "pyguymer3.interpolate()"
@@ -914,82 +990,6 @@ class MyTestCase(unittest.TestCase):
                 "tests/saveArrayAsImage",
             ],
         )
-
-    # Define a test ...
-    def test_saveArrayAsImage(self):
-        """
-        Test the function "pyguymer3.save_array_as_image()" and
-        "pyguymer3.sha256()"
-        """
-
-        # Set image size ...
-        nx, ny = 16, 32                                                         # [px], [px]
-
-        # Create array ...
-        arr = numpy.zeros((ny, nx), dtype = numpy.float64)
-        for ix in range(nx):
-            for iy in range(ny):
-                arr[iy, ix] = 0.5 * float(ix * iy)
-
-        # Save array as PNGs ...
-        pyguymer3.image.save_array_as_image(
-            arr,
-            "saveArrayAsImage0.png",
-            debug = self.myDebug,
-        )
-        pyguymer3.image.save_array_as_image(
-            arr,
-            "saveArrayAsImage1.png",
-            debug = self.myDebug,
-            scale = True,
-        )
-        pyguymer3.image.save_array_as_image(
-            arr,
-            "saveArrayAsImage2.png",
-             debug = self.myDebug,
-            pc_bot = 5.0,
-            pc_top = 5.0,
-             scale = True,
-        )
-        pyguymer3.image.save_array_as_image(
-            arr,
-            "saveArrayAsImage3.png",
-                ct = "fire",
-             debug = self.myDebug,
-            pc_bot = 5.0,
-            pc_top = 5.0,
-             scale = True,
-        )
-        pyguymer3.image.save_array_as_image(
-            arr,
-            "saveArrayAsImage4.png",
-                ct = "rainbow",
-             debug = self.myDebug,
-            pc_bot = 5.0,
-            pc_top = 5.0,
-             scale = True,
-        )
-
-        # Loop over output ...
-        for png in [
-            "saveArrayAsImage0.png",
-            "saveArrayAsImage1.png",
-            "saveArrayAsImage2.png",
-            "saveArrayAsImage3.png",
-            "saveArrayAsImage4.png",
-        ]:
-            # Tell "unittest" that we are doing sub-tests ...
-            with self.subTest(
-                png = png,
-            ):
-                # Assert result ...
-                self.assertEqual(
-                    pyguymer3.sha256(png),
-                    pyguymer3.sha256(f"tests/saveArrayAsImage/{png}"),
-                )
-
-                # Clean up ...
-                os.remove(png)
 
     # Define a test ...
     def test_shaOfGz(self):

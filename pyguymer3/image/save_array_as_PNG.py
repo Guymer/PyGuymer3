@@ -8,20 +8,30 @@ def save_array_as_PNG(
     *,
     ftype_req = -1,
 ):
-    """
-    Save an array as a PNG image.
+    """Save an array as a PNG image.
 
-    img -- a 3D NumPy array of type uint8 with shape (ny,nx,3)
-    fname -- output file name
-    ftype_req -- filter type to be used
+    Parameters
+    ----------
+    img : numpy.ndarray
+        a 3D NumPy array of uint8 type with shape (ny,nx,nc)
+    fname : str
+        output file name
+    ftype_req : int, optional
+        The PNG specification defines 5 different possible filters which are
+        numbered 0 to 4 (inclusively). Filter #0 is "no filtering". If the user
+        defines "ftype_req" as one of the identifying integers then that filter
+        will be used for the entire PNG file. If the user defines "ftype_req" as
+        "-1" (or does not define "ftype_req" at all) then adaptive filtering
+        will be used whereby an attempt is made to predict which filtering
+        method will yield the smallest compressed stream.
 
-    The PNG specification defines 5 different possible filters which are
-    numbered 0 to 4 (inclusively). Filter #0 is "no filtering". If the user
-    defines "ftype_req" as one of the identifying integers then that filter will
-    be used for the entire PNG file. If the user defines "ftype_req" as "-1" (or
-    does not define "ftype_req" at all) then adaptive filtering will be used
-    whereby an attempt is made to predict which filtering method will yield the
-    smallest compressed stream.
+    Notes
+    -----
+    Copyright 2017 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import standard modules ...

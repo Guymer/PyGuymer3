@@ -11,6 +11,7 @@ def save_array_as_image(
            debug = __debug__,
     exiftoolPath = None,
             form = "png",
+       ftype_req = -1,
     gifsiclePath = None,
     jpegtranPath = None,
      optipngPath = None,
@@ -22,8 +23,8 @@ def save_array_as_image(
     """Save an array as an image
 
     This function accepts a NumPy array, with optional scaling and/or colour
-    mapping, and saves it as an image.Currently only "png" and "ppm" formats are
-    available.
+    mapping, and saves it as an image. Currently only "png" and "ppm" formats
+    are available.
 
     Parameters
     ----------
@@ -39,6 +40,14 @@ def save_array_as_image(
         find the binary itself)
     form : str, optional
         output image format (default "png")
+    ftype_req : int, optional
+        The PNG specification defines 5 different possible filters which are
+        numbered 0 to 4 (inclusively). Filter #0 is "no filtering". If the user
+        defines "ftype_req" as one of the identifying integers then that filter
+        will be used for the entire PNG file. If the user defines "ftype_req" as
+        "-1" (or does not define "ftype_req" at all) then adaptive filtering
+        will be used whereby an attempt is made to predict which filtering
+        method will yield the smallest compressed stream.
     gifsiclePath : str, optional
         the path to the "gifsicle" binary (if not provided then Python will attempt to
         find the binary itself)
@@ -129,7 +138,7 @@ def save_array_as_image(
             save_array_as_PNG(
                 img2,
                 fname,
-                ftype_req = 4,
+                ftype_req = ftype_req,
             )
             optimize_image(
                 fname,
