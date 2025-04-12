@@ -779,8 +779,8 @@ class MyTestCase(unittest.TestCase):
         """
 
         # Pretend that the scripts in "tests" have been run ...
-        os.makedirs("tests/animateBufferPoint")
-        os.makedirs("tests/animateExpandPoint")
+        os.makedirs("tests/animateBufferPoint", exist_ok = True)
+        os.makedirs("tests/animateExpandPoint", exist_ok = True)
 
         # Assert result ...
         self.assertSequenceEqual(
