@@ -516,6 +516,7 @@ class MyTestCase(unittest.TestCase):
                 iCoord = iCoord,
             ):
                 # Assert result ...
+                # NOTE: This is comparing the Euclidean distance from (0°, 0°).
                 self.assertAlmostEqual(
                     numpy.hypot(
                         *pyguymer3.geo.find_middle_of_great_circle(
@@ -573,6 +574,9 @@ class MyTestCase(unittest.TestCase):
                          iLine = iLine,
                     ):
                         # Assert result ...
+                        # NOTE: This is comparing the sum of all of the
+                        #       Euclidean distances between each point, i.e.,
+                        #       the Euclidean length of the line.
                         self.assertAlmostEqual(
                             numpy.hypot(
                                 numpy.diff(calculatedCoords[:, 0]),
