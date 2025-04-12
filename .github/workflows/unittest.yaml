@@ -23,6 +23,7 @@ jobs:
             -
                 name: Install Python dependencies
                 run: |
+                    sudo apt-get install exiftool
                     sudo apt-get install ffmpeg
                     sudo apt-get install optipng
             -
@@ -36,6 +37,7 @@ jobs:
             -
                 name: List programs
                 run: |
+                    echo "::notice $(which exiftool)"
                     echo "::notice $(which ffmpeg)"
                     echo "::notice $(which ffprobe)"
                     echo "::notice $(which gfortran)"
