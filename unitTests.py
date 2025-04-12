@@ -40,6 +40,19 @@ class MyTestCase(unittest.TestCase):
     """
 
     # Define constants from the environment ...
+    # NOTE: As of 12/April/2025, on my MacBook Pro this is the output:
+    #           % python3.13 -m unittest unitTests.py
+    #           ......s.s..................
+    #           ----------------------------------------------------------------------
+    #           Ran 27 tests in 41.989s
+    #
+    #           OK (skipped=2)
+    #           % ALLTESTS=1234 python3.13 -m unittest unitTests.py
+    #           ...........................
+    #           ----------------------------------------------------------------------
+    #           Ran 27 tests in 5564.652s
+    #
+    #           OK
     myAllTests = bool("ALLTESTS" in os.environ)
     myDebug = bool("DEBUG" in os.environ)
 
@@ -167,7 +180,7 @@ class MyTestCase(unittest.TestCase):
         )
 
     # Define a test ...
-    @unittest.skip("test takes too long for GitHub Actions")
+    @unittest.skipUnless(myAllTests, "test takes too long for GitHub Actions")
     def test_geoBufferAreaMatrix(self):
         """
         Test the geospatial functions "pyguymer3.geo.buffer()" and
@@ -262,7 +275,7 @@ class MyTestCase(unittest.TestCase):
         )
 
     # Define a test ...
-    @unittest.skip("test takes too long for GitHub Actions")
+    @unittest.skipUnless(myAllTests, "test takes too long for GitHub Actions")
     def test_geoBufferBufferAreaMatrix(self):
         """
         Test the geospatial functions "pyguymer3.geo.buffer()" and
