@@ -31,6 +31,7 @@ def create_image_of_points(
              padDist = 12.0 * 1852.0,
               prefix = ".",
             ramLimit = 1073741824,
+              repair = False,
                route = None,
       routeFillColor = (  0, 128,   0),
                scale = 1,
@@ -110,6 +111,8 @@ def create_image_of_points(
         change the name of the output debugging CSVs
     ramLimit : int, optional
         the maximum RAM usage of each "large" array (in bytes)
+    repair : bool, optional
+        attempt to repair invalid Polygons
     route : shapely.geometry.linestring.LineString, optional
         an extra line to draw on the map
     routeFillColor : tuple of int, optional
@@ -301,7 +304,7 @@ def create_image_of_points(
     # Check if the user wants to draw the buffers of the points ...
     if drawPointBuffers:
         # Loop over Polygons in the buffer of the points ...
-        for polyMer in extract_polys(polysMer, onlyValid = onlyValid):
+        for polyMer in extract_polys(polysMer, onlyValid = onlyValid, repair = repair):
             # Convert LineString to the image projection ...
             coordsMer = numpy.array(polyMer.exterior.coords)                    # [#]
             coordsImgX = float(midImgX) + (coordsMer[:, 0] - midMerX) * float(n * scale * 256)  # [px]
