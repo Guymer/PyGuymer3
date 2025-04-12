@@ -1007,6 +1007,28 @@ class MyTestCase(unittest.TestCase):
         )
 
     # Define a test ...
+    def test_mediaX264(self):
+        """
+        Test the function "pyguymer3.media.return_x264_crf()",
+        "pyguymer3.media.return_x264_level()" and
+        "pyguymer3.media.return_x264_profile()"
+        """
+
+        # Assert results ...
+        self.assertEqual(
+            pyguymer3.media.return_x264_crf(1920, 800),
+            22.0,
+        )
+        self.assertEqual(
+            pyguymer3.media.return_x264_level(1920, 800),
+            "4.0",
+        )
+        self.assertEqual(
+            pyguymer3.media.return_x264_profile(1920, 800),
+            "high",
+        )
+
+    # Define a test ...
     def test_returnFileList(self):
         """
         Test the function "pyguymer3.return_file_list()"
