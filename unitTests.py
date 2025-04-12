@@ -1002,7 +1002,13 @@ class MyTestCase(unittest.TestCase):
         Test the function "pyguymer3.media.does_media_have_audio()"
         """
 
-        # Assert result ...
+        # Assert results ...
+        self.assertTrue(
+            pyguymer3.media.does_media_have_audio(
+                "tests/BigBuckBunny.flac",
+                debug = self.myDebug,
+            ),
+        )
         self.assertTrue(
             pyguymer3.media.does_media_have_audio(
                 "tests/BigBuckBunny.mp4",
@@ -1016,7 +1022,13 @@ class MyTestCase(unittest.TestCase):
         Test the function "pyguymer3.media.does_media_have_RTP_hints()"
         """
 
-        # Assert result ...
+        # Assert results ...
+        self.assertFalse(
+            pyguymer3.media.does_media_have_RTP_hints(
+                "tests/BigBuckBunny.flac",
+                debug = self.myDebug,
+            ),
+        )
         self.assertFalse(
             pyguymer3.media.does_media_have_RTP_hints(
                 "tests/BigBuckBunny.mp4",
@@ -1030,7 +1042,13 @@ class MyTestCase(unittest.TestCase):
         Test the function "pyguymer3.media.does_media_have_subtitle()"
         """
 
-        # Assert result ...
+        # Assert results ...
+        self.assertFalse(
+            pyguymer3.media.does_media_have_subtitle(
+                "tests/BigBuckBunny.flac",
+                debug = self.myDebug,
+            ),
+        )
         self.assertFalse(
             pyguymer3.media.does_media_have_subtitle(
                 "tests/BigBuckBunny.mp4",
@@ -1044,7 +1062,13 @@ class MyTestCase(unittest.TestCase):
         Test the function "pyguymer3.media.does_media_have_video()"
         """
 
-        # Assert result ...
+        # Assert results ...
+        self.assertFalse(
+            pyguymer3.media.does_media_have_video(
+                "tests/BigBuckBunny.flac",
+                debug = self.myDebug,
+            ),
+        )
         self.assertTrue(
             pyguymer3.media.does_media_have_video(
                 "tests/BigBuckBunny.mp4",
