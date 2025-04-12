@@ -14,6 +14,11 @@ try:
 except:
     raise Exception("\"geojson\" is not installed; run \"pip install --user geojson\"") from None
 try:
+    import lxml
+    import lxml.etree
+except:
+    raise Exception("\"lxml\" is not installed; run \"pip install --user lxml\"") from None
+try:
     import numpy
 except:
     raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
@@ -91,6 +96,40 @@ class MyTestCase(unittest.TestCase):
             pyguymer3.convert_seconds_to_pretty_time(7326.311),
             "2h 2m 6.3s",
         )
+
+    # Define a test ...
+    def test_elem2dict(self):
+        """
+        Test the function "pyguymer3.elem2dict()" and "pyguymer3.sha256()"
+        """
+
+        # Load input data as binary and parse it as XML ...
+        with open("tests/feed.atom", "rb") as fObj:
+            src = fObj.read()
+        xmlElem = lxml.etree.XML(src)
+
+        # Convert the XML element to a Python dictionary and save it as a JSON ...
+        pyDict = pyguymer3.elem2dict(
+            xmlElem,
+            debug = self.myDebug,
+        )
+        with open("feed.json", "wt", encoding = "utf-8") as fObj:
+            json.dump(
+                pyDict,
+                fObj,
+                ensure_ascii = False,
+                      indent = 4,
+                   sort_keys = True,
+            )
+
+        # Assert result ...
+        self.assertEqual(
+            pyguymer3.sha256("feed.json"),
+            pyguymer3.sha256("tests/feed.json"),
+        )
+
+        # Clean up ...
+        os.remove("feed.json")
 
     # Define a test ...
     def test_findInstancesOfAFile(self):
