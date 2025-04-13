@@ -371,9 +371,113 @@ class MyTestCase(unittest.TestCase):
                     )
 
     # Define a test ...
+    def test_geoFillin(self):
+        """
+        Test the geospatial function "pyguymer3.geo.fillin()"
+        """
+
+        # Define rings ...
+        rings = [
+            [
+                (  0.0,  44.0),
+                ( 44.0,   0.0),
+                (  0.0, -44.0),
+                (-44.0,   0.0),
+                (  0.0,  44.0),
+            ],
+            [
+                (90.0 +   0.0,  44.0),
+                (90.0 +  44.0,   0.0),
+                (90.0 +   0.0, -44.0),
+                (90.0 + -44.0,   0.0),
+                (90.0 +   0.0,  44.0),
+            ],
+            [
+                (  0.0, 45.0 +  44.0),
+                ( 44.0, 45.0 +   0.0),
+                (  0.0, 45.0 + -44.0),
+                (-44.0, 45.0 +   0.0),
+                (  0.0, 45.0 +  44.0),
+            ],
+            [
+                (90.0 +   0.0, 45.0 +  44.0),
+                (90.0 +  44.0, 45.0 +   0.0),
+                (90.0 +   0.0, 45.0 + -44.0),
+                (90.0 + -44.0, 45.0 +   0.0),
+                (90.0 +   0.0, 45.0 +  44.0),
+            ],
+        ]
+
+        # Loop over rings ...
+        for iRing, ring in enumerate(rings):
+            # Convert list of points to a LinearRing ...
+            sparseRing = shapely.geometry.polygon.LinearRing(ring)
+
+            # Load GeoJSONs ...
+            with open(f"tests/fillin/fillin{iRing:d}Euclidean.geojson", "rt", encoding = "utf-8") as fObj:
+                savedRing1 = shapely.geometry.shape(geojson.load(fObj))
+            with open(f"tests/fillin/fillin{iRing:d}Geodesic.geojson", "rt", encoding = "utf-8") as fObj:
+                savedRing2 = shapely.geometry.shape(geojson.load(fObj))
+
+            # Fill in ring in Euclidean space ...
+            calculatedRing1 = pyguymer3.geo.fillin(
+                sparseRing,
+                1.0,
+                    debug = self.myDebug,
+                fillSpace = "EuclideanSpace",
+                    nIter = 100,
+                      tol = 1.0e-10,
+            )
+
+            # Fill in ring in Geodesic space ...
+            calculatedRing2 = pyguymer3.geo.fillin(
+                sparseRing,
+                10000.0,
+                    debug = self.myDebug,
+                fillSpace = "GeodesicSpace",
+                    nIter = 100,
+                      tol = 1.0e-10,
+            )
+
+            # Extract the coordinates from the rings ...
+            savedCoords1 = numpy.array(savedRing1.coords)                       # [°]
+            savedCoords2 = numpy.array(savedRing2.coords)                       # [°]
+            calculatedCoords1 = numpy.array(calculatedRing1.coords)             # [°]
+            calculatedCoords2 = numpy.array(calculatedRing2.coords)             # [°]
+
+            # Tell "unittest" that we are doing sub-tests ...
+            with self.subTest(
+                iRing = iRing,
+            ):
+                # Assert results ...
+                # NOTE: This is comparing the sum of all of the Euclidean
+                #       distances between each point, i.e., the Euclidean length
+                #       of the ring.
+                self.assertAlmostEqual(
+                    numpy.hypot(
+                        numpy.diff(calculatedCoords1[:, 0]),
+                        numpy.diff(calculatedCoords1[:, 1]),
+                    ).sum(),
+                    numpy.hypot(
+                        numpy.diff(savedCoords1[:, 0]),
+                        numpy.diff(savedCoords1[:, 1]),
+                    ).sum(),
+                )
+                self.assertAlmostEqual(
+                    numpy.hypot(
+                        numpy.diff(calculatedCoords2[:, 0]),
+                        numpy.diff(calculatedCoords2[:, 1]),
+                    ).sum(),
+                    numpy.hypot(
+                        numpy.diff(savedCoords2[:, 0]),
+                        numpy.diff(savedCoords2[:, 1]),
+                    ).sum(),
+                )
+
+    # Define a test ...
     def test_geoFindMiddleOfLocsMatrix(self):
         """
-        Test the function "pyguymer3.geo.find_middle_of_locs()"
+        Test the geospatial function "pyguymer3.geo.find_middle_of_locs()"
         """
 
         # Load data ...
@@ -482,7 +586,8 @@ class MyTestCase(unittest.TestCase):
     # Define a test ...
     def test_geoGreatCircleMatrix(self):
         """
-        Test the function "pyguymer3.geo.find_middle_of_great_circle()",
+        Test the geospatial functions
+        "pyguymer3.geo.find_middle_of_great_circle()",
         "pyguymer3.geo.find_point_on_great_circle()" and
         "pyguymer3.geo.great_circle()"
         """
@@ -592,7 +697,7 @@ class MyTestCase(unittest.TestCase):
     # Define a test ...
     def test_imageReturnImageSize(self):
         """
-        Test the function "pyguymer3.image.return_image_size()"
+        Test the image function "pyguymer3.image.return_image_size()"
         """
 
         # Assert result ...
@@ -604,7 +709,7 @@ class MyTestCase(unittest.TestCase):
     # Define a test ...
     def test_imageSaveArrayAsImage(self):
         """
-        Test the function "pyguymer3.image.save_array_as_image()" and
+        Test the image functions "pyguymer3.image.save_array_as_image()" and
         "pyguymer3.sha256()"
         """
 
@@ -1056,7 +1161,7 @@ class MyTestCase(unittest.TestCase):
     # Define a test ...
     def test_mediaDoesMediaHaveAudio(self):
         """
-        Test the function "pyguymer3.media.does_media_have_audio()"
+        Test the media function "pyguymer3.media.does_media_have_audio()"
         """
 
         # Assert results ...
@@ -1076,7 +1181,7 @@ class MyTestCase(unittest.TestCase):
     # Define a test ...
     def test_mediaDoesMediaHaveRtpHints(self):
         """
-        Test the function "pyguymer3.media.does_media_have_RTP_hints()"
+        Test the media function "pyguymer3.media.does_media_have_RTP_hints()"
         """
 
         # Assert results ...
@@ -1096,7 +1201,7 @@ class MyTestCase(unittest.TestCase):
     # Define a test ...
     def test_mediaDoesMediaHaveSubtitle(self):
         """
-        Test the function "pyguymer3.media.does_media_have_subtitle()"
+        Test the media function "pyguymer3.media.does_media_have_subtitle()"
         """
 
         # Assert results ...
@@ -1116,7 +1221,7 @@ class MyTestCase(unittest.TestCase):
     # Define a test ...
     def test_mediaDoesMediaHaveVideo(self):
         """
-        Test the function "pyguymer3.media.does_media_have_video()"
+        Test the media function "pyguymer3.media.does_media_have_video()"
         """
 
         # Assert results ...
@@ -1136,7 +1241,7 @@ class MyTestCase(unittest.TestCase):
     # Define a test ...
     def test_mediaDoesFlacHavePadding(self):
         """
-        Test the function "pyguymer3.media.does_FLAC_have_padding()"
+        Test the media function "pyguymer3.media.does_FLAC_have_padding()"
         """
 
         # Assert result ...
@@ -1147,7 +1252,7 @@ class MyTestCase(unittest.TestCase):
     # Define a test ...
     def test_mediaDoesMp4HaveFree(self):
         """
-        Test the function "pyguymer3.media.does_MP4_have_free()"
+        Test the media function "pyguymer3.media.does_MP4_have_free()"
         """
 
         # Assert result ...
@@ -1158,7 +1263,7 @@ class MyTestCase(unittest.TestCase):
     # Define a test ...
     def test_mediaIsMoovAtBeginningOfMp4(self):
         """
-        Test the function "pyguymer3.media.is_moov_at_beginning_of_MP4()"
+        Test the media function "pyguymer3.media.is_moov_at_beginning_of_MP4()"
         """
 
         # Assert result ...
@@ -1169,7 +1274,7 @@ class MyTestCase(unittest.TestCase):
     # Define a test ...
     def test_mediaX264(self):
         """
-        Test the function "pyguymer3.media.return_x264_crf()",
+        Test the media functions "pyguymer3.media.return_x264_crf()",
         "pyguymer3.media.return_x264_level()" and
         "pyguymer3.media.return_x264_profile()"
         """
