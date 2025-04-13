@@ -5,6 +5,22 @@ Welcome to PyGuymer3's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+.. image:: https://readthedocs.org/projects/pyguymer3/badge/
+
+.. image:: https://github.com/Guymer/PyGuymer3/actions/workflows/coverage.yaml/badge.svg
+
+.. image:: https://github.com/Guymer/PyGuymer3/actions/workflows/gmake.yaml/badge.svg
+
+.. image:: https://github.com/Guymer/PyGuymer3/actions/workflows/mypy.yaml/badge.svg
+
+.. image:: https://github.com/Guymer/PyGuymer3/actions/workflows/profile.yaml/badge.svg
+
+.. image:: https://github.com/Guymer/PyGuymer3/actions/workflows/publish.yaml/badge.svg
+
+.. image:: https://github.com/Guymer/PyGuymer3/actions/workflows/pylint.yaml/badge.svg
+
+.. image:: https://github.com/Guymer/PyGuymer3/actions/workflows/unittest.yaml/badge.svg
+
 This is a Python 3.X port of
 `my Python 2.X module <https://github.com/Guymer/PyGuymer>`_ containing a bunch
 of random functions that I have written over the years. The
