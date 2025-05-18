@@ -6,6 +6,7 @@ def make_path_safe(
     /,
     *,
     allowHidden = False,
+      ensureNFC = True,
 ):
     """Make a path safe for using on a filesystem.
 
@@ -15,6 +16,8 @@ def make_path_safe(
         the path to make safe
     allowHidden : bool, optional
         allow the path to be hidden if it starts with a period (default False)
+    ensureNFC : bool, optional
+        ensure that the Unicode encoding is NFC
 
     Notes
     -----
@@ -27,6 +30,7 @@ def make_path_safe(
 
     # Import standard modules ...
     import os
+    import unicodedata
 
     # Remove "bad" characters according to me ...
     # NOTE: This just avoids accidents with comments and variables in a shell.
@@ -59,6 +63,10 @@ def make_path_safe(
     # Check if the path is now empty ...
     if len(path) == 0:
         raise Exception("\"path\" did not contain any good characters") from None
+
+    # Change Unicode encoding if needed ...
+    if ensureNFC and not unicodedata.is_normalized("NFC", path):
+        path = unicodedata.normalize("NFC", path)
 
     # Return answer ...
     return path
