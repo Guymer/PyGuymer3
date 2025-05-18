@@ -7,6 +7,7 @@ def perms(
     *,
         allowHidden = False,
               debug = __debug__,
+          ensureNFC = True,
           filePerms = None,
         folderPerms = None,
     follow_symlinks = True,
@@ -28,6 +29,8 @@ def perms(
         allow hidden files
     debug : bool, optional
         print debug messages
+    ensureNFC : bool, optional
+        ensure that the Unicode encoding is NFC
     filePerms : int, default=None
         desired file mode (recommended to supply integer in octal to improve clarity)
     folderPerms : int, default=None
@@ -71,6 +74,7 @@ def perms(
         path,
             allowHidden = allowHidden,
                   debug = debug,
+              ensureNFC = ensureNFC,
         follow_symlinks = follow_symlinks,
         return_symlinks = return_symlinks,
     )
@@ -78,6 +82,7 @@ def perms(
         path,
             allowHidden = allowHidden,
                   debug = debug,
+              ensureNFC = ensureNFC,
         follow_symlinks = follow_symlinks,
         return_symlinks = return_symlinks,
     )

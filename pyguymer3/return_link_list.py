@@ -7,6 +7,7 @@ def return_link_list(
     *,
         allowHidden = False,
               debug = __debug__,
+          ensureNFC = True,
     follow_symlinks = True,
 ):
     """Return a recursive list of link names in a directory.
@@ -21,6 +22,8 @@ def return_link_list(
         allow hidden files
     debug : bool, optional
         print debug messages
+    ensureNFC : bool, optional
+        ensure that the Unicode encoding is NFC
     follow_symlinks : bool, optional
         follow symbolic links
 
@@ -62,7 +65,7 @@ def return_link_list(
 
                     # Test if this part is illegal and print the full path for
                     # identification ...
-                    if not entry.name.startswith(".") and entry.name != make_path_safe(entry.name, allowHidden = allowHidden):
+                    if not entry.name.startswith(".") and entry.name != make_path_safe(entry.name, allowHidden = allowHidden, ensureNFC = ensureNFC):
                         print(f"WARNING: \"{entry.path}\" is illegal")
 
                 # Check if it might need following ...
@@ -78,6 +81,7 @@ def return_link_list(
                             entry.path,
                                 allowHidden = allowHidden,
                                       debug = debug,
+                                  ensureNFC = ensureNFC,
                             follow_symlinks = follow_symlinks,
                         )
                     elif debug:

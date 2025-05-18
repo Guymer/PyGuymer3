@@ -7,6 +7,7 @@ def return_folder_list(
     *,
         allowHidden = False,
               debug = __debug__,
+          ensureNFC = True,
     follow_symlinks = True,
     return_symlinks = True,
 ):
@@ -23,6 +24,8 @@ def return_folder_list(
         allow hidden files
     debug : bool, optional
         print debug messages
+    ensureNFC : bool, optional
+        ensure that the Unicode encoding is NFC
     follow_symlinks : bool, optional
         follow symbolic links
     return_symlinks : bool, optional
@@ -66,7 +69,7 @@ def return_folder_list(
 
                     # Test if this part is illegal and print the full path for
                     # identification ...
-                    if not entry.name.startswith(".") and entry.name != make_path_safe(entry.name, allowHidden = allowHidden):
+                    if not entry.name.startswith(".") and entry.name != make_path_safe(entry.name, allowHidden = allowHidden, ensureNFC = ensureNFC):
                         print(f"WARNING: \"{entry.path}\" is illegal")
 
                 # Check if it might need following ...
@@ -82,6 +85,7 @@ def return_folder_list(
                             entry.path,
                                 allowHidden = allowHidden,
                                       debug = debug,
+                                  ensureNFC = ensureNFC,
                             follow_symlinks = follow_symlinks,
                             return_symlinks = return_symlinks,
                         )

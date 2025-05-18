@@ -8,6 +8,7 @@ def find_instances_of_a_file(
     *,
         allowHidden = False,
               debug = __debug__,
+          ensureNFC = True,
     follow_symlinks = True,
     return_symlinks = True,
 ):
@@ -25,6 +26,8 @@ def find_instances_of_a_file(
         allow hidden files
     debug : bool, optional
         print debug messages
+    ensureNFC : bool, optional
+        ensure that the Unicode encoding is NFC
     follow_symlinks : bool, optional
         follow symbolic links
     return_symlinks : bool, optional
@@ -68,7 +71,7 @@ def find_instances_of_a_file(
 
                     # Test if this part is illegal and print the full path for
                     # identification ...
-                    if not entry.name.startswith(".") and entry.name != make_path_safe(entry.name, allowHidden = allowHidden):
+                    if not entry.name.startswith(".") and entry.name != make_path_safe(entry.name, allowHidden = allowHidden, ensureNFC = ensureNFC):
                         print(f"WARNING: \"{entry.path}\" is illegal")
 
                 # Check if it might need following ...
@@ -85,6 +88,7 @@ def find_instances_of_a_file(
                             basename,
                                 allowHidden = allowHidden,
                                       debug = debug,
+                                  ensureNFC = ensureNFC,
                             follow_symlinks = follow_symlinks,
                             return_symlinks = return_symlinks,
                         )
