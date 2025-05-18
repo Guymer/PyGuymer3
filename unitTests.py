@@ -890,6 +890,10 @@ class MyTestCase(unittest.TestCase):
             pyguymer3.make_path_safe(".what do you think of this path?", allowHidden = False),
             "what do you think of this path",
         )
+        self.assertEqual(
+            pyguymer3.make_path_safe("yyyy-mm-dd - Reykjavík - iPhone"),
+            "yyyy-mm-dd - Reykjavík - iPhone",
+        )
 
     # Define a test ...
     def test_media(self):
