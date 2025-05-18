@@ -6,15 +6,17 @@ def download_text(
     url,
     /,
     *,
-    cookies = None,
-    headers = None,
-    timeout = 10.0,
-     verify = True,
+      cookies = None,
+        debug = __debug__,
+    ensureNFC = True,
+      headers = None,
+      timeout = 10.0,
+       verify = True,
 ):
     """GET a URL and return the text
 
     This function performs a HTTP GET operation on a URL and returns the content
-    as text.
+    as text, and optional ensure that the Unicode encoding is NFC.
 
     Parameters
     ----------
@@ -24,6 +26,10 @@ def download_text(
         the URL
     cookies : dict, optional
         the cookie jar
+    debug : bool, optional
+        print debug messages
+    ensureNFC : bool, optional
+        ensure that the text is Unicode NFC rather than Unicode NFD
     headers : dict, optional
         extra headers to send
     timeout : float, optional
@@ -33,7 +39,7 @@ def download_text(
 
     Returns
     -------
-    resp : bool, str
+    text : bool, str
         `False` if unsuccessful or a `str` if successful
 
     Notes
@@ -47,6 +53,7 @@ def download_text(
 
     # Import standard modules ...
     import html
+    import unicodedata
 
     # Import sub-functions ...
     from .download import download
@@ -74,4 +81,14 @@ def download_text(
     if resp is False:
         return False
 
-    return html.unescape(resp.text)
+    # Convert HTML characters ...
+    text = html.unescape(resp.text)
+
+    # Change Unicode encoding if needed ...
+    if ensureNFC and unicodedata.is_normalized("NFD", text):
+        if debug:
+            print(f"DEBUG: Converting \"{url}\" from Unicode NFD to Unicode NFC.")
+        text = unicodedata.normalize("NFC", text)
+
+    # Return answer ...
+    return text

@@ -71,4 +71,5 @@ def download_header(
     if resp is False:
         return False
 
+    # Return answer ...
     return resp.headers

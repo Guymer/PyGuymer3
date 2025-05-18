@@ -7,15 +7,17 @@ def download_file(
     fname,
     /,
     *,
-    cookies = None,
-    headers = None,
-    timeout = 10.0,
-     verify = True,
+                cookies = None,
+                  debug = __debug__,
+                headers = None,
+    setModificationTime = True,
+                timeout = 10.0,
+                 verify = True,
 ):
     """GET a URL and save the content in a file
 
     This function performs a HTTP GET operation on a URL and saves the content
-    in a file, and sets the Last-Modified time if available.
+    in a file, and optionally sets the Last-Modified time if available.
 
     Parameters
     ----------
@@ -27,10 +29,14 @@ def download_file(
         the name of the file to save the content in
     cookies : dict, optional
         the cookie jar
+    debug : bool, optional
+        print debug messages
     headers : dict, optional
         extra headers to send
     timeout : float, optional
         the timeout of the GET request
+    setModificationTime : bool, optional
+        set the Last-Modified time if available.
     verify : bool, optional
         verify the server's certificates
 
@@ -88,8 +94,11 @@ def download_file(
         fObj.write(resp.content)
 
     # Change modification time if present ...
-    if "Last-Modified" in resp.headers:
+    if setModificationTime and "Last-Modified" in resp.headers:
+        if debug:
+            print(f"DEBUG: Setting the modification time of \"{fname}\" to that of \"{url}\".")
         modtime = email.utils.mktime_tz(email.utils.parsedate_tz(resp.headers["Last-Modified"]))
         os.utime(fname, (modtime, modtime))
 
+    # Return answer ...
     return True
