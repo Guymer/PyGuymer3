@@ -152,10 +152,12 @@ def tile(
             sess,
             url,
             png,
-            cookies = cookies,
-            headers = headers,
-            timeout = timeout,
-             verify = verify,
+                        cookies = cookies,
+                          debug = debug,
+                        headers = headers,
+            setModificationTime = False,
+                        timeout = timeout,
+                         verify = verify,
         )
 
         # Check if the download failed ...
