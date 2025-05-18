@@ -7,6 +7,7 @@ def return_video_frame_rate(
     *,
             cwd = None,
           debug = __debug__,
+      ensureNFC = True,
     ffprobePath = None,
        playlist = -1,
         timeout = 60.0,
@@ -36,6 +37,7 @@ def return_video_frame_rate(
         __ffprobe__[fname][playlist] = ffprobe(
             fname,
                     cwd = cwd,
+              ensureNFC = ensureNFC,
             ffprobePath = ffprobePath,
                playlist = playlist,
                 timeout = timeout,

@@ -7,6 +7,7 @@ def return_subtitle_format(
     *,
             cwd = None,
           debug = __debug__,
+      ensureNFC = True,
     ffprobePath = None,
        playlist = -1,
         timeout = 60.0,
@@ -72,6 +73,7 @@ def return_subtitle_format(
         __ffprobe__[fname][playlist] = ffprobe(
             fname,
                     cwd = cwd,
+              ensureNFC = ensureNFC,
             ffprobePath = ffprobePath,
                playlist = playlist,
                 timeout = timeout,

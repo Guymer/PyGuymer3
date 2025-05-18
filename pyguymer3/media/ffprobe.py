@@ -6,6 +6,7 @@ def ffprobe(
     /,
     *,
             cwd = None,
+      ensureNFC = True,
     ffprobePath = None,
        playlist = -1,
         timeout = 60.0,
@@ -19,6 +20,8 @@ def ffprobe(
         the file to be surveyed
     cwd : str, optional
         the child working directory
+    ensureNFC : bool, optional
+        ensure that the Unicode encoding is NFC
     ffprobePath : str, optional
         the path to the "ffprobe" binary (if not provided then Python will
         attempt to find the binary itself)
@@ -151,4 +154,6 @@ def ffprobe(
             )
 
     # Return ffprobe output as dictionary ...
+    if ensureNFC and not unicodedata.is_normalized("NFC", resp.stdout):
+        return json.loads(unicodedata.normalize("NFC", resp.stdout))
     return json.loads(resp.stdout)

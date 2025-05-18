@@ -7,6 +7,7 @@ def return_dict_of_bluray_playlists(
     *,
               cwd = None,
             debug = __debug__,
+        ensureNFC = True,
       ffprobePath = None,
     sizeThreshold = 1073741824,
           timeout = 60.0,
@@ -57,6 +58,7 @@ def return_dict_of_bluray_playlists(
             __ffprobe__[fname][playlist] = ffprobe(
             fname,
                     cwd = cwd,
+              ensureNFC = ensureNFC,
             ffprobePath = ffprobePath,
                playlist = playlist,
                 timeout = timeout,
