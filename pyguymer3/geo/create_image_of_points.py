@@ -233,7 +233,7 @@ def create_image_of_points(
         #       means that if the width is 1.0 then the height should be 0.5625,
         #       which means that the top should start at 0.21875 and the bottom
         #       should finish at 0.78125.
-        globalBand = (1.0 - (1.0 / globalRatio))                                # [#]
+        globalBand = 1.0 - (1.0 / globalRatio)                                  # [#]
         minMerX = 0.0                                                           # [#]
         minMerY = 0.5 * globalBand                                              # [#]
         maxMerX = 1.0                                                           # [#]
