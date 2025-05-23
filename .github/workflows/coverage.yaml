@@ -80,7 +80,7 @@ jobs:
                     path: main/coverage-output
     publish-to-pages:
         # NOTE: Once it has been published then it will be available at:
-        #         * https://guymer.github.io/pyguymer3/
+        #         * https://guymer.github.io/PyGuymer3/
         name: Publish coverage report to GitHub Pages
         needs:
             - build
