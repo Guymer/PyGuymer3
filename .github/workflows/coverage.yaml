@@ -9,6 +9,7 @@ jobs:
         #       within "coverage". As of 22/March/2025, I have decided that the
         #       latter duration is too long to run regularly in GitHub Actions,
         #       therefore, this GitHub Action is only run on tag pushes now.
+        name: Build and calculate coverage of Python module
         # if: startsWith(github.ref, 'refs/tags/')                                # Only calculate coverage on tag pushes.
         runs-on: ubuntu-24.04
         strategy:
@@ -71,12 +72,31 @@ jobs:
                     name: coverage-report (Python ${{ matrix.python-version }})
                     path: main/coverage-output
                     compression-level: 9
-
-            # TODO: Once the HTML coverage report has been made then publish it
-            #       to GitHub Pages for everyone to view without logging in to
-            #       GitHub. See:
-            #         * https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-with-a-custom-github-actions-workflow
-            #         * https://github.com/actions/deploy-pages
-            #         * https://github.com/actions/starter-workflows/blob/main/pages/static.yml
-            #       Once it has been published then it will be available at:
-            #         * https://guymer.github.io/PyGuymer3
+            -
+                name: Upload GitHub Pages (for future download)
+                uses: actions/upload-pages-artifact@v3                          # https://github.com/actions/upload-pages-artifact
+                with:
+                    name: github-pages (Python ${{ matrix.python-version }})
+                    path: main/coverage-output
+    publish-to-pages:
+        # NOTE: Once it has been published then it will be available at:
+        #         * https://guymer.github.io/pyguymer3/
+        name: Publish coverage report to GitHub Pages
+        needs:
+            - build
+        runs-on: ubuntu-24.04
+        environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
+        permissions:
+            pages: write                                                        # Mandatory for deploying GitHub Pages.
+            id-token: write                                                     # Mandatory for trusted publishing.
+        steps:
+            -
+                name: Setup GitHub Pages
+                uses: actions/configure-pages@v5                                # https://github.com/actions/configure-pages
+            -
+                name: Deploy to GitHub Pages
+                uses: actions/deploy-pages@v4                                   # https://github.com/actions/deploy-pages
+                with:
+                    artifact_name: github-pages (Python 3.11)
