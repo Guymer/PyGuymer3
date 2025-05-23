@@ -4,6 +4,8 @@
 
 This is a Python 3.X port of [my Python 2.X module](https://github.com/Guymer/PyGuymer) containing a bunch of random functions that I have written over the years. The [documentation is on Read The Docs](https://pyguymer3.readthedocs.io/) and the [module is on PyPI](https://pypi.org/project/PyGuymer3/).
 
+You may [browse the coverage report](https://guymer.github.io/PyGuymer3/) for running [the unit tests](unitTests.py).
+
 ## Installation
 
 To install PyGuymer3, run:
