@@ -10,7 +10,7 @@ jobs:
         #       latter duration is too long to run regularly in GitHub Actions,
         #       therefore, this GitHub Action is only run on tag pushes now.
         name: Build and calculate coverage of Python module
-        # if: startsWith(github.ref, 'refs/tags/')                                # Only calculate coverage on tag pushes.
+        if: startsWith(github.ref, 'refs/tags/')                                # Only calculate coverage on tag pushes.
         runs-on: ubuntu-24.04
         strategy:
             matrix:
