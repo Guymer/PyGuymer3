@@ -46,13 +46,13 @@ class MyTestCase(unittest.TestCase):
 
     # Define constants from the environment ...
     # NOTE: As of 12/April/2025, on my MacBook Pro this is the output:
-    #           % python3.13 -m unittest unitTests.py
+    #           % python3.12 -m unittest unitTests.py
     #           ......s.s..................
     #           ----------------------------------------------------------------------
     #           Ran 27 tests in 41.989s
     #
     #           OK (skipped=2)
-    #           % ALLTESTS=1234 python3.13 -m unittest unitTests.py
+    #           % ALLTESTS=1234 python3.12 -m unittest unitTests.py
     #           ...........................
     #           ----------------------------------------------------------------------
     #           Ran 27 tests in 5564.652s
