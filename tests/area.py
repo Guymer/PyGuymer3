@@ -103,7 +103,7 @@ if __name__ == "__main__":
     pyguymer3.image.save_array_as_image(
         255.0 * (ratios - 0.99) / 0.02,
         "area/fencePosts.png",
-           ct = "jet",
+           ct = "turbo",
         scale = False,
     )
 
@@ -164,7 +164,7 @@ if __name__ == "__main__":
     pyguymer3.image.save_array_as_image(
         255.0 * (ratios - 0.99) / 0.02,
         "area/fencePanels.png",
-           ct = "jet",
+           ct = "turbo",
         scale = False,
     )
 

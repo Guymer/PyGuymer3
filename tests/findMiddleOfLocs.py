@@ -496,7 +496,7 @@ if __name__ == "__main__":
         lonsDiv,
         latsDiv,
         maxDist,
-           cmap = "jet",
+           cmap = "turbo",
         shading = "nearest",
          zorder = 1.0,
     )
