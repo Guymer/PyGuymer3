@@ -12,5 +12,3 @@ the images below.
 .. image:: ../tests/saveArrayAsImage/saveArrayAsImage2.png
 
 .. image:: ../tests/saveArrayAsImage/saveArrayAsImage3.png
-
-.. image:: ../tests/saveArrayAsImage/saveArrayAsImage4.png
