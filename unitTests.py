@@ -747,16 +747,7 @@ class MyTestCase(unittest.TestCase):
         pyguymer3.image.save_array_as_image(
             arr,
             "saveArrayAsImage3.png",
-                ct = "fire",
-             debug = self.myDebug,
-            pc_bot = 5.0,
-            pc_top = 5.0,
-             scale = True,
-        )
-        pyguymer3.image.save_array_as_image(
-            arr,
-            "saveArrayAsImage4.png",
-                ct = "rainbow",
+                ct = "turbo",
              debug = self.myDebug,
             pc_bot = 5.0,
             pc_top = 5.0,
@@ -769,7 +760,6 @@ class MyTestCase(unittest.TestCase):
             "saveArrayAsImage1.png",
             "saveArrayAsImage2.png",
             "saveArrayAsImage3.png",
-            "saveArrayAsImage4.png",
         ]:
             # Tell "unittest" that we are doing sub-tests ...
             with self.subTest(
@@ -809,16 +799,7 @@ class MyTestCase(unittest.TestCase):
         pyguymer3.image.save_array_as_image(
             arr,
             "saveArrayAsImage3.ppm",
-                ct = "fire",
-              form = "ppm",
-            pc_bot = 5.0,
-            pc_top = 5.0,
-             scale = True,
-        )
-        pyguymer3.image.save_array_as_image(
-            arr,
-            "saveArrayAsImage4.ppm",
-                ct = "rainbow",
+                ct = "turbo",
               form = "ppm",
             pc_bot = 5.0,
             pc_top = 5.0,
@@ -831,7 +812,6 @@ class MyTestCase(unittest.TestCase):
             "saveArrayAsImage1.ppm",
             "saveArrayAsImage2.ppm",
             "saveArrayAsImage3.ppm",
-            "saveArrayAsImage4.ppm",
         ]:
             # Tell "unittest" that we are doing sub-tests ...
             with self.subTest(
