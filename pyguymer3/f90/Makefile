@@ -78,7 +78,7 @@ all:		compile
 
 # "gmake -r clean"   = removes the compiled code
 clean:
-	$(RM) -f *.gcda *.gcno *.mod *.o *.so
+	$(RM) -f *.a *.gcda *.gcno *.mod *.o *.so
 	$(MAKE) -r -C $(FTNLIB) COVERAGE=$(COVERAGE) DEBUG=$(DEBUG) FC=$(FC) PYTHON3=$(PYTHON3) clean
 
 # "gmake -r compile" = compiles the code
@@ -108,13 +108,27 @@ help:
 
 # NOTE: See https://numpy.org/doc/stable/f2py/buildtools/distutils-to-meson.html
 
+# NOTE: How GCC embeds the RPATH has changed, which results in binaries which do
+#       not work on MacOS 15.5 using GFortran 14.2 and Python 3.12 (as of
+#       21/Jun/2025). Here are two examples of other people having the same
+#       problem:
+#         * https://github.com/mesonbuild/meson/issues/10711
+#         * https://stackoverflow.com/questions/52430325/f2py-compilation-failed-cannot-find-library-gomp
+#       After hours of investigation, I have settled on a work around using
+#       "install_name_tool -add_rpath" on Darwin-based operating systems.
+
+$(FTNLIB)/lib%.a																\
 $(FTNLIB)/%.mod																	\
 $(FTNLIB)/%.o &:	$(FTNLIB)/%.F90
 	$(MAKE) -r -C $(FTNLIB) COVERAGE=$(COVERAGE) DEBUG=$(DEBUG) FC=$(FC) PYTHON3=$(PYTHON3) $*.o
 
-funcs.so:			$(FTNLIB)/mod_safe.o										\
+funcs.so:			$(FTNLIB)/libmod_safe.a										\
 					funcs.F90													\
 					src/*.f90
 	$(RM) -f funcs.*.so funcs.so
-	FC=$(FC) FFLAGS="$(LANG_OPTS) $(WARN_OPTS) $(MACH_OPTS)" $(PYTHON3) -m numpy.f2py -c funcs.F90 -m funcs --backend meson -lgomp -I$(FTNLIB) -I$(CURDIR)
+	FC=$(FC) FFLAGS="$(LANG_OPTS) $(WARN_OPTS) $(MACH_OPTS)" $(PYTHON3) -m numpy.f2py -c funcs.F90 -m funcs --backend meson -lgomp -lmod_safe -L$(FTNLIB) -I$(FTNLIB) -I$(CURDIR)
+	[[ $(shell uname) == "Darwin" ]] && install_name_tool -add_rpath /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib funcs$(SUFFIX)
+	[[ $(shell uname) == "Darwin" ]] && install_name_tool -add_rpath /opt/local/lib funcs$(SUFFIX)
+	[[ $(shell uname) == "Darwin" ]] && install_name_tool -add_rpath /opt/local/lib/libgcc funcs$(SUFFIX)
+	[[ $(shell uname) == "Darwin" ]] && install_name_tool -add_rpath /opt/local/lib/libomp funcs$(SUFFIX)
 	$(LN) -s funcs$(SUFFIX) funcs.so
