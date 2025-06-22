@@ -24,6 +24,7 @@ jobs:
             -
                 name: Install Python dependencies
                 run: |
+                    sudo apt-get update
                     sudo apt-get install exiftool
                     sudo apt-get install ffmpeg
                     sudo apt-get install optipng
