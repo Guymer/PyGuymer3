@@ -127,8 +127,8 @@ funcs.so:			$(FTNLIB)/libmod_safe.a										\
 					src/*.f90
 	$(RM) -f funcs.*.so funcs.so
 	FC=$(FC) FFLAGS="$(LANG_OPTS) $(WARN_OPTS) $(MACH_OPTS)" $(PYTHON3) -m numpy.f2py -c funcs.F90 -m funcs --backend meson -lgomp -lmod_safe -L$(FTNLIB) -I$(FTNLIB) -I$(CURDIR)
-	[ $(shell uname) == Darwin ] && install_name_tool -add_rpath /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib funcs$(SUFFIX)
-	[ $(shell uname) == Darwin ] && install_name_tool -add_rpath /opt/local/lib funcs$(SUFFIX)
-	[ $(shell uname) == Darwin ] && install_name_tool -add_rpath /opt/local/lib/libgcc funcs$(SUFFIX)
-	[ $(shell uname) == Darwin ] && install_name_tool -add_rpath /opt/local/lib/libomp funcs$(SUFFIX)
+	test $(shell uname) = Darwin && install_name_tool -add_rpath /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib funcs$(SUFFIX)
+	test $(shell uname) = Darwin && install_name_tool -add_rpath /opt/local/lib funcs$(SUFFIX)
+	test $(shell uname) = Darwin && install_name_tool -add_rpath /opt/local/lib/libgcc funcs$(SUFFIX)
+	test $(shell uname) = Darwin && install_name_tool -add_rpath /opt/local/lib/libomp funcs$(SUFFIX)
 	$(LN) -s funcs$(SUFFIX) funcs.so
