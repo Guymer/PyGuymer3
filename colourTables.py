@@ -111,7 +111,7 @@ if __name__ == "__main__":
     for i in range(256):
         # Find colour values in the range [0, 255] ...
         if i <= 127:
-            r = 255
+            r = 255.0
         else:
             r = float(255 - 2 * (i - 127) + 1)
         g = float(i)
@@ -119,6 +119,28 @@ if __name__ == "__main__":
 
         # Append values to list ...
         colourTables["r2o2g"].append(
+            [
+                round(r),
+                round(g),
+                round(b),
+            ]
+        )
+
+    # **********************************************************************
+
+    # Initialize list ...
+    # NOTE: This colour map will go from (0,0,0) to (255,255,255).
+    colourTables["grey"] = []
+
+    # Loop over levels ...
+    for i in range(256):
+        # Find colour values in the range [0, 255] ...
+        r = float(i)
+        g = float(i)
+        b = float(i)
+
+        # Append values to list ...
+        colourTables["grey"].append(
             [
                 round(r),
                 round(g),
