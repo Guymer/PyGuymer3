@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def paeth_filter(
+def paethFilter(
     a,
     b,
     c,
