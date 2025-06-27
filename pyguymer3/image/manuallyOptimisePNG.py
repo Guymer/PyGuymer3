@@ -42,18 +42,10 @@ def manuallyOptimisePNG(
     assert inputArrUint8.shape[2] == 3, "the NumPy array does not have 3 colour channels"
 
     # Make PNG source ...
-    # src = _makePng(
-    #     inputArrUint8,
-    #     debug = debug,
-    #      mode = "all",
-    # )
     src = _makePng(
-            inputArrUint8,
-            debug = debug,
-            levels = [9,],
-         memLevels = [9,],
-        strategies = [1,],
-            wbitss = [15,],
+        inputArrUint8,
+        debug = debug,
+         mode = "all",
     )
 
     # Write PNG ...
