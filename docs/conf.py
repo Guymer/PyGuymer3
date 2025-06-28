@@ -35,12 +35,20 @@ author = "Thomas Guymer"
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
+    "sphinx.ext.intersphinx",
     "sphinx.ext.linkcode",
     "sphinx.ext.napoleon",
 ]
 
 # Configure Sphinx extension modules ...
 autosummary_generate = True
+intersphinx_mapping = {
+          "h5py" : ("https://docs.h5py.org/en/latest/", None),
+    "matplotlib" : ("https://matplotlib.org/stable/", None),
+         "numpy" : ("https://numpy.org/doc/stable/", None),
+        "python" : ("https://docs.python.org/3", None),
+         "scipy" : ("https://docs.scipy.org/doc/scipy/", None),
+}
 napoleon_google_docstring = False
 
 # Define function ...
