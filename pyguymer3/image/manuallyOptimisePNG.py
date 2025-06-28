@@ -26,7 +26,7 @@ def manuallyOptimisePNG(
         raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None
 
     # Import sub-functions ...
-    from ._makePng import _makePng
+    from .makePng import makePng
 
     # **************************************************************************
 
@@ -42,10 +42,10 @@ def manuallyOptimisePNG(
     assert inputArrUint8.shape[2] == 3, "the NumPy array does not have 3 colour channels"
 
     # Make PNG source ...
-    src = _makePng(
+    src = makePng(
         inputArrUint8,
-        debug = debug,
-         mode = "all",
+        choices = "all",
+          debug = debug,
     )
 
     # Write PNG ...

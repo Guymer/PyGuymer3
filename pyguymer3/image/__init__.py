@@ -14,7 +14,6 @@ References
 """
 
 # Import sub-functions ...
-from ._makePng import _makePng
 from .dict2exif import dict2exif
 from .dot2png import dot2png
 from .EXIF_datetime import EXIF_datetime
@@ -31,6 +30,7 @@ from .load_EXIF2 import load_EXIF2
 from .load_GPS_EXIF import load_GPS_EXIF
 from .load_GPS_EXIF1 import load_GPS_EXIF1
 from .load_GPS_EXIF2 import load_GPS_EXIF2
+from .makePng import makePng
 from .manuallyOptimisePNG import manuallyOptimisePNG
 from .optimize_image import optimize_image
 from .optipng import optipng

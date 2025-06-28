@@ -6,10 +6,10 @@ def createStream(
     inputArrInt16,
     /,
     *,
+       choices = "fastest",
          debug = __debug__,
         levels = None,
      memLevels = None,
-          mode = "fastest",
     strategies = None,
         wbitss = None,
 ):
@@ -28,7 +28,7 @@ def createStream(
 
     # Populate compression levels if the user has not ...
     if levels is None:
-        match mode:
+        match choices:
             case "fastest":
                 levels = [0,]
             case "best":
@@ -36,23 +36,23 @@ def createStream(
             case "all":
                 levels = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9,]
             case _:
-                raise ValueError(f"\"mode\" was an unexpected value (\"{mode}\")") from None
+                raise ValueError(f"\"choices\" was an unexpected value (\"{choices}\")") from None
 
     # Populate memory levels if the user has not ...
     if memLevels is None:
-        match mode:
+        match choices:
             case "fastest":
-                memLevels = [1,]
+                memLevels = [9,]
             case "best":
                 memLevels = [9,]
             case "all":
                 memLevels = [1, 2, 3, 4, 5, 6, 7, 8, 9,]
             case _:
-                raise ValueError(f"\"mode\" was an unexpected value (\"{mode}\")") from None
+                raise ValueError(f"\"choices\" was an unexpected value (\"{choices}\")") from None
 
     # Populate strategies if the user has not ...
     if strategies is None:
-        match mode:
+        match choices:
             case "fastest":
                 strategies = [zlib.Z_DEFAULT_STRATEGY,]
             case "best":
@@ -60,19 +60,19 @@ def createStream(
             case "all":
                 strategies = [zlib.Z_DEFAULT_STRATEGY, zlib.Z_FILTERED, zlib.Z_HUFFMAN_ONLY, zlib.Z_RLE, zlib.Z_FIXED,]
             case _:
-                raise ValueError(f"\"mode\" was an unexpected value (\"{mode}\")") from None
+                raise ValueError(f"\"choices\" was an unexpected value (\"{choices}\")") from None
 
     # Populate widths if the user has not ...
     if wbitss is None:
-        match mode:
+        match choices:
             case "fastest":
-                wbitss = [9,]
+                wbitss = [15,]
             case "best":
                 wbitss = [15,]
             case "all":
                 wbitss = [9, 10, 11, 12, 13, 14, 15,]
             case _:
-                raise ValueError(f"\"mode\" was an unexpected value (\"{mode}\")") from None
+                raise ValueError(f"\"choices\" was an unexpected value (\"{choices}\")") from None
 
     # **************************************************************************
 
@@ -107,7 +107,7 @@ def createStream(
     ):
         # Loop over compression levels ...
         for level in levels:
-            # Loop over widths ...
+            # Loop over window sizes ...
             for wbits in wbitss:
                 # Loop over memory levels ...
                 for memLevel in memLevels:
@@ -116,10 +116,10 @@ def createStream(
                         # Make a compression object and compress the stream ...
                         zObj = zlib.compressobj(
                                level = level,
-                              method = zlib.DEFLATED,
-                               wbits = wbits,
                             memLevel = memLevel,
+                              method = zlib.DEFLATED,
                             strategy = strategy,
+                               wbits = wbits,
                         )
                         possibleStream = zObj.compress(stream)
                         possibleStream += zObj.flush(zlib.Z_FINISH)
