@@ -56,6 +56,12 @@ def createStream(
     # Import standard modules ...
     import zlib
 
+    # Import special modules ...
+    try:
+        import numpy
+    except:
+        raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
+
     # Import sub-functions ...
     from .createStreamAdaptive import createStreamAdaptive
     from .createStreamAverage import createStreamAverage
@@ -127,7 +133,7 @@ def createStream(
 
     # Initialize best answer and figure-of-merit ...
     bestStream = bytearray()
-    minSize = 999999999999                                                      # [B]
+    minSize = numpy.iinfo("uint64").max                                         # [B]
 
     # Loop over streams ...
     for iFilter, stream in enumerate(
@@ -171,6 +177,11 @@ def createStream(
                     # Loop over strategies ...
                     for strategy in strategies:
                         # Make a compression object and compress the stream ...
+                        # NOTE: On 28/Jun/2025, I replaced zlib.compressobj(...)
+                        #       with zlib.compress(..., level = 9) and confirmed
+                        #       that all five filters, and adaptive filtering,
+                        #       produced binary identical PNG files to the (soon
+                        #       to be legacy) function save_array_as_PNG().
                         zObj = zlib.compressobj(
                                level = level,
                             memLevel = memLevel,
@@ -178,7 +189,8 @@ def createStream(
                             strategy = strategy,
                                wbits = wbits,
                         )
-                        possibleStream = zObj.compress(stream)
+                        possibleStream = bytearray()
+                        possibleStream += zObj.compress(stream)
                         possibleStream += zObj.flush(zlib.Z_FINISH)
 
                         # Check if this compressed stream is the best ...
