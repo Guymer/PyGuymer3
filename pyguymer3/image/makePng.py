@@ -19,8 +19,9 @@ def makePng(
     the PNG file of the input.
 
     This function always calculates the PNG image data stream using all five
-    filters (as defined in the PNG specification [2]_) and this function then
-    uses the one filter which ends up having the smallest compressed size.
+    filters (as defined in the PNG specification [2]_), as well as adaptive
+    filtering, and this function then uses the one filter which ends up having
+    the smallest compressed size.
 
     This function also allows the user to declare sets of settings which are
     tried when compressing the PNG image data stream and this function then uses
@@ -117,35 +118,6 @@ def makePng(
     This function writes out three of the four critical chunks: "IHDR", "IDAT"
     and "IEND". This function does not currently write out a "PLTE" chunk as it
     does not currently support writing paletted images.
-
-    The PNG specification [2]_ also says:
-
-        "The encoder shall use only a single filter method for an interlaced PNG
-        image, but may use different filter types for each scanline in a reduced
-        image. An intelligent encoder can switch filters from one scanline to
-        the next. The method for choosing which filter to employ is left to the
-        encoder."
-
-    By that definition, this encoder is not intelligent as it applies a single
-    filter to the whole image. Future work may add a brute forcing capability,
-    but at time of writing that is currently not implemented.
-
-    The PNG specification [2]_ also says:
-
-        "For best compression of truecolor and greyscale images, and if
-        compression efficiency is valued over speed of compression, the
-        recommended approach is adaptive filtering in which a filter type is
-        chosen for each scanline. Each unique image will have a different set of
-        filters which perform best for it. An encoder could try every
-        combination of filters to find what compresses best for a given image.
-        However, when an exhaustive search is unacceptable, here are some
-        general heuristics which may perform well enough: compute the output
-        scanline using all five filters, and select the filter that gives the
-        smallest sum of absolute values of outputs. (Consider the output bytes
-        as signed differences for this test.) This method usually outperforms
-        any single fixed filter type choice."
-
-    ... which is good to know if I ever implement it.
 
     Copyright 2017 Thomas Guymer [1]_
 
