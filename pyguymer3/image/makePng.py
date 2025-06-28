@@ -106,9 +106,46 @@ def makePng(
 
     Notes
     -----
+    This function only creates 8-bit RGB images, without interlacing. It stores
+    the entire image in a single "IDAT" chunk.
+
     According to the PNG specification [2]_:
 
-    some stuff
+        "The PNG datastream consists of a PNG signature followed by a sequence
+        of chunks. Each chunk has a chunk type which specifies its function."
+
+    This function writes out three of the four critical chunks: "IHDR", "IDAT"
+    and "IEND". This function does not currently write out a "PLTE" chunk as it
+    does not currently support writing paletted images.
+
+    The PNG specification [2]_ also says:
+
+        "The encoder shall use only a single filter method for an interlaced PNG
+        image, but may use different filter types for each scanline in a reduced
+        image. An intelligent encoder can switch filters from one scanline to
+        the next. The method for choosing which filter to employ is left to the
+        encoder."
+
+    By that definition, this encoder is not intelligent as it applies a single
+    filter to the whole image. Future work may add a brute forcing capability,
+    but at time of writing that is currently not implemented.
+
+    The PNG specification [2]_ also says:
+
+        "For best compression of truecolor and greyscale images, and if
+        compression efficiency is valued over speed of compression, the
+        recommended approach is adaptive filtering in which a filter type is
+        chosen for each scanline. Each unique image will have a different set of
+        filters which perform best for it. An encoder could try every
+        combination of filters to find what compresses best for a given image.
+        However, when an exhaustive search is unacceptable, here are some
+        general heuristics which may perform well enough: compute the output
+        scanline using all five filters, and select the filter that gives the
+        smallest sum of absolute values of outputs. (Consider the output bytes
+        as signed differences for this test.) This method usually outperforms
+        any single fixed filter type choice."
+
+    ... which is good to know if I ever implement it.
 
     Copyright 2017 Thomas Guymer [1]_
 
@@ -180,6 +217,11 @@ def makePng(
                 wbitss = [9, 10, 11, 12, 13, 14, 15,]
             case _:
                 raise ValueError(f"\"choices\" was an unexpected value (\"{choices}\")") from None
+
+    # Check input ...
+    assert inputArrUint8.dtype == "uint8", "the NumPy array is not 8-bit"
+    assert inputArrUint8.ndim == 3, "the NumPy array does not have a colour dimension"
+    assert inputArrUint8.shape[2] == 3, "the NumPy array does not have 3 colour channels"
 
     # **************************************************************************
 
