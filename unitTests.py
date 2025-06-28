@@ -1338,27 +1338,27 @@ class MyTestCase(unittest.TestCase):
 
         # Assert result ...
         self.assertEqual(
-            pyguymer3.sha256("tests/Lorem Ipsum.txt.gz"),
-            pyguymer3.sha256_of_GZ("tests/Lorem Ipsum.txt.gz", ignoreModificationTime = False),
+            pyguymer3.sha256("tests/loremIpsum.txt.gz"),
+            pyguymer3.sha256_of_GZ("tests/loremIpsum.txt.gz", ignoreModificationTime = False),
         )
         self.assertEqual(
-            pyguymer3.sha512("tests/Lorem Ipsum.txt.gz"),
-            pyguymer3.sha512_of_GZ("tests/Lorem Ipsum.txt.gz", ignoreModificationTime = False),
+            pyguymer3.sha512("tests/loremIpsum.txt.gz"),
+            pyguymer3.sha512_of_GZ("tests/loremIpsum.txt.gz", ignoreModificationTime = False),
         )
         self.assertEqual(
-            pyguymer3.sha256_of_GZ("tests/Lorem Ipsum.txt.gz", ignoreModificationTime = True),
+            pyguymer3.sha256_of_GZ("tests/loremIpsum.txt.gz", ignoreModificationTime = True),
             "393ac251b9c74617c0dd45b633803957134f8250fc5debe54ffb9fe659e03ac6",
         )
         self.assertEqual(
-            pyguymer3.sha256_of_GZ("tests/Lorem Ipsum.txt.gz", ignoreModificationTime = False),
+            pyguymer3.sha256_of_GZ("tests/loremIpsum.txt.gz", ignoreModificationTime = False),
             "8a3b42132f26934e171c6a5202eecf73ba6cbb5a64ff6023536d293fcce54faf",
         )
         self.assertEqual(
-            pyguymer3.sha512_of_GZ("tests/Lorem Ipsum.txt.gz", ignoreModificationTime = True),
+            pyguymer3.sha512_of_GZ("tests/loremIpsum.txt.gz", ignoreModificationTime = True),
             "989c6186d7e0cc8104cfe3d445e170d09d19ac29afbbbe5d328f62cbf98ef50b8ab06cdcd811f07f5522a05620d7678e5ba0dd6ec6d9c6febebee7563b4cff42",
         )
         self.assertEqual(
-            pyguymer3.sha512_of_GZ("tests/Lorem Ipsum.txt.gz", ignoreModificationTime = False),
+            pyguymer3.sha512_of_GZ("tests/loremIpsum.txt.gz", ignoreModificationTime = False),
             "286f9e328bc285741dcc935d2d56d75bca907e82cc09345ecc161129ad265828aee946848e00c91acd5564a8680637e7edff52a82aa94a327bf7c8666ed7c1e4",
         )
 
@@ -1369,29 +1369,29 @@ class MyTestCase(unittest.TestCase):
         #       change: "pyguymer3.sha256_of_GZ()" currently can only ignore the
         #       modification time not the file name.
         shutil.copy(
-            "tests/Lorem Ipsum.txt",
-            "Lorem Ipsum.txt",
+            "tests/loremIpsum.txt",
+            "loremIpsum.txt",
         )
         pyguymer3.gzip(
-            "Lorem Ipsum.txt",
+            "loremIpsum.txt",
         )
         self.assertNotEqual(
-            pyguymer3.sha256_of_GZ("Lorem Ipsum.txt.gz", ignoreModificationTime = False),
-            pyguymer3.sha256_of_GZ("tests/Lorem Ipsum.txt.gz", ignoreModificationTime = False),
+            pyguymer3.sha256_of_GZ("loremIpsum.txt.gz", ignoreModificationTime = False),
+            pyguymer3.sha256_of_GZ("tests/loremIpsum.txt.gz", ignoreModificationTime = False),
         )
         self.assertEqual(
-            pyguymer3.sha256_of_GZ("Lorem Ipsum.txt.gz", ignoreModificationTime = True),
-            pyguymer3.sha256_of_GZ("tests/Lorem Ipsum.txt.gz", ignoreModificationTime = True),
+            pyguymer3.sha256_of_GZ("loremIpsum.txt.gz", ignoreModificationTime = True),
+            pyguymer3.sha256_of_GZ("tests/loremIpsum.txt.gz", ignoreModificationTime = True),
         )
         self.assertNotEqual(
-            pyguymer3.sha512_of_GZ("Lorem Ipsum.txt.gz", ignoreModificationTime = False),
-            pyguymer3.sha512_of_GZ("tests/Lorem Ipsum.txt.gz", ignoreModificationTime = False),
+            pyguymer3.sha512_of_GZ("loremIpsum.txt.gz", ignoreModificationTime = False),
+            pyguymer3.sha512_of_GZ("tests/loremIpsum.txt.gz", ignoreModificationTime = False),
         )
         self.assertEqual(
-            pyguymer3.sha512_of_GZ("Lorem Ipsum.txt.gz", ignoreModificationTime = True),
-            pyguymer3.sha512_of_GZ("tests/Lorem Ipsum.txt.gz", ignoreModificationTime = True),
+            pyguymer3.sha512_of_GZ("loremIpsum.txt.gz", ignoreModificationTime = True),
+            pyguymer3.sha512_of_GZ("tests/loremIpsum.txt.gz", ignoreModificationTime = True),
         )
-        os.remove("Lorem Ipsum.txt.gz")
+        os.remove("loremIpsum.txt.gz")
 
     # Define a test ...
     def test_shaOfMp4(self):
