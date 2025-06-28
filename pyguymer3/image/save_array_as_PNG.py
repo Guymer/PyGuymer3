@@ -6,8 +6,9 @@ def save_array_as_PNG(
     fname,
     /,
     *,
-    debug = __debug__,
-      dpi = None,
+      debug = __debug__,
+        dpi = None,
+    modTime = None,
 ):
     """Save an array as a PNG image.
 
@@ -22,6 +23,8 @@ def save_array_as_PNG(
     dpi : None or float or int, optional
         If a number is passed then the ancillary "pHYs" chunk will get created
         and the resolution will be specified.
+    modTime : None or datetime.datetime, optional
+        The image last-modification time.
 
     Notes
     -----
@@ -52,6 +55,7 @@ def save_array_as_PNG(
                dpi = dpi,
             levels = [9,],
          memLevels = [9,],
+           modTime = modTime,
         strategies = None,
             wbitss = [15,],
     )

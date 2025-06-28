@@ -10,6 +10,7 @@ def makePng(
            dpi = None,
         levels = None,
      memLevels = None,
+       modTime = None,
     strategies = None,
         wbitss = None,
 ):
@@ -74,6 +75,8 @@ def makePng(
         3, 4, 5, 6, 7, 8, 9,]``.
 
         See :py:func:`zlib.compressobj` for what the valid memory levels are.
+    modTime : None or datetime.datetime, optional
+        The image last-modification time.
     strategies : None or list of int, optional
         The list of strategies to loop over when trying to find the smallest
         compressed size. If not supplied, or ``None``, then the value of
@@ -256,6 +259,24 @@ def makePng(
         # Prepend the PHYS chunk to the IDAT chunk (so that it is included in
         # the result) ...
         imageDat = imageDpi + imageDat
+
+    # Check if the user has supplied a last-modification time ...
+    if modTime is not None:
+        # Make the TIME chunk ...
+        imageTim = bytearray()
+        imageTim += numpy.uint32(7).byteswap().tobytes()                        # Length
+        imageTim += bytearray("tIME", encoding = "ascii")                       # Chunk type
+        imageTim += numpy.uint16(modTime.year).byteswap().tobytes()             # tIME : Year
+        imageTim += numpy.uint8(modTime.month).tobytes()                        # tIME : Month
+        imageTim += numpy.uint8(modTime.day).tobytes()                          # tIME : Day
+        imageTim += numpy.uint8(modTime.hour).tobytes()                         # tIME : Hour
+        imageTim += numpy.uint8(modTime.minute).tobytes()                       # tIME : Minute
+        imageTim += numpy.uint8(modTime.second).tobytes()                       # tIME : Second
+        imageTim += numpy.uint32(binascii.crc32(imageTim[4:])).byteswap().tobytes() # CRC-32
+
+        # Prepend the TIME chunk to the IDAT chunk (so that it is included in
+        # the result) ...
+        imageDat = imageTim + imageDat
 
     # Make the IEND chunk ...
     imageEnd = bytearray()

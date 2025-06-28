@@ -14,6 +14,7 @@ def save_array_as_image(
             form = "png",
     gifsiclePath = None,
     jpegtranPath = None,
+         modTime = None,
      optipngPath = None,
           pc_bot = 0.0,
           pc_top = 0.0,
@@ -51,6 +52,8 @@ def save_array_as_image(
     jpegtranPath : str, optional
         the path to the "jpegtran" binary (if not provided then Python will attempt to
         find the binary itself)
+    modTime : None or datetime.datetime, optional
+        The image last-modification time.
     optipngPath : str, optional
         the path to the "optipng" binary (if not provided then Python will attempt to
         find the binary itself)
@@ -135,8 +138,9 @@ def save_array_as_image(
             save_array_as_PNG(
                 img2,
                 fname,
-                debug = debug,
-                  dpi = dpi,
+                  debug = debug,
+                    dpi = dpi,
+                modTime = modTime,
             )
             optimize_image(
                 fname,
