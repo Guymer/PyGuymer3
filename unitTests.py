@@ -1348,19 +1348,19 @@ class MyTestCase(unittest.TestCase):
         )
         self.assertEqual(
             pyguymer3.sha256_of_GZ("tests/loremIpsum.txt.gz", ignoreModificationTime = True),
-            "393ac251b9c74617c0dd45b633803957134f8250fc5debe54ffb9fe659e03ac6",
+            "adeb6d5fd288b275b401a9f9d60d47d36d225611702fb5fb70f9235420852e0b",
         )
         self.assertEqual(
             pyguymer3.sha256_of_GZ("tests/loremIpsum.txt.gz", ignoreModificationTime = False),
-            "8a3b42132f26934e171c6a5202eecf73ba6cbb5a64ff6023536d293fcce54faf",
+            "54ae053bb7230a3ec5c95cb0390962830aa4e08f3f407d4befc6c449415d841f",
         )
         self.assertEqual(
             pyguymer3.sha512_of_GZ("tests/loremIpsum.txt.gz", ignoreModificationTime = True),
-            "989c6186d7e0cc8104cfe3d445e170d09d19ac29afbbbe5d328f62cbf98ef50b8ab06cdcd811f07f5522a05620d7678e5ba0dd6ec6d9c6febebee7563b4cff42",
+            "052cffa0ba7d8045d5eaad050cb719ea59dbd96ab318b948f7f9ac24d40a475e14ce03b205e56b6cc66c10255d3ab18c16fc77e4c6d05636912519cb44215b9b",
         )
         self.assertEqual(
             pyguymer3.sha512_of_GZ("tests/loremIpsum.txt.gz", ignoreModificationTime = False),
-            "286f9e328bc285741dcc935d2d56d75bca907e82cc09345ecc161129ad265828aee946848e00c91acd5564a8680637e7edff52a82aa94a327bf7c8666ed7c1e4",
+            "6b8b4cf1af024fb3c403738b7fddfad551e6c75c10d5f889e4578f391ac4418d1cdae414033b88a42353c5c3e44aba52421b3e31b1990c9c28d32172bd716026",
         )
 
         # Be daring and try to demonstrate the benefits of these functions by
