@@ -161,6 +161,7 @@ class MyTestCase(unittest.TestCase):
                 "pyguymer3/geo/mer2llSrc/__init__.py",
                 "pyguymer3/geo/min_distSrc/__init__.py",
                 "pyguymer3/image/__init__.py",
+                "pyguymer3/image/makePngSrc/__init__.py",
                 "pyguymer3/media/CLPI/__init__.py",
                 "pyguymer3/media/MPLS/__init__.py",
                 "pyguymer3/media/__init__.py",
