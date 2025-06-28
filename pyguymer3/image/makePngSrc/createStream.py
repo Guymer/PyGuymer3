@@ -54,10 +54,10 @@ def createStream(
     """
 
     # Import standard modules ...
-    import copy
     import zlib
 
     # Import sub-functions ...
+    from .createStreamAdaptive import createStreamAdaptive
     from .createStreamAverage import createStreamAverage
     from .createStreamNone import createStreamNone
     from .createStreamPaeth import createStreamPaeth
@@ -152,6 +152,11 @@ def createStream(
                 inputArrUint8,
                 inputArrInt16,
             ),
+            createStreamAdaptive(
+                inputArrUint8,
+                inputArrInt16,
+                debug = debug,
+            ),
         ]
     ):
         # Loop over compression levels ...
@@ -179,11 +184,15 @@ def createStream(
                         # Check if this compressed stream is the best ...
                         if len(possibleStream) < minSize:
                             if debug:
-                                print(f"filter = {iFilter:d}; level = {level:d}; wbits = {wbits:2d}; memLevel = {memLevel:d}; strategy = {strategy:d} --> {len(possibleStream):,d} bytes")
+                                print(f"DEBUG: filter = {iFilter:d}; compression level = {level:d}; window size = {wbits:2d}; memory level = {memLevel:d}; strategy = {strategy:d} --> {len(possibleStream):,d} bytes")
 
                             # Overwrite the best ...
-                            bestStream = copy.copy(possibleStream)
+                            bestStream = bytearray()
+                            bestStream += possibleStream
                             minSize = len(bestStream)                           # [B]
+
+    # Check that a best stream was found ...
+    assert len(bestStream) > 0, f"no best stream was found"
 
     # Return answer ...
     return bestStream
