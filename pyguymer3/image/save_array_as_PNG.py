@@ -45,7 +45,7 @@ def save_array_as_PNG(
         raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
 
     # Import sub-functions ...
-    from .paeth_filter import paeth_filter
+    from .makePngSrc import paethFilter
 
     # Find image size ...
     ny, nx, nc = img.shape
@@ -160,7 +160,7 @@ def save_array_as_PNG(
                             p3 = numpy.int16(0)
                         else:
                             p3 = img[iy - 1, ix - 1, ic].astype(numpy.int16)
-                        diff = img[iy, ix, ic].astype(numpy.int16) - paeth_filter(p1, p2, p3).astype(numpy.int16)
+                        diff = img[iy, ix, ic].astype(numpy.int16) - paethFilter(p1, p2, p3).astype(numpy.int16)
                         diff = numpy.mod(diff, 256)
                         row[ftype, ic, ix] = diff.astype(numpy.uint8)
 
