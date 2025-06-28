@@ -86,7 +86,7 @@ def createStreamAdaptive(
     for iy in range(ny):
         # Initialize best answer and figure-of-merit ...
         bestStream = bytearray()
-        minTotal = 999999999999
+        minTotal = numpy.iinfo("uint64").max
 
         # Calculate scanline for "none" filter ...
         for ix in range(nx):
