@@ -2,12 +2,14 @@
 
 # Define function ...
 def manuallyOptimisePNG(
-    pName,
+    img,
+    png,
     /,
     *,
-    debug = __debug__,
+           debug = __debug__,
+    screenHeight = -1,
+     screenWidth = -1,
 ):
-    # NOTE: Endian is not relevant for 8-bit integers.
     # NOTE: Think about using https://github.com/pycompression/python-isal
 
     # Import standard modules ...
@@ -33,10 +35,33 @@ def manuallyOptimisePNG(
     # Check system ...
     assert sys.byteorder == "little", "the system is not little-endian"
 
-    # Open image as RGB (even if it is paletted) and convert it to a NumPy array ...
-    with PIL.Image.open(pName) as iObj:
-        inputImg = iObj.convert("RGB")
-    inputArrUint8 = numpy.array(inputImg)
+    # **************************************************************************
+
+    # Find out what the user supplied ...
+    match img:
+        case str():
+            # Open image as RGB (even if it is paletted) ...
+            with PIL.Image.open(img) as iObj:
+                tmpImg = iObj.convert("RGB")
+
+            # Check if the user wants to scale the image down to fit within a
+            # screen size ...
+            if screenWidth >= 100 and screenHeight >= 100:
+                # Resize image in place ...
+                tmpImg.thumbnail(
+                    (screenWidth, screenHeight),
+                    resample = PIL.Image.Resampling.LANCZOS,
+                )
+        case PIL.Image.Image():
+            # Convert image to RGB ...
+            tmpImg = img.convert("RGB")
+        case _:
+            # Crash ...
+            raise TypeError(f"\"img\" is an unexpected type ({repr(type(img))})") from None
+
+
+    # Convert image to a NumPy array ...
+    inputArrUint8 = numpy.array(tmpImg)
     assert inputArrUint8.dtype == "uint8", "the NumPy array is not 8-bit"
     assert inputArrUint8.ndim == 3, "the NumPy array does not have a colour dimension"
     assert inputArrUint8.shape[2] == 3, "the NumPy array does not have 3 colour channels"
@@ -53,5 +78,5 @@ def manuallyOptimisePNG(
     )
 
     # Write PNG ...
-    with open("foobar.png", "wb") as fObj:
+    with open(png, "wb") as fObj:
         fObj.write(src)
