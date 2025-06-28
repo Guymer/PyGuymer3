@@ -17,17 +17,26 @@ def createStreamPaeth(
 
     # **************************************************************************
 
+    # Check input ...
+    assert inputArrUint8.dtype == "uint8", "the NumPy array is not 8-bit"
+    assert inputArrInt16.dtype == "int16", "the NumPy array is not 16-bit"
+    assert inputArrUint8.ndim == 3, "the NumPy array does not have a colour dimension"
+    assert inputArrUint8.shape[2] == 3, "the NumPy array does not have 3 colour channels"
+    assert inputArrUint8.shape == inputArrInt16.shape, "the NumPy arrays do not have the same shape"
+
+    # **************************************************************************
+
     # Create short-hands ...
     ny, nx, nc = inputArrUint8.shape
 
     # Initialize array and bytearray ...
-    row = numpy.zeros(
+    scanline = numpy.zeros(
         (nc, nx),
         dtype = numpy.uint8,
     )
     stream = bytearray()
 
-    # Loop over rows ...
+    # Loop over scanlines ...
     for iy in range(ny):
         # Calculate stream for "Paeth" filter ...
         stream += numpy.uint8(4).tobytes()
@@ -47,8 +56,8 @@ def createStreamPaeth(
                     p3 = inputArrInt16[iy - 1, ix - 1, ic]
                 diff = inputArrInt16[iy, ix, ic] - paethFilter(p1, p2, p3)
                 diff = numpy.mod(diff, 256)
-                row[ic, ix] = diff.astype(numpy.uint8)
-            stream += row[:, ix].tobytes()
+                scanline[ic, ix] = diff.astype(numpy.uint8)
+            stream += scanline[:, ix].tobytes()
 
     # Return answer ...
     return stream

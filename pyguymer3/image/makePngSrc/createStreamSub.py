@@ -14,17 +14,26 @@ def createStreamSub(
 
     # **************************************************************************
 
+    # Check input ...
+    assert inputArrUint8.dtype == "uint8", "the NumPy array is not 8-bit"
+    assert inputArrInt16.dtype == "int16", "the NumPy array is not 16-bit"
+    assert inputArrUint8.ndim == 3, "the NumPy array does not have a colour dimension"
+    assert inputArrUint8.shape[2] == 3, "the NumPy array does not have 3 colour channels"
+    assert inputArrUint8.shape == inputArrInt16.shape, "the NumPy arrays do not have the same shape"
+
+    # **************************************************************************
+
     # Create short-hands ...
     ny, nx, nc = inputArrUint8.shape
 
     # Initialize array and bytearray ...
-    row = numpy.zeros(
+    scanline = numpy.zeros(
         (nc, nx),
         dtype = numpy.uint8,
     )
     stream = bytearray()
 
-    # Loop over rows ...
+    # Loop over scanlines ...
     for iy in range(ny):
         # Calculate stream for "sub" filter ...
         stream += numpy.uint8(1).tobytes()
@@ -36,8 +45,8 @@ def createStreamSub(
                     p1 = inputArrInt16[iy, ix - 1, ic]
                 diff = inputArrInt16[iy, ix, ic] - p1
                 diff = numpy.mod(diff, 256)
-                row[ic, ix] = diff.astype(numpy.uint8)
-            stream += row[:, ix].tobytes()
+                scanline[ic, ix] = diff.astype(numpy.uint8)
+            stream += scanline[:, ix].tobytes()
 
     # Return answer ...
     return stream
