@@ -59,7 +59,6 @@ def manuallyOptimisePNG(
             # Crash ...
             raise TypeError(f"\"img\" is an unexpected type ({repr(type(img))})") from None
 
-
     # Convert image to a NumPy array ...
     inputArrUint8 = numpy.array(tmpImg)
     assert inputArrUint8.dtype == "uint8", "the NumPy array is not 8-bit"
