@@ -17,6 +17,8 @@ def createStreamAdaptive(
         A "height * width * colour" unsigned 8-bit integer NumPy array.
     inputArrInt16 : numpy.ndarray
         A "height * width * colour" signed 16-bit integer NumPy array.
+    debug : bool, optional
+        Print debug messages.
 
     Returns
     -------
