@@ -44,8 +44,12 @@ def manuallyOptimisePNG(
     # Make PNG source ...
     src = makePng(
         inputArrUint8,
-        choices = "all",
-          debug = debug,
+           choices = "all",
+             debug = debug,
+            levels = [9,],
+         memLevels = [9,],
+        strategies = None,
+            wbitss = [15,],
     )
 
     # Write PNG ...
