@@ -235,6 +235,8 @@ def makePng(
     imageDat[:4] = numpy.uint32(len(imageDat[8:])).byteswap().tobytes()         # Length
     imageDat += numpy.uint32(binascii.crc32(imageDat[4:])).byteswap().tobytes() # CRC-32
 
+    # TODO: Write DPI --> https://slar.se/set-png-dpi.html
+
     # Make the IEND chunk ...
     imageEnd = bytearray()
     imageEnd += numpy.uint32(0).byteswap().tobytes()                            # Length
