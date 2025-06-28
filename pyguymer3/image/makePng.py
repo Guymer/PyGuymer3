@@ -7,6 +7,7 @@ def makePng(
     *,
        choices = "fastest",
          debug = __debug__,
+           dpi = None,
         levels = None,
      memLevels = None,
     strategies = None,
@@ -41,6 +42,9 @@ def makePng(
         ``"best"`` and ``"all"``.
     debug : bool, optional
         Print debug messages.
+    dpi : None or float or int, optional
+        If a number is passed then the ancillary "pHYs" chunk will get created
+        and the resolution will be specified.
     levels : None or list of int, optional
         The list of compression levels to loop over when trying to find the
         smallest compressed size. If not supplied, or ``None``, then the
@@ -235,7 +239,23 @@ def makePng(
     imageDat[:4] = numpy.uint32(len(imageDat[8:])).byteswap().tobytes()         # Length
     imageDat += numpy.uint32(binascii.crc32(imageDat[4:])).byteswap().tobytes() # CRC-32
 
-    # TODO: Write DPI --> https://slar.se/set-png-dpi.html
+    # Check if the user has supplied a DPI ...
+    if dpi is not None:
+        # Convert the dots-per-inch to dots-per-metre ...
+        dpm = round(dpi * 100.0 / 2.54)                                         # [#/m]
+
+        # Make the PHYS chunk ...
+        imageDpi = bytearray()
+        imageDpi += numpy.uint32(9).byteswap().tobytes()                        # Length
+        imageDpi += bytearray("pHYs", encoding = "ascii")                       # Chunk type
+        imageDpi += numpy.uint32(dpm).byteswap().tobytes()                      # pHYs : Pixels per unit, x axis
+        imageDpi += numpy.uint32(dpm).byteswap().tobytes()                      # pHYs : Pixels per unit, y axis
+        imageDpi += numpy.uint8(1).tobytes()                                    # pHYs : Unit specifier
+        imageDpi += numpy.uint32(binascii.crc32(imageDpi[4:])).byteswap().tobytes() # CRC-32
+
+        # Prepend the PHYS chunk to the IDAT chunk (so that it is included in
+        # the result) ...
+        imageDat = imageDpi + imageDat
 
     # Make the IEND chunk ...
     imageEnd = bytearray()

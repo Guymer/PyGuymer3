@@ -9,6 +9,7 @@ def save_array_as_image(
        chunksize = 1048576,
               ct = "grey",
            debug = __debug__,
+             dpi = None,
     exiftoolPath = None,
             form = "png",
     gifsiclePath = None,
@@ -34,6 +35,11 @@ def save_array_as_image(
     ct : str, optional
         the colour table to apply (the default is no colour mapping, i.e.,
         greyscale)
+    debug : bool, optional
+        Print debug messages.
+    dpi : None or float or int, optional
+        If a number is passed then the ancillary "pHYs" chunk will get created
+        and the resolution will be specified.
     exiftoolPath : str, optional
         the path to the "exiftool" binary (if not provided then Python will attempt to
         find the binary itself)
@@ -130,6 +136,7 @@ def save_array_as_image(
                 img2,
                 fname,
                 debug = debug,
+                  dpi = dpi,
             )
             optimize_image(
                 fname,

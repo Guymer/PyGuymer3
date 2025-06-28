@@ -7,6 +7,7 @@ def save_array_as_PNG(
     /,
     *,
     debug = __debug__,
+      dpi = None,
 ):
     """Save an array as a PNG image.
 
@@ -16,6 +17,11 @@ def save_array_as_PNG(
         a 3D NumPy array of uint8 type with shape (ny,nx,nc)
     fname : str
         output file name
+    debug : bool, optional
+        Print debug messages.
+    dpi : None or float or int, optional
+        If a number is passed then the ancillary "pHYs" chunk will get created
+        and the resolution will be specified.
 
     Notes
     -----
@@ -43,6 +49,7 @@ def save_array_as_PNG(
         img,
            choices = "all",
              debug = debug,
+               dpi = dpi,
             levels = [9,],
          memLevels = [9,],
         strategies = None,

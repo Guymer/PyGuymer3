@@ -7,6 +7,7 @@ def manuallyOptimisePNG(
     /,
     *,
            debug = __debug__,
+             dpi = None,
     screenHeight = -1,
      screenWidth = -1,
 ):
@@ -70,6 +71,7 @@ def manuallyOptimisePNG(
         inputArrUint8,
            choices = "all",
              debug = debug,
+               dpi = dpi,
             levels = [9,],
          memLevels = [9,],
         strategies = None,
