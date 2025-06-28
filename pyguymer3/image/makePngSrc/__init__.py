@@ -11,6 +11,7 @@ Copyright 2017 Thomas Guymer [1]_
 References
 ----------
 .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
+.. [2] PNG Specification (Third Edition), https://www.w3.org/TR/png-3/
 """
 
 # Import sub-functions ...
