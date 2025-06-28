@@ -166,7 +166,7 @@ def save_array_as_PNG(
 
             # Figure out which stream to use ...
             if ftype_req == -1:
-                tmp1 = numpy.uint64(255 * nx)
+                tmp1 = numpy.iinfo("uint64").max
                 for ftype in range(5):
                     tmp2 = row[ftype, :, :].astype(numpy.uint64).sum()
                     if tmp2 < tmp1:
