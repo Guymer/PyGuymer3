@@ -97,12 +97,12 @@ def makePng(
         If ``wbitss is None and choices == "all"`` then ``wbitss = [9, 10, 11,
         12, 13, 14, 15,]``.
 
-        See :py:func:`zlib.compressobj` for what the valid window size are.
+        See :py:func:`zlib.compressobj` for what the valid window sizes are.
 
     Returns
     -------
     src : bytearray
-        the binary source of the PNG file of the input
+        The binary source of the PNG file of the input.
 
     Notes
     -----
@@ -206,7 +206,7 @@ def makePng(
             case _:
                 raise ValueError(f"\"choices\" was an unexpected value (\"{choices}\")") from None
 
-    # Populate widths if the user has not ...
+    # Populate window sizes if the user has not ...
     if wbitss is None:
         match choices:
             case "fastest":

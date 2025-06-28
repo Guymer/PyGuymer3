@@ -6,6 +6,32 @@ def createStreamPaeth(
     inputArrInt16,
     /,
 ):
+    """Create a PNG image data stream of an image using the "Paeth" filter (as
+    defined in the PNG specification [2]_).
+
+    Parameters
+    ----------
+    inputArrUint8 : numpy.ndarray
+        A "height * width * colour" unsigned 8-bit integer NumPy array.
+    inputArrInt16 : numpy.ndarray
+        A "height * width * colour" signed 16-bit integer NumPy array.
+
+    Returns
+    -------
+    stream : bytearray
+        The PNG image data stream.
+
+    Notes
+    -----
+
+    Copyright 2017 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
+    .. [2] PNG Specification (Third Edition), https://www.w3.org/TR/png-3/
+    """
+
     # Import special modules ...
     try:
         import numpy

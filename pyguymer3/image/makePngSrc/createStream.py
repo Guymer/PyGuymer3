@@ -13,6 +13,46 @@ def createStream(
     strategies = None,
         wbitss = None,
 ):
+    """Compress the PNG image data stream
+
+    This function loops over sets of settings and returns the smallest
+    compressed PNG image data stream. See :py:func:`pyguymer3.image.makePng` for
+    a discussion on how it does that.
+
+    Parameters
+    ----------
+    inputArrUint8 : numpy.ndarray
+        A "height * width * colour" unsigned 8-bit integer NumPy array.
+    inputArrInt16 : numpy.ndarray
+        A "height * width * colour" signed 16-bit integer NumPy array.
+    choices : str, optional
+        See :py:func:`pyguymer3.image.makePng` for the documentation.
+    debug : bool, optional
+        Print debug messages.
+    levels : None or list of int, optional
+        See :py:func:`pyguymer3.image.makePng` for the documentation.
+    memLevels : None or list of int, optional
+        See :py:func:`pyguymer3.image.makePng` for the documentation.
+    strategies : None or list of int, optional
+        See :py:func:`pyguymer3.image.makePng` for the documentation.
+    wbitss : None or list of int, optional
+        See :py:func:`pyguymer3.image.makePng` for the documentation.
+
+    Returns
+    -------
+    stream : bytearray
+        The compressed PNG image data stream.
+
+    Notes
+    -----
+
+    Copyright 2017 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
+    """
+
     # Import standard modules ...
     import copy
     import zlib
@@ -71,7 +111,7 @@ def createStream(
             case _:
                 raise ValueError(f"\"choices\" was an unexpected value (\"{choices}\")") from None
 
-    # Populate widths if the user has not ...
+    # Populate window sizes if the user has not ...
     if wbitss is None:
         match choices:
             case "fastest":
