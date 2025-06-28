@@ -15,6 +15,7 @@ References
 
 # Import sub-functions ...
 from .createStream import createStream
+from .createStreamAdaptive import createStreamAdaptive
 from .createStreamAverage import createStreamAverage
 from .createStreamNone import createStreamNone
 from .createStreamPaeth import createStreamPaeth
