@@ -62,14 +62,14 @@ def manuallyOptimisePNG(
             raise TypeError(f"\"img\" is an unexpected type ({repr(type(img))})") from None
 
     # Convert image to a NumPy array ...
-    inputArrUint8 = numpy.array(tmpImg)
-    assert inputArrUint8.dtype == "uint8", "the NumPy array is not 8-bit"
-    assert inputArrUint8.ndim == 3, "the NumPy array does not have a colour dimension"
-    assert inputArrUint8.shape[2] == 3, "the NumPy array does not have 3 colour channels"
+    arrUint8 = numpy.array(tmpImg)
+    assert arrUint8.dtype == "uint8", "the NumPy array is not 8-bit"
+    assert arrUint8.ndim == 3, "the NumPy array does not have a colour dimension"
+    assert arrUint8.shape[2] == 3, "the NumPy array does not have 3 colour channels"
 
     # Make PNG source ...
     src = makePng(
-        inputArrUint8,
+        arrUint8,
            choices = "all",
              debug = debug,
                dpi = dpi,

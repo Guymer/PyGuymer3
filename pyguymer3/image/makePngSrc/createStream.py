@@ -2,8 +2,8 @@
 
 # Define function ...
 def createStream(
-    inputArrUint8,
-    inputArrInt16,
+    arrUint8,
+    arrInt16,
     /,
     *,
        choices = "fastest",
@@ -21,9 +21,9 @@ def createStream(
 
     Parameters
     ----------
-    inputArrUint8 : numpy.ndarray
+    arrUint8 : numpy.ndarray
         A "height * width * colour" unsigned 8-bit integer NumPy array.
-    inputArrInt16 : numpy.ndarray
+    arrInt16 : numpy.ndarray
         A "height * width * colour" signed 16-bit integer NumPy array.
     choices : str, optional
         See :py:func:`pyguymer3.image.makePng` for the documentation.
@@ -73,11 +73,11 @@ def createStream(
     # **************************************************************************
 
     # Check input ...
-    assert inputArrUint8.dtype == "uint8", "the NumPy array is not 8-bit"
-    assert inputArrInt16.dtype == "int16", "the NumPy array is not 16-bit"
-    assert inputArrUint8.ndim == 3, "the NumPy array does not have a colour dimension"
-    assert inputArrUint8.shape[2] == 3, "the NumPy array does not have 3 colour channels"
-    assert inputArrUint8.shape == inputArrInt16.shape, "the NumPy arrays do not have the same shape"
+    assert arrUint8.dtype == "uint8", "the NumPy array is not 8-bit"
+    assert arrInt16.dtype == "int16", "the NumPy array is not 16-bit"
+    assert arrUint8.ndim == 3, "the NumPy array does not have a colour dimension"
+    assert arrUint8.shape[2] == 3, "the NumPy array does not have 3 colour channels"
+    assert arrUint8.shape == arrInt16.shape, "the NumPy arrays do not have the same shape"
 
     # **************************************************************************
 
@@ -139,28 +139,28 @@ def createStream(
     for iFilter, stream in enumerate(
         [
             createStreamNone(
-                inputArrUint8,
-                inputArrInt16,
+                arrUint8,
+                arrInt16,
             ),
             createStreamSub(
-                inputArrUint8,
-                inputArrInt16,
+                arrUint8,
+                arrInt16,
             ),
             createStreamUp(
-                inputArrUint8,
-                inputArrInt16,
+                arrUint8,
+                arrInt16,
             ),
             createStreamAverage(
-                inputArrUint8,
-                inputArrInt16,
+                arrUint8,
+                arrInt16,
             ),
             createStreamPaeth(
-                inputArrUint8,
-                inputArrInt16,
+                arrUint8,
+                arrInt16,
             ),
             createStreamAdaptive(
-                inputArrUint8,
-                inputArrInt16,
+                arrUint8,
+                arrInt16,
                 debug = debug,
             ),
         ]

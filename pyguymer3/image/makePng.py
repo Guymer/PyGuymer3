@@ -2,7 +2,7 @@
 
 # Define function ...
 def makePng(
-    inputArrUint8,
+    arrUint8,
     /,
     *,
        choices = "fastest",
@@ -35,7 +35,7 @@ def makePng(
 
     Parameters
     ----------
-    inputArrUint8 : numpy.ndarray
+    arrUint8 : numpy.ndarray
         A "height * width * colour" unsigned 8-bit integer NumPy array.
     choices : str, optional
         If any of the settings are not passed (or passed as ``None``) then this
@@ -201,15 +201,15 @@ def makePng(
                 raise ValueError(f"\"choices\" was an unexpected value (\"{choices}\")") from None
 
     # Check input ...
-    assert inputArrUint8.dtype == "uint8", "the NumPy array is not 8-bit"
-    assert inputArrUint8.ndim == 3, "the NumPy array does not have a colour dimension"
-    assert inputArrUint8.shape[2] == 3, "the NumPy array does not have 3 colour channels"
+    assert arrUint8.dtype == "uint8", "the NumPy array is not 8-bit"
+    assert arrUint8.ndim == 3, "the NumPy array does not have a colour dimension"
+    assert arrUint8.shape[2] == 3, "the NumPy array does not have 3 colour channels"
 
     # **************************************************************************
 
     # Create short-hands ...
-    ny, nx, _ = inputArrUint8.shape
-    inputArrInt16 = inputArrUint8.astype(numpy.int16)
+    ny, nx, _ = arrUint8.shape
+    arrInt16 = arrUint8.astype(numpy.int16)
 
     # Make the file signature ...
     pngSig = bytearray()
@@ -233,8 +233,8 @@ def makePng(
     datChk += numpy.uint32(0).byteswap().tobytes()                              # Length
     datChk += bytearray("IDAT", encoding = "ascii")                             # Chunk type
     datChk += createStream(
-        inputArrUint8,
-        inputArrInt16,
+        arrUint8,
+        arrInt16,
            choices = choices,
              debug = debug,
             levels = levels,

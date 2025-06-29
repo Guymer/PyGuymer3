@@ -2,8 +2,8 @@
 
 # Define function ...
 def createStreamNone(
-    inputArrUint8,
-    inputArrInt16,
+    arrUint8,
+    arrInt16,
     /,
 ):
     """Create a PNG image data stream of an image using no filtering (as defined
@@ -11,9 +11,9 @@ def createStreamNone(
 
     Parameters
     ----------
-    inputArrUint8 : numpy.ndarray
+    arrUint8 : numpy.ndarray
         A "height * width * colour" unsigned 8-bit integer NumPy array.
-    inputArrInt16 : numpy.ndarray
+    arrInt16 : numpy.ndarray
         A "height * width * colour" signed 16-bit integer NumPy array.
 
     Returns
@@ -41,16 +41,16 @@ def createStreamNone(
     # **************************************************************************
 
     # Check input ...
-    assert inputArrUint8.dtype == "uint8", "the NumPy array is not 8-bit"
-    assert inputArrInt16.dtype == "int16", "the NumPy array is not 16-bit"
-    assert inputArrUint8.ndim == 3, "the NumPy array does not have a colour dimension"
-    assert inputArrUint8.shape[2] == 3, "the NumPy array does not have 3 colour channels"
-    assert inputArrUint8.shape == inputArrInt16.shape, "the NumPy arrays do not have the same shape"
+    assert arrUint8.dtype == "uint8", "the NumPy array is not 8-bit"
+    assert arrInt16.dtype == "int16", "the NumPy array is not 16-bit"
+    assert arrUint8.ndim == 3, "the NumPy array does not have a colour dimension"
+    assert arrUint8.shape[2] == 3, "the NumPy array does not have 3 colour channels"
+    assert arrUint8.shape == arrInt16.shape, "the NumPy arrays do not have the same shape"
 
     # **************************************************************************
 
     # Create short-hands ...
-    ny, nx, nc = inputArrUint8.shape
+    ny, nx, nc = arrUint8.shape
 
     # Initialize array and bytearray ...
     scanline = numpy.zeros(
@@ -64,7 +64,7 @@ def createStreamNone(
         # Calculate stream for "none" filter ...
         stream += numpy.uint8(0).tobytes()
         for ix in range(nx):
-            scanline[:, ix] = inputArrUint8[iy, ix, :]
+            scanline[:, ix] = arrUint8[iy, ix, :]
             stream += scanline[:, ix].tobytes()
 
     # Return answer ...

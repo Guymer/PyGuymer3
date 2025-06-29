@@ -2,8 +2,8 @@
 
 # Define function ...
 def createStreamAdaptive(
-    inputArrUint8,
-    inputArrInt16,
+    arrUint8,
+    arrInt16,
     /,
     *,
     debug = __debug__,
@@ -13,9 +13,9 @@ def createStreamAdaptive(
 
     Parameters
     ----------
-    inputArrUint8 : numpy.ndarray
+    arrUint8 : numpy.ndarray
         A "height * width * colour" unsigned 8-bit integer NumPy array.
-    inputArrInt16 : numpy.ndarray
+    arrInt16 : numpy.ndarray
         A "height * width * colour" signed 16-bit integer NumPy array.
     debug : bool, optional
         Print debug messages.
@@ -48,16 +48,16 @@ def createStreamAdaptive(
     # **************************************************************************
 
     # Check input ...
-    assert inputArrUint8.dtype == "uint8", "the NumPy array is not 8-bit"
-    assert inputArrInt16.dtype == "int16", "the NumPy array is not 16-bit"
-    assert inputArrUint8.ndim == 3, "the NumPy array does not have a colour dimension"
-    assert inputArrUint8.shape[2] == 3, "the NumPy array does not have 3 colour channels"
-    assert inputArrUint8.shape == inputArrInt16.shape, "the NumPy arrays do not have the same shape"
+    assert arrUint8.dtype == "uint8", "the NumPy array is not 8-bit"
+    assert arrInt16.dtype == "int16", "the NumPy array is not 16-bit"
+    assert arrUint8.ndim == 3, "the NumPy array does not have a colour dimension"
+    assert arrUint8.shape[2] == 3, "the NumPy array does not have 3 colour channels"
+    assert arrUint8.shape == arrInt16.shape, "the NumPy arrays do not have the same shape"
 
     # **************************************************************************
 
     # Create short-hands ...
-    ny, nx, nc = inputArrUint8.shape
+    ny, nx, nc = arrUint8.shape
 
     # Initialize arrays and bytearray ...
     scanline0 = numpy.zeros(
@@ -90,7 +90,7 @@ def createStreamAdaptive(
 
         # Calculate scanline for "none" filter ...
         for ix in range(nx):
-            scanline0[:, ix] = inputArrUint8[iy, ix, :]
+            scanline0[:, ix] = arrUint8[iy, ix, :]
 
         # Calculate scanline for "sub" filter ...
         for ix in range(nx):
@@ -98,8 +98,8 @@ def createStreamAdaptive(
                 if ix == 0:
                     p1 = numpy.int16(0)
                 else:
-                    p1 = inputArrInt16[iy, ix - 1, ic]
-                diff = inputArrInt16[iy, ix, ic] - p1
+                    p1 = arrInt16[iy, ix - 1, ic]
+                diff = arrInt16[iy, ix, ic] - p1
                 diff = numpy.mod(diff, 256)
                 scanline1[ic, ix] = diff.astype(numpy.uint8)
 
@@ -109,8 +109,8 @@ def createStreamAdaptive(
                 if iy == 0:
                     p1 = numpy.int16(0)
                 else:
-                    p1 = inputArrInt16[iy - 1, ix, ic]
-                diff = inputArrInt16[iy, ix, ic] - p1
+                    p1 = arrInt16[iy - 1, ix, ic]
+                diff = arrInt16[iy, ix, ic] - p1
                 diff = numpy.mod(diff, 256)
                 scanline2[ic, ix] = diff.astype(numpy.uint8)
 
@@ -120,12 +120,12 @@ def createStreamAdaptive(
                 if ix == 0:
                     p1 = numpy.int16(0)
                 else:
-                    p1 = inputArrInt16[iy, ix - 1, ic]
+                    p1 = arrInt16[iy, ix - 1, ic]
                 if iy == 0:
                     p2 = numpy.int16(0)
                 else:
-                    p2 = inputArrInt16[iy - 1, ix, ic]
-                diff = inputArrInt16[iy, ix, ic] - ((p1 + p2) // numpy.int16(2))
+                    p2 = arrInt16[iy - 1, ix, ic]
+                diff = arrInt16[iy, ix, ic] - ((p1 + p2) // numpy.int16(2))
                 diff = numpy.mod(diff, 256)
                 scanline3[ic, ix] = diff.astype(numpy.uint8)
 
@@ -135,16 +135,16 @@ def createStreamAdaptive(
                 if ix == 0:
                     p1 = numpy.int16(0)
                 else:
-                    p1 = inputArrInt16[iy, ix - 1, ic]
+                    p1 = arrInt16[iy, ix - 1, ic]
                 if iy == 0:
                     p2 = numpy.int16(0)
                 else:
-                    p2 = inputArrInt16[iy - 1, ix, ic]
+                    p2 = arrInt16[iy - 1, ix, ic]
                 if ix == 0 or iy == 0:
                     p3 = numpy.int16(0)
                 else:
-                    p3 = inputArrInt16[iy - 1, ix - 1, ic]
-                diff = inputArrInt16[iy, ix, ic] - paethFilter(p1, p2, p3)
+                    p3 = arrInt16[iy - 1, ix - 1, ic]
+                diff = arrInt16[iy, ix, ic] - paethFilter(p1, p2, p3)
                 diff = numpy.mod(diff, 256)
                 scanline4[ic, ix] = diff.astype(numpy.uint8)
 
