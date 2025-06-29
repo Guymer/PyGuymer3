@@ -5,14 +5,21 @@ def makePng(
     arrUint8,
     /,
     *,
-       choices = "fastest",
-         debug = __debug__,
-           dpi = None,
-        levels = None,
-     memLevels = None,
-       modTime = None,
-    strategies = None,
-        wbitss = None,
+    calcAdaptive = True,
+     calcAverage = True,
+        calcNone = True,
+       calcPaeth = True,
+         calcSub = True,
+          calcUp = True,
+         choices = "fastest",
+           debug = __debug__,
+             dpi = None,
+          levels = None,
+       memLevels = None,
+         modTime = None,
+        palUint8 = None,
+      strategies = None,
+          wbitss = None,
 ):
     """Make a PNG
 
@@ -78,6 +85,8 @@ def makePng(
     modTime : None or datetime.datetime, optional
         If a time is passed then the ancillary "tIME" chunk will get created and
         the image last-modification time will be specified.
+    palUint8 : None or numpy.ndarray, optional
+        A "level * colour" unsigned 8-bit integer NumPy array.
     strategies : None or list of int, optional
         The list of strategies to loop over when trying to find the smallest
         compressed size. If not supplied, or ``None``, then the value of
@@ -203,7 +212,21 @@ def makePng(
     # Check input ...
     assert arrUint8.dtype == "uint8", f"the NumPy array is not 8-bit (\"{arrUint8.dtype}\")"
     assert arrUint8.ndim == 3, f"the NumPy array is not 3D (\"{arrUint8.ndim:d}\")"
-    assert arrUint8.shape[2] == 3, "the NumPy array does not have 3 colour channels"
+    match arrUint8.shape[2]:
+        case 1:
+            if palUint8 is None:
+                colourType = 0
+            else:
+                assert palUint8.dtype == "uint8", f"the NumPy palette is not 8-bit (\"{palUint8.dtype}\")"
+                assert palUint8.ndim == 2, f"the NumPy palette is not 2D (\"{palUint8.ndim:d}\")"
+                assert palUint8.shape[0] <= 256, f"the NumPy palette has more than 256 colours (\"{palUint8.shape[0]:,d}\")"
+                assert palUint8.shape[1] == 3, "the NumPy palette does not have 3 colour channels"
+                assert arrUint8.max() < palUint8.shape[0], f"the NumPy array references more colours than are in the NumPy palette (\"{arrUint8.max():d}\" -vs- \"{palUint8.shape[0]:d}\")"
+                colourType = 3
+        case 3:
+            colourType = 2
+        case _:
+            raise ValueError(f"the NumPy array does not have either 1 or 3 colour channels (\"{arrUint8.shape[2]:d}\")") from None
 
     # **************************************************************************
 
@@ -222,7 +245,7 @@ def makePng(
     hdrChk += numpy.uint32(nx).byteswap().tobytes()                             # IHDR : Width
     hdrChk += numpy.uint32(ny).byteswap().tobytes()                             # IHDR : Height
     hdrChk += numpy.uint8(8).tobytes()                                          # IHDR : Bit depth
-    hdrChk += numpy.uint8(2).tobytes()                                          # IHDR : Colour type
+    hdrChk += numpy.uint8(colourType).tobytes()                                 # IHDR : Colour type
     hdrChk += numpy.uint8(0).tobytes()                                          # IHDR : Compression method
     hdrChk += numpy.uint8(0).tobytes()                                          # IHDR : Filter method
     hdrChk += numpy.uint8(0).tobytes()                                          # IHDR : Interlace method
@@ -235,12 +258,18 @@ def makePng(
     datChk += createStream(
         arrUint8,
         arrInt16,
-           choices = choices,
-             debug = debug,
-            levels = levels,
-         memLevels = memLevels,
-        strategies = strategies,
-            wbitss = wbitss,
+        calcAdaptive = calcAdaptive,
+         calcAverage = calcAverage,
+            calcNone = calcNone,
+           calcPaeth = calcPaeth,
+             calcSub = calcSub,
+              calcUp = calcUp,
+             choices = choices,
+               debug = debug,
+              levels = levels,
+           memLevels = memLevels,
+          strategies = strategies,
+              wbitss = wbitss,
     )                                                                           # IDAT : Data
     datChk[:4] = numpy.uint32(len(datChk[8:])).byteswap().tobytes()             # Length
     datChk += numpy.uint32(binascii.crc32(datChk[4:])).byteswap().tobytes()     # CRC-32
@@ -280,6 +309,21 @@ def makePng(
         # Prepend the TIME chunk to the IDAT chunk (so that it is included in
         # the result) ...
         datChk = timChk + datChk
+
+    # Check if it is a paletted image ...
+    if colourType == 3:
+        # Make the PLTE chunk ...
+        palChk = bytearray()
+        palChk += numpy.uint32(palUint8.size).byteswap().tobytes()              # Length
+        palChk += bytearray("PLTE", encoding = "ascii")                         # Chunk type
+        for lvl in range(palUint8.shape[0]):
+            for ic in range(3):
+                palChk += palUint8[lvl, ic].tobytes()                           # PLTE : Data
+        palChk += numpy.uint32(binascii.crc32(palChk[4:])).byteswap().tobytes() # CRC-32
+
+        # Prepend the PLTE chunk to the IDAT chunk (so that it is included in
+        # the result) ...
+        datChk = palChk + datChk
 
     # Make the IEND chunk ...
     endChk = bytearray()

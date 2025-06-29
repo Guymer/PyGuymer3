@@ -47,7 +47,13 @@ def createStreamPaeth(
     assert arrUint8.dtype == "uint8", f"the NumPy array is not 8-bit (\"{arrUint8.dtype}\")"
     assert arrInt16.dtype == "int16", f"the NumPy array is not 16-bit (\"{arrInt16.dtype}\")"
     assert arrUint8.ndim == 3, f"the NumPy array is not 3D (\"{arrUint8.ndim:d}\")"
-    assert arrUint8.shape[2] == 3, "the NumPy array does not have 3 colour channels"
+    match arrUint8.shape[2]:
+        case 1:
+            pass
+        case 3:
+            pass
+        case _:
+            raise ValueError(f"the NumPy array does not have either 1 or 3 colour channels (\"{arrUint8.shape[2]:d}\")") from None
     assert arrUint8.shape == arrInt16.shape, "the NumPy arrays do not have the same shape"
 
     # **************************************************************************
