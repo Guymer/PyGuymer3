@@ -76,7 +76,8 @@ def makePng(
 
         See :py:func:`zlib.compressobj` for what the valid memory levels are.
     modTime : None or datetime.datetime, optional
-        The image last-modification time.
+        If a time is passed then the ancillary "tIME" chunk will get created and
+        the image last-modification time will be specified.
     strategies : None or list of int, optional
         The list of strategies to loop over when trying to find the smallest
         compressed size. If not supplied, or ``None``, then the value of
@@ -124,7 +125,9 @@ def makePng(
 
     This function writes out three of the four critical chunks: "IHDR", "IDAT"
     and "IEND". This function does not currently write out a "PLTE" chunk as it
-    does not currently support writing paletted images.
+    does not currently support writing paletted images. This function can
+    optionally include an ancillary "pHYs" chunk and an ancillary "tIME" chunk
+    if the user passes optional keyword arguments to populate them.
 
     Copyright 2017 Thomas Guymer [1]_
 
