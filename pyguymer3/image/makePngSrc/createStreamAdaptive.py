@@ -6,7 +6,7 @@ def createStreamAdaptive(
     arrInt16,
     /,
     *,
-    debug = __debug__,
+    debug: bool = __debug__,
 ) -> bytearray:
     """Create a PNG image data stream of an image using "adaptive" filtering (as
     suggested in the PNG specification [2]_).

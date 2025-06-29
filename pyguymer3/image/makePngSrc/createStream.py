@@ -6,19 +6,19 @@ def createStream(
     arrInt16,
     /,
     *,
-    calcAdaptive = True,
-     calcAverage = True,
-        calcNone = True,
-       calcPaeth = True,
-         calcSub = True,
-          calcUp = True,
-         choices = "fastest",
-           debug = __debug__,
-          levels = None,
-       memLevels = None,
-      strategies = None,
-          wbitss = None,
-):
+    calcAdaptive: bool = True,
+     calcAverage: bool = True,
+        calcNone: bool = True,
+       calcPaeth: bool = True,
+         calcSub: bool = True,
+          calcUp: bool = True,
+         choices: str = "fastest",
+           debug: bool = __debug__,
+          levels: None | list[int] = None,
+       memLevels: None | list[int] = None,
+      strategies: None | list[int] = None,
+          wbitss: None | list[int] = None,
+) -> bytearray:
     """Compress the PNG image data stream
 
     This function loops over sets of settings and returns the smallest
