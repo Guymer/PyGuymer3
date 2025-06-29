@@ -69,7 +69,6 @@ def createStream(
     References
     ----------
     .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
-    .. [2] PNG Specification (Third Edition), https://www.w3.org/TR/png-3/
     """
 
     # Import standard modules ...
