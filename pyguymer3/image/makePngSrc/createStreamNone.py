@@ -5,7 +5,7 @@ def createStreamNone(
     arrUint8,
     arrInt16,
     /,
-):
+) -> bytearray:
     """Create a PNG image data stream of an image using no filtering (as defined
     in the PNG specification [2]_).
 

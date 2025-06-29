@@ -20,7 +20,7 @@ def makePng(
         palUint8 = None,
       strategies = None,
           wbitss = None,
-):
+) -> bytearray:
     """Make a PNG
 
     This function reads in a "height * width * colour" unsigned 8-bit integer

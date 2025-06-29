@@ -5,7 +5,7 @@ def createStreamSub(
     arrUint8,
     arrInt16,
     /,
-):
+) -> bytearray:
     """Create a PNG image data stream of an image using the "sub" filter (as
     defined in the PNG specification [2]_).
 

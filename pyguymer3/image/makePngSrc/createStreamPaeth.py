@@ -5,7 +5,7 @@ def createStreamPaeth(
     arrUint8,
     arrInt16,
     /,
-):
+) -> bytearray:
     """Create a PNG image data stream of an image using the "Paeth" filter (as
     defined in the PNG specification [2]_).
 
