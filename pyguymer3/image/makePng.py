@@ -212,27 +212,27 @@ def makePng(
     inputArrInt16 = inputArrUint8.astype(numpy.int16)
 
     # Make the file signature ...
-    imageSig = bytearray()
-    imageSig += binascii.unhexlify("89504E470D0A1A0A")
+    pngSig = bytearray()
+    pngSig += binascii.unhexlify("89504E470D0A1A0A")
 
     # Make the IHDR chunk ...
-    imageHdr = bytearray()
-    imageHdr += numpy.uint32(13).byteswap().tobytes()                           # Length
-    imageHdr += bytearray("IHDR", encoding = "ascii")                           # Chunk type
-    imageHdr += numpy.uint32(nx).byteswap().tobytes()                           # IHDR : Width
-    imageHdr += numpy.uint32(ny).byteswap().tobytes()                           # IHDR : Height
-    imageHdr += numpy.uint8(8).tobytes()                                        # IHDR : Bit depth
-    imageHdr += numpy.uint8(2).tobytes()                                        # IHDR : Colour type
-    imageHdr += numpy.uint8(0).tobytes()                                        # IHDR : Compression method
-    imageHdr += numpy.uint8(0).tobytes()                                        # IHDR : Filter method
-    imageHdr += numpy.uint8(0).tobytes()                                        # IHDR : Interlace method
-    imageHdr += numpy.uint32(binascii.crc32(imageHdr[4:])).byteswap().tobytes() # CRC-32
+    hdrChk = bytearray()
+    hdrChk += numpy.uint32(13).byteswap().tobytes()                             # Length
+    hdrChk += bytearray("IHDR", encoding = "ascii")                             # Chunk type
+    hdrChk += numpy.uint32(nx).byteswap().tobytes()                             # IHDR : Width
+    hdrChk += numpy.uint32(ny).byteswap().tobytes()                             # IHDR : Height
+    hdrChk += numpy.uint8(8).tobytes()                                          # IHDR : Bit depth
+    hdrChk += numpy.uint8(2).tobytes()                                          # IHDR : Colour type
+    hdrChk += numpy.uint8(0).tobytes()                                          # IHDR : Compression method
+    hdrChk += numpy.uint8(0).tobytes()                                          # IHDR : Filter method
+    hdrChk += numpy.uint8(0).tobytes()                                          # IHDR : Interlace method
+    hdrChk += numpy.uint32(binascii.crc32(hdrChk[4:])).byteswap().tobytes()     # CRC-32
 
     # Make the IDAT chunk ...
-    imageDat = bytearray()
-    imageDat += numpy.uint32(0).byteswap().tobytes()                            # Length
-    imageDat += bytearray("IDAT", encoding = "ascii")                           # Chunk type
-    imageDat += createStream(
+    datChk = bytearray()
+    datChk += numpy.uint32(0).byteswap().tobytes()                              # Length
+    datChk += bytearray("IDAT", encoding = "ascii")                             # Chunk type
+    datChk += createStream(
         inputArrUint8,
         inputArrInt16,
            choices = choices,
@@ -242,8 +242,8 @@ def makePng(
         strategies = strategies,
             wbitss = wbitss,
     )                                                                           # IDAT : Data
-    imageDat[:4] = numpy.uint32(len(imageDat[8:])).byteswap().tobytes()         # Length
-    imageDat += numpy.uint32(binascii.crc32(imageDat[4:])).byteswap().tobytes() # CRC-32
+    datChk[:4] = numpy.uint32(len(datChk[8:])).byteswap().tobytes()             # Length
+    datChk += numpy.uint32(binascii.crc32(datChk[4:])).byteswap().tobytes()     # CRC-32
 
     # Check if the user has supplied a DPI ...
     if dpi is not None:
@@ -251,41 +251,41 @@ def makePng(
         dpm = round(dpi * 100.0 / 2.54)                                         # [#/m]
 
         # Make the PHYS chunk ...
-        imageDpi = bytearray()
-        imageDpi += numpy.uint32(9).byteswap().tobytes()                        # Length
-        imageDpi += bytearray("pHYs", encoding = "ascii")                       # Chunk type
-        imageDpi += numpy.uint32(dpm).byteswap().tobytes()                      # pHYs : Pixels per unit, x axis
-        imageDpi += numpy.uint32(dpm).byteswap().tobytes()                      # pHYs : Pixels per unit, y axis
-        imageDpi += numpy.uint8(1).tobytes()                                    # pHYs : Unit specifier
-        imageDpi += numpy.uint32(binascii.crc32(imageDpi[4:])).byteswap().tobytes() # CRC-32
+        phyChk = bytearray()
+        phyChk += numpy.uint32(9).byteswap().tobytes()                          # Length
+        phyChk += bytearray("pHYs", encoding = "ascii")                         # Chunk type
+        phyChk += numpy.uint32(dpm).byteswap().tobytes()                        # pHYs : Pixels per unit, x axis
+        phyChk += numpy.uint32(dpm).byteswap().tobytes()                        # pHYs : Pixels per unit, y axis
+        phyChk += numpy.uint8(1).tobytes()                                      # pHYs : Unit specifier
+        phyChk += numpy.uint32(binascii.crc32(phyChk[4:])).byteswap().tobytes() # CRC-32
 
         # Prepend the PHYS chunk to the IDAT chunk (so that it is included in
         # the result) ...
-        imageDat = imageDpi + imageDat
+        datChk = phyChk + datChk
 
     # Check if the user has supplied a last-modification time ...
     if modTime is not None:
         # Make the TIME chunk ...
-        imageTim = bytearray()
-        imageTim += numpy.uint32(7).byteswap().tobytes()                        # Length
-        imageTim += bytearray("tIME", encoding = "ascii")                       # Chunk type
-        imageTim += numpy.uint16(modTime.year).byteswap().tobytes()             # tIME : Year
-        imageTim += numpy.uint8(modTime.month).tobytes()                        # tIME : Month
-        imageTim += numpy.uint8(modTime.day).tobytes()                          # tIME : Day
-        imageTim += numpy.uint8(modTime.hour).tobytes()                         # tIME : Hour
-        imageTim += numpy.uint8(modTime.minute).tobytes()                       # tIME : Minute
-        imageTim += numpy.uint8(modTime.second).tobytes()                       # tIME : Second
-        imageTim += numpy.uint32(binascii.crc32(imageTim[4:])).byteswap().tobytes() # CRC-32
+        timChk = bytearray()
+        timChk += numpy.uint32(7).byteswap().tobytes()                          # Length
+        timChk += bytearray("tIME", encoding = "ascii")                         # Chunk type
+        timChk += numpy.uint16(modTime.year).byteswap().tobytes()               # tIME : Year
+        timChk += numpy.uint8(modTime.month).tobytes()                          # tIME : Month
+        timChk += numpy.uint8(modTime.day).tobytes()                            # tIME : Day
+        timChk += numpy.uint8(modTime.hour).tobytes()                           # tIME : Hour
+        timChk += numpy.uint8(modTime.minute).tobytes()                         # tIME : Minute
+        timChk += numpy.uint8(modTime.second).tobytes()                         # tIME : Second
+        timChk += numpy.uint32(binascii.crc32(timChk[4:])).byteswap().tobytes() # CRC-32
 
         # Prepend the TIME chunk to the IDAT chunk (so that it is included in
         # the result) ...
-        imageDat = imageTim + imageDat
+        datChk = timChk + datChk
 
     # Make the IEND chunk ...
-    imageEnd = bytearray()
-    imageEnd += numpy.uint32(0).byteswap().tobytes()                            # Length
-    imageEnd += bytearray("IEND", encoding = "ascii")                           # Chunk type
-    imageEnd += numpy.uint32(binascii.crc32(imageEnd[4:])).byteswap().tobytes() # CRC-32
+    endChk = bytearray()
+    endChk += numpy.uint32(0).byteswap().tobytes()                              # Length
+    endChk += bytearray("IEND", encoding = "ascii")                             # Chunk type
+    endChk += numpy.uint32(binascii.crc32(endChk[4:])).byteswap().tobytes()     # CRC-32
 
     # Return answer ...
-    return imageSig + imageHdr + imageDat + imageEnd
+    return pngSig + hdrChk + datChk + endChk
