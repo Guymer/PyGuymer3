@@ -157,9 +157,15 @@ def save_array_as_image(
             save_array_as_PNG(
                 img2,
                 fname,
-                  debug = debug,
-                    dpi = dpi,
-                modTime = modTime,
+                calcAdaptive = calcAdaptive,
+                 calcAverage = calcAverage,
+                    calcNone = calcNone,
+                   calcPaeth = calcPaeth,
+                     calcSub = calcSub,
+                      calcUp = calcUp,
+                       debug = debug,
+                         dpi = dpi,
+                     modTime = modTime,
             )
             optimize_image(
                 fname,
