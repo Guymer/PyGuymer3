@@ -6,6 +6,12 @@ def save_array_as_image(
     fname,
     /,
     *,
+    calcAdaptive = True,
+     calcAverage = True,
+        calcNone = True,
+       calcPaeth = True,
+         calcSub = True,
+          calcUp = True,
        chunksize = 1048576,
               ct = "grey",
            debug = __debug__,
@@ -33,19 +39,32 @@ def save_array_as_image(
         a 2D NumPy array of any type with shape (ny,nx)
     fname : str
         output file name
+    calcAdaptive : bool, optional
+        See :py:func:`pyguymer3.image.makePng` for the documentation.
+    calcAverage : bool, optional
+        See :py:func:`pyguymer3.image.makePng` for the documentation.
+    calcNone : bool, optional
+        See :py:func:`pyguymer3.image.makePng` for the documentation.
+    calcPaeth : bool, optional
+        See :py:func:`pyguymer3.image.makePng` for the documentation.
+    calcSub : bool, optional
+        See :py:func:`pyguymer3.image.makePng` for the documentation.
+    calcUp : bool, optional
+        See :py:func:`pyguymer3.image.makePng` for the documentation.
+    chunksize : int, optional
+        the size of the chunks of any files which are read in (in bytes)
     ct : str, optional
         the colour table to apply (the default is no colour mapping, i.e.,
         greyscale)
     debug : bool, optional
         Print debug messages.
     dpi : None or float or int, optional
-        If a number is passed then the ancillary "pHYs" chunk will get created
-        and the resolution will be specified.
+        See :py:func:`pyguymer3.image.makePng` for the documentation.
     exiftoolPath : str, optional
         the path to the "exiftool" binary (if not provided then Python will attempt to
         find the binary itself)
     form : str, optional
-        output image format (default "png")
+        output image format
     gifsiclePath : str, optional
         the path to the "gifsicle" binary (if not provided then Python will attempt to
         find the binary itself)
@@ -53,7 +72,7 @@ def save_array_as_image(
         the path to the "jpegtran" binary (if not provided then Python will attempt to
         find the binary itself)
     modTime : None or datetime.datetime, optional
-        The image last-modification time.
+        See :py:func:`pyguymer3.image.makePng` for the documentation.
     optipngPath : str, optional
         the path to the "optipng" binary (if not provided then Python will attempt to
         find the binary itself)

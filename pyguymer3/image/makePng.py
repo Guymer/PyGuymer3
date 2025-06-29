@@ -27,8 +27,8 @@ def makePng(
     NumPy array and returns the Python bytearray which is the binary source of
     the PNG file of the input.
 
-    This function always calculates the PNG image data stream using all five
-    filters (as defined in the PNG specification [2]_), as well as adaptive
+    By default, this function calculates the PNG image data stream using all
+    five filters (as defined in the PNG specification [2]_), as well as adaptive
     filtering, and this function then uses the one filter which ends up having
     the smallest compressed size.
 
@@ -44,6 +44,29 @@ def makePng(
     ----------
     arrUint8 : numpy.ndarray
         A "height * width * colour" unsigned 8-bit integer NumPy array.
+    calcAdaptive : bool, optional
+        Calculate the compressed PNG image data stream using an adaptive filter
+        type. Each of the five named filters is applied to a scanline and a
+        prediction is made as to which one will produce the smallest compressed
+        scanline. The chosen filtered uncompressed scanline is concatenated with
+        all of the other filtered uncompressed scanlines and a single
+        compression operation is performed once the whole image has been
+        processed.
+    calcAverage : bool, optional
+        Calculate the compressed PNG image data stream using the "average"
+        filter type, as defined in the PNG specification [2]_.
+    calcNone : bool, optional
+        Calculate the compressed PNG image data stream using the "none" filter
+        type, as defined in the PNG specification [2]_.
+    calcPaeth : bool, optional
+        Calculate the compressed PNG image data stream using the "Paeth" filter
+        type, as defined in the PNG specification [2]_.
+    calcSub : bool, optional
+        Calculate the compressed PNG image data stream using the "sub" filter
+        type, as defined in the PNG specification [2]_.
+    calcUp : bool, optional
+        Calculate the compressed PNG image data stream using the "up" filter
+        type, as defined in the PNG specification [2]_.
     choices : str, optional
         If any of the settings are not passed (or passed as ``None``) then this
         string is used to set them. The accepted values are ``"fastest"``,
@@ -86,7 +109,10 @@ def makePng(
         If a time is passed then the ancillary "tIME" chunk will get created and
         the image last-modification time will be specified.
     palUint8 : None or numpy.ndarray, optional
-        A "level * colour" unsigned 8-bit integer NumPy array.
+        A "level * colour" unsigned 8-bit integer NumPy array. If the size of
+        the "colours" axis in ``arrUint8`` is ``1`` then ``arrUint8`` is assumed
+        to be either greyscale (if this is None) or paletted and this is the
+        palette.
     strategies : None or list of int, optional
         The list of strategies to loop over when trying to find the smallest
         compressed size. If not supplied, or ``None``, then the value of
@@ -124,19 +150,14 @@ def makePng(
 
     Notes
     -----
-    This function only creates 8-bit RGB images, without interlacing. It stores
-    the entire image in a single "IDAT" chunk.
+    This function only creates 8-bit images (either greyscale, paletted or
+    truecolour), without interlacing. It stores the entire image in a single
+    "IDAT" chunk.
 
-    According to the PNG specification [2]_:
-
-        "The PNG datastream consists of a PNG signature followed by a sequence
-        of chunks. Each chunk has a chunk type which specifies its function."
-
-    This function writes out three of the four critical chunks: "IHDR", "IDAT"
-    and "IEND". This function does not currently write out a "PLTE" chunk as it
-    does not currently support writing paletted images. This function can
-    optionally include an ancillary "pHYs" chunk and an ancillary "tIME" chunk
-    if the user passes optional keyword arguments to populate them.
+    This function always writes out three of the four critical chunks: "IHDR",
+    "IDAT" and "IEND". Depending on optional keyword arguments which may be
+    provided then this function may also write out the critical chunk "PLTE" as
+    well as the ancillary chunks "iTIM" and "pHYs".
 
     Copyright 2017 Thomas Guymer [1]_
 
@@ -230,8 +251,7 @@ def makePng(
 
     # **************************************************************************
 
-    # Create short-hands ...
-    ny, nx, _ = arrUint8.shape
+    # Create short-hand ...
     arrInt16 = arrUint8.astype(numpy.int16)
 
     # Make the file signature ...
@@ -242,8 +262,8 @@ def makePng(
     hdrChk = bytearray()
     hdrChk += numpy.uint32(13).byteswap().tobytes()                             # Length
     hdrChk += bytearray("IHDR", encoding = "ascii")                             # Chunk type
-    hdrChk += numpy.uint32(nx).byteswap().tobytes()                             # IHDR : Width
-    hdrChk += numpy.uint32(ny).byteswap().tobytes()                             # IHDR : Height
+    hdrChk += numpy.uint32(arrUint8.shape[1]).byteswap().tobytes()              # IHDR : Width
+    hdrChk += numpy.uint32(arrUint8.shape[0]).byteswap().tobytes()              # IHDR : Height
     hdrChk += numpy.uint8(8).tobytes()                                          # IHDR : Bit depth
     hdrChk += numpy.uint8(colourType).tobytes()                                 # IHDR : Colour type
     hdrChk += numpy.uint8(0).tobytes()                                          # IHDR : Compression method
@@ -281,8 +301,7 @@ def makePng(
         palChk += numpy.uint32(palUint8.size).byteswap().tobytes()              # Length
         palChk += bytearray("PLTE", encoding = "ascii")                         # Chunk type
         for lvl in range(palUint8.shape[0]):
-            for ic in range(3):
-                palChk += palUint8[lvl, ic].tobytes()                           # PLTE : Data
+            palChk += palUint8[lvl, :].tobytes()                                # PLTE : Data
         palChk += numpy.uint32(binascii.crc32(palChk[4:])).byteswap().tobytes() # CRC-32
 
         # Prepend the PLTE chunk to the IDAT chunk (so that it is included in
@@ -294,7 +313,7 @@ def makePng(
         # Convert the dots-per-inch to dots-per-metre ...
         dpm = round(dpi * 100.0 / 2.54)                                         # [#/m]
 
-        # Make the PHYS chunk ...
+        # Make the pHYs chunk ...
         phyChk = bytearray()
         phyChk += numpy.uint32(9).byteswap().tobytes()                          # Length
         phyChk += bytearray("pHYs", encoding = "ascii")                         # Chunk type
@@ -303,13 +322,13 @@ def makePng(
         phyChk += numpy.uint8(1).tobytes()                                      # pHYs : Unit specifier
         phyChk += numpy.uint32(binascii.crc32(phyChk[4:])).byteswap().tobytes() # CRC-32
 
-        # Prepend the PHYS chunk to the IDAT chunk (so that it is included in
+        # Prepend the pHYs chunk to the IDAT chunk (so that it is included in
         # the result) ...
         datChk = phyChk + datChk
 
     # Check if the user has supplied a last-modification time ...
     if modTime is not None:
-        # Make the TIME chunk ...
+        # Make the tIME chunk ...
         timChk = bytearray()
         timChk += numpy.uint32(7).byteswap().tobytes()                          # Length
         timChk += bytearray("tIME", encoding = "ascii")                         # Chunk type
@@ -321,7 +340,7 @@ def makePng(
         timChk += numpy.uint8(modTime.second).tobytes()                         # tIME : Second
         timChk += numpy.uint32(binascii.crc32(timChk[4:])).byteswap().tobytes() # CRC-32
 
-        # Prepend the TIME chunk to the IDAT chunk (so that it is included in
+        # Prepend the tIME chunk to the IDAT chunk (so that it is included in
         # the result) ...
         datChk = timChk + datChk
 

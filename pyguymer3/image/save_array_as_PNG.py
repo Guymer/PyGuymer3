@@ -6,9 +6,15 @@ def save_array_as_PNG(
     fname,
     /,
     *,
-      debug = __debug__,
-        dpi = None,
-    modTime = None,
+    calcAdaptive = True,
+     calcAverage = True,
+        calcNone = True,
+       calcPaeth = True,
+         calcSub = True,
+          calcUp = True,
+           debug = __debug__,
+             dpi = None,
+         modTime = None,
 ):
     """Save an array as a PNG image.
 
@@ -18,13 +24,24 @@ def save_array_as_PNG(
         a 3D NumPy array of uint8 type with shape (ny,nx,nc)
     fname : str
         output file name
+    calcAdaptive : bool, optional
+        See :py:func:`pyguymer3.image.makePng` for the documentation.
+    calcAverage : bool, optional
+        See :py:func:`pyguymer3.image.makePng` for the documentation.
+    calcNone : bool, optional
+        See :py:func:`pyguymer3.image.makePng` for the documentation.
+    calcPaeth : bool, optional
+        See :py:func:`pyguymer3.image.makePng` for the documentation.
+    calcSub : bool, optional
+        See :py:func:`pyguymer3.image.makePng` for the documentation.
+    calcUp : bool, optional
+        See :py:func:`pyguymer3.image.makePng` for the documentation.
     debug : bool, optional
         Print debug messages.
     dpi : None or float or int, optional
-        If a number is passed then the ancillary "pHYs" chunk will get created
-        and the resolution will be specified.
+        See :py:func:`pyguymer3.image.makePng` for the documentation.
     modTime : None or datetime.datetime, optional
-        The image last-modification time.
+        See :py:func:`pyguymer3.image.makePng` for the documentation.
 
     Notes
     -----
@@ -50,14 +67,21 @@ def save_array_as_PNG(
     # Make PNG source ...
     src = makePng(
         img,
-           choices = "all",
-             debug = debug,
-               dpi = dpi,
-            levels = [9,],
-         memLevels = [9,],
-           modTime = modTime,
-        strategies = None,
-            wbitss = [15,],
+        calcAdaptive = calcAdaptive,
+         calcAverage = calcAverage,
+            calcNone = calcNone,
+           calcPaeth = calcPaeth,
+             calcSub = calcSub,
+              calcUp = calcUp,
+             choices = "all",
+               debug = debug,
+                 dpi = dpi,
+              levels = [9,],
+           memLevels = [9,],
+             modTime = modTime,
+            palUint8 = None,
+          strategies = None,
+              wbitss = [15,],
     )
 
     # Write PNG ...

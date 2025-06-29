@@ -30,30 +30,19 @@ def createStream(
     arrUint8 : numpy.ndarray
         A "height * width * colour" unsigned 8-bit integer NumPy array.
     arrInt16 : numpy.ndarray
-        A "height * width * colour" signed 16-bit integer NumPy array.
+        A signed 16-bit integer NumPy array copy of ``arrUint8``.
     calcAdaptive : bool, optional
-        Calculate the compressed PNG image data stream using an adaptive filter
-        type. Each of the five named filters is applied to a scanline and a
-        predictiion is made as to which one will produce the smallest compressed
-        scanline. The chosen filtered uncompressed scanline is concatenated with
-        all of the other filtered uncompressed scanlines and a single
-        compression operation is performed once the whole image has been
-        processed.
+        See :py:func:`pyguymer3.image.makePng` for the documentation.
     calcAverage : bool, optional
-        Calculate the compressed PNG image data stream using the "average"
-        filter type, as defined in the PNG specification [2]_.
+        See :py:func:`pyguymer3.image.makePng` for the documentation.
     calcNone : bool, optional
-        Calculate the compressed PNG image data stream using the "none" filter
-        type, as defined in the PNG specification [2]_.
+        See :py:func:`pyguymer3.image.makePng` for the documentation.
     calcPaeth : bool, optional
-        Calculate the compressed PNG image data stream using the "Paeth" filter
-        type, as defined in the PNG specification [2]_.
+        See :py:func:`pyguymer3.image.makePng` for the documentation.
     calcSub : bool, optional
-        Calculate the compressed PNG image data stream using the "sub" filter
-        type, as defined in the PNG specification [2]_.
+        See :py:func:`pyguymer3.image.makePng` for the documentation.
     calcUp : bool, optional
-        Calculate the compressed PNG image data stream using the "up" filter
-        type, as defined in the PNG specification [2]_.
+        See :py:func:`pyguymer3.image.makePng` for the documentation.
     choices : str, optional
         See :py:func:`pyguymer3.image.makePng` for the documentation.
     debug : bool, optional
@@ -276,7 +265,7 @@ def createStream(
                             minSize = len(bestStream)                           # [B]
 
     # Check that a best stream was found ...
-    assert len(bestStream) > 0, f"no best stream was found"
+    assert len(bestStream) > 0, "no best stream was found"
 
     # Return answer ...
     return bestStream
