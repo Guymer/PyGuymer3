@@ -24,7 +24,7 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Initialize dictionary ...
-    colourTables = {}
+    colourTables: dict[str, list[list[int]]] = {}
 
     # Loop over MatPlotLib colour map names ...
     # NOTE: See https://matplotlib.org/stable/users/explain/colors/colormaps.html
