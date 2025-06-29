@@ -6,12 +6,18 @@ def createStream(
     arrInt16,
     /,
     *,
-       choices = "fastest",
-         debug = __debug__,
-        levels = None,
-     memLevels = None,
-    strategies = None,
-        wbitss = None,
+    calcAdaptive = True,
+     calcAverage = True,
+        calcNone = True,
+       calcPaeth = True,
+         calcSub = True,
+          calcUp = True,
+         choices = "fastest",
+           debug = __debug__,
+          levels = None,
+       memLevels = None,
+      strategies = None,
+          wbitss = None,
 ):
     """Compress the PNG image data stream
 
@@ -25,6 +31,24 @@ def createStream(
         A "height * width * colour" unsigned 8-bit integer NumPy array.
     arrInt16 : numpy.ndarray
         A "height * width * colour" signed 16-bit integer NumPy array.
+    calcAdaptive : bool, optional
+        Calculate the compressed PNG image data stream using an adaptive filter
+        type.
+    calcAverage : bool, optional
+        Calculate the compressed PNG image data stream using the "average"
+        filter type, as defined in the PNG specification [2]_.
+    calcNone : bool, optional
+        Calculate the compressed PNG image data stream using the "none" filter
+        type, as defined in the PNG specification [2]_.
+    calcPaeth : bool, optional
+        Calculate the compressed PNG image data stream using the "Paeth" filter
+        type, as defined in the PNG specification [2]_.
+    calcSub : bool, optional
+        Calculate the compressed PNG image data stream using the "sub" filter
+        type, as defined in the PNG specification [2]_.
+    calcUp : bool, optional
+        Calculate the compressed PNG image data stream using the "up" filter
+        type, as defined in the PNG specification [2]_.
     choices : str, optional
         See :py:func:`pyguymer3.image.makePng` for the documentation.
     debug : bool, optional
@@ -51,6 +75,7 @@ def createStream(
     References
     ----------
     .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
+    .. [2] PNG Specification (Third Edition), https://www.w3.org/TR/png-3/
     """
 
     # Import standard modules ...
@@ -135,36 +160,72 @@ def createStream(
     bestStream = bytearray()
     minSize = numpy.iinfo("uint64").max                                         # [B]
 
+    # Calculate streams ...
+    streams = []
+    if calcNone:
+        streams.append(
+            (
+                0,
+                createStreamNone(
+                    arrUint8,
+                    arrInt16,
+                ),
+            )
+        )
+    if calcSub:
+        streams.append(
+            (
+                1,
+                createStreamSub(
+                    arrUint8,
+                    arrInt16,
+                ),
+            )
+        )
+    if calcUp:
+        streams.append(
+            (
+                2,
+                createStreamUp(
+                    arrUint8,
+                    arrInt16,
+                ),
+            )
+        )
+    if calcAverage:
+        streams.append(
+            (
+                3,
+                createStreamAverage(
+                    arrUint8,
+                    arrInt16,
+                ),
+            )
+        )
+    if calcPaeth:
+        streams.append(
+            (
+                4,
+                createStreamPaeth(
+                    arrUint8,
+                    arrInt16,
+                ),
+            )
+        )
+    if calcAdaptive:
+        streams.append(
+            (
+                5,
+                createStreamAdaptive(
+                    arrUint8,
+                    arrInt16,
+                    debug = debug,
+                ),
+            )
+        )
+
     # Loop over streams ...
-    for iFilter, stream in enumerate(
-        [
-            createStreamNone(
-                arrUint8,
-                arrInt16,
-            ),
-            createStreamSub(
-                arrUint8,
-                arrInt16,
-            ),
-            createStreamUp(
-                arrUint8,
-                arrInt16,
-            ),
-            createStreamAverage(
-                arrUint8,
-                arrInt16,
-            ),
-            createStreamPaeth(
-                arrUint8,
-                arrInt16,
-            ),
-            createStreamAdaptive(
-                arrUint8,
-                arrInt16,
-                debug = debug,
-            ),
-        ]
-    ):
+    for (filtType, stream,) in streams:
         # Loop over compression levels ...
         for level in levels:
             # Loop over window sizes ...
@@ -196,7 +257,7 @@ def createStream(
                         # Check if this compressed stream is the best ...
                         if len(possibleStream) < minSize:
                             if debug:
-                                print(f"DEBUG: filter = {iFilter:d}; compression level = {level:d}; window size = {wbits:2d}; memory level = {memLevel:d}; strategy = {strategy:d} --> {len(possibleStream):,d} bytes")
+                                print(f"DEBUG: filter = {filtType:d}; compression level = {level:d}; window size = {wbits:2d}; memory level = {memLevel:d}; strategy = {strategy:d} --> {len(possibleStream):,d} bytes.")
 
                             # Overwrite the best ...
                             bestStream = bytearray()
