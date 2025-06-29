@@ -58,8 +58,8 @@ def save_array_as_PNG(
     # **************************************************************************
 
     # Check input ...
-    assert img.dtype == "uint8", f"the NumPy array is not 8-bit (\"{arrUint8.dtype}\")"
-    assert img.ndim == 3, f"the NumPy array is not 3D (\"{arrUint8.ndim:d}\")"
+    assert img.dtype == "uint8", f"the NumPy array is not 8-bit (\"{img.dtype}\")"
+    assert img.ndim == 3, f"the NumPy array is not 3D (\"{img.ndim:d}\")"
     assert img.shape[2] == 3, "the NumPy array does not have 3 colour channels"
 
     # **************************************************************************
