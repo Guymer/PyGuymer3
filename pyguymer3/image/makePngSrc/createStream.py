@@ -33,7 +33,12 @@ def createStream(
         A "height * width * colour" signed 16-bit integer NumPy array.
     calcAdaptive : bool, optional
         Calculate the compressed PNG image data stream using an adaptive filter
-        type.
+        type. Each of the five named filters is applied to a scanline and a
+        predictiion is made as to which one will produce the smallest compressed
+        scanline. The chosen filtered uncompressed scanline is concatenated with
+        all of the other filtered uncompressed scanlines and a single
+        compression operation is performed once the whole image has been
+        processed.
     calcAverage : bool, optional
         Calculate the compressed PNG image data stream using the "average"
         filter type, as defined in the PNG specification [2]_.
