@@ -169,6 +169,7 @@ def makePng(
 
     # Import standard modules ...
     import binascii
+    import sys
     import zlib
 
     # Import special modules ...
@@ -229,6 +230,9 @@ def makePng(
                 wbitss = [9, 10, 11, 12, 13, 14, 15,]
             case _:
                 raise ValueError(f"\"choices\" was an unexpected value (\"{choices}\")") from None
+
+    # Check system ...
+    assert sys.byteorder == "little", "the system is not little-endian"
 
     # Check input ...
     assert arrUint8.dtype == "uint8", f"the NumPy array is not 8-bit (\"{arrUint8.dtype}\")"
