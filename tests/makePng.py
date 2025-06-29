@@ -50,9 +50,10 @@ if __name__ == "__main__":
     nx = 2048                                                                   # [px]
     ny = 1024                                                                   # [px]
 
-    # Load colour tables ...
+    # Load colour tables and create short-hand ...
     with open(f"{pyguymer3.__path__[0]}/data/json/colourTables.json", "rt", encoding = "utf-8") as fObj:
         colourTables = json.load(fObj)
+    palT = numpy.array(colourTables["turbo"]).astype(numpy.uint8)
 
     # Make an example image ...
     arrG = numpy.array(
@@ -61,15 +62,11 @@ if __name__ == "__main__":
             (-0.7436, 0.1306, -0.7426, 0.1316),
             100,
         )
-    ).reshape((ny, nx, 1))
+    )
 
-    # Initialize arrays ...
+    # Initialize array ...
     arrT = numpy.zeros(
         (ny, nx, 3),
-        dtype = numpy.uint8,
-    )
-    palT = numpy.zeros(
-        (256, 3),
         dtype = numpy.uint8,
     )
 
@@ -77,24 +74,18 @@ if __name__ == "__main__":
     for ix in range(nx):
         # Loop over y-axis ...
         for iy in range(ny):
-            # Populate array ...
-            arrT[iy, ix, 0] = numpy.uint8(colourTables["turbo"][arrG[iy, ix, 0]][0])
-            arrT[iy, ix, 1] = numpy.uint8(colourTables["turbo"][arrG[iy, ix, 0]][1])
-            arrT[iy, ix, 2] = numpy.uint8(colourTables["turbo"][arrG[iy, ix, 0]][2])
-
-    # Loop over levels ...
-    for lvl in range(256):
-        # Populate array ...
-        palT[lvl, 0] = numpy.uint8(colourTables["turbo"][lvl][0])
-        palT[lvl, 1] = numpy.uint8(colourTables["turbo"][lvl][1])
-        palT[lvl, 2] = numpy.uint8(colourTables["turbo"][lvl][2])
+            # Create short-hand and populate array ...
+            lvl = arrG[iy, ix]
+            arrT[iy, ix, 0] = numpy.uint8(palT[lvl, 0])
+            arrT[iy, ix, 1] = numpy.uint8(palT[lvl, 1])
+            arrT[iy, ix, 2] = numpy.uint8(palT[lvl, 2])
 
     # Save array as PNG ...
     print(f"Making \"{dName}/arrG.png\" ...")
     with open(f"{dName}/arrG.png", "wb") as fObj:
         fObj.write(
             pyguymer3.image.makePng(
-                arrG,
+                arrG.reshape((ny, nx, 1)),
                    choices = choices,
                      debug = debug,
                        dpi = dpi,
