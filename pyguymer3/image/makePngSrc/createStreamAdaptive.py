@@ -48,9 +48,9 @@ def createStreamAdaptive(
     # **************************************************************************
 
     # Check input ...
-    assert arrUint8.dtype == "uint8", "the NumPy array is not 8-bit"
-    assert arrInt16.dtype == "int16", "the NumPy array is not 16-bit"
-    assert arrUint8.ndim == 3, "the NumPy array does not have a colour dimension"
+    assert arrUint8.dtype == "uint8", f"the NumPy array is not 8-bit (\"{arrUint8.dtype}\")"
+    assert arrInt16.dtype == "int16", f"the NumPy array is not 16-bit (\"{arrInt16.dtype}\")"
+    assert arrUint8.ndim == 3, f"the NumPy array is not 3D (\"{arrUint8.ndim:d}\")"
     assert arrUint8.shape[2] == 3, "the NumPy array does not have 3 colour channels"
     assert arrUint8.shape == arrInt16.shape, "the NumPy arrays do not have the same shape"
 
