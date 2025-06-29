@@ -111,8 +111,8 @@ def makePng(
     palUint8 : None or numpy.ndarray, optional
         A "level * colour" unsigned 8-bit integer NumPy array. If the size of
         the "colours" axis in ``arrUint8`` is ``1`` then ``arrUint8`` is assumed
-        to be either greyscale (if this is None) or paletted and this is the
-        palette.
+        to be either greyscale (if ``palUint8`` is ``None``) or paletted and
+        ``palUint8`` is the palette.
     strategies : None or list of int, optional
         The list of strategies to loop over when trying to find the smallest
         compressed size. If not supplied, or ``None``, then the value of
