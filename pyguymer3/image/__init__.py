@@ -31,7 +31,7 @@ from .load_GPS_EXIF import load_GPS_EXIF
 from .load_GPS_EXIF1 import load_GPS_EXIF1
 from .load_GPS_EXIF2 import load_GPS_EXIF2
 from .makePng import makePng
-from .manuallyOptimisePNG import manuallyOptimisePNG
+from .manuallyOptimisePng import manuallyOptimisePng
 from .optimize_image import optimize_image
 from .optipng import optipng
 from .return_image_size import return_image_size
