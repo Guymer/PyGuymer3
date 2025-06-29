@@ -274,6 +274,21 @@ def makePng(
     datChk[:4] = numpy.uint32(len(datChk[8:])).byteswap().tobytes()             # Length
     datChk += numpy.uint32(binascii.crc32(datChk[4:])).byteswap().tobytes()     # CRC-32
 
+    # Check if it is a paletted image ...
+    if colourType == 3:
+        # Make the PLTE chunk ...
+        palChk = bytearray()
+        palChk += numpy.uint32(palUint8.size).byteswap().tobytes()              # Length
+        palChk += bytearray("PLTE", encoding = "ascii")                         # Chunk type
+        for lvl in range(palUint8.shape[0]):
+            for ic in range(3):
+                palChk += palUint8[lvl, ic].tobytes()                           # PLTE : Data
+        palChk += numpy.uint32(binascii.crc32(palChk[4:])).byteswap().tobytes() # CRC-32
+
+        # Prepend the PLTE chunk to the IDAT chunk (so that it is included in
+        # the result) ...
+        datChk = palChk + datChk
+
     # Check if the user has supplied a DPI ...
     if dpi is not None:
         # Convert the dots-per-inch to dots-per-metre ...
@@ -309,21 +324,6 @@ def makePng(
         # Prepend the TIME chunk to the IDAT chunk (so that it is included in
         # the result) ...
         datChk = timChk + datChk
-
-    # Check if it is a paletted image ...
-    if colourType == 3:
-        # Make the PLTE chunk ...
-        palChk = bytearray()
-        palChk += numpy.uint32(palUint8.size).byteswap().tobytes()              # Length
-        palChk += bytearray("PLTE", encoding = "ascii")                         # Chunk type
-        for lvl in range(palUint8.shape[0]):
-            for ic in range(3):
-                palChk += palUint8[lvl, ic].tobytes()                           # PLTE : Data
-        palChk += numpy.uint32(binascii.crc32(palChk[4:])).byteswap().tobytes() # CRC-32
-
-        # Prepend the PLTE chunk to the IDAT chunk (so that it is included in
-        # the result) ...
-        datChk = palChk + datChk
 
     # Make the IEND chunk ...
     endChk = bytearray()
