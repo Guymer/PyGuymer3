@@ -1324,6 +1324,7 @@ class MyTestCase(unittest.TestCase):
                 "tests/fillin",
                 "tests/findMiddleOfLocs",
                 "tests/greatCircle",
+                "tests/makePng",
                 "tests/mapUnderlay",
                 "tests/saveArrayAsImage",
             ],
