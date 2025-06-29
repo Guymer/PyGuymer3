@@ -151,7 +151,7 @@ def createStreamAdaptive(
         # Check if the "none" filter is likely to be the best stream ...
         if scanline0.sum() < minTotal:
             if debug:
-                print(f"DEBUG: scanline = {iy:,d}; filter = 0 --> {scanline0.sum():,d} counts")
+                print(f"DEBUG: scanline = {iy:,d}; filter = 0 --> {scanline0.sum():,d} counts.")
             bestStream = bytearray()
             bestStream += numpy.uint8(0).tobytes()
             for ix in range(nx):
@@ -161,7 +161,7 @@ def createStreamAdaptive(
         # Check if the "sub" filter is likely to be the best stream ...
         if scanline1.sum() < minTotal:
             if debug:
-                print(f"DEBUG: scanline = {iy:,d}; filter = 1 --> {scanline1.sum():,d} counts")
+                print(f"DEBUG: scanline = {iy:,d}; filter = 1 --> {scanline1.sum():,d} counts.")
             bestStream = bytearray()
             bestStream += numpy.uint8(1).tobytes()
             for ix in range(nx):
@@ -171,7 +171,7 @@ def createStreamAdaptive(
         # Check if the "up" filter is likely to be the best stream ...
         if scanline2.sum() < minTotal:
             if debug:
-                print(f"DEBUG: scanline = {iy:,d}; filter = 2 --> {scanline2.sum():,d} counts")
+                print(f"DEBUG: scanline = {iy:,d}; filter = 2 --> {scanline2.sum():,d} counts.")
             bestStream = bytearray()
             bestStream += numpy.uint8(2).tobytes()
             for ix in range(nx):
@@ -181,7 +181,7 @@ def createStreamAdaptive(
         # Check if the "average" filter is likely to be the best stream ...
         if scanline3.sum() < minTotal:
             if debug:
-                print(f"DEBUG: scanline = {iy:,d}; filter = 3 --> {scanline3.sum():,d} counts")
+                print(f"DEBUG: scanline = {iy:,d}; filter = 3 --> {scanline3.sum():,d} counts.")
             bestStream = bytearray()
             bestStream += numpy.uint8(3).tobytes()
             for ix in range(nx):
@@ -191,7 +191,7 @@ def createStreamAdaptive(
         # Check if the "Paeth" filter is likely to be the best stream ...
         if scanline4.sum() < minTotal:
             if debug:
-                print(f"DEBUG: scanline = {iy:,d}; filter = 4 --> {scanline4.sum():,d} counts")
+                print(f"DEBUG: scanline = {iy:,d}; filter = 4 --> {scanline4.sum():,d} counts.")
             bestStream = bytearray()
             bestStream += numpy.uint8(4).tobytes()
             for ix in range(nx):
