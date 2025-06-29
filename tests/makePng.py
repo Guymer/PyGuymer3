@@ -61,7 +61,7 @@ if __name__ == "__main__":
             (-0.7436, 0.1306, -0.7426, 0.1316),
             100,
         )
-    ).reshape(ny, nx, 1)
+    ).reshape((ny, nx, 1))
 
     # Initialize arrays ...
     arrT = numpy.zeros(
