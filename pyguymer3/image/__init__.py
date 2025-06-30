@@ -36,5 +36,6 @@ from .optimize_image import optimize_image
 from .optipng import optipng
 from .return_image_size import return_image_size
 from .save_array_as_image import save_array_as_image
+from .save_array_as_PGM import save_array_as_PGM
 from .save_array_as_PNG import save_array_as_PNG
 from .save_array_as_PPM import save_array_as_PPM
