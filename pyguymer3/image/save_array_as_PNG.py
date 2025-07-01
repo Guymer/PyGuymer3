@@ -6,14 +6,14 @@ def save_array_as_PNG(
     fname,
     /,
     *,
-    calcAdaptive = True,
-     calcAverage = True,
-        calcNone = True,
-       calcPaeth = True,
-         calcSub = True,
-          calcUp = True,
-           debug = __debug__,
-             dpi = None,
+    calcAdaptive: bool = True,
+     calcAverage: bool = True,
+        calcNone: bool = True,
+       calcPaeth: bool = True,
+         calcSub: bool = True,
+          calcUp: bool = True,
+           debug: bool = __debug__,
+             dpi: None | int = None,
          modTime = None,
 ):
     """Save an array as a PNG image.
@@ -52,10 +52,16 @@ def save_array_as_PNG(
     .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
+    # Import standard modules ...
+    import sys
+
     # Import sub-functions ...
     from .makePng import makePng
 
     # **************************************************************************
+
+    # Check system ...
+    assert sys.byteorder == "little", "the system is not little-endian"
 
     # Check input ...
     assert img.dtype == "uint8", f"the NumPy array is not 8-bit (\"{img.dtype}\")"
