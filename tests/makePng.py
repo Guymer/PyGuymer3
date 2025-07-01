@@ -128,6 +128,48 @@ if __name__ == "__main__":
             f"{dName}/photo.ppm",
         )
 
+    # Make the example "testcard" if it is missing ...
+    # NOTE: I wanted a "testcard" which was in the public domain which I could
+    #       use to test my new function. I went to the Wikimedia page for
+    #       testcards and eventually came across this one.
+    if not os.path.exists(f"{dName}/testcard.bin"):
+        print("Downloading example \"testcard\" ...")
+        with pyguymer3.start_session() as sess:
+            resp = pyguymer3.download_stream(
+                sess,
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/ETP-1_recreation.svg/2560px-ETP-1_recreation.svg.png",
+            )
+            assert resp, "failed to download example \"testcard\""
+            with io.BytesIO(resp) as bObj:
+                with PIL.Image.open(bObj) as iObj:
+                    img = iObj.convert("RGB")
+        img.thumbnail(
+            (nx, ny),
+            resample = PIL.Image.Resampling.LANCZOS,
+        )
+        print(f" > The example \"testcard\" is {img.size[0]:,d} px × {img.size[1]:,d} px.")
+        arr = numpy.array(img)
+        assert arr.dtype == "uint8", f"the NumPy array is not 8-bit (\"{arr.dtype}\")"
+        assert arr.ndim == 3, f"the NumPy array is not 3D (\"{arr.ndim:d}\")"
+        assert arr.shape[2] == 3, f"the NumPy array does not have 3 colour channels (\"{arr.shape[2]:d}\")"
+        with open(f"{dName}/testcard.bin", "wb") as fObj:
+            fObj.write(arr.tobytes())
+
+    # Load the binary array of the example "testcard" ...
+    arrTestcard = numpy.fromfile(
+        f"{dName}/testcard.bin",
+        dtype = numpy.uint8,
+    ).reshape((ny, 1365, 3))
+
+    # Make a crude image of the example "testcard" without any compression or
+    # metadata ...
+    if not os.path.exists(f"{dName}/testcard.ppm"):
+        print("Converting example \"testcard\" to a PPM ...")
+        pyguymer3.image.save_array_as_PPM(
+            arrTestcard,
+            f"{dName}/testcard.ppm",
+        )
+
     # **************************************************************************
 
     # Set flags for makePng() function calls ...
@@ -236,6 +278,31 @@ if __name__ == "__main__":
     if not os.path.exists(f"{dName}/photo-truecolour.png"):
         print(f"Making \"{dName}/photo-truecolour.png\" ...")
         with open(f"{dName}/photo-truecolour.png", "wb") as fObj:
+            fObj.write(
+                pyguymer3.image.makePng(
+                    arrT,
+                         debug = debug,
+                        levels = levels,
+                     memLevels = memLevels,
+                      palUint8 = None,
+                    strategies = strategies,
+                        wbitss = wbitss,
+                )
+            )
+
+    # **************************************************************************
+    # *                                                                        *
+    # *                       Process example "testcard"                       *
+    # *                                                                        *
+    # **************************************************************************
+
+    # Initialize array ...
+    arrT = arrTestcard.copy()
+
+    # Save array as PNG ...
+    if not os.path.exists(f"{dName}/testcard-truecolour.png"):
+        print(f"Making \"{dName}/testcard-truecolour.png\" ...")
+        with open(f"{dName}/testcard-truecolour.png", "wb") as fObj:
             fObj.write(
                 pyguymer3.image.makePng(
                     arrT,
