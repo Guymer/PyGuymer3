@@ -54,6 +54,7 @@ def manuallyOptimisePng(
     """
 
     # Import standard modules ...
+    import os
     import sys
 
     # Import special modules ...
