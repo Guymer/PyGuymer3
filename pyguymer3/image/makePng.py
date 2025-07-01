@@ -11,7 +11,7 @@ def makePng(
        calcPaeth: bool = True,
          calcSub: bool = True,
           calcUp: bool = True,
-         choices: str = "fastest",
+         choices: str = "all",
            debug: bool = __debug__,
              dpi: None | int = None,
           levels: None | list[int] = None,

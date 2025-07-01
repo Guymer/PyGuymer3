@@ -12,7 +12,7 @@ def createStream(
        calcPaeth: bool = True,
          calcSub: bool = True,
           calcUp: bool = True,
-         choices: str = "fastest",
+         choices: str = "all",
            debug: bool = __debug__,
           levels: None | list[int] = None,
        memLevels: None | list[int] = None,
