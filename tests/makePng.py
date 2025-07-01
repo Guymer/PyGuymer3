@@ -135,7 +135,6 @@ if __name__ == "__main__":
     #       think that I know for the compression level, the memory level and
     #       the window size but not the compression strategy - so I want
     #       makePng() to try them all for me.
-    choices = "all"
     levels = [9,]
     memLevels = [9,]
     strategies = None
@@ -183,7 +182,6 @@ if __name__ == "__main__":
             fObj.write(
                 pyguymer3.image.makePng(
                     arrG.reshape((ny, nx, 1)),
-                       choices = choices,
                          debug = debug,
                         levels = levels,
                      memLevels = memLevels,
@@ -200,7 +198,6 @@ if __name__ == "__main__":
             fObj.write(
                 pyguymer3.image.makePng(
                     arrG.reshape((ny, nx, 1)),
-                       choices = choices,
                          debug = debug,
                         levels = levels,
                      memLevels = memLevels,
@@ -217,7 +214,6 @@ if __name__ == "__main__":
             fObj.write(
                 pyguymer3.image.makePng(
                     arrT,
-                       choices = choices,
                          debug = debug,
                         levels = levels,
                      memLevels = memLevels,
@@ -243,7 +239,6 @@ if __name__ == "__main__":
             fObj.write(
                 pyguymer3.image.makePng(
                     arrT,
-                       choices = choices,
                          debug = debug,
                         levels = levels,
                      memLevels = memLevels,
