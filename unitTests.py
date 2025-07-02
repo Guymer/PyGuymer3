@@ -161,6 +161,7 @@ class MyTestCase(unittest.TestCase):
                 "pyguymer3/geo/mer2llSrc/__init__.py",
                 "pyguymer3/geo/min_distSrc/__init__.py",
                 "pyguymer3/image/__init__.py",
+                "pyguymer3/image/makePngSrc/__init__.py",
                 "pyguymer3/media/CLPI/__init__.py",
                 "pyguymer3/media/MPLS/__init__.py",
                 "pyguymer3/media/__init__.py",
@@ -909,7 +910,7 @@ class MyTestCase(unittest.TestCase):
         File "/home/runner/work/PyGuymer3/PyGuymer3/main/unitTests.py", line 606, in test_media
             self.assertEqual(
             ~~~~~~~~~~~~~~~~^
-                pyguymer3.media.return_media_bit_rate("tests/BigBuckBunny.mp4"),
+                pyguymer3.media.return_media_bit_rate("tests/bigBuckBunny.mp4"),
                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
                 533985,
                 ^^^^^^^
@@ -924,7 +925,7 @@ class MyTestCase(unittest.TestCase):
         #       audio stream in the FLAC file.
         # self.assertAlmostEqual(
         #     pyguymer3.media.return_audio_bit_rate(
-        #         "tests/BigBuckBunny.flac",
+        #         "tests/bigBuckBunny.flac",
         #         debug = self.myDebug,
         #     ),
         #     69631,
@@ -932,28 +933,28 @@ class MyTestCase(unittest.TestCase):
         # )
         self.assertEqual(
             pyguymer3.media.return_audio_channels(
-                "tests/BigBuckBunny.flac",
+                "tests/bigBuckBunny.flac",
                 debug = self.myDebug,
             ),
             1,
         )
         self.assertEqual(
             pyguymer3.media.return_audio_format(
-                "tests/BigBuckBunny.flac",
+                "tests/bigBuckBunny.flac",
                 debug = self.myDebug,
             ),
             "FLAC",
         )
         self.assertEqual(
             pyguymer3.media.return_audio_sample_rate(
-                "tests/BigBuckBunny.flac",
+                "tests/bigBuckBunny.flac",
                 debug = self.myDebug,
             ),
             48000,
         )
         self.assertAlmostEqual(
             pyguymer3.media.return_media_bit_rate(
-                "tests/BigBuckBunny.flac",
+                "tests/bigBuckBunny.flac",
                 debug = self.myDebug,
             ),
             510272,
@@ -961,7 +962,7 @@ class MyTestCase(unittest.TestCase):
         )
         self.assertAlmostEqual(
             pyguymer3.media.return_media_duration(
-                "tests/BigBuckBunny.flac",
+                "tests/bigBuckBunny.flac",
                 debug = self.myDebug,
             ),
             634.155,
@@ -969,7 +970,7 @@ class MyTestCase(unittest.TestCase):
         )
         self.assertEqual(
             pyguymer3.media.return_media_format(
-                "tests/BigBuckBunny.flac",
+                "tests/bigBuckBunny.flac",
                 debug = self.myDebug,
             ),
             "FLAC",
@@ -978,28 +979,28 @@ class MyTestCase(unittest.TestCase):
         # Assert results ...
         self.assertEqual(
             pyguymer3.media.return_MP4_audio_profile(
-                "tests/BigBuckBunny.mp4",
+                "tests/bigBuckBunny.mp4",
                 debug = self.myDebug,
             ),
             "LC",
         )
         self.assertEqual(
             pyguymer3.media.return_MP4_video_level(
-                "tests/BigBuckBunny.mp4",
+                "tests/bigBuckBunny.mp4",
                 debug = self.myDebug,
             ),
             40,
         )
         self.assertEqual(
             pyguymer3.media.return_MP4_video_profile(
-                "tests/BigBuckBunny.mp4",
+                "tests/bigBuckBunny.mp4",
                 debug = self.myDebug,
             ),
             "High",
         )
         self.assertAlmostEqual(
             pyguymer3.media.return_audio_bit_rate(
-                "tests/BigBuckBunny.mp4",
+                "tests/bigBuckBunny.mp4",
                 debug = self.myDebug,
             ),
             69631,
@@ -1007,28 +1008,28 @@ class MyTestCase(unittest.TestCase):
         )
         self.assertEqual(
             pyguymer3.media.return_audio_channels(
-                "tests/BigBuckBunny.mp4",
+                "tests/bigBuckBunny.mp4",
                 debug = self.myDebug,
             ),
             1,
         )
         self.assertEqual(
             pyguymer3.media.return_audio_format(
-                "tests/BigBuckBunny.mp4",
+                "tests/bigBuckBunny.mp4",
                 debug = self.myDebug,
             ),
             "AAC",
         )
         self.assertEqual(
             pyguymer3.media.return_audio_sample_rate(
-                "tests/BigBuckBunny.mp4",
+                "tests/bigBuckBunny.mp4",
                 debug = self.myDebug,
             ),
             48000,
         )
         self.assertAlmostEqual(
             pyguymer3.media.return_media_bit_rate(
-                "tests/BigBuckBunny.mp4",
+                "tests/bigBuckBunny.mp4",
                 debug = self.myDebug,
             ),
             533985,
@@ -1036,7 +1037,7 @@ class MyTestCase(unittest.TestCase):
         )
         self.assertAlmostEqual(
             pyguymer3.media.return_media_duration(
-                "tests/BigBuckBunny.mp4",
+                "tests/bigBuckBunny.mp4",
                 debug = self.myDebug,
             ),
             634.567,
@@ -1044,21 +1045,21 @@ class MyTestCase(unittest.TestCase):
         )
         self.assertEqual(
             pyguymer3.media.return_media_format(
-                "tests/BigBuckBunny.mp4",
+                "tests/bigBuckBunny.mp4",
                 debug = self.myDebug,
             ),
             "MP4 (ISO/IEC 14496-12)",
         )
         self.assertEqual(
             pyguymer3.media.return_video_bit_depth(
-                "tests/BigBuckBunny.mp4",
+                "tests/bigBuckBunny.mp4",
                 debug = self.myDebug,
             ),
             8,
         )
         self.assertAlmostEqual(
             pyguymer3.media.return_video_bit_rate(
-                "tests/BigBuckBunny.mp4",
+                "tests/bigBuckBunny.mp4",
                 debug = self.myDebug,
             ),
             452617,
@@ -1066,77 +1067,77 @@ class MyTestCase(unittest.TestCase):
         )
         self.assertSequenceEqual(
             pyguymer3.media.return_video_crop_parameters(
-                "tests/BigBuckBunny.mp4",
+                "tests/bigBuckBunny.mp4",
                 debug = self.myDebug,
             ),
             (0, 2, 320, 176, "320:176:0:2"),
         )
         self.assertEqual(
             pyguymer3.media.return_video_display_aspect_ratio(
-                "tests/BigBuckBunny.mp4",
+                "tests/bigBuckBunny.mp4",
                 debug = self.myDebug,
             ),
             "16:9",
         )
         self.assertEqual(
             pyguymer3.media.return_video_format(
-                "tests/BigBuckBunny.mp4",
+                "tests/bigBuckBunny.mp4",
                 debug = self.myDebug,
             ),
             "H.264",
         )
         self.assertEqual(
             pyguymer3.media.return_video_frame_rate(
-                "tests/BigBuckBunny.mp4",
+                "tests/bigBuckBunny.mp4",
                 debug = self.myDebug,
             ),
             60.0,
         )
         self.assertEqual(
             pyguymer3.media.return_video_height(
-                "tests/BigBuckBunny.mp4",
+                "tests/bigBuckBunny.mp4",
                 debug = self.myDebug,
             ),
             180,
         )
         self.assertEqual(
             pyguymer3.media.return_video_pixel_aspect_ratio(
-                "tests/BigBuckBunny.mp4",
+                "tests/bigBuckBunny.mp4",
                 debug = self.myDebug,
             ),
             "1:1",
         )
         self.assertSequenceEqual(
             pyguymer3.media.return_video_ratios(
-                "tests/BigBuckBunny.mp4",
+                "tests/bigBuckBunny.mp4",
                 debug = self.myDebug,
             ),
             ("16:9", "1:1", "16:9"),
         )
         self.assertEqual(
             pyguymer3.media.return_video_rotation(
-                "tests/BigBuckBunny.mp4",
+                "tests/bigBuckBunny.mp4",
                 debug = self.myDebug,
             ),
             0,
         )
         self.assertSequenceEqual(
             pyguymer3.media.return_video_size(
-                "tests/BigBuckBunny.mp4",
+                "tests/bigBuckBunny.mp4",
                 debug = self.myDebug,
             ),
             (320, 180),
         )
         self.assertEqual(
             pyguymer3.media.return_video_source_aspect_ratio(
-                "tests/BigBuckBunny.mp4",
+                "tests/bigBuckBunny.mp4",
                 debug = self.myDebug,
             ),
             "16:9",
         )
         self.assertEqual(
             pyguymer3.media.return_video_width(
-                "tests/BigBuckBunny.mp4",
+                "tests/bigBuckBunny.mp4",
                 debug = self.myDebug,
             ),
             320,
@@ -1151,13 +1152,13 @@ class MyTestCase(unittest.TestCase):
         # Assert results ...
         self.assertTrue(
             pyguymer3.media.does_media_have_audio(
-                "tests/BigBuckBunny.flac",
+                "tests/bigBuckBunny.flac",
                 debug = self.myDebug,
             ),
         )
         self.assertTrue(
             pyguymer3.media.does_media_have_audio(
-                "tests/BigBuckBunny.mp4",
+                "tests/bigBuckBunny.mp4",
                 debug = self.myDebug,
             ),
         )
@@ -1171,13 +1172,13 @@ class MyTestCase(unittest.TestCase):
         # Assert results ...
         self.assertFalse(
             pyguymer3.media.does_media_have_RTP_hints(
-                "tests/BigBuckBunny.flac",
+                "tests/bigBuckBunny.flac",
                 debug = self.myDebug,
             ),
         )
         self.assertFalse(
             pyguymer3.media.does_media_have_RTP_hints(
-                "tests/BigBuckBunny.mp4",
+                "tests/bigBuckBunny.mp4",
                 debug = self.myDebug,
             ),
         )
@@ -1191,13 +1192,13 @@ class MyTestCase(unittest.TestCase):
         # Assert results ...
         self.assertFalse(
             pyguymer3.media.does_media_have_subtitle(
-                "tests/BigBuckBunny.flac",
+                "tests/bigBuckBunny.flac",
                 debug = self.myDebug,
             ),
         )
         self.assertFalse(
             pyguymer3.media.does_media_have_subtitle(
-                "tests/BigBuckBunny.mp4",
+                "tests/bigBuckBunny.mp4",
                 debug = self.myDebug,
             ),
         )
@@ -1211,13 +1212,13 @@ class MyTestCase(unittest.TestCase):
         # Assert results ...
         self.assertFalse(
             pyguymer3.media.does_media_have_video(
-                "tests/BigBuckBunny.flac",
+                "tests/bigBuckBunny.flac",
                 debug = self.myDebug,
             ),
         )
         self.assertTrue(
             pyguymer3.media.does_media_have_video(
-                "tests/BigBuckBunny.mp4",
+                "tests/bigBuckBunny.mp4",
                 debug = self.myDebug,
             ),
         )
@@ -1230,7 +1231,7 @@ class MyTestCase(unittest.TestCase):
 
         # Assert result ...
         self.assertFalse(
-            pyguymer3.media.does_FLAC_have_padding("tests/BigBuckBunny.flac"),
+            pyguymer3.media.does_FLAC_have_padding("tests/bigBuckBunny.flac"),
         )
 
     # Define a test ...
@@ -1241,7 +1242,7 @@ class MyTestCase(unittest.TestCase):
 
         # Assert result ...
         self.assertFalse(
-            pyguymer3.media.does_MP4_have_free("tests/BigBuckBunny.mp4"),
+            pyguymer3.media.does_MP4_have_free("tests/bigBuckBunny.mp4"),
         )
 
     # Define a test ...
@@ -1252,7 +1253,7 @@ class MyTestCase(unittest.TestCase):
 
         # Assert result ...
         self.assertTrue(
-            pyguymer3.media.is_moov_at_beginning_of_MP4("tests/BigBuckBunny.mp4"),
+            pyguymer3.media.is_moov_at_beginning_of_MP4("tests/bigBuckBunny.mp4"),
         )
 
     # Define a test ...
@@ -1323,6 +1324,7 @@ class MyTestCase(unittest.TestCase):
                 "tests/fillin",
                 "tests/findMiddleOfLocs",
                 "tests/greatCircle",
+                "tests/makePng",
                 "tests/mapUnderlay",
                 "tests/saveArrayAsImage",
             ],
@@ -1338,28 +1340,28 @@ class MyTestCase(unittest.TestCase):
 
         # Assert result ...
         self.assertEqual(
-            pyguymer3.sha256("tests/Lorem Ipsum.txt.gz"),
-            pyguymer3.sha256_of_GZ("tests/Lorem Ipsum.txt.gz", ignoreModificationTime = False),
+            pyguymer3.sha256("tests/loremIpsum.txt.gz"),
+            pyguymer3.sha256_of_GZ("tests/loremIpsum.txt.gz", ignoreModificationTime = False),
         )
         self.assertEqual(
-            pyguymer3.sha512("tests/Lorem Ipsum.txt.gz"),
-            pyguymer3.sha512_of_GZ("tests/Lorem Ipsum.txt.gz", ignoreModificationTime = False),
+            pyguymer3.sha512("tests/loremIpsum.txt.gz"),
+            pyguymer3.sha512_of_GZ("tests/loremIpsum.txt.gz", ignoreModificationTime = False),
         )
         self.assertEqual(
-            pyguymer3.sha256_of_GZ("tests/Lorem Ipsum.txt.gz", ignoreModificationTime = True),
-            "393ac251b9c74617c0dd45b633803957134f8250fc5debe54ffb9fe659e03ac6",
+            pyguymer3.sha256_of_GZ("tests/loremIpsum.txt.gz", ignoreModificationTime = True),
+            "adeb6d5fd288b275b401a9f9d60d47d36d225611702fb5fb70f9235420852e0b",
         )
         self.assertEqual(
-            pyguymer3.sha256_of_GZ("tests/Lorem Ipsum.txt.gz", ignoreModificationTime = False),
-            "8a3b42132f26934e171c6a5202eecf73ba6cbb5a64ff6023536d293fcce54faf",
+            pyguymer3.sha256_of_GZ("tests/loremIpsum.txt.gz", ignoreModificationTime = False),
+            "54ae053bb7230a3ec5c95cb0390962830aa4e08f3f407d4befc6c449415d841f",
         )
         self.assertEqual(
-            pyguymer3.sha512_of_GZ("tests/Lorem Ipsum.txt.gz", ignoreModificationTime = True),
-            "989c6186d7e0cc8104cfe3d445e170d09d19ac29afbbbe5d328f62cbf98ef50b8ab06cdcd811f07f5522a05620d7678e5ba0dd6ec6d9c6febebee7563b4cff42",
+            pyguymer3.sha512_of_GZ("tests/loremIpsum.txt.gz", ignoreModificationTime = True),
+            "052cffa0ba7d8045d5eaad050cb719ea59dbd96ab318b948f7f9ac24d40a475e14ce03b205e56b6cc66c10255d3ab18c16fc77e4c6d05636912519cb44215b9b",
         )
         self.assertEqual(
-            pyguymer3.sha512_of_GZ("tests/Lorem Ipsum.txt.gz", ignoreModificationTime = False),
-            "286f9e328bc285741dcc935d2d56d75bca907e82cc09345ecc161129ad265828aee946848e00c91acd5564a8680637e7edff52a82aa94a327bf7c8666ed7c1e4",
+            pyguymer3.sha512_of_GZ("tests/loremIpsum.txt.gz", ignoreModificationTime = False),
+            "6b8b4cf1af024fb3c403738b7fddfad551e6c75c10d5f889e4578f391ac4418d1cdae414033b88a42353c5c3e44aba52421b3e31b1990c9c28d32172bd716026",
         )
 
         # Be daring and try to demonstrate the benefits of these functions by
@@ -1369,29 +1371,29 @@ class MyTestCase(unittest.TestCase):
         #       change: "pyguymer3.sha256_of_GZ()" currently can only ignore the
         #       modification time not the file name.
         shutil.copy(
-            "tests/Lorem Ipsum.txt",
-            "Lorem Ipsum.txt",
+            "tests/loremIpsum.txt",
+            "loremIpsum.txt",
         )
         pyguymer3.gzip(
-            "Lorem Ipsum.txt",
+            "loremIpsum.txt",
         )
         self.assertNotEqual(
-            pyguymer3.sha256_of_GZ("Lorem Ipsum.txt.gz", ignoreModificationTime = False),
-            pyguymer3.sha256_of_GZ("tests/Lorem Ipsum.txt.gz", ignoreModificationTime = False),
+            pyguymer3.sha256_of_GZ("loremIpsum.txt.gz", ignoreModificationTime = False),
+            pyguymer3.sha256_of_GZ("tests/loremIpsum.txt.gz", ignoreModificationTime = False),
         )
         self.assertEqual(
-            pyguymer3.sha256_of_GZ("Lorem Ipsum.txt.gz", ignoreModificationTime = True),
-            pyguymer3.sha256_of_GZ("tests/Lorem Ipsum.txt.gz", ignoreModificationTime = True),
+            pyguymer3.sha256_of_GZ("loremIpsum.txt.gz", ignoreModificationTime = True),
+            pyguymer3.sha256_of_GZ("tests/loremIpsum.txt.gz", ignoreModificationTime = True),
         )
         self.assertNotEqual(
-            pyguymer3.sha512_of_GZ("Lorem Ipsum.txt.gz", ignoreModificationTime = False),
-            pyguymer3.sha512_of_GZ("tests/Lorem Ipsum.txt.gz", ignoreModificationTime = False),
+            pyguymer3.sha512_of_GZ("loremIpsum.txt.gz", ignoreModificationTime = False),
+            pyguymer3.sha512_of_GZ("tests/loremIpsum.txt.gz", ignoreModificationTime = False),
         )
         self.assertEqual(
-            pyguymer3.sha512_of_GZ("Lorem Ipsum.txt.gz", ignoreModificationTime = True),
-            pyguymer3.sha512_of_GZ("tests/Lorem Ipsum.txt.gz", ignoreModificationTime = True),
+            pyguymer3.sha512_of_GZ("loremIpsum.txt.gz", ignoreModificationTime = True),
+            pyguymer3.sha512_of_GZ("tests/loremIpsum.txt.gz", ignoreModificationTime = True),
         )
-        os.remove("Lorem Ipsum.txt.gz")
+        os.remove("loremIpsum.txt.gz")
 
     # Define a test ...
     def test_shaOfMp4(self):
@@ -1402,27 +1404,27 @@ class MyTestCase(unittest.TestCase):
 
         # Assert results ...
         self.assertEqual(
-            pyguymer3.sha256("tests/BigBuckBunny.mp4"),
-            pyguymer3.sha256_of_MP4("tests/BigBuckBunny.mp4", ignoreModificationTime = False),
+            pyguymer3.sha256("tests/bigBuckBunny.mp4"),
+            pyguymer3.sha256_of_MP4("tests/bigBuckBunny.mp4", ignoreModificationTime = False),
         )
         self.assertEqual(
-            pyguymer3.sha512("tests/BigBuckBunny.mp4"),
-            pyguymer3.sha512_of_MP4("tests/BigBuckBunny.mp4", ignoreModificationTime = False),
+            pyguymer3.sha512("tests/bigBuckBunny.mp4"),
+            pyguymer3.sha512_of_MP4("tests/bigBuckBunny.mp4", ignoreModificationTime = False),
         )
         self.assertEqual(
-            pyguymer3.sha256_of_MP4("tests/BigBuckBunny.mp4", ignoreModificationTime = True),
+            pyguymer3.sha256_of_MP4("tests/bigBuckBunny.mp4", ignoreModificationTime = True),
             "3bf2f25a339896f6440b8b9bd90ba2b32d835620aec6147fd411ed34961c4dda",
         )
         self.assertEqual(
-            pyguymer3.sha256_of_MP4("tests/BigBuckBunny.mp4", ignoreModificationTime = False),
+            pyguymer3.sha256_of_MP4("tests/bigBuckBunny.mp4", ignoreModificationTime = False),
             "fe9f981c1c2ff75306bc7c7c9d193e1683af4101221e6a567ba28c66370f1ac1",
         )
         self.assertEqual(
-            pyguymer3.sha512_of_MP4("tests/BigBuckBunny.mp4", ignoreModificationTime = True),
+            pyguymer3.sha512_of_MP4("tests/bigBuckBunny.mp4", ignoreModificationTime = True),
             "1bbc3836c4fc0faa611b040582aedfef368daf3f20f095c5c5b1e4b683a9635c81304078ccfcdb9a02cf0bcb4f122a186ee34c61ed46d0814e721cd404aec46a",
         )
         self.assertEqual(
-            pyguymer3.sha512_of_MP4("tests/BigBuckBunny.mp4", ignoreModificationTime = False),
+            pyguymer3.sha512_of_MP4("tests/bigBuckBunny.mp4", ignoreModificationTime = False),
             "92fa11caccbe37481ecb61a46693f5cb9cea1d95cb458ad17339153ba057455e4af40f413d79a7121314b338a2ec47874420a635e2caacafbc542a591c584356",
         )
 

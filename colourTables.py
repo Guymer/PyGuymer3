@@ -24,7 +24,7 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Initialize dictionary ...
-    colourTables = {}
+    colourTables: dict[str, list[list[int]]] = {}
 
     # Loop over MatPlotLib colour map names ...
     # NOTE: See https://matplotlib.org/stable/users/explain/colors/colormaps.html
@@ -37,23 +37,23 @@ if __name__ == "__main__":
         "coolwarm",                     # A replacement for "bwr" which has smooth lightness.
         "turbo",                        # A replacement for "jet" which has smooth lightness.
     ]:
+        # Check MatPlotLib colour map ...
+        assert matplotlib.colormaps[name].N == 256, f"the MatPlotLib colour map \"{name}\" has {matplotlib.colormaps[name].N:d} colours"
+
         # Initialize list ...
         colourTables[name] = []
 
         # Loop over levels ...
         for i in range(256):
-            # Find colour values and convert them to the range [0, 255] ...
-            r, g, b, _ = matplotlib.colormaps[name](float(i) / 255.0)
-            r *= 255.0
-            g *= 255.0
-            b *= 255.0
+            # Find colour values ...
+            r, g, b, _ = matplotlib.colormaps[name](i, bytes = True)
 
             # Append values to list ...
             colourTables[name].append(
                 [
-                    round(r),
-                    round(g),
-                    round(b),
+                    int(r),
+                    int(g),
+                    int(b),
                 ]
             )
 

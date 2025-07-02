@@ -6,14 +6,21 @@ def save_array_as_image(
     fname,
     /,
     *,
+    calcAdaptive = True,
+     calcAverage = True,
+        calcNone = True,
+       calcPaeth = True,
+         calcSub = True,
+          calcUp = True,
        chunksize = 1048576,
               ct = "grey",
            debug = __debug__,
+             dpi = None,
     exiftoolPath = None,
             form = "png",
-       ftype_req = -1,
     gifsiclePath = None,
     jpegtranPath = None,
+         modTime = None,
      optipngPath = None,
           pc_bot = 0.0,
           pc_top = 0.0,
@@ -32,28 +39,40 @@ def save_array_as_image(
         a 2D NumPy array of any type with shape (ny,nx)
     fname : str
         output file name
+    calcAdaptive : bool, optional
+        See :py:func:`pyguymer3.image.makePng` for the documentation.
+    calcAverage : bool, optional
+        See :py:func:`pyguymer3.image.makePng` for the documentation.
+    calcNone : bool, optional
+        See :py:func:`pyguymer3.image.makePng` for the documentation.
+    calcPaeth : bool, optional
+        See :py:func:`pyguymer3.image.makePng` for the documentation.
+    calcSub : bool, optional
+        See :py:func:`pyguymer3.image.makePng` for the documentation.
+    calcUp : bool, optional
+        See :py:func:`pyguymer3.image.makePng` for the documentation.
+    chunksize : int, optional
+        the size of the chunks of any files which are read in (in bytes)
     ct : str, optional
         the colour table to apply (the default is no colour mapping, i.e.,
         greyscale)
+    debug : bool, optional
+        Print debug messages.
+    dpi : None or float or int, optional
+        See :py:func:`pyguymer3.image.makePng` for the documentation.
     exiftoolPath : str, optional
         the path to the "exiftool" binary (if not provided then Python will attempt to
         find the binary itself)
     form : str, optional
-        output image format (default "png")
-    ftype_req : int, optional
-        The PNG specification defines 5 different possible filters which are
-        numbered 0 to 4 (inclusively). Filter #0 is "no filtering". If the user
-        defines "ftype_req" as one of the identifying integers then that filter
-        will be used for the entire PNG file. If the user defines "ftype_req" as
-        "-1" (or does not define "ftype_req" at all) then adaptive filtering
-        will be used whereby an attempt is made to predict which filtering
-        method will yield the smallest compressed stream.
+        output image format
     gifsiclePath : str, optional
         the path to the "gifsicle" binary (if not provided then Python will attempt to
         find the binary itself)
     jpegtranPath : str, optional
         the path to the "jpegtran" binary (if not provided then Python will attempt to
         find the binary itself)
+    modTime : None or datetime.datetime, optional
+        See :py:func:`pyguymer3.image.makePng` for the documentation.
     optipngPath : str, optional
         the path to the "optipng" binary (if not provided then Python will attempt to
         find the binary itself)
@@ -138,7 +157,15 @@ def save_array_as_image(
             save_array_as_PNG(
                 img2,
                 fname,
-                ftype_req = ftype_req,
+                calcAdaptive = calcAdaptive,
+                 calcAverage = calcAverage,
+                    calcNone = calcNone,
+                   calcPaeth = calcPaeth,
+                     calcSub = calcSub,
+                      calcUp = calcUp,
+                       debug = debug,
+                         dpi = dpi,
+                     modTime = modTime,
             )
             optimize_image(
                 fname,
