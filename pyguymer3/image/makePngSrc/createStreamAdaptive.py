@@ -5,8 +5,6 @@ def createStreamAdaptive(
     arrUint8,
     arrInt16,
     /,
-    *,
-    debug: bool = __debug__,
 ) -> bytearray:
     """Create a PNG image data stream of an image using "adaptive" filtering (as
     suggested in the PNG specification [2]_).
@@ -17,8 +15,6 @@ def createStreamAdaptive(
         A "height * width * colour" unsigned 8-bit integer NumPy array.
     arrInt16 : numpy.ndarray
         A signed 16-bit integer NumPy array copy of ``arrUint8``.
-    debug : bool, optional
-        Print debug messages.
 
     Returns
     -------
@@ -156,8 +152,6 @@ def createStreamAdaptive(
 
         # Check if the "none" filter is likely to be the best stream ...
         if scanline0.sum() < minTotal:
-            if debug:
-                print(f"DEBUG: scanline = {iy:,d}; filter = 0 --> {scanline0.sum():,d} counts.")
             bestStream = bytearray()
             bestStream += numpy.uint8(0).tobytes()
             for ix in range(nx):
@@ -166,8 +160,6 @@ def createStreamAdaptive(
 
         # Check if the "sub" filter is likely to be the best stream ...
         if scanline1.sum() < minTotal:
-            if debug:
-                print(f"DEBUG: scanline = {iy:,d}; filter = 1 --> {scanline1.sum():,d} counts.")
             bestStream = bytearray()
             bestStream += numpy.uint8(1).tobytes()
             for ix in range(nx):
@@ -176,8 +168,6 @@ def createStreamAdaptive(
 
         # Check if the "up" filter is likely to be the best stream ...
         if scanline2.sum() < minTotal:
-            if debug:
-                print(f"DEBUG: scanline = {iy:,d}; filter = 2 --> {scanline2.sum():,d} counts.")
             bestStream = bytearray()
             bestStream += numpy.uint8(2).tobytes()
             for ix in range(nx):
@@ -186,8 +176,6 @@ def createStreamAdaptive(
 
         # Check if the "average" filter is likely to be the best stream ...
         if scanline3.sum() < minTotal:
-            if debug:
-                print(f"DEBUG: scanline = {iy:,d}; filter = 3 --> {scanline3.sum():,d} counts.")
             bestStream = bytearray()
             bestStream += numpy.uint8(3).tobytes()
             for ix in range(nx):
@@ -196,8 +184,6 @@ def createStreamAdaptive(
 
         # Check if the "Paeth" filter is likely to be the best stream ...
         if scanline4.sum() < minTotal:
-            if debug:
-                print(f"DEBUG: scanline = {iy:,d}; filter = 4 --> {scanline4.sum():,d} counts.")
             bestStream = bytearray()
             bestStream += numpy.uint8(4).tobytes()
             for ix in range(nx):

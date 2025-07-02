@@ -218,7 +218,6 @@ def createStream(
                 createStreamAdaptive(
                     arrUint8,
                     arrInt16,
-                    debug = debug,
                 ),
             )
         )
