@@ -5,6 +5,7 @@ def optimise_MP4(
     fname1,
     /,
     *,
+      chunksize = 1048576,
           debug = __debug__,
     mp4filePath = None,
         timeout = 60.0,
@@ -68,7 +69,14 @@ def optimise_MP4(
 
         # Find the two hashes and don't replace the original if the new one is
         # the same ...
-        if sha512_of_MP4(fname1, ignoreModificationTime = True) == sha512_of_MP4(fname2, ignoreModificationTime = True):
+        if sha512_of_MP4(
+            fname1,
+                         chunksize = chunksize,
+            ignoreModificationTime = True,
+        ) == sha512_of_MP4(
+                         chunksize = chunksize,
+            ignoreModificationTime = True,
+        ):
             if debug:
                 print(f"INFO: Skipping because \"{fname2}\" is the same as \"{fname1}\"")
             return

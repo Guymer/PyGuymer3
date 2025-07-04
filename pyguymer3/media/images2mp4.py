@@ -5,6 +5,7 @@ def images2mp4(
     frames,
     /,
     *,
+       chunksize = 1048576,
              crf = -1.0,
              cwd = None,
            debug = __debug__,
@@ -271,6 +272,7 @@ def images2mp4(
     # Optimise output video ...
     optimise_MP4(
         f"{tmpname}/video.mp4",
+          chunksize = chunksize,
               debug = debug,
         mp4filePath = mp4filePath,
             timeout = timeout,
