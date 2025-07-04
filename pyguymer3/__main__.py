@@ -21,6 +21,8 @@ if __name__ == "__main__":
     import sys
 
     # Import sub-functions ...
+    from .generate_password import generate_password
+    from .generate_random_stub import generate_random_stub
     from .sha256 import sha256
     from .sha256_of_GZ import sha256_of_GZ
     from .sha256_of_MP4 import sha256_of_MP4
@@ -46,6 +48,18 @@ if __name__ == "__main__":
         "--debug",
         action = "store_true",
           help = "print debug messages",
+    )
+    parser.add_argument(
+        "--generate-password",
+        action = "store_true",
+          dest = "generatePassword",
+          help = "generate a random password",
+    )
+    parser.add_argument(
+        "--generate-stub",
+        action = "store_true",
+          dest = "generateStub",
+          help = "generate a random stub",
     )
     parser.add_argument(
         "--ignore-modification-time",
@@ -106,6 +120,16 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Check what needs to be done ...
+    if args.generatePassword:
+        print(
+            generate_password()
+        )
+        sys.exit(0)
+    if args.generateStub:
+        print(
+            generate_random_stub()
+        )
+        sys.exit(0)
     if args.sha256:
         print(
             sha256(
