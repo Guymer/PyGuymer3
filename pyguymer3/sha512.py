@@ -7,12 +7,29 @@ def sha512(
     *,
     chunksize = 1048576,
 ):
-    """
-    This function runs hashlib.sha512() on a file using chunks to ensure that
-    too much RAM is not used.
+    """Find the SHA-512 hash of a file
 
+    This function returns the SHA-512 hash of the passed file.
+
+    Parameters
+    ----------
+    fname : str
+        the input file name
     chunksize : int, optional
         the size of the chunks of any files which are read in (in bytes)
+
+    Returns
+    -------
+    hexdigest : str
+        The hash hexdigest of the input file.
+
+    Notes
+    -----
+    Copyright 2017 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
     # Import standard modules ...
