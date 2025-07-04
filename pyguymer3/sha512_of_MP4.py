@@ -33,7 +33,7 @@ def sha512_of_MP4(
     Returns
     -------
     hexdigest : str
-        The hash hexdigest of the input MP4 file name.
+        The hash hexdigest of the input MP4 file.
 
     Notes
     -----
