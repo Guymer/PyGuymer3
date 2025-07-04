@@ -16,6 +16,11 @@ def dot2png(
            strip = False,
          timeout = 60.0,
 ):
+    """
+    chunksize : int, optional
+        the size of the chunks of any files which are read in (in bytes)
+    """
+
     # Import standard modules ...
     import shutil
     import subprocess

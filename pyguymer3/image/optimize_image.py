@@ -20,6 +20,9 @@ def optimize_image(
     "gifsicle", "jpegtran" and "optipng". It is not safe to keep on running the
     programs "gifsicle" and "jpegtran" on images, but it is safe to keep on
     running all of my wrapper functions on images instead.
+
+    chunksize : int, optional
+        the size of the chunks of any files which are read in (in bytes)
     """
 
     # Import standard modules ...

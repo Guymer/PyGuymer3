@@ -31,6 +31,8 @@ def image2png(
         the input PIL Image or path to the input image
     png : str
         the path to the output PNG
+    chunksize : int, optional
+        the size of the chunks of any files which are read in (in bytes)
     debug : bool, optional
         print debug messages (default False)
     exif : dict, optional

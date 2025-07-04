@@ -31,6 +31,8 @@ def images2gif(
         the list of input PIL Images or list of paths to the input images
     gif : str
         the path to the output GIF
+    chunksize : int, optional
+        the size of the chunks of any files which are read in (in bytes)
     debug : bool, optional
         print debug messages (default False)
     exiftoolPath : str, optional

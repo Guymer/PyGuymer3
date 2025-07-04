@@ -21,6 +21,9 @@ def gifsicle(
     sized images is the order of the colours in the colour map (try running
     "gifsicle --color-info file.gif" yourself after each call and then "diff"
     the output).
+
+    chunksize : int, optional
+        the size of the chunks of any files which are read in (in bytes)
     """
 
     # Import standard modules ...

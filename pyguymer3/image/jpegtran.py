@@ -14,6 +14,9 @@ def jpegtran(
     "jpegtran" does not modify, but it does touch, the image even if it cannot
     make it smaller, therefore it is NOT safe to keep on running "jpegtran" on
     the same JPG over and over again.
+
+    chunksize : int, optional
+        the size of the chunks of any files which are read in (in bytes)
     """
 
     # Import standard modules ...

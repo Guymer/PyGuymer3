@@ -14,6 +14,9 @@ def optimize_FLAC(
     "metaflac" does not modify, but it does touch, the FLAC even if it cannot
     make it smaller, therefore it is NOT safe to keep on running "metaflac" on
     the same FLAC over and over again.
+
+    chunksize : int, optional
+        the size of the chunks of any files which are read in (in bytes)
     """
 
     # Import standard modules ...
