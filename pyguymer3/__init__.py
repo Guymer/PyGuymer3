@@ -2,7 +2,9 @@
 
 """
 A Python module containing a bunch of random functions that I have written over
-the years.
+the years. If you want to use some of these functions directly from the command
+line then you can run ``python3.13 -m pyguymer3 --help`` to see what is
+available.
 
 Notes
 -----
