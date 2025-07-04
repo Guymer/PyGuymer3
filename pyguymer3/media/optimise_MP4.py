@@ -74,6 +74,7 @@ def optimise_MP4(
                          chunksize = chunksize,
             ignoreModificationTime = True,
         ) == sha512_of_MP4(
+            fname2,
                          chunksize = chunksize,
             ignoreModificationTime = True,
         ):
