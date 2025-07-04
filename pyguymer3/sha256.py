@@ -10,6 +10,9 @@ def sha256(
     """
     This function runs hashlib.sha256() on a file using chunks to ensure that
     too much RAM is not used.
+
+    chunksize : int, optional
+        the size of the chunks of any files which are read in (in bytes)
     """
 
     # Import standard modules ...
