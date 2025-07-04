@@ -26,7 +26,7 @@ def dot2png(
     import subprocess
 
     # Import sub-functions ...
-    from .optimize_image import optimize_image
+    from .optimise_image import optimise_image
 
     # **************************************************************************
 
@@ -50,8 +50,8 @@ def dot2png(
          timeout = timeout,
     )
 
-    # Optimize PNG ...
-    optimize_image(
+    # Optimise PNG ...
+    optimise_image(
         png,
            chunksize = chunksize,
                debug = debug,

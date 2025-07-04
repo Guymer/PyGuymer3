@@ -27,7 +27,7 @@ if __name__ == "__main__":
     from .image2png import image2png
     from .image2webp import image2webp
     from .manuallyOptimisePng import manuallyOptimisePng
-    from .optimize_image import optimize_image
+    from .optimise_image import optimise_image
 
     # **************************************************************************
 
@@ -204,7 +204,7 @@ if __name__ == "__main__":
             gifsiclePath = args.gifsiclePath,
             jpegtranPath = args.jpegtranPath,
                     mode = args.mode,
-                optimize = True,
+                optimise = True,
              optipngPath = args.optipngPath,
             screenHeight = args.screenHeight,
              screenWidth = args.screenWidth,
@@ -223,7 +223,7 @@ if __name__ == "__main__":
             gifsiclePath = args.gifsiclePath,
             jpegtranPath = args.jpegtranPath,
                     mode = args.mode,
-                optimize = True,
+                optimise = True,
              optipngPath = args.optipngPath,
              progressive = args.progressive,
                  quality = args.quality,
@@ -244,7 +244,7 @@ if __name__ == "__main__":
             gifsiclePath = args.gifsiclePath,
             jpegtranPath = args.jpegtranPath,
                     mode = args.mode,
-                optimize = True,
+                optimise = True,
              optipngPath = args.optipngPath,
             screenHeight = args.screenHeight,
              screenWidth = args.screenWidth,
@@ -280,7 +280,7 @@ if __name__ == "__main__":
         )
         sys.exit(0)
     if args.optimiseImage:
-        optimize_image(
+        optimise_image(
             args.inputImage,
                chunksize = args.chunksize,
                    debug = args.debug,

@@ -103,7 +103,7 @@ def tile(
 
     # Import sub-functions ...
     from ..download_file import download_file
-    from ..image import optimize_image
+    from ..image import optimise_image
 
     # Check inputs ...
     if not 0 <= xtile < pow(2, zoom):
@@ -166,8 +166,8 @@ def tile(
             print(f"WARNING: Failed to download the tile for x={xtile:d}, y={ytile:d}, scale={scale:d} and zoom={zoom:d}.")
             return None
 
-        # Optimize tile ...
-        optimize_image(
+        # Optimise tile ...
+        optimise_image(
             png,
                chunksize = chunksize,
                    debug = debug,

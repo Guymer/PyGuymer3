@@ -419,8 +419,8 @@ if __name__ == "__main__":
     fg.savefig("findMiddleOfLocs/comparison.png")
     matplotlib.pyplot.close(fg)
 
-    # Optimize PNG ...
-    pyguymer3.image.optimize_image(
+    # Optimise PNG ...
+    pyguymer3.image.optimise_image(
         "findMiddleOfLocs/comparison.png",
           debug = args.debug,
           strip = True,
@@ -585,8 +585,8 @@ if __name__ == "__main__":
     fg.savefig("findMiddleOfLocs/locations.png")
     matplotlib.pyplot.close(fg)
 
-    # Optimize PNG ...
-    pyguymer3.image.optimize_image(
+    # Optimise PNG ...
+    pyguymer3.image.optimise_image(
         "findMiddleOfLocs/locations.png",
           debug = args.debug,
           strip = True,

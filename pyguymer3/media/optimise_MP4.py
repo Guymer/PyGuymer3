@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def optimize_MP4(
+def optimise_MP4(
     fname1,
     /,
     *,
@@ -10,7 +10,7 @@ def optimize_MP4(
         timeout = 60.0,
 ):
     """
-    "mp4file" does modify, and it does touch, the MP4 even if it cannot optimize
+    "mp4file" does modify, and it does touch, the MP4 even if it cannot optimise
     it, therefore it is NOT safe to keep on running "mp4file" on the same MP4
     over and over again.
     """
@@ -45,14 +45,14 @@ def optimize_MP4(
         return
 
     # Create temporary directory ...
-    with tempfile.TemporaryDirectory(prefix = "optimize_MP4.") as tname:
+    with tempfile.TemporaryDirectory(prefix = "optimise_MP4.") as tname:
         # Copy the MP4 into the temporary directory ...
         shutil.copy(fname1, tname)
 
         # Deduce the MP4 name in the temporary directory ...
         fname2 = f"{tname}/{os.path.basename(fname1)}"
 
-        # Optimize MP4 ...
+        # Optimise MP4 ...
         subprocess.run(
             [
                 mp4filePath,

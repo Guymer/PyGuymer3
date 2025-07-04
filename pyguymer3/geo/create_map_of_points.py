@@ -185,7 +185,7 @@ def create_map_of_points(
     from .find_middle_of_locs import find_middle_of_locs
     from .great_circle import great_circle
     from ..consts import RESOLUTION_OF_EARTH
-    from ..image import optimize_image
+    from ..image import optimise_image
 
     # **************************************************************************
 
@@ -463,8 +463,8 @@ def create_map_of_points(
     fg.savefig(pngOut)
     matplotlib.pyplot.close(fg)
 
-    # Optimize PNG ...
-    optimize_image(
+    # Optimise PNG ...
+    optimise_image(
         pngOut,
            chunksize = chunksize,
                debug = debug,

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def optimize_image(
+def optimise_image(
     fname,
     /,
     *,
@@ -43,7 +43,7 @@ def optimize_image(
     # Extract file extension ...
     ext = os.path.splitext(fname)[1]
 
-    # Optimize image depending the file extension ...
+    # Optimise image depending the file extension ...
     match ext.lower():
         case ".gif":
             gifsicle(

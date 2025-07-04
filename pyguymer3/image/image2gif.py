@@ -12,7 +12,7 @@ def image2gif(
     gifsiclePath = None,
     jpegtranPath = None,
             mode = "RGB",
-        optimize = True,
+        optimise = True,
      optipngPath = None,
     screenHeight = -1,
      screenWidth = -1,
@@ -45,8 +45,8 @@ def image2gif(
         find the binary itself)
     mode : str, optional
         the mode of the outout GIF (default "RGB")
-    optimize : bool, optional
-        optimize the output GIF (default True)
+    optimise : bool, optional
+        optimise the output GIF (default True)
     optipngPath : str, optional
         the path to the "optipng" binary (if not provided then Python will attempt to
         find the binary itself)
@@ -81,7 +81,7 @@ def image2gif(
         raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None
 
     # Import sub-functions ...
-    from .optimize_image import optimize_image
+    from .optimise_image import optimise_image
 
     # Find out what the user supplied ...
     match img:
@@ -112,12 +112,12 @@ def image2gif(
     # NOTE: See https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html#gif
     tmpImg.save(
         gif,
-        optimize = optimize,
+        optimise = optimise,
     )
 
-    # Optimize GIF ...
-    if optimize or strip:
-        optimize_image(
+    # Optimise GIF ...
+    if optimise or strip:
+        optimise_image(
             gif,
                chunksize = chunksize,
                    debug = debug,

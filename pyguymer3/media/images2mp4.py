@@ -99,7 +99,7 @@ def images2mp4(
     import tempfile
 
     # Load sub-functions ...
-    from .optimize_MP4 import optimize_MP4
+    from .optimise_MP4 import optimise_MP4
     from .return_video_bit_depth import return_video_bit_depth
     from .return_x264_crf import return_x264_crf
     from .return_x264_level import return_x264_level
@@ -268,8 +268,8 @@ def images2mp4(
     ) != 8:
         raise Exception(f"successfully converted the input images to a not-8-bit MP4; see \"{tmpname}\" for clues") from None
 
-    # Optimize output video ...
-    optimize_MP4(
+    # Optimise output video ...
+    optimise_MP4(
         f"{tmpname}/video.mp4",
               debug = debug,
         mp4filePath = mp4filePath,

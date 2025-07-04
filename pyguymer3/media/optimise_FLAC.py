@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def optimize_FLAC(
+def optimise_FLAC(
     fname1,
     /,
     *,
@@ -47,7 +47,7 @@ def optimize_FLAC(
         return
 
     # Create temporary directory ...
-    with tempfile.TemporaryDirectory(prefix = "optimize_FLAC.") as tname:
+    with tempfile.TemporaryDirectory(prefix = "optimise_FLAC.") as tname:
         # Copy the FLAC into the temporary directory ...
         shutil.copy(fname1, tname)
 

@@ -108,7 +108,7 @@ def save_array_as_image(
         raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
 
     # Import sub-functions ...
-    from .optimize_image import optimize_image
+    from .optimise_image import optimise_image
     from .save_array_as_PPM import save_array_as_PPM
     from .save_array_as_PNG import save_array_as_PNG
 
@@ -167,7 +167,7 @@ def save_array_as_image(
                          dpi = dpi,
                      modTime = modTime,
             )
-            optimize_image(
+            optimise_image(
                 fname,
                    chunksize = chunksize,
                        debug = debug,

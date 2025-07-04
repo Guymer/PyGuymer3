@@ -2,7 +2,9 @@
 
 """
 A Python sub-module containing a bunch of random media-related functions that I
-have written over the years.
+have written over the years. If you want to use some of these functions directly
+from the command line then you can run ``python3.13 -m pyguymer3.media --help``
+to see what is available.
 
 Notes
 -----
@@ -27,8 +29,8 @@ from .images2mp4 import images2mp4
 from .images2pdf import images2pdf
 from .images2webp import images2webp
 from .is_moov_at_beginning_of_MP4 import is_moov_at_beginning_of_MP4
-from .optimize_FLAC import optimize_FLAC
-from .optimize_MP4 import optimize_MP4
+from .optimise_FLAC import optimise_FLAC
+from .optimise_MP4 import optimise_MP4
 from .parse_CLPI_file import parse_CLPI_file
 from .parse_MPLS_file import parse_MPLS_file
 from .print_FLAC_blocks import print_FLAC_blocks

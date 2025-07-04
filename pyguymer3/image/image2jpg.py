@@ -13,7 +13,7 @@ def image2jpg(
     gifsiclePath = None,
     jpegtranPath = None,
             mode = "RGB",
-        optimize = True,
+        optimise = True,
      optipngPath = None,
      progressive = False,
          quality = 95,
@@ -50,8 +50,8 @@ def image2jpg(
         find the binary itself)
     mode : str, optional
         the mode of the outout JPG (default "RGB")
-    optimize : bool, optional
-        optimize the output JPG (default True)
+    optimise : bool, optional
+        optimise the output JPG (default True)
     optipngPath : str, optional
         the path to the "optipng" binary (if not provided then Python will attempt to
         find the binary itself)
@@ -91,7 +91,7 @@ def image2jpg(
 
     # Import sub-functions ...
     from .dict2exif import dict2exif
-    from .optimize_image import optimize_image
+    from .optimise_image import optimise_image
 
     # Check input ...
     if exif is not None and strip:
@@ -127,14 +127,14 @@ def image2jpg(
     tmpImg.save(
         jpg,
                exif = dict2exif(exif, mode = mode),
-           optimize = optimize,
+           optimise = optimise,
         progressive = progressive,
             quality = quality,
     )
 
-    # Optimize JPG ...
-    if optimize or strip:
-        optimize_image(
+    # Optimise JPG ...
+    if optimise or strip:
+        optimise_image(
             jpg,
                chunksize = chunksize,
                    debug = debug,

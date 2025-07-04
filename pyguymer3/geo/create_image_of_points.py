@@ -423,7 +423,7 @@ def create_image_of_points(
         gifsiclePath = gifsiclePath,
         jpegtranPath = jpegtranPath,
                 mode = "RGB",
-            optimize = True,
+            optimise = True,
          optipngPath = optipngPath,
         screenHeight = -1,
          screenWidth = -1,

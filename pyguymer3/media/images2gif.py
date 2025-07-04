@@ -13,7 +13,7 @@ def images2gif(
     gifsiclePath = None,
     jpegtranPath = None,
             mode = "RGB",
-        optimize = True,
+        optimise = True,
      optipngPath = None,
     screenHeight = -1,
      screenWidth = -1,
@@ -48,8 +48,8 @@ def images2gif(
         find the binary itself)
     mode : str, optional
         the mode of the outout GIF (default "RGB")
-    optimize : bool, optional
-        optimize the output GIF (default True)
+    optimise : bool, optional
+        optimise the output GIF (default True)
     optipngPath : str, optional
         the path to the "optipng" binary (if not provided then Python will attempt to
         find the binary itself)
@@ -84,7 +84,7 @@ def images2gif(
         raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None
 
     # Import sub-functions ...
-    from ..image import optimize_image
+    from ..image import optimise_image
 
     # **************************************************************************
 
@@ -125,13 +125,13 @@ def images2gif(
             append_images = tmpImgs[1:],
                  duration = round(1000.0 / fps),
                      loop = 0,
-                 optimize = optimize,
+                 optimise = optimise,
                  save_all = True,
     )
 
-    # Optimize GIF ...
+    # Optimise GIF ...
     if strip:
-        optimize_image(
+        optimise_image(
             gif,
                chunksize = chunksize,
                    debug = debug,

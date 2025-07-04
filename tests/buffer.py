@@ -312,8 +312,8 @@ if __name__ == "__main__":
             fg.savefig(fname)
             matplotlib.pyplot.close(fg)
 
-            # Optimize PNG ..
-            pyguymer3.image.optimize_image(
+            # Optimise PNG ..
+            pyguymer3.image.optimise_image(
                 fname,
                   debug = args.debug,
                    pool = pObj,

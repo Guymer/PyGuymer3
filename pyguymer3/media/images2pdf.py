@@ -9,7 +9,7 @@ def images2pdf(
           author = "My Author",
         keywords = "My Keywords",
             mode = "RGB",
-        optimize = True,
+        optimise = True,
      progressive = False,
          quality = 95,
       resolution = 300,
@@ -35,8 +35,8 @@ def images2pdf(
         The keywords field in the output PDF metadata
     mode : str, optional
         the mode of the JPGs in the outout PDF
-    optimize : bool, optional
-        optimize the JPGs in the output PDF
+    optimise : bool, optional
+        optimise the JPGs in the output PDF
     progressive : bool, optional
         save progressive JPGs in the output PDF
     quality : int, optional
@@ -114,7 +114,7 @@ def images2pdf(
         append_images = tmpImgs[1:],
                author = author,
              keywords = keywords,
-             optimize = optimize,                                               # NOTE: Passed to the JPEG encoder.
+             optimise = optimise,                                               # NOTE: Passed to the JPEG encoder.
           progressive = progressive,                                            # NOTE: Passed to the JPEG encoder.
               quality = quality,                                                # NOTE: Passed to the JPEG encoder.
            resolution = resolution,

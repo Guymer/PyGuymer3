@@ -189,8 +189,8 @@ if __name__ == "__main__":
         fg.savefig(pname)
         matplotlib.pyplot.close(fg)
 
-        # Optimize figure ...
-        pyguymer3.image.optimize_image(
+        # Optimise figure ...
+        pyguymer3.image.optimise_image(
             pname,
               debug = args.debug,
               strip = True,

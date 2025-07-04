@@ -265,8 +265,8 @@ if __name__ == "__main__":
                 matplotlib.pyplot.close(fg)
                 continue
 
-            # Optimize PNG ...
-            pyguymer3.image.optimize_image(
+            # Optimise PNG ...
+            pyguymer3.image.optimise_image(
                 fname,
                   debug = args.debug,
                   strip = True,

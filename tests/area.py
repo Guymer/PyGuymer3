@@ -243,8 +243,8 @@ if __name__ == "__main__":
     fg.savefig("area/bad.png")
     matplotlib.pyplot.close(fg)
 
-    # Optimize PNG ...
-    pyguymer3.image.optimize_image(
+    # Optimise PNG ...
+    pyguymer3.image.optimise_image(
         "area/bad.png",
         debug = False,
         strip = True,
