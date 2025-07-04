@@ -8,7 +8,7 @@ def sha256_of_MP4(
                  chunksize = 1048576,
     ignoreModificationTime = True,
 ):
-    """Find the SAH-256 hash of a MP4 file
+    """Find the SHA-256 hash of a MP4 file
 
     This function returns the SHA-256 hash of the passed MP4 file as if the
     "Modification Time" field (in the "mvhd" atom in the "moov" atom) is set to
