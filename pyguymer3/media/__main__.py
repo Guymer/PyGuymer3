@@ -22,6 +22,10 @@ if __name__ == "__main__":
     import sys
 
     # Import sub-functions ...
+    from .images2gif import images2gif                                          # TODO
+    from .images2mp4 import images2mp4                                          # TODO
+    from .images2pdf import images2pdf                                          # TODO
+    from .images2webp import images2webp                                        # TODO
     from .optimise_FLAC import optimise_FLAC
     from .optimise_MP4 import optimise_MP4
     from .print_FLAC_blocks import print_FLAC_blocks
