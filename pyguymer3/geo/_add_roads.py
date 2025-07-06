@@ -6,6 +6,7 @@ def _add_roads(
     /,
     *,
          debug = __debug__,
+           fov = None,
      linestyle = "solid",
      linewidth = 0.5,
      onlyValid = False,
@@ -19,6 +20,10 @@ def _add_roads(
         the axis to add the roads to
     debug : bool, optional
         print debug messages
+    fov : None or shapely.geometry.polygon.Polygon, optional
+        clip the plotted shapes to the provided field-of-view to work around
+        occaisional MatPlotLib or Cartopy plotting errors when shapes much
+        larger than the field-of-view are plotted
     linestyle : str, optional
         the style of the roads
     linewidth : float, optional
@@ -67,6 +72,11 @@ def _add_roads(
         )
     except:
         raise Exception("\"matplotlib\" is not installed; run \"pip install --user matplotlib\"") from None
+    try:
+        import shapely
+        import shapely.geometry
+    except:
+        raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
     from .extract_lines import extract_lines
@@ -104,9 +114,23 @@ def _add_roads(
             if not hasattr(record, "geometry"):
                 continue
 
+            # Create a list of LineStrings to plot (taking in to account if the
+            # user provided a field-of-view to clip them by) ...
+            lines = []
+            for line in extract_lines(
+                record.geometry,
+                onlyValid = onlyValid,
+            ):
+                if fov is None:
+                    lines.append(line)
+                    continue
+                if line.disjoint(fov):
+                    continue
+                lines.append(line.intersection(fov))
+
             # Plot geometry ...
             ax.add_geometries(
-                extract_lines(record.geometry, onlyValid = onlyValid),
+                lines,
                 cartopy.crs.PlateCarree(),
                 edgecolor = edgecolor,
                 facecolor = "none",

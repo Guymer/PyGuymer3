@@ -8,6 +8,7 @@ def add_NE_map_underlay(
     background = True,
       cultural = True,
          debug = __debug__,
+           fov = None,
      linestyle = "solid",
      linewidth = 0.5,
        maxElev = 8850.0,
@@ -28,6 +29,10 @@ def add_NE_map_underlay(
         add cultural datasets
     debug : bool, optional
         print debug messages
+    fov : None or shapely.geometry.polygon.Polygon, optional
+        clip the plotted shapes to the provided field-of-view to work around
+        occaisional MatPlotLib or Cartopy plotting errors when shapes much
+        larger than the field-of-view are plotted
     linestyle : str, optional
         the style of the lines
     linewidth : float, optional
@@ -86,6 +91,7 @@ def add_NE_map_underlay(
         _add_bathymetry(
             ax,
                  debug = debug,
+                   fov = fov,
              onlyValid = onlyValid,
                 repair = repair,
             resolution = resolution,
@@ -95,6 +101,7 @@ def add_NE_map_underlay(
         _add_antarcticIceShelves(
             ax,
                  debug = debug,
+                   fov = fov,
              onlyValid = onlyValid,
                 repair = repair,
             resolution = resolution,
@@ -102,6 +109,7 @@ def add_NE_map_underlay(
         _add_reefs(
             ax,
                  debug = debug,
+                   fov = fov,
              linestyle = linestyle,
              linewidth = linewidth,
              onlyValid = onlyValid,
@@ -113,6 +121,7 @@ def add_NE_map_underlay(
         _add_land(
             ax,
                  debug = debug,
+                   fov = fov,
              onlyValid = onlyValid,
                 repair = repair,
             resolution = resolution,
@@ -120,6 +129,7 @@ def add_NE_map_underlay(
         _add_minorIslands(
             ax,
                  debug = debug,
+                   fov = fov,
              onlyValid = onlyValid,
                 repair = repair,
             resolution = resolution,
@@ -127,6 +137,7 @@ def add_NE_map_underlay(
         _add_elevation(
             ax,
                  debug = debug,
+                   fov = fov,
                maxElev = maxElev,
              onlyValid = onlyValid,
                 repair = repair,
@@ -137,6 +148,7 @@ def add_NE_map_underlay(
         _add_glaciatedAreas(
             ax,
                  debug = debug,
+                   fov = fov,
              onlyValid = onlyValid,
                 repair = repair,
             resolution = resolution,
@@ -144,6 +156,7 @@ def add_NE_map_underlay(
         _add_lakes(
             ax,
                  debug = debug,
+                   fov = fov,
              onlyValid = onlyValid,
                 repair = repair,
             resolution = resolution,
@@ -151,6 +164,7 @@ def add_NE_map_underlay(
         _add_playas(
             ax,
                  debug = debug,
+                   fov = fov,
              linestyle = linestyle,
              linewidth = linewidth,
              onlyValid = onlyValid,
@@ -164,6 +178,7 @@ def add_NE_map_underlay(
         _add_urbanAreas(
             ax,
                  debug = debug,
+                   fov = fov,
              onlyValid = onlyValid,
                 repair = repair,
             resolution = resolution,
@@ -175,6 +190,7 @@ def add_NE_map_underlay(
         _add_rivers(
             ax,
                  debug = debug,
+                   fov = fov,
              linestyle = linestyle,
              linewidth = linewidth,
              onlyValid = onlyValid,
@@ -187,6 +203,7 @@ def add_NE_map_underlay(
         _add_railroads(
             ax,
                  debug = debug,
+                   fov = fov,
              linestyle = linestyle,
              linewidth = linewidth,
              onlyValid = onlyValid,
@@ -195,6 +212,7 @@ def add_NE_map_underlay(
         _add_roads(
             ax,
                  debug = debug,
+                   fov = fov,
              linestyle = linestyle,
              linewidth = linewidth,
              onlyValid = onlyValid,

@@ -8,6 +8,7 @@ def _add_coastlines(
          debug = __debug__,
      edgecolor = "black",
      facecolor = "none",
+           fov = None,
         levels = None,
      linestyle = "solid",
      linewidth = 0.5,
@@ -31,6 +32,10 @@ def _add_coastlines(
         the colour of the edges of the coastline Polygons
     facecolor : str, optional
         the colour of the faces of the coastline Polygons
+    fov : None or shapely.geometry.polygon.Polygon, optional
+        clip the plotted shapes to the provided field-of-view to work around
+        occaisional MatPlotLib or Cartopy plotting errors when shapes much
+        larger than the field-of-view are plotted
     levels : list of int, optional
         the levels of the coastline boundaries (if None then default to
         ``[1, 6]``)
@@ -109,6 +114,11 @@ def _add_coastlines(
         )
     except:
         raise Exception("\"matplotlib\" is not installed; run \"pip install --user matplotlib\"") from None
+    try:
+        import shapely
+        import shapely.geometry
+    except:
+        raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
     from .extract_polys import extract_polys
@@ -136,25 +146,34 @@ def _add_coastlines(
                 print(f"INFO: Skipping \"{sfile}\" (filename does not match request).")
             continue
 
-        # Initialize list ...
-        polys = []
-
         # Loop over records ...
         for record in cartopy.io.shapereader.Reader(sfile).records():
             # Skip bad records ...
             if not hasattr(record, "geometry"):
                 continue
 
-            # Add Polygons to the list ...
-            polys += extract_polys(record.geometry, onlyValid = onlyValid, repair = repair)
+            # Create a list of Polygons to plot (taking in to account if the
+            # user provided a field-of-view to clip them by) ...
+            polys = []
+            for poly in extract_polys(
+                record.geometry,
+                onlyValid = onlyValid,
+                   repair = repair,
+            ):
+                if fov is None:
+                    polys.append(poly)
+                    continue
+                if poly.disjoint(fov):
+                    continue
+                polys.append(poly.intersection(fov))
 
-        # Plot geometry ...
-        ax.add_geometries(
-            polys,
-            cartopy.crs.PlateCarree(),
-            edgecolor = edgecolor,
-            facecolor = facecolor,
-            linestyle = linestyle,
-            linewidth = linewidth,
-               zorder = zorder,
-        )
+            # Plot geometry ...
+            ax.add_geometries(
+                polys,
+                cartopy.crs.PlateCarree(),
+                edgecolor = edgecolor,
+                facecolor = facecolor,
+                linestyle = linestyle,
+                linewidth = linewidth,
+                   zorder = zorder,
+            )

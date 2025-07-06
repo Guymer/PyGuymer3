@@ -6,6 +6,7 @@ def _add_elevation(
     /,
     *,
          debug = __debug__,
+           fov = None,
        maxElev = 8850.0,
      onlyValid = False,
         repair = False,
@@ -19,6 +20,10 @@ def _add_elevation(
         the axis to add the elevation to
     debug : bool, optional
         print debug messages
+    fov : None or shapely.geometry.polygon.Polygon, optional
+        clip the plotted shapes to the provided field-of-view to work around
+        occaisional MatPlotLib or Cartopy plotting errors when shapes much
+        larger than the field-of-view are plotted
     maxElev : float, optional
         the maximum elevation of the colour scale and acts as an upper bound or
         clip (in metres)
@@ -126,9 +131,24 @@ def _add_elevation(
             coll = geojson.load(fObj)
         coll = shapely.geometry.shape(coll)
 
+        # Create a list of Polygons to plot (taking in to account if the user
+        # provided a field-of-view to clip them by) ...
+        polys = []
+        for poly in extract_polys(
+            coll,
+            onlyValid = onlyValid,
+               repair = repair,
+        ):
+            if fov is None:
+                polys.append(poly)
+                continue
+            if poly.disjoint(fov):
+                continue
+            polys.append(poly.intersection(fov))
+
         # Plot geometry ...
         ax.add_geometries(
-            extract_polys(coll, onlyValid = onlyValid, repair = repair),
+            polys,
             cartopy.crs.PlateCarree(),
             edgecolor = "none",
             facecolor = facecolor,

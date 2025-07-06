@@ -6,6 +6,7 @@ def _add_playas(
     /,
     *,
          debug = __debug__,
+           fov = None,
      linestyle = "solid",
      linewidth = 0.5,
      onlyValid = False,
@@ -20,6 +21,10 @@ def _add_playas(
         the axis to add the playas to
     debug : bool, optional
         print debug messages
+    fov : None or shapely.geometry.polygon.Polygon, optional
+        clip the plotted shapes to the provided field-of-view to work around
+        occaisional MatPlotLib or Cartopy plotting errors when shapes much
+        larger than the field-of-view are plotted
     linestyle : str, optional
         the style of the exterior of the playas
     linewidth : float, optional
@@ -70,6 +75,11 @@ def _add_playas(
         )
     except:
         raise Exception("\"matplotlib\" is not installed; run \"pip install --user matplotlib\"") from None
+    try:
+        import shapely
+        import shapely.geometry
+    except:
+        raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
     from .extract_polys import extract_polys
@@ -100,9 +110,24 @@ def _add_playas(
         if not hasattr(record, "geometry"):
             continue
 
+        # Create a list of Polygons to plot (taking in to account if the user
+        # provided a field-of-view to clip them by) ...
+        polys = []
+        for poly in extract_polys(
+            record.geometry,
+            onlyValid = onlyValid,
+               repair = repair,
+        ):
+            if fov is None:
+                polys.append(poly)
+                continue
+            if poly.disjoint(fov):
+                continue
+            polys.append(poly.intersection(fov))
+
         # Plot geometry ...
         ax.add_geometries(
-            extract_polys(record.geometry, onlyValid = onlyValid, repair = repair),
+            polys,
             cartopy.crs.PlateCarree(),
             edgecolor = edgecolor,
             facecolor = facecolor,

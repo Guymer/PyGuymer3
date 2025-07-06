@@ -6,6 +6,7 @@ def _add_antarcticIceShelves(
     /,
     *,
          debug = __debug__,
+           fov = None,
      onlyValid = False,
         repair = False,
     resolution = "10m",
@@ -18,6 +19,10 @@ def _add_antarcticIceShelves(
         the axis to add the Antarctic ice shelves to
     debug : bool, optional
         print debug messages
+    fov : None or shapely.geometry.polygon.Polygon, optional
+        clip the plotted shapes to the provided field-of-view to work around
+        occaisional MatPlotLib or Cartopy plotting errors when shapes much
+        larger than the field-of-view are plotted
     onlyValid : bool, optional
         only add valid Polygons (checks for validity can take a while, if being
         being called often)
@@ -64,6 +69,11 @@ def _add_antarcticIceShelves(
         )
     except:
         raise Exception("\"matplotlib\" is not installed; run \"pip install --user matplotlib\"") from None
+    try:
+        import shapely
+        import shapely.geometry
+    except:
+        raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
     from .extract_polys import extract_polys
@@ -93,9 +103,24 @@ def _add_antarcticIceShelves(
         if not hasattr(record, "geometry"):
             continue
 
+        # Create a list of Polygons to plot (taking in to account if the user
+        # provided a field-of-view to clip them by) ...
+        polys = []
+        for poly in extract_polys(
+            record.geometry,
+            onlyValid = onlyValid,
+               repair = repair,
+        ):
+            if fov is None:
+                polys.append(poly)
+                continue
+            if poly.disjoint(fov):
+                continue
+            polys.append(poly.intersection(fov))
+
         # Plot geometry ...
         ax.add_geometries(
-            extract_polys(record.geometry, onlyValid = onlyValid, repair = repair),
+            polys,
             cartopy.crs.PlateCarree(),
             edgecolor = "none",
             facecolor = facecolor,
