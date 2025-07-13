@@ -107,11 +107,23 @@ def image2png(
                     resample = PIL.Image.Resampling.LANCZOS,
                 )
 
-            # Convert it to whatever mode the user asked for ...
+            # Convert image to whatever mode the user asked for ...
             tmpImg = tmpImg.convert(mode)
         case PIL.Image.Image():
+            # Copy image as RGB (even if it is paletted) ...
+            tmpImg = img.convert("RGB")
+
+            # Check if the user wants to scale the image down to fit within a
+            # screen size ...
+            if screenWidth >= 100 and screenHeight >= 100:
+                # Resize image in place ...
+                tmpImg.thumbnail(
+                    (screenWidth, screenHeight),
+                    resample = PIL.Image.Resampling.LANCZOS,
+                )
+
             # Convert image to whatever mode the user asked for ...
-            tmpImg = img.convert(mode)
+            tmpImg = tmpImg.convert(mode)
         case _:
             # Crash ...
             raise TypeError(f"\"img\" is an unexpected type ({repr(type(img))})") from None
