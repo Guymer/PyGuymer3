@@ -109,12 +109,6 @@ if __name__ == "__main__":
           dest = "sha512ofMp4",
           help = "calculate the SHA-512 hexdigest of the input file (\"--input-file\") assuming that it is a MP4 file",
     )
-    parser.add_argument(
-        "--timeout",
-        default = 60.0,
-           help = "the timeout for any requests/subprocess calls (in seconds)",
-           type = float,
-    )
     args = parser.parse_args()
 
     # **************************************************************************
