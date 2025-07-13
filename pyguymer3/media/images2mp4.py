@@ -156,7 +156,7 @@ def images2mp4(
     if isinstance(imgs[0], str):
         ext = os.path.splitext(imgs[0])[1].lower()
     else:
-        ext = "png"
+        ext = ".png"
 
     # Find the dimensions (and aspect ratio) of the input images (assuming that
     # they are all the same dimensions) ...
