@@ -2,7 +2,7 @@
 
 # Define function ...
 def images2mp4(
-    frames,
+    imgs,
     /,
     *,
        chunksize = 1048576,
@@ -32,8 +32,8 @@ def images2mp4(
 
     Parameters
     ----------
-    frames : list of str
-        the list of strings which are the paths to the images
+    imgs : list of PIL.Image.Image or list of str
+        the list of input PIL Images or list of paths to the input images
     crf : float, optional
         the CRF to be passed to libx264, default -1.0 (which means choose one
         using the function :func:`return_x264_crf`)
@@ -99,6 +99,14 @@ def images2mp4(
     import subprocess
     import tempfile
 
+    # Import special modules ...
+    try:
+        import PIL
+        import PIL.Image
+        PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                         # [px]
+    except:
+        raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None
+
     # Load sub-functions ...
     from .optimise_MP4 import optimise_MP4
     from .return_video_bit_depth import return_video_bit_depth
@@ -145,11 +153,22 @@ def images2mp4(
 
     # Find the extension of the input images (assuming that they are all the
     # same extension) ...
-    ext = os.path.splitext(frames[0])[1].lower()
+    if isinstance(imgs[0], str):
+        ext = os.path.splitext(imgs[0])[1].lower()
+    else:
+        ext = "png"
 
     # Find the dimensions (and aspect ratio) of the input images (assuming that
     # they are all the same dimensions) ...
-    inputWidth, inputHeight = return_image_size(frames[0], compressed = False)  # [px], [px]
+    if isinstance(imgs[0], str):
+        inputWidth, inputHeight = return_image_size(
+            imgs[0],
+            compressed = False,
+        )                                                                       # [px], [px]
+    elif isinstance(imgs[0], PIL.Image.Image):
+        inputWidth, inputHeight = imgs[0].size                                  # [px], [px]
+    else:
+        raise TypeError(f"\"imgs[0]\" is an unexpected type ({repr(type(imgs[0]))})") from None
     inputRatio = float(inputWidth) / float(inputHeight)                         # [px/px]
     if debug:
         print(f"INFO: The input images are {inputWidth:,d}x{inputHeight:,d} ({inputRatio:.5f}:1).")
@@ -198,8 +217,20 @@ def images2mp4(
     tmpname = tempfile.mkdtemp(prefix = "images2mp4.")
 
     # Make symbolic links to the input images for ease ...
-    for i, frame in enumerate(frames):
-        os.symlink(os.path.abspath(frame), f"{tmpname}/frame{i:06d}{ext}")
+    for i, img in enumerate(imgs):
+        if isinstance(img, str):
+            os.symlink(
+                os.path.abspath(img),
+                f"{tmpname}/frame{i:06d}{ext}",
+            )
+        elif isinstance(img, PIL.Image.Image):
+            img.convert("RGB").save(
+                f"{tmpname}/frame{i:06d}{ext}",
+                compress_level = 0,                                             # Don't waste time saving a temporary image.
+                      optimise = False,                                         # Don't waste time saving a temporary image.
+            )
+        else:
+            raise TypeError(f"\"imgs[{i:d}]\" is an unexpected type ({repr(type(img))})") from None
 
     # Determine output video filter parameters ...
     filterParams = []
