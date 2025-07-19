@@ -17,7 +17,7 @@ def returnPngFilterType(
 
     # Create short-hands ...
     chkLen = None                                                               # [B]
-    chkSrc = None
+    chkSrc = bytearray()
     nc = None                                                                   # [B/px]
     nx = None                                                                   # [px]
     ny = None                                                                   # [px]
@@ -58,27 +58,31 @@ def returnPngFilterType(
                 fObj.seek(4, os.SEEK_CUR)
                 continue
 
-            # Decompress image data if this is the IDAT chunk and stop looping
-            # over chunks ...
+            # Concatenate image data if this is a IDAT chunk and skip ahead to
+            # the next chunk ...
             if chkTyp == "IDAT":
-                chkSrc = zlib.decompress(fObj.read(chkLen))
+                chkSrc += fObj.read(chkLen)
                 fObj.seek(4, os.SEEK_CUR)
-                break
+                continue
 
             # Skip ahead to the next chunk ...
             fObj.seek(chkLen, os.SEEK_CUR)
             fObj.seek(4, os.SEEK_CUR)
     assert chkLen is not None, "\"chkLen\" has not been determined"
-    assert chkSrc is not None, "\"chkSrc\" has not been determined"
     assert nc is not None, "\"nc\" has not been determined"
     assert nx is not None, "\"nx\" has not been determined"
     assert ny is not None, "\"ny\" has not been determined"
-    assert len(chkSrc) == ny * (nx * nc + 1), f"the decompressed image data is {len(chkSrc):,d} bytes"
 
     if debug:
         print(f"DEBUG: \"{pName}\" is {nx:,d} px wide.")
         print(f"DEBUG: \"{pName}\" is {ny:,d} px high.")
         print(f"DEBUG: \"{pName}\" has {nc:,d} colour channels.")
+
+    # Decompress the image data ...
+    chkSrc = zlib.decompress(chkSrc)
+    assert len(chkSrc) == ny * (nx * nc + 1), f"the decompressed image data is {len(chkSrc):,d} bytes"
+
+    if debug:
         print(f"DEBUG: \"{pName}\" has a compression ratio of {float(chkLen) / float(len(chkSrc)):.3f}×.")
 
     # Initialize histogram ...
@@ -112,7 +116,7 @@ def returnPngFilterType(
         hist[ft]["n"] += 1                                                      # [#]
 
     # Return answer ...
-    for ft, info in hist.items():
+    for _, info in hist.items():
         if info["n"] == ny:
             return info["name"]
     return "adaptive"
