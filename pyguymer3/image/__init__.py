@@ -37,6 +37,9 @@ from .manuallyOptimisePng import manuallyOptimisePng
 from .optimise_image import optimise_image
 from .optipng import optipng
 from .return_image_size import return_image_size
+from .rgb2hlsComp import rgb2hlsComp
+from .rgb2name import rgb2name
+from .rgb2rgbComp import rgb2rgbComp
 from .save_array_as_image import save_array_as_image
 from .save_array_as_PGM import save_array_as_PGM
 from .save_array_as_PNG import save_array_as_PNG
