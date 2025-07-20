@@ -7,7 +7,52 @@ def returnPngFilterType(
     *,
     debug = __debug__,
 ):
-    # https://datatracker.ietf.org/doc/html/rfc1950
+    """Return information about a PNG
+
+    This function returns information, such as filter type and compression
+    method, about a PNG.
+
+    Parameters
+    ----------
+    pName : str
+        The input PNG.
+    debug : bool, optional
+        Print debug messages.
+
+    Returns
+    -------
+    nx : int
+        The width of the input PNG.
+    ny : int
+        The height of the input PNG.
+    ct : str
+        The colour type of the input PNG (as defined in the PNG specification
+        [2]_).
+    ft : str
+        The filter type of the input PNG (as defined in the PNG specification
+        [2]_)
+    wbits : int
+        The compression window size of the input PNG (as defined in the ZLIB
+        compressed data format specification [3]_).
+    fdict : bool
+        Whether the compressor was preconditioned with data.
+    flevel : str
+        The compression level of the input PNG (as defined in the ZLIB
+        compressed data format specification [3]_).
+
+    Notes
+    -----
+    This function only supports 8-bit images (either greyscale, paletted or
+    truecolour), without interlacing.
+
+    Copyright 2017 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
+    .. [2] PNG Specification (Third Edition), https://www.w3.org/TR/png-3/
+    .. [3] ZLIB Compressed Data Format Specification (Version 3.3), https://datatracker.ietf.org/doc/html/rfc1950
+    """
 
     # Import standard modules ...
     import binascii
@@ -68,7 +113,8 @@ def returnPngFilterType(
                     return f"un-supported colour type ({ct:,d}; {cts[ct]})"
                 assert cm == 0, f"the compression method is {cm:,d}"
                 assert fm == 0, f"the filter method is {fm:,d}"
-                assert im == 0, f"the interlace method is {im:,d}"
+                if im != 0:
+                    return f"un-supported interlace method ({im:,d})"
                 if ct in [0, 3,]:
                     nc = 1                                                      # [B/px]
                 else:
