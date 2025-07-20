@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def returnPngFilterType(
+def returnPngInfo(
     pName,
     /,
     *,

@@ -37,7 +37,7 @@ from .manuallyOptimisePng import manuallyOptimisePng
 from .optimise_image import optimise_image
 from .optipng import optipng
 from .return_image_size import return_image_size
-from .returnPngFilterType import returnPngFilterType
+from .returnPngInfo import returnPngInfo
 from .rgb2hlsComp import rgb2hlsComp
 from .rgb2name import rgb2name
 from .rgb2rgbComp import rgb2rgbComp
