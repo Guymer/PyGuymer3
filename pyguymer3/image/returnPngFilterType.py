@@ -46,8 +46,10 @@ def returnPngFilterType(
                 cm, = struct.unpack("B", fObj.read(1))
                 fm, = struct.unpack("B", fObj.read(1))
                 im, = struct.unpack("B", fObj.read(1))
-                assert bd == 8, f"the bit depth is {bd:,d} bits"
-                assert ct in [0, 2, 3,], f"the colour type is {ct:,d}"
+                if bd != 8:
+                    return f"un-supported bit depth ({bd:,d} bits)"
+                if ct not in [0, 2, 3,]:
+                    return f"un-supported colour type ({ct:,d})"
                 assert cm == 0, f"the compression method is {cm:,d}"
                 assert fm == 0, f"the filter method is {fm:,d}"
                 assert im == 0, f"the interlace method is {im:,d}"
