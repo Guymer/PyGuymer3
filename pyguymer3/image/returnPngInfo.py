@@ -72,6 +72,13 @@ def returnPngInfo(
         4 : "greyscale with alpha",
         6 : "truecolor with alpha",
     }
+    fts = {
+        0 : "none",
+        1 : "sub",
+        2 : "up",
+        3 : "average",
+        4 : "paeth",
+    }
     nc = None                                                                   # [B/px]
     nx = None                                                                   # [px]
     ny = None                                                                   # [px]
@@ -162,37 +169,17 @@ def returnPngInfo(
         print(f"DEBUG: \"{pName}\" has a compression ratio of {float(chkLen) / float(len(chkSrc)):.3f}×.")
 
     # Initialize histogram ...
-    hist = {
-        0 : {
-               "n" : 0,                                                         # [#]
-            "name" : "none",
-        },
-        1 : {
-               "n" : 0,                                                         # [#]
-            "name" : "sub",
-        },
-        2 : {
-               "n" : 0,                                                         # [#]
-            "name" : "up",
-        },
-        3 : {
-               "n" : 0,                                                         # [#]
-            "name" : "average",
-        },
-        4 : {
-               "n" : 0,                                                         # [#]
-            "name" : "paeth",
-        },
-    }
+    hist = {}
+    for ft, name in fts.items():
+        hist[name] = 0                                                          # [#]
 
-    # Loop over scanlines ...
+    # Populate histogram ...
     for iy in range(ny):
-        # Populate histogram ...
         ft = chkSrc[iy * (nx * nc + 1)]
-        hist[ft]["n"] += 1                                                      # [#]
+        hist[fts[ft]] += 1                                                      # [#]
 
     # Return answer ...
-    for _, info in hist.items():
-        if info["n"] == ny:
-            return nx, ny, cts[ct], info["name"], wbits, bool(zlib_fdict), zlib_flevels[zlib_flevel]
-    return nx, ny, cts[ct], "adaptive", wbits, bool(zlib_fdict), zlib_flevels[zlib_flevel]
+    for name, n in hist.items():
+        if n == ny:
+            return nx, ny, cts[ct], name, wbits, bool(zlib_fdict), zlib_flevels[zlib_flevel], None
+    return nx, ny, cts[ct], "adaptive", wbits, bool(zlib_fdict), zlib_flevels[zlib_flevel], hist
