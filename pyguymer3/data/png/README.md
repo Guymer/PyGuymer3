@@ -75,4 +75,4 @@ for i in range(2, n):
         * 75 × 328
         * 82 × 300 (would allow square tiles)
 
-It is possible to represent both raster datasets using 600 px × 600 px tiles.
+It is possible to represent both raster datasets using 300 px × 300 px tiles.

@@ -61,7 +61,7 @@ if __name__ == "__main__":
     # NOTE: See "pyguymer3/data/png/README.md".
     nx = 43200                                                                  # [px]
     ny = 21600                                                                  # [px]
-    tileSize = 600                                                              # [px]
+    tileSize = 300                                                              # [px]
     nTilesX = nx // tileSize                                                    # [#]
     nTilesY = ny // tileSize                                                    # [#]
 
@@ -170,7 +170,7 @@ if __name__ == "__main__":
         numpy.place(arr, arr == -500, 0)                                        # [m]
 
         # Start ~infinite loop ...
-        for shrinkLevel in range(1, 10):
+        for shrinkLevel in range(1, 100):
             # Create short-hands and stop looping if this shrink level is too
             # small ...
             shrinkFactor = pow(2, shrinkLevel)

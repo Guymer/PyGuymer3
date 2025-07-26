@@ -93,10 +93,10 @@ if __name__ == "__main__":
 
     # Create short-hand ...
     # NOTE: See "pyguymer3/data/png/README.md".
-    tileSize = 600                                                              # [px]
+    tileSize = 300                                                              # [px]
 
     # Start ~infinite loop ...
-    for zoomLevel in range(10):
+    for zoomLevel in range(100):
         # Create short-hands and stop looping if this zoom level is too large ...
         nTilesY = pow(2, zoomLevel)                                             # [#]
         nTilesX = 2 * nTilesY                                                   # [#]
