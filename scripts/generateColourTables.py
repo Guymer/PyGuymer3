@@ -5,6 +5,7 @@
 if __name__ == "__main__":
     # Import standard modules ...
     import json
+    import os
 
     # Import special modules ...
     try:
@@ -151,7 +152,7 @@ if __name__ == "__main__":
     # **********************************************************************
 
     # Save colour maps ...
-    with open("pyguymer3/data/json/colourTables.json", "wt", encoding = "utf-8") as fObj:
+    with open(f"{os.path.dirname(os.path.dirname(__file__))}/pyguymer3/data/json/colourTables.json", "wt", encoding = "utf-8") as fObj:
         json.dump(
             colourTables,
             fObj,
