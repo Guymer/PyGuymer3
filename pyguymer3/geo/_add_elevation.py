@@ -49,6 +49,7 @@ def _add_elevation(
 
     # Import standard modules ...
     import os
+    import pathlib
 
     # Import special modules ...
     try:

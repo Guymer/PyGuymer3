@@ -45,6 +45,7 @@ def _add_minorIslands(
 
     # Import standard modules ...
     import os
+    import pathlib
     import urllib
 
     # Import special modules ...

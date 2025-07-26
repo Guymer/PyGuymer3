@@ -51,6 +51,7 @@ def _add_reefs(
 
     # Import standard modules ...
     import os
+    import pathlib
     import urllib
 
     # Import special modules ...

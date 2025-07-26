@@ -45,6 +45,7 @@ def _add_glaciatedAreas(
 
     # Import standard modules ...
     import os
+    import pathlib
     import urllib
 
     # Import special modules ...

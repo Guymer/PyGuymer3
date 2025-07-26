@@ -6,6 +6,7 @@ if __name__ == "__main__":
     # Import standard modules ...
     import argparse
     import os
+    import pathlib
     import platform
     import shutil
 

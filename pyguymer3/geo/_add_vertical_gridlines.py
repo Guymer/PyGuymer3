@@ -52,6 +52,7 @@ def _add_vertical_gridlines(
 
     # Import standard modules ...
     import os
+    import pathlib
 
     # Import special modules ...
     try:

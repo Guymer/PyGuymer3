@@ -17,6 +17,7 @@ if __name__ == "__main__":
     import argparse
     import multiprocessing
     import os
+    import pathlib
 
     # Import special modules ...
     try:

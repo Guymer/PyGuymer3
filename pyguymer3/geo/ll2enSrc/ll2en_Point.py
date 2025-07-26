@@ -39,6 +39,7 @@ def ll2en_Point(
 
     # Import standard modules ...
     import os
+    import pathlib
 
     # Import special modules ...
     try:

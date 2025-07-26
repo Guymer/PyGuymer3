@@ -36,6 +36,7 @@ def add_OSM_map_background(
 
     # Import standard modules ...
     import os
+    import pathlib
 
     # Import special modules ...
     try:

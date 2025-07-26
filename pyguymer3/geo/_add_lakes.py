@@ -45,6 +45,7 @@ def _add_lakes(
 
     # Import standard modules ...
     import os
+    import pathlib
     import urllib
 
     # Import special modules ...

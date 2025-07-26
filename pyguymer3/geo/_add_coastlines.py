@@ -90,6 +90,7 @@ def _add_coastlines(
 
     # Import standard modules ...
     import os
+    import pathlib
     import urllib
 
     # Import special modules ...

@@ -48,6 +48,7 @@ def _add_railroads(
 
     # Import standard modules ...
     import os
+    import pathlib
     import urllib
 
     # Import special modules ...

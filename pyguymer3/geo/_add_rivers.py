@@ -48,6 +48,7 @@ def _add_rivers(
 
     # Import standard modules ...
     import os
+    import pathlib
     import urllib
 
     # Import special modules ...
