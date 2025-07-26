@@ -30,6 +30,8 @@ PyGuymer3.egg-info
 
 # Hide large datasets ...
 debug.*.csv
+scripts/globe.bin
+scripts/globe.zip
 tests/*.gif
 tests/*.mp4
 tests/*.webp
