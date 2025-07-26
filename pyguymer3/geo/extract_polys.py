@@ -63,7 +63,13 @@ def extract_polys(
         # Loop over items ...
         for item in shape:
             # Add lists together ...
-            polys += extract_polys(item, onlyValid = onlyValid, repair = repair)
+            polys.extend(
+                extract_polys(
+                    item,
+                    onlyValid = onlyValid,
+                       repair = repair,
+                )
+            )
 
         # Return answer ...
         return polys
@@ -136,7 +142,13 @@ def extract_polys(
         # Loop over Polygons ...
         for poly in shape.geoms:
             # Add lists together ...
-            polys += extract_polys(poly, onlyValid = onlyValid, repair = repair)
+            polys.extend(
+                extract_polys(
+                    poly,
+                    onlyValid = onlyValid,
+                       repair = repair,
+                )
+            )
 
         # Return answer ...
         return polys
@@ -149,7 +161,12 @@ def extract_polys(
         # Loop over geometries ...
         for geom in shape.geoms:
             # Add lists together ...
-            polys += extract_polys(geom, onlyValid = onlyValid, repair = repair)
+            polys.extend(
+                extract_polys(
+                    geom,
+                    onlyValid = onlyValid,
+                       repair = repair,
+                )
 
         # Return answer ...
         return polys
