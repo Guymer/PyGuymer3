@@ -1,7 +1,7 @@
 This folder contains tiles of some datasets to allow quick and efficient plotting. Currently, the four datasets provided are:
 
-* The [Global Self-Consistent Hierarchical High-Resolution Geography](https://www.ngdc.noaa.gov/mgg/shorelines/) datasets are vector datasets.
-* The [GLOBE](https://www.ngdc.noaa.gov/mgg/topo/globe.html) dataset is a raster dataset at 43,200 px × 21,600 px (I wrote [a Python module to vectorise it](https://github.com/Guymer/vgd)).
+* The [Global Land One-km Base Elevation](https://www.ngdc.noaa.gov/mgg/topo/globe.html) dataset is a raster dataset at 43,200 px × 21,600 px (I wrote [a Python module to vectorise it](https://github.com/Guymer/vgd)).
+* The [Global Self-consistent Hierarchical High-resolution Geography](https://www.ngdc.noaa.gov/mgg/shorelines/) datasets are vector datasets.
 * The [Natural Earth](https://www.naturalearthdata.com/) datasets are vector datasets.
 * The [OS Terrain 50](https://www.ordnancesurvey.co.uk/products/os-terrain-50) dataset is a raster dataset at 13,200 px × 24,600 px.
 
@@ -15,7 +15,7 @@ for i in range(2, n):
 
 ... it is possible to discover which tile sizes would fit for each raster dataset. If I hide the solutions which have tiles larger than 1,024 px or smaller than 256 px, then:
 
-* For the [GLOBE](https://www.ngdc.noaa.gov/mgg/topo/globe.html) dataset:
+* For the [Global Land One-km Base Elevation](https://www.ngdc.noaa.gov/mgg/topo/globe.html) dataset:
     * With a width of 43,200 px:
         * 45 × 960
         * 48 × 900 (would allow square tiles)
