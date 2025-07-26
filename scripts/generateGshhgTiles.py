@@ -210,6 +210,7 @@ if __name__ == "__main__":
                     if not os.path.exists(dName):
                         os.makedirs(dName)
                     if os.path.exists(pName):
+                        print(f"    Not making \"{pName}\".")
                         continue
 
                     print(f"    Making \"{pName}\" ...")
