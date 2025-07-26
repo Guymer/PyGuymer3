@@ -1,6 +1,6 @@
 This folder contains tiles of some datasets to allow quick and efficient plotting. Currently, the four datasets provided are:
 
-* The [Global Self-Consistent Hierarchical High-Resolution Geography](https://www.ngdc.noaa.gov/mgg/shorelines/) dataset is a vector dataset.
+* The [Global Self-Consistent Hierarchical High-Resolution Geography](https://www.ngdc.noaa.gov/mgg/shorelines/) datasets are vector datasets.
 * The [GLOBE](https://www.ngdc.noaa.gov/mgg/topo/globe.html) dataset is a raster dataset at 43,200 px × 21,600 px (I wrote [a Python module to vectorise it](https://github.com/Guymer/vgd)).
 * The [Natural Earth](https://www.naturalearthdata.com/) datasets are vector datasets.
 * The [OS Terrain 50](https://www.ordnancesurvey.co.uk/products/os-terrain-50) dataset is a raster dataset at 13,200 px × 24,600 px.
