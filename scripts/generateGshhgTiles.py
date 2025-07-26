@@ -189,6 +189,8 @@ if __name__ == "__main__":
                 del polys
             del draw
 
+            # **********************************************************************
+
             print("    Converting PIL image in to NumPy array ...")
 
             # Convert PIL image to NumPy array ...
