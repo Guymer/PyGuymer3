@@ -30,6 +30,13 @@ PyGuymer3.egg-info
 
 # Hide large datasets ...
 debug.*.csv
+pyguymer3/data/png/globe/*x*/maxElev=?250m/x=*/y=*.png
+pyguymer3/data/png/globe/*x*/maxElev=?500m/x=*/y=*.png
+pyguymer3/data/png/globe/*x*/maxElev=?750m/x=*/y=*.png
+pyguymer3/data/png/gshhg/*x*/res=c/x=*/y=*.png
+pyguymer3/data/png/gshhg/*x*/res=h/x=*/y=*.png
+pyguymer3/data/png/gshhg/*x*/res=i/x=*/y=*.png
+pyguymer3/data/png/gshhg/*x*/res=l/x=*/y=*.png
 scripts/globe.bin
 scripts/globe.zip
 tests/*.gif
