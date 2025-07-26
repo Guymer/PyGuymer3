@@ -5,52 +5,18 @@
 if __name__ == "__main__":
     # Import standard modules ...
     import argparse
+    import json
     import os
-    import pathlib
 
     # Import special modules ...
-    try:
-        import cartopy
-        cartopy.config.update(
-            {
-                "cache_dir" : pathlib.PosixPath("~/.local/share/cartopy_cache").expanduser(),
-            }
-        )
-    except:
-        raise Exception("\"cartopy\" is not installed; run \"pip install --user Cartopy\"") from None
-    try:
-        import matplotlib
-        matplotlib.rcParams.update(
-            {
-                       "backend" : "Agg",                                       # NOTE: See https://matplotlib.org/stable/gallery/user_interfaces/canvasagg.html
-                    "figure.dpi" : 300,
-                "figure.figsize" : (9.6, 7.2),                                  # NOTE: See https://github.com/Guymer/misc/blob/main/README.md#matplotlib-figure-sizes
-                     "font.size" : 8,
-            }
-        )
-    except:
-        raise Exception("\"matplotlib\" is not installed; run \"pip install --user matplotlib\"") from None
     try:
         import numpy
     except:
         raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
-    try:
-        import PIL
-        import PIL.Image
-        PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                         # [px]
-        import PIL.ImageDraw
-    except:
-        raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None
-    try:
-        import shapely
-        import shapely.ops
-    except:
-        raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import my modules ...
     try:
         import pyguymer3
-        import pyguymer3.geo
         import pyguymer3.image
     except:
         raise Exception("\"pyguymer3\" is not installed; run \"pip install --user PyGuymer3\"") from None
@@ -60,7 +26,7 @@ if __name__ == "__main__":
     # Create argument parser and parse the arguments ...
     parser = argparse.ArgumentParser(
            allow_abbrev = False,
-            description = "Rasterize the GSHHG datasets.",
+            description = "Save the GLOBE dataset as tiles.",
         formatter_class = argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
@@ -85,12 +51,19 @@ if __name__ == "__main__":
     bName = f"{absPathToRepo}/scripts/globe.bin"
     zName = f"{absPathToRepo}/scripts/globe.zip"
     url = "https://www.ngdc.noaa.gov/mgg/topo/DATATILES/elev/globe.zip"
+
+    # Load colour tables and create short-hand ...
+    with open(f"{absPathToRepo}/pyguymer3/data/json/colourTables.json", "rt", encoding = "utf-8") as fObj:
+        colourTables = json.load(fObj)
+    turbo = numpy.array(colourTables["turbo"]).astype(numpy.uint8)
+
+    # Create short-hands ...
+    # NOTE: See "pyguymer3/data/png/README.md".
     nx = 43200                                                                  # [px]
     ny = 21600                                                                  # [px]
-
-    # Create short-hand ...
-    # NOTE: See "pyguymer3/data/png/README.md".
     tileSize = 600                                                              # [px]
+    nTilesX = nx // tileSize                                                    # [#]
+    nTilesY = ny // tileSize                                                    # [#]
 
     # **************************************************************************
 
@@ -169,6 +142,7 @@ if __name__ == "__main__":
 
                     # Fill map ...
                     elev[iy:iy + tile.shape[0], ix:ix + tile.shape[1]] = tile[:, :] # [m]
+                    del tile
 
                     # Increment index ...
                     ix += ncols                                                 # [px]
@@ -181,3 +155,51 @@ if __name__ == "__main__":
         del elev
 
     # **************************************************************************
+
+    # Loop over maximum elevations ...
+    for maxElev in range(250, 9000, 250):
+        print(f"Processing maximum elevation {maxElev:,d} m ...")
+
+        # **********************************************************************
+
+        # Load data and scale ...
+        arr = numpy.fromfile(
+            bName,
+            dtype = numpy.int16,
+        ).reshape(ny, nx, 1)                                                    # [m]
+        arr = 255.0 * (arr.astype(numpy.float32) / numpy.float32(maxElev))
+        numpy.place(arr, arr <   0.0,   0.0)
+        numpy.place(arr, arr > 255.0, 255.0)
+        arr = arr.astype(numpy.uint8)
+
+        # **********************************************************************
+
+        # Loop over x tiles ...
+        for iTileX in range(nTilesX):
+            # Loop over y tiles ...
+            for iTileY in range(nTilesY):
+                # Create short-hands, make sure that the directory exists and
+                # skip this tile if it already exists ...
+                dName = f"{absPathToRepo}/pyguymer3/data/png/globe/{nTilesX:d}x{nTilesY:d}/maxElev={maxElev:d}m/x={iTileX:d}"
+                pName = f"{dName}/y={iTileY:d}.png"
+                if not os.path.exists(dName):
+                    os.makedirs(dName)
+                if os.path.exists(pName):
+                    continue
+
+                print(f"  Making \"{pName}\" ...")
+
+                # Make PNG source and write it ...
+                src = pyguymer3.image.makePng(
+                    arr[iTileY * tileSize:(iTileY + 1) * tileSize, iTileX * tileSize:(iTileX + 1) * tileSize, :],
+                         debug = args.debug,
+                        levels = [9,],
+                     memLevels = [9,],
+                      palUint8 = turbo,
+                    strategies = None,
+                        wbitss = [15,],
+                )
+                with open(pName, "wb") as fObj:
+                    fObj.write(src)
+                del src
+        del arr
