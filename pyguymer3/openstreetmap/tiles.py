@@ -150,6 +150,7 @@ def tiles(
     # **************************************************************************
 
     # Make blank map ...
+    assert (width * height) <= PIL.Image.MAX_IMAGE_PIXELS, f"image size is larger than maximum number of pixels allowed in Pillow ({width:,d} px × {height:,d} px > {PIL.Image.MAX_IMAGE_PIXELS:,d} px)"
     tilesIm = PIL.Image.new(
         "RGB",
         (width, height),
