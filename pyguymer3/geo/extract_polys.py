@@ -116,20 +116,12 @@ def extract_polys(
 
         # Check if the user wants to attempt to fix it ...
         if repair:
-            # Try to repair it ...
-            shape2 = shape.buffer(0.0)
-
-            # Check if it is valid ...
-            if shape2.is_valid:
-                # Skip bad Polygons ...
-                if shape2.is_empty:
-                    return []
-
-                # Return answer ...
-                return [shape2]
-
-            # Return answer ...
-            return []
+            # Try to repair it and return answer ...
+            return extract_polys(
+                shape.buffer(0.0),
+                onlyValid = onlyValid,
+                   repair = repair,
+            )
 
         # Return answer ...
         return []
@@ -167,6 +159,7 @@ def extract_polys(
                     onlyValid = onlyValid,
                        repair = repair,
                 )
+            )
 
         # Return answer ...
         return polys
