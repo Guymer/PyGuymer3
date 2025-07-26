@@ -21,6 +21,10 @@ if __name__ == "__main__":
         import matplotlib.pyplot
     except:
         raise Exception("\"matplotlib\" is not installed; run \"pip install --user matplotlib\"") from None
+    try:
+        import numpy
+    except:
+        raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
 
     # **************************************************************************
 
@@ -51,6 +55,9 @@ if __name__ == "__main__":
         for i in range(256):
             # Find colour values ...
             r, g, b, _ = matplotlib.colormaps[name](i, bytes = True)
+            assert isinstance(r, numpy.uint8)
+            assert isinstance(g, numpy.uint8)
+            assert isinstance(b, numpy.uint8)
 
             # Append values to list ...
             colourTables[name].append(
@@ -70,16 +77,19 @@ if __name__ == "__main__":
     # Loop over levels ...
     for i in range(256):
         # Find colour values in the range [0, 255] ...
-        r = 0.0
-        g = float(255 - i)
-        b = float(i)
+        r = 0
+        g = 255 - i
+        b = i
+        assert isinstance(r, int)
+        assert isinstance(g, int)
+        assert isinstance(b, int)
 
         # Append values to list ...
         colourTables["g2b"].append(
             [
-                round(r),
-                round(g),
-                round(b),
+                r,
+                g,
+                b,
             ]
         )
 
@@ -92,16 +102,19 @@ if __name__ == "__main__":
     # Loop over levels ...
     for i in range(256):
         # Find colour values in the range [0, 255] ...
-        r = float(255 - i)
-        g = float(i)
-        b = 0.0
+        r = 255 - i
+        g = i
+        b = 0
+        assert isinstance(r, int)
+        assert isinstance(g, int)
+        assert isinstance(b, int)
 
         # Append values to list ...
         colourTables["r2g"].append(
             [
-                round(r),
-                round(g),
-                round(b),
+                r,
+                g,
+                b,
             ]
         )
 
@@ -115,18 +128,21 @@ if __name__ == "__main__":
     for i in range(256):
         # Find colour values in the range [0, 255] ...
         if i <= 127:
-            r = 255.0
+            r = 255
         else:
-            r = float(255 - 2 * (i - 127) + 1)
-        g = float(i)
-        b = 0.0
+            r = 255 - 2 * (i - 127) + 1
+        g = i
+        b = 0
+        assert isinstance(r, int)
+        assert isinstance(g, int)
+        assert isinstance(b, int)
 
         # Append values to list ...
         colourTables["r2o2g"].append(
             [
-                round(r),
-                round(g),
-                round(b),
+                r,
+                g,
+                b,
             ]
         )
 
@@ -139,16 +155,19 @@ if __name__ == "__main__":
     # Loop over levels ...
     for i in range(256):
         # Find colour values in the range [0, 255] ...
-        r = float(i)
-        g = float(i)
-        b = float(i)
+        r = i
+        g = i
+        b = i
+        assert isinstance(r, int)
+        assert isinstance(g, int)
+        assert isinstance(b, int)
 
         # Append values to list ...
         colourTables["grey"].append(
             [
-                round(r),
-                round(g),
-                round(b),
+                r,
+                g,
+                b,
             ]
         )
 
