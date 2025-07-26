@@ -24,6 +24,9 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
+    # Find the absolute path to the repository ...
+    absPathToRepo = os.path.dirname(os.path.dirname(__file__))
+
     # Initialize dictionary ...
     colourTables: dict[str, list[list[int]]] = {}
 
@@ -152,7 +155,7 @@ if __name__ == "__main__":
     # **********************************************************************
 
     # Save colour maps ...
-    with open(f"{os.path.dirname(os.path.dirname(__file__))}/pyguymer3/data/json/colourTables.json", "wt", encoding = "utf-8") as fObj:
+    with open(f"{absPathToRepo}/pyguymer3/data/json/colourTables.json", "wt", encoding = "utf-8") as fObj:
         json.dump(
             colourTables,
             fObj,
