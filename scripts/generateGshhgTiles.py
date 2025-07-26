@@ -59,7 +59,7 @@ if __name__ == "__main__":
     # Create argument parser and parse the arguments ...
     parser = argparse.ArgumentParser(
            allow_abbrev = False,
-            description = "Rasterize the GSHHG datasets.",
+            description = "Rasterize the GSHHG datasets and save them as tiles.",
         formatter_class = argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
@@ -189,7 +189,7 @@ if __name__ == "__main__":
                 del polys
             del draw
 
-            # **********************************************************************
+            # ******************************************************************
 
             print("    Converting PIL image in to NumPy array ...")
 
@@ -197,7 +197,7 @@ if __name__ == "__main__":
             arr = numpy.array(img).reshape((ny, nx, 1))
             del img
 
-            # **********************************************************************
+            # ******************************************************************
 
             # Loop over x tiles ...
             for iTileX in range(nTilesX):
