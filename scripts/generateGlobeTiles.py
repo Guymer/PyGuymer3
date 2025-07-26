@@ -162,6 +162,79 @@ if __name__ == "__main__":
 
         # **********************************************************************
 
+        # Load data ...
+        arr = numpy.fromfile(
+            bName,
+            dtype = numpy.int16,
+        ).reshape(ny, nx, 1)                                                    # [m]
+
+        # Start ~infinite loop ...
+        for shrinkLevel in range(1, 10):
+            # Create short-hands and stop looping if this shrink level is too
+            # small ...
+            shrinkFactor = pow(2, shrinkLevel)
+            if nTilesX % shrinkFactor != 0 or nTilesY % shrinkFactor != 0:
+                break
+            nShrunkenTilesX = nTilesX // shrinkFactor                           # [#]
+            nShrunkenTilesY = nTilesY // shrinkFactor                           # [#]
+            if nShrunkenTilesX == 0 or nShrunkenTilesY == 0:
+                break
+
+            print(f"  Processing shrink level {shrinkLevel:,d} ...")
+
+            # Create shrunken data ...
+            # NOTE: The documentation of "numpy.mean()" says "float64
+            #       intermediate and return values are used for integer inputs".
+            shrunkenArr = numpy.zeros(
+                (ny // shrinkFactor, nx // shrinkFactor, 1),
+                dtype = numpy.float64,
+            )                                                                   # [m]
+            for iy in range(ny // shrinkFactor):
+                for ix in range(nx // shrinkFactor):
+                    shrunkenArr[iy, ix, 0] = arr[iy * shrinkFactor:(iy + 1) * shrinkFactor, ix * shrinkFactor:(ix + 1) * shrinkFactor, 0].mean()    # [m]
+            shrunkenArr = 255.0 * (shrunkenArr / numpy.float64(maxElev))
+            numpy.place(shrunkenArr, shrunkenArr <   0.0,   0.0)
+            numpy.place(shrunkenArr, shrunkenArr > 255.0, 255.0)
+            shrunkenArr = shrunkenArr.astype(numpy.uint8)
+
+            # ******************************************************************
+
+            # Loop over shrunken x tiles ...
+            for iShrunkenTileX in range(nShrunkenTilesX):
+                # Loop over shrunken y tiles ...
+                for iShrunkenTileY in range(nShrunkenTilesY):
+                    # Create short-hands, make sure that the directory exists
+                    # and skip this tile if it already exists ...
+                    dName = f"{absPathToRepo}/pyguymer3/data/png/globe/{nShrunkenTilesX:d}x{nShrunkenTilesY:d}/maxElev={maxElev:d}m/x={iShrunkenTileX:d}"
+                    pName = f"{dName}/y={iShrunkenTileY:d}.png"
+                    if not os.path.exists(dName):
+                        os.makedirs(dName)
+                    if os.path.exists(pName):
+                        print(f"    Not making \"{pName}\".")
+                        continue
+
+                    print(f"    Making \"{pName}\" ...")
+
+                    # Make PNG source and write it ...
+                    src = pyguymer3.image.makePng(
+                        shrunkenArr[iShrunkenTileY * tileSize:(iShrunkenTileY + 1) * tileSize, iShrunkenTileX * tileSize:(iShrunkenTileX + 1) * tileSize, :],
+                             debug = args.debug,
+                            levels = [9,],
+                         memLevels = [9,],
+                          palUint8 = turbo,
+                        strategies = None,
+                            wbitss = [15,],
+                    )
+                    with open(pName, "wb") as fObj:
+                        fObj.write(src)
+                    del src
+            del shrunkenArr
+        del arr
+
+        # **********************************************************************
+
+        print("  Processing original size ...")
+
         # Load data and scale ...
         arr = numpy.fromfile(
             bName,
@@ -185,9 +258,10 @@ if __name__ == "__main__":
                 if not os.path.exists(dName):
                     os.makedirs(dName)
                 if os.path.exists(pName):
+                    print(f"    Not making \"{pName}\".")
                     continue
 
-                print(f"  Making \"{pName}\" ...")
+                print(f"    Making \"{pName}\" ...")
 
                 # Make PNG source and write it ...
                 src = pyguymer3.image.makePng(
