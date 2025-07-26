@@ -162,11 +162,12 @@ if __name__ == "__main__":
 
         # **********************************************************************
 
-        # Load data ...
+        # Load data and replace sea with 0 m elevation ...
         arr = numpy.fromfile(
             bName,
             dtype = numpy.int16,
         ).reshape(ny, nx, 1)                                                    # [m]
+        numpy.place(arr, arr == -500, 0)                                        # [m]
 
         # Start ~infinite loop ...
         for shrinkLevel in range(1, 10):
@@ -235,11 +236,12 @@ if __name__ == "__main__":
 
         print("  Processing original size ...")
 
-        # Load data and scale ...
+        # Load data, replace sea with 0 m elevation and scale ...
         arr = numpy.fromfile(
             bName,
             dtype = numpy.int16,
         ).reshape(ny, nx, 1)                                                    # [m]
+        numpy.place(arr, arr == -500, 0)                                        # [m]
         arr = 255.0 * (arr.astype(numpy.float32) / numpy.float32(maxElev))
         numpy.place(arr, arr <   0.0,   0.0)
         numpy.place(arr, arr > 255.0, 255.0)
