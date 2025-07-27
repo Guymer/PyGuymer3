@@ -39,6 +39,8 @@ pyguymer3/data/png/gshhg/*x*/res=i/x=*/y=*.png
 pyguymer3/data/png/gshhg/*x*/res=l/x=*/y=*.png
 scripts/globe.bin
 scripts/globe.zip
+scripts/osTerrain.bin
+scripts/osTerrain.zip
 tests/*.gif
 tests/*.mp4
 tests/*.webp
