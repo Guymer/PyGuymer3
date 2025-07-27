@@ -35,6 +35,13 @@ if __name__ == "__main__":
           help = "print debug messages",
     )
     parser.add_argument(
+        "--elevation-interval",
+        default = 1000,
+           dest = "elevInt",
+           help = "the elevation interval to make tiles for (in metres)",
+           type = int,
+    )
+    parser.add_argument(
         "--timeout",
         default = 60.0,
            help = "the timeout for any requests/subprocess calls (in seconds)",
@@ -157,7 +164,7 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Loop over maximum elevations ...
-    for maxElev in range(250, 9000, 250):
+    for maxElev in range(args.elevInt, 9000, args.elevInt):
         print(f"Processing maximum elevation {maxElev:,d} m ...")
 
         # **********************************************************************
@@ -168,6 +175,9 @@ if __name__ == "__main__":
             dtype = numpy.int16,
         ).reshape(ny, nx, 1)                                                    # [m]
         numpy.place(arr, arr == -500, 0)                                        # [m]
+        if arr.max() > maxElev:
+            print("  Stopping as the maximum elevation has been reached.")
+            break
 
         # Start ~infinite loop ...
         for shrinkLevel in range(1, 100):
