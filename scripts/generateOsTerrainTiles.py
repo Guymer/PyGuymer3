@@ -5,9 +5,11 @@
 if __name__ == "__main__":
     # Import standard modules ...
     import argparse
+    import io
     import json
     import os
     import re
+    import zipfile
 
     # Import special modules ...
     try:

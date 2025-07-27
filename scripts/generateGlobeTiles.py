@@ -7,6 +7,7 @@ if __name__ == "__main__":
     import argparse
     import json
     import os
+    import zipfile
 
     # Import special modules ...
     try:
