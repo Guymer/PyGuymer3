@@ -147,7 +147,7 @@ if __name__ == "__main__":
                         scale = res,
                     )
                 except RuntimeError:
-                    print(f"      Skipping \"{sfile}\" (RuntimeError).")
+                    print(f"      Skipping level=\"{level}\" and res=\"{res}\" (RuntimeError).")
                     continue
                 if os.path.basename(sfile) != f"GSHHS_{res}_L{level:d}.shp":
                     print(f"      Skipping \"{sfile}\" (filename does not match request).")
