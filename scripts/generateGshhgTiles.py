@@ -67,6 +67,23 @@ if __name__ == "__main__":
         action = "store_true",
           help = "print debug messages",
     )
+    parser.add_argument(
+        "--resolutions",
+        choices = [
+            "c",                        # crude
+            "l",                        # low
+            "i",                        # intermediate
+            "h",                        # high
+            "f",                        # full
+        ],
+        default = [
+            "f",                        # full
+        ],
+           dest = "ress",
+           help = "the resolutions of the GSHHG datasets",
+          nargs = "+",
+           type = str,
+    )
     args = parser.parse_args()
 
     # **************************************************************************
@@ -110,13 +127,7 @@ if __name__ == "__main__":
         # **********************************************************************
 
         # Loop over resolutions ...
-        for res in [
-            "c",                        # crude
-            "l",                        # low
-            "i",                        # intermediate
-            "h",                        # high
-            "f",                        # full
-        ]:
+        for res in args.ress:
             print(f"  Processing resolution \"{res}\" ...")
 
             # ******************************************************************
