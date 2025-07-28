@@ -155,7 +155,7 @@ if __name__ == "__main__":
             bName,
             dtype = numpy.float32,
         ).reshape(ny, nx, 1)                                                    # [m]
-        if arr.max() > maxElev:
+        if maxElev > arr.max():
             print("  Stopping as the maximum elevation has been reached.")
             break
 

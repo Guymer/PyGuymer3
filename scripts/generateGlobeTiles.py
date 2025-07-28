@@ -176,7 +176,7 @@ if __name__ == "__main__":
             dtype = numpy.int16,
         ).reshape(ny, nx, 1)                                                    # [m]
         numpy.place(arr, arr == -500, 0)                                        # [m]
-        if arr.max() > maxElev:
+        if maxElev > arr.max():
             print("  Stopping as the maximum elevation has been reached.")
             break
 
