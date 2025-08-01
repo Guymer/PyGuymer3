@@ -230,6 +230,11 @@ if __name__ == "__main__":
         # Loop over tiles ...
         for ix in range(nx):
             for iy in range(ny):
+                # Create short-hand and skip if this tile does not exist ...
+                tName = f"{args.absPathToRepo}/pyguymer3/data/png/globe/{nx:d}x{ny:d}/maxElev={args.maxElev:d}m/x={ix:d}/y={iy:d}.png"
+                if not os.path.exists(tName):
+                    continue
+
                 # Make a correctly oriented Polygon of the border of the tile
                 # and skip this tile if it does not overlap with the
                 # field-of-view ...
@@ -249,7 +254,7 @@ if __name__ == "__main__":
                 if tile.disjoint(fov):
                     continue
 
-                print(f"  Drawing \"{args.absPathToRepo}/pyguymer3/data/png/globe/{nx:d}x{ny:d}/maxElev={args.maxElev:d}m/x={ix:d}/y={iy:d}.png\" ...")
+                print(f"  Drawing \"{tName}\" ...")
 
                 # Draw tile ...
                 # NOTE: As of 5/Dec/2023, the default "zorder" of the gridlines
@@ -258,7 +263,7 @@ if __name__ == "__main__":
                 #       *think* that "cartopy.img_transform.mesh_projection()"
                 #       shrinks the array by half a pixel at both ends.
                 ax.imshow(
-                    matplotlib.image.imread(f"{args.absPathToRepo}/pyguymer3/data/png/globe/{nx:d}x{ny:d}/maxElev={args.maxElev:d}m/x={ix:d}/y={iy:d}.png"),
+                    matplotlib.image.imread(tName),
                            extent = [
                         -180.0 + 360.0 * float(ix    ) / float(nx),             # left
                         -180.0 + 360.0 * float(ix + 1) / float(nx),             # right
