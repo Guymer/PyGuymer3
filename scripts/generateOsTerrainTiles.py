@@ -49,9 +49,9 @@ if __name__ == "__main__":
           help = "print debug messages",
     )
     parser.add_argument(
-        "--elevation-interval",
+        "--maximum-elevation-interval",
         default = 250,
-           dest = "elevInt",
+           dest = "maxElevInt",
            help = "the elevation interval to make tiles for (in metres)",
            type = int,
     )
@@ -149,7 +149,7 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Loop over maximum elevations ...
-    for maxElev in range(args.elevInt, 9000, args.elevInt):
+    for maxElev in range(args.maxElevInt, 9000, args.maxElevInt):
         print(f"Processing maximum elevation {maxElev:,d} m ...")
 
         # **********************************************************************
