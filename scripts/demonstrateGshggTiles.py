@@ -46,6 +46,7 @@ if __name__ == "__main__":
         import pyguymer3
         import pyguymer3.geo
         import pyguymer3.image
+        import pyguymer3.media
     except:
         raise Exception("\"pyguymer3\" is not installed; run \"pip install --user PyGuymer3\"") from None
 
@@ -207,6 +208,9 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
+    # Initialise list ...
+    pNames = []
+
     # Loop over grid sizes ...
     for grid in [
         "2x1",
@@ -223,6 +227,8 @@ if __name__ == "__main__":
         nx, ny = grid.split("x")
         ny = int(ny)                                                            # [#]
         nx = int(nx)                                                            # [#]
+        pName = f'{__file__.removesuffix(".py")}_{grid}.png'
+        pNames.append(pName)
 
         # Create figure ...
         fg = matplotlib.pyplot.figure(figsize = (7.2, 7.2))
@@ -291,16 +297,45 @@ if __name__ == "__main__":
         # Configure figure ...
         fg.tight_layout()
 
-        print(f'  Writing \"{__file__.removesuffix(".py")}_{grid}.png\" ...')
+        print(f"  Writing \"{pName}\" ...")
 
         # Save figure ...
-        fg.savefig(f'{__file__.removesuffix(".py")}_{grid}.png')
+        fg.savefig(pName)
         matplotlib.pyplot.close(fg)
 
         # Optimise PNG ...
         pyguymer3.image.optimise_image(
-            f'{__file__.removesuffix(".py")}_{grid}.png',
+            pName,
               debug = args.debug,
               strip = True,
             timeout = args.timeout,
+        )
+
+    # **************************************************************************
+
+    print(f'Making \"{__file__.removesuffix(".py")}.webp\" ...')
+
+    # Save 1fps WEBP ...
+    pyguymer3.media.images2webp(
+        pNames,
+        f'{__file__.removesuffix(".py")}.webp',
+        fps = 1.0,
+    )
+
+    # Loop over maximum sizes ...
+    # NOTE: By inspection, the PNG frames are 2,160 px tall/wide.
+    for maxSize in [
+         512,
+        1024,
+        2048,
+    ]:
+        print(f'Making \"{__file__.removesuffix(".py")}{maxSize:04d}px.webp\" ...')
+
+        # Save 1fps WEBP ...
+        pyguymer3.media.images2webp(
+            pNames,
+            f'{__file__.removesuffix(".py")}{maxSize:04d}px.webp',
+                     fps = 1.0,
+            screenHeight = maxSize,
+             screenWidth = maxSize,
         )
