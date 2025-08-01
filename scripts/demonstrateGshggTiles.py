@@ -264,6 +264,9 @@ if __name__ == "__main__":
                 # Draw tile ...
                 # NOTE: As of 5/Dec/2023, the default "zorder" of the gridlines
                 #       is 2.0.
+                # NOTE: There is an off-by-one error in Cartopy somewhere ... I
+                #       *think* that "cartopy.img_transform.mesh_projection()"
+                #       shrinks the array by half a pixel at both ends.
                 ax.imshow(
                     matplotlib.image.imread(f"{args.absPathToRepo}/pyguymer3/data/png/gshhg/{nx:d}x{ny:d}/res={args.gshhgRes}/x={ix:d}/y={iy:d}.png"),
                            extent = [
