@@ -211,10 +211,10 @@ if __name__ == "__main__":
     ]:
         print(f"Processing {grid} ...")
 
-        # Create short-hands ...
+        # Create short-hands and append PNG name ...
         nx, ny = grid.split("x")
-        ny = int(ny)                                                            # [#]
         nx = int(nx)                                                            # [#]
+        ny = int(ny)                                                            # [#]
         pName = f'{__file__.removesuffix(".py")}_{grid}.png'
         pNames.append(pName)
 
