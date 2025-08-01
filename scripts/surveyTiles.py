@@ -35,9 +35,9 @@ if __name__ == "__main__":
           help = "print debug messages",
     )
     parser.add_argument(
-        "--GLOBE-elevation-interval",
+        "--GLOBE-maximum-elevation-interval",
         default = 1000,
-           dest = "globeElevInt",
+           dest = "globeMaxElevInt",
            help = "the elevation interval for the GLOBE tiles (in metres)",
            type = int,
     )
@@ -59,9 +59,9 @@ if __name__ == "__main__":
            type = str,
     )
     parser.add_argument(
-        "--OS-Terrain-elevation-interval",
+        "--OS-Terrain-maximum-elevation-interval",
         default = 250,
-           dest = "osTerrainElevInt",
+           dest = "osTerrainMaxElevInt",
            help = "the elevation interval for the OS Terrain tiles (in metres)",
            type = int,
     )
@@ -81,7 +81,7 @@ if __name__ == "__main__":
         w, h = os.path.basename(dName).split("x")
         n = int(w) * int(h)                                                     # [#]
         globe[n] = 0                                                            # [B]
-        for maxElev in range(args.globeElevInt, 9000, args.globeElevInt):
+        for maxElev in range(args.globeMaxElevInt, 9000, args.globeMaxElevInt):
             globe[n] += pyguymer3.return_folder_size(
                 f"{dName}/maxElev={maxElev:d}m",
                 debug = args.debug,
@@ -105,7 +105,7 @@ if __name__ == "__main__":
         w, h = os.path.basename(dName).split("x")
         n = int(w) * int(h)                                                     # [#]
         osTerrain[n] = 0                                                        # [B]
-        for maxElev in range(args.osTerrainElevInt, 9000, args.osTerrainElevInt):
+        for maxElev in range(args.osTerrainMaxElevInt, 9000, args.osTerrainMaxElevInt):
             osTerrain[n] += pyguymer3.return_folder_size(
                 f"{dName}/maxElev={maxElev:d}m",
                 debug = args.debug,
@@ -115,14 +115,14 @@ if __name__ == "__main__":
 
     # Survey the surveys of the tiles ...
     minN = min(
-        min(globe.keys()),
-        min(gshhg.keys()),
-        min(osTerrain.keys()),
+        *globe.keys(),
+        *gshhg.keys(),
+        *osTerrain.keys(),
     )                                                                           # [#]
     maxN = max(
-        max(globe.keys()),
-        max(gshhg.keys()),
-        max(osTerrain.keys()),
+        *globe.keys(),
+        *gshhg.keys(),
+        *osTerrain.keys(),
     )                                                                           # [#]
     print(f"The smallest grid has {minN:,d} tiles.")
     print(f"The largest grid has {maxN:,d} tiles.")
