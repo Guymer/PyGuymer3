@@ -120,7 +120,7 @@ def _add_elevation(
             print(f"INFO: \"{name}\" is ({facecolor[0]:.6f},{facecolor[1]:.6f},{facecolor[2]:.6f},{facecolor[3]:.6f}).")
 
         # Find file containing the shapes ...
-        sfile = f"{os.path.dirname(__file__)}/../data/geojson/GLOBE/scale={scale[resolution]}/elev={elevation:04d}m.geojson"
+        sfile = f"{os.path.dirname(__file__)}/../data/geojson/globe/scale={scale[resolution]}/elev={elevation:04d}m.geojson"
         if not os.path.exists(sfile):
             continue
         if debug:
