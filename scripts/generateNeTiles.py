@@ -68,7 +68,7 @@ if __name__ == "__main__":
         "--elevation-band-interval",
         default = 250,
            dest = "elevBandInt",
-           help = "the interval of the elevation bands to shade (in metres)",
+           help = "the interval of the elevation bands to shade for the tiles (in metres)",
            type = int,
     )
     parser.add_argument(
