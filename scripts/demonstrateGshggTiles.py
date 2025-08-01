@@ -99,18 +99,6 @@ if __name__ == "__main__":
            type = str,
     )
     parser.add_argument(
-        "--NE-resolution",
-        choices = [
-             "10m",
-             "50m",
-            "110m",
-        ],
-        default = "110m",
-           dest = "neRes",
-           help = "the resolution of the NE datasets",
-           type = str,
-    )
-    parser.add_argument(
         "--nAng",
         default = 361,
            dest = "nAng",
@@ -155,7 +143,7 @@ if __name__ == "__main__":
         cartopy.io.shapereader.natural_earth(
               category = "cultural",
                   name = "admin_0_countries",
-            resolution = args.neRes,
+            resolution = "110m",
         )
     ).records():
         if pyguymer3.geo.getRecordAttribute(record, "NAME") != "United Kingdom":
