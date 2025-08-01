@@ -168,7 +168,7 @@ if __name__ == "__main__":
                     print(f"      Skipping \"{sfile}\" (filename does not match request).")
                     continue
 
-                # Create a list of all of Polygons ......
+                # Create a list of all of Polygons ...
                 polys = []
                 for record in cartopy.io.shapereader.Reader(sfile).records():
                     polys.extend(
