@@ -265,6 +265,8 @@ if __name__ == "__main__":
 
                 # **************************************************************
 
+                print("      Drawing layers under elevation data ...")
+
                 # Draw layers below elevation data ...
                 funcs.drawBathymetry(img, draw, res)
                 funcs.drawAntarcticIceShelves(img, draw, res)
@@ -273,6 +275,8 @@ if __name__ == "__main__":
                 funcs.drawMinorIslands(img, draw, res)
 
                 # **************************************************************
+
+                print("      Drawing elevation data ...")
 
                 # Create suitable colour map ...
                 cmap = matplotlib.colors.LinearSegmentedColormap.from_list(
@@ -306,6 +310,8 @@ if __name__ == "__main__":
 
                 # **************************************************************
 
+                print("      Drawing layers above elevation data ...")
+
                 # Draw layers above elevation data ...
                 funcs.drawGlaciatedAreas(img, draw, res)
                 funcs.drawLakes(img, draw, res)
@@ -315,7 +321,7 @@ if __name__ == "__main__":
 
                 # ******************************************************************
 
-                print("    Converting PIL image in to NumPy array ...")
+                print("      Converting PIL image in to NumPy array ...")
 
                 # Convert PIL image to NumPy array ...
                 imgArr = numpy.array(img).reshape((ny // shrinkFactor, nx // shrinkFactor, 3))
@@ -334,10 +340,10 @@ if __name__ == "__main__":
                         if not os.path.exists(dName):
                             os.makedirs(dName)
                         if os.path.exists(pName):
-                            print(f"    Not making \"{pName}\".")
+                            print(f"        Not making \"{pName}\".")
                             continue
 
-                        print(f"    Making \"{pName}\" ...")
+                        print(f"        Making \"{pName}\" ...")
 
                         # Make PNG source and write it ...
                         src = pyguymer3.image.makePng(
@@ -372,6 +378,8 @@ if __name__ == "__main__":
 
             # ******************************************************************
 
+            print("      Drawing layers under elevation data ...")
+
             # Draw layers below elevation data ...
             funcs.drawBathymetry(img, draw, res)
             funcs.drawAntarcticIceShelves(img, draw, res)
@@ -380,6 +388,8 @@ if __name__ == "__main__":
             funcs.drawMinorIslands(img, draw, res)
 
             # ******************************************************************
+
+            print("      Drawing elevation data ...")
 
             # Create suitable colour map ...
             cmap = matplotlib.colors.LinearSegmentedColormap.from_list(
@@ -413,6 +423,8 @@ if __name__ == "__main__":
 
             # ******************************************************************
 
+            print("      Drawing layers above elevation data ...")
+
             # Draw layers above elevation data ...
             funcs.drawGlaciatedAreas(img, draw, res)
             funcs.drawLakes(img, draw, res)
@@ -422,7 +434,7 @@ if __name__ == "__main__":
 
             # ******************************************************************
 
-            print("    Converting PIL image in to NumPy array ...")
+            print("      Converting PIL image in to NumPy array ...")
 
             # Convert PIL image to NumPy array ...
             imgArr = numpy.array(img).reshape((ny, nx, 3))
@@ -441,10 +453,10 @@ if __name__ == "__main__":
                     if not os.path.exists(dName):
                         os.makedirs(dName)
                     if os.path.exists(pName):
-                        print(f"    Not making \"{pName}\".")
+                        print(f"        Not making \"{pName}\".")
                         continue
 
-                    print(f"    Making \"{pName}\" ...")
+                    print(f"        Making \"{pName}\" ...")
 
                     # Make PNG source and write it ...
                     src = pyguymer3.image.makePng(
