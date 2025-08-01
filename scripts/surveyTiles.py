@@ -59,6 +59,35 @@ if __name__ == "__main__":
            type = str,
     )
     parser.add_argument(
+        "--NE-elevation-band-interval",
+        default = 250,
+           dest = "neElevBandInt",
+           help = "the interval of the elevation bands to shade for the NE tiles (in metres)",
+           type = int,
+    )
+    parser.add_argument(
+        "--NE-maximum-elevation-interval",
+        default = 1000,
+           dest = "neMaxElevInt",
+           help = "the elevation interval for the NE tiles (in metres)",
+           type = int,
+    )
+    parser.add_argument(
+        "--NE-resolutions",
+        choices = [
+             "10m",
+             "50m",
+            "110m",
+        ],
+        default = [
+            "10m",
+        ],
+           dest = "neRess",
+           help = "the resolutions of the NE datasets",
+          nargs = "+",
+           type = str,
+    )
+    parser.add_argument(
         "--OS-Terrain-maximum-elevation-interval",
         default = 250,
            dest = "osTerrainMaxElevInt",
@@ -99,6 +128,19 @@ if __name__ == "__main__":
                 debug = args.debug,
             )                                                                   # [B]
 
+    # Survey the NE tiles ...
+    ne = {}
+    for dName in sorted(glob.glob(f"{args.absPathToRepo}/pyguymer3/data/png/ne/*x*")):
+        w, h = os.path.basename(dName).split("x")
+        n = int(w) * int(h)                                                     # [#]
+        ne[n] = 0                                                               # [B]
+        for maxElev in range(args.neMaxElevInt, 9000, args.neMaxElevInt):
+            for res in args.neRess:
+                ne[n] += pyguymer3.return_folder_size(
+                    f"{dName}/maxElev={maxElev:d}m/elevInt={args.neElevBandInt:d}m/res={res}",
+                    debug = args.debug,
+                )                                                               # [B]
+
     # Survey the OS Terrain tiles ...
     osTerrain = {}
     for dName in sorted(glob.glob(f"{args.absPathToRepo}/pyguymer3/data/png/osTerrain/*x*")):
@@ -117,11 +159,13 @@ if __name__ == "__main__":
     minN = min(
         *globe.keys(),
         *gshhg.keys(),
+        *ne.keys(),
         *osTerrain.keys(),
     )                                                                           # [#]
     maxN = max(
         *globe.keys(),
         *gshhg.keys(),
+        *ne.keys(),
         *osTerrain.keys(),
     )                                                                           # [#]
     print(f"The smallest grid has {minN:,d} tiles.")
@@ -132,13 +176,14 @@ if __name__ == "__main__":
     # Open output file ...
     with open(f"{args.absPathToRepo}/scripts/surveyTiles.csv", "wt", encoding = "utf-8") as fObj:
         # Write header ...
-        fObj.write("maximum number of tiles in grid [#],GLOBE size [MiB],GSHHG size [MiB],OS Terrain size [MiB],total size [MiB]\n")
+        fObj.write("maximum number of tiles in grid [#],GLOBE size [MiB],GSHHG size [MiB],NE size [MiB],OS Terrain size [MiB],total size [MiB]\n")
 
         # Loop over possible numbers ...
         for n in range(minN, maxN + 1):
             # Initialize counters ...
             globeSize = 0                                                       # [B]
             gshhgSize = 0                                                       # [B]
+            neSize = 0                                                          # [B]
             osTerrainSize = 0                                                   # [B]
 
             # Increment counter for the GLOBE tiles (skipping this possible
@@ -159,6 +204,15 @@ if __name__ == "__main__":
             if gshhgSize == 0:
                 continue
 
+            # Increment counter for the NE tiles (skipping this possible number
+            # if it does not encompass any of the tiles) ...
+            for key, val in ne.items():
+                if key > n:
+                    continue
+                neSize += val                                                   # [B]
+            if neSize == 0:
+                continue
+
             # Increment counter for the OS Terrain tiles (skipping this possible
             # number if it does not encompass any of the tiles) ...
             for key, val in osTerrain.items():
@@ -169,7 +223,7 @@ if __name__ == "__main__":
                 continue
 
             # Calculate total ...
-            totSize = globeSize + gshhgSize + osTerrainSize                     # [B]
+            totSize = globeSize + gshhgSize + neSize + osTerrainSize            # [B]
 
             # Write data ...
-            fObj.write(f"{n:d},{float(globeSize) / (1024.0 * 1024.0):.1f},{float(gshhgSize) / (1024.0 * 1024.0):.1f},{float(osTerrainSize) / (1024.0 * 1024.0):.1f},{float(totSize) / (1024.0 * 1024.0):.1f}\n")
+            fObj.write(f"{n:d},{float(globeSize) / (1024.0 * 1024.0):.1f},{float(gshhgSize) / (1024.0 * 1024.0):.1f},{float(neSize) / (1024.0 * 1024.0):.1f},{float(osTerrainSize) / (1024.0 * 1024.0):.1f},{float(totSize) / (1024.0 * 1024.0):.1f}\n")
