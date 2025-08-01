@@ -40,7 +40,7 @@ if __name__ == "__main__":
         default = os.path.dirname(os.path.dirname(__file__)),
            dest = "absPathToRepo",
            help = "the absolute path to the PyGuymer3 repository",
-           type = int,
+           type = str,
     )
     args = parser.parse_args()
 
