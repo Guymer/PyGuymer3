@@ -23,6 +23,13 @@ if __name__ == "__main__":
         formatter_class = argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
+        "--absolute-path-to-repository",
+        default = os.path.dirname(os.path.dirname(__file__)),
+           dest = "absPathToRepo",
+           help = "the absolute path to the PyGuymer3 repository",
+           type = int,
+    )
+    parser.add_argument(
         "--debug",
         action = "store_true",
           help = "print debug messages",
@@ -68,14 +75,9 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
-    # Find the absolute path to the repository ...
-    absPathToRepo = os.path.dirname(os.path.dirname(__file__))
-
-    # **************************************************************************
-
     # Survey the GLOBE tiles ...
     globe = {}
-    for dName in sorted(glob.glob(f"{absPathToRepo}/pyguymer3/data/png/globe/*x*")):
+    for dName in sorted(glob.glob(f"{args.absPathToRepo}/pyguymer3/data/png/globe/*x*")):
         w, h = os.path.basename(dName).split("x")
         n = int(w) * int(h)                                                     # [#]
         globe[n] = 0                                                            # [B]
@@ -87,7 +89,7 @@ if __name__ == "__main__":
 
     # Survey the GSHHG tiles ...
     gshhg = {}
-    for dName in sorted(glob.glob(f"{absPathToRepo}/pyguymer3/data/png/gshhg/*x*")):
+    for dName in sorted(glob.glob(f"{args.absPathToRepo}/pyguymer3/data/png/gshhg/*x*")):
         w, h = os.path.basename(dName).split("x")
         n = int(w) * int(h)                                                     # [#]
         gshhg[n] = 0                                                            # [B]
@@ -99,7 +101,7 @@ if __name__ == "__main__":
 
     # Survey the OS Terrain tiles ...
     osTerrain = {}
-    for dName in sorted(glob.glob(f"{absPathToRepo}/pyguymer3/data/png/osTerrain/*x*")):
+    for dName in sorted(glob.glob(f"{args.absPathToRepo}/pyguymer3/data/png/osTerrain/*x*")):
         w, h = os.path.basename(dName).split("x")
         n = int(w) * int(h)                                                     # [#]
         osTerrain[n] = 0                                                        # [B]
@@ -128,7 +130,7 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Open output file ...
-    with open(f"{absPathToRepo}/scripts/surveyTiles.csv", "wt", encoding = "utf-8") as fObj:
+    with open(f"{args.absPathToRepo}/scripts/surveyTiles.csv", "wt", encoding = "utf-8") as fObj:
         # Write header ...
         fObj.write("maximum number of tiles in grid [#],GLOBE size [MiB],GSHHG size [MiB],OS Terrain size [MiB],total size [MiB]\n")
 

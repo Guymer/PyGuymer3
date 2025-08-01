@@ -63,6 +63,13 @@ if __name__ == "__main__":
         formatter_class = argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
+        "--absolute-path-to-repository",
+        default = os.path.dirname(os.path.dirname(__file__)),
+           dest = "absPathToRepo",
+           help = "the absolute path to the PyGuymer3 repository",
+           type = int,
+    )
+    parser.add_argument(
         "--debug",
         action = "store_true",
           help = "print debug messages",
@@ -87,9 +94,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # **************************************************************************
-
-    # Find the absolute path to the repository ...
-    absPathToRepo = os.path.dirname(os.path.dirname(__file__))
 
     # Define colours and create palette ...
     colours = [
@@ -216,7 +220,7 @@ if __name__ == "__main__":
                 for iTileY in range(nTilesY):
                     # Create short-hands, make sure that the directory exists
                     # and skip this tile if it already exists ...
-                    dName = f"{absPathToRepo}/pyguymer3/data/png/gshhg/{nTilesX:d}x{nTilesY:d}/res={res}/x={iTileX:d}"
+                    dName = f"{args.absPathToRepo}/pyguymer3/data/png/gshhg/{nTilesX:d}x{nTilesY:d}/res={res}/x={iTileX:d}"
                     pName = f"{dName}/y={iTileY:d}.png"
                     if not os.path.exists(dName):
                         os.makedirs(dName)

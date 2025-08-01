@@ -31,6 +31,13 @@ if __name__ == "__main__":
         formatter_class = argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
+        "--absolute-path-to-repository",
+        default = os.path.dirname(os.path.dirname(__file__)),
+           dest = "absPathToRepo",
+           help = "the absolute path to the PyGuymer3 repository",
+           type = int,
+    )
+    parser.add_argument(
         "--debug",
         action = "store_true",
           help = "print debug messages",
@@ -52,16 +59,13 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
-    # Find the absolute path to the repository ...
-    absPathToRepo = os.path.dirname(os.path.dirname(__file__))
-
     # Create short-hands ...
-    bName = f"{absPathToRepo}/scripts/globe.bin"
-    zName = f"{absPathToRepo}/scripts/globe.zip"
+    bName = f"{args.absPathToRepo}/scripts/globe.bin"
+    zName = f"{args.absPathToRepo}/scripts/globe.zip"
     url = "https://www.ngdc.noaa.gov/mgg/topo/DATATILES/elev/globe.zip"
 
     # Load colour tables and create short-hand ...
-    with open(f"{absPathToRepo}/pyguymer3/data/json/colourTables.json", "rt", encoding = "utf-8") as fObj:
+    with open(f"{args.absPathToRepo}/pyguymer3/data/json/colourTables.json", "rt", encoding = "utf-8") as fObj:
         colourTables = json.load(fObj)
     turbo = numpy.array(colourTables["turbo"]).astype(numpy.uint8)
 
@@ -217,7 +221,7 @@ if __name__ == "__main__":
                 for iShrunkenTileY in range(nShrunkenTilesY):
                     # Create short-hands, make sure that the directory exists
                     # and skip this tile if it already exists ...
-                    dName = f"{absPathToRepo}/pyguymer3/data/png/globe/{nShrunkenTilesX:d}x{nShrunkenTilesY:d}/maxElev={maxElev:d}m/x={iShrunkenTileX:d}"
+                    dName = f"{args.absPathToRepo}/pyguymer3/data/png/globe/{nShrunkenTilesX:d}x{nShrunkenTilesY:d}/maxElev={maxElev:d}m/x={iShrunkenTileX:d}"
                     pName = f"{dName}/y={iShrunkenTileY:d}.png"
                     if not os.path.exists(dName):
                         os.makedirs(dName)
@@ -266,7 +270,7 @@ if __name__ == "__main__":
             for iTileY in range(nTilesY):
                 # Create short-hands, make sure that the directory exists and
                 # skip this tile if it already exists ...
-                dName = f"{absPathToRepo}/pyguymer3/data/png/globe/{nTilesX:d}x{nTilesY:d}/maxElev={maxElev:d}m/x={iTileX:d}"
+                dName = f"{args.absPathToRepo}/pyguymer3/data/png/globe/{nTilesX:d}x{nTilesY:d}/maxElev={maxElev:d}m/x={iTileX:d}"
                 pName = f"{dName}/y={iTileY:d}.png"
                 if not os.path.exists(dName):
                     os.makedirs(dName)

@@ -4,6 +4,7 @@
 # NOTE: See https://docs.python.org/3.12/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
 if __name__ == "__main__":
     # Import standard modules ...
+    import argparse
     import json
     import os
 
@@ -28,8 +29,22 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
-    # Find the absolute path to the repository ...
-    absPathToRepo = os.path.dirname(os.path.dirname(__file__))
+    # Create argument parser and parse the arguments ...
+    parser = argparse.ArgumentParser(
+           allow_abbrev = False,
+            description = "Save the colour tables.",
+        formatter_class = argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument(
+        "--absolute-path-to-repository",
+        default = os.path.dirname(os.path.dirname(__file__)),
+           dest = "absPathToRepo",
+           help = "the absolute path to the PyGuymer3 repository",
+           type = int,
+    )
+    args = parser.parse_args()
+
+    # **************************************************************************
 
     # Initialize dictionary ...
     colourTables: dict[str, list[list[int]]] = {}
@@ -174,7 +189,7 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Save colour maps ...
-    with open(f"{absPathToRepo}/pyguymer3/data/json/colourTables.json", "wt", encoding = "utf-8") as fObj:
+    with open(f"{args.absPathToRepo}/pyguymer3/data/json/colourTables.json", "wt", encoding = "utf-8") as fObj:
         json.dump(
             colourTables,
             fObj,
