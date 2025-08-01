@@ -257,10 +257,10 @@ if __name__ == "__main__":
                 ax.imshow(
                     matplotlib.image.imread(f"{args.absPathToRepo}/pyguymer3/data/png/globe/{nx:d}x{ny:d}/maxElev={args.maxElev:d}m/x={ix:d}/y={iy:d}.png"),
                            extent = [
-                        -180.0 + 360.0 * float(ix    ) / float(nx),
-                        -180.0 + 360.0 * float(ix + 1) / float(nx),
-                         +90.0 - 180.0 * float(iy + 1) / float(ny),
-                         +90.0 - 180.0 * float(iy    ) / float(ny),
+                        -180.0 + 360.0 * float(ix    ) / float(nx),             # left
+                        -180.0 + 360.0 * float(ix + 1) / float(nx),             # right
+                         +90.0 - 180.0 * float(iy + 1) / float(ny),             # bottom
+                         +90.0 - 180.0 * float(iy    ) / float(ny),             # top
                     ],
                     interpolation = "none",
                            origin = "upper",
