@@ -61,6 +61,13 @@ if __name__ == "__main__":
            type = int,
     )
     parser.add_argument(
+        "--nIter",
+        default = 1000000,
+           dest = "nIter",
+           help = "the maximum number of iterations (particularly the Vincenty formula)",
+           type = int,
+    )
+    parser.add_argument(
         "--timeout",
         default = 60.0,
            help = "the timeout for any requests/subprocess calls (in seconds)",
@@ -134,6 +141,7 @@ if __name__ == "__main__":
                         debug = args.debug,
                          fill = -1.0,
                          nAng = 361,
+                        nIter = args.nIter,
                          simp = -1.0,
                     )
                 except Exception:
