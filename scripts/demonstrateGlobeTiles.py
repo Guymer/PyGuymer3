@@ -66,6 +66,20 @@ if __name__ == "__main__":
            type = str,
     )
     parser.add_argument(
+        "--coastlines-resolution",
+        choices = [
+            "c",                        # crude
+            "l",                        # low
+            "i",                        # intermediate
+            "h",                        # high
+            "f",                        # full
+        ],
+        default = "f",                  # full
+           dest = "coastlinesRes",
+           help = "the resolution of the coastlines",
+           type = str,
+    )
+    parser.add_argument(
         "--debug",
         action = "store_true",
           help = "print debug messages",
@@ -125,6 +139,18 @@ if __name__ == "__main__":
            help = "the Euclidean distance that defines two points as being the same (in degrees)",
            type = float,
     )
+    parser.add_argument(
+        "--UK-resolution",
+        choices = [
+             "10m",
+             "50m",
+            "110m",
+        ],
+        default = "110m",
+           dest = "ukRes",
+           help = "the resolution of the UK when finding its centre",
+           type = str,
+    )
     args = parser.parse_args()
 
     # **************************************************************************
@@ -136,7 +162,7 @@ if __name__ == "__main__":
         cartopy.io.shapereader.natural_earth(
               category = "cultural",
                   name = "admin_0_countries",
-            resolution = "110m",
+            resolution = args.ukRes,
         )
     ).records():
         if pyguymer3.geo.getRecordAttribute(record, "NAME") != "United Kingdom":
@@ -174,6 +200,7 @@ if __name__ == "__main__":
         nRefine = args.nRefine,                                                 # 156.25 m
             pad = args.geodesicConv,                                            # 10 km
     )                                                                           # [°], [°], [m]
+    del coords
     fov = pyguymer3.geo.buffer(
         shapely.geometry.point.Point(midLon, midLat),
         maxDist,
@@ -218,17 +245,21 @@ if __name__ == "__main__":
         # Create axis ...
         ax = pyguymer3.geo.add_axis(
             fg,
-            add_coastlines = False,
-             add_gridlines = True,
-                     debug = args.debug,
-                      dist = maxDist,
-                       eps = args.eps,
-                       lat = midLat,
-                       lon = midLon,
-                     nIter = args.nIter,
-                 onlyValid = True,
-                    repair = True,
-                       tol = args.tol,
+                   add_coastlines = True,
+                    add_gridlines = True,
+             coastlines_edgecolor = "white",
+            coastlines_resolution = args.coastlinesRes,
+                coastlines_zorder = 1.75,
+                            debug = args.debug,
+                             dist = maxDist,
+                              eps = args.eps,
+                              fov = fov,
+                              lat = midLat,
+                              lon = midLon,
+                            nIter = args.nIter,
+                        onlyValid = True,
+                           repair = True,
+                              tol = args.tol,
         )
 
         # Loop over tiles ...
@@ -239,6 +270,12 @@ if __name__ == "__main__":
                 if not os.path.exists(tName):
                     continue
 
+                # Create short-hands ...
+                left   = -180.0 + 360.0 * float(ix    ) / float(nx)             # [°]
+                right  = -180.0 + 360.0 * float(ix + 1) / float(nx)             # [°]
+                bottom =  +90.0 - 180.0 * float(iy + 1) / float(ny)             # [°]
+                top    =  +90.0 - 180.0 * float(iy    ) / float(ny)             # [°]
+
                 # Make a correctly oriented Polygon of the border of the tile
                 # and skip this tile if it does not overlap with the
                 # field-of-view ...
@@ -246,11 +283,11 @@ if __name__ == "__main__":
                     shapely.geometry.polygon.Polygon(
                         shapely.geometry.polygon.LinearRing(
                             [
-                                (-180.0 + 360.0 * float(ix    ) / float(nx), +90.0 - 180.0 * float(iy    ) / float(ny)),
-                                (-180.0 + 360.0 * float(ix + 1) / float(nx), +90.0 - 180.0 * float(iy    ) / float(ny)),
-                                (-180.0 + 360.0 * float(ix + 1) / float(nx), +90.0 - 180.0 * float(iy + 1) / float(ny)),
-                                (-180.0 + 360.0 * float(ix    ) / float(nx), +90.0 - 180.0 * float(iy + 1) / float(ny)),
-                                (-180.0 + 360.0 * float(ix    ) / float(nx), +90.0 - 180.0 * float(iy    ) / float(ny)),
+                                (left , top   ),
+                                (right, top   ),
+                                (right, bottom),
+                                (left , bottom),
+                                (left , top   ),
                             ]
                         )
                     )
@@ -269,10 +306,10 @@ if __name__ == "__main__":
                 ax.imshow(
                     matplotlib.image.imread(tName),
                            extent = [
-                        -180.0 + 360.0 * float(ix    ) / float(nx),             # left
-                        -180.0 + 360.0 * float(ix + 1) / float(nx),             # right
-                         +90.0 - 180.0 * float(iy + 1) / float(ny),             # bottom
-                         +90.0 - 180.0 * float(iy    ) / float(ny),             # top
+                        left,
+                        right,
+                        bottom,
+                        top,
                     ],
                     interpolation = "none",
                            origin = "upper",

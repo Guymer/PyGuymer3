@@ -66,6 +66,20 @@ if __name__ == "__main__":
            type = str,
     )
     parser.add_argument(
+        "--coastlines-resolution",
+        choices = [
+            "c",                        # crude
+            "l",                        # low
+            "i",                        # intermediate
+            "h",                        # high
+            "f",                        # full
+        ],
+        default = "f",                  # full
+           dest = "coastlinesRes",
+           help = "the resolution of the coastlines",
+           type = str,
+    )
+    parser.add_argument(
         "--debug",
         action = "store_true",
           help = "print debug messages",
@@ -125,6 +139,18 @@ if __name__ == "__main__":
            help = "the Euclidean distance that defines two points as being the same (in degrees)",
            type = float,
     )
+    parser.add_argument(
+        "--UK-resolution",
+        choices = [
+             "10m",
+             "50m",
+            "110m",
+        ],
+        default = "110m",
+           dest = "ukRes",
+           help = "the resolution of the UK when finding its centre",
+           type = str,
+    )
     args = parser.parse_args()
 
     # **************************************************************************
@@ -145,7 +171,7 @@ if __name__ == "__main__":
         cartopy.io.shapereader.natural_earth(
               category = "cultural",
                   name = "admin_0_countries",
-            resolution = "110m",
+            resolution = args.ukRes,
         )
     ).records():
         if pyguymer3.geo.getRecordAttribute(record, "NAME") != "United Kingdom":
@@ -183,6 +209,7 @@ if __name__ == "__main__":
         nRefine = args.nRefine,                                                 # 156.25 m
             pad = args.geodesicConv,                                            # 10 km
     )                                                                           # [°], [°], [m]
+    del coords
     fov = pyguymer3.geo.buffer(
         shapely.geometry.point.Point(midLon, midLat),
         maxDist,
@@ -228,7 +255,7 @@ if __name__ == "__main__":
                    add_coastlines = True,
                     add_gridlines = True,
              coastlines_edgecolor = "white",
-            coastlines_resolution = "f",
+            coastlines_resolution = args.coastlinesRes,
                 coastlines_zorder = 1.75,
                             debug = args.debug,
                              dist = maxDist,
