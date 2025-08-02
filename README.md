@@ -31,7 +31,6 @@ PyGuymer3 requires the following Python modules to be installed and available in
 * [matplotlib](https://pypi.org/project/matplotlib/)
 * [numpy](https://pypi.org/project/numpy/)
 * [PIL](https://pypi.org/project/Pillow/)
-* [rsl](https://github.com/Guymer/rsl)
 * [requests](https://pypi.org/project/requests/)
 * [scipy](https://pypi.org/project/scipy/)
 * [shapely](https://pypi.org/project/Shapely/)

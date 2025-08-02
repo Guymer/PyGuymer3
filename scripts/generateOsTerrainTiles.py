@@ -21,12 +21,9 @@ if __name__ == "__main__":
     try:
         import pyguymer3
         import pyguymer3.image
+        import pyguymer3.osterrain
     except:
         raise Exception("\"pyguymer3\" is not installed; run \"pip install --user PyGuymer3\"") from None
-    try:
-        import rsl
-    except:
-        raise Exception("\"rsl\" is not installed; run \"pip install --user git+https://github.com/Guymer/rsl.git\"") from None
 
     # **************************************************************************
 
@@ -96,7 +93,7 @@ if __name__ == "__main__":
         print(f"Making \"{bName}\" ...")
 
         # Find extent of the "OS Terrain 50" dataset ...
-        x1, x2, y1, y2 = rsl.findExtent(zName)                                  # [px], [px], [px], [px]
+        x1, x2, y1, y2 = pyguymer3.osterrain.findExtent(zName)                  # [px], [px], [px], [px]
 
         # Make map ...
         elev = numpy.zeros(
@@ -129,8 +126,8 @@ if __name__ == "__main__":
                     fObj1 = io.BytesIO(zObj1.read(f"{key}.asc"))
 
                     # Load header and contents of ASCII dataset ...
-                    hdr = rsl.loadASCIIheader(fObj1)
-                    cont = rsl.loadASCIIcontents(fObj1, hdr["length"])          # [m]
+                    hdr = pyguymer3.osterrain.loadASCIIheader(fObj1)
+                    cont = pyguymer3.osterrain.loadASCIIcontents(fObj1, hdr["length"])  # [m]
 
                     # Determine indexes (from the upper-left corner not the
                     # lower-left corner) ...
