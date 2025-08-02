@@ -38,7 +38,6 @@ def en2ll_LineString(
     """
 
     # Import standard modules ...
-    import os
     import pathlib
 
     # Import special modules ...

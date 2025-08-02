@@ -160,7 +160,6 @@ def _add_topDown_axis(
 
     # Import standard modules ...
     import math
-    import os
     import pathlib
 
     # Import special modules ...

@@ -51,7 +51,6 @@ def _add_horizontal_gridlines(
     """
 
     # Import standard modules ...
-    import os
     import pathlib
 
     # Import special modules ...

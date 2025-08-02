@@ -38,7 +38,6 @@ def en2ll_LinearRing(
     """
 
     # Import standard modules ...
-    import os
     import pathlib
 
     # Import special modules ...

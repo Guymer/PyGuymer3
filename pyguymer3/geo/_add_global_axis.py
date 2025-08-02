@@ -123,7 +123,6 @@ def _add_global_axis(
     """
 
     # Import standard modules ...
-    import os
     import pathlib
 
     # Import special modules ...

@@ -58,7 +58,6 @@ def getRecordAttribute(
     """
 
     # Import standard modules ...
-    import os
     import pathlib
 
     # Import special modules ...

@@ -17,7 +17,6 @@ if __name__ == "__main__":
 
     # Import standard modules ...
     import argparse
-    import shutil
     import sys
 
     # Import sub-functions ...

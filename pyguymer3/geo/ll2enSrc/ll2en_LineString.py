@@ -38,7 +38,6 @@ def ll2en_LineString(
     """
 
     # Import standard modules ...
-    import os
     import pathlib
 
     # Import special modules ...

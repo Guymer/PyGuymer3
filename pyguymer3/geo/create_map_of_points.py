@@ -145,7 +145,6 @@ def create_map_of_points(
     """
 
     # Import standard modules ...
-    import os
     import pathlib
 
     # Import special modules ...

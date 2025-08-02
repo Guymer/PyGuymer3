@@ -47,7 +47,6 @@ def _add_roads(
     """
 
     # Import standard modules ...
-    import os
     import pathlib
     import urllib
 
@@ -73,11 +72,6 @@ def _add_roads(
         )
     except:
         raise Exception("\"matplotlib\" is not installed; run \"pip install --user matplotlib\"") from None
-    try:
-        import shapely
-        import shapely.geometry
-    except:
-        raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
     from .extract_lines import extract_lines

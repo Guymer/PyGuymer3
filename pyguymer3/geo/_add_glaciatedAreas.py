@@ -44,7 +44,6 @@ def _add_glaciatedAreas(
     """
 
     # Import standard modules ...
-    import os
     import pathlib
     import urllib
 
@@ -70,11 +69,6 @@ def _add_glaciatedAreas(
         )
     except:
         raise Exception("\"matplotlib\" is not installed; run \"pip install --user matplotlib\"") from None
-    try:
-        import shapely
-        import shapely.geometry
-    except:
-        raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
     from .extract_polys import extract_polys
