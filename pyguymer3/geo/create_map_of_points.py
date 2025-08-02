@@ -16,6 +16,7 @@ def create_map_of_points(
         exiftoolPath = None,
               extent = None,
            fillColor = (255.0 / 255.0,   0.0 / 255.0,   0.0 / 255.0),
+                 fov = None,
         gifsiclePath = None,
         jpegtranPath = None,
               method = "GeodesicBox",
@@ -76,6 +77,10 @@ def create_map_of_points(
         to be added
     fillColor : tuple of int, optional
         the fill colour of the points
+    fov : None or shapely.geometry.polygon.Polygon, optional
+        clip the plotted shapes to the provided field-of-view to work around
+        occaisional MatPlotLib or Cartopy plotting errors when shapes much
+        larger than the field-of-view are plotted
     gifsiclePath : str, optional
         the path to the "gifsicle" binary (if not provided then Python will attempt to
         find the binary itself)
@@ -229,6 +234,7 @@ def create_map_of_points(
             configureAgain = bool(background == "OSM"),
                      debug = debug,
                        eps = eps,
+                       fov = fov,
                         gs = None,
                      index = None,
                      ncols = None,
@@ -304,6 +310,7 @@ def create_map_of_points(
                        debug = debug,
                         dist = maxDist,
                          eps = eps,
+                         fov = fov,
                           gs = None,
                        index = None,
                          lat = midLat,
@@ -329,6 +336,7 @@ def create_map_of_points(
                 ax,
                 background = True,
                      debug = debug,
+                       fov = fov,
                   iceOcean = True,
                 islandLake = True,
                   lakeLand = True,
@@ -355,6 +363,7 @@ def create_map_of_points(
                 background = True,
                   cultural = True,
                      debug = debug,
+                       fov = fov,
                  linestyle = "solid",
                  linewidth = 0.5,
                    maxElev = 8850.0,

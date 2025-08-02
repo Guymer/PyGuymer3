@@ -7,6 +7,7 @@ def add_GSHHG_map_underlay(
     *,
     background = True,
          debug = __debug__,
+           fov = None,
       iceOcean = True,
     islandLake = True,
       lakeLand = True,
@@ -28,6 +29,10 @@ def add_GSHHG_map_underlay(
         add background
     debug : bool, optional
         print debug messages
+    fov : None or shapely.geometry.polygon.Polygon, optional
+        clip the plotted shapes to the provided field-of-view to work around
+        occaisional MatPlotLib or Cartopy plotting errors when shapes much
+        larger than the field-of-view are plotted
     iceOcean : bool, optional
         add ice-ocean boundaries
     islandLake : bool, optional
@@ -92,6 +97,7 @@ def add_GSHHG_map_underlay(
                  debug = debug,
              edgecolor = "blue",
              facecolor = "aliceblue",
+                   fov = fov,
                 levels = [5],
              linestyle = "solid",
              linewidth = linewidth,
@@ -109,6 +115,7 @@ def add_GSHHG_map_underlay(
                  debug = debug,
              edgecolor = "green",
              facecolor = "darkkhaki",
+                   fov = fov,
                 levels = [1],
              linestyle = "solid",
              linewidth = linewidth,
@@ -124,6 +131,7 @@ def add_GSHHG_map_underlay(
                  debug = debug,
              edgecolor = "white",
              facecolor = "snow",
+                   fov = fov,
                 levels = [6],
              linestyle = "solid",
              linewidth = linewidth,
@@ -141,6 +149,7 @@ def add_GSHHG_map_underlay(
                  debug = debug,
              edgecolor = "none",
              facecolor = "lightblue",
+                   fov = fov,
                 levels = [2],
              linestyle = "solid",
              linewidth = linewidth,
@@ -158,6 +167,7 @@ def add_GSHHG_map_underlay(
                  debug = debug,
              edgecolor = "green",
              facecolor = "darkkhaki",
+                   fov = fov,
                 levels = [3],
              linestyle = "solid",
              linewidth = linewidth,
@@ -175,6 +185,7 @@ def add_GSHHG_map_underlay(
                  debug = debug,
              edgecolor = "none",
              facecolor = "lightblue",
+                   fov = fov,
                 levels = [4],
              linestyle = "solid",
              linewidth = linewidth,
