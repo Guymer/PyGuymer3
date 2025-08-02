@@ -189,8 +189,12 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
-    # Initialise list ...
+    # Create short-hands, ensure output directory exists and initialise list ...
+    dName = __file__.removesuffix(".py")
+    if not os.path.exists(dName):
+        os.mkdir(dName)
     pNames = []
+    wName = f"{dName}/all.webp"
 
     # Loop over grid sizes ...
     for grid in [
@@ -205,7 +209,7 @@ if __name__ == "__main__":
         nx, ny = grid.split("x")
         nx = int(nx)                                                            # [#]
         ny = int(ny)                                                            # [#]
-        pName = f'{__file__.removesuffix(".py")}_{grid}.png'
+        pName = f"{dName}/{grid}.png"
         pNames.append(pName)
 
         # Create figure ...
@@ -299,29 +303,11 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
-    print(f'Making \"{__file__.removesuffix(".py")}.webp\" ...')
+    print(f"Making \"{wName}\" ...")
 
-    # Save 1fps WEBP ...
+    # Save 1 fps WEBP ...
     pyguymer3.media.images2webp(
         pNames,
-        f'{__file__.removesuffix(".py")}.webp',
+        wName,
         fps = 1.0,
     )
-
-    # Loop over maximum sizes ...
-    # NOTE: By inspection, the PNG frames are 2,160 px tall/wide.
-    for maxSize in [
-         512,
-        1024,
-        2048,
-    ]:
-        print(f'Making \"{__file__.removesuffix(".py")}{maxSize:04d}px.webp\" ...')
-
-        # Save 1fps WEBP ...
-        pyguymer3.media.images2webp(
-            pNames,
-            f'{__file__.removesuffix(".py")}{maxSize:04d}px.webp',
-                     fps = 1.0,
-            screenHeight = maxSize,
-             screenWidth = maxSize,
-        )
