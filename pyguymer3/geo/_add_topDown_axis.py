@@ -207,20 +207,20 @@ def _add_topDown_axis(
     from .buffer import buffer
     from .calc_loc_from_loc_and_bearing_and_dist import calc_loc_from_loc_and_bearing_and_dist
     from .clean import clean
-    from ..consts import CIRCUMFERENCE_OF_EARTH, RADIUS_OF_EARTH
+    from .._consts import MAXIMUM_VINCENTY, RADIUS_OF_EARTH
 
     # **************************************************************************
 
     # Create short-hand ...
-    globalFieldOfView = bool(dist > 0.25 * CIRCUMFERENCE_OF_EARTH)
+    huge = bool(dist > 0.5 * MAXIMUM_VINCENTY)
 
     # Check inputs ...
     if gridlines_int is None:
-        if globalFieldOfView:
+        if huge:
             gridlines_int = 45                                                  # [°]
         else:
             gridlines_int = 1                                                   # [°]
-    if not globalFieldOfView and satellite_height:
+    if not huge and satellite_height:
         alt = RADIUS_OF_EARTH / math.cos(dist / RADIUS_OF_EARTH) - RADIUS_OF_EARTH  # [m]
 
     # Create a Point ...
@@ -230,7 +230,7 @@ def _add_topDown_axis(
     # NOTE: See https://scitools.org.uk/cartopy/docs/latest/reference/projections.html
     if gs is not None:
         # Check if a NearsidePerspective axis can be used ...
-        if not globalFieldOfView and satellite_height:
+        if not huge and satellite_height:
             # Create NearsidePerspective axis ...
             ax = fg.add_subplot(
                 gs,
@@ -251,7 +251,7 @@ def _add_topDown_axis(
             )
     elif nrows is not None and ncols is not None and index is not None:
         # Check if a NearsidePerspective axis can be used ...
-        if not globalFieldOfView and satellite_height:
+        if not huge and satellite_height:
             # Create NearsidePerspective axis ...
             ax = fg.add_subplot(
                 nrows,
@@ -276,7 +276,7 @@ def _add_topDown_axis(
             )
     else:
         # Check if a NearsidePerspective axis can be used ...
-        if not globalFieldOfView and satellite_height:
+        if not huge and satellite_height:
             # Create NearsidePerspective axis ...
             ax = fg.add_subplot(
                 projection = cartopy.crs.NearsidePerspective(
@@ -295,7 +295,7 @@ def _add_topDown_axis(
             )
 
     # Check if the field-of-view is too large ...
-    if globalFieldOfView:
+    if huge:
         # Configure axis ...
         ax.set_global()
     elif not satellite_height:

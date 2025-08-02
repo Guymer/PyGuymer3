@@ -189,7 +189,7 @@ def create_map_of_points(
     from .extract_lines import extract_lines
     from .find_middle_of_locs import find_middle_of_locs
     from .great_circle import great_circle
-    from ..consts import RESOLUTION_OF_EARTH
+    from .._consts import RESOLUTION_OF_EARTH
     from ..image import optimise_image
 
     # **************************************************************************

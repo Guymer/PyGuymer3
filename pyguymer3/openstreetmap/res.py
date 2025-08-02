@@ -41,7 +41,7 @@ def res(
     import math
 
     # Import sub-functions ...
-    from ..consts import CIRCUMFERENCE_OF_EARTH
+    from .._consts import CIRCUMFERENCE_OF_EARTH
 
     # Create short-hands ...
     n = pow(2, zoom)

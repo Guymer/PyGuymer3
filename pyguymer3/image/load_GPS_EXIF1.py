@@ -20,7 +20,7 @@ def load_GPS_EXIF1(
         raise Exception("\"exifread\" is not installed; run \"pip install --user ExifRead\"") from None
 
     # Import sub-functions ...
-    from ..consts import RESOLUTION_OF_EARTH
+    from .._consts import RESOLUTION_OF_EARTH
 
     # Create default dictionary answer ...
     ans = {}

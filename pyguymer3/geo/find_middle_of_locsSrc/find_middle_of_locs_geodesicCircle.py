@@ -38,7 +38,7 @@ def find_middle_of_locs_geodesicCircle(
     from ..calc_loc_from_loc_and_bearing_and_dist import calc_loc_from_loc_and_bearing_and_dist
     from ..find_min_max_dist_bearing import find_min_max_dist_bearing
     from ..max_dist import max_dist
-    from ...consts import RESOLUTION_OF_EARTH
+    from ..._consts import RESOLUTION_OF_EARTH
 
     # **************************************************************************
 

@@ -14,7 +14,7 @@ def vfov(
 
     # Import sub-functions ...
     from .num2deg import num2deg
-    from ..consts import CIRCUMFERENCE_OF_EARTH
+    from .._consts import CIRCUMFERENCE_OF_EARTH
 
     _, latN_deg = num2deg(xtile, ytile, zoom)                                   # [°], [°]
     _, latS_deg = num2deg(xtile + 1, ytile + 1, zoom)                           # [°], [°]
