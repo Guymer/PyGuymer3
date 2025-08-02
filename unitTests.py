@@ -166,6 +166,7 @@ class MyTestCase(unittest.TestCase):
                 "pyguymer3/media/MPLS/__init__.py",
                 "pyguymer3/media/__init__.py",
                 "pyguymer3/openstreetmap/__init__.py",
+                "pyguymer3/osterrain/__init__.py",
             ],
         )
 
