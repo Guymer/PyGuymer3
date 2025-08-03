@@ -174,7 +174,8 @@ if __name__ == "__main__":
 
         # **********************************************************************
 
-        # Load data and replace sea with 0 m elevation ...
+        # Load data, replace sea with 0 m elevation and stop looping if this
+        # elevation would be pointless ...
         arr = numpy.fromfile(
             bName,
             dtype = numpy.int16,
@@ -245,18 +246,12 @@ if __name__ == "__main__":
                         fObj.write(src)
                     del src
             del shrunkenArr
-        del arr
 
         # **********************************************************************
 
         print("  Processing original size ...")
 
-        # Load data, replace sea with 0 m elevation and scale ...
-        arr = numpy.fromfile(
-            bName,
-            dtype = numpy.int16,
-        ).reshape(ny, nx, 1)                                                    # [m]
-        numpy.place(arr, arr == -500, 0)                                        # [m]
+        # Scale data ...
         arr = 255.0 * (arr.astype(numpy.float32) / numpy.float32(maxElev))
         numpy.place(arr, arr <   0.0,   0.0)
         numpy.place(arr, arr > 255.0, 255.0)
