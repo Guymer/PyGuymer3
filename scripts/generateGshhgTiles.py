@@ -134,7 +134,7 @@ if __name__ == "__main__":
         if (nx * ny) > PIL.Image.MAX_IMAGE_PIXELS:
             break
 
-        print(f"Processing zoom level {zoomLevel:,d} ...")
+        print(f"Processing zoom level {zoomLevel:,d} ({nTilesX:d}x{nTilesY:d}) ...")
 
         # **********************************************************************
 

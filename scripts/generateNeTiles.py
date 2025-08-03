@@ -247,7 +247,7 @@ if __name__ == "__main__":
             if nShrunkenTilesX == 0 or nShrunkenTilesY == 0:
                 break
 
-            print(f"  Processing shrink level {shrinkLevel:,d} ...")
+            print(f"  Processing shrink level {shrinkLevel:,d} ({nShrunkenTilesX:d}x{nShrunkenTilesY:d}) ...")
 
             # Create shrunken data ...
             # NOTE: The documentation of "numpy.mean()" says "float64
@@ -401,7 +401,7 @@ if __name__ == "__main__":
 
         # **********************************************************************
 
-        print("  Processing original size ...")
+        print(f"  Processing original size ({nTilesX:d}x{nTilesY:d}) ...")
 
         # Loop over resolutions ...
         for res in args.ress:

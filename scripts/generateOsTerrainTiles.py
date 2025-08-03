@@ -182,7 +182,7 @@ if __name__ == "__main__":
             if nShrunkenTilesX == 0 or nShrunkenTilesY == 0:
                 break
 
-            print(f"  Processing shrink level {shrinkLevel:,d} ...")
+            print(f"  Processing shrink level {shrinkLevel:,d} ({nShrunkenTilesX:d}x{nShrunkenTilesY:d}) ...")
 
             # Create shrunken data ...
             shrunkenArr = numpy.zeros(
@@ -259,7 +259,7 @@ if __name__ == "__main__":
 
         # **********************************************************************
 
-        print("  Processing original size ...")
+        print(f"  Processing original size ({nTilesX:d}x{nTilesY:d}) ...")
 
         # Scale data ...
         arr = 255.0 * (arr.astype(numpy.float32) / numpy.float32(maxElev))
