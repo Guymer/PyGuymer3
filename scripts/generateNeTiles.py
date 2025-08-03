@@ -81,7 +81,9 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--number-of-children",
-        default = os.process_cpu_count(),
+        default = os.cpu_count(),       # TODO: Once I ditch Python 3.11 and
+                                        #       Python 3.12 then I can use
+                                        #       "os.process_cpu_count()" instead.
            dest = "nChild",
            help = "the number of child \"multiprocessing\" processes to use when making the tiles",
            type = int,
