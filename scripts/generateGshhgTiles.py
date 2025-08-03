@@ -244,7 +244,7 @@ if __name__ == "__main__":
                                 print(f"    Not making \"{pName}\".")
                             continue
 
-                        print(f"        Adding job to make \"{pName}\" to the worker pool ...")
+                        print(f"    Adding job to make \"{pName}\" to the worker pool ...")
 
                         # Add job to make the PNG to the worker pool ...
                         results.append(
@@ -261,7 +261,7 @@ if __name__ == "__main__":
                             )
                         )
 
-                print("      Waiting for child \"multiprocessing\" processes to finish ...")
+                print("  Waiting for child \"multiprocessing\" processes to finish ...")
 
                 # Loop over results ...
                 for result in results:
