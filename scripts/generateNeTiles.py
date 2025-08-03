@@ -5,6 +5,7 @@
 if __name__ == "__main__":
     # Import standard modules ...
     import argparse
+    import multiprocessing
     import os
     import zipfile
 
@@ -76,6 +77,13 @@ if __name__ == "__main__":
         default = 1000,
            dest = "maxElevInt",
            help = "the elevation interval to make tiles for (in metres)",
+           type = int,
+    )
+    parser.add_argument(
+        "--number-of-children",
+        default = os.process_cpu_count(),
+           dest = "nChild",
+           help = "the number of child \"multiprocessing\" processes to use when making the tiles",
            type = int,
     )
     parser.add_argument(
@@ -207,18 +215,22 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
+    print(f"Loading \"{bName}\" ...")
+
+    # Load data and replace sea with 0 m elevation ...
+    arr = numpy.fromfile(
+        bName,
+        dtype = numpy.int16,
+    ).reshape(ny, nx)                                                           # [m]
+    numpy.place(arr, arr == -500, 0)                                            # [m]
+
     # Loop over maximum elevations ...
     for maxElev in range(args.maxElevInt, 9000, args.maxElevInt):
         print(f"Processing maximum elevation {maxElev:,d} m ...")
 
         # **********************************************************************
 
-        # Load data and replace sea with 0 m elevation ...
-        arr = numpy.fromfile(
-            bName,
-            dtype = numpy.int16,
-        ).reshape(ny, nx)                                                       # [m]
-        numpy.place(arr, arr == -500, 0)                                        # [m]
+        # Stop looping if this elevation would be pointless ...
         if maxElev > arr.max():
             print("  Stopping as the maximum elevation has been reached.")
             break
@@ -329,34 +341,61 @@ if __name__ == "__main__":
 
                 # **************************************************************
 
-                # Loop over shrunken x tiles ...
-                for iShrunkenTileX in range(nShrunkenTilesX):
-                    # Loop over shrunken y tiles ...
-                    for iShrunkenTileY in range(nShrunkenTilesY):
-                        # Create short-hands, make sure that the directory exists
-                        # and skip this tile if it already exists ...
-                        dName = f"{args.absPathToRepo}/pyguymer3/data/png/ne/{nShrunkenTilesX:d}x{nShrunkenTilesY:d}/maxElev={maxElev:d}m/elevInt={args.elevBandInt:d}m/res={res}/x={iShrunkenTileX:d}"
-                        pName = f"{dName}/y={iShrunkenTileY:d}.png"
-                        if not os.path.exists(dName):
-                            os.makedirs(dName)
-                        if os.path.exists(pName):
-                            print(f"        Not making \"{pName}\".")
-                            continue
+                # Create a pool of workers ...
+                with multiprocessing.Pool(args.nChild) as pObj:
+                    # Initialize list ...
+                    results = []
 
-                        print(f"        Making \"{pName}\" ...")
+                    # Loop over shrunken x tiles ...
+                    for iShrunkenTileX in range(nShrunkenTilesX):
+                        # Loop over shrunken y tiles ...
+                        for iShrunkenTileY in range(nShrunkenTilesY):
+                            # Create short-hands, make sure that the directory
+                            # exists and skip this tile if it already exists ...
+                            dName = f"{args.absPathToRepo}/pyguymer3/data/png/ne/{nShrunkenTilesX:d}x{nShrunkenTilesY:d}/maxElev={maxElev:d}m/elevInt={args.elevBandInt:d}m/res={res}/x={iShrunkenTileX:d}"
+                            pName = f"{dName}/y={iShrunkenTileY:d}.png"
+                            if not os.path.exists(dName):
+                                os.makedirs(dName)
+                            if os.path.exists(pName):
+                                if args.debug:
+                                    print(f"        Not making \"{pName}\".")
+                                continue
 
-                        # Make PNG source and write it ...
-                        src = pyguymer3.image.makePng(
-                            imgArr[iShrunkenTileY * tileSize:(iShrunkenTileY + 1) * tileSize, iShrunkenTileX * tileSize:(iShrunkenTileX + 1) * tileSize, :],
-                                 debug = args.debug,
-                                levels = [9,],
-                             memLevels = [9,],
-                            strategies = None,
-                                wbitss = [15,],
-                        )
-                        with open(pName, "wb") as fObj:
-                            fObj.write(src)
-                        del src
+                            print(f"        Adding job to make \"{pName}\" to the worker pool ...")
+
+                            # Add job to make the PNG to the worker pool ...
+                            results.append(
+                                pObj.apply_async(
+                                    pyguymer3.image.save_array_as_PNG,
+                                    (
+                                        imgArr[iShrunkenTileY * tileSize:(iShrunkenTileY + 1) * tileSize, iShrunkenTileX * tileSize:(iShrunkenTileX + 1) * tileSize, :],
+                                        pName,
+                                    ),
+                                    {
+                                        "debug" : args.debug,
+                                    },
+                                )
+                            )
+
+                    print("      Waiting for child \"multiprocessing\" processes to finish ...")
+
+                    # Loop over results ...
+                    for result in results:
+                        # Get result ...
+                        _ = result.get(args.timeout)
+
+                        # Check result ...
+                        if not result.successful():
+                            raise Exception("\"multiprocessing.Pool().apply_async()\" was not successful") from None
+
+                    # Close the pool of worker processes and wait for all of the
+                    # tasks to finish ...
+                    # NOTE: The "__exit__()" call of the context manager for
+                    #       "multiprocessing.Pool()" calls "terminate()" instead
+                    #       of "join()", so I must manage the end of the pool of
+                    #       worker processes myself.
+                    pObj.close()
+                    pObj.join()
                 del imgArr
             del shrunkenArr
 
@@ -442,33 +481,59 @@ if __name__ == "__main__":
 
             # ******************************************************************
 
-            # Loop over x tiles ...
-            for iTileX in range(nTilesX):
-                # Loop over y tiles ...
-                for iTileY in range(nTilesY):
-                    # Create short-hands, make sure that the directory exists
-                    # and skip this tile if it already exists ...
-                    dName = f"{args.absPathToRepo}/pyguymer3/data/png/ne/{nTilesX:d}x{nTilesY:d}/maxElev={maxElev:d}m/elevInt={args.elevBandInt:d}m/res={res}/x={iTileX:d}"
-                    pName = f"{dName}/y={iTileY:d}.png"
-                    if not os.path.exists(dName):
-                        os.makedirs(dName)
-                    if os.path.exists(pName):
-                        print(f"        Not making \"{pName}\".")
-                        continue
+            # Create a pool of workers ...
+            with multiprocessing.Pool(args.nChild) as pObj:
+                # Initialize list ...
+                results = []
 
-                    print(f"        Making \"{pName}\" ...")
+                # Loop over x tiles ...
+                for iTileX in range(nTilesX):
+                    # Loop over y tiles ...
+                    for iTileY in range(nTilesY):
+                        # Create short-hands, make sure that the directory
+                        # exists and skip this tile if it already exists ...
+                        dName = f"{args.absPathToRepo}/pyguymer3/data/png/ne/{nTilesX:d}x{nTilesY:d}/maxElev={maxElev:d}m/elevInt={args.elevBandInt:d}m/res={res}/x={iTileX:d}"
+                        pName = f"{dName}/y={iTileY:d}.png"
+                        if not os.path.exists(dName):
+                            os.makedirs(dName)
+                        if os.path.exists(pName):
+                            if args.debug:
+                                print(f"        Not making \"{pName}\".")
+                            continue
 
-                    # Make PNG source and write it ...
-                    src = pyguymer3.image.makePng(
-                        imgArr[iTileY * tileSize:(iTileY + 1) * tileSize, iTileX * tileSize:(iTileX + 1) * tileSize, :],
-                             debug = args.debug,
-                            levels = [9,],
-                         memLevels = [9,],
-                        strategies = None,
-                            wbitss = [15,],
-                    )
-                    with open(pName, "wb") as fObj:
-                        fObj.write(src)
-                    del src
+                        print(f"        Adding job to make \"{pName}\" to the worker pool ...")
+
+                        # Add job to make the PNG to the worker pool ...
+                        results.append(
+                            pObj.apply_async(
+                                pyguymer3.image.save_array_as_PNG,
+                                (
+                                    imgArr[iTileY * tileSize:(iTileY + 1) * tileSize, iTileX * tileSize:(iTileX + 1) * tileSize, :],
+                                    pName,
+                                ),
+                                {
+                                    "debug" : args.debug,
+                                },
+                            )
+                        )
+
+                print("      Waiting for child \"multiprocessing\" processes to finish ...")
+
+                # Loop over results ...
+                for result in results:
+                    # Get result ...
+                    _ = result.get(args.timeout)
+
+                    # Check result ...
+                    if not result.successful():
+                        raise Exception("\"multiprocessing.Pool().apply_async()\" was not successful") from None
+
+                # Close the pool of worker processes and wait for all of the
+                # tasks to finish ...
+                # NOTE: The "__exit__()" call of the context manager for
+                #       "multiprocessing.Pool()" calls "terminate()" instead of
+                #       "join()", so I must manage the end of the pool of worker
+                #       processes myself.
+                pObj.close()
+                pObj.join()
             del imgArr
-        del arr
