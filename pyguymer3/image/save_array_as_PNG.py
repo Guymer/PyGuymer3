@@ -101,7 +101,7 @@ def save_array_as_PNG(
               levels = [9,],
            memLevels = [9,],
              modTime = modTime,
-            palUint8 = pal,
+            palUint8 = palUint8,
           strategies = None,
               wbitss = [15,],
     )
