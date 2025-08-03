@@ -3,7 +3,7 @@
 """
 A Python sub-module containing a bunch of random media-related functions that I
 have written over the years. If you want to use some of these functions directly
-from the command line then you can run ``python3.13 -m pyguymer3.media --help``
+from the command line then you can run ``python3.12 -m pyguymer3.media --help``
 to see what is available.
 
 Notes

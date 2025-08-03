@@ -12,7 +12,7 @@ CIRCUMFERENCE_OF_EARTH = 2.0 * math.pi * RADIUS_OF_EARTH                        
 RESOLUTION_OF_EARTH = CIRCUMFERENCE_OF_EARTH / 360.0                            # [m/°]
 
 # Set limits ...
-# NOTE: Running "python3.13 scripts/plotLimitOfVincenty.py --degree-interval 1"
+# NOTE: Running "python3.12 scripts/plotLimitOfVincenty.py --degree-interval 1"
 #       tells me that the minimum maximum distance which the Vincenty formula
 #       works is 19,970 km (which, looking at the associated PNG, occurs for
 #       origins on the equator).
