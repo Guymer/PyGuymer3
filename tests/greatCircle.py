@@ -7,6 +7,7 @@ if __name__ == "__main__":
 
     # Import standard modules ...
     import argparse
+    import json
     import os
     import pathlib
 
@@ -22,7 +23,6 @@ if __name__ == "__main__":
         raise Exception("\"cartopy\" is not installed; run \"pip install --user Cartopy\"") from None
     try:
         import geojson
-        geojson.geometry.Geometry.__init__.__defaults__ = (None, False, 12)     # NOTE: See https://github.com/jazzband/geojson/issues/135#issuecomment-596509669
     except:
         raise Exception("\"geojson\" is not installed; run \"pip install --user geojson\"") from None
     try:
@@ -146,9 +146,24 @@ if __name__ == "__main__":
             )
 
             # Save GeoJSON ...
+            # NOTE: As of 4/Aug/2025, the Python module "geojson" just converts
+            #       the object to a Python dictionary and then it just calls the
+            #       standard "json.dump()" function to format the Python
+            #       dictionary as text. There is no way to specify the precision
+            #       of the written string. Fortunately, if you have no shame,
+            #       then you can load and then dump the string again, see:
+            #         * https://stackoverflow.com/a/29066406
             with open(jname, "wt", encoding = "utf-8") as fObj:
-                geojson.dump(
-                    circle,
+                json.dump(
+                    json.loads(
+                        geojson.dumps(
+                            circle,
+                            ensure_ascii = False,
+                                  indent = 4,
+                               sort_keys = True,
+                        ),
+                        parse_float = lambda x: round(float(x), 4),             # NOTE: 0.0001° is approximately 11.1 m.
+                    ),
                     fObj,
                     ensure_ascii = False,
                           indent = 4,
