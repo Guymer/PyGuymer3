@@ -86,7 +86,10 @@ if __name__ == "__main__":
     print(f" > Making \"{fname}\" ...")
 
     # Create figure ...
-    fg = matplotlib.pyplot.figure(figsize = (4.8, 7.2))
+    fg = matplotlib.pyplot.figure(
+            dpi = 100,                                      # NOTE: Reduce DPI to make test quicker.
+        figsize = (12.8, 3 * 7.2),
+    )
 
     # Loop over resolutions ...
     for iresolution, resolution in enumerate(resolutions):
@@ -137,7 +140,10 @@ if __name__ == "__main__":
     print(f" > Making \"{fname}\" ...")
 
     # Create figure ...
-    fg = matplotlib.pyplot.figure(figsize = (2.4, 7.2))
+    fg = matplotlib.pyplot.figure(
+            dpi = 100,                                      # NOTE: Reduce DPI to make test quicker.
+        figsize = (7.2, 3 * 7.2),
+    )
 
     # Loop over resolutions ...
     for iresolution, resolution in enumerate(resolutions):
@@ -191,7 +197,10 @@ if __name__ == "__main__":
     print(f" > Making \"{fname}\" ...")
 
     # Create figure ...
-    fg = matplotlib.pyplot.figure(figsize = (2.4, 7.2))
+    fg = matplotlib.pyplot.figure(
+            dpi = 100,                                      # NOTE: Reduce DPI to make test quicker.
+        figsize = (7.2, 3 * 7.2),
+    )
 
     # Loop over resolutions ...
     for iresolution, resolution in enumerate(resolutions):
@@ -245,7 +254,10 @@ if __name__ == "__main__":
     print(f" > Making \"{fname}\" ...")
 
     # Create figure ...
-    fg = matplotlib.pyplot.figure(figsize = (2.4, 7.2))
+    fg = matplotlib.pyplot.figure(
+            dpi = 100,                                      # NOTE: Reduce DPI to make test quicker.
+        figsize = (7.2, 3 * 7.2),
+    )
 
     # Loop over resolutions ...
     for iresolution, resolution in enumerate(resolutions):

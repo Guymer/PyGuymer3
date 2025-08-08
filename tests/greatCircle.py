@@ -107,23 +107,25 @@ if __name__ == "__main__":
         print(f" > Making \"{pname}\" ...")
 
         # Create figure ...
-        fg = matplotlib.pyplot.figure(figsize = (12.8, 7.2))
+        fg = matplotlib.pyplot.figure(
+                dpi = 100,                                  # NOTE: Reduce DPI to make test quicker.
+            figsize = (12.8, 7.2),
+        )
 
         # Create axis ...
         ax = pyguymer3.geo.add_axis(
             fg,
-                   add_coastlines = True,
-                    add_gridlines = True,
-            coastlines_resolution = "c",
-                            debug = args.debug,
-                            nIter = None,
+                add_coastlines = False,                     # NOTE: Do not draw coastlines so that changes in GSHGG do not change the image.
+                 add_gridlines = True,
+                         debug = args.debug,
+                         nIter = None,
         )
 
         # Configure axis ...
         pyguymer3.geo.add_map_background(
             ax,
                  debug = args.debug,
-            resolution = "large2048px",
+            resolution = "large1024px",                     # NOTE: Reduce size to make test quicker.
         )
 
         # Loop over number of points ...

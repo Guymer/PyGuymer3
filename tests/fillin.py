@@ -137,55 +137,56 @@ if __name__ == "__main__":
         print(f" > Making \"{jname1}\", \"{jname2}\" and \"{fname}\" ...")
 
         # Create figure ...
-        fg = matplotlib.pyplot.figure()
+        fg = matplotlib.pyplot.figure(
+                dpi = 100,                                  # NOTE: Reduce DPI to make test quicker.
+            figsize = (9.6, 7.2),
+        )
 
         # Create axis ...
         ax1 = pyguymer3.geo.add_axis(
             fg,
-                   add_coastlines = True,
-                    add_gridlines = True,
-            coastlines_resolution = "c",
-                            debug = args.debug,
-                            index = 1,
-                            ncols = 2,
-                            nIter = nIter,
-                            nrows = 2,
+            add_coastlines = False,                         # NOTE: Do not draw coastlines so that changes in GSHGG do not change the image.
+             add_gridlines = True,
+                     debug = args.debug,
+                     index = 1,
+                     ncols = 2,
+                     nIter = nIter,
+                     nrows = 2,
         )
 
         # Configure axis ...
         pyguymer3.geo.add_map_background(
             ax1,
                  debug = args.debug,
-            resolution = "large1024px",
+            resolution = "large1024px",                     # NOTE: Reduce size to make test quicker.
         )
 
         # Create axis ...
         ax2 = pyguymer3.geo.add_axis(
             fg,
-                   add_coastlines = True,
-                    add_gridlines = True,
-            coastlines_resolution = "c",
-                            debug = args.debug,
-                            index = 2,
-                              lat = ring[1][1],
-                              lon = ring[0][0],
-                            ncols = 2,
-                            nIter = nIter,
-                            nrows = 2,
+            add_coastlines = False,                         # NOTE: Do not draw coastlines so that changes in GSHGG do not change the image.
+             add_gridlines = True,
+                     debug = args.debug,
+                     index = 2,
+                       lat = ring[1][1],
+                       lon = ring[0][0],
+                     ncols = 2,
+                     nIter = nIter,
+                     nrows = 2,
         )
 
         # Configure axis ...
         pyguymer3.geo.add_map_background(
             ax2,
                  debug = args.debug,
-            resolution = "large1024px",
+            resolution = "large1024px",                     # NOTE: Reduce size to make test quicker.
         )
 
         # Create axis ...
         ax3 = fg.add_subplot(
             2,
             2,
-            (3, 4)
+            (3, 4),
         )
 
         # Configure axis ...

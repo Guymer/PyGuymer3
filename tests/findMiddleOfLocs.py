@@ -272,7 +272,10 @@ if __name__ == "__main__":
     print("Making \"findMiddleOfLocs/comparison.png\" ...")
 
     # Create figure ...
-    fg = matplotlib.pyplot.figure(figsize = (2 * 12.8, 2 * 7.2))
+    fg = matplotlib.pyplot.figure(
+            dpi = 100,                                      # NOTE: Reduce DPI to make test quicker.
+        figsize = (4 * 7.2, 2 * 7.2),
+    )
 
     # Create axes ...
     axBot = []
@@ -288,20 +291,24 @@ if __name__ == "__main__":
         axTop.append(
             pyguymer3.geo.add_axis(
                 fg,
-                  add_coastlines = True,
-                   add_gridlines = True,
-                           debug = args.debug,
-                            dist = maxDist1 * pyguymer3.RESOLUTION_OF_EARTH,
-                             eps = args.eps,
-                           index = iCol + 1,
-                             lat = midLat1,
-                             lon = midLon1,
-                           ncols = 4,
-                           nIter = args.nIter,
-                           nrows = 2,
-                satellite_height = False,
-                             tol = args.tol,
+                add_coastlines = False,                     # NOTE: Do not draw coastlines so that changes in GSHGG do not change the image.
+                 add_gridlines = True,
+                         debug = args.debug,
+                          dist = maxDist1 * pyguymer3.RESOLUTION_OF_EARTH,
+                           eps = args.eps,
+                         index = iCol + 1,
+                           lat = midLat1,
+                           lon = midLon1,
+                         ncols = 4,
+                         nIter = args.nIter,
+                         nrows = 2,
+                           tol = args.tol,
             )
+        )
+        pyguymer3.geo.add_map_background(
+            axTop[-1],
+                 debug = args.debug,
+            resolution = "large1024px",                     # NOTE: Reduce size to make test quicker.
         )
 
     # Plot the data ...
@@ -486,7 +493,10 @@ if __name__ == "__main__":
     print("Making \"findMiddleOfLocs/locations.png\" ...")
 
     # Create figure ...
-    fg = matplotlib.pyplot.figure(figsize = (12.8, 7.2))
+    fg = matplotlib.pyplot.figure(
+            dpi = 100,                                      # NOTE: Reduce DPI to make test quicker.
+        figsize = (12.8, 7.2),
+    )
 
     # Create axis ...
     ax = fg.add_subplot()

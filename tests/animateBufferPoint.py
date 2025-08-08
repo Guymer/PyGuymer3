@@ -124,9 +124,9 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Loop over latitude ...
-    for lat in range(-90, +92, 2):
+    for lat in range(-90, +92, 2):                          # NOTE: 16,471 images.
         # Loop over longitude ...
-        for lon in range(-180, +182, 2):
+        for lon in range(-180, +182, 2):                    # NOTE: 16,471 images.
             # Determine file names ...
             fname = f"animateBufferPoint/lon={lon:+04d},lat={lat:+03d}.png"
             jname = f"animateBufferPoint/lon={lon:+04d},lat={lat:+03d}.geojson"
@@ -138,49 +138,49 @@ if __name__ == "__main__":
             print(f" > Making \"{jname}\" and \"{fname}\" ...")
 
             # Create figure ...
-            fg = matplotlib.pyplot.figure()
+            fg = matplotlib.pyplot.figure(
+                    dpi = 100,                              # NOTE: Reduce DPI to make test quicker.
+                figsize = (9.6, 7.2),
+            )
 
             # Create axis ...
             ax1 = pyguymer3.geo.add_axis(
                 fg,
-                       add_coastlines = True,
-                        add_gridlines = True,
-                coastlines_resolution = "c",
-                                debug = args.debug,
-                                index = 1,
-                                ncols = 2,
-                                nIter = nIter,
-                                nrows = 2,
+                add_coastlines = False,                     # NOTE: Do not draw coastlines so that changes in GSHGG do not change the image.
+                 add_gridlines = True,
+                         debug = args.debug,
+                         index = 1,
+                         ncols = 2,
+                         nIter = nIter,
+                         nrows = 2,
             )
 
             # Configure axis ...
             pyguymer3.geo.add_map_background(
                 ax1,
                      debug = args.debug,
-                resolution = "large1024px",
+                resolution = "large1024px",                 # NOTE: Reduce size to make test quicker.
             )
 
             # Create axis ...
             ax2 = pyguymer3.geo.add_axis(
                 fg,
-                       add_coastlines = True,
-                        add_gridlines = True,
-                coastlines_resolution = "c",
-                                debug = args.debug,
-                                index = 2,
-                                  lat = lat,
-                                  lon = lon,
-                                ncols = 2,
-                                nIter = nIter,
-                                nrows = 2,
-                     satellite_height = False,
+                add_coastlines = False,                     # NOTE: Do not draw coastlines so that changes in GSHGG do not change the image.
+                 add_gridlines = True,
+                         debug = args.debug,
+                         index = 2,
+                           lat = lat,
+                           lon = lon,
+                         ncols = 2,
+                         nIter = nIter,
+                         nrows = 2,
             )
 
             # Configure axis ...
             pyguymer3.geo.add_map_background(
                 ax2,
                      debug = args.debug,
-                resolution = "large1024px",
+                resolution = "large1024px",                 # NOTE: Reduce size to make test quicker.
             )
 
             # Create axis ...
@@ -319,24 +319,3 @@ if __name__ == "__main__":
             timeout = 3600.0,
     )
     shutil.move(vname, "animateBufferPoint.mp4")
-
-    # Set heights ...
-    # NOTE: By inspection, the PNG frames are 2,880 px wide.
-    heights = [512, 1024, 2048]                                                 # [px]
-
-    # Loop over heights ...
-    for height in heights:
-        print(f" > Making \"animateBufferPoint{height:04d}px.mp4\" ...")
-
-        # Save 60fps MP4 ...
-        vname = pyguymer3.media.images2mp4(
-            frames,
-                   debug = args.debug,
-              ffmpegPath = args.ffmpegPath,
-             ffprobePath = args.ffprobePath,
-                     fps = 60.0,
-             screenWidth = height,
-            screenHeight = height,
-                 timeout = 3600.0,
-        )
-        shutil.move(vname, f"animateBufferPoint{height:04d}px.mp4")
