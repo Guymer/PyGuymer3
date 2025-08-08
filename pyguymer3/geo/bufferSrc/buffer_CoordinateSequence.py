@@ -103,7 +103,7 @@ def buffer_CoordinateSequence(
     from ..check import check
     from ..clean import clean
     from ..fillin import fillin
-    from ..._consts import MAXIMUM_VINCENTY
+    from ..._consts import CIRCUMFERENCE_OF_EARTH, MAXIMUM_VINCENTY
     try:
         from ...f90 import funcs
         if debug:
@@ -205,7 +205,7 @@ def buffer_CoordinateSequence(
             points1[ipoint, :],
             points2[ipoint, :, :],
              debug = debug,
-              huge = bool(dist > 0.5 * MAXIMUM_VINCENTY),
+              huge = bool(dist > 0.25 * CIRCUMFERENCE_OF_EARTH),
             prefix = prefix,
                tol = tol,
         )

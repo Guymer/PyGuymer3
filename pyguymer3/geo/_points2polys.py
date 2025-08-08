@@ -76,6 +76,10 @@ def _points2polys(
     # Check arguments ...
     assert isinstance(point, numpy.ndarray), "\"point\" is not a NumPy array"
     assert isinstance(points, numpy.ndarray), "\"points\" is not a NumPy array"
+    if huge:
+        if debug:
+            print("DEBUG: overruling \"huge\" flag because the feature is currently broken (as of 8/Aug/2025).")
+        huge = False
 
     # **************************************************************************
 
