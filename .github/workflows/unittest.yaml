@@ -106,3 +106,4 @@ jobs:
                         ${{ runner.temp }}/tests/findMiddleOfLocs/*.json
                         ${{ runner.temp }}/tests/greatCircle/*.geojson
                         ${{ runner.temp }}/tests/test.md5
+                    compression-level: 9
