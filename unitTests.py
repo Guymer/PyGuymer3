@@ -524,12 +524,12 @@ class MyTestCase(unittest.TestCase):
             db = json.load(fObj)
 
         # Load data and convert to NumPy array ...
-        with open("tests/findMiddleOfLocs/lons.json", "rt", encoding = "utf-8") as fObj:
+        with open("pyguymer3/data/json/exampleLons.json", "rt", encoding = "utf-8") as fObj:
             lons = json.load(fObj)                                              # [°]
         lons = numpy.array(lons, dtype = numpy.float64)                         # [°]
 
         # Load data and convert to NumPy array ...
-        with open("tests/findMiddleOfLocs/lats.json", "rt", encoding = "utf-8") as fObj:
+        with open("pyguymer3/data/json/exampleLats.json", "rt", encoding = "utf-8") as fObj:
             lats = json.load(fObj)                                              # [°]
         lats = numpy.array(lats, dtype = numpy.float64)                         # [°]
 
@@ -1426,9 +1426,7 @@ class MyTestCase(unittest.TestCase):
             [
                 "tests/findMiddleOfLocs/comparison.json",
                 "tests/findMiddleOfLocs/comparison.png",
-                "tests/findMiddleOfLocs/lats.json",
                 "tests/findMiddleOfLocs/locations.png",
-                "tests/findMiddleOfLocs/lons.json",
             ],
         )
 
