@@ -69,7 +69,15 @@ jobs:
                 run: |
                     cd main
                     gmake -r -C pyguymer3/f90 FC=`which gfortran` PYTHON3=`which python` compile
-                    coverage run -m unittest unitTests.py
+                    coverage run --rcfile=.coverage.ini tests/animateBufferPoint.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots --quiet
+                    coverage run --rcfile=.coverage.ini tests/animateExpandPoint.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots --quiet
+                    coverage run --rcfile=.coverage.ini tests/buffer.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots --quiet
+                    coverage run --rcfile=.coverage.ini tests/bufferPoint.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots --quiet
+                    coverage run --rcfile=.coverage.ini tests/fillin.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots --quiet
+                    coverage run --rcfile=.coverage.ini tests/findMiddleOfLocs.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots --quiet
+                    coverage run --rcfile=.coverage.ini tests/greatCircle.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots --quiet
+                    coverage run --rcfile=.coverage.ini -m unittest unitTests.py
+                    coverage combine
                     coverage html --directory=coverage-output --include="pyguymer3/*"
             -
                 name: Upload coverage report (for future download)
