@@ -79,6 +79,13 @@ if __name__ == "__main__":
           help = "print debug messages",
     )
     parser.add_argument(
+        "--eps",
+        default = 1.0e-12,
+           dest = "eps",
+           help = "the tolerance of the Vincenty formula iterations",
+           type = float,
+    )
+    parser.add_argument(
         "--ffmpeg-path",
         default = shutil.which("ffmpeg7") if platform.system() == "Darwin" else shutil.which("ffmpeg"),
            dest = "ffmpegPath",
@@ -93,9 +100,30 @@ if __name__ == "__main__":
            type = str,
     )
     parser.add_argument(
+        "--nAng",
+        default = 361,
+           dest = "nAng",
+           help = "the number of angles around each circle",
+           type = int,
+    )
+    parser.add_argument(
+        "--nIter",
+        default = 1000000,
+           dest = "nIter",
+           help = "the maximum number of iterations (particularly the Vincenty formula)",
+           type = int,
+    )
+    parser.add_argument(
         "--timeout",
         default = 60.0,
            help = "the timeout for any requests/subprocess calls (in seconds)",
+           type = float,
+    )
+    parser.add_argument(
+        "--tolerance",
+        default = 1.0e-10,
+           dest = "tol",
+           help = "the Euclidean distance that defines two points as being the same (in degrees)",
            type = float,
     )
     args = parser.parse_args()
@@ -115,10 +143,7 @@ if __name__ == "__main__":
     # Configure functions ...
     fill = 1.0                                                                  # [°]
     fillSpace = "EuclideanSpace"
-    nAng = 361                                                                  # [#]
-    nIter = 100                                                                 # [#]
     simp = -1.0                                                                 # [°]
-    tol = 1.0e-10                                                               # [°]
 
     # Make output directory ...
     if not os.path.exists("animateExpandPoint"):
@@ -150,10 +175,12 @@ if __name__ == "__main__":
             add_coastlines = False,                         # NOTE: Do not draw coastlines so that changes in GSHGG do not change the image.
              add_gridlines = True,
                      debug = args.debug,
+                       eps = args.eps,
                      index = 1,
                      ncols = 2,
-                     nIter = nIter,
+                     nIter = args.nIter,
                      nrows = 2,
+                       tol = args.tol,
         )
 
         # Configure axis ...
@@ -169,12 +196,14 @@ if __name__ == "__main__":
             add_coastlines = False,                         # NOTE: Do not draw coastlines so that changes in GSHGG do not change the image.
              add_gridlines = True,
                      debug = args.debug,
+                       eps = args.eps,
                      index = 2,
                        lat = lat,
                        lon = lon,
                      ncols = 2,
-                     nIter = nIter,
+                     nIter = args.nIter,
                      nrows = 2,
+                       tol = args.tol,
         )
 
         # Configure axis ...
@@ -209,12 +238,13 @@ if __name__ == "__main__":
             point,
             float(1000 * dist),
                 debug = args.debug,
+                  eps = args.eps,
                  fill = fill,
             fillSpace = fillSpace,
-                 nAng = nAng,
-                nIter = nIter,
+                 nAng = args.nAng,
+                nIter = args.nIter,
                  simp = simp,
-                  tol = tol,
+                  tol = args.tol,
         )
 
         # Plot Point thrice ...
