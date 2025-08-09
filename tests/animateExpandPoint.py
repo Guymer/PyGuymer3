@@ -152,7 +152,7 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Loop over distances ...
-    for dist in range(10, 19980, 10):                       # NOTE: 1,997 images.
+    for dist in range(10, 19970 + 10, 10):                  # NOTE: 1,997 images.
         # Determine file names ...
         fname = f"animateExpandPoint/dist={dist:05d}.png"
         jname = f"animateExpandPoint/dist={dist:05d}.geojson"
@@ -317,7 +317,7 @@ if __name__ == "__main__":
     frames = []
 
     # Loop over distances ...
-    for dist in range(10, 19980, 10):
+    for dist in range(10, 19970 + 10, 10):
         # Determine file name ...
         frame = f"animateExpandPoint/dist={dist:05d}.png"
 
