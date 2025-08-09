@@ -57,6 +57,9 @@ if __name__ == "__main__":
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import my modules ...
+    print(os.getcwd())
+    print(os.listdir())
+    print(sys.path)
     # try:
     import pyguymer3
     import pyguymer3.geo
