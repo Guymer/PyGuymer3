@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 
 # Import standard modules ...
+import glob
 import json
 import math
 import os
 import platform
+import re
 import shutil
 import unittest
 
@@ -61,6 +63,7 @@ class MyTestCase(unittest.TestCase):
     #           OK
     #       Yes, you read that right: 1h 10m 58s to run all the unit tests!
     allTests = bool("ALLTESTS" in os.environ)
+    compareOutput = bool("RUNNER_TEMP" in os.environ)
     debug = bool("DEBUG" in os.environ)
     eps = 1.0e-12
     ffmpegPath = shutil.which("ffmpeg7") if platform.system() == "Darwin" else shutil.which("ffmpeg")
@@ -1514,6 +1517,64 @@ class MyTestCase(unittest.TestCase):
             pyguymer3.stderr(arr2),
             4.404543109109064e-2,
         )
+
+    # Define a test ...
+    @unittest.skipUnless(compareOutput, "test needs generated output")
+    def testsOutput(self):
+        """
+        Test the generated output of scripts in the "tests" folder
+        """
+
+        # Create short-hands ...
+        patGeojson = re.compile(r"tests/.+/.+\.geojson")
+        patJson = re.compile(r"tests/.+/.+\.json")
+
+        # Loop over files in the Git repository ...
+        for fNameNull in pyguymer3.git_files(
+            os.getcwd(),
+            timeout = self.timeout,
+        ):
+            # Create short-hand ...
+            fNameTest = f'{os.environ["RUNNER_TEMP"]}/{fNameNull}'
+
+            # Check if this file is a GeoJSON file in the "tests" folder ...
+            if patGeojson.fullmatch(fNameNull):
+                # Load Shapes from GeoJSON ...
+                with open(fNameNull, "rt", encoding = "utf-8") as fObj:
+                    shapeNull = shapely.geometry.shape(geojson.load(fObj))
+                with open(fNameTest, "rt", encoding = "utf-8") as fObj:
+                    shapeTest = shapely.geometry.shape(geojson.load(fObj))
+
+                # Tell "unittest" that we are doing sub-tests ...
+                with self.subTest(
+                    fName = fNameNull,
+                ):
+                    # Assert results ...
+                    self.assertEqual(
+                        type(shapeNull),
+                        type(shapeTest),
+                    )
+                    self.assertTrue(
+                        shapeNull.equals(shapeTest),
+                    )
+
+            # Check if this file is a JSON file in the "tests" folder ...
+            if patJson.fullmatch(fNameNull):
+                # Load data from JSON ...
+                with open(fNameNull, "rt", encoding = "utf-8") as fObj:
+                    dataNull = json.load(fObj)
+                with open(fNameTest, "rt", encoding = "utf-8") as fObj:
+                    dataTest = json.load(fObj)
+
+                # Tell "unittest" that we are doing sub-tests ...
+                with self.subTest(
+                    fName = fNameNull,
+                ):
+                    # Assert result ...
+                    self.assertEqual(
+                        dataNull,
+                        dataTest,
+                    )
 
 # Use the proper idiom in the main module ...
 # NOTE: See https://docs.python.org/3.12/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
