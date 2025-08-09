@@ -124,6 +124,11 @@ if __name__ == "__main__":
            type = int,
     )
     parser.add_argument(
+        "--quiet",
+        action = "store_true",
+          help = "don't print most messages",
+    )
+    parser.add_argument(
         "--timeout",
         default = 60.0,
            help = "the timeout for any requests/subprocess calls (in seconds)",
@@ -174,7 +179,8 @@ if __name__ == "__main__":
             fname = f"{dName}/bufferPoint{i:d}.png"
             jname = f"{dName}/bufferPoint{i:d}.geojson"
 
-            print(f" > Making \"{jname}\" and \"{fname}\" ...")
+            if not args.quiet:
+                print(f" > Making \"{jname}\" and \"{fname}\" ...")
 
             # Check that the user wants to make plots ...
             if not args.dontMakePlots:

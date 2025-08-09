@@ -111,6 +111,11 @@ if __name__ == "__main__":
            type = int,
     )
     parser.add_argument(
+        "--quiet",
+        action = "store_true",
+          help = "don't print most messages",
+    )
+    parser.add_argument(
         "--timeout",
         default = 60.0,
            help = "the timeout for any requests/subprocess calls (in seconds)",
@@ -179,7 +184,8 @@ if __name__ == "__main__":
             jname1 = f"{dName}/fillin{i:d}Euclidean.geojson"
             jname2 = f"{dName}/fillin{i:d}Geodesic.geojson"
 
-            print(f" > Making \"{jname1}\", \"{jname2}\" and \"{fname}\" ...")
+            if not args.quiet:
+                print(f" > Making \"{jname1}\", \"{jname2}\" and \"{fname}\" ...")
 
             # Check that the user wants to make plots ...
             if not args.dontMakePlots:

@@ -66,11 +66,11 @@ jobs:
                 run: |
                     cd main
                     gmake -r -C pyguymer3/f90 FC=`which gfortran` PYTHON3=`which python` compile
-                    python tests/animateBufferPoint.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots
-                    python tests/animateExpandPoint.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots
-                    python tests/buffer.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots
-                    python tests/bufferPoint.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots
-                    python tests/fillin.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots
-                    python tests/findMiddleOfLocs.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots
-                    python tests/greatCircle.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots
+                    python tests/animateBufferPoint.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots --quiet
+                    python tests/animateExpandPoint.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots --quiet
+                    python tests/buffer.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots --quiet
+                    python tests/bufferPoint.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots --quiet
+                    python tests/fillin.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots --quiet
+                    python tests/findMiddleOfLocs.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots --quiet
+                    python tests/greatCircle.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots --quiet
                     python -m unittest unitTests.py

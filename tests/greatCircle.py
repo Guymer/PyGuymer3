@@ -97,6 +97,11 @@ if __name__ == "__main__":
            type = int,
     )
     parser.add_argument(
+        "--quiet",
+        action = "store_true",
+          help = "don't print most messages",
+    )
+    parser.add_argument(
         "--timeout",
         default = 60.0,
            help = "the timeout for any requests/subprocess calls (in seconds)",
@@ -144,7 +149,8 @@ if __name__ == "__main__":
             # Determine file name ...
             pname = f"{dName}/greatCircle{i:d}.png"
 
-            print(f" > Making \"{pname}\" ...")
+            if not args.quiet:
+                print(f" > Making \"{pname}\" ...")
 
             # Check that the user wants to make plots ...
             if not args.dontMakePlots:
@@ -177,7 +183,8 @@ if __name__ == "__main__":
                 # Determine file name ...
                 jname = f"{dName}/greatCircle{i:d}_{c:d}.geojson"
 
-                print(f"   > Making \"{jname}\" ...")
+                if not args.quiet:
+                    print(f"   > Making \"{jname}\" ...")
 
                 # Find the great circle ...
                 circle = pyguymer3.geo.great_circle(

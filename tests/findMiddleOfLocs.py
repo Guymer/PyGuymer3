@@ -120,6 +120,11 @@ if __name__ == "__main__":
            type = int,
     )
     parser.add_argument(
+        "--quiet",
+        action = "store_true",
+          help = "don't print most messages",
+    )
+    parser.add_argument(
         "--timeout",
         default = 60.0,
            help = "the timeout for any requests/subprocess calls (in seconds)",
@@ -253,7 +258,8 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
-    print(f"Making \"{dName}/comparison.json\" ...")
+    if not args.quiet:
+        print(f"Making \"{dName}/comparison.json\" ...")
 
     # Populate database ...
     db = {
@@ -297,7 +303,8 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
-    print(f"Making \"{dName}/comparison.png\" ...")
+    if not args.quiet:
+        print(f"Making \"{dName}/comparison.png\" ...")
 
     # Create figure ...
     fg = matplotlib.pyplot.figure(
@@ -518,7 +525,8 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
-    print(f"Making \"{dName}/locations.png\" ...")
+    if not args.quiet:
+        print(f"Making \"{dName}/locations.png\" ...")
 
     # Create figure ...
     fg = matplotlib.pyplot.figure(

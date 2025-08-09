@@ -138,6 +138,11 @@ if __name__ == "__main__":
            type = int,
     )
     parser.add_argument(
+        "--quiet",
+        action = "store_true",
+          help = "don't print most messages",
+    )
+    parser.add_argument(
         "--timeout",
         default = 60.0,
            help = "the timeout for any requests/subprocess calls (in seconds)",
@@ -188,7 +193,8 @@ if __name__ == "__main__":
             if os.path.exists(fname) and os.path.exists(jname):
                 continue
 
-            print(f" > Making \"{jname}\" and \"{fname}\" ...")
+            if not args.quiet:
+                print(f" > Making \"{jname}\" and \"{fname}\" ...")
 
             # Check that the user wants to make plots ...
             if not args.dontMakePlots:
@@ -341,7 +347,8 @@ if __name__ == "__main__":
                     fg.savefig(fname)
                     matplotlib.pyplot.close(fg)
                 except:
-                    print("   Failed")
+                    if not args.quiet:
+                        print("   Failed")
                     matplotlib.pyplot.close(fg)
                     continue
 
@@ -385,7 +392,8 @@ if __name__ == "__main__":
         # Append it to the list ...
         frames.append(frame)
 
-    print(f" > Making \"{dName}.mp4\" ...")
+    if not args.quiet:
+        print(f" > Making \"{dName}.mp4\" ...")
 
     # Save 60fps MP4 ...
     vname = pyguymer3.media.images2mp4(
