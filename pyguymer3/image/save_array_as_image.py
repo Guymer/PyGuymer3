@@ -166,6 +166,7 @@ def save_array_as_image(
                        debug = debug,
                          dpi = dpi,
                      modTime = modTime,
+                    palUint8 = None,
             )
             optimise_image(
                 fname,
