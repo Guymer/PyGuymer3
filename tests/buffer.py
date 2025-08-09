@@ -115,6 +115,15 @@ if __name__ == "__main__":
            type = int,
     )
     parser.add_argument(
+        "--number-of-children",
+        default = os.cpu_count(),       # TODO: Once I ditch Python 3.11 and
+                                        #       Python 3.12 then I can use
+                                        #       "os.process_cpu_count()" instead.
+           dest = "nChild",
+           help = "the number of child \"multiprocessing\" processes to use when making the tiles",
+           type = int,
+    )
+    parser.add_argument(
         "--timeout",
         default = 60.0,
            help = "the timeout for any requests/subprocess calls (in seconds)",
@@ -157,12 +166,8 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
-    # Create a pool of worker processes which use almost all of the available
-    # logical CPUs in the system ...
-    with multiprocessing.Pool(
-        maxtasksperchild = 1,
-               processes = max(1, (os.cpu_count() or 1) - 1),
-    ) as pObj:
+    # Create a pool of workers ...
+    with multiprocessing.Pool(args.nChild) as pObj:
         # Loop over polygons ...
         for i, (lon, lat, dist1, dist2) in enumerate(polys):
             # Determine file names ...
