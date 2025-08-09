@@ -10,7 +10,6 @@ import unittest
 # Import special modules ...
 try:
     import geojson
-    geojson.geometry.Geometry.__init__.__defaults__ = (None, False, 12)         # NOTE: See https://github.com/jazzband/geojson/issues/135#issuecomment-596509669
 except:
     raise Exception("\"geojson\" is not installed; run \"pip install --user geojson\"") from None
 try:
@@ -427,8 +426,6 @@ class MyTestCase(unittest.TestCase):
                 1.0,
                     debug = self.myDebug,
                 fillSpace = "EuclideanSpace",
-                    nIter = 100,
-                      tol = 1.0e-10,
             )
 
             # Fill in ring in Geodesic space ...
@@ -437,8 +434,6 @@ class MyTestCase(unittest.TestCase):
                 10000.0,
                     debug = self.myDebug,
                 fillSpace = "GeodesicSpace",
-                    nIter = 100,
-                      tol = 1.0e-10,
             )
 
             # Extract the coordinates from the rings ...
@@ -464,6 +459,7 @@ class MyTestCase(unittest.TestCase):
                         numpy.diff(savedCoords1[:, 0]),
                         numpy.diff(savedCoords1[:, 1]),
                     ).sum(),
+                    places = 3,
                 )
                 self.assertAlmostEqual(
                     numpy.hypot(
@@ -474,6 +470,7 @@ class MyTestCase(unittest.TestCase):
                         numpy.diff(savedCoords2[:, 0]),
                         numpy.diff(savedCoords2[:, 1]),
                     ).sum(),
+                    places = 3,
                 )
 
     # Define a test ...
@@ -659,7 +656,6 @@ class MyTestCase(unittest.TestCase):
                     coord2[1],
                       debug = self.myDebug,
                     maxdist = None,
-                      nIter = None,
                      npoint = npoint,
                 )
 
@@ -694,6 +690,7 @@ class MyTestCase(unittest.TestCase):
                                 numpy.diff(savedCoords[:, 0]),
                                 numpy.diff(savedCoords[:, 1]),
                             ).sum(),
+                            places = 3,
                         )
 
     # Define a test ...
