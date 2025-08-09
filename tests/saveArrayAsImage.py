@@ -100,28 +100,36 @@ if __name__ == "__main__":
     pyguymer3.image.save_array_as_image(
         arr,
         "saveArrayAsImage/saveArrayAsImage0.ppm",
-        form = "ppm",
+          debug = args.debug,
+           form = "ppm",
+        timeout = args.timeout,
     )
     pyguymer3.image.save_array_as_image(
         arr,
         "saveArrayAsImage/saveArrayAsImage1.ppm",
-         form = "ppm",
-        scale = True,
+          debug = args.debug,
+           form = "ppm",
+          scale = True,
+        timeout = args.timeout,
     )
     pyguymer3.image.save_array_as_image(
         arr,
         "saveArrayAsImage/saveArrayAsImage2.ppm",
-          form = "ppm",
-        pc_bot = 5.0,
-        pc_top = 5.0,
-         scale = True,
+          debug = args.debug,
+           form = "ppm",
+         pc_bot = 5.0,
+         pc_top = 5.0,
+          scale = True,
+        timeout = args.timeout,
     )
     pyguymer3.image.save_array_as_image(
         arr,
         "saveArrayAsImage/saveArrayAsImage3.ppm",
-            ct = "turbo",
-          form = "ppm",
-        pc_bot = 5.0,
-        pc_top = 5.0,
-         scale = True,
+          debug = args.debug,
+             ct = "turbo",
+           form = "ppm",
+         pc_bot = 5.0,
+         pc_top = 5.0,
+          scale = True,
+        timeout = args.timeout,
     )
