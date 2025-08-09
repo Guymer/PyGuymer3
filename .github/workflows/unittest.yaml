@@ -48,7 +48,24 @@ jobs:
                     echo "::notice $(which python)"
             -
                 name: Test the Python ${{ matrix.python-version }} code
+                # NOTE: As of 9/Aug/2025, on my MacBook Pro the durations of the
+                #       scripts (using "time") are:
+                #         * tests/animateBufferPoint.py = 1m 10.73 s
+                #         * tests/animateExpandPoint.py =    12.44 s
+                #         * tests/buffer.py             =     9.78 s
+                #         * tests/bufferPoint.py        =     0.63 s
+                #         * tests/fillin.py             =     0.55 s
+                #         * tests/findMiddleOfLocs.py   =    40.51 s
+                #         * tests/greatCircle.py        =     0.54 s
+                #         * unitTests.py                =    43.47 s
                 run: |
                     cd main
                     gmake -r -C pyguymer3/f90 FC=`which gfortran` PYTHON3=`which python` compile
+                    python tests/animateBufferPoint.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots
+                    python tests/animateExpandPoint.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots
+                    python tests/buffer.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots
+                    python tests/bufferPoint.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots
+                    python tests/fillin.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots
+                    python tests/findMiddleOfLocs.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots
+                    python tests/greatCircle.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots
                     python -m unittest unitTests.py
