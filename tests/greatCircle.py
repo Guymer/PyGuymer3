@@ -62,6 +62,13 @@ if __name__ == "__main__":
         formatter_class = argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
+        "--absolute-path-to-repository",
+        default = os.path.dirname(os.path.dirname(__file__)),
+           dest = "absPathToRepo",
+           help = "the absolute path to the PyGuymer3 repository",
+           type = str,
+    )
+    parser.add_argument(
         "--debug",
         action = "store_true",
           help = "print debug messages",
@@ -113,16 +120,17 @@ if __name__ == "__main__":
     # Define number of points ...
     npoints = [3, 4, 8, 16, 1000]                                               # [#]
 
-    # Make output directory ...
-    if not os.path.exists("greatCircle"):
-        os.mkdir("greatCircle")
+    # Create short-hand and make output directory ...
+    dName = f'{args.absPathToRepo}/tests/{os.path.basename(__file__).removesuffix(".py")}'
+    if not os.path.exists(dName):
+        os.mkdir(dName)
 
     # **************************************************************************
 
     # Loop over tests ...
     for i, (coord1, coord2) in enumerate(zip(coords1, coords2, strict = True)):
         # Determine file name ...
-        pname = f"greatCircle/greatCircle{i:d}.png"
+        pname = f"{dName}/greatCircle{i:d}.png"
 
         print(f" > Making \"{pname}\" ...")
 
@@ -155,7 +163,7 @@ if __name__ == "__main__":
         # Loop over number of points ...
         for c, npoint in enumerate(npoints):
             # Determine file name ...
-            jname = f"greatCircle/greatCircle{i:d}_{c:d}.geojson"
+            jname = f"{dName}/greatCircle{i:d}_{c:d}.geojson"
 
             print(f"   > Making \"{jname}\" ...")
 

@@ -52,6 +52,13 @@ if __name__ == "__main__":
         formatter_class = argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
+        "--absolute-path-to-repository",
+        default = os.path.dirname(os.path.dirname(__file__)),
+           dest = "absPathToRepo",
+           help = "the absolute path to the PyGuymer3 repository",
+           type = str,
+    )
+    parser.add_argument(
         "--debug",
         action = "store_true",
           help = "print debug messages",
@@ -98,9 +105,10 @@ if __name__ == "__main__":
     dist = 1000.0                                                               # [m]
     area = math.pi * pow(dist, 2)                                               # [m²]
 
-    # Make output directory ...
-    if not os.path.exists("area"):
-        os.mkdir("area")
+    # Create short-hand and make output directory ...
+    dName = f'{args.absPathToRepo}/tests/{os.path.basename(__file__).removesuffix(".py")}'
+    if not os.path.exists(dName):
+        os.mkdir(dName)
 
     # **************************************************************************
 
@@ -109,8 +117,8 @@ if __name__ == "__main__":
     lats = [float(lat) for lat in range(-89, 90)]                               # [°]
 
     # Check if the BIN file needs making ...
-    if not os.path.exists("area/fencePosts.bin"):
-        print("Making \"area/fencePosts.bin\" ...")
+    if not os.path.exists(f"{dName}/fencePosts.bin"):
+        print(f"Making \"{dName}/fencePosts.bin\" ...")
 
         # Initialize array to hold answer ...
         ratios = numpy.zeros(
@@ -147,18 +155,18 @@ if __name__ == "__main__":
                 ) / area
 
         # Save array as BIN ...
-        ratios.tofile("area/fencePosts.bin")
+        ratios.tofile(f"{dName}/fencePosts.bin")
 
     # Load BIN ...
     ratios = numpy.fromfile(
-        "area/fencePosts.bin",
+        f"{dName}/fencePosts.bin",
         dtype = numpy.float64,
     ).reshape(len(lats), len(lons))
 
     # Save array as PNG (scaled from -1% to +1% of the correct answer) ...
     pyguymer3.image.save_array_as_image(
         255.0 * (ratios - 0.99) / 0.02,
-        "area/fencePosts.png",
+        f"{dName}/fencePosts.png",
           debug = args.debug,
              ct = "turbo",
           scale = False,
@@ -179,8 +187,8 @@ if __name__ == "__main__":
     lats = [float(lat) + 0.5 for lat in range(-90, 90)]                         # [°]
 
     # Check if the BIN file needs making ...
-    if not os.path.exists("area/fencePanels.bin"):
-        print("Making \"area/fencePanels.bin\" ...")
+    if not os.path.exists(f"{dName}/fencePanels.bin"):
+        print(f"Making \"{dName}/fencePanels.bin\" ...")
 
         # Initialize array to hold answer ...
         ratios = numpy.zeros(
@@ -217,18 +225,18 @@ if __name__ == "__main__":
                 ) / area
 
         # Save array as BIN ...
-        ratios.tofile("area/fencePanels.bin")
+        ratios.tofile(f"{dName}/fencePanels.bin")
 
     # Load BIN ...
     ratios = numpy.fromfile(
-        "area/fencePanels.bin",
+        f"{dName}/fencePanels.bin",
         dtype = numpy.float64,
     ).reshape(len(lats), len(lons))
 
     # Save array as PNG (scaled from -1% to +1% of the correct answer) ...
     pyguymer3.image.save_array_as_image(
         255.0 * (ratios - 0.99) / 0.02,
-        "area/fencePanels.png",
+        f"{dName}/fencePanels.png",
           debug = args.debug,
              ct = "turbo",
           scale = False,
@@ -310,12 +318,12 @@ if __name__ == "__main__":
     fg.tight_layout()
 
     # Save figure ...
-    fg.savefig("area/bad.png")
+    fg.savefig(f"{dName}/bad.png")
     matplotlib.pyplot.close(fg)
 
     # Optimise PNG ...
     pyguymer3.image.optimise_image(
-        "area/bad.png",
+        f"{dName}/bad.png",
           debug = args.debug,
           strip = True,
         timeout = args.timeout,

@@ -33,6 +33,13 @@ if __name__ == "__main__":
         formatter_class = argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
+        "--absolute-path-to-repository",
+        default = os.path.dirname(os.path.dirname(__file__)),
+           dest = "absPathToRepo",
+           help = "the absolute path to the PyGuymer3 repository",
+           type = str,
+    )
+    parser.add_argument(
         "--debug",
         action = "store_true",
           help = "print debug messages",
@@ -47,9 +54,10 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
-    # Make output directory ...
-    if not os.path.exists("saveArrayAsImage"):
-        os.mkdir("saveArrayAsImage")
+    # Create short-hand and make output directory ...
+    dName = f'{args.absPathToRepo}/tests/{os.path.basename(__file__).removesuffix(".py")}'
+    if not os.path.exists(dName):
+        os.mkdir(dName)
 
     # **************************************************************************
 
@@ -65,20 +73,20 @@ if __name__ == "__main__":
     # Save array as PNGs ...
     pyguymer3.image.save_array_as_image(
         arr,
-        "saveArrayAsImage/saveArrayAsImage0.png",
+        f"{dName}/saveArrayAsImage0.png",
           debug = args.debug,
         timeout = args.timeout,
     )
     pyguymer3.image.save_array_as_image(
         arr,
-        "saveArrayAsImage/saveArrayAsImage1.png",
+        f"{dName}/saveArrayAsImage1.png",
           debug = args.debug,
           scale = True,
         timeout = args.timeout,
     )
     pyguymer3.image.save_array_as_image(
         arr,
-        "saveArrayAsImage/saveArrayAsImage2.png",
+        f"{dName}/saveArrayAsImage2.png",
           debug = args.debug,
          pc_bot = 5.0,
          pc_top = 5.0,
@@ -87,7 +95,7 @@ if __name__ == "__main__":
     )
     pyguymer3.image.save_array_as_image(
         arr,
-        "saveArrayAsImage/saveArrayAsImage3.png",
+        f"{dName}/saveArrayAsImage3.png",
              ct = "turbo",
           debug = args.debug,
          pc_bot = 5.0,
@@ -99,14 +107,14 @@ if __name__ == "__main__":
     # Save array as PPMs ...
     pyguymer3.image.save_array_as_image(
         arr,
-        "saveArrayAsImage/saveArrayAsImage0.ppm",
+        f"{dName}/saveArrayAsImage0.ppm",
           debug = args.debug,
            form = "ppm",
         timeout = args.timeout,
     )
     pyguymer3.image.save_array_as_image(
         arr,
-        "saveArrayAsImage/saveArrayAsImage1.ppm",
+        f"{dName}/saveArrayAsImage1.ppm",
           debug = args.debug,
            form = "ppm",
           scale = True,
@@ -114,7 +122,7 @@ if __name__ == "__main__":
     )
     pyguymer3.image.save_array_as_image(
         arr,
-        "saveArrayAsImage/saveArrayAsImage2.ppm",
+        f"{dName}/saveArrayAsImage2.ppm",
           debug = args.debug,
            form = "ppm",
          pc_bot = 5.0,
@@ -124,7 +132,7 @@ if __name__ == "__main__":
     )
     pyguymer3.image.save_array_as_image(
         arr,
-        "saveArrayAsImage/saveArrayAsImage3.ppm",
+        f"{dName}/saveArrayAsImage3.ppm",
           debug = args.debug,
              ct = "turbo",
            form = "ppm",

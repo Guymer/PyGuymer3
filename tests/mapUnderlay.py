@@ -53,6 +53,13 @@ if __name__ == "__main__":
         formatter_class = argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
+        "--absolute-path-to-repository",
+        default = os.path.dirname(os.path.dirname(__file__)),
+           dest = "absPathToRepo",
+           help = "the absolute path to the PyGuymer3 repository",
+           type = str,
+    )
+    parser.add_argument(
         "--debug",
         action = "store_true",
           help = "print debug messages",
@@ -88,14 +95,15 @@ if __name__ == "__main__":
         "110m",
     ]
 
-    # Make output directory ...
-    if not os.path.exists("mapUnderlay"):
-        os.mkdir("mapUnderlay")
+    # Create short-hand and make output directory ...
+    dName = f'{args.absPathToRepo}/tests/{os.path.basename(__file__).removesuffix(".py")}'
+    if not os.path.exists(dName):
+        os.mkdir(dName)
 
     # **************************************************************************
 
     # Determine file name ...
-    fname = "mapUnderlay/mapUnderlay0.png"
+    fname = f"{dName}/mapUnderlay0.png"
 
     print(f" > Making \"{fname}\" ...")
 
@@ -151,7 +159,7 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Determine file name ...
-    fname = "mapUnderlay/mapUnderlay1.png"
+    fname = f"{dName}/mapUnderlay1.png"
 
     print(f" > Making \"{fname}\" ...")
 
@@ -210,7 +218,7 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Determine file name ...
-    fname = "mapUnderlay/mapUnderlay2.png"
+    fname = f"{dName}/mapUnderlay2.png"
 
     print(f" > Making \"{fname}\" ...")
 
@@ -269,7 +277,7 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Determine file name ...
-    fname = "mapUnderlay/mapUnderlay3.png"
+    fname = f"{dName}/mapUnderlay3.png"
 
     print(f" > Making \"{fname}\" ...")
 

@@ -76,6 +76,13 @@ if __name__ == "__main__":
         formatter_class = argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
+        "--absolute-path-to-repository",
+        default = os.path.dirname(os.path.dirname(__file__)),
+           dest = "absPathToRepo",
+           help = "the absolute path to the PyGuymer3 repository",
+           type = str,
+    )
+    parser.add_argument(
         "--debug",
         action = "store_true",
           help = "print debug messages",
@@ -143,9 +150,10 @@ if __name__ == "__main__":
         (   0.0,   0.0, 10000000.0,    1500.0), # Satisfies test A, B
     ]
 
-    # Make output directory ...
-    if not os.path.exists("buffer"):
-        os.mkdir("buffer")
+    # Create short-hand and make output directory ...
+    dName = f'{args.absPathToRepo}/tests/{os.path.basename(__file__).removesuffix(".py")}'
+    if not os.path.exists(dName):
+        os.mkdir(dName)
 
     # **************************************************************************
 
@@ -158,8 +166,8 @@ if __name__ == "__main__":
         # Loop over polygons ...
         for i, (lon, lat, dist1, dist2) in enumerate(polys):
             # Determine file names ...
-            fname = f"buffer/buffer{i:d}.png"
-            jname = f"buffer/buffer{i:d}.geojson"
+            fname = f"{dName}/buffer{i:d}.png"
+            jname = f"{dName}/buffer{i:d}.geojson"
 
             print(f" > Making \"{jname}\" and \"{fname}\" ...")
 

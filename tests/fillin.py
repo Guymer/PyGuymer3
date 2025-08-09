@@ -69,6 +69,13 @@ if __name__ == "__main__":
         formatter_class = argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
+        "--absolute-path-to-repository",
+        default = os.path.dirname(os.path.dirname(__file__)),
+           dest = "absPathToRepo",
+           help = "the absolute path to the PyGuymer3 repository",
+           type = str,
+    )
+    parser.add_argument(
         "--debug",
         action = "store_true",
           help = "print debug messages",
@@ -146,18 +153,19 @@ if __name__ == "__main__":
     euclideanFill = 1.0                                                         # [°]
     geodesicFill = 10000.0                                                      # [m]
 
-    # Make output directory ...
-    if not os.path.exists("fillin"):
-        os.mkdir("fillin")
+    # Create short-hand and make output directory ...
+    dName = f'{args.absPathToRepo}/tests/{os.path.basename(__file__).removesuffix(".py")}'
+    if not os.path.exists(dName):
+        os.mkdir(dName)
 
     # **************************************************************************
 
     # Loop over rings ...
     for i, ring in enumerate(rings):
         # Determine file names ...
-        fname = f"fillin/fillin{i:d}.png"
-        jname1 = f"fillin/fillin{i:d}Euclidean.geojson"
-        jname2 = f"fillin/fillin{i:d}Geodesic.geojson"
+        fname = f"{dName}/fillin{i:d}.png"
+        jname1 = f"{dName}/fillin{i:d}Euclidean.geojson"
+        jname2 = f"{dName}/fillin{i:d}Geodesic.geojson"
 
         print(f" > Making \"{jname1}\", \"{jname2}\" and \"{fname}\" ...")
 

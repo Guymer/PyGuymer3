@@ -75,6 +75,13 @@ if __name__ == "__main__":
         formatter_class = argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
+        "--absolute-path-to-repository",
+        default = os.path.dirname(os.path.dirname(__file__)),
+           dest = "absPathToRepo",
+           help = "the absolute path to the PyGuymer3 repository",
+           type = str,
+    )
+    parser.add_argument(
         "--debug",
         action = "store_true",
           help = "print debug messages",
@@ -152,17 +159,18 @@ if __name__ == "__main__":
     fillSpace = "EuclideanSpace"
     simp = -1.0                                                                 # [°]
 
-    # Make output directory ...
-    if not os.path.exists("animateExpandPoint"):
-        os.mkdir("animateExpandPoint")
+    # Create short-hand and make output directory ...
+    dName = f'{args.absPathToRepo}/tests/{os.path.basename(__file__).removesuffix(".py")}'
+    if not os.path.exists(dName):
+        os.mkdir(dName)
 
     # **************************************************************************
 
     # Loop over distances ...
     for dist in range(10, 19970 + 10, 10):                  # NOTE: 1,997 images.
         # Determine file names ...
-        fname = f"animateExpandPoint/dist={dist:05d}.png"
-        jname = f"animateExpandPoint/dist={dist:05d}.geojson"
+        fname = f"{dName}/dist={dist:05d}.png"
+        jname = f"{dName}/dist={dist:05d}.geojson"
 
         # Skip if both outputs already exist ...
         if os.path.exists(fname) and os.path.exists(jname):
@@ -347,7 +355,7 @@ if __name__ == "__main__":
     # Loop over distances ...
     for dist in range(10, 19970 + 10, 10):
         # Determine file name and skip if it is missing ...
-        frame = f"animateExpandPoint/dist={dist:05d}.png"
+        frame = f"{dName}/dist={dist:05d}.png"
         if not os.path.exists(frame):
             print(f"WARNING: \"{frame}\" is missing.")
             continue
@@ -355,7 +363,7 @@ if __name__ == "__main__":
         # Append it to the list ...
         frames.append(frame)
 
-    print(" > Making \"animateExpandPoint.mp4\" ...")
+    print(f" > Making \"{dName}.mp4\" ...")
 
     # Save 60fps MP4 ...
     vname = pyguymer3.media.images2mp4(
@@ -366,4 +374,4 @@ if __name__ == "__main__":
                 fps = 60.0,
             timeout = 3600.0,
     )
-    shutil.move(vname, "animateExpandPoint.mp4")
+    shutil.move(vname, f"{dName}.mp4")

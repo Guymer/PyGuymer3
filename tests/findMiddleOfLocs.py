@@ -59,6 +59,13 @@ if __name__ == "__main__":
         formatter_class = argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
+        "--absolute-path-to-repository",
+        default = os.path.dirname(os.path.dirname(__file__)),
+           dest = "absPathToRepo",
+           help = "the absolute path to the PyGuymer3 repository",
+           type = str,
+    )
+    parser.add_argument(
         "--debug",
         action = "store_true",
           help = "print debug messages",
@@ -128,13 +135,20 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
+    # Create short-hand and make output directory ...
+    dName = f'{args.absPathToRepo}/tests/{os.path.basename(__file__).removesuffix(".py")}'
+    if not os.path.exists(dName):
+        os.mkdir(dName)
+
+    # **************************************************************************
+
     # Load data and convert to NumPy array ...
-    with open("findMiddleOfLocs/lons.json", "rt", encoding = "utf-8") as fObj:
+    with open(f"{dName}/lons.json", "rt", encoding = "utf-8") as fObj:
         lons = json.load(fObj)                                                  # [°]
     lons = numpy.array(lons, dtype = numpy.float64)                             # [°]
 
     # Load data and convert to NumPy array ...
-    with open("findMiddleOfLocs/lats.json", "rt", encoding = "utf-8") as fObj:
+    with open(f"{dName}/lats.json", "rt", encoding = "utf-8") as fObj:
         lats = json.load(fObj)                                                  # [°]
     lats = numpy.array(lats, dtype = numpy.float64)                             # [°]
 
@@ -238,7 +252,7 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
-    print("Making \"findMiddleOfLocs/comparison.json\" ...")
+    print(f"Making \"{dName}/comparison.json\" ...")
 
     # Populate database ...
     db = {
@@ -265,7 +279,7 @@ if __name__ == "__main__":
     }
 
     # Save database ...
-    with open("findMiddleOfLocs/comparison.json", "wt", encoding = "utf-8") as fObj:
+    with open(f"{dName}/comparison.json", "wt", encoding = "utf-8") as fObj:
         json.dump(
             db,
             fObj,
@@ -282,7 +296,7 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
-    print("Making \"findMiddleOfLocs/comparison.png\" ...")
+    print(f"Making \"{dName}/comparison.png\" ...")
 
     # Create figure ...
     fg = matplotlib.pyplot.figure(
@@ -436,12 +450,12 @@ if __name__ == "__main__":
     fg.tight_layout()
 
     # Save figure ...
-    fg.savefig("findMiddleOfLocs/comparison.png")
+    fg.savefig(f"{dName}/comparison.png")
     matplotlib.pyplot.close(fg)
 
     # Optimise PNG ...
     pyguymer3.image.optimise_image(
-        "findMiddleOfLocs/comparison.png",
+        f"{dName}/comparison.png",
           debug = args.debug,
           strip = True,
         timeout = args.timeout,
@@ -503,7 +517,7 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
-    print("Making \"findMiddleOfLocs/locations.png\" ...")
+    print(f"Making \"{dName}/locations.png\" ...")
 
     # Create figure ...
     fg = matplotlib.pyplot.figure(
@@ -605,12 +619,12 @@ if __name__ == "__main__":
     fg.tight_layout()
 
     # Save figure ...
-    fg.savefig("findMiddleOfLocs/locations.png")
+    fg.savefig(f"{dName}/locations.png")
     matplotlib.pyplot.close(fg)
 
     # Optimise PNG ...
     pyguymer3.image.optimise_image(
-        "findMiddleOfLocs/locations.png",
+        f"{dName}/locations.png",
           debug = args.debug,
           strip = True,
         timeout = args.timeout,

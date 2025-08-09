@@ -39,6 +39,13 @@ if __name__ == "__main__":
         formatter_class = argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
+        "--absolute-path-to-repository",
+        default = os.path.dirname(os.path.dirname(__file__)),
+           dest = "absPathToRepo",
+           help = "the absolute path to the PyGuymer3 repository",
+           type = str,
+    )
+    parser.add_argument(
         "--debug",
         action = "store_true",
           help = "print debug messages",
@@ -58,7 +65,7 @@ if __name__ == "__main__":
     ny = 1024                                                                   # [px]
 
     # Create short-hand and make output directory ...
-    dName = os.path.basename(__file__).removesuffix(".py")
+    dName = f'{args.absPathToRepo}/tests/{os.path.basename(__file__).removesuffix(".py")}'
     if not os.path.exists(dName):
         os.mkdir(dName)
 
