@@ -49,7 +49,7 @@ if __name__ == "__main__":
     # Create argument parser and parse the arguments ...
     parser = argparse.ArgumentParser(
            allow_abbrev = False,
-            description = "Demonstrate some Natural Earth mapu underlays.",
+            description = "Demonstrate some Natural Earth map underlays.",
         formatter_class = argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
@@ -58,9 +58,23 @@ if __name__ == "__main__":
           help = "print debug messages",
     )
     parser.add_argument(
+        "--eps",
+        default = 1.0e-12,
+           dest = "eps",
+           help = "the tolerance of the Vincenty formula iterations",
+           type = float,
+    )
+    parser.add_argument(
         "--timeout",
         default = 60.0,
            help = "the timeout for any requests/subprocess calls (in seconds)",
+           type = float,
+    )
+    parser.add_argument(
+        "--tolerance",
+        default = 1.0e-10,
+           dest = "tol",
+           help = "the Euclidean distance that defines two points as being the same (in degrees)",
            type = float,
     )
     args = parser.parse_args()
@@ -99,10 +113,12 @@ if __name__ == "__main__":
             add_coastlines = False,
              add_gridlines = True,
                      debug = args.debug,
+                       eps = args.eps,
                      index = iresolution + 1,
                      ncols = 1,
                      nIter = None,
                      nrows = 3,
+                       tol = args.tol,
         )
 
         # Configure axis ...
@@ -154,12 +170,14 @@ if __name__ == "__main__":
              add_gridlines = True,
                      debug = args.debug,
                       dist = 1000.0e3,
+                       eps = args.eps,
                      index = iresolution + 1,
                        lat = +40.0,
                        lon =   0.0,
                      ncols = 1,
                      nIter = 100,
                      nrows = 3,
+                       tol = args.tol,
         )
 
         # Configure axis ...
@@ -211,12 +229,14 @@ if __name__ == "__main__":
              add_gridlines = True,
                      debug = args.debug,
                       dist = 25.0e3,
+                       eps = args.eps,
                      index = iresolution + 1,
                        lat = +51.5,
                        lon =   0.0,
                      ncols = 1,
                      nIter = 100,
                      nrows = 3,
+                       tol = args.tol,
         )
 
         # Configure axis ...
@@ -268,12 +288,14 @@ if __name__ == "__main__":
              add_gridlines = True,
                      debug = args.debug,
                       dist = 50.0e3,
+                       eps = args.eps,
                      index = iresolution + 1,
                        lat = +60.5,
                        lon =  +7.5,
                      ncols = 1,
                      nIter = 100,
                      nrows = 3,
+                       tol = args.tol,
         )
 
         # Configure axis ...
