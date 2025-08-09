@@ -35,6 +35,7 @@ try:
     import pyguymer3.image
     import pyguymer3.media
     import pyguymer3.openstreetmap
+    import pyguymer3.osterrain
 except:
     raise Exception("\"pyguymer3\" is not installed; run \"pip install --user PyGuymer3\"") from None
 
