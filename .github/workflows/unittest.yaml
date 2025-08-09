@@ -79,9 +79,21 @@ jobs:
                 name: Create MD5 checksums of the null output
                 run: |
                     cd main
-                    md5sum tests/*/*.geojson tests/*/*.json > tests/checksums
+                    md5sum tests/buffer/*.geojson tests/bufferPoint/*.geojson tests/fillin/*.geojson tests/greatCircle/*.geojson tests/findMiddleOfLocs/*.json > tests/checksums
             -
                 name: Check MD5 checksums of the test output
                 run: |
                     cd ${{ runner.temp }}
                     md5sum --check ${OLDPWD}/main/tests/checksums
+            -
+                name: Upload generated GEOJSON and JSON files on failure
+                if: ${{ failure() }}
+                uses: actions/upload-artifact@v4                                # https://github.com/actions/upload-artifact
+                with:
+                    name: generated-GEOJSON-and-JSON-files (Python ${{ matrix.python-version }})
+                    path: |
+                        ${{ runner.temp }}/tests/buffer/*.geojson
+                        ${{ runner.temp }}/tests/bufferPoint/*.geojson
+                        ${{ runner.temp }}/tests/fillin/*.geojson
+                        ${{ runner.temp }}/tests/greatCircle/*.geojson
+                        ${{ runner.temp }}/tests/findMiddleOfLocs/*.json
