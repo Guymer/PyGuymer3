@@ -61,6 +61,13 @@ if __name__ == "__main__":
            type = int,
     )
     parser.add_argument(
+        "--eps",
+        default = 1.0e-12,
+           dest = "eps",
+           help = "the tolerance of the Vincenty formula iterations",
+           type = float,
+    )
+    parser.add_argument(
         "--nIter",
         default = 1000000,
            dest = "nIter",
@@ -71,6 +78,13 @@ if __name__ == "__main__":
         "--timeout",
         default = 60.0,
            help = "the timeout for any requests/subprocess calls (in seconds)",
+           type = float,
+    )
+    parser.add_argument(
+        "--tolerance",
+        default = 1.0e-10,
+           dest = "tol",
+           help = "the Euclidean distance that defines two points as being the same (in degrees)",
            type = float,
     )
     args = parser.parse_args()
@@ -139,10 +153,12 @@ if __name__ == "__main__":
                         ship,
                         1000.0 * float(dist),
                         debug = args.debug,
+                          eps = args.eps,
                          fill = -1.0,
                          nAng = 361,
                         nIter = args.nIter,
                          simp = -1.0,
+                          tol = args.tol,
                     )
                 except Exception:
                     break
