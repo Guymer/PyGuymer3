@@ -43,6 +43,7 @@ jobs:
                     echo "::notice $(which ffprobe)"
                     echo "::notice $(which gfortran)"
                     echo "::notice $(which gmake)"
+                    echo "::notice $(which md5sum)"
                     echo "::notice $(which optipng)"
                     echo "::notice $(which pip)"
                     echo "::notice $(which python)"
@@ -74,3 +75,13 @@ jobs:
                     python tests/findMiddleOfLocs.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots --quiet
                     python tests/greatCircle.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots --quiet
                     python -m unittest unitTests.py
+            -
+                name: Create MD5 checksums of the null output
+                run: |
+                    cd main
+                    md5sum tests/*/*.geojson tests/*/*.json > tests/checksums
+            -
+                name: Check MD5 checksums of the test output
+                run: |
+                    cd ${{ runner.temp }}
+                    md5sum --check ${OLDPWD}/main/tests/checksums
