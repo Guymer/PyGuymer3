@@ -66,6 +66,8 @@ jobs:
                 #         * unitTests.py                =    43.47 s
                 run: |
                     cd main
+                    export
+                    exit 1
                     gmake -r -C pyguymer3/f90 FC=`which gfortran` PYTHON3=`which python` compile
                     python tests/animateBufferPoint.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots --quiet
                     python tests/animateExpandPoint.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots --quiet
