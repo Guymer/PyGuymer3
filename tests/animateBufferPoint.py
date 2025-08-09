@@ -57,13 +57,13 @@ if __name__ == "__main__":
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import my modules ...
-    try:
-        import pyguymer3
-        import pyguymer3.geo
-        import pyguymer3.image
-        import pyguymer3.media
-    except:
-        raise Exception("\"pyguymer3\" is not installed; run \"pip install --user PyGuymer3\"") from None
+    # try:
+    import pyguymer3
+    import pyguymer3.geo
+    import pyguymer3.image
+    import pyguymer3.media
+    # except:
+        # raise Exception("\"pyguymer3\" is not installed; run \"pip install --user PyGuymer3\"") from None
 
     print(f"Testing \"{pyguymer3.__path__[0]}\" ...")
 
