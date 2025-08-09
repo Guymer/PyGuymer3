@@ -264,24 +264,24 @@ if __name__ == "__main__":
     # Populate database ...
     db = {
            "EuclideanBox" : {
-             "lon" : midLon1,
-             "lat" : midLat1,
-            "dist" : maxDist1,
+             "lon" : round(midLon1, 6),                                         # NOTE: 0.000001° is approximately 0.111 m.
+             "lat" : round(midLat1, 6),                                         # NOTE: 0.000001° is approximately 0.111 m.
+            "dist" : round(maxDist1, 6),                                        # NOTE: 0.000001° is approximately 0.111 m.
         },
             "GeodesicBox" : {
-             "lon" : midLon2,
-             "lat" : midLat2,
-            "dist" : maxDist2,
+             "lon" : round(midLon2, 6),                                         # NOTE: 0.000001° is approximately 0.111 m.
+             "lat" : round(midLat2, 6),                                         # NOTE: 0.000001° is approximately 0.111 m.
+            "dist" : round(maxDist2, 1),                                        # NOTE: 0.1 m
         },
         "EuclideanCircle" : {
-             "lon" : midLon3,
-             "lat" : midLat3,
-            "dist" : maxDist3,
+             "lon" : round(midLon3, 6),                                         # NOTE: 0.000001° is approximately 0.111 m.
+             "lat" : round(midLat3, 6),                                         # NOTE: 0.000001° is approximately 0.111 m.
+            "dist" : round(maxDist3, 6),                                        # NOTE: 0.000001° is approximately 0.111 m.
         },
          "GeodesicCircle" : {
-             "lon" : midLon4,
-             "lat" : midLat4,
-            "dist" : maxDist4,
+             "lon" : round(midLon4, 6),                                         # NOTE: 0.000001° is approximately 0.111 m.
+             "lat" : round(midLat4, 6),                                         # NOTE: 0.000001° is approximately 0.111 m.
+            "dist" : round(maxDist4, 1),                                        # NOTE: 0.1 m
         },
     }
 
