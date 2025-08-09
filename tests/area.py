@@ -4,6 +4,7 @@
 # NOTE: See https://docs.python.org/3.12/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
 if __name__ == "__main__":
     # Import standard modules ...
+    import argparse
     import math
     import os
 
@@ -44,9 +45,57 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
+    # Create argument parser and parse the arguments ...
+    parser = argparse.ArgumentParser(
+           allow_abbrev = False,
+            description = "Demonstrate calculating the Geodesic area of a Polygon.",
+        formatter_class = argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument(
+        "--debug",
+        action = "store_true",
+          help = "print debug messages",
+    )
+    parser.add_argument(
+        "--eps",
+        default = 1.0e-12,
+           dest = "eps",
+           help = "the tolerance of the Vincenty formula iterations",
+           type = float,
+    )
+    parser.add_argument(
+        "--nAng",
+        default = 41,
+           dest = "nAng",
+           help = "the number of angles around each circle",
+           type = int,
+    )
+    parser.add_argument(
+        "--nIter",
+        default = 1000000,
+           dest = "nIter",
+           help = "the maximum number of iterations (particularly the Vincenty formula)",
+           type = int,
+    )
+    parser.add_argument(
+        "--timeout",
+        default = 60.0,
+           help = "the timeout for any requests/subprocess calls (in seconds)",
+           type = float,
+    )
+    parser.add_argument(
+        "--tolerance",
+        default = 1.0e-10,
+           dest = "tol",
+           help = "the Euclidean distance that defines two points as being the same (in degrees)",
+           type = float,
+    )
+    args = parser.parse_args()
+
+    # **************************************************************************
+
     # Create short-hands ...
     dist = 1000.0                                                               # [m]
-    nAng = 41                                                                   # [#]
     area = math.pi * pow(dist, 2)                                               # [m²]
 
     # Make output directory ...
@@ -80,15 +129,22 @@ if __name__ == "__main__":
                         lat,
                     ),
                     dist,
-                    debug = False,
+                    debug = args.debug,
+                      eps = args.eps,
                      fill = -1.0,
-                     nAng = nAng,
+                     nAng = args.nAng,
+                    nIter = args.nIter,
                      simp = -1.0,
+                      tol = args.tol,
                 )
 
                 # Populate array with the ratio of the estimated area to the
                 # exact area ...
-                ratios[iLat, iLon] = pyguymer3.geo.area(buff) / area
+                ratios[iLat, iLon] = pyguymer3.geo.area(
+                    buff,
+                      eps = args.eps,
+                    nIter = args.nIter,
+                ) / area
 
         # Save array as BIN ...
         ratios.tofile("area/fencePosts.bin")
@@ -103,8 +159,10 @@ if __name__ == "__main__":
     pyguymer3.image.save_array_as_image(
         255.0 * (ratios - 0.99) / 0.02,
         "area/fencePosts.png",
-           ct = "turbo",
-        scale = False,
+          debug = args.debug,
+             ct = "turbo",
+          scale = False,
+        timeout = args.timeout,
     )
 
     # Print outliers ...
@@ -141,15 +199,22 @@ if __name__ == "__main__":
                         lat,
                     ),
                     dist,
-                    debug = False,
+                    debug = args.debug,
+                      eps = args.eps,
                      fill = -1.0,
-                     nAng = nAng,
+                     nAng = args.nAng,
+                    nIter = args.nIter,
                      simp = -1.0,
+                      tol = args.tol,
                 )
 
                 # Populate array with the ratio of the estimated area to the
                 # exact area ...
-                ratios[iLat, iLon] = pyguymer3.geo.area(buff) / area
+                ratios[iLat, iLon] = pyguymer3.geo.area(
+                    buff,
+                      eps = args.eps,
+                    nIter = args.nIter,
+                ) / area
 
         # Save array as BIN ...
         ratios.tofile("area/fencePanels.bin")
@@ -164,8 +229,10 @@ if __name__ == "__main__":
     pyguymer3.image.save_array_as_image(
         255.0 * (ratios - 0.99) / 0.02,
         "area/fencePanels.png",
-           ct = "turbo",
-        scale = False,
+          debug = args.debug,
+             ct = "turbo",
+          scale = False,
+        timeout = args.timeout,
     )
 
     # Print outliers ...
@@ -184,10 +251,13 @@ if __name__ == "__main__":
             0.0,
         ),
         dist,
-        debug = False,
+        debug = args.debug,
+          eps = args.eps,
          fill = -1.0,
-         nAng = nAng,
+         nAng = args.nAng,
+        nIter = args.nIter,
          simp = -1.0,
+          tol = args.tol,
     )
 
     # Create figure and axes ...
@@ -246,6 +316,7 @@ if __name__ == "__main__":
     # Optimise PNG ...
     pyguymer3.image.optimise_image(
         "area/bad.png",
-        debug = False,
-        strip = True,
+          debug = args.debug,
+          strip = True,
+        timeout = args.timeout,
     )
