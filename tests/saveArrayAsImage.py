@@ -57,7 +57,7 @@ if __name__ == "__main__":
     # Create short-hand and make output directory ...
     dName = f'{args.absPathToRepo}/tests/{os.path.basename(__file__).removesuffix(".py")}'
     if not os.path.exists(dName):
-        os.mkdir(dName)
+        os.makedirs(dName)
 
     # **************************************************************************
 
