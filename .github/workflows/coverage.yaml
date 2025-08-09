@@ -56,6 +56,11 @@ jobs:
                     echo "::notice $(which pip)"
                     echo "::notice $(which python)"
             -
+                name : Set PYTHONPATH and PYTHONSAFEPATH
+                run : |
+                    echo "PYTHONPATH=\"${PWD}/main:${PYTHONPATH}\"" >> $GITHUB_ENV
+                    echo "PYTHONSAFEPATH=\"a non-empty string\"" >> $GITHUB_ENV
+            -
                 name: Analyse (and test) the Python ${{ matrix.python-version }} code
                 # NOTE: Every function that is included in a "__init__.py" file
                 #       will show at least one line as being covered. Whilst I
