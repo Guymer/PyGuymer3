@@ -49,16 +49,16 @@ class MyTestCase(unittest.TestCase):
     #           % python3.12 -m unittest unitTests.py
     #           .......s.s......................
     #           ----------------------------------------------------------------------
-    #           Ran 32 tests in 43.276s
+    #           Ran 32 tests in 43.659s
     #
     #           OK (skipped=2)
     #           % ALLTESTS=1234 python3.12 -m unittest unitTests.py
-    #           ...........................
+    #           ................................
     #           ----------------------------------------------------------------------
-    #           Ran 27 tests in 5564.652s
+    #           Ran 32 tests in 4257.979s
     #
     #           OK
-    #       Yes, you read that right: 1h 32m 44.7s to run the unit tests!
+    #       Yes, you read that right: 1h 10m 58s to run all the unit tests!
     allTests = bool("ALLTESTS" in os.environ)
     debug = bool("DEBUG" in os.environ)
     eps = 1.0e-12
