@@ -88,6 +88,13 @@ if __name__ == "__main__":
           help = "print debug messages",
     )
     parser.add_argument(
+        "--distance-interval",
+        default = 100,
+           dest = "distInt",
+           help = "the interval of distances to loop over (in km)",
+           type = int,
+    )
+    parser.add_argument(
         "--dont-make-plots",
         action = "store_true",
           dest = "dontMakePlots",
@@ -184,7 +191,11 @@ if __name__ == "__main__":
     # Create a pool of workers ...
     with multiprocessing.Pool(args.nChild) as pObj:
         # Loop over distances ...
-        for dist in range(10, 19970 + 10, 10):              # NOTE: 1,997 images.
+        for dist in range(args.distInt, 19970 + args.distInt, args.distInt):
+            # Stop looping once the distance gets too large ...
+            if float(1000 * dist) >= pyguymer3.MAXIMUM_VINCENTY:
+                break
+
             # Determine file names ...
             fname = f"{dName}/dist={dist:05d}.png"
             jname = f"{dName}/dist={dist:05d}.geojson"
@@ -382,7 +393,11 @@ if __name__ == "__main__":
     frames = []
 
     # Loop over distances ...
-    for dist in range(10, 19970 + 10, 10):
+    for dist in range(args.distInt, 19970 + args.distInt, args.distInt):
+        # Stop looping once the distance gets too large ...
+        if float(1000 * dist) >= pyguymer3.MAXIMUM_VINCENTY:
+            break
+
         # Determine file name and skip if it is missing ...
         frame = f"{dName}/dist={dist:05d}.png"
         if not os.path.exists(frame):

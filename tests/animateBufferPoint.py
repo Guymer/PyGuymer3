@@ -83,6 +83,13 @@ if __name__ == "__main__":
            type = str,
     )
     parser.add_argument(
+        "--angle-interval",
+        default = 15,
+           dest = "angInt",
+           help = "the interval of longitudes and latitudes to loop over (in degrees)",
+           type = int,
+    )
+    parser.add_argument(
         "--debug",
         action = "store_true",
           help = "print debug messages",
@@ -181,9 +188,9 @@ if __name__ == "__main__":
     # Create a pool of workers ...
     with multiprocessing.Pool(args.nChild) as pObj:
         # Loop over latitude ...
-        for lat in range(-90, +90 + 2, 2):                  # NOTE: 16,471 images.
+        for lat in range(-90, +90 + args.angInt, args.angInt):
             # Loop over longitude ...
-            for lon in range(-180, +180 + 2, 2):            # NOTE: 16,471 images.
+            for lon in range(-180, +180 + args.angInt, args.angInt):
                 # Determine file names ...
                 fname = f"{dName}/lon={lon:+04d},lat={lat:+03d}.png"
                 jname = f"{dName}/lon={lon:+04d},lat={lat:+03d}.geojson"
@@ -382,9 +389,9 @@ if __name__ == "__main__":
     frames = []
 
     # Loop over latitude ...
-    for lat in range(-90, +92, 2):
+    for lat in range(-90, +90 + args.angInt, args.angInt):
         # Loop over longitude ...
-        for lon in range(-180, +182, 2):
+        for lon in range(-180, +180 + args.angInt, args.angInt):
             # Determine file name and skip if it is missing ...
             frame = f"{dName}/lon={lon:+04d},lat={lat:+03d}.png"
             if not os.path.exists(frame):
