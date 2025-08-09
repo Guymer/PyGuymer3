@@ -67,9 +67,23 @@ if __name__ == "__main__":
           help = "print debug messages",
     )
     parser.add_argument(
+        "--eps",
+        default = 1.0e-12,
+           dest = "eps",
+           help = "the tolerance of the Vincenty formula iterations",
+           type = float,
+    )
+    parser.add_argument(
         "--timeout",
         default = 60.0,
            help = "the timeout for any requests/subprocess calls (in seconds)",
+           type = float,
+    )
+    parser.add_argument(
+        "--tolerance",
+        default = 1.0e-10,
+           dest = "tol",
+           help = "the Euclidean distance that defines two points as being the same (in degrees)",
            type = float,
     )
     args = parser.parse_args()
@@ -118,7 +132,9 @@ if __name__ == "__main__":
                 add_coastlines = False,                     # NOTE: Do not draw coastlines so that changes in GSHGG do not change the image.
                  add_gridlines = True,
                          debug = args.debug,
+                           eps = args.eps,
                          nIter = None,
+                           tol = args.tol,
         )
 
         # Configure axis ...
@@ -142,6 +158,7 @@ if __name__ == "__main__":
                 coord2[0],
                 coord2[1],
                   debug = args.debug,
+                    eps = args.eps,
                 maxdist = None,
                   nIter = None,
                  npoint = npoint,
