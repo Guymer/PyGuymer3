@@ -1289,7 +1289,8 @@ class MyTestCase(unittest.TestCase):
         self.assertSequenceEqual(
             pyguymer3.return_file_list(
                 "tests/findMiddleOfLocs",
-                debug = self.myDebug,
+                         debug = self.myDebug,
+                return_dsstore = False,
             ),
             [
                 "tests/findMiddleOfLocs/comparison.json",
