@@ -61,6 +61,14 @@ jobs:
                 run: |
                     cd main
                     gmake -r -C pyguymer3/f90 FC=`which gfortran` PYTHON3=`which python` compile
+                    pwd
+                    ls -hl
+                    python -c "import pyguymer3"
+                    python -c "import pyguymer3; import pyguymer3.geo"
+                    python -c "import pyguymer3; import pyguymer3.image"
+                    python -c "import pyguymer3; import pyguymer3.media"
+                    python -c "import pyguymer3; import pyguymer3.openstreetmap"
+                    python -c "import pyguymer3; import pyguymer3.osterrain"
                     python tests/animateBufferPoint.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots
                     python tests/animateExpandPoint.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots
                     python tests/buffer.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots
