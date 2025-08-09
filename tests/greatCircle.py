@@ -67,6 +67,12 @@ if __name__ == "__main__":
           help = "print debug messages",
     )
     parser.add_argument(
+        "--dont-make-plots",
+        action = "store_true",
+          dest = "dontMakePlots",
+          help = "don't make the plots (only make the [Geo]JSONs)",
+    )
+    parser.add_argument(
         "--eps",
         default = 1.0e-12,
            dest = "eps",
@@ -120,29 +126,31 @@ if __name__ == "__main__":
 
         print(f" > Making \"{pname}\" ...")
 
-        # Create figure ...
-        fg = matplotlib.pyplot.figure(
-                dpi = 100,                                  # NOTE: Reduce DPI to make test quicker.
-            figsize = (12.8, 7.2),
-        )
+        # Check that the user wants to make plots ...
+        if not args.dontMakePlots:
+            # Create figure ...
+            fg = matplotlib.pyplot.figure(
+                    dpi = 100,                              # NOTE: Reduce DPI to make test quicker.
+                figsize = (12.8, 7.2),
+            )
 
-        # Create axis ...
-        ax = pyguymer3.geo.add_axis(
-            fg,
-                add_coastlines = False,                     # NOTE: Do not draw coastlines so that changes in GSHGG do not change the image.
-                 add_gridlines = True,
-                         debug = args.debug,
-                           eps = args.eps,
-                         nIter = None,
-                           tol = args.tol,
-        )
+            # Create axis ...
+            ax = pyguymer3.geo.add_axis(
+                fg,
+                    add_coastlines = False,                 # NOTE: Do not draw coastlines so that changes in GSHGG do not change the image.
+                     add_gridlines = True,
+                             debug = args.debug,
+                               eps = args.eps,
+                             nIter = None,
+                               tol = args.tol,
+            )
 
-        # Configure axis ...
-        pyguymer3.geo.add_map_background(
-            ax,
-                 debug = args.debug,
-            resolution = "large1024px",                     # NOTE: Reduce size to make test quicker.
-        )
+            # Configure axis ...
+            pyguymer3.geo.add_map_background(
+                ax,
+                     debug = args.debug,
+                resolution = "large1024px",                 # NOTE: Reduce size to make test quicker.
+            )
 
         # Loop over number of points ...
         for c, npoint in enumerate(npoints):
@@ -189,45 +197,39 @@ if __name__ == "__main__":
                        sort_keys = True,
                 )
 
-            # Loop over lines in the great circle ...
-            for line in pyguymer3.geo.extract_lines(circle):
-                # Extract the coordinates from this line ...
-                coords = numpy.array(line.coords)                               # [°]
+            # Check that the user wants to make plots ...
+            if not args.dontMakePlots:
+                # Loop over lines in the great circle ...
+                for line in pyguymer3.geo.extract_lines(circle):
+                    # Extract the coordinates from this line ...
+                    coords = numpy.array(line.coords)                           # [°]
 
-                # Transform coordinates ...
-                # NOTE: See https://stackoverflow.com/a/52861074
-                points = cartopy.crs.Robinson().transform_points(cartopy.crs.Geodetic(), coords[:, 0], coords[:, 1])
+                    # Transform coordinates ...
+                    # NOTE: See https://stackoverflow.com/a/52861074
+                    points = cartopy.crs.Robinson().transform_points(cartopy.crs.Geodetic(), coords[:, 0], coords[:, 1])
 
-                # Plot great circle ...
-                ax.plot(
-                    points[:, 0],
-                    points[:, 1],
-                    transform = cartopy.crs.Robinson(),
-                    linewidth = 1.0,
-                        color = matplotlib.colormaps["turbo"](float(c) / float(len(npoints) - 1)),
-                )
+                    # Plot great circle ...
+                    ax.plot(
+                        points[:, 0],
+                        points[:, 1],
+                        transform = cartopy.crs.Robinson(),
+                        linewidth = 1.0,
+                            color = matplotlib.colormaps["turbo"](float(c) / float(len(npoints) - 1)),
+                    )
 
-        # Plot great circle ...
-        # NOTE: This allows comparison between great_circle() and Cartopy.
-        # ax.plot(
-        #     [coord1[0], coord2[0]],
-        #     [coord1[1], coord2[1]],
-        #     transform = cartopy.crs.Geodetic(),
-        #     linewidth = 1.0,
-        #         color = "black"
-        # )
+        # Check that the user wants to make plots ...
+        if not args.dontMakePlots:
+            # Configure figure ...
+            fg.tight_layout()
 
-        # Configure figure ...
-        fg.tight_layout()
+            # Save figure ...
+            fg.savefig(pname)
+            matplotlib.pyplot.close(fg)
 
-        # Save figure ...
-        fg.savefig(pname)
-        matplotlib.pyplot.close(fg)
-
-        # Optimise figure ...
-        pyguymer3.image.optimise_image(
-            pname,
-              debug = args.debug,
-              strip = True,
-            timeout = args.timeout,
-        )
+            # Optimise figure ...
+            pyguymer3.image.optimise_image(
+                pname,
+                  debug = args.debug,
+                  strip = True,
+                timeout = args.timeout,
+            )

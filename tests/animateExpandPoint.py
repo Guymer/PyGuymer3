@@ -10,6 +10,7 @@ if __name__ == "__main__":
     import pathlib
     import platform
     import shutil
+    import sys
 
     # Import special modules ...
     try:
@@ -77,6 +78,12 @@ if __name__ == "__main__":
         "--debug",
         action = "store_true",
           help = "print debug messages",
+    )
+    parser.add_argument(
+        "--dont-make-plots",
+        action = "store_true",
+          dest = "dontMakePlots",
+          help = "don't make the plots (only make the [Geo]JSONs)",
     )
     parser.add_argument(
         "--eps",
@@ -163,72 +170,74 @@ if __name__ == "__main__":
 
         print(f" > Making \"{jname}\" and \"{fname}\" ...")
 
-        # Create figure ...
-        fg = matplotlib.pyplot.figure(
-                dpi = 100,                                  # NOTE: Reduce DPI to make test quicker.
-            figsize = (9.6, 7.2),
-        )
+        # Check that the user wants to make plots ...
+        if not args.dontMakePlots:
+            # Create figure ...
+            fg = matplotlib.pyplot.figure(
+                    dpi = 100,                              # NOTE: Reduce DPI to make test quicker.
+                figsize = (9.6, 7.2),
+            )
 
-        # Create axis ...
-        ax1 = pyguymer3.geo.add_axis(
-            fg,
-            add_coastlines = False,                         # NOTE: Do not draw coastlines so that changes in GSHGG do not change the image.
-             add_gridlines = True,
+            # Create axis ...
+            ax1 = pyguymer3.geo.add_axis(
+                fg,
+                add_coastlines = False,                     # NOTE: Do not draw coastlines so that changes in GSHGG do not change the image.
+                 add_gridlines = True,
+                         debug = args.debug,
+                           eps = args.eps,
+                         index = 1,
+                         ncols = 2,
+                         nIter = args.nIter,
+                         nrows = 2,
+                           tol = args.tol,
+            )
+
+            # Configure axis ...
+            pyguymer3.geo.add_map_background(
+                ax1,
                      debug = args.debug,
-                       eps = args.eps,
-                     index = 1,
-                     ncols = 2,
-                     nIter = args.nIter,
-                     nrows = 2,
-                       tol = args.tol,
-        )
+                resolution = "large1024px",                 # NOTE: Reduce size to make test quicker.
+            )
 
-        # Configure axis ...
-        pyguymer3.geo.add_map_background(
-            ax1,
-                 debug = args.debug,
-            resolution = "large1024px",                     # NOTE: Reduce size to make test quicker.
-        )
+            # Create axis ...
+            ax2 = pyguymer3.geo.add_axis(
+                fg,
+                add_coastlines = False,                     # NOTE: Do not draw coastlines so that changes in GSHGG do not change the image.
+                 add_gridlines = True,
+                         debug = args.debug,
+                           eps = args.eps,
+                         index = 2,
+                           lat = lat,
+                           lon = lon,
+                         ncols = 2,
+                         nIter = args.nIter,
+                         nrows = 2,
+                           tol = args.tol,
+            )
 
-        # Create axis ...
-        ax2 = pyguymer3.geo.add_axis(
-            fg,
-            add_coastlines = False,                         # NOTE: Do not draw coastlines so that changes in GSHGG do not change the image.
-             add_gridlines = True,
+            # Configure axis ...
+            pyguymer3.geo.add_map_background(
+                ax2,
                      debug = args.debug,
-                       eps = args.eps,
-                     index = 2,
-                       lat = lat,
-                       lon = lon,
-                     ncols = 2,
-                     nIter = args.nIter,
-                     nrows = 2,
-                       tol = args.tol,
-        )
+                resolution = "large1024px",                 # NOTE: Reduce size to make test quicker.
+            )
 
-        # Configure axis ...
-        pyguymer3.geo.add_map_background(
-            ax2,
-                 debug = args.debug,
-            resolution = "large1024px",                     # NOTE: Reduce size to make test quicker.
-        )
+            # Create axis ...
+            ax3 = fg.add_subplot(
+                2,
+                2,
+                (3, 4),
+            )
 
-        # Create axis ...
-        ax3 = fg.add_subplot(
-            2,
-            2,
-            (3, 4),
-        )
-
-        # Configure axis ...
-        ax3.grid()
-        ax3.set_aspect("equal")
-        ax3.set_xlabel("Longitude [°]")
-        ax3.set_xlim(-180.0, +180.0)
-        ax3.set_xticks(range(-180, 225, 45))
-        ax3.set_ylabel("Latitude [°]")
-        ax3.set_ylim(-90.0, +90.0)
-        ax3.set_yticks(range(-90, 135, 45))
+            # Configure axis ...
+            ax3.grid()
+            ax3.set_aspect("equal")
+            ax3.set_xlabel("Longitude [°]")
+            ax3.set_xlim(-180.0, +180.0)
+            ax3.set_xticks(range(-180, 225, 45))
+            ax3.set_ylabel("Latitude [°]")
+            ax3.set_ylim(-90.0, +90.0)
+            ax3.set_yticks(range(-90, 135, 45))
 
         # Create point ...
         point = shapely.geometry.point.Point(lon, lat)
@@ -247,28 +256,30 @@ if __name__ == "__main__":
                   tol = args.tol,
         )
 
-        # Plot Point thrice ...
-        ax1.add_geometries(
-            pyguymer3.geo.extract_polys(buff),
-            cartopy.crs.PlateCarree(),
-            edgecolor = (1.0, 0.0, 0.0, 1.0),
-            facecolor = (1.0, 0.0, 0.0, 0.5),
-            linewidth = 1.0,
-        )
-        ax2.add_geometries(
-            pyguymer3.geo.extract_polys(buff),
-            cartopy.crs.PlateCarree(),
-            edgecolor = (1.0, 0.0, 0.0, 1.0),
-            facecolor = (1.0, 0.0, 0.0, 0.5),
-            linewidth = 1.0,
-        )
-        for poly in pyguymer3.geo.extract_polys(buff):
-            coords = numpy.array(poly.exterior.coords)                          # [°]
-            ax3.plot(
-                coords[:, 0],
-                coords[:, 1],
-                color = (1.0, 0.0, 0.0, 1.0),
+        # Check that the user wants to make plots ...
+        if not args.dontMakePlots:
+            # Plot Point thrice ...
+            ax1.add_geometries(
+                pyguymer3.geo.extract_polys(buff),
+                cartopy.crs.PlateCarree(),
+                edgecolor = (1.0, 0.0, 0.0, 1.0),
+                facecolor = (1.0, 0.0, 0.0, 0.5),
+                linewidth = 1.0,
             )
+            ax2.add_geometries(
+                pyguymer3.geo.extract_polys(buff),
+                cartopy.crs.PlateCarree(),
+                edgecolor = (1.0, 0.0, 0.0, 1.0),
+                facecolor = (1.0, 0.0, 0.0, 0.5),
+                linewidth = 1.0,
+            )
+            for poly in pyguymer3.geo.extract_polys(buff):
+                coords = numpy.array(poly.exterior.coords)                      # [°]
+                ax3.plot(
+                    coords[:, 0],
+                    coords[:, 1],
+                    color = (1.0, 0.0, 0.0, 1.0),
+                )
 
         # Save GeoJSON ...
         # NOTE: As of 4/Aug/2025, the Python module "geojson" just converts the
@@ -295,21 +306,38 @@ if __name__ == "__main__":
                    sort_keys = True,
             )
 
-        # Configure figure ...
-        fg.suptitle(f"({lon:+.1f}°,{lat:+.1f}°) buffered by {dist:,d}km")
-        fg.tight_layout()
+        # Check that the user wants to make plots ...
+        if not args.dontMakePlots:
+            # Configure figure ...
+            fg.suptitle(f"({lon:+.1f}°,{lat:+.1f}°) buffered by {dist:,d}km")
+            fg.tight_layout()
 
-        # Save figure ...
-        fg.savefig(fname)
-        matplotlib.pyplot.close(fg)
+            # Try to save figure ...
+            # NOTE: There is a bug in one of Cartopy v0.21.1, MatPlotLib v3.7.1,
+            #       NumPy v1.24.1 or SciPy v1.10.1 which means that the
+            #       transform of the background image fails for certain
+            #       locations.
+            try:
+                fg.savefig(fname)
+                matplotlib.pyplot.close(fg)
+            except:
+                print("   Failed")
+                matplotlib.pyplot.close(fg)
+                continue
 
-        # Optimise PNG ...
-        pyguymer3.image.optimise_image(
-            fname,
-              debug = args.debug,
-              strip = True,
-            timeout = args.timeout,
-        )
+            # Optimise PNG ...
+            pyguymer3.image.optimise_image(
+                fname,
+                  debug = args.debug,
+                  strip = True,
+                timeout = args.timeout,
+            )
+
+    # **************************************************************************
+
+    # Check if the user does not want to make plots ...
+    if args.dontMakePlots:
+        sys.exit()
 
     # **************************************************************************
 
@@ -318,8 +346,11 @@ if __name__ == "__main__":
 
     # Loop over distances ...
     for dist in range(10, 19970 + 10, 10):
-        # Determine file name ...
+        # Determine file name and skip if it is missing ...
         frame = f"animateExpandPoint/dist={dist:05d}.png"
+        if not os.path.exists(frame):
+            print(f"WARNING: \"{frame}\" is missing.")
+            continue
 
         # Append it to the list ...
         frames.append(frame)

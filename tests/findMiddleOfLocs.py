@@ -7,6 +7,7 @@ if __name__ == "__main__":
     import argparse
     import json
     import pathlib
+    import sys
 
     # Import special modules ...
     try:
@@ -61,6 +62,12 @@ if __name__ == "__main__":
         "--debug",
         action = "store_true",
           help = "print debug messages",
+    )
+    parser.add_argument(
+        "--dont-make-plots",
+        action = "store_true",
+          dest = "dontMakePlots",
+          help = "don't make the plots (only make the [Geo]JSONs)",
     )
     parser.add_argument(
         "--eps",
@@ -266,6 +273,12 @@ if __name__ == "__main__":
                   indent = 4,
                sort_keys = True,
         )
+
+    # **************************************************************************
+
+    # Check if the user does not want to make plots ...
+    if args.dontMakePlots:
+        sys.exit()
 
     # **************************************************************************
 

@@ -81,6 +81,12 @@ if __name__ == "__main__":
           help = "print debug messages",
     )
     parser.add_argument(
+        "--dont-make-plots",
+        action = "store_true",
+          dest = "dontMakePlots",
+          help = "don't make the plots (only make the [Geo]JSONs)",
+    )
+    parser.add_argument(
         "--eps",
         default = 1.0e-12,
            dest = "eps",
@@ -157,77 +163,79 @@ if __name__ == "__main__":
 
             print(f" > Making \"{jname}\" and \"{fname}\" ...")
 
-            # Create figure ...
-            fg = matplotlib.pyplot.figure(
-                    dpi = 100,                              # NOTE: Reduce DPI to make test quicker.
-                figsize = (9.6, 7.2),
-            )
+            # Check that the user wants to make plots ...
+            if not args.dontMakePlots:
+                # Create figure ...
+                fg = matplotlib.pyplot.figure(
+                        dpi = 100,                          # NOTE: Reduce DPI to make test quicker.
+                    figsize = (9.6, 7.2),
+                )
 
-            # Create axis ...
-            ax1 = pyguymer3.geo.add_axis(
-                fg,
-                add_coastlines = False,                     # NOTE: Do not draw coastlines so that changes in GSHGG do not change the image.
-                 add_gridlines = True,
+                # Create axis ...
+                ax1 = pyguymer3.geo.add_axis(
+                    fg,
+                    add_coastlines = False,                 # NOTE: Do not draw coastlines so that changes in GSHGG do not change the image.
+                     add_gridlines = True,
+                             debug = args.debug,
+                               eps = args.eps,
+                             index = 1,
+                             ncols = 2,
+                             nIter = args.nIter,
+                             nrows = 2,
+                               tol = args.tol,
+                )
+
+                # Configure axis ...
+                pyguymer3.geo.add_map_background(
+                    ax1,
                          debug = args.debug,
-                           eps = args.eps,
-                         index = 1,
-                         ncols = 2,
-                         nIter = args.nIter,
-                         nrows = 2,
-                           tol = args.tol,
-            )
+                    resolution = "large1024px",             # NOTE: Reduce size to make test quicker.
+                )
 
-            # Configure axis ...
-            pyguymer3.geo.add_map_background(
-                ax1,
-                     debug = args.debug,
-                resolution = "large1024px",                 # NOTE: Reduce size to make test quicker.
-            )
+                # Create axis ...
+                ax2 = pyguymer3.geo.add_axis(
+                    fg,
+                    add_coastlines = False,                 # NOTE: Do not draw coastlines so that changes in GSHGG do not change the image.
+                     add_gridlines = True,
+                             debug = args.debug,
+                               eps = args.eps,
+                             index = 2,
+                               lat = lat,
+                               lon = lon,
+                             ncols = 2,
+                             nIter = args.nIter,
+                             nrows = 2,
+                               tol = args.tol,
+                )
 
-            # Create axis ...
-            ax2 = pyguymer3.geo.add_axis(
-                fg,
-                add_coastlines = False,                     # NOTE: Do not draw coastlines so that changes in GSHGG do not change the image.
-                 add_gridlines = True,
+                # Configure axis ...
+                pyguymer3.geo.add_map_background(
+                    ax2,
                          debug = args.debug,
-                           eps = args.eps,
-                         index = 2,
-                           lat = lat,
-                           lon = lon,
-                         ncols = 2,
-                         nIter = args.nIter,
-                         nrows = 2,
-                           tol = args.tol,
-            )
+                    resolution = "large1024px",             # NOTE: Reduce size to make test quicker.
+                )
 
-            # Configure axis ...
-            pyguymer3.geo.add_map_background(
-                ax2,
-                     debug = args.debug,
-                resolution = "large1024px",                 # NOTE: Reduce size to make test quicker.
-            )
+                # Create axis ...
+                ax3 = fg.add_subplot(
+                    2,
+                    2,
+                    (3, 4),
+                )
 
-            # Create axis ...
-            ax3 = fg.add_subplot(
-                2,
-                2,
-                (3, 4),
-            )
-
-            # Configure axis ...
-            ax3.grid()
-            ax3.set_aspect("equal")
-            ax3.set_xlabel("Longitude [°]")
-            ax3.set_xlim(-180.0, +180.0)
-            ax3.set_xticks(range(-180, 225, 45))
-            ax3.set_ylabel("Latitude [°]")
-            ax3.set_ylim(-90.0, +90.0)
-            ax3.set_yticks(range(-90, 135, 45))
+                # Configure axis ...
+                ax3.grid()
+                ax3.set_aspect("equal")
+                ax3.set_xlabel("Longitude [°]")
+                ax3.set_xlim(-180.0, +180.0)
+                ax3.set_xticks(range(-180, 225, 45))
+                ax3.set_ylabel("Latitude [°]")
+                ax3.set_ylim(-90.0, +90.0)
+                ax3.set_yticks(range(-90, 135, 45))
 
             # Create point ...
             point = shapely.geometry.point.Point(lon, lat)
 
-            # Buffer Point and plot it thrice ...
+            # Buffer Point ...
             buff0 = pyguymer3.geo.buffer(
                 point,
                 dist1 + dist2,
@@ -240,29 +248,33 @@ if __name__ == "__main__":
                      simp = simp,
                       tol = args.tol,
             )
-            ax1.add_geometries(
-                pyguymer3.geo.extract_polys(buff0),
-                cartopy.crs.PlateCarree(),
-                edgecolor = (1.0, 0.0, 0.0, 1.0),
-                facecolor = "none",
-                linewidth = 1.0,
-            )
-            ax2.add_geometries(
-                pyguymer3.geo.extract_polys(buff0),
-                cartopy.crs.PlateCarree(),
-                edgecolor = (1.0, 0.0, 0.0, 1.0),
-                facecolor = "none",
-                linewidth = 1.0,
-            )
-            for poly in pyguymer3.geo.extract_polys(buff0):
-                coords = numpy.array(poly.exterior.coords)                      # [°]
-                ax3.plot(
-                    coords[:, 0],
-                    coords[:, 1],
-                    color = (1.0, 0.0, 0.0, 1.0),
-                )
 
-            # Buffer Point and plot it twice ...
+            # Check that the user wants to make plots ...
+            if not args.dontMakePlots:
+                # Plot Point thrice ...
+                ax1.add_geometries(
+                    pyguymer3.geo.extract_polys(buff0),
+                    cartopy.crs.PlateCarree(),
+                    edgecolor = (1.0, 0.0, 0.0, 1.0),
+                    facecolor = "none",
+                    linewidth = 1.0,
+                )
+                ax2.add_geometries(
+                    pyguymer3.geo.extract_polys(buff0),
+                    cartopy.crs.PlateCarree(),
+                    edgecolor = (1.0, 0.0, 0.0, 1.0),
+                    facecolor = "none",
+                    linewidth = 1.0,
+                )
+                for poly in pyguymer3.geo.extract_polys(buff0):
+                    coords = numpy.array(poly.exterior.coords)                  # [°]
+                    ax3.plot(
+                        coords[:, 0],
+                        coords[:, 1],
+                        color = (1.0, 0.0, 0.0, 1.0),
+                    )
+
+            # Buffer Point ...
             buff1 = pyguymer3.geo.buffer(
                 point,
                 dist1,
@@ -275,29 +287,33 @@ if __name__ == "__main__":
                      simp = simp,
                       tol = args.tol,
             )
-            ax1.add_geometries(
-                pyguymer3.geo.extract_polys(buff1),
-                cartopy.crs.PlateCarree(),
-                edgecolor = (0.0, 1.0, 0.0, 1.0),
-                facecolor = "none",
-                linewidth = 1.0,
-            )
-            ax2.add_geometries(
-                pyguymer3.geo.extract_polys(buff1),
-                cartopy.crs.PlateCarree(),
-                edgecolor = (0.0, 1.0, 0.0, 1.0),
-                facecolor = "none",
-                linewidth = 1.0,
-            )
-            for poly in pyguymer3.geo.extract_polys(buff1):
-                coords = numpy.array(poly.exterior.coords)                      # [°]
-                ax3.plot(
-                    coords[:, 0],
-                    coords[:, 1],
-                    color = (0.0, 1.0, 0.0, 1.0),
-                )
 
-            # Buffer Polygon and plot it thrice ...
+            # Check that the user wants to make plots ...
+            if not args.dontMakePlots:
+                # Plot Point thrice ...
+                ax1.add_geometries(
+                    pyguymer3.geo.extract_polys(buff1),
+                    cartopy.crs.PlateCarree(),
+                    edgecolor = (0.0, 1.0, 0.0, 1.0),
+                    facecolor = "none",
+                    linewidth = 1.0,
+                )
+                ax2.add_geometries(
+                    pyguymer3.geo.extract_polys(buff1),
+                    cartopy.crs.PlateCarree(),
+                    edgecolor = (0.0, 1.0, 0.0, 1.0),
+                    facecolor = "none",
+                    linewidth = 1.0,
+                )
+                for poly in pyguymer3.geo.extract_polys(buff1):
+                    coords = numpy.array(poly.exterior.coords)                  # [°]
+                    ax3.plot(
+                        coords[:, 0],
+                        coords[:, 1],
+                        color = (0.0, 1.0, 0.0, 1.0),
+                    )
+
+            # Buffer Polygon ...
             buff2 = pyguymer3.geo.buffer(
                 buff1,
                 dist2,
@@ -310,27 +326,31 @@ if __name__ == "__main__":
                      simp = simp,
                       tol = args.tol,
             )
-            ax1.add_geometries(
-                pyguymer3.geo.extract_polys(buff2),
-                cartopy.crs.PlateCarree(),
-                edgecolor = (0.0, 0.0, 1.0, 1.0),
-                facecolor = (0.0, 0.0, 1.0, 0.5),
-                linewidth = 1.0,
-            )
-            ax2.add_geometries(
-                pyguymer3.geo.extract_polys(buff2),
-                cartopy.crs.PlateCarree(),
-                edgecolor = (0.0, 0.0, 1.0, 1.0),
-                facecolor = (0.0, 0.0, 1.0, 0.5),
-                linewidth = 1.0,
-            )
-            for poly in pyguymer3.geo.extract_polys(buff2):
-                coords = numpy.array(poly.exterior.coords)                      # [°]
-                ax3.plot(
-                    coords[:, 0],
-                    coords[:, 1],
-                    color = (0.0, 0.0, 1.0, 1.0),
+
+            # Check that the user wants to make plots ...
+            if not args.dontMakePlots:
+                # Plot Point thrice ...
+                ax1.add_geometries(
+                    pyguymer3.geo.extract_polys(buff2),
+                    cartopy.crs.PlateCarree(),
+                    edgecolor = (0.0, 0.0, 1.0, 1.0),
+                    facecolor = (0.0, 0.0, 1.0, 0.5),
+                    linewidth = 1.0,
                 )
+                ax2.add_geometries(
+                    pyguymer3.geo.extract_polys(buff2),
+                    cartopy.crs.PlateCarree(),
+                    edgecolor = (0.0, 0.0, 1.0, 1.0),
+                    facecolor = (0.0, 0.0, 1.0, 0.5),
+                    linewidth = 1.0,
+                )
+                for poly in pyguymer3.geo.extract_polys(buff2):
+                    coords = numpy.array(poly.exterior.coords)                  # [°]
+                    ax3.plot(
+                        coords[:, 0],
+                        coords[:, 1],
+                        color = (0.0, 0.0, 1.0, 1.0),
+                    )
 
             # Save GeoJSON ...
             # NOTE: As of 4/Aug/2025, the Python module "geojson" just converts
@@ -357,22 +377,24 @@ if __name__ == "__main__":
                        sort_keys = True,
                 )
 
-            # Configure figure ...
-            fg.suptitle(f"({lon:.1f},{lat:.1f}) buffered by {0.001 * dist1:,.1f}km & {0.001 * dist2:,.1f}km\nred = {0.001 * (dist1 + dist2):,.1f}km; green = {0.001 * dist1:,.1f}km; blue = {0.001 * dist1:,.1f}km & {0.001 * dist2:,.1f}km")
-            fg.tight_layout()
+            # Check that the user wants to make plots ...
+            if not args.dontMakePlots:
+                # Configure figure ...
+                fg.suptitle(f"({lon:.1f},{lat:.1f}) buffered by {0.001 * dist1:,.1f}km & {0.001 * dist2:,.1f}km\nred = {0.001 * (dist1 + dist2):,.1f}km; green = {0.001 * dist1:,.1f}km; blue = {0.001 * dist1:,.1f}km & {0.001 * dist2:,.1f}km")
+                fg.tight_layout()
 
-            # Save figure ...
-            fg.savefig(fname)
-            matplotlib.pyplot.close(fg)
+                # Save figure ...
+                fg.savefig(fname)
+                matplotlib.pyplot.close(fg)
 
-            # Optimise PNG ..
-            pyguymer3.image.optimise_image(
-                fname,
-                  debug = args.debug,
-                   pool = pObj,
-                  strip = True,
-                timeout = args.timeout,
-            )
+                # Optimise PNG ..
+                pyguymer3.image.optimise_image(
+                    fname,
+                      debug = args.debug,
+                       pool = pObj,
+                      strip = True,
+                    timeout = args.timeout,
+                )
 
         # Close the pool of worker processes and wait for all of the tasks to
         # finish ...
