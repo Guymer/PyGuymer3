@@ -20,9 +20,12 @@ build:
 
 python:
     install:
-        - requirements: requirements.txt
-        - requirements: docs/requirements.txt
-        - requirements: pyguymer3/f90/fortranlib/requirements.txt
+        -
+            requirements: requirements.txt
+        -
+            requirements: docs/requirements.txt
+        -
+            requirements: pyguymer3/f90/fortranlib/requirements.txt
 
 submodules:
     include: all
