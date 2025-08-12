@@ -4,6 +4,7 @@
 pillow >= 8.0.0
 cartopy
 exifread
+generateNeTilesSrc
 geojson
 lxml
 matplotlib >= 3.5.0

@@ -38,7 +38,7 @@ def _add_coastlines(
         larger than the field-of-view are plotted
     levels : list of int, optional
         the levels of the coastline boundaries (if None then default to
-        ``[1, 6]``)
+        ``(1, 5, 6,)``)
     linestyle : str, optional
         the linestyle to draw the coastline boundaries with
     linewidth : float, optional
@@ -123,7 +123,7 @@ def _add_coastlines(
 
     # Check inputs ...
     if levels is None:
-        levels = [1, 6]
+        levels = (1, 5, 6,)
 
     # Loop over levels ...
     for level in levels:
