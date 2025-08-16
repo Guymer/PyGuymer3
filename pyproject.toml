@@ -58,9 +58,9 @@ Funding = "https://github.com/sponsors/Guymer"
 
 [tool.setuptools.packages.find]
 exclude = [
-    "bugs*"
-    "scripts*"
-    "tests*"
+    "bugs*",
+    "scripts*",
+    "tests*",
 ]
 
 [tool.setuptools_scm]
