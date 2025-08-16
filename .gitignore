@@ -30,10 +30,12 @@ PyGuymer3.egg-info
 
 # Hide large datasets ...
 debug.*.csv
+pyguymer3/data/png/globe/36x18
 pyguymer3/data/png/globe/72x36
 pyguymer3/data/png/globe/144x72
 pyguymer3/data/png/gshhg/64x32
 pyguymer3/data/png/gshhg/128x64
+pyguymer3/data/png/ne/36x18
 pyguymer3/data/png/ne/72x36
 pyguymer3/data/png/ne/144x72
 pyguymer3/data/png/osTerrain/44x82
