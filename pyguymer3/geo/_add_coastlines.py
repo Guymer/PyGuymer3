@@ -38,7 +38,7 @@ def _add_coastlines(
         larger than the field-of-view are plotted
     levels : list of int, optional
         the levels of the coastline boundaries (if None then default to
-        ``[1, 6]``)
+        ``(1, 5, 6,)``)
     linestyle : str, optional
         the linestyle to draw the coastline boundaries with
     linewidth : float, optional
@@ -90,6 +90,7 @@ def _add_coastlines(
 
     # Import standard modules ...
     import os
+    import pathlib
     import urllib
 
     # Import special modules ...
@@ -97,7 +98,7 @@ def _add_coastlines(
         import cartopy
         cartopy.config.update(
             {
-                "cache_dir" : os.path.expanduser("~/.local/share/cartopy_cache"),
+                "cache_dir" : pathlib.PosixPath("~/.local/share/cartopy_cache").expanduser(),
             }
         )
     except:
@@ -114,11 +115,6 @@ def _add_coastlines(
         )
     except:
         raise Exception("\"matplotlib\" is not installed; run \"pip install --user matplotlib\"") from None
-    try:
-        import shapely
-        import shapely.geometry
-    except:
-        raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
     from .extract_polys import extract_polys
@@ -127,7 +123,7 @@ def _add_coastlines(
 
     # Check inputs ...
     if levels is None:
-        levels = [1, 6]
+        levels = (1, 5, 6,)
 
     # Loop over levels ...
     for level in levels:

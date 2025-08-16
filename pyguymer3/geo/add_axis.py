@@ -18,6 +18,7 @@ def add_axis(
                     debug = __debug__,
                      dist = 1.0e99,
                       eps = 1.0e-12,
+                      fov = None,
             gridlines_int = None,
       gridlines_linecolor = "black",
       gridlines_linestyle = ":",
@@ -77,6 +78,10 @@ def add_axis(
         make the axis of global extent (in metres)
     eps : float, optional
         the tolerance of the Vincenty formula iterations
+    fov : None or shapely.geometry.polygon.Polygon, optional
+        clip the plotted shapes to the provided field-of-view to work around
+        occaisional MatPlotLib or Cartopy plotting errors when shapes much
+        larger than the field-of-view are plotted
     gridlines_int : int, optional
         the interval between gridlines, best results if ``90 % gridlines_int == 0``;
         if the axis is of global extent then the default will be 45° else it
@@ -185,6 +190,7 @@ def add_axis(
                             debug = debug,
                              dist = dist,
                               eps = eps,
+                              fov = fov,
                     gridlines_int = gridlines_int,
               gridlines_linecolor = gridlines_linecolor,
               gridlines_linestyle = gridlines_linestyle,
@@ -216,6 +222,7 @@ def add_axis(
         coastlines_resolution = coastlines_resolution,
             coastlines_zorder = coastlines_zorder,
                         debug = debug,
+                          fov = fov,
                 gridlines_int = gridlines_int,
           gridlines_linecolor = gridlines_linecolor,
           gridlines_linestyle = gridlines_linestyle,

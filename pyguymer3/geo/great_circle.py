@@ -82,7 +82,7 @@ def great_circle(
     from .find_middle_of_great_circle import find_middle_of_great_circle
     from .find_point_on_great_circle import find_point_on_great_circle
     from ..interpolate import interpolate
-    from ..consts import CIRCUMFERENCE_OF_EARTH
+    from .._consts import MAXIMUM_VINCENTY
 
     # **************************************************************************
 
@@ -93,7 +93,7 @@ def great_circle(
     # Check inputs ...
     if isinstance(maxdist, float):
         assert maxdist >= 10.0, f"the maximum distance is too small ({maxdist:,.1f}m < {10.0:,.1f}m)"
-        assert maxdist <= 0.5 * CIRCUMFERENCE_OF_EARTH, f"the maximum distance is too large ({maxdist:,.1f}m > {0.5 * CIRCUMFERENCE_OF_EARTH:,.1f}m)"
+        assert maxdist <= MAXIMUM_VINCENTY, f"the maximum distance is too large ({maxdist:,.1f}m > {MAXIMUM_VINCENTY:,.1f}m)"
     elif isinstance(npoint, int):
         assert npoint >= 3, f"the number of points is too small ({npoint:,d} < {3:,d})"
     else:

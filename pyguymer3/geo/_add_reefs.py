@@ -50,7 +50,7 @@ def _add_reefs(
     """
 
     # Import standard modules ...
-    import os
+    import pathlib
     import urllib
 
     # Import special modules ...
@@ -58,7 +58,7 @@ def _add_reefs(
         import cartopy
         cartopy.config.update(
             {
-                "cache_dir" : os.path.expanduser("~/.local/share/cartopy_cache"),
+                "cache_dir" : pathlib.PosixPath("~/.local/share/cartopy_cache").expanduser(),
             }
         )
     except:
@@ -75,11 +75,6 @@ def _add_reefs(
         )
     except:
         raise Exception("\"matplotlib\" is not installed; run \"pip install --user matplotlib\"") from None
-    try:
-        import shapely
-        import shapely.geometry
-    except:
-        raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
     from .extract_polys import extract_polys

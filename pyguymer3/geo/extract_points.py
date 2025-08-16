@@ -60,7 +60,12 @@ def extract_points(
         # Loop over items ...
         for item in shape:
             # Add lists together ...
-            points += extract_points(item, onlyValid = onlyValid)
+            points.extend(
+                extract_points(
+                    item,
+                    onlyValid = onlyValid,
+                )
+            )
 
         # Return answer ...
         return points
@@ -96,7 +101,12 @@ def extract_points(
         # Loop over Points ...
         for point in shape.geoms:
             # Add lists together ...
-            points += extract_points(point, onlyValid = onlyValid)
+            points.extend(
+                extract_points(
+                    point,
+                    onlyValid = onlyValid,
+                )
+            )
 
         # Return answer ...
         return points
@@ -129,7 +139,12 @@ def extract_points(
         # Loop over geometries ...
         for geom in shape.geoms:
             # Add lists together ...
-            points += extract_points(geom, onlyValid = onlyValid)
+            points.extend(
+                extract_points(
+                    geom,
+                    onlyValid = onlyValid,
+                )
+            )
 
         # Return answer ...
         return points

@@ -38,14 +38,14 @@ def en2ll_Point(
     """
 
     # Import standard modules ...
-    import os
+    import pathlib
 
     # Import special modules ...
     try:
         import cartopy
         cartopy.config.update(
             {
-                "cache_dir" : os.path.expanduser("~/.local/share/cartopy_cache"),
+                "cache_dir" : pathlib.PosixPath("~/.local/share/cartopy_cache").expanduser(),
             }
         )
     except:

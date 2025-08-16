@@ -43,12 +43,67 @@ jobs:
                     echo "::notice $(which ffprobe)"
                     echo "::notice $(which gfortran)"
                     echo "::notice $(which gmake)"
+                    echo "::notice $(which md5sum)"
                     echo "::notice $(which optipng)"
                     echo "::notice $(which pip)"
                     echo "::notice $(which python)"
             -
+                name : Set up environment for Python
+                run : |
+                    echo "PYTHONPATH=${PWD}/main:${PYTHONPATH}" >> ${GITHUB_ENV}
+                    echo "PYTHONSAFEPATH=aNonEmptyString" >> ${GITHUB_ENV}
+            -
                 name: Test the Python ${{ matrix.python-version }} code
+                # NOTE: As of 9/Aug/2025, on my MacBook Pro the durations of the
+                #       scripts (using "time") are:
+                #         * tests/animateBufferPoint.py = 1m 10.73 s
+                #         * tests/animateExpandPoint.py =    12.44 s
+                #         * tests/buffer.py             =     9.78 s
+                #         * tests/bufferPoint.py        =     0.63 s
+                #         * tests/fillin.py             =     0.55 s
+                #         * tests/findMiddleOfLocs.py   =    40.51 s
+                #         * tests/greatCircle.py        =     0.54 s
+                #         * unitTests.py                =    43.47 s
                 run: |
                     cd main
                     gmake -r -C pyguymer3/f90 FC=`which gfortran` PYTHON3=`which python` compile
+                    python tests/animateBufferPoint.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots --quiet
+                    python tests/animateExpandPoint.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots --quiet
+                    python tests/buffer.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots --quiet
+                    python tests/bufferPoint.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots --quiet
+                    python tests/fillin.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots --quiet
+                    python tests/findMiddleOfLocs.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots --quiet
+                    python tests/greatCircle.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots --quiet
                     python -m unittest unitTests.py
+            -
+                name: Create MD5 checksums of the null output
+                run: |
+                    cd main
+                    md5sum tests/animateBufferPoint/*.geojson tests/animateExpandPoint/*.geojson tests/buffer/*.geojson tests/bufferPoint/*.geojson tests/fillin/*.geojson tests/findMiddleOfLocs/*.json tests/greatCircle/*.geojson > tests/null.md5
+            -
+                name: Create MD5 checksums of the test output
+                run: |
+                    cd ${{ runner.temp }}
+                    md5sum tests/animateBufferPoint/*.geojson tests/animateExpandPoint/*.geojson tests/buffer/*.geojson tests/bufferPoint/*.geojson tests/fillin/*.geojson tests/findMiddleOfLocs/*.json tests/greatCircle/*.geojson > tests/test.md5
+            -
+                name: Check MD5 checksums of the test output
+                # NOTE: This will always be successful, even if a MD5 checksum
+                #       differs.
+                run: |
+                    cd ${{ runner.temp }}
+                    md5sum --check ${OLDPWD}/main/tests/null.md5 || true
+            -
+                name: Upload generated GEOJSON and JSON files
+                uses: actions/upload-artifact@v4                                # https://github.com/actions/upload-artifact
+                with:
+                    name: generated-GEOJSON-and-JSON-files (Python ${{ matrix.python-version }})
+                    path: |
+                        ${{ runner.temp }}/tests/animateBufferPoint/*.geojson
+                        ${{ runner.temp }}/tests/animateExpandPoint/*.geojson
+                        ${{ runner.temp }}/tests/buffer/*.geojson
+                        ${{ runner.temp }}/tests/bufferPoint/*.geojson
+                        ${{ runner.temp }}/tests/fillin/*.geojson
+                        ${{ runner.temp }}/tests/findMiddleOfLocs/*.json
+                        ${{ runner.temp }}/tests/greatCircle/*.geojson
+                        ${{ runner.temp }}/tests/test.md5
+                    compression-level: 9

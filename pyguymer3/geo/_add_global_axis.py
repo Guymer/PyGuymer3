@@ -15,6 +15,7 @@ def _add_global_axis(
     coastlines_resolution = "i",
         coastlines_zorder = 1.5,
                     debug = __debug__,
+                      fov = None,
             gridlines_int = None,
       gridlines_linecolor = "black",
       gridlines_linestyle = ":",
@@ -57,6 +58,10 @@ def _add_global_axis(
         by manual inspection on 5/Dec/2023)
     debug : bool, optional
         print debug messages
+    fov : None or shapely.geometry.polygon.Polygon, optional
+        clip the plotted shapes to the provided field-of-view to work around
+        occaisional MatPlotLib or Cartopy plotting errors when shapes much
+        larger than the field-of-view are plotted
     gridlines_int : int, optional
         the interval between gridlines, best results if ``90 % gridlines_int == 0``;
         the default will be 45° (in degrees)
@@ -123,14 +128,14 @@ def _add_global_axis(
     """
 
     # Import standard modules ...
-    import os
+    import pathlib
 
     # Import special modules ...
     try:
         import cartopy
         cartopy.config.update(
             {
-                "cache_dir" : os.path.expanduser("~/.local/share/cartopy_cache"),
+                "cache_dir" : pathlib.PosixPath("~/.local/share/cartopy_cache").expanduser(),
             }
         )
     except:
@@ -179,6 +184,7 @@ def _add_global_axis(
                  debug = debug,
              edgecolor = coastlines_edgecolor,
              facecolor = coastlines_facecolor,
+                   fov = fov,
                 levels = coastlines_levels,
              linestyle = coastlines_linestyle,
              linewidth = coastlines_linewidth,

@@ -1,17 +1,35 @@
 # Make sure that only the Python module part of the Git repository is included
 # in the installation ...
+exclude .coverage.ini
 exclude .editorconfig
 exclude .github/*
 exclude .github/*/*
 exclude .gitignore
 exclude .gitmodules
 exclude .mypy.ini
-exclude .pylintrc
+exclude .pylint.ini
 exclude .readthedocs.yaml
 exclude .shellcheckrc
+exclude bugs/*
+exclude bugs/*/*
+exclude bugs/*/*/*
+exclude bugs/*/*/*/*
+exclude bugs/*/*/*/*/*
 exclude docs/*
+exclude docs/*/*
+exclude docs/*/*/*
+exclude docs/*/*/*/*
+exclude docs/*/*/*/*/*
 exclude Makefile
 exclude requirements.txt
+exclude scripts/*
+exclude scripts/*/*
+exclude scripts/*/*/*
+exclude scripts/*/*/*/*
+exclude scripts/*/*/*/*/*
 exclude tests/*
 exclude tests/*/*
+exclude tests/*/*/*
+exclude tests/*/*/*/*
+exclude tests/*/*/*/*/*
 exclude unitTests.py

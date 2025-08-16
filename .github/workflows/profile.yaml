@@ -48,9 +48,21 @@ jobs:
                     echo "::notice $(which pip)"
                     echo "::notice $(which python)"
             -
+                name : Set up environment for Python
+                run : |
+                    echo "PYTHONPATH=${PWD}/main:${PYTHONPATH}" >> ${GITHUB_ENV}
+                    echo "PYTHONSAFEPATH=aNonEmptyString" >> ${GITHUB_ENV}
+            -
                 name: Profile the Python ${{ matrix.python-version }} code
                 run: |
                     cd main
                     gmake -r -C pyguymer3/f90 FC=`which gfortran` PYTHON3=`which python` compile
-                    python -m cProfile -o cProfile.log -m unittest unitTests.py
-                    python -c 'import pstats; p = pstats.Stats("cProfile.log"); p.sort_stats(pstats.SortKey.CUMULATIVE).print_stats("pyguymer3/pyguymer3", 25)'
+                    python -m cProfile -o cProfile0.log tests/animateBufferPoint.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots --quiet
+                    python -m cProfile -o cProfile1.log tests/animateExpandPoint.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots --quiet
+                    python -m cProfile -o cProfile2.log tests/buffer.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots --quiet
+                    python -m cProfile -o cProfile3.log tests/bufferPoint.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots --quiet
+                    python -m cProfile -o cProfile4.log tests/fillin.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots --quiet
+                    python -m cProfile -o cProfile5.log tests/findMiddleOfLocs.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots --quiet
+                    python -m cProfile -o cProfile6.log tests/greatCircle.py --absolute-path-to-repository ${{ runner.temp }} --dont-make-plots --quiet
+                    python -m cProfile -o cProfile7.log -m unittest unitTests.py
+                    python -c 'import pstats; p = pstats.Stats(); p.add("cProfile0.log"); p.add("cProfile1.log"); p.add("cProfile2.log"); p.add("cProfile3.log"); p.add("cProfile4.log"); p.add("cProfile5.log"); p.add("cProfile6.log"); p.add("cProfile7.log"); p.sort_stats(pstats.SortKey.CUMULATIVE).print_stats("pyguymer3/pyguymer3", 25)'

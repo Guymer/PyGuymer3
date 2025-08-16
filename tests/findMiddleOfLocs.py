@@ -7,13 +7,15 @@ if __name__ == "__main__":
     import argparse
     import json
     import os
+    import pathlib
+    import sys
 
     # Import special modules ...
     try:
         import cartopy
         cartopy.config.update(
             {
-                "cache_dir" : os.path.expanduser("~/.local/share/cartopy_cache"),
+                "cache_dir" : pathlib.PosixPath("~/.local/share/cartopy_cache").expanduser(),
             }
         )
     except:
@@ -58,9 +60,22 @@ if __name__ == "__main__":
         formatter_class = argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
+        "--absolute-path-to-repository",
+        default = os.path.dirname(os.path.dirname(__file__)),
+           dest = "absPathToRepo",
+           help = "the absolute path to the PyGuymer3 repository",
+           type = str,
+    )
+    parser.add_argument(
         "--debug",
         action = "store_true",
           help = "print debug messages",
+    )
+    parser.add_argument(
+        "--dont-make-plots",
+        action = "store_true",
+          dest = "dontMakePlots",
+          help = "don't make the plots (only make the [Geo]JSONs)",
     )
     parser.add_argument(
         "--eps",
@@ -105,6 +120,11 @@ if __name__ == "__main__":
            type = int,
     )
     parser.add_argument(
+        "--quiet",
+        action = "store_true",
+          help = "don't print most messages",
+    )
+    parser.add_argument(
         "--timeout",
         default = 60.0,
            help = "the timeout for any requests/subprocess calls (in seconds)",
@@ -121,13 +141,20 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
+    # Create short-hand and make output directory ...
+    dName = f'{args.absPathToRepo}/tests/{os.path.basename(__file__).removesuffix(".py")}'
+    if not os.path.exists(dName):
+        os.makedirs(dName)
+
+    # **************************************************************************
+
     # Load data and convert to NumPy array ...
-    with open("findMiddleOfLocs/lons.json", "rt", encoding = "utf-8") as fObj:
+    with open(f"{pyguymer3.__path__[0]}/data/json/exampleLons.json", "rt", encoding = "utf-8") as fObj:
         lons = json.load(fObj)                                                  # [°]
     lons = numpy.array(lons, dtype = numpy.float64)                             # [°]
 
     # Load data and convert to NumPy array ...
-    with open("findMiddleOfLocs/lats.json", "rt", encoding = "utf-8") as fObj:
+    with open(f"{pyguymer3.__path__[0]}/data/json/exampleLats.json", "rt", encoding = "utf-8") as fObj:
         lats = json.load(fObj)                                                  # [°]
     lats = numpy.array(lats, dtype = numpy.float64)                             # [°]
 
@@ -231,34 +258,35 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
-    print("Making \"findMiddleOfLocs/comparison.json\" ...")
+    if not args.quiet:
+        print(f"Making \"{dName}/comparison.json\" ...")
 
     # Populate database ...
     db = {
            "EuclideanBox" : {
-             "lon" : midLon1,
-             "lat" : midLat1,
-            "dist" : maxDist1,
+             "lon" : round(midLon1, 6),                                         # NOTE: 0.000001° is approximately 0.111 m.
+             "lat" : round(midLat1, 6),                                         # NOTE: 0.000001° is approximately 0.111 m.
+            "dist" : round(maxDist1, 6),                                        # NOTE: 0.000001° is approximately 0.111 m.
         },
             "GeodesicBox" : {
-             "lon" : midLon2,
-             "lat" : midLat2,
-            "dist" : maxDist2,
+             "lon" : round(midLon2, 6),                                         # NOTE: 0.000001° is approximately 0.111 m.
+             "lat" : round(midLat2, 6),                                         # NOTE: 0.000001° is approximately 0.111 m.
+            "dist" : round(maxDist2, 1),                                        # NOTE: 0.1 m
         },
         "EuclideanCircle" : {
-             "lon" : midLon3,
-             "lat" : midLat3,
-            "dist" : maxDist3,
+             "lon" : round(midLon3, 6),                                         # NOTE: 0.000001° is approximately 0.111 m.
+             "lat" : round(midLat3, 6),                                         # NOTE: 0.000001° is approximately 0.111 m.
+            "dist" : round(maxDist3, 6),                                        # NOTE: 0.000001° is approximately 0.111 m.
         },
          "GeodesicCircle" : {
-             "lon" : midLon4,
-             "lat" : midLat4,
-            "dist" : maxDist4,
+             "lon" : round(midLon4, 6),                                         # NOTE: 0.000001° is approximately 0.111 m.
+             "lat" : round(midLat4, 6),                                         # NOTE: 0.000001° is approximately 0.111 m.
+            "dist" : round(maxDist4, 1),                                        # NOTE: 0.1 m
         },
     }
 
     # Save database ...
-    with open("findMiddleOfLocs/comparison.json", "wt", encoding = "utf-8") as fObj:
+    with open(f"{dName}/comparison.json", "wt", encoding = "utf-8") as fObj:
         json.dump(
             db,
             fObj,
@@ -269,10 +297,20 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
-    print("Making \"findMiddleOfLocs/comparison.png\" ...")
+    # Check if the user does not want to make plots ...
+    if args.dontMakePlots:
+        sys.exit()
+
+    # **************************************************************************
+
+    if not args.quiet:
+        print(f"Making \"{dName}/comparison.png\" ...")
 
     # Create figure ...
-    fg = matplotlib.pyplot.figure(figsize = (2 * 12.8, 2 * 7.2))
+    fg = matplotlib.pyplot.figure(
+            dpi = 100,                                      # NOTE: Reduce DPI to make test quicker.
+        figsize = (4 * 7.2, 2 * 7.2),
+    )
 
     # Create axes ...
     axBot = []
@@ -288,20 +326,24 @@ if __name__ == "__main__":
         axTop.append(
             pyguymer3.geo.add_axis(
                 fg,
-                  add_coastlines = True,
-                   add_gridlines = True,
-                           debug = args.debug,
-                            dist = maxDist1 * pyguymer3.RESOLUTION_OF_EARTH,
-                             eps = args.eps,
-                           index = iCol + 1,
-                             lat = midLat1,
-                             lon = midLon1,
-                           ncols = 4,
-                           nIter = args.nIter,
-                           nrows = 2,
-                satellite_height = False,
-                             tol = args.tol,
+                add_coastlines = False,                     # NOTE: Do not draw coastlines so that changes in GSHGG do not change the image.
+                 add_gridlines = True,
+                         debug = args.debug,
+                          dist = maxDist1 * pyguymer3.RESOLUTION_OF_EARTH,
+                           eps = args.eps,
+                         index = iCol + 1,
+                           lat = midLat1,
+                           lon = midLon1,
+                         ncols = 4,
+                         nIter = args.nIter,
+                         nrows = 2,
+                           tol = args.tol,
             )
+        )
+        pyguymer3.geo.add_map_background(
+            axTop[-1],
+                 debug = args.debug,
+            resolution = "large1024px",                     # NOTE: Reduce size to make test quicker.
         )
 
     # Plot the data ...
@@ -416,12 +458,12 @@ if __name__ == "__main__":
     fg.tight_layout()
 
     # Save figure ...
-    fg.savefig("findMiddleOfLocs/comparison.png")
+    fg.savefig(f"{dName}/comparison.png")
     matplotlib.pyplot.close(fg)
 
     # Optimise PNG ...
     pyguymer3.image.optimise_image(
-        "findMiddleOfLocs/comparison.png",
+        f"{dName}/comparison.png",
           debug = args.debug,
           strip = True,
         timeout = args.timeout,
@@ -483,10 +525,14 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
-    print("Making \"findMiddleOfLocs/locations.png\" ...")
+    if not args.quiet:
+        print(f"Making \"{dName}/locations.png\" ...")
 
     # Create figure ...
-    fg = matplotlib.pyplot.figure(figsize = (12.8, 7.2))
+    fg = matplotlib.pyplot.figure(
+            dpi = 100,                                      # NOTE: Reduce DPI to make test quicker.
+        figsize = (12.8, 7.2),
+    )
 
     # Create axis ...
     ax = fg.add_subplot()
@@ -582,12 +628,12 @@ if __name__ == "__main__":
     fg.tight_layout()
 
     # Save figure ...
-    fg.savefig("findMiddleOfLocs/locations.png")
+    fg.savefig(f"{dName}/locations.png")
     matplotlib.pyplot.close(fg)
 
     # Optimise PNG ...
     pyguymer3.image.optimise_image(
-        "findMiddleOfLocs/locations.png",
+        f"{dName}/locations.png",
           debug = args.debug,
           strip = True,
         timeout = args.timeout,

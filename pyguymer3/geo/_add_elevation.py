@@ -49,20 +49,20 @@ def _add_elevation(
 
     # Import standard modules ...
     import os
+    import pathlib
 
     # Import special modules ...
     try:
         import cartopy
         cartopy.config.update(
             {
-                "cache_dir" : os.path.expanduser("~/.local/share/cartopy_cache"),
+                "cache_dir" : pathlib.PosixPath("~/.local/share/cartopy_cache").expanduser(),
             }
         )
     except:
         raise Exception("\"cartopy\" is not installed; run \"pip install --user Cartopy\"") from None
     try:
         import geojson
-        geojson.geometry.Geometry.__init__.__defaults__ = (None, False, 12)     # NOTE: See https://github.com/jazzband/geojson/issues/135#issuecomment-596509669
     except:
         raise Exception("\"geojson\" is not installed; run \"pip install --user geojson\"") from None
     try:
@@ -119,7 +119,7 @@ def _add_elevation(
             print(f"INFO: \"{name}\" is ({facecolor[0]:.6f},{facecolor[1]:.6f},{facecolor[2]:.6f},{facecolor[3]:.6f}).")
 
         # Find file containing the shapes ...
-        sfile = f"{os.path.dirname(__file__)}/../data/geojson/GLOBE/scale={scale[resolution]}/elev={elevation:04d}m.geojson"
+        sfile = f"{os.path.dirname(__file__)}/../data/geojson/globe/scale={scale[resolution]}/elev={elevation:04d}m.geojson"
         if not os.path.exists(sfile):
             continue
         if debug:

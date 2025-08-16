@@ -103,7 +103,7 @@ def buffer_CoordinateSequence(
     from ..check import check
     from ..clean import clean
     from ..fillin import fillin
-    from ...consts import CIRCUMFERENCE_OF_EARTH
+    from ..._consts import CIRCUMFERENCE_OF_EARTH, MAXIMUM_VINCENTY
     try:
         from ...f90 import funcs
         if debug:
@@ -127,7 +127,7 @@ def buffer_CoordinateSequence(
 
     # Check inputs ...
     assert dist >= 10.0, f"the buffering distance is too small ({dist:,.1f}m < {10.0:,.1f}m)"
-    assert dist <= 0.5 * CIRCUMFERENCE_OF_EARTH, f"the buffering distance is too large ({dist:,.1f}m > {0.5 * CIRCUMFERENCE_OF_EARTH:,.1f}m)"
+    assert dist <= MAXIMUM_VINCENTY, f"the buffering distance is too large ({dist:,.1f}m > {MAXIMUM_VINCENTY:,.1f}m)"
     assert nAng >= 9, f"the number of angles is too small ({nAng:,d} < {9:,d})"
     assert nAng % 2 == 1, f"the number of angles is even ({nAng:,d})"
     assert (nAng - 1) % 4 == 0, f"the number of angles is not 4n+1 ({nAng:,d})"
@@ -205,7 +205,7 @@ def buffer_CoordinateSequence(
             points1[ipoint, :],
             points2[ipoint, :, :],
              debug = debug,
-              huge = dist > 0.25 * CIRCUMFERENCE_OF_EARTH,
+              huge = bool(dist > 0.25 * CIRCUMFERENCE_OF_EARTH),
             prefix = prefix,
                tol = tol,
         )

@@ -14,7 +14,7 @@ name = "PyGuymer3"
 description = "A Python 3 module containing a bunch of random functions that I have written over the years"
 dynamic = ["version"]
 readme = "README.md"
-license = {text = "Apache-2.0"}
+license = "Apache-2.0"
 authors = [
     {name = "Thomas Guymer"}
 ]
@@ -28,7 +28,6 @@ classifiers = [                         # NOTE: See https://pypi.org/classifiers
     "Intended Audience :: Information Technology",
     "Intended Audience :: Science/Research",
     "Intended Audience :: System Administrators",
-    "License :: OSI Approved :: Apache Software License",
     "Natural Language :: English",
     "Operating System :: MacOS :: MacOS X",
     "Operating System :: POSIX :: BSD :: FreeBSD",
@@ -56,5 +55,13 @@ Documentation = "https://pyguymer3.readthedocs.io"
 Homepage = "https://github.com/Guymer/PyGuymer3"
 Issues = "https://github.com/Guymer/PyGuymer3/issues"
 Funding = "https://github.com/sponsors/Guymer"
+
+[tool.setuptools.packages.find]
+exclude = [
+    "docs*",
+    "bugs*",
+    "scripts*",
+    "tests*",
+]
 
 [tool.setuptools_scm]

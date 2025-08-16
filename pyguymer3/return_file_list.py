@@ -9,6 +9,7 @@ def return_file_list(
               debug = __debug__,
           ensureNFC = True,
     follow_symlinks = True,
+     return_dsstore = True,
     return_symlinks = True,
 ):
     """Return a recursive list of file names in a directory.
@@ -27,6 +28,8 @@ def return_file_list(
         ensure that the Unicode encoding is NFC
     follow_symlinks : bool, optional
         follow symbolic links
+    return_dsstore : bool, optional
+        include ".DS_Store" files in the returned list
     return_symlinks : bool, optional
         include symbolic links in the returned list
 
@@ -59,17 +62,23 @@ def return_file_list(
         with os.scandir(path) as scanObj:
             # Loop over folder contents ...
             for entry in scanObj:
+                # Test if this part is a ".DS_Store" file and skip ...
+                if not return_dsstore and entry.name == ".DS_Store":
+                    if debug:
+                        print(f"DEBUG: \"{entry.path}\" is a \".DS_Store\" file")
+                    continue
+
                 # Check if the user wants to perform debugging ...
                 if debug:
                     # Test if this part is hidden and print the full path for
                     # identification ...
                     if not allowHidden and entry.name.startswith("."):
-                        print(f"WARNING: \"{entry.path}\" is hidden")
+                        print(f"DEBUG: \"{entry.path}\" is hidden")
 
                     # Test if this part is illegal and print the full path for
                     # identification ...
                     if not entry.name.startswith(".") and entry.name != make_path_safe(entry.name, allowHidden = allowHidden, ensureNFC = ensureNFC):
-                        print(f"WARNING: \"{entry.path}\" is illegal")
+                        print(f"DEBUG: \"{entry.path}\" is illegal")
 
                 # Check if it might need following ...
                 if entry.is_dir(follow_symlinks = follow_symlinks):
@@ -86,17 +95,18 @@ def return_file_list(
                                       debug = debug,
                                   ensureNFC = ensureNFC,
                             follow_symlinks = follow_symlinks,
+                             return_dsstore = return_dsstore,
                             return_symlinks = return_symlinks,
                         )
                     elif debug:
-                        print(f"WARNING: \"{entry.path}\" cannot be listed")
+                        print(f"DEBUG: \"{entry.path}\" cannot be listed")
 
                 # Check if it might need adding to the list ...
                 if entry.is_file(follow_symlinks = return_symlinks):
                     # Add to the list ...
                     contents.append(entry.path)
     elif debug:
-        print(f"WARNING: \"{path}\" does not exist")
+        print(f"DEBUG: \"{path}\" does not exist")
 
     # Return sorted list ...
     return sorted(contents)

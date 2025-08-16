@@ -63,7 +63,13 @@ def extract_polys(
         # Loop over items ...
         for item in shape:
             # Add lists together ...
-            polys += extract_polys(item, onlyValid = onlyValid, repair = repair)
+            polys.extend(
+                extract_polys(
+                    item,
+                    onlyValid = onlyValid,
+                       repair = repair,
+                )
+            )
 
         # Return answer ...
         return polys
@@ -110,20 +116,12 @@ def extract_polys(
 
         # Check if the user wants to attempt to fix it ...
         if repair:
-            # Try to repair it ...
-            shape2 = shape.buffer(0.0)
-
-            # Check if it is valid ...
-            if shape2.is_valid:
-                # Skip bad Polygons ...
-                if shape2.is_empty:
-                    return []
-
-                # Return answer ...
-                return [shape2]
-
-            # Return answer ...
-            return []
+            # Try to repair it and return answer ...
+            return extract_polys(
+                shape.buffer(0.0),
+                onlyValid = onlyValid,
+                   repair = repair,
+            )
 
         # Return answer ...
         return []
@@ -136,7 +134,13 @@ def extract_polys(
         # Loop over Polygons ...
         for poly in shape.geoms:
             # Add lists together ...
-            polys += extract_polys(poly, onlyValid = onlyValid, repair = repair)
+            polys.extend(
+                extract_polys(
+                    poly,
+                    onlyValid = onlyValid,
+                       repair = repair,
+                )
+            )
 
         # Return answer ...
         return polys
@@ -149,7 +153,13 @@ def extract_polys(
         # Loop over geometries ...
         for geom in shape.geoms:
             # Add lists together ...
-            polys += extract_polys(geom, onlyValid = onlyValid, repair = repair)
+            polys.extend(
+                extract_polys(
+                    geom,
+                    onlyValid = onlyValid,
+                       repair = repair,
+                )
+            )
 
         # Return answer ...
         return polys

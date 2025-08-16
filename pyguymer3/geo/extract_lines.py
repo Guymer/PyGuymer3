@@ -60,7 +60,12 @@ def extract_lines(
         # Loop over items ...
         for item in shape:
             # Add lists together ...
-            lines += extract_lines(item, onlyValid = onlyValid)
+            lines.extend(
+                extract_lines(
+                    item,
+                    onlyValid = onlyValid,
+                )
+            )
 
         # Return answer ...
         return lines
@@ -127,7 +132,12 @@ def extract_lines(
         # Loop over LineStrings ...
         for line in shape.geoms:
             # Add lists together ...
-            lines += extract_lines(line, onlyValid = onlyValid)
+            lines.extend(
+                extract_lines(
+                    line,
+                    onlyValid = onlyValid,
+                )
+            )
 
         # Return answer ...
         return lines
@@ -148,7 +158,12 @@ def extract_lines(
         # Loop over geometries ...
         for geom in shape.geoms:
             # Add lists together ...
-            lines += extract_lines(geom, onlyValid = onlyValid)
+            lines.extend(
+                extract_lines(
+                    geom,
+                    onlyValid = onlyValid,
+                )
+            )
 
         # Return answer ...
         return lines

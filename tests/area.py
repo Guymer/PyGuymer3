@@ -4,6 +4,7 @@
 # NOTE: See https://docs.python.org/3.12/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
 if __name__ == "__main__":
     # Import standard modules ...
+    import argparse
     import math
     import os
 
@@ -44,14 +45,70 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
+    # Create argument parser and parse the arguments ...
+    parser = argparse.ArgumentParser(
+           allow_abbrev = False,
+            description = "Demonstrate calculating the Geodesic area of a Polygon.",
+        formatter_class = argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument(
+        "--absolute-path-to-repository",
+        default = os.path.dirname(os.path.dirname(__file__)),
+           dest = "absPathToRepo",
+           help = "the absolute path to the PyGuymer3 repository",
+           type = str,
+    )
+    parser.add_argument(
+        "--debug",
+        action = "store_true",
+          help = "print debug messages",
+    )
+    parser.add_argument(
+        "--eps",
+        default = 1.0e-12,
+           dest = "eps",
+           help = "the tolerance of the Vincenty formula iterations",
+           type = float,
+    )
+    parser.add_argument(
+        "--nAng",
+        default = 41,
+           dest = "nAng",
+           help = "the number of angles around each circle",
+           type = int,
+    )
+    parser.add_argument(
+        "--nIter",
+        default = 1000000,
+           dest = "nIter",
+           help = "the maximum number of iterations (particularly the Vincenty formula)",
+           type = int,
+    )
+    parser.add_argument(
+        "--timeout",
+        default = 60.0,
+           help = "the timeout for any requests/subprocess calls (in seconds)",
+           type = float,
+    )
+    parser.add_argument(
+        "--tolerance",
+        default = 1.0e-10,
+           dest = "tol",
+           help = "the Euclidean distance that defines two points as being the same (in degrees)",
+           type = float,
+    )
+    args = parser.parse_args()
+
+    # **************************************************************************
+
     # Create short-hands ...
     dist = 1000.0                                                               # [m]
-    nAng = 41                                                                   # [#]
     area = math.pi * pow(dist, 2)                                               # [m²]
 
-    # Make output directory ...
-    if not os.path.exists("area"):
-        os.mkdir("area")
+    # Create short-hand and make output directory ...
+    dName = f'{args.absPathToRepo}/tests/{os.path.basename(__file__).removesuffix(".py")}'
+    if not os.path.exists(dName):
+        os.makedirs(dName)
 
     # **************************************************************************
 
@@ -60,8 +117,8 @@ if __name__ == "__main__":
     lats = [float(lat) for lat in range(-89, 90)]                               # [°]
 
     # Check if the BIN file needs making ...
-    if not os.path.exists("area/fencePosts.bin"):
-        print("Making \"area/fencePosts.bin\" ...")
+    if not os.path.exists(f"{dName}/fencePosts.bin"):
+        print(f"Making \"{dName}/fencePosts.bin\" ...")
 
         # Initialize array to hold answer ...
         ratios = numpy.zeros(
@@ -80,31 +137,40 @@ if __name__ == "__main__":
                         lat,
                     ),
                     dist,
-                    debug = False,
+                    debug = args.debug,
+                      eps = args.eps,
                      fill = -1.0,
-                     nAng = nAng,
+                     nAng = args.nAng,
+                    nIter = args.nIter,
                      simp = -1.0,
+                      tol = args.tol,
                 )
 
                 # Populate array with the ratio of the estimated area to the
                 # exact area ...
-                ratios[iLat, iLon] = pyguymer3.geo.area(buff) / area
+                ratios[iLat, iLon] = pyguymer3.geo.area(
+                    buff,
+                      eps = args.eps,
+                    nIter = args.nIter,
+                ) / area
 
         # Save array as BIN ...
-        ratios.tofile("area/fencePosts.bin")
+        ratios.tofile(f"{dName}/fencePosts.bin")
 
     # Load BIN ...
     ratios = numpy.fromfile(
-        "area/fencePosts.bin",
+        f"{dName}/fencePosts.bin",
         dtype = numpy.float64,
     ).reshape(len(lats), len(lons))
 
     # Save array as PNG (scaled from -1% to +1% of the correct answer) ...
     pyguymer3.image.save_array_as_image(
         255.0 * (ratios - 0.99) / 0.02,
-        "area/fencePosts.png",
-           ct = "turbo",
-        scale = False,
+        f"{dName}/fencePosts.png",
+          debug = args.debug,
+             ct = "turbo",
+          scale = False,
+        timeout = args.timeout,
     )
 
     # Print outliers ...
@@ -121,8 +187,8 @@ if __name__ == "__main__":
     lats = [float(lat) + 0.5 for lat in range(-90, 90)]                         # [°]
 
     # Check if the BIN file needs making ...
-    if not os.path.exists("area/fencePanels.bin"):
-        print("Making \"area/fencePanels.bin\" ...")
+    if not os.path.exists(f"{dName}/fencePanels.bin"):
+        print(f"Making \"{dName}/fencePanels.bin\" ...")
 
         # Initialize array to hold answer ...
         ratios = numpy.zeros(
@@ -141,31 +207,40 @@ if __name__ == "__main__":
                         lat,
                     ),
                     dist,
-                    debug = False,
+                    debug = args.debug,
+                      eps = args.eps,
                      fill = -1.0,
-                     nAng = nAng,
+                     nAng = args.nAng,
+                    nIter = args.nIter,
                      simp = -1.0,
+                      tol = args.tol,
                 )
 
                 # Populate array with the ratio of the estimated area to the
                 # exact area ...
-                ratios[iLat, iLon] = pyguymer3.geo.area(buff) / area
+                ratios[iLat, iLon] = pyguymer3.geo.area(
+                    buff,
+                      eps = args.eps,
+                    nIter = args.nIter,
+                ) / area
 
         # Save array as BIN ...
-        ratios.tofile("area/fencePanels.bin")
+        ratios.tofile(f"{dName}/fencePanels.bin")
 
     # Load BIN ...
     ratios = numpy.fromfile(
-        "area/fencePanels.bin",
+        f"{dName}/fencePanels.bin",
         dtype = numpy.float64,
     ).reshape(len(lats), len(lons))
 
     # Save array as PNG (scaled from -1% to +1% of the correct answer) ...
     pyguymer3.image.save_array_as_image(
         255.0 * (ratios - 0.99) / 0.02,
-        "area/fencePanels.png",
-           ct = "turbo",
-        scale = False,
+        f"{dName}/fencePanels.png",
+          debug = args.debug,
+             ct = "turbo",
+          scale = False,
+        timeout = args.timeout,
     )
 
     # Print outliers ...
@@ -184,10 +259,13 @@ if __name__ == "__main__":
             0.0,
         ),
         dist,
-        debug = False,
+        debug = args.debug,
+          eps = args.eps,
          fill = -1.0,
-         nAng = nAng,
+         nAng = args.nAng,
+        nIter = args.nIter,
          simp = -1.0,
+          tol = args.tol,
     )
 
     # Create figure and axes ...
@@ -240,12 +318,13 @@ if __name__ == "__main__":
     fg.tight_layout()
 
     # Save figure ...
-    fg.savefig("area/bad.png")
+    fg.savefig(f"{dName}/bad.png")
     matplotlib.pyplot.close(fg)
 
     # Optimise PNG ...
     pyguymer3.image.optimise_image(
-        "area/bad.png",
-        debug = False,
-        strip = True,
+        f"{dName}/bad.png",
+          debug = args.debug,
+          strip = True,
+        timeout = args.timeout,
     )

@@ -3,7 +3,7 @@
 """
 A Python module containing a bunch of random functions that I have written over
 the years. If you want to use some of these functions directly from the command
-line then you can run ``python3.13 -m pyguymer3 --help`` to see what is
+line then you can run ``python3.12 -m pyguymer3 --help`` to see what is
 available.
 
 Notes
@@ -16,8 +16,8 @@ References
 """
 
 # Import sub-functions ...
+from ._consts import CIRCUMFERENCE_OF_EARTH, EARTH_MOON_DISTANCE, MAXIMUM_VINCENTY, RADIUS_OF_EARTH, RESOLUTION_OF_EARTH
 from .checkSudokuBoard import checkSudokuBoard
-from .consts import CIRCUMFERENCE_OF_EARTH, EARTH_MOON_DISTANCE, RADIUS_OF_EARTH, RESOLUTION_OF_EARTH
 from .convert_bytes_to_pretty_bytes import convert_bytes_to_pretty_bytes
 from .convert_pretty_bytes_to_bytes import convert_pretty_bytes_to_bytes
 from .convert_seconds_to_pretty_time import convert_seconds_to_pretty_time

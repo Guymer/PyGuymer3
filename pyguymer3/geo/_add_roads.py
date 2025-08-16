@@ -47,7 +47,7 @@ def _add_roads(
     """
 
     # Import standard modules ...
-    import os
+    import pathlib
     import urllib
 
     # Import special modules ...
@@ -55,7 +55,7 @@ def _add_roads(
         import cartopy
         cartopy.config.update(
             {
-                "cache_dir" : os.path.expanduser("~/.local/share/cartopy_cache"),
+                "cache_dir" : pathlib.PosixPath("~/.local/share/cartopy_cache").expanduser(),
             }
         )
     except:
@@ -72,11 +72,6 @@ def _add_roads(
         )
     except:
         raise Exception("\"matplotlib\" is not installed; run \"pip install --user matplotlib\"") from None
-    try:
-        import shapely
-        import shapely.geometry
-    except:
-        raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
     from .extract_lines import extract_lines

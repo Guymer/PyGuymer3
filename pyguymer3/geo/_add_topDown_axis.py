@@ -20,6 +20,7 @@ def _add_topDown_axis(
                     debug = __debug__,
                      dist = 1.0e99,
                       eps = 1.0e-12,
+                      fov = None,
             gridlines_int = None,
       gridlines_linecolor = "black",
       gridlines_linestyle = ":",
@@ -80,6 +81,10 @@ def _add_topDown_axis(
         make the axis of global extent (in metres)
     eps : float, optional
         the tolerance of the Vincenty formula iterations
+    fov : None or shapely.geometry.polygon.Polygon, optional
+        clip the plotted shapes to the provided field-of-view to work around
+        occaisional MatPlotLib or Cartopy plotting errors when shapes much
+        larger than the field-of-view are plotted
     gridlines_int : int, optional
         the interval between gridlines, best results if ``90 % gridlines_int == 0``;
         if the axis is of global extent then the default will be 45° else it
@@ -160,14 +165,14 @@ def _add_topDown_axis(
 
     # Import standard modules ...
     import math
-    import os
+    import pathlib
 
     # Import special modules ...
     try:
         import cartopy
         cartopy.config.update(
             {
-                "cache_dir" : os.path.expanduser("~/.local/share/cartopy_cache"),
+                "cache_dir" : pathlib.PosixPath("~/.local/share/cartopy_cache").expanduser(),
             }
         )
     except:
@@ -202,20 +207,20 @@ def _add_topDown_axis(
     from .buffer import buffer
     from .calc_loc_from_loc_and_bearing_and_dist import calc_loc_from_loc_and_bearing_and_dist
     from .clean import clean
-    from ..consts import CIRCUMFERENCE_OF_EARTH, RADIUS_OF_EARTH
+    from .._consts import MAXIMUM_VINCENTY, RADIUS_OF_EARTH
 
     # **************************************************************************
 
     # Create short-hand ...
-    globalFieldOfView = bool(dist > 0.25 * CIRCUMFERENCE_OF_EARTH)
+    huge = bool(dist > 0.5 * MAXIMUM_VINCENTY)
 
     # Check inputs ...
     if gridlines_int is None:
-        if globalFieldOfView:
+        if huge:
             gridlines_int = 45                                                  # [°]
         else:
             gridlines_int = 1                                                   # [°]
-    if not globalFieldOfView and satellite_height:
+    if not huge and satellite_height:
         alt = RADIUS_OF_EARTH / math.cos(dist / RADIUS_OF_EARTH) - RADIUS_OF_EARTH  # [m]
 
     # Create a Point ...
@@ -225,7 +230,7 @@ def _add_topDown_axis(
     # NOTE: See https://scitools.org.uk/cartopy/docs/latest/reference/projections.html
     if gs is not None:
         # Check if a NearsidePerspective axis can be used ...
-        if not globalFieldOfView and satellite_height:
+        if not huge and satellite_height:
             # Create NearsidePerspective axis ...
             ax = fg.add_subplot(
                 gs,
@@ -246,7 +251,7 @@ def _add_topDown_axis(
             )
     elif nrows is not None and ncols is not None and index is not None:
         # Check if a NearsidePerspective axis can be used ...
-        if not globalFieldOfView and satellite_height:
+        if not huge and satellite_height:
             # Create NearsidePerspective axis ...
             ax = fg.add_subplot(
                 nrows,
@@ -271,7 +276,7 @@ def _add_topDown_axis(
             )
     else:
         # Check if a NearsidePerspective axis can be used ...
-        if not globalFieldOfView and satellite_height:
+        if not huge and satellite_height:
             # Create NearsidePerspective axis ...
             ax = fg.add_subplot(
                 projection = cartopy.crs.NearsidePerspective(
@@ -290,7 +295,7 @@ def _add_topDown_axis(
             )
 
     # Check if the field-of-view is too large ...
-    if globalFieldOfView:
+    if huge:
         # Configure axis ...
         ax.set_global()
     elif not satellite_height:
@@ -432,6 +437,7 @@ def _add_topDown_axis(
                  debug = debug,
              edgecolor = coastlines_edgecolor,
              facecolor = coastlines_facecolor,
+                   fov = fov,
                 levels = coastlines_levels,
              linestyle = coastlines_linestyle,
              linewidth = coastlines_linewidth,

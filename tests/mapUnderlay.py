@@ -8,13 +8,14 @@ if __name__ == "__main__":
     # Import standard modules ...
     import argparse
     import os
+    import pathlib
 
     # Import special modules ...
     try:
         import cartopy
         cartopy.config.update(
             {
-                "cache_dir" : os.path.expanduser("~/.local/share/cartopy_cache"),
+                "cache_dir" : pathlib.PosixPath("~/.local/share/cartopy_cache").expanduser(),
             }
         )
     except:
@@ -48,8 +49,15 @@ if __name__ == "__main__":
     # Create argument parser and parse the arguments ...
     parser = argparse.ArgumentParser(
            allow_abbrev = False,
-            description = "Demonstrate some Natural Earth mapu underlays.",
+            description = "Demonstrate some Natural Earth map underlays.",
         formatter_class = argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument(
+        "--absolute-path-to-repository",
+        default = os.path.dirname(os.path.dirname(__file__)),
+           dest = "absPathToRepo",
+           help = "the absolute path to the PyGuymer3 repository",
+           type = str,
     )
     parser.add_argument(
         "--debug",
@@ -57,9 +65,23 @@ if __name__ == "__main__":
           help = "print debug messages",
     )
     parser.add_argument(
+        "--eps",
+        default = 1.0e-12,
+           dest = "eps",
+           help = "the tolerance of the Vincenty formula iterations",
+           type = float,
+    )
+    parser.add_argument(
         "--timeout",
         default = 60.0,
            help = "the timeout for any requests/subprocess calls (in seconds)",
+           type = float,
+    )
+    parser.add_argument(
+        "--tolerance",
+        default = 1.0e-10,
+           dest = "tol",
+           help = "the Euclidean distance that defines two points as being the same (in degrees)",
            type = float,
     )
     args = parser.parse_args()
@@ -73,19 +95,23 @@ if __name__ == "__main__":
         "110m",
     ]
 
-    # Make output directory ...
-    if not os.path.exists("mapUnderlay"):
-        os.mkdir("mapUnderlay")
+    # Create short-hand and make output directory ...
+    dName = f'{args.absPathToRepo}/tests/{os.path.basename(__file__).removesuffix(".py")}'
+    if not os.path.exists(dName):
+        os.makedirs(dName)
 
     # **************************************************************************
 
     # Determine file name ...
-    fname = "mapUnderlay/mapUnderlay0.png"
+    fname = f"{dName}/mapUnderlay0.png"
 
     print(f" > Making \"{fname}\" ...")
 
     # Create figure ...
-    fg = matplotlib.pyplot.figure(figsize = (4.8, 7.2))
+    fg = matplotlib.pyplot.figure(
+            dpi = 100,                                      # NOTE: Reduce DPI to make test quicker.
+        figsize = (12.8, 3 * 7.2),
+    )
 
     # Loop over resolutions ...
     for iresolution, resolution in enumerate(resolutions):
@@ -95,10 +121,12 @@ if __name__ == "__main__":
             add_coastlines = False,
              add_gridlines = True,
                      debug = args.debug,
+                       eps = args.eps,
                      index = iresolution + 1,
                      ncols = 1,
                      nIter = None,
                      nrows = 3,
+                       tol = args.tol,
         )
 
         # Configure axis ...
@@ -131,12 +159,15 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Determine file name ...
-    fname = "mapUnderlay/mapUnderlay1.png"
+    fname = f"{dName}/mapUnderlay1.png"
 
     print(f" > Making \"{fname}\" ...")
 
     # Create figure ...
-    fg = matplotlib.pyplot.figure(figsize = (2.4, 7.2))
+    fg = matplotlib.pyplot.figure(
+            dpi = 100,                                      # NOTE: Reduce DPI to make test quicker.
+        figsize = (7.2, 3 * 7.2),
+    )
 
     # Loop over resolutions ...
     for iresolution, resolution in enumerate(resolutions):
@@ -147,12 +178,14 @@ if __name__ == "__main__":
              add_gridlines = True,
                      debug = args.debug,
                       dist = 1000.0e3,
+                       eps = args.eps,
                      index = iresolution + 1,
                        lat = +40.0,
                        lon =   0.0,
                      ncols = 1,
                      nIter = 100,
                      nrows = 3,
+                       tol = args.tol,
         )
 
         # Configure axis ...
@@ -185,12 +218,15 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Determine file name ...
-    fname = "mapUnderlay/mapUnderlay2.png"
+    fname = f"{dName}/mapUnderlay2.png"
 
     print(f" > Making \"{fname}\" ...")
 
     # Create figure ...
-    fg = matplotlib.pyplot.figure(figsize = (2.4, 7.2))
+    fg = matplotlib.pyplot.figure(
+            dpi = 100,                                      # NOTE: Reduce DPI to make test quicker.
+        figsize = (7.2, 3 * 7.2),
+    )
 
     # Loop over resolutions ...
     for iresolution, resolution in enumerate(resolutions):
@@ -201,12 +237,14 @@ if __name__ == "__main__":
              add_gridlines = True,
                      debug = args.debug,
                       dist = 25.0e3,
+                       eps = args.eps,
                      index = iresolution + 1,
                        lat = +51.5,
                        lon =   0.0,
                      ncols = 1,
                      nIter = 100,
                      nrows = 3,
+                       tol = args.tol,
         )
 
         # Configure axis ...
@@ -239,12 +277,15 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Determine file name ...
-    fname = "mapUnderlay/mapUnderlay3.png"
+    fname = f"{dName}/mapUnderlay3.png"
 
     print(f" > Making \"{fname}\" ...")
 
     # Create figure ...
-    fg = matplotlib.pyplot.figure(figsize = (2.4, 7.2))
+    fg = matplotlib.pyplot.figure(
+            dpi = 100,                                      # NOTE: Reduce DPI to make test quicker.
+        figsize = (7.2, 3 * 7.2),
+    )
 
     # Loop over resolutions ...
     for iresolution, resolution in enumerate(resolutions):
@@ -255,12 +296,14 @@ if __name__ == "__main__":
              add_gridlines = True,
                      debug = args.debug,
                       dist = 50.0e3,
+                       eps = args.eps,
                      index = iresolution + 1,
                        lat = +60.5,
                        lon =  +7.5,
                      ncols = 1,
                      nIter = 100,
                      nrows = 3,
+                       tol = args.tol,
         )
 
         # Configure axis ...

@@ -4,6 +4,7 @@
 # NOTE: See https://docs.python.org/3.12/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
 if __name__ == "__main__":
     # Import standard modules ...
+    import argparse
     import io
     import json
     import os
@@ -31,17 +32,42 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
-    # Set debug ...
-    debug = False
+    # Create argument parser and parse the arguments ...
+    parser = argparse.ArgumentParser(
+           allow_abbrev = False,
+            description = "Demonstrate saving images as PNGs.",
+        formatter_class = argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument(
+        "--absolute-path-to-repository",
+        default = os.path.dirname(os.path.dirname(__file__)),
+           dest = "absPathToRepo",
+           help = "the absolute path to the PyGuymer3 repository",
+           type = str,
+    )
+    parser.add_argument(
+        "--debug",
+        action = "store_true",
+          help = "print debug messages",
+    )
+    parser.add_argument(
+        "--timeout",
+        default = 60.0,
+           help = "the timeout for any requests/subprocess calls (in seconds)",
+           type = float,
+    )
+    args = parser.parse_args()
+
+    # **************************************************************************
 
     # Set desired maximum image size ...
     nx = 2048                                                                   # [px]
     ny = 1024                                                                   # [px]
 
     # Create short-hand and make output directory ...
-    dName = os.path.basename(__file__).removesuffix(".py")
+    dName = f'{args.absPathToRepo}/tests/{os.path.basename(__file__).removesuffix(".py")}'
     if not os.path.exists(dName):
-        os.mkdir(dName)
+        os.makedirs(dName)
 
     # **************************************************************************
 
@@ -96,6 +122,8 @@ if __name__ == "__main__":
             resp = pyguymer3.download_stream(
                 sess,
                 "https://upload.wikimedia.org/wikipedia/commons/a/a6/%22I_hear_they_want_more_Bovril._My_place_is_at_the_front%22_LCCN2003668493.jpg",
+                timeout = args.timeout,
+                 verify = True,
             )
             assert resp, "failed to download example \"photo\""
             with io.BytesIO(resp) as bObj:
@@ -138,7 +166,9 @@ if __name__ == "__main__":
             resp = pyguymer3.download_stream(
                 sess,
                 "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/ETP-1_recreation.svg/2560px-ETP-1_recreation.svg.png",
-            )
+                timeout = args.timeout,
+                 verify = True,
+             )
             assert resp, "failed to download example \"testcard\""
             with io.BytesIO(resp) as bObj:
                 with PIL.Image.open(bObj) as iObj:
@@ -224,7 +254,7 @@ if __name__ == "__main__":
             fObj.write(
                 pyguymer3.image.makePng(
                     arrG.reshape((ny, nx, 1)),
-                         debug = debug,
+                         debug = args.debug,
                         levels = levels,
                      memLevels = memLevels,
                       palUint8 = None,
@@ -240,7 +270,7 @@ if __name__ == "__main__":
             fObj.write(
                 pyguymer3.image.makePng(
                     arrG.reshape((ny, nx, 1)),
-                         debug = debug,
+                         debug = args.debug,
                         levels = levels,
                      memLevels = memLevels,
                       palUint8 = palT,
@@ -256,7 +286,7 @@ if __name__ == "__main__":
             fObj.write(
                 pyguymer3.image.makePng(
                     arrT,
-                         debug = debug,
+                         debug = args.debug,
                         levels = levels,
                      memLevels = memLevels,
                       palUint8 = None,
@@ -281,7 +311,7 @@ if __name__ == "__main__":
             fObj.write(
                 pyguymer3.image.makePng(
                     arrT,
-                         debug = debug,
+                         debug = args.debug,
                         levels = levels,
                      memLevels = memLevels,
                       palUint8 = None,
@@ -306,7 +336,7 @@ if __name__ == "__main__":
             fObj.write(
                 pyguymer3.image.makePng(
                     arrT,
-                         debug = debug,
+                         debug = args.debug,
                         levels = levels,
                      memLevels = memLevels,
                       palUint8 = None,
