@@ -14,7 +14,7 @@ name = "PyGuymer3"
 description = "A Python 3 module containing a bunch of random functions that I have written over the years"
 dynamic = ["version"]
 readme = "README.md"
-license = {text = "Apache-2.0"}
+license = "Apache-2.0"
 authors = [
     {name = "Thomas Guymer"}
 ]
