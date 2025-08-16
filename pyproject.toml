@@ -56,4 +56,11 @@ Homepage = "https://github.com/Guymer/PyGuymer3"
 Issues = "https://github.com/Guymer/PyGuymer3/issues"
 Funding = "https://github.com/sponsors/Guymer"
 
+[tool.setuptools.packages.find]
+exclude = [
+    "bugs*"
+    "scripts*"
+    "tests*"
+]
+
 [tool.setuptools_scm]
