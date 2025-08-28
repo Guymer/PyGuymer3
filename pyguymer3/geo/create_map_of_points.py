@@ -18,6 +18,7 @@ def create_map_of_points(
            fillColor = (255.0 / 255.0,   0.0 / 255.0,   0.0 / 255.0),
                  fov = None,
         gifsiclePath = None,
+       interpolation = "auto",
         jpegtranPath = None,
               method = "GeodesicBox",
                 name = "natural-earth-1",
@@ -85,6 +86,9 @@ def create_map_of_points(
     gifsiclePath : str, optional
         the path to the "gifsicle" binary (if not provided then Python will attempt to
         find the binary itself)
+    interpolation : str, optional
+        The interpolation method used when drawing the final merged and warped
+        image on the figure.
     jpegtranPath : str, optional
         the path to the "jpegtran" binary (if not provided then Python will attempt to
         find the binary itself)
@@ -390,9 +394,10 @@ def create_map_of_points(
                 ax,
                 midLat,
                 res,
-                       debug = debug,
-                regrid_shape = regrid_shape,
-                       scale = scale,
+                        debug = debug,
+                interpolation = interpolation,
+                 regrid_shape = regrid_shape,
+                        scale = scale,
             )
         case _:
             # Crash ...

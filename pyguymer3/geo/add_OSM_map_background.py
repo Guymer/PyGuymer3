@@ -7,9 +7,10 @@ def add_OSM_map_background(
     res,
     /,
     *,
-           debug = __debug__,
-    regrid_shape = 750,
-           scale = 1,
+            debug = __debug__,
+    interpolation = "auto",
+     regrid_shape = 750,
+            scale = 1,
 ):
     """Add OpenStreetMap map tiles as a background to a Cartopy axis.
 
@@ -23,6 +24,9 @@ def add_OSM_map_background(
         the resolution of the figure (in m/px)
     debug : bool, optional
         print debug statements
+    interpolation : str, optional
+        The interpolation method used when drawing the final merged and warped
+        image on the figure.
     regrid_shape: int, optional
         The smallest dimension of the merged image of all of the tiles **after**
         it has been warped by Cartopy to be the same projection as the figure
@@ -63,7 +67,7 @@ def add_OSM_map_background(
     # the figure ...
     z = zoom(midLat, res, scale = scale)
     if debug:
-        print(f"INFO: The resolution is {0.001 * res:,.1f} km/px and the OpenStreetMap zoom is {z:d}.")
+        print(f"INFO: The resolution is {res:,.1f} m/px and the OpenStreetMap zoom is {z:d}.")
 
     # Add OpenStreetMap tiles ...
     # NOTE: By default, the background images appear to be drawn at a lower
@@ -106,7 +110,7 @@ def add_OSM_map_background(
     ax.add_image(
         osm,
         z,
-        interpolation = "none",         # NOTE: Due to the use of **kwargs
+        interpolation = interpolation,  # NOTE: Due to the use of **kwargs
                                         #       within Cartopy, this is passed
                                         #       all the way down the stack to
                                         #       the MatPlotLib ".imshow()" call.
