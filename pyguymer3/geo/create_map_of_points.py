@@ -29,6 +29,7 @@ def create_map_of_points(
              padDist = 12.0 * 1852.0,
               prefix = ".",
             ramLimit = 1073741824,
+        regrid_shape = 750,
               repair = False,
           resolution = "10m",
                route = None,
@@ -110,6 +111,10 @@ def create_map_of_points(
         change the name of the output debugging CSVs
     ramLimit : int, optional
         the maximum RAM usage of each "large" array (in bytes)
+    regrid_shape: int, optional
+        The smallest dimension of the merged image of all of the tiles **after**
+        it has been warped by Cartopy to be the same projection as the figure
+        (in pixels)
     repair : bool, optional
         attempt to repair invalid Polygons
     resolution : str, optional
@@ -385,8 +390,9 @@ def create_map_of_points(
                 ax,
                 midLat,
                 res,
-                debug = debug,
-                scale = scale,
+                       debug = debug,
+                regrid_shape = regrid_shape,
+                       scale = scale,
             )
         case _:
             # Crash ...
