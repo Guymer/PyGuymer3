@@ -14,13 +14,13 @@ jobs:
         steps:
             -
                 name: Checkout project
-                uses: actions/checkout@v4                                       # https://github.com/actions/checkout
+                uses: actions/checkout@v5                                       # https://github.com/actions/checkout
                 with:
                     persist-credentials: false
                     submodules: true
             -
                 name: Set up Python ${{ matrix.python-version }}
-                uses: actions/setup-python@v5                                   # https://github.com/actions/setup-python
+                uses: actions/setup-python@v6                                   # https://github.com/actions/setup-python
                 with:
                     cache: pip
                     cache-dependency-path: |
@@ -67,7 +67,7 @@ jobs:
         steps:
             -
                 name: Download the distribution packages
-                uses: actions/download-artifact@v4                              # https://github.com/actions/download-artifact
+                uses: actions/download-artifact@v5                              # https://github.com/actions/download-artifact
                 with:
                     name: python-package-distributions (Python 3.11)
                     path: dist/
@@ -86,7 +86,7 @@ jobs:
         steps:
             -
                 name: Download the distribution packages
-                uses: actions/download-artifact@v4                              # https://github.com/actions/download-artifact
+                uses: actions/download-artifact@v5                              # https://github.com/actions/download-artifact
                 with:
                     name: python-package-distributions (Python 3.11)
                     path: dist/

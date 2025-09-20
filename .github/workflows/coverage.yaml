@@ -18,13 +18,13 @@ jobs:
         steps:
             -
                 name: Checkout project
-                uses: actions/checkout@v4                                       # https://github.com/actions/checkout
+                uses: actions/checkout@v5                                       # https://github.com/actions/checkout
                 with:
                     path: main
                     submodules: true
             -
                 name: Set up Python ${{ matrix.python-version }}
-                uses: actions/setup-python@v5                                   # https://github.com/actions/setup-python
+                uses: actions/setup-python@v6                                   # https://github.com/actions/setup-python
                 with:
                     cache: pip
                     cache-dependency-path: |
@@ -93,7 +93,7 @@ jobs:
                     compression-level: 9
             -
                 name: Upload GitHub Pages (for future download)
-                uses: actions/upload-pages-artifact@v3                          # https://github.com/actions/upload-pages-artifact
+                uses: actions/upload-pages-artifact@v4                          # https://github.com/actions/upload-pages-artifact
                 with:
                     name: github-pages (Python ${{ matrix.python-version }})
                     path: main/coverage-output
