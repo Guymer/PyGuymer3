@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
     build:
-        runs-on: ubuntu-24.04
+        runs-on: ubuntu-24.04                                                   # https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2404-Readme.md
         strategy:
             matrix:
                 python-version: ["3.11", "3.12", "3.13"]

@@ -7,7 +7,7 @@ on: [push]
 jobs:
     build:
         name: Build distribution
-        runs-on: ubuntu-24.04
+        runs-on: ubuntu-24.04                                                   # https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2404-Readme.md
         strategy:
             matrix:
                 python-version: ["3.11", "3.12", "3.13"]
@@ -58,7 +58,7 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')                                # Only publish to PyPI on tag pushes.
         needs:
             - build
-        runs-on: ubuntu-24.04
+        runs-on: ubuntu-24.04                                                   # https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2404-Readme.md
         environment:
             name: pypi
             url: https://pypi.org/p/PyGuymer3
@@ -79,7 +79,7 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')                                # Only publish to GitHub on tag pushes.
         needs:
             - publish-to-pypi
-        runs-on: ubuntu-24.04
+        runs-on: ubuntu-24.04                                                   # https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2404-Readme.md
         permissions:
             contents: write                                                     # Mandatory for making GitHub Releases.
             id-token: write                                                     # Mandatory for Sigstore.
