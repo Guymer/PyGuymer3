@@ -154,7 +154,7 @@ def ffprobe(
                  timeout = timeout,
             )
 
-    # Return ffprobe output as dictionary ...
+    # Return "ffprobe" output as dictionary ...
     if ensureNFC and not unicodedata.is_normalized("NFC", resp.stdout):
         return json.loads(unicodedata.normalize("NFC", resp.stdout))
     return json.loads(resp.stdout)
