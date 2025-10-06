@@ -57,7 +57,13 @@ def elem2dict(
     if elem.text:
         # Check that the text isn't empty ...
         if elem.text.strip():
-            ans["$$TEXT$$"] = elem.text
+            # Check if the text can be dealt with specially ...
+            if elem.text.strip().lower() == "true":
+                ans["$$TEXT$$"] = True
+            elif elem.text.strip().lower() == "false":
+                ans["$$TEXT$$"] = False
+            else:
+                ans["$$TEXT$$"] = elem.text
         elif debug:
             print(f"INFO: Skipping empty text in a \"{elem.tag}\" tag.")
 
@@ -66,11 +72,9 @@ def elem2dict(
         # Check that the attribute isn't empty ...
         if value.strip():
             # Check if the attribute can be dealt with specially ...
-            if value.isdigit():
-                ans[f"::{key}::"] = int(value)
-            elif value.lower() == "true":
+            if value.strip().lower() == "true":
                 ans[f"::{key}::"] = True
-            elif value.lower() == "false":
+            elif value.strip().lower() == "false":
                 ans[f"::{key}::"] = False
             else:
                 ans[f"::{key}::"] = value
