@@ -5,7 +5,8 @@ def elem2dict(
     elem,
     /,
     *,
-    debug = __debug__,
+       debug = __debug__,
+    simplify = False,
 ):
     """Convert a XML element into a Python dictionary
 
@@ -18,6 +19,10 @@ def elem2dict(
         the XML element
     debug : bool, optional
         print debug messages
+    simplify : bool, optional
+        Simplify XML elements. If true, then XML elements which only contain
+        text (i.e., no attributes and no children) are collapsed to be simply
+        `key = "value"` rather than `key = { "$$TEXT$$" : "value" }`.
 
     Returns
     -------
@@ -28,11 +33,15 @@ def elem2dict(
     -----
     If present, non-empty text will be mapped to a "$$TEXT$$" dictionary field
     (it is assumed that the XML does not contain any tags called "$$TEXT$$"
-    otherwise). If present, non-empty attributes will be mapped to "::KEY::"
-    dictionary fields (it is assumed that the XML does not contain any tags
-    called "::KEY::" otherwise). If present, child elements will be mapped to
-    "KEY" dictionary fields. If multiple child elements have identical tag names
-    then the "KEY" dictionary field will be a list of them.
+    otherwise).
+
+    If present, non-empty attributes will be mapped to "::KEY::" dictionary
+    fields (it is assumed that the XML does not contain any tags called
+    "::KEY::" otherwise).
+
+    If present, child elements will be mapped to "KEY" dictionary fields. If
+    multiple child elements have identical tag names then the "KEY" dictionary
+    field will be a list of them.
 
     Copyright 2017 Thomas Guymer [1]_
 
@@ -50,7 +59,7 @@ def elem2dict(
         if elem.text.strip():
             ans["$$TEXT$$"] = elem.text
         elif debug:
-            print(f"INFO: Skipping empty text in \"{elem.tag}\".")
+            print(f"INFO: Skipping empty text in a \"{elem.tag}\" tag.")
 
     # Loop over attributes ...
     for key, value in elem.attrib.iteritems():
@@ -66,12 +75,16 @@ def elem2dict(
             else:
                 ans[f"::{key}::"] = value
         elif debug:
-            print(f"INFO: Skipping empty \"{key}\" attribute in \"{elem.tag}\".")
+            print(f"INFO: Skipping empty \"{key}\" attribute in a \"{elem.tag}\" tag.")
 
     # Loop over children ...
     for child in elem.iterchildren():
         # Convert child to a dictionary ...
-        value = elem2dict(child, debug = debug)
+        value = elem2dict(
+            child,
+               debug = debug,
+            simplify = simplify,
+        )
 
         # Check if a field already exists ...
         if child.tag in ans:
@@ -85,6 +98,13 @@ def elem2dict(
         else:
             # Set field ...
             ans[child.tag] = value
+
+    # Simplify dictionary ...
+    if simplify:
+        if list(ans.keys()) == ["$$TEXT$$",]:
+            if debug:
+                print(f"INFO: Simplifying a text-only \"{elem.tag}\" tag.")
+            ans = ans["$$TEXT$$"]
 
     # Return answer ...
     return ans
