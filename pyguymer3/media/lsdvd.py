@@ -89,7 +89,12 @@ def lsdvd(
           stdout = subprocess.PIPE,
          timeout = timeout,
     )
-    stdout = resp.stdout.removeprefix("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+    stdout = ""
+    for line in resp.stdout.splitlines():
+        if line.startswith("libdvdread:"):
+            continue
+        stdout += f"{line}\n"
+    stdout = stdout.removeprefix("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
 
     # Fix the file name itself ...
     stdout = stdout.replace(f"<device>{fname}</device>", f"<device>{html.escape(fname)}</device>")
