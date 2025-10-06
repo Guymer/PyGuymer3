@@ -5,11 +5,11 @@ def lsdvd(
     fname,
     /,
     *,
-            cwd = None,
-          debug = __debug__,
-      ensureNFC = True,
-      lsdvdPath = None,
-        timeout = 60.0,
+          cwd = None,
+        debug = __debug__,
+    ensureNFC = True,
+    lsdvdPath = None,
+      timeout = 60.0,
 ):
     """
     Run "lsdvd" on a file and return the format and stream information.
