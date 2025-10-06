@@ -106,5 +106,6 @@ def lsdvd(
     # Return "lsdvd" output as dictionary ...
     return elem2dict(
         ans,
-        debug = debug,
+           debug = debug,
+        simplify = True,
     )
