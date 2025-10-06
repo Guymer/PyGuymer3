@@ -49,7 +49,10 @@ from .return_dict_of_ISO_tracks import return_dict_of_ISO_tracks
 from .return_dict_of_media_audio_streams import return_dict_of_media_audio_streams
 from .return_dict_of_media_subtitle_streams import return_dict_of_media_subtitle_streams
 from .return_dict_of_media_video_streams import return_dict_of_media_video_streams
+from .return_ISO_duration import return_ISO_duration
 from .return_ISO_palette import return_ISO_palette
+from .return_ISO_video_frame_rate import return_ISO_video_frame_rate
+from .return_ISO_video_size import return_ISO_video_size
 from .return_media_bit_rate import return_media_bit_rate
 from .return_media_duration import return_media_duration
 from .return_media_format import return_media_format
