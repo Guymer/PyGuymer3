@@ -17,6 +17,7 @@ References
 
 # Import sub-functions ...
 from .__ffprobe__ import __ffprobe__
+from .__lsdvd__ import __lsdvd__
 from .does_FLAC_have_padding import does_FLAC_have_padding
 from .does_media_have_audio import does_media_have_audio
 from .does_media_have_RTP_hints import does_media_have_RTP_hints
@@ -29,6 +30,7 @@ from .images2mp4 import images2mp4
 from .images2pdf import images2pdf
 from .images2webp import images2webp
 from .is_moov_at_beginning_of_MP4 import is_moov_at_beginning_of_MP4
+from .lsdvd import lsdvd
 from .optimise_FLAC import optimise_FLAC
 from .optimise_MP4 import optimise_MP4
 from .parse_CLPI_file import parse_CLPI_file
