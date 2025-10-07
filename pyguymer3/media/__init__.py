@@ -70,6 +70,7 @@ from .return_video_format import return_video_format
 from .return_video_frame_rate import return_video_frame_rate
 from .return_video_height import return_video_height
 from .return_video_pixel_aspect_ratio import return_video_pixel_aspect_ratio
+from .return_video_pixel_format import return_video_pixel_format
 from .return_video_ratios import return_video_ratios
 from .return_video_rotation import return_video_rotation
 from .return_video_size import return_video_size
