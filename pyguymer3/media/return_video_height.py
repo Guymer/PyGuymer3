@@ -5,6 +5,7 @@ def return_video_height(
     fname,
     /,
     *,
+       cacheDir = "~/.cache/pyguymer3",
             cwd = None,
           debug = __debug__,
       ensureNFC = True,
@@ -37,6 +38,7 @@ def return_video_height(
             print(f"INFO: Running ffprobe(\"{fname}\", {playlist:d}) ...")
         __ffprobe__[fname][playlist] = ffprobe(
             fname,
+               cacheDir = cacheDir,
                     cwd = cwd,
               ensureNFC = ensureNFC,
             ffprobePath = ffprobePath,
@@ -53,6 +55,7 @@ def return_video_height(
         # Check the rotation ...
         if return_video_rotation(
             fname,
+               cacheDir = cacheDir,
                     cwd = cwd,
                   debug = debug,
               ensureNFC = ensureNFC,
@@ -64,6 +67,7 @@ def return_video_height(
             return int(stream["height"])                                        # [px]
         if return_video_rotation(
             fname,
+               cacheDir = cacheDir,
                     cwd = cwd,
                   debug = debug,
               ensureNFC = ensureNFC,

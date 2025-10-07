@@ -5,6 +5,7 @@ def does_media_have_RTP_hints(
     fname,
     /,
     *,
+       cacheDir = "~/.cache/pyguymer3",
             cwd = None,
           debug = __debug__,
       ensureNFC = True,
@@ -36,6 +37,7 @@ def does_media_have_RTP_hints(
             print(f"INFO: Running ffprobe(\"{fname}\", {playlist:d}) ...")
         __ffprobe__[fname][playlist] = ffprobe(
             fname,
+               cacheDir = cacheDir,
                     cwd = cwd,
               ensureNFC = ensureNFC,
             ffprobePath = ffprobePath,

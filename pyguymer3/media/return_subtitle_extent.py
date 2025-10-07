@@ -5,6 +5,7 @@ def return_subtitle_extent(
     fname,
     /,
     *,
+       cacheDir = "~/.cache/pyguymer3",
             cwd = None,
           debug = __debug__,
       ensureNFC = True,
@@ -42,6 +43,7 @@ def return_subtitle_extent(
     # Find out information about video ...
     duration = return_media_duration(
         fname,
+           cacheDir = cacheDir,
                 cwd = cwd,
               debug = debug,
           ensureNFC = ensureNFC,
@@ -51,6 +53,7 @@ def return_subtitle_extent(
     )                                                                           # [s]
     fps = return_video_frame_rate(
         fname,
+           cacheDir = cacheDir,
                 cwd = cwd,
               debug = debug,
           ensureNFC = ensureNFC,
@@ -60,6 +63,7 @@ def return_subtitle_extent(
     )                                                                           # [Hz]
     width = return_video_width(
         fname,
+           cacheDir = cacheDir,
                 cwd = cwd,
               debug = debug,
           ensureNFC = ensureNFC,
@@ -69,6 +73,7 @@ def return_subtitle_extent(
     )                                                                           # [px]
     height = return_video_height(
         fname,
+           cacheDir = cacheDir,
                 cwd = cwd,
               debug = debug,
           ensureNFC = ensureNFC,

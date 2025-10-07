@@ -5,6 +5,7 @@ def return_ISO_duration(
     fname,
     /,
     *,
+     cacheDir = "~/.cache/pyguymer3",
           cwd = None,
         debug = __debug__,
     ensureNFC = True,
@@ -38,6 +39,7 @@ def return_ISO_duration(
             print(f"INFO: Running lsdvd(\"{fname}\") ...")
         __lsdvd__[fname] = lsdvd(
             fname,
+             cacheDir = cacheDir,
                   cwd = cwd,
                 debug = debug,
             ensureNFC = ensureNFC,

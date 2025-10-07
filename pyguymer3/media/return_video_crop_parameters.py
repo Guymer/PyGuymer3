@@ -5,6 +5,7 @@ def return_video_crop_parameters(
     fname,
     /,
     *,
+       cacheDir = "~/.cache/pyguymer3",
             cwd = None,
           debug = __debug__,
              dt = 2.0,
@@ -42,6 +43,7 @@ def return_video_crop_parameters(
     # Initialize variables ...
     dur = return_media_duration(
         fname,
+           cacheDir = cacheDir,
                 cwd = cwd,
               debug = debug,
           ensureNFC = ensureNFC,
@@ -51,6 +53,7 @@ def return_video_crop_parameters(
     )                                                                           # [s]
     inW = return_video_width(
         fname,
+           cacheDir = cacheDir,
                 cwd = cwd,
               debug = debug,
           ensureNFC = ensureNFC,
@@ -60,6 +63,7 @@ def return_video_crop_parameters(
     )                                                                           # [px]
     inH = return_video_height(
         fname,
+           cacheDir = cacheDir,
                 cwd = cwd,
               debug = debug,
           ensureNFC = ensureNFC,

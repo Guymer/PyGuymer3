@@ -5,6 +5,7 @@ def images2mp4(
     imgs,
     /,
     *,
+        cacheDir = "~/.cache/pyguymer3",
        chunksize = 1048576,
              crf = -1.0,
              cwd = None,
@@ -34,6 +35,9 @@ def images2mp4(
     ----------
     imgs : list of PIL.Image.Image or list of str
         the list of input PIL Images or list of paths to the input images
+    cacheDir : str, optional
+        if a string, then it is the path to the local cache of "ffprobe" JSON
+        output so as to save time in future calls
     crf : float, optional
         the CRF to be passed to libx264, default -1.0 (which means choose one
         using the function :func:`return_x264_crf`)
@@ -291,6 +295,7 @@ def images2mp4(
     # Check libx264 bit-depth ...
     if return_video_bit_depth(
         f"{tmpname}/video.mp4",
+           cacheDir = cacheDir,
                 cwd = cwd,
               debug = debug,
           ensureNFC = ensureNFC,

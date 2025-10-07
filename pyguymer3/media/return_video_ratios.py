@@ -5,6 +5,7 @@ def return_video_ratios(
     fname,
     /,
     *,
+       cacheDir = "~/.cache/pyguymer3",
             cwd = None,
           debug = __debug__,
       ensureNFC = True,
@@ -41,6 +42,7 @@ def return_video_ratios(
             print(f"INFO: Running ffprobe(\"{fname}\", {playlist:d}) ...")
         __ffprobe__[fname][playlist] = ffprobe(
             fname,
+               cacheDir = cacheDir,
                     cwd = cwd,
               ensureNFC = ensureNFC,
             ffprobePath = ffprobePath,
@@ -57,6 +59,7 @@ def return_video_ratios(
         # Find common dimensions divisors ...
         w = return_video_width(
             fname,
+               cacheDir = cacheDir,
                     cwd = cwd,
                   debug = debug,
               ensureNFC = ensureNFC,
@@ -66,6 +69,7 @@ def return_video_ratios(
         )                                                                       # [px]
         h = return_video_height(
             fname,
+               cacheDir = cacheDir,
                     cwd = cwd,
                   debug = debug,
               ensureNFC = ensureNFC,
@@ -84,6 +88,7 @@ def return_video_ratios(
         # Create short-hands and then return them ...
         dar = return_video_display_aspect_ratio(
             fname,
+               cacheDir = cacheDir,
                     cwd = cwd,
                   debug = debug,
               ensureNFC = ensureNFC,
@@ -93,6 +98,7 @@ def return_video_ratios(
         )
         par = return_video_pixel_aspect_ratio(
             fname,
+               cacheDir = cacheDir,
                     cwd = cwd,
                   debug = debug,
               ensureNFC = ensureNFC,

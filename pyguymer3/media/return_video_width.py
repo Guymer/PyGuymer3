@@ -5,6 +5,7 @@ def return_video_width(
     fname,
     /,
     *,
+       cacheDir = "~/.cache/pyguymer3",
             cwd = None,
           debug = __debug__,
       ensureNFC = True,
@@ -37,6 +38,7 @@ def return_video_width(
             print(f"INFO: Running ffprobe(\"{fname}\", {playlist:d}) ...")
         __ffprobe__[fname][playlist] = ffprobe(
             fname,
+               cacheDir = cacheDir,
                     cwd = cwd,
               ensureNFC = ensureNFC,
             ffprobePath = ffprobePath,
@@ -53,6 +55,7 @@ def return_video_width(
         # Check the rotation ...
         if return_video_rotation(
             fname,
+               cacheDir = cacheDir,
                     cwd = cwd,
                   debug = debug,
               ensureNFC = ensureNFC,
@@ -64,6 +67,7 @@ def return_video_width(
             return int(stream["width"])                                         # [px]
         if return_video_rotation(
             fname,
+               cacheDir = cacheDir,
                     cwd = cwd,
                   debug = debug,
               ensureNFC = ensureNFC,

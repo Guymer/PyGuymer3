@@ -5,6 +5,7 @@ def return_dict_of_ISO_tracks(
     fname,
     /,
     *,
+     cacheDir = "~/.cache/pyguymer3",
           cwd = None,
         debug = __debug__,
     ensureNFC = True,
@@ -33,6 +34,7 @@ def return_dict_of_ISO_tracks(
             print(f"INFO: Running lsdvd(\"{fname}\") ...")
         __lsdvd__[fname] = lsdvd(
             fname,
+             cacheDir = cacheDir,
                   cwd = cwd,
                 debug = debug,
             ensureNFC = ensureNFC,

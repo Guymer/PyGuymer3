@@ -5,6 +5,7 @@ def return_subtitle_format(
     fname,
     /,
     *,
+       cacheDir = "~/.cache/pyguymer3",
             cwd = None,
           debug = __debug__,
       ensureNFC = True,
@@ -21,6 +22,9 @@ def return_subtitle_format(
     ----------
     fname : str
         the media file
+    cacheDir : str, optional
+        if a string, then it is the path to the local cache of "ffprobe" JSON
+        output so as to save time in future calls
     cwd : str, optional
         the directory to change to before running "ffprobe"
     debug : bool, optional
@@ -72,6 +76,7 @@ def return_subtitle_format(
             print(f"INFO: Running ffprobe(\"{fname}\", {playlist:d}) ...")
         __ffprobe__[fname][playlist] = ffprobe(
             fname,
+               cacheDir = cacheDir,
                     cwd = cwd,
               ensureNFC = ensureNFC,
             ffprobePath = ffprobePath,

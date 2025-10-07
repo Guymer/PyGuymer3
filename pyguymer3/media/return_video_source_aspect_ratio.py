@@ -5,6 +5,7 @@ def return_video_source_aspect_ratio(
     fname,
     /,
     *,
+       cacheDir = "~/.cache/pyguymer3",
             cwd = None,
           debug = __debug__,
       ensureNFC = True,
@@ -39,6 +40,7 @@ def return_video_source_aspect_ratio(
             print(f"INFO: Running ffprobe(\"{fname}\", {playlist:d}) ...")
         __ffprobe__[fname][playlist] = ffprobe(
             fname,
+               cacheDir = cacheDir,
                     cwd = cwd,
               ensureNFC = ensureNFC,
             ffprobePath = ffprobePath,
@@ -55,6 +57,7 @@ def return_video_source_aspect_ratio(
         # Find common dimensions divisors ...
         w = return_video_width(
             fname,
+               cacheDir = cacheDir,
                     cwd = cwd,
                   debug = debug,
               ensureNFC = ensureNFC,
@@ -64,6 +67,7 @@ def return_video_source_aspect_ratio(
         )                                                                       # [px]
         h = return_video_height(
             fname,
+               cacheDir = cacheDir,
                     cwd = cwd,
                   debug = debug,
               ensureNFC = ensureNFC,
