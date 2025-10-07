@@ -73,7 +73,7 @@ def ffprobe(
     # Convert path to absolute path ...
     if playlist >= 0:
         fName = fName.removeprefix("bluray:")
-    fName = os.path.abspath(os.path.expanduser(fName))
+    fName = os.path.realpath(os.path.abspath(os.path.expanduser(fName)))
     if playlist >= 0:
         fName = f"bluray:{fName}"
 
