@@ -2,9 +2,10 @@
 
 # Define function ...
 def lsdvd(
-    fname,
+    fName,
     /,
     *,
+     cacheDir = "~/.cache/pyguymer3",
           cwd = None,
         debug = __debug__,
     ensureNFC = True,
@@ -16,8 +17,11 @@ def lsdvd(
 
     Parameters
     ----------
-    fname : str
+    fName : str
         the file to be surveyed
+    cache : str, optional
+        if a string, then it is the path to the local cache of "lsdvd" JSON
+        output so as to save time in future calls
     cwd : str, optional
         the child working directory
     debug : bool, optional
@@ -45,7 +49,11 @@ def lsdvd(
     """
 
     # Import standard modules ...
+    import gzip
+    import hashlib
     import html
+    import json
+    import os
     import shutil
     import subprocess
     import unicodedata
@@ -67,6 +75,31 @@ def lsdvd(
         lsdvdPath = shutil.which("lsdvd")
     assert lsdvdPath is not None, "\"lsdvd\" is not installed"
 
+    # Check if the user wants to use a cache ...
+    if isinstance(cacheDir, str):
+        # Expand cache path ...
+        cacheDir = os.path.expanduser(cacheDir)
+        cacheDir = f"{cacheDir}/lsdvd"
+
+        # Deduce sidecar file name ...
+        cacheFile = f"{hashlib.sha256(fName.encode(), usedforsecurity = False).hexdigest()}.json.gz"
+
+        # Place sidecar file in some sub-directories to avoid directories having
+        # too many members ...
+        cacheDir = f"{cacheDir}/{cacheFile[0]}/{cacheFile[1]}"
+        cacheFile = f"{cacheDir}/{cacheFile[2:]}"
+
+        # Make directory if it is missing ...
+        if not os.path.exists(cacheDir):
+            os.makedirs(cacheDir)
+
+        # Return the answer if the sidecar file exists ...
+        if os.path.exists(cacheFile):
+            with gzip.open(cacheFile, encoding = "utf-8", mode = "rt") as gzObj:
+                return json.load(gzObj)
+
+    # **************************************************************************
+
     # Find track info ...
     # NOTE: "lsdvd" specifies the output encoding in the accompanying XML
     #       header, however, this is a lie. By inspection of "oxml.c" in the
@@ -82,7 +115,7 @@ def lsdvd(
             lsdvdPath,
             "-x",
             "-Ox",
-            fname,
+            fName,
         ],
            check = True,
              cwd = cwd,
@@ -100,7 +133,7 @@ def lsdvd(
     stdout = stdout.removeprefix("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
 
     # Fix the file name itself ...
-    stdout = stdout.replace(f"<device>{fname}</device>", f"<device>{html.escape(fname)}</device>")
+    stdout = stdout.replace(f"<device>{fName}</device>", f"<device>{html.escape(fName)}</device>")
 
     # Fix common errors ...
     stdout = stdout.replace("<df>Pan&Scan</df>", "<df>Pan&amp;Scan</df>")
@@ -109,11 +142,26 @@ def lsdvd(
     # Parse the XML ...
     if ensureNFC and not unicodedata.is_normalized("NFC", stdout):
         ans = lxml.etree.XML(unicodedata.normalize("NFC", stdout))
-    ans = lxml.etree.XML(stdout)
+    else:
+        ans = lxml.etree.XML(stdout)
 
-    # Return "lsdvd" output as dictionary ...
-    return elem2dict(
+    # Convert the XML tree to a simplified dictionary ...
+    ans = elem2dict(
         ans,
            debug = debug,
         simplify = True,
     )
+
+    # Check if the user wants to use a cache ...
+    if isinstance(cacheDir, str):
+        # Cache the answer ...
+        with gzip.open(cacheFile, compresslevel = 9, encoding = "utf-8", mode = "wt") as gzObj:
+            json.dump(
+                ans,
+                gzObj,
+                ensure_ascii = False,
+                   sort_keys = True,
+            )
+
+    # Return the answer ...
+    return ans

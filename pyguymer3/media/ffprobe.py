@@ -2,9 +2,10 @@
 
 # Define function ...
 def ffprobe(
-    fname,
+    fName,
     /,
     *,
+       cacheDir = "~/.cache/pyguymer3",
             cwd = None,
       ensureNFC = True,
     ffprobePath = None,
@@ -16,8 +17,11 @@ def ffprobe(
 
     Parameters
     ----------
-    fname : str
+    fName : str
         the file to be surveyed
+    cache : str, optional
+        if a string, then it is the path to the local cache of "ffprobe" JSON
+        output so as to save time in future calls
     cwd : str, optional
         the child working directory
     ensureNFC : bool, optional
@@ -45,7 +49,10 @@ def ffprobe(
     """
 
     # Import standard modules ...
+    import gzip
+    import hashlib
     import json
+    import os
     import shutil
     import subprocess
     import unicodedata
@@ -58,11 +65,40 @@ def ffprobe(
     assert ffprobePath is not None, "\"ffprobe\" is not installed"
 
     # Check input ...
-    if fname.startswith("bluray:") and playlist < 0:
+    if fName.startswith("bluray:") and playlist < 0:
         raise Exception("a Blu-ray was specified but no playlist was supplied") from None
 
+    # Check if the user wants to use a cache ...
+    if isinstance(cacheDir, str):
+        # Expand cache path ...
+        cacheDir = os.path.expanduser(cacheDir)
+        cacheDir = f"{cacheDir}/ffprobe"
+        if playlist >= 0:
+            cacheDir = f"{cacheDir}/playlist={playlist:d}"
+        else:
+            cacheDir = f"{cacheDir}/playlist=none"
+
+        # Deduce sidecar file name ...
+        cacheFile = f"{hashlib.sha256(fName.encode(), usedforsecurity = False).hexdigest()}.json.gz"
+
+        # Place sidecar file in some sub-directories to avoid directories having
+        # too many members ...
+        cacheDir = f"{cacheDir}/{cacheFile[0]}/{cacheFile[1]}"
+        cacheFile = f"{cacheDir}/{cacheFile[2:]}"
+
+        # Make directory if it is missing ...
+        if not os.path.exists(cacheDir):
+            os.makedirs(cacheDir)
+
+        # Return the answer if the sidecar file exists ...
+        if os.path.exists(cacheFile):
+            with gzip.open(cacheFile, encoding = "utf-8", mode = "rt") as gzObj:
+                return json.load(gzObj)
+
+    # **************************************************************************
+
     # Check if it is a Blu-ray ...
-    if fname.startswith("bluray:"):
+    if fName.startswith("bluray:"):
         # Find stream info ...
         # NOTE: Sometimes "ffprobe" appears to work fine but even with
         #       "-loglevel quiet" it sometimes outputs things like:
@@ -83,7 +119,7 @@ def ffprobe(
                 "-show_format",
                 "-show_streams",
                 "-playlist", f"{playlist:d}",
-                fname,
+                fName,
             ],
                check = True,
                  cwd = cwd,
@@ -114,7 +150,7 @@ def ffprobe(
                     "-print_format", "json",
                     "-show_format",
                     "-show_streams",
-                    fname,
+                    fName,
                 ],
                    check = True,
                      cwd = cwd,
@@ -144,7 +180,7 @@ def ffprobe(
                     "-show_format",
                     "-show_streams",
                     "-f", "mjpeg",
-                    fname,
+                    fName,
                 ],
                    check = True,
                      cwd = cwd,
@@ -154,7 +190,22 @@ def ffprobe(
                  timeout = timeout,
             )
 
-    # Return "ffprobe" output as dictionary ...
+    # Parse the JSON ...
     if ensureNFC and not unicodedata.is_normalized("NFC", resp.stdout):
-        return json.loads(unicodedata.normalize("NFC", resp.stdout))
-    return json.loads(resp.stdout)
+        ans = json.loads(unicodedata.normalize("NFC", resp.stdout))
+    else:
+        ans = json.loads(resp.stdout)
+
+    # Check if the user wants to use a cache ...
+    if isinstance(cacheDir, str):
+        # Cache the answer ...
+        with gzip.open(cacheFile, compresslevel = 9, encoding = "utf-8", mode = "wt") as gzObj:
+            json.dump(
+                ans,
+                gzObj,
+                ensure_ascii = False,
+                   sort_keys = True,
+            )
+
+    # Return the answer ...
+    return ans
