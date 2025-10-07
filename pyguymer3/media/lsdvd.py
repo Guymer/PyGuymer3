@@ -51,8 +51,11 @@ def lsdvd(
     import unicodedata
 
     # Import special modules ...
-    import lxml
-    import lxml.etree
+    try:
+        import lxml
+        import lxml.etree
+    except:
+        raise Exception("\"lxml\" is not installed; run \"pip install --user lxml\"") from None
 
     # Import sub-functions ...
     from ..elem2dict import elem2dict
