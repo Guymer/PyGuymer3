@@ -19,7 +19,7 @@ def lsdvd(
     ----------
     fName : str
         the file to be surveyed
-    cache : str, optional
+    cacheDir : str, optional
         if a string, then it is the path to the local cache of "lsdvd" JSON
         output so as to save time in future calls
     cwd : str, optional
