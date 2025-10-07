@@ -67,6 +67,15 @@ def ffprobe(
     # Check input ...
     if fName.startswith("bluray:") and playlist < 0:
         raise Exception("a Blu-ray was specified but no playlist was supplied") from None
+    if not fName.startswith("bluray:") and playlist >= 0:
+        raise Exception("a Blu-ray was not specified but a playlist was supplied") from None
+
+    # Convert path to absolute path ...
+    if playlist >= 0:
+        fName = fName.removeprefix("bluray:")
+    fName = os.path.abspath(os.path.expanduser(fName))
+    if playlist >= 0:
+        fName = f"bluray:{fName}"
 
     # Check if the user wants to use a cache ...
     if isinstance(cacheDir, str):

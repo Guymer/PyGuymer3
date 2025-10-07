@@ -75,6 +75,9 @@ def lsdvd(
         lsdvdPath = shutil.which("lsdvd")
     assert lsdvdPath is not None, "\"lsdvd\" is not installed"
 
+    # Convert path to absolute path ...
+    fName = os.path.abspath(os.path.expanduser(fName))
+
     # Check if the user wants to use a cache ...
     if isinstance(cacheDir, str):
         # Expand cache path ...
