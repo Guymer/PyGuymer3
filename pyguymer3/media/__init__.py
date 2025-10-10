@@ -24,7 +24,6 @@ from .does_media_have_RTP_hints import does_media_have_RTP_hints
 from .does_media_have_subtitle import does_media_have_subtitle
 from .does_media_have_video import does_media_have_video
 from .does_MP4_have_free import does_MP4_have_free
-from .ffprobe import ffprobe
 from .images2gif import images2gif
 from .images2mp4 import images2mp4
 from .images2pdf import images2pdf
