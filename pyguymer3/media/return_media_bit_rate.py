@@ -31,4 +31,4 @@ def return_media_bit_rate(
     # **************************************************************************
 
     # Return bit rate ...
-    return int(__ffprobe__[f"{fname}:{playlist:d}"]["format"]["bit_rate"])              # [b/s]
+    return int(__ffprobe__[f"{fname}:{playlist:d}"]["format"]["bit_rate"])      # [b/s]
