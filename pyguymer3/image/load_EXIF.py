@@ -5,7 +5,10 @@ def load_EXIF(
     fname,
     /,
     *,
+        cacheDir = "~/.cache/pyguymer3",
       compressed = False,
+             cwd = None,
+       ensureNFC = True,
     exiftoolPath = None,
           python = True,
          timeout = 60.0,
@@ -22,7 +25,10 @@ def load_EXIF(
     # Will use the binary "exiftool" ...
     return load_EXIF2(
         fname,
+            cacheDir = cacheDir,
           compressed = compressed,
+                 cwd = cwd,
+           ensureNFC = ensureNFC,
         exiftoolPath = exiftoolPath,
              timeout = timeout,
     )
