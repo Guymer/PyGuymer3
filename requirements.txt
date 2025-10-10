@@ -3,7 +3,7 @@
 
 pillow >= 8.0.0
 cartopy
-exifread
+exifread >= 3.1.0
 geojson
 lxml
 matplotlib >= 3.5.0
