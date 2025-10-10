@@ -129,9 +129,9 @@ class exiftoolCachedDict(dict):
 
             # Parse the JSON ...
             if self.ensureNFC and not unicodedata.is_normalized("NFC", resp.stdout):
-                ans = json.loads(unicodedata.normalize("NFC", resp.stdout))
+                ans = json.loads(unicodedata.normalize("NFC", resp.stdout))[0]
             else:
-                ans = json.loads(resp.stdout)
+                ans = json.loads(resp.stdout)[0]
 
             if self.debug:
                 print(f"Saving \"{cacheFile}\" to populate self[\"{key}\"] in future ...")
@@ -139,14 +139,14 @@ class exiftoolCachedDict(dict):
             # Save the answer (for future instances of Python) ...
             with gzip.open(cacheFile, compresslevel = 9, encoding = "utf-8", mode = "wt") as gzObj:
                 json.dump(
-                    ans[0],
+                    ans,
                     gzObj,
                     ensure_ascii = False,
                        sort_keys = True,
                 )
 
         # Populate the dictionary (for future calls in this instance of Python) ...
-        self[key] = ans[0]
+        self[key] = ans
 
         # Return the answer ...
         return ans
