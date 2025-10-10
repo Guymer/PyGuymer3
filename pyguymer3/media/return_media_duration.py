@@ -31,8 +31,4 @@ def return_media_duration(
     # **************************************************************************
 
     # Return duration ...
-    form = __ffprobe__[f"{fname}:{playlist:d}"]["format"]
-    dur = -1.0                                                                  # [s]
-    if "duration" in form:
-        dur = float(form["duration"])                                           # [s]
-    return dur
+    return float(__ffprobe__[f"{fname}:{playlist:d}"]["format"]["duration"])    # [s]
