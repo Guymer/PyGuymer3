@@ -6,46 +6,33 @@ def return_ISO_duration(
     /,
     *,
      cacheDir = "~/.cache/pyguymer3",
-          cwd = None,
         debug = __debug__,
     ensureNFC = True,
     lsdvdPath = None,
       timeout = 60.0,
         track = -1,
 ):
-    # Import standard modules ...
-    import shutil
-
-    # Import sub-functions ...
+    # Import global (subclassed) dictionary ...
     from .__lsdvd__ import __lsdvd__
-    from .lsdvd import lsdvd
 
     # **************************************************************************
 
-    # Try to find the paths if the user did not provide them ...
-    if lsdvdPath is None:
-        lsdvdPath = shutil.which("lsdvd")
-    assert lsdvdPath is not None, "\"lsdvd\" is not installed"
+    # Configure global (subclassed) dictionary ...
+    # NOTE: If I blindly set "__lsdvd__.lsdvdPath" to "lsdvdPath" each time then
+    #       I would clobber any previous calls to "shutil.which()" performed by
+    #       the global (subclassed) dictionary itself.
+    __lsdvd__.cacheDir = cacheDir
+    __lsdvd__.debug = debug
+    __lsdvd__.ensureNFC = ensureNFC
+    if lsdvdPath is not None:
+        __lsdvd__.lsdvdPath = lsdvdPath
+    __lsdvd__.timeout = timeout                                                 # [s]
 
     # Check input ...
     if track == -1:
         raise Exception("no track was requested") from None
 
     # **************************************************************************
-
-    # Make sure that this fname is in the global dictionary ...
-    if fname not in __lsdvd__:
-        if debug:
-            print(f"INFO: Running lsdvd(\"{fname}\") ...")
-        __lsdvd__[fname] = lsdvd(
-            fname,
-             cacheDir = cacheDir,
-                  cwd = cwd,
-                debug = debug,
-            ensureNFC = ensureNFC,
-            lsdvdPath = lsdvdPath,
-              timeout = timeout,
-        )
 
     # Loop over all tracks ...
     for trackInfo in __lsdvd__[fname]["track"]:
