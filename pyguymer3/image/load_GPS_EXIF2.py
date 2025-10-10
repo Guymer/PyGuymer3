@@ -5,16 +5,22 @@ def load_GPS_EXIF2(
     fname,
     /,
     *,
+        cacheDir = "~/.cache/pyguymer3",
       compressed = False,
+             cwd = None,
+           debug = __debug__,
+       ensureNFC = True,
     exiftoolPath = None,
          timeout = 60.0,
 ):
     # Import standard modules ...
     import datetime
-    import json
     import math
     import shutil
-    import subprocess
+
+    # Import sub-functions ...
+    from .__exiftool__ import __exiftool__
+    from .load_EXIF2 import load_EXIF2
 
     # **************************************************************************
 
@@ -23,58 +29,36 @@ def load_GPS_EXIF2(
         exiftoolPath = shutil.which("exiftool")
     assert exiftoolPath is not None, "\"exiftool\" is not installed"
 
-    # Create "exiftool" command ...
-    cmd = [
-        exiftoolPath,
-        "-api", "largefilesupport=1",
-        "-json",
-    ]
-    if compressed:
-        cmd += [
-            "-zip",
-        ]
-    cmd += [
-        "-coordFormat", "%+.12f",
-        "-dateFormat", "%Y-%m-%dT%H:%M:%S.%.6f",                                # This should be the same as datetime.isoformat(sep = "T", timespec = "microseconds").
-        "-groupNames",
-        "-struct",
-        "--printConv",
-        "-GPSDateTime",
-        "-GPSAltitude",
-        "-GPSLongitude",
-        "-GPSLatitude",
-        "-GPSHPositioningError",
-        fname,
-    ]
+    # **************************************************************************
 
-    # Run "exiftool" and load it as JSON ...
-    # NOTE: Don't merge standard out and standard error together as the result
-    #       will probably not be valid JSON if standard error is not empty.
-    dat = json.loads(
-        subprocess.run(
-            cmd,
-               check = True,
-            encoding = "utf-8",
-              stderr = subprocess.DEVNULL,
-              stdout = subprocess.PIPE,
-             timeout = timeout,
-        ).stdout
-    )[0]
+    # Make sure that this fname is in the global dictionary ...
+    if fname not in __exiftool__:
+        if debug:
+            print(f"INFO: Running load_EXIF2(\"{fname}\") ...")
+        __exiftool__[fname] = load_EXIF2(
+            fname,
+                cacheDir = cacheDir,
+              compressed = compressed,
+                     cwd = cwd,
+               ensureNFC = ensureNFC,
+            exiftoolPath = exiftoolPath,
+                 timeout = timeout,
+        )
 
     # Create default dictionary answer ...
     ans = {}
 
     # Populate dictionary ...
-    if "Composite:GPSLongitude" in dat:
-        ans["lon"] = float(dat["Composite:GPSLongitude"])                       # [°]
-    if "Composite:GPSLatitude" in dat:
-        ans["lat"] = float(dat["Composite:GPSLatitude"])                        # [°]
-    if "Composite:GPSAltitude" in dat:
-        ans["alt"] = float(dat["Composite:GPSAltitude"])                        # [m]
-    if "Composite:GPSHPositioningError" in dat:
-        ans["loc_err"] = float(dat["Composite:GPSHPositioningError"])           # [m]
-    if "Composite:GPSDateTime" in dat:
-        date, time = dat["Composite:GPSDateTime"].removesuffix("Z").split(" ")
+    if "Composite:GPSLongitude" in __exiftool__[fname]:
+        ans["lon"] = float(__exiftool__[fname]["Composite:GPSLongitude"])       # [°]
+    if "Composite:GPSLatitude" in __exiftool__[fname]:
+        ans["lat"] = float(__exiftool__[fname]["Composite:GPSLatitude"])        # [°]
+    if "Composite:GPSAltitude" in __exiftool__[fname]:
+        ans["alt"] = float(__exiftool__[fname]["Composite:GPSAltitude"])        # [m]
+    if "Composite:GPSHPositioningError" in __exiftool__[fname]:
+        ans["loc_err"] = float(__exiftool__[fname]["Composite:GPSHPositioningError"])   # [m]
+    if "Composite:GPSDateTime" in __exiftool__[fname]:
+        date, time = __exiftool__[fname]["Composite:GPSDateTime"].removesuffix("Z").split(" ")
         tmp1 = date.split(":")
         tmp2 = time.split(":")
         ye = int(tmp1[0])                                                       # [year]
