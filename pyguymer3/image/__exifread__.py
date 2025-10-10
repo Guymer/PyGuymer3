@@ -12,6 +12,8 @@ class exifreadCachedDict(dict):
     cacheDir : str, optional
         the path to the local cache of "exifread" JSON output so as to save time
         in future calls
+    compressed : bool, optional
+        the file is compressed
     debug : bool, optional
         print debug messages
 
@@ -26,6 +28,7 @@ class exifreadCachedDict(dict):
 
     # Set default settings ...
     cacheDir = "~/.cache/pyguymer3"
+    compressed = False
     debug = __debug__
 
     # Define what to do if a key is missing in the dictionary ...
@@ -80,14 +83,25 @@ class exifreadCachedDict(dict):
             if self.debug:
                 print(f"Running \"exifread\" module on \"{fName}\" ...")
 
-            # Find metadata ...
-            with open(fName, "rb") as fObj:
-                ans = exifread.process_file(
-                    fObj,
-                        builtin_types = True,
-                              details = False,
-                    extract_thumbnail = False,
-                )
+            # Check if the file is compressed ...
+            if self.compressed:
+                # Find metadata ...
+                with gzip.open(fName, mode = "rb") as gzObj:
+                    ans = exifread.process_file(
+                        gzObj,
+                            builtin_types = True,
+                                  details = False,
+                        extract_thumbnail = False,
+                    )
+            else:
+                # Find metadata ...
+                with open(fName, "rb") as fObj:
+                    ans = exifread.process_file(
+                        fObj,
+                            builtin_types = True,
+                                  details = False,
+                        extract_thumbnail = False,
+                    )
 
             if self.debug:
                 print(f"Saving \"{cacheFile}\" to populate self[\"{key}\"] in future ...")

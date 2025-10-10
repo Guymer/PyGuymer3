@@ -60,6 +60,7 @@ def load_EXIF(
     if python:
         # Configure global (subclassed) dictionary ...
         __exifread__.cacheDir = cacheDir
+        __exifread__.compressed = compressed
         __exifread__.debug = debug
 
         # **********************************************************************

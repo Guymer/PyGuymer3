@@ -24,8 +24,9 @@ def load_GPS_EXIF(
         # Will use the Python module "exifread" ...
         return load_GPS_EXIF1(
             fName,
-            cacheDir = cacheDir,
-               debug = debug,
+              cacheDir = cacheDir,
+            compressed = compressed,
+                 debug = debug,
         )
 
     # Will use the binary "exiftool" ...

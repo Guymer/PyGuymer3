@@ -5,8 +5,9 @@ def load_GPS_EXIF1(
     fName,
     /,
     *,
-    cacheDir = "~/.cache/pyguymer3",
-       debug = __debug__,
+      cacheDir = "~/.cache/pyguymer3",
+    compressed = False,
+         debug = __debug__,
 ):
     # NOTE: The following web pages were helpful:
     #       * https://gist.github.com/snakeye/fdc372dbf11370fe29eb
@@ -23,6 +24,7 @@ def load_GPS_EXIF1(
 
     # Configure global (subclassed) dictionary ...
     __exifread__.cacheDir = cacheDir
+    __exifread__.compressed = compressed
     __exifread__.debug = debug
 
     # **************************************************************************
