@@ -35,9 +35,6 @@ class exifreadCachedDict(dict):
         import hashlib
         import json
         import os
-        import shutil
-        import subprocess
-        import unicodedata
 
         # Import special modules ...
         try:
