@@ -84,16 +84,29 @@ def EXIF_datetime(
             if debug:
                 print("DEBUG: There isn't a \"EXIF::DateTimeOriginal\" key.")
             return False
+        if not isinstance(info["EXIF"]["DateTimeOriginal"], str):
+            if debug:
+                print("DEBUG: There is a \"EXIF::DateTimeOriginal\" key but it is not a str().")
+            return False
+        if not info["EXIF"]["DateTimeOriginal"].strip():
+            if debug:
+                print("DEBUG: There is a \"EXIF::DateTimeOriginal\" key but it is empty.")
+            return False
 
         # Determine date/time that the photo was taken (assuming that the EXIF
         # data is in UTC) ...
         # NOTE: My old Motorola Moto G3 took a photo at "2016:10:24 24:00:11Z"
         #       once, who knows what time that actually was. Either way,
         #       "strptime()" cannot parse it so I must work around it here.
-        ans = datetime.datetime.strptime(
-            info["EXIF"]["DateTimeOriginal"].replace(" 24:", " 00:"),
-            "%Y:%m:%d %H:%M:%S",
-        ).replace(tzinfo = datetime.UTC)
+        try:
+            ans = datetime.datetime.strptime(
+                info["EXIF"]["DateTimeOriginal"].replace(" 24:", " 00:"),
+                "%Y:%m:%d %H:%M:%S",
+            ).replace(tzinfo = datetime.UTC)
+        except:
+            if debug:
+                print(f'DEBUG: There is a \"EXIF::DateTimeOriginal\" key but it is not in the \"%Y:%m:%d %H:%M:%S\" format (it is \"{info["EXIF"]["DateTimeOriginal"]}\").')
+            return False
 
         # Assume that the offset is valid (if it is present) which means that
         # the date/time was in fact in the local time zone rather than in UTC ...
@@ -120,6 +133,10 @@ def EXIF_datetime(
                     )
                 case str():
                     match len(info["EXIF"]["SubSecTimeOriginal"]):
+                        case 0:
+                            if debug:
+                                print("DEBUG: There is a \"EXIF::SubSecTimeOriginal\" key but it is empty.")
+                            pass
                         case 1:
                             ans += datetime.timedelta(
                                 microseconds = 100000 * int(info["EXIF"]["SubSecTimeOriginal"]),
