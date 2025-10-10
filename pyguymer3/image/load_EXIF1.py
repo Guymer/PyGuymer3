@@ -2,19 +2,49 @@
 
 # Define function ...
 def load_EXIF1(
-    fname,
+    fName,
     /,
+    *,
+    cacheDir = "~/.cache/pyguymer3",
+       debug = __debug__,
 ):
-    # Import special modules ...
-    try:
-        import exifread
-    except:
-        raise Exception("\"exifread\" is not installed; run \"pip install --user ExifRead\"") from None
+    """
+    Run "exifread" on a file and return the metadata.
 
-    # Open RAW file read-only ...
-    with open(fname, "rb") as fObj:
-        # Load EXIF tags ...
-        ans = exifread.process_file(fObj, details = False)
+    Parameters
+    ----------
+    fName : str
+        the file to be surveyed
+    cacheDir : str, optional
+        if a string, then it is the path to the local cache of "exifread" JSON
+        output so as to save time in future calls
+    debug : bool, optional
+        print debug messages
 
-    # Return answer ...
-    return ans
+    Returns
+    -------
+    ans : dict
+        the metadata
+
+    Notes
+    -----
+    Copyright 2017 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
+    """
+
+    # Import global (subclassed) dictionary ...
+    from .__exifread__ import __exifread__
+
+    # **************************************************************************
+
+    # Configure global (subclassed) dictionary ...
+    __exifread__.cacheDir = cacheDir
+    __exifread__.debug = debug
+
+    # **************************************************************************
+
+    # Return the answer ...
+    return __exifread__[fName]

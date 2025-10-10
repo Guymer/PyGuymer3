@@ -2,7 +2,7 @@
 
 # Define function ...
 def load_EXIF(
-    fname,
+    fName,
     /,
     *,
         cacheDir = "~/.cache/pyguymer3",
@@ -17,14 +17,20 @@ def load_EXIF(
     from .load_EXIF1 import load_EXIF1
     from .load_EXIF2 import load_EXIF2
 
+    # **************************************************************************
+
     # Check what the user wants ...
     if python:
         # Will use the Python module "exifread" ...
-        return load_EXIF1(fname)
+        return load_EXIF1(
+            fName,
+            cacheDir = cacheDir,
+               debug = debug,
+        )
 
     # Will use the binary "exiftool" ...
     return load_EXIF2(
-        fname,
+        fName,
             cacheDir = cacheDir,
           compressed = compressed,
                debug = debug,
