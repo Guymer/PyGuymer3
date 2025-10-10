@@ -2,7 +2,7 @@
 
 # Define function ...
 def load_GPS_EXIF2(
-    fname,
+    fName,
     /,
     *,
         cacheDir = "~/.cache/pyguymer3",
@@ -39,16 +39,16 @@ def load_GPS_EXIF2(
     ans = {}
 
     # Populate dictionary ...
-    if "Composite:GPSLongitude" in __exiftool__[fname]:
-        ans["lon"] = float(__exiftool__[fname]["Composite:GPSLongitude"])       # [°]
-    if "Composite:GPSLatitude" in __exiftool__[fname]:
-        ans["lat"] = float(__exiftool__[fname]["Composite:GPSLatitude"])        # [°]
-    if "Composite:GPSAltitude" in __exiftool__[fname]:
-        ans["alt"] = float(__exiftool__[fname]["Composite:GPSAltitude"])        # [m]
-    if "Composite:GPSHPositioningError" in __exiftool__[fname]:
-        ans["loc_err"] = float(__exiftool__[fname]["Composite:GPSHPositioningError"])   # [m]
-    if "Composite:GPSDateTime" in __exiftool__[fname]:
-        date, time = __exiftool__[fname]["Composite:GPSDateTime"].removesuffix("Z").split(" ")
+    if "Composite:GPSLongitude" in __exiftool__[fName]:
+        ans["lon"] = float(__exiftool__[fName]["Composite:GPSLongitude"])       # [°]
+    if "Composite:GPSLatitude" in __exiftool__[fName]:
+        ans["lat"] = float(__exiftool__[fName]["Composite:GPSLatitude"])        # [°]
+    if "Composite:GPSAltitude" in __exiftool__[fName]:
+        ans["alt"] = float(__exiftool__[fName]["Composite:GPSAltitude"])        # [m]
+    if "Composite:GPSHPositioningError" in __exiftool__[fName]:
+        ans["loc_err"] = float(__exiftool__[fName]["Composite:GPSHPositioningError"])   # [m]
+    if "Composite:GPSDateTime" in __exiftool__[fName]:
+        date, time = __exiftool__[fName]["Composite:GPSDateTime"].removesuffix("Z").split(" ")
         tmp1 = date.split(":")
         tmp2 = time.split(":")
         ye = int(tmp1[0])                                                       # [year]
