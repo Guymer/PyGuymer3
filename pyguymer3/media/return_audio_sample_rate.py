@@ -40,4 +40,4 @@ def return_audio_sample_rate(
         return int(stream["sample_rate"])                                       # [Hz]
 
     # Return error ...
-    return -1.0
+    return -1

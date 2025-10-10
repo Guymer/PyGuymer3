@@ -43,4 +43,4 @@ def return_video_pixel_format(
     # **************************************************************************
 
     # Return error ...
-    return -1
+    return "ERROR"
