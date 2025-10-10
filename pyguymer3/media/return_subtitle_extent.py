@@ -44,7 +44,6 @@ def return_subtitle_extent(
     duration = return_media_duration(
         fname,
            cacheDir = cacheDir,
-                cwd = cwd,
               debug = debug,
           ensureNFC = ensureNFC,
         ffprobePath = ffprobePath,
@@ -54,7 +53,6 @@ def return_subtitle_extent(
     fps = return_video_frame_rate(
         fname,
            cacheDir = cacheDir,
-                cwd = cwd,
               debug = debug,
           ensureNFC = ensureNFC,
         ffprobePath = ffprobePath,
@@ -64,7 +62,6 @@ def return_subtitle_extent(
     width = return_video_width(
         fname,
            cacheDir = cacheDir,
-                cwd = cwd,
               debug = debug,
           ensureNFC = ensureNFC,
         ffprobePath = ffprobePath,
@@ -74,7 +71,6 @@ def return_subtitle_extent(
     height = return_video_height(
         fname,
            cacheDir = cacheDir,
-                cwd = cwd,
               debug = debug,
           ensureNFC = ensureNFC,
         ffprobePath = ffprobePath,

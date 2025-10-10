@@ -6,7 +6,6 @@ def return_dict_of_bluray_playlists(
     /,
     *,
          cacheDir = "~/.cache/pyguymer3",
-              cwd = None,
             debug = __debug__,
         ensureNFC = True,
       ffprobePath = None,
@@ -20,21 +19,26 @@ def return_dict_of_bluray_playlists(
     the duration and size.
     """
 
+
     # Import standard modules ...
     import glob
     import os
-    import shutil
 
-    # Import sub-functions ...
+    # Import global (subclassed) dictionary ...
     from .__ffprobe__ import __ffprobe__
-    from .ffprobe import ffprobe
 
     # **************************************************************************
 
-    # Try to find the paths if the user did not provide them ...
-    if ffprobePath is None:
-        ffprobePath = shutil.which("ffprobe")
-    assert ffprobePath is not None, "\"ffprobe\" is not installed"
+    # Configure global (subclassed) dictionary ...
+    # NOTE: If I blindly set "__ffprobe__.ffprobePath" to "ffprobePath" each
+    #       time then I would clobber any previous calls to "shutil.which()"
+    #       performed by the global (subclassed) dictionary itself.
+    __ffprobe__.cacheDir = cacheDir
+    __ffprobe__.debug = debug
+    __ffprobe__.ensureNFC = ensureNFC
+    if ffprobePath is not None:
+        __ffprobe__.ffprobePath = ffprobePath
+    __ffprobe__.timeout = timeout                                               # [s]
 
     # **************************************************************************
 
@@ -49,32 +53,15 @@ def return_dict_of_bluray_playlists(
         # Extract playlist number ...
         playlist = int(os.path.basename(mpls).removesuffix(".mpls"))
 
-        # Make sure that this fname/playlist combination is in the global
-        # dictionary ...
-        if fname not in __ffprobe__:
-            __ffprobe__[fname] = {}
-        if playlist not in __ffprobe__[fname]:
-            if debug:
-                print(f"INFO: Running ffprobe(\"{fname}\", {playlist:d}) ...")
-            __ffprobe__[fname][playlist] = ffprobe(
-            fname,
-               cacheDir = cacheDir,
-                    cwd = cwd,
-              ensureNFC = ensureNFC,
-            ffprobePath = ffprobePath,
-               playlist = playlist,
-                timeout = timeout,
-        )
-
         # Append information if this playlist is worthwhile (by default,
         # "worthwhile" is defined as ≥1 GiB and/or ≥1 minute) ...
-        if "duration" in __ffprobe__[fname][playlist]["format"]:
-            if float(__ffprobe__[fname][playlist]["format"]["duration"]) >= timeThreshold:
-                ans[f"{playlist:d}"] = __ffprobe__[fname][playlist]["format"]
+        if "duration" in __ffprobe__[f"{fname}:{playlist:d}"]["format"]:
+            if float(__ffprobe__[f"{fname}:{playlist:d}"]["format"]["duration"]) >= timeThreshold:
+                ans[f"{playlist:d}"] = __ffprobe__[f"{fname}:{playlist:d}"]["format"]
                 continue
-        if "size" in __ffprobe__[fname][playlist]["format"]:
-            if int(__ffprobe__[fname][playlist]["format"]["size"]) >= sizeThreshold:
-                ans[f"{playlist:d}"] = __ffprobe__[fname][playlist]["format"]
+        if "size" in __ffprobe__[f"{fname}:{playlist:d}"]["format"]:
+            if int(__ffprobe__[f"{fname}:{playlist:d}"]["format"]["size"]) >= sizeThreshold:
+                ans[f"{playlist:d}"] = __ffprobe__[f"{fname}:{playlist:d}"]["format"]
                 continue
 
     # Return dictionary ...

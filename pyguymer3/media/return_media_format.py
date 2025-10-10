@@ -6,7 +6,6 @@ def return_media_format(
     /,
     *,
        cacheDir = "~/.cache/pyguymer3",
-            cwd = None,
           debug = __debug__,
       ensureNFC = True,
     ffprobePath = None,
@@ -52,37 +51,23 @@ def return_media_format(
     .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
-    # Import standard modules ...
-    import shutil
-
-    # Import sub-functions ...
+    # Import global (subclassed) dictionary ...
     from .__ffprobe__ import __ffprobe__
-    from .ffprobe import ffprobe
 
     # **************************************************************************
 
-    # Try to find the paths if the user did not provide them ...
-    if ffprobePath is None:
-        ffprobePath = shutil.which("ffprobe")
-    assert ffprobePath is not None, "\"ffprobe\" is not installed"
+    # Configure global (subclassed) dictionary ...
+    # NOTE: If I blindly set "__ffprobe__.ffprobePath" to "ffprobePath" each
+    #       time then I would clobber any previous calls to "shutil.which()"
+    #       performed by the global (subclassed) dictionary itself.
+    __ffprobe__.cacheDir = cacheDir
+    __ffprobe__.debug = debug
+    __ffprobe__.ensureNFC = ensureNFC
+    if ffprobePath is not None:
+        __ffprobe__.ffprobePath = ffprobePath
+    __ffprobe__.timeout = timeout                                               # [s]
 
     # **************************************************************************
-
-    # Make sure that this fname/playlist combination is in the global dictionary ...
-    if fname not in __ffprobe__:
-        __ffprobe__[fname] = {}
-    if playlist not in __ffprobe__[fname]:
-        if debug:
-            print(f"INFO: Running ffprobe(\"{fname}\", {playlist:d}) ...")
-        __ffprobe__[fname][playlist] = ffprobe(
-            fname,
-               cacheDir = cacheDir,
-                    cwd = cwd,
-              ensureNFC = ensureNFC,
-            ffprobePath = ffprobePath,
-               playlist = playlist,
-                timeout = timeout,
-        )
 
     # Determine the format of the file container ...
     # NOTE: Unhelpfully, "ffprobe" returns "mov,mp4,m4a,3gp,3g2,mj2" for both
@@ -92,7 +77,7 @@ def return_media_format(
     #         * "ISO Base Media File Format", https://www.loc.gov/preservation/digital/formats/fdd/fdd000079.shtml
     #         * "MPEG-4 File Format, Version 1", https://www.loc.gov/preservation/digital/formats/fdd/fdd000037.shtml
     #         * "MPEG-4 File Format, Version 2", https://www.loc.gov/preservation/digital/formats/fdd/fdd000155.shtml
-    match __ffprobe__[fname][playlist]["format"]["format_name"]:
+    match __ffprobe__[f"{fname}:{playlist:d}"]["format"]["format_name"]:
         case "asf":
             return "ASF"
         case "avi":
@@ -102,7 +87,7 @@ def return_media_format(
         case "flv":
             return "FLV"
         case "mov,mp4,m4a,3gp,3g2,mj2":
-            match __ffprobe__[fname][playlist]["format"]["tags"].get("major_brand", "qt  "):
+            match __ffprobe__[f"{fname}:{playlist:d}"]["format"]["tags"].get("major_brand", "qt  "):
                 case "3gp4" | "3gp5" | "3gp6":
                     return "3GPP"
                 case "3g2a" | "3g2b":
@@ -128,7 +113,7 @@ def return_media_format(
                 case "qt  ":
                     return "MOV"
                 case _:
-                    raise ValueError(f'\"format::tags::major_brand\" is an unexpected value ({repr(__ffprobe__[fname][playlist]["format"]["tags"]["major_brand"])})') from None
+                    raise ValueError(f'\"format::tags::major_brand\" is an unexpected value ({repr(__ffprobe__[f"{fname}:{playlist:d}"]["format"]["tags"]["major_brand"])})') from None
         case "mp3":
             return "MP3"
         case "ogg":
@@ -136,4 +121,4 @@ def return_media_format(
         case "swf":
             return "SWF"
         case _:
-            raise ValueError(f'\"format::format_name\" is an unexpected value ({repr(__ffprobe__[fname][playlist]["format"]["format_name"])})') from None
+            raise ValueError(f'\"format::format_name\" is an unexpected value ({repr(__ffprobe__[f"{fname}:{playlist:d}"]["format"]["format_name"])})') from None
