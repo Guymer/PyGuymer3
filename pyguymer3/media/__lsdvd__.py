@@ -96,8 +96,7 @@ class lsdvdCachedDict(dict):
             if self.debug:
                 print(f"Loading \"{cacheFile}\" to populate self[\"{key}\"] ...")
 
-            # Load the answer (from either previous instances of Python or
-            # previous calls in this instance of Python) ...
+            # Load the answer (from previous instances of Python) ...
             with gzip.open(cacheFile, encoding = "utf-8", mode = "rt") as gzObj:
                 ans = json.load(gzObj)
         else:
