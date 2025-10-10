@@ -29,8 +29,6 @@ from .image2png import image2png
 from .image2webp import image2webp
 from .jpegtran import jpegtran
 from .load_EXIF import load_EXIF
-from .load_EXIF1 import load_EXIF1
-from .load_EXIF2 import load_EXIF2
 from .load_GPS_EXIF import load_GPS_EXIF
 from .load_GPS_EXIF1 import load_GPS_EXIF1
 from .load_GPS_EXIF2 import load_GPS_EXIF2
