@@ -2,33 +2,24 @@
 
 # Define function ...
 def return_image_size(
-    fname,
+    fName,
     /,
     *,
+      cacheDir = "~/.cache/pyguymer3",
     compressed = False,
+         debug = __debug__,
 ):
-    # Import standard modules ...
-    import gzip
+    # Import global (subclassed) dictionary ...
+    from .__pillow__ import __pillow__
 
-    # Import special modules ...
-    try:
-        import PIL
-        import PIL.Image
-        PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                         # [px]
-    except:
-        raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None
+    # **************************************************************************
 
-    # Check if the image is compressed ...
-    if compressed:
-        # Open compressed file ...
-        with gzip.open(fname, mode = "rb") as gzObj:
-            # Open image as RGB (even if it is paletted) ...
-            with PIL.Image.open(gzObj) as iObj:
-                im = iObj.convert("RGB")
-    else:
-        # Open image as RGB (even if it is paletted) ...
-        with PIL.Image.open(fname) as iObj:
-            im = iObj.convert("RGB")
+    # Configure global (subclassed) dictionary ...
+    __pillow__.cacheDir = cacheDir
+    __pillow__.compressed = compressed
+    __pillow__.debug = debug
 
-    # Return answer ...
-    return im.size
+    # **************************************************************************
+
+    # Return the answer ...
+    return __pillow__[fName]["size"]                                            # [px], [px]

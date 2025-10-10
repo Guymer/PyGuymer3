@@ -18,6 +18,7 @@ References
 # Import sub-functions ...
 from .__exifread__ import __exifread__
 from .__exiftool__ import __exiftool__
+from .__pillow__ import __pillow__
 from .dict2exif import dict2exif
 from .dot2png import dot2png
 from .EXIF_datetime import EXIF_datetime
