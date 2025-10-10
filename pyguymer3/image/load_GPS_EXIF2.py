@@ -7,7 +7,6 @@ def load_GPS_EXIF2(
     *,
         cacheDir = "~/.cache/pyguymer3",
       compressed = False,
-             cwd = None,
            debug = __debug__,
        ensureNFC = True,
     exiftoolPath = None,
@@ -16,34 +15,25 @@ def load_GPS_EXIF2(
     # Import standard modules ...
     import datetime
     import math
-    import shutil
 
-    # Import sub-functions ...
+    # Import global (subclassed) dictionary ...
     from .__exiftool__ import __exiftool__
-    from .load_EXIF2 import load_EXIF2
 
     # **************************************************************************
 
-    # Try to find the paths if the user did not provide them ...
-    if exiftoolPath is None:
-        exiftoolPath = shutil.which("exiftool")
-    assert exiftoolPath is not None, "\"exiftool\" is not installed"
+    # Configure global (subclassed) dictionary ...
+    # NOTE: If I blindly set "__exiftool__.exiftoolPath" to "exiftoolPath" each
+    #       time then I would clobber any previous calls to "shutil.which()"
+    #       performed by the global (subclassed) dictionary itself.
+    __exiftool__.cacheDir = cacheDir
+    __exiftool__.compressed = compressed
+    __exiftool__.debug = debug
+    __exiftool__.ensureNFC = ensureNFC
+    if exiftoolPath is not None:
+        __exiftool__.exiftoolPath = exiftoolPath
+    __exiftool__.timeout = timeout                                              # [s]
 
     # **************************************************************************
-
-    # Make sure that this fname is in the global dictionary ...
-    if fname not in __exiftool__:
-        if debug:
-            print(f"INFO: Running load_EXIF2(\"{fname}\") ...")
-        __exiftool__[fname] = load_EXIF2(
-            fname,
-                cacheDir = cacheDir,
-              compressed = compressed,
-                     cwd = cwd,
-               ensureNFC = ensureNFC,
-            exiftoolPath = exiftoolPath,
-                 timeout = timeout,
-        )
 
     # Create default dictionary answer ...
     ans = {}
