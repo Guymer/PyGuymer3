@@ -16,6 +16,7 @@ References
 """
 
 # Import sub-functions ...
+from .__exiftool__ import __exiftool__
 from .dict2exif import dict2exif
 from .dot2png import dot2png
 from .EXIF_datetime import EXIF_datetime
