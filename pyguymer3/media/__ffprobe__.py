@@ -102,6 +102,13 @@ class ffprobeCachedDict(dict):
 
         # Check if the sidecar file exists ...
         if os.path.exists(cacheFile):
+            # Check if the file is newer than the sidecar file ...
+            if os.path.getmtime(fName) > os.path.getmtime(cacheFile):
+                # Remove sidecar file ...
+                os.remove(cacheFile)
+
+        # Check if the sidecar file exists ...
+        if os.path.exists(cacheFile):
             if self.debug:
                 print(f"Loading \"{cacheFile}\" to populate self[\"{key}\"] ...")
 
