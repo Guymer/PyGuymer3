@@ -37,7 +37,12 @@ from .makePng import makePng
 from .manuallyOptimisePng import manuallyOptimisePng
 from .optimise_image import optimise_image
 from .optipng import optipng
+from .return_image_bit_depth import return_image_bit_depth
+from .return_image_format import return_image_format
+from .return_image_height import return_image_height
+from .return_image_mode import return_image_mode
 from .return_image_size import return_image_size
+from .return_image_width import return_image_width
 from .returnPngInfo import returnPngInfo
 from .rgb2hlsComp import rgb2hlsComp
 from .rgb2name import rgb2name
