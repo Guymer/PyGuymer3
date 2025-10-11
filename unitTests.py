@@ -638,7 +638,10 @@ class MyTestCase(unittest.TestCase):
 
         # Assert result ...
         self.assertSequenceEqual(
-            pyguymer3.image.return_image_size("tests/saveArrayAsImage/saveArrayAsImage0.png"),
+            pyguymer3.image.return_image_size(
+                "tests/saveArrayAsImage/saveArrayAsImage0.png",
+                debug = self.debug,
+            ),
             (16, 32),
         )
 
