@@ -166,7 +166,9 @@ def images2mp4(
     if isinstance(imgs[0], str):
         inputWidth, inputHeight = return_image_size(
             imgs[0],
+              cacheDir = cacheDir,
             compressed = False,
+                 debug = debug,
         )                                                                       # [px], [px]
     elif isinstance(imgs[0], PIL.Image.Image):
         inputWidth, inputHeight = imgs[0].size                                  # [px], [px]
