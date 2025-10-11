@@ -80,15 +80,8 @@ class pillowCachedDict(dict):
                 # Remove sidecar file ...
                 os.remove(cacheFile)
 
-        # Check if the sidecar file exists ...
-        if os.path.exists(cacheFile):
-            if self.debug:
-                print(f"Loading \"{cacheFile}\" to populate self[\"{key}\"] ...")
-
-            # Load the answer (from previous instances of Python) ...
-            with gzip.open(cacheFile, encoding = "utf-8", mode = "rt") as gzObj:
-                ans = json.load(gzObj)
-        else:
+        # Check if the sidecar file is missing ...
+        if not os.path.exists(cacheFile):
             if self.debug:
                 print(f"Running \"pillow\" module on \"{fName}\" ...")
 
@@ -150,7 +143,7 @@ class pillowCachedDict(dict):
             if self.debug:
                 print(f"Saving \"{cacheFile}\" to populate self[\"{key}\"] in future ...")
 
-            # Save the answer (for future instances of Python) ...
+            # Save the answer ...
             with gzip.open(cacheFile, compresslevel = 9, encoding = "utf-8", mode = "wt") as gzObj:
                 json.dump(
                     ans,
@@ -159,6 +152,13 @@ class pillowCachedDict(dict):
                     ensure_ascii = False,
                        sort_keys = True,
                 )
+
+        if self.debug:
+            print(f"Loading \"{cacheFile}\" ...")
+
+        # Load the answer ...
+        with gzip.open(cacheFile, encoding = "utf-8", mode = "rt") as gzObj:
+            ans = json.load(gzObj)
 
         # Populate the dictionary (for future calls in this instance of Python) ...
         self[key] = ans
