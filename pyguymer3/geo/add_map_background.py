@@ -73,4 +73,8 @@ def add_map_background(
     else:
         if debug:
             print("INFO: Drawing user-requested background.")
-        ax.background_img(name = name, resolution = resolution, extent = extent)
+        ax.background_img(
+                extent = extent,
+                  name = name,
+            resolution = resolution,
+        )
