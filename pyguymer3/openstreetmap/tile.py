@@ -61,10 +61,10 @@ def tile(
         attempt to find the binary itself)
     scale : int, optional
         the scale of the tile
-    thunderforestKey : string, optional
+    thunderforestKey : str, optional
         your personal API key for the Thunderforest service (if provided then it
         is assumed that you want to use the Thunderforest service)
-    thunderforestMap : string, optional
+    thunderforestMap : str, optional
         the Thunderforest map style (see https://www.thunderforest.com/maps/)
     timeout : float, optional
         the timeout for any requests/subprocess calls (in seconds)

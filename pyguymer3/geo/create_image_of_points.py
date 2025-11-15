@@ -126,10 +126,10 @@ def create_image_of_points(
         point from calculating the image's field-of-view (this allows the great
         circles from flights to be drawn but for them to not expand the image to
         fit in the departing airport); if not provided then all points are used
-    thunderforestKey : string, optional
+    thunderforestKey : str, optional
         your personal API key for the Thunderforest service (if provided then it
         is assumed that you want to use the Thunderforest service)
-    thunderforestMap : string, optional
+    thunderforestMap : str, optional
         the Thunderforest map style (see https://www.thunderforest.com/maps/)
     timeout : float, optional
         the timeout for any requests/subprocess calls (in seconds)
