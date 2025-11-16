@@ -75,6 +75,9 @@ class exifreadCachedDict(dict):
         if os.path.exists(cacheFile):
             # Check if the file is newer than the sidecar file ...
             if os.path.getmtime(fName) > os.path.getmtime(cacheFile):
+                if self.debug:
+                    print(f"Removing out-of-date \"{cacheFile}\" ...")
+
                 # Remove sidecar file ...
                 os.remove(cacheFile)
 
