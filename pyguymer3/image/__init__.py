@@ -28,6 +28,7 @@ from .image2gif import image2gif
 from .image2jpg import image2jpg
 from .image2png import image2png
 from .image2webp import image2webp
+from .is_image_animated import is_image_animated
 from .jpegtran import jpegtran
 from .load_EXIF import load_EXIF
 from .load_GPS_EXIF import load_GPS_EXIF
