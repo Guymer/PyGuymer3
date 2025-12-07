@@ -5,10 +5,13 @@ def add_map_background(
     ax,
     /,
     *,
-         debug = __debug__,
-        extent = None,
-          name = "natural-earth-1",
-    resolution = "medium0512px",
+            debug = __debug__,
+           extent = None,
+    interpolation = None,
+             name = "natural-earth-1",
+     regrid_shape = 750,
+         resample = None,
+       resolution = "medium0512px",
 ):
     """Add an image of a map as a background to a Cartopy axis.
 
@@ -21,8 +24,24 @@ def add_map_background(
     extent : list of floats
         for high-resolution images, save time by specifying the extent that is
         to be added
+    interpolation : str, optional
+        The interpolation method used when drawing the final warped image on the
+        figure. Due to the use of **kwargs within Cartopy, this is passed all
+        the way down the stack to the MatPlotLib ".imshow()" call.
     name : str, optional
         the name of the image in the database
+    regrid_shape: int or tuple of int, optional
+        The smallest dimension of the image **after** it has been warped by
+        Cartopy to be the same projection as the figure (in pixels). Due to the
+        use of **kwargs within Cartopy, this is passed all the way down the
+        stack to the Cartopy ".imshow()" call. The size of a figure, in inches,
+        can be found by calling "fg.get_size_inches()". The resolution of a
+        figure can be found by interrogating "fg.dpi". The size of a figure, in
+        pixels, can be found by multiplying the tuple by the scalar.
+    resample : bool, optional
+        Use a full resampling method when drawing the final warped image on the
+        figure. Due to the use of **kwargs within Cartopy, this is passed all
+        the way down the stack to the MatPlotLib ".imshow()" call.
     resolution : str, optional
         the resolution of the image in the database
 
@@ -65,16 +84,25 @@ def add_map_background(
                     if os.path.exists(ipath):
                         default = False
 
-    # Draw background image ...
+    # Draw default background image ...
     if default:
         if debug:
             print("INFO: Drawing default background.")
-        ax.stock_img()
-    else:
-        if debug:
-            print("INFO: Drawing user-requested background.")
-        ax.background_img(
-                extent = extent,
-                  name = name,
-            resolution = resolution,
+        ax.stock_img(
+            interpolation = interpolation,
+             regrid_shape = regrid_shape,
+                 resample = resample,
         )
+        return
+
+    # Draw user-requested background image ...
+    if debug:
+        print("INFO: Drawing user-requested background.")
+    ax.background_img(
+               extent = extent,
+        interpolation = interpolation,
+                 name = name,
+         regrid_shape = regrid_shape,
+             resample = resample,
+           resolution = resolution,
+    )
