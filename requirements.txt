@@ -2,7 +2,7 @@
 # "check_READMEs.py" script from "https://github.com/Guymer/misc".
 
 pillow >= 8.0.0
-cartopy
+cartopy > 0.25.0
 exifread >= 3.1.0
 geojson
 lxml
@@ -16,4 +16,5 @@ requests
 scipy
 shapely
 sphinx
+sphinx_fortran
 sphinx_rtd_theme
