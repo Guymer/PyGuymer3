@@ -124,15 +124,18 @@ def tile(
     # Deduce tile names and URL ...
     # NOTE: See https://www.thunderforest.com/docs/map-tiles-api/
     if thunderforestKey is not None:
-        npy = os.path.expanduser(f"~/.local/share/cartopy_cache/ThunderforestTiles/{xtile:d}_{ytile:d}_{zoom:d}.npy")
+        if scale == 1:
+            npy = os.path.expanduser(f"~/.local/share/cartopy/ThunderforestTiles/{thunderforestMap}/{xtile:d}_{ytile:d}_{zoom:d}.npy")
+        else:
+            npy = os.path.expanduser(f"~/.local/share/cartopy/ThunderforestTiles/{thunderforestMap}/@{scale:d}x/{xtile:d}_{ytile:d}_{zoom:d}.npy")
         png = os.path.expanduser(f"~/.local/share/thunderforest/tiles/map={thunderforestMap}/scale={scale:d}/zoom={zoom:d}/x={xtile:d}/y={ytile:d}.png")
         if scale == 1:
             url = f"https://tile.thunderforest.com/{thunderforestMap}/{zoom:d}/{xtile:d}/{ytile:d}.png?apikey={thunderforestKey}"
         else:
             url = f"https://tile.thunderforest.com/{thunderforestMap}/{zoom:d}/{xtile:d}/{ytile:d}@{scale:d}x.png?apikey={thunderforestKey}"
     else:
-        npy = os.path.expanduser(f"~/.local/share/cartopy_cache/OSM/{xtile:d}_{ytile:d}_{zoom:d}.npy")
-        png = os.path.expanduser(f"~/.local/share/openstreetmap/tiles/{zoom:d}/{xtile:d}/{ytile:d}.png")
+        npy = os.path.expanduser(f"~/.local/share/cartopy/OSM/{xtile:d}_{ytile:d}_{zoom:d}.npy")
+        png = os.path.expanduser(f"~/.local/share/openstreetmap/tiles/zoom={zoom:d}/x={xtile:d}/y={ytile:d}.png")
         url = f"https://tile.openstreetmap.org/{zoom:d}/{xtile:d}/{ytile:d}.png"
 
     # Make output folders if they are missing ...
