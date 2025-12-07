@@ -52,7 +52,7 @@ def _add_minorIslands(
         import cartopy
         cartopy.config.update(
             {
-                "cache_dir" : pathlib.PosixPath("~/.local/share/cartopy_cache").expanduser(),
+                "cache_dir" : pathlib.PosixPath("~/.local/share/cartopy").expanduser(),
             }
         )
     except:
