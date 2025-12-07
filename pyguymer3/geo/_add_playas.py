@@ -96,7 +96,13 @@ def _add_playas(
               category = "physical",
                   name = "playas",
         )
+    except RuntimeError:
+        if debug:
+            print("INFO: Skipping (runtime error).")
+        return
     except urllib.error.HTTPError:
+        if debug:
+            print("INFO: Skipping (HTTP error).")
         return
     if debug:
         print(f"INFO: \"playas\" is \"{sfile}\".")

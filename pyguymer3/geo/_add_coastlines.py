@@ -135,6 +135,10 @@ def _add_coastlines(
                 level = level,
                 scale = resolution,
             )
+        except RuntimeError:
+            if debug:
+                print("INFO: Skipping (runtime error).")
+            continue
         except urllib.error.HTTPError:
             if debug:
                 print("INFO: Skipping (HTTP error).")

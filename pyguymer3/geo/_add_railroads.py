@@ -100,7 +100,13 @@ def _add_railroads(
                   category = "cultural",
                       name = name,
             )
+        except RuntimeError:
+            if debug:
+                print("INFO: Skipping (runtime error).")
+            continue
         except urllib.error.HTTPError:
+            if debug:
+                print("INFO: Skipping (HTTP error).")
             continue
         if debug:
             print(f"INFO: \"{name}\" is \"{sfile}\".")

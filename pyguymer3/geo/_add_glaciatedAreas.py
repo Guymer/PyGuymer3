@@ -89,7 +89,13 @@ def _add_glaciatedAreas(
               category = "physical",
                   name = "glaciated_areas",
         )
+    except RuntimeError:
+        if debug:
+            print("INFO: Skipping (runtime error).")
+        return
     except urllib.error.HTTPError:
+        if debug:
+            print("INFO: Skipping (HTTP error).")
         return
     if debug:
         print(f"INFO: \"glaciated_areas\" is \"{sfile}\".")

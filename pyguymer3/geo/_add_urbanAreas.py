@@ -89,7 +89,13 @@ def _add_urbanAreas(
               category = "cultural",
                   name = "urban_areas",
         )
+    except RuntimeError:
+        if debug:
+            print("INFO: Skipping (runtime error).")
+        return
     except urllib.error.HTTPError:
+        if debug:
+            print("INFO: Skipping (HTTP error).")
         return
     if debug:
         print(f"INFO: \"urban_areas\" is \"{sfile}\".")
