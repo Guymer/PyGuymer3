@@ -31,7 +31,7 @@ def add_OSM_map_background(
         The interpolation method used when drawing the final merged and warped
         image on the figure. Due to the use of **kwargs within Cartopy, this is
         passed all the way down the stack to the MatPlotLib ".imshow()" call.
-    regrid_shape: int, optional
+    regrid_shape: int or tuple of int, optional
         The smallest dimension of the merged image of all of the tiles **after**
         it has been warped by Cartopy to be the same projection as the figure
         (in pixels). Due to the use of **kwargs within Cartopy, this is passed

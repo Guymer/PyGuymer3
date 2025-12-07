@@ -120,7 +120,7 @@ def create_map_of_points(
         change the name of the output debugging CSVs
     ramLimit : int, optional
         the maximum RAM usage of each "large" array (in bytes)
-    regrid_shape: int, optional
+    regrid_shape: int or tuple of int, optional
         The smallest dimension of the image, or the merged image of all of the
         tiles, **after** it has been warped by Cartopy to be the same projection
         as the figure (in pixels). Due to the use of **kwargs within Cartopy,
