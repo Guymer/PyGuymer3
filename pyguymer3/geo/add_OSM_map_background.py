@@ -32,14 +32,14 @@ def add_OSM_map_background(
         image on the figure. Due to the use of **kwargs within Cartopy, this is
         passed all the way down the stack to the MatPlotLib ".imshow()" call.
     regrid_shape: int, optional
-        The smallest dimension of the image **after** all the tiles have been
-        merged and it has been warped by Cartopy to be the same projection as
-        the figure (in pixels). Due to the use of **kwargs within Cartopy, this
-        is passed all the way down the stack to the Cartopy ".imshow()" call.
-        The size of a figure, in inches, can be found by calling
-        "fg.get_size_inches()". The resolution of a figure can be found by
-        interrogating "fg.dpi". The size of a figure, in pixels, can be found by
-        multiplying the tuple by the scalar.
+        The smallest dimension of the merged image of all of the tiles **after**
+        it has been warped by Cartopy to be the same projection as the figure
+        (in pixels). Due to the use of **kwargs within Cartopy, this is passed
+        all the way down the stack to the Cartopy ".imshow()" call. The size of
+        a figure, in inches, can be found by calling "fg.get_size_inches()". The
+        resolution of a figure can be found by interrogating "fg.dpi". The size
+        of a figure, in pixels, can be found by multiplying the tuple by the
+        scalar.
     resample : bool, optional
         Use a full resampling method when drawing the final merged and warped
         image on the figure. Due to the use of **kwargs within Cartopy, this is
