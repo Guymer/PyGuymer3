@@ -323,11 +323,9 @@ if __name__ == "__main__":
                         bottom,
                         top,
                     ],
-                    interpolation = "none",
-                           origin = "upper",
-                         resample = False,
-                        transform = cartopy.crs.PlateCarree(),
-                           zorder = 1.5,
+                       origin = "upper",
+                    transform = cartopy.crs.PlateCarree(),
+                       zorder = 1.5,
                 )
 
         # Configure axis ...
