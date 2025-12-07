@@ -280,6 +280,9 @@ def create_map_of_points(
                     repair = repair,
                        tol = tol,
         )
+
+        # Create short-hand ...
+        midLat = 0.0                                                            # [°]
     else:
         # If the user asked for a Euclidean method then the padding distance
         # needs converting from metres in to degrees ...
@@ -416,16 +419,19 @@ def create_map_of_points(
             # Check if the points are so widely spread that the map has to have
             # global extent to show them all ...
             if maxDistQuick > 90.0:
-                # Create short-hand ...
-                midLat = 0.0                                                    # [°]
-
-                # Calculate the resolution depending on the half-height of the
-                # figure and the size of Earth ...
-                res = 0.5 * CIRCUMFERENCE_OF_EARTH / (fg.get_size_inches()[1] * fg.get_dpi())   # [m/px]
+                # Calculate the resolution depending on the half-width, or
+                # the half-height, of the figure and the size of Earth ...
+                res = min(
+                    CIRCUMFERENCE_OF_EARTH / (fg.get_size_inches()[0] * fg.get_dpi()),
+                    0.5 * CIRCUMFERENCE_OF_EARTH / (fg.get_size_inches()[1] * fg.get_dpi()),
+                )                                                               # [m/px]
             else:
-                # Calculate the resolution depending on the half-height of the
-                # figure and the resolution of the figure ...
-                res = 2.0 * maxDist / (fg.get_size_inches()[1] * fg.get_dpi())  # [m/px]
+                # Calculate the resolution depending on the half-width, or
+                # the half-height, of the figure and the maximum distance ...
+                res = min(
+                    2.0 * maxDist / (fg.get_size_inches()[0] * fg.get_dpi()),
+                    2.0 * maxDist / (fg.get_size_inches()[1] * fg.get_dpi()),
+                )                                                               # [m/px]
 
             # Add OpenStreetMap background ...
             add_OSM_map_background(
