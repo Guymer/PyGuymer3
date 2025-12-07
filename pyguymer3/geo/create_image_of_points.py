@@ -4,7 +4,7 @@
 def create_image_of_points(
     pntLons,
     pntLats,
-    zoom,
+    z,
     sess,
     pngOut,
     /,
@@ -54,7 +54,7 @@ def create_image_of_points(
         the sequence of longitudes
     pntLats : numpy.ndarray
         the sequence of latitudes
-    zoom : int
+    z : int
         the OpenStreetMap zoom level
     sess : requests.Session
         the session for any requests calls
@@ -185,7 +185,7 @@ def create_image_of_points(
     # **************************************************************************
 
     # Create short-hands ...
-    n = pow(2, zoom)
+    n = pow(2, z)
 
     # Create a [Multi]Point from the lists of longitudes and latitudes ...
     pntsLonLat = []
@@ -270,7 +270,7 @@ def create_image_of_points(
     img = tiles(
         midLon,
         midLat,
-        zoom,
+        z,
         imgWidth,
         imgHeight,
         sess,
