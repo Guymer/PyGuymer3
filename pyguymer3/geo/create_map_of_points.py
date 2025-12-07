@@ -30,7 +30,6 @@ def create_map_of_points(
              padDist = 12.0 * 1852.0,
               prefix = ".",
             ramLimit = 1073741824,
-        regrid_shape = 750,
               repair = False,
             resample = None,
           resolution = "10m",
@@ -121,15 +120,6 @@ def create_map_of_points(
         change the name of the output debugging CSVs
     ramLimit : int, optional
         the maximum RAM usage of each "large" array (in bytes)
-    regrid_shape: int or tuple of int, optional
-        The smallest dimension of the image, or the merged image of all of the
-        tiles, **after** it has been warped by Cartopy to be the same projection
-        as the figure (in pixels). Due to the use of **kwargs within Cartopy,
-        this is passed all the way down the stack to the Cartopy ".imshow()"
-        call. The size of a figure, in inches, can be found by calling
-        "fg.get_size_inches()". The resolution of a figure can be found by
-        calling "fg.get_dpi()". The size of a figure, in pixels, can be found by
-        multiplying the tuple by the scalar.
     repair : bool, optional
         attempt to repair invalid Polygons
     resample : bool, optional
@@ -236,6 +226,16 @@ def create_map_of_points(
 
     # Create figure ...
     fg = matplotlib.pyplot.figure(figsize = (7.2, 7.2))
+
+    # Calculate the regrid shape based off the resolution and the size of the
+    # figure, as well as a safety factor (remembering Nyquist) ...
+    regrid_shape = (
+        round(2.0 * fg.get_size_inches()[0] * fg.get_dpi()),
+        round(2.0 * fg.get_size_inches()[1] * fg.get_dpi()),
+    )                                                                           # [px], [px]
+
+    if debug:
+        print(f"INFO: The final image will be scaled to {regrid_shape[0]:,d} px × {regrid_shape[1]:,d} px.")
 
     # **************************************************************************
 
