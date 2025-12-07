@@ -223,7 +223,7 @@ def create_map_of_points(
     from .extract_lines import extract_lines
     from .find_middle_of_locs import find_middle_of_locs
     from .great_circle import great_circle
-    from .._consts import RESOLUTION_OF_EARTH
+    from .._consts import CIRCUMFERENCE_OF_EARTH, RESOLUTION_OF_EARTH
     from ..image import optimise_image
 
     # **************************************************************************
@@ -413,9 +413,19 @@ def create_map_of_points(
             # Don't add any background ...
             pass
         case "OSM":
-            # Calculate the resolution depending on the half-height of the
-            # figure and the resolution of the figure ...
-            res = maxDist / (0.5 * fg.get_size_inches()[1] * fg.get_dpi())      # [m/px]
+            # Check if the points are so widely spread that the map has to have
+            # global extent to show them all ...
+            if maxDistQuick > 90.0:
+                # Create short-hand ...
+                midLat = 0.0                                                    # [°]
+
+                # Calculate the resolution depending on the half-height of the
+                # figure and the size of Earth ...
+                res = 0.5 * CIRCUMFERENCE_OF_EARTH / (fg.get_size_inches()[1] * fg.get_dpi())   # [m/px]
+            else:
+                # Calculate the resolution depending on the half-height of the
+                # figure and the resolution of the figure ...
+                res = 2.0 * maxDist / (fg.get_size_inches()[1] * fg.get_dpi())  # [m/px]
 
             # Add OpenStreetMap background ...
             add_OSM_map_background(
