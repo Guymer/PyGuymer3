@@ -18,7 +18,7 @@ def create_map_of_points(
            fillColor = (255.0 / 255.0,   0.0 / 255.0,   0.0 / 255.0),
                  fov = None,
         gifsiclePath = None,
-       interpolation = "auto",
+       interpolation = None,
         jpegtranPath = None,
               method = "GeodesicBox",
                 name = "natural-earth-1",
@@ -32,6 +32,7 @@ def create_map_of_points(
             ramLimit = 1073741824,
         regrid_shape = 750,
               repair = False,
+            resample = None,
           resolution = "10m",
                route = None,
       routeFillColor = (  0.0 / 255.0, 128.0 / 255.0,   0.0 / 255.0),
@@ -39,6 +40,8 @@ def create_map_of_points(
                scale = 1,
        skipFillColor = (255.0 / 255.0, 165.0 / 255.0,   0.0 / 255.0),
                skips = None,
+    thunderforestKey = None,
+    thunderforestMap = "atlas",
              timeout = 60.0,
                title = None,
                  tol = 1.0e-10,
@@ -87,8 +90,10 @@ def create_map_of_points(
         the path to the "gifsicle" binary (if not provided then Python will attempt to
         find the binary itself)
     interpolation : str, optional
-        The interpolation method used when drawing the final merged and warped
-        image on the figure.
+        The interpolation method used when drawing the final warped image, or
+        the final merged and warped image, on the figure. Due to the use of
+        **kwargs within Cartopy, this is passed all the way down the stack to
+        the MatPlotLib ".imshow()" call.
     jpegtranPath : str, optional
         the path to the "jpegtran" binary (if not provided then Python will attempt to
         find the binary itself)
@@ -116,11 +121,21 @@ def create_map_of_points(
     ramLimit : int, optional
         the maximum RAM usage of each "large" array (in bytes)
     regrid_shape: int, optional
-        The smallest dimension of the merged image of all of the tiles **after**
-        it has been warped by Cartopy to be the same projection as the figure
-        (in pixels)
+        The smallest dimension of the image, or the merged image of all of the
+        tiles, **after** it has been warped by Cartopy to be the same projection
+        as the figure (in pixels). Due to the use of **kwargs within Cartopy,
+        this is passed all the way down the stack to the Cartopy ".imshow()"
+        call. The size of a figure, in inches, can be found by calling
+        "fg.get_size_inches()". The resolution of a figure can be found by
+        interrogating "fg.dpi". The size of a figure, in pixels, can be found by
+        multiplying the tuple by the scalar.
     repair : bool, optional
         attempt to repair invalid Polygons
+    resample : bool, optional
+        Use a full resampling method when drawing the final warped image, or
+        the final merged and warped image, on the figure. Due to the use of
+        **kwargs within Cartopy, this is passed all the way down the stack to
+        the MatPlotLib ".imshow()" call.
     resolution : str, optional
         the resolution of the image or NE dataset or GSHHG dataset
     route : shapely.geometry.linestring.LineString, optional
@@ -139,6 +154,11 @@ def create_map_of_points(
         point from calculating the image's field-of-view (this allows the great
         circles from flights to be drawn but for them to not expand the image to
         fit in the departing airport); if not provided then all points are used
+    thunderforestKey : str, optional
+        your personal API key for the Thunderforest service (if provided then it
+        is assumed that you want to use the Thunderforest service)
+    thunderforestMap : str, optional
+        the Thunderforest map style (see https://www.thunderforest.com/maps/)
     timeout : float, optional
         the timeout for any requests/subprocess calls (in seconds)
     title : str, optional
@@ -360,10 +380,13 @@ def create_map_of_points(
             # Add image background ...
             add_map_background(
                 ax,
-                     debug = debug,
-                    extent = extent,
-                      name = name,
-                resolution = resolution,
+                        debug = debug,
+                       extent = extent,
+                interpolation = interpolation,
+                         name = name,
+                 regrid_shape = regrid_shape,
+                     resample = resample,
+                   resolution = resolution,
             )
         case "NE":
             # Add NE background ...
@@ -394,10 +417,13 @@ def create_map_of_points(
                 ax,
                 midLat,
                 res,
-                        debug = debug,
-                interpolation = interpolation,
-                 regrid_shape = regrid_shape,
-                        scale = scale,
+                           debug = debug,
+                   interpolation = interpolation,
+                    regrid_shape = regrid_shape,
+                        resample = resample,
+                           scale = scale,
+                thunderforestKey = thunderforestKey,
+                thunderforestMap = thunderforestMap,
             )
         case _:
             # Crash ...
