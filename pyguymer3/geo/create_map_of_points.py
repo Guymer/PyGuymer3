@@ -127,7 +127,7 @@ def create_map_of_points(
         this is passed all the way down the stack to the Cartopy ".imshow()"
         call. The size of a figure, in inches, can be found by calling
         "fg.get_size_inches()". The resolution of a figure can be found by
-        interrogating "fg.dpi". The size of a figure, in pixels, can be found by
+        calling "fg.get_dpi()". The size of a figure, in pixels, can be found by
         multiplying the tuple by the scalar.
     repair : bool, optional
         attempt to repair invalid Polygons

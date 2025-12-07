@@ -36,7 +36,7 @@ def add_map_background(
         use of **kwargs within Cartopy, this is passed all the way down the
         stack to the Cartopy ".imshow()" call. The size of a figure, in inches,
         can be found by calling "fg.get_size_inches()". The resolution of a
-        figure can be found by interrogating "fg.dpi". The size of a figure, in
+        figure can be found by calling "fg.get_dpi()". The size of a figure, in
         pixels, can be found by multiplying the tuple by the scalar.
     resample : bool, optional
         Use a full resampling method when drawing the final warped image on the
