@@ -14,6 +14,7 @@ def add_OSM_map_background(
                scale = 1,
     thunderforestKey = None,
     thunderforestMap = "atlas",
+                   z = None,
 ):
     """Add OpenStreetMap map tiles as a background to a Cartopy axis.
 
@@ -51,6 +52,8 @@ def add_OSM_map_background(
         is assumed that you want to use the Thunderforest service)
     thunderforestMap : str, optional
         the Thunderforest map style (see https://www.thunderforest.com/maps/)
+    z : int
+        the OpenStreetMap zoom level
 
     Notes
     -----
@@ -83,7 +86,8 @@ def add_OSM_map_background(
 
     # Calculate the zoom depending on the central latitude and the resolution of
     # the figure ...
-    z = zoom(midLat, res, scale = scale)
+    if z is None:
+        z = zoom(midLat, res, scale = scale)
     if debug:
         print(f"INFO: The resolution is {res:,.1f} m/px and the OpenStreetMap zoom is {z:d}.")
 
