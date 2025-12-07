@@ -412,7 +412,7 @@ def create_map_of_points(
         case "OSM":
             # Calculate the resolution depending on the half-height of the
             # figure and the resolution of the figure ...
-            res = maxDist / (0.5 * fg.get_size_inches()[1] * fg.dpi)            # [m/px]
+            res = maxDist / (0.5 * fg.get_size_inches()[1] * fg.get_dpi())      # [m/px]
 
             # Add OpenStreetMap background ...
             add_OSM_map_background(
