@@ -46,6 +46,7 @@ def create_map_of_points(
                title = None,
                  tol = 1.0e-10,
             useSciPy = False,
+                   z = None,
 ):
     """Save a PNG map of a sequence of points
 
@@ -168,6 +169,8 @@ def create_map_of_points(
         degrees)
     useSciPy : bool, optional
         use "scipy.optimize.minimize" or my own minimizer
+    z : int, optional
+        the OpenStreetMap zoom level
 
     Notes
     -----
@@ -426,6 +429,7 @@ def create_map_of_points(
                            scale = scale,
                 thunderforestKey = thunderforestKey,
                 thunderforestMap = thunderforestMap,
+                               z = z,
             )
         case _:
             # Crash ...

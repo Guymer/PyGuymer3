@@ -52,7 +52,7 @@ def add_OSM_map_background(
         is assumed that you want to use the Thunderforest service)
     thunderforestMap : str, optional
         the Thunderforest map style (see https://www.thunderforest.com/maps/)
-    z : int
+    z : int, optional
         the OpenStreetMap zoom level
 
     Notes
