@@ -228,7 +228,7 @@ def create_map_of_points(
     fg = matplotlib.pyplot.figure(figsize = (7.2, 7.2))
 
     # Calculate the regrid shape based off the resolution and the size of the
-    # figure, as well as a safety factor (remembering Nyquist) ...
+    # figure, as well as a safety factor of 2 (remembering Nyquist) ...
     regrid_shape = (
         round(2.0 * fg.get_size_inches()[0] * fg.get_dpi()),
         round(2.0 * fg.get_size_inches()[1] * fg.get_dpi()),
