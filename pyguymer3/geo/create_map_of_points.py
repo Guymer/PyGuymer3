@@ -18,7 +18,7 @@ def create_map_of_points(
            fillColor = (255.0 / 255.0,   0.0 / 255.0,   0.0 / 255.0),
                  fov = None,
         gifsiclePath = None,
-       interpolation = None,
+       interpolation = "none",
         jpegtranPath = None,
               method = "GeodesicBox",
                 name = "natural-earth-1",
@@ -31,7 +31,7 @@ def create_map_of_points(
               prefix = ".",
             ramLimit = 1073741824,
               repair = False,
-            resample = None,
+            resample = False,
           resolution = "10m",
                route = None,
       routeFillColor = (  0.0 / 255.0, 128.0 / 255.0,   0.0 / 255.0),
@@ -164,6 +164,11 @@ def create_map_of_points(
 
     Notes
     -----
+    See the `MatPlotLib documentation about interpolation methods
+    <https://matplotlib.org/stable/gallery/images_contours_and_fields/interpolation_methods.html>`_
+    and the `MatPlotLib documentation about anti-aliasing
+    <https://matplotlib.org/stable/gallery/images_contours_and_fields/image_antialiasing.html>`_.
+
     Copyright 2017 Thomas Guymer [1]_
 
     References

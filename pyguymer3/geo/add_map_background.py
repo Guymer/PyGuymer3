@@ -7,10 +7,10 @@ def add_map_background(
     *,
             debug = __debug__,
            extent = None,
-    interpolation = None,
+    interpolation = "none",
              name = "natural-earth-1",
      regrid_shape = 750,
-         resample = None,
+         resample = False,
        resolution = "medium0512px",
 ):
     """Add an image of a map as a background to a Cartopy axis.
@@ -52,6 +52,11 @@ def add_map_background(
     <https://scitools.org.uk/cartopy/docs/latest/matplotlib/geoaxes.html#cartopy.mpl.geoaxes.GeoAxes.background_img>`_
     and the `Cartopy documentation of stock_img()
     <https://scitools.org.uk/cartopy/docs/latest/matplotlib/geoaxes.html#cartopy.mpl.geoaxes.GeoAxes.stock_img>`_ .
+
+    See the `MatPlotLib documentation about interpolation methods
+    <https://matplotlib.org/stable/gallery/images_contours_and_fields/interpolation_methods.html>`_
+    and the `MatPlotLib documentation about anti-aliasing
+    <https://matplotlib.org/stable/gallery/images_contours_and_fields/image_antialiasing.html>`_.
 
     Copyright 2017 Thomas Guymer [1]_
 

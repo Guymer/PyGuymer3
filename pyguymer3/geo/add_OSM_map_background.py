@@ -8,9 +8,9 @@ def add_OSM_map_background(
     /,
     *,
                debug = __debug__,
-       interpolation = None,
+       interpolation = "none",
         regrid_shape = 750,
-            resample = None,
+            resample = False,
                scale = 1,
     thunderforestKey = None,
     thunderforestMap = "atlas",
@@ -57,6 +57,11 @@ def add_OSM_map_background(
 
     Notes
     -----
+    See the `MatPlotLib documentation about interpolation methods
+    <https://matplotlib.org/stable/gallery/images_contours_and_fields/interpolation_methods.html>`_
+    and the `MatPlotLib documentation about anti-aliasing
+    <https://matplotlib.org/stable/gallery/images_contours_and_fields/image_antialiasing.html>`_.
+
     Copyright 2017 Thomas Guymer [1]_
 
     References
