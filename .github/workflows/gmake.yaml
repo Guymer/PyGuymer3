@@ -32,7 +32,6 @@ jobs:
                     pip install -r main/requirements.txt
                     pip install -r main/docs/requirements.txt
                     pip install -r main/pyguymer3/f90/fortranlib/requirements.txt
-                    pip install git+https://github.com/VACUMM/sphinx-fortran.git@master
             -
                 name: List programs
                 run: |
