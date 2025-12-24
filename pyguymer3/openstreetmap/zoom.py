@@ -6,10 +6,14 @@ def zoom(
     res,
     /,
     *,
+     ceil = True,
+    floor = False,
     scale = 1,
 ):
     """
-    Calculate the required zoom to achieve a given resolution in the centre of a tile at a given latitude.
+    Calculate the required zoom to achieve a given resolution in the centre of a
+    tile at a given latitude. If both ``ceil`` and ``floor`` are ``False`` then
+    return the floating-point answer instead of an integer.
 
     Parameters
     ----------
@@ -17,12 +21,16 @@ def zoom(
         the latitude (in degrees)
     res : float
         the resolution (in metres/pixel)
+    ceil : bool, optional
+        convert the floating-point answer to an integer using ``math.ceil()``
+    floor : bool, optional
+        convert the floating-point answer to an integer using ``math.floor()``
     scale : int, optional
         the scale of the tile
 
     Returns
     -------
-    zoomOfEarth : int
+    zoomOfEarth : int or float
         the zoom
 
     Notes
@@ -50,4 +58,8 @@ def zoom(
     zoomOfEarth = math.log2(CIRCUMFERENCE_OF_EARTH * math.cos(lat_rad) / (float(tileSize) * res))
 
     # Return answer ...
-    return round(math.ceil(zoomOfEarth))
+    if ceil:
+        return round(math.ceil(zoomOfEarth))
+    if floor:
+        return round(math.floor(zoomOfEarth))
+    return zoomOfEarth
