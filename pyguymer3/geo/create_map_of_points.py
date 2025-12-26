@@ -235,8 +235,8 @@ def create_map_of_points(
     # Calculate the regrid shape based off the resolution and the size of the
     # figure, as well as a safety factor of 2 (remembering Nyquist) ...
     regrid_shape = (
-        round(2.0 * fg.get_size_inches()[0] * fg.get_dpi()),
-        round(2.0 * fg.get_size_inches()[1] * fg.get_dpi()),
+        round(2.0 * fg.get_figwidth() * fg.get_dpi()),
+        round(2.0 * fg.get_figheight() * fg.get_dpi()),
     )                                                                           # [px], [px]
 
     if debug:
@@ -427,15 +427,15 @@ def create_map_of_points(
                 # Calculate the resolution depending on the half-width, or
                 # the half-height, of the figure and the size of Earth ...
                 res = min(
-                    CIRCUMFERENCE_OF_EARTH / (fg.get_size_inches()[0] * fg.get_dpi()),
-                    0.5 * CIRCUMFERENCE_OF_EARTH / (fg.get_size_inches()[1] * fg.get_dpi()),
+                    CIRCUMFERENCE_OF_EARTH / (fg.get_figwidth() * fg.get_dpi()),
+                    0.5 * CIRCUMFERENCE_OF_EARTH / (fg.get_figheight() * fg.get_dpi()),
                 )                                                               # [m/px]
             else:
                 # Calculate the resolution depending on the half-width, or
                 # the half-height, of the figure and the maximum distance ...
                 res = min(
-                    2.0 * maxDist / (fg.get_size_inches()[0] * fg.get_dpi()),
-                    2.0 * maxDist / (fg.get_size_inches()[1] * fg.get_dpi()),
+                    2.0 * maxDist / (fg.get_figwidth() * fg.get_dpi()),
+                    2.0 * maxDist / (fg.get_figheight() * fg.get_dpi()),
                 )                                                               # [m/px]
 
             # Add OpenStreetMap background ...
