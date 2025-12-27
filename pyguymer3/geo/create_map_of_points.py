@@ -9,6 +9,7 @@ def create_map_of_points(
     *,
              angConv = 0.1,
           background = "NE",
+                ceil = True,
            chunksize = 1048576,
                 conv = 1.0e3,
                debug = __debug__,
@@ -16,6 +17,7 @@ def create_map_of_points(
         exiftoolPath = None,
               extent = None,
            fillColor = (255.0 / 255.0,   0.0 / 255.0,   0.0 / 255.0),
+               floor = False,
                  fov = None,
         gifsiclePath = None,
        interpolation = "none",
@@ -65,6 +67,9 @@ def create_map_of_points(
     background : str, optional
         the type of background to add (recognised values are: "GSHHG"; "image";
         "NE"; "none"; and "OSM")
+    ceil : bool, optional
+        When calculating the tile zoom level from the resolution of the figure
+        convert the floating-point answer to an integer using ``math.ceil()``.
     chunksize : int, optional
         the size of the chunks of any files which are read in (in bytes)
     conv : float, optional
@@ -82,6 +87,9 @@ def create_map_of_points(
         to be added
     fillColor : tuple of int, optional
         the fill colour of the points
+    floor : bool, optional
+        When calculating the tile zoom level from the resolution of the figure
+        convert the floating-point answer to an integer using ``math.floor()``.
     fov : None or shapely.geometry.polygon.Polygon, optional
         clip the plotted shapes to the provided field-of-view to work around
         occaisional MatPlotLib or Cartopy plotting errors when shapes much
@@ -443,7 +451,9 @@ def create_map_of_points(
                 ax,
                 midLat,
                 res,
+                            ceil = ceil,
                            debug = debug,
+                           floor = floor,
                    interpolation = interpolation,
                     regrid_shape = regrid_shape,
                         resample = resample,

@@ -7,7 +7,9 @@ def add_OSM_map_background(
     res,
     /,
     *,
+                ceil = True,
                debug = __debug__,
+               floor = False,
        interpolation = "none",
         regrid_shape = 750,
             resample = False,
@@ -26,8 +28,14 @@ def add_OSM_map_background(
         the latitude of the middle of the figure (in degrees)
     res : float
         the resolution of the figure (in m/px)
+    ceil : bool, optional
+        When calculating the tile zoom level from the resolution of the figure
+        convert the floating-point answer to an integer using ``math.ceil()``.
     debug : bool, optional
-        print debug statements
+        print debug messages
+    floor : bool, optional
+        When calculating the tile zoom level from the resolution of the figure
+        convert the floating-point answer to an integer using ``math.floor()``.
     interpolation : str, optional
         The interpolation method used when drawing the final merged and warped
         image on the figure. Due to the use of **kwargs within Cartopy, this is
@@ -92,7 +100,13 @@ def add_OSM_map_background(
     # Calculate the zoom depending on the central latitude and the resolution of
     # the figure ...
     if z is None:
-        z = zoom(midLat, res, scale = scale)
+        z = zoom(
+            midLat,
+            res,
+             ceil = ceil,
+            floor = floor,
+            scale = scale,
+        )
     if debug:
         print(f"INFO: The resolution is {res:,.1f} m/px and the OpenStreetMap zoom is {z:d}.")
 
