@@ -34,7 +34,7 @@ def images2gif(
     chunksize : int, optional
         the size of the chunks of any files which are read in (in bytes)
     debug : bool, optional
-        print debug messages (default False)
+        print debug messages
     exiftoolPath : str, optional
         the path to the "exiftool" binary (if not provided then Python will attempt to
         find the binary itself)

@@ -33,7 +33,7 @@ def great_circle(
     lat2 : float
         the latitude of the second coordinate (in degrees)
     debug : bool, optional
-        print debug messages (in metres)
+        print debug messages
     eps : float, optional
         the tolerance of the Vincenty formula iterations
     maxdist : float, optional

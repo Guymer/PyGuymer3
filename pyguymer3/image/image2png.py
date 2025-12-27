@@ -34,7 +34,7 @@ def image2png(
     chunksize : int, optional
         the size of the chunks of any files which are read in (in bytes)
     debug : bool, optional
-        print debug messages (default False)
+        print debug messages
     exif : dict, optional
         a dictionary of EXIF data to save in the output PNG (default None)
     exiftoolPath : str, optional
