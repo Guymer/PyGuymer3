@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 # Import standard modules ...
-import glob
 import json
 import math
 import os
