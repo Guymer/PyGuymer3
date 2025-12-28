@@ -319,6 +319,9 @@ if __name__ == "__main__":
                 print(f"  Drawing \"{tName}\" ...")
 
                 # Draw tile ...
+                # NOTE: I am explicitly setting the regrid shape based off the
+                #       size of the tile, as well as a safety factor
+                #       (remembering Nyquist).
                 # NOTE: As of 5/Dec/2023, the default "zorder" of the gridlines
                 #       is 2.0.
                 # NOTE: There is an off-by-one error in Cartopy somewhere ... I
@@ -332,9 +335,12 @@ if __name__ == "__main__":
                         bottom,
                         top,
                     ],
-                       origin = "upper",
-                    transform = cartopy.crs.PlateCarree(),
-                       zorder = 1.5,
+                    interpolation = "gaussian",
+                           origin = "upper",
+                     regrid_shape = (600, 600),
+                         resample = False,
+                        transform = cartopy.crs.PlateCarree(),
+                           zorder = 1.5,
                 )
 
         # Configure axis ...
