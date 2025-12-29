@@ -74,11 +74,9 @@ if __name__ == "__main__":
     for iy in range(tileSize // blockSize):
         for ix in range(tileSize // blockSize):
             # Set block colour ...
-            color = None
+            color = (0, 0, 0)
             if iy % 2 == ix % 2:
                 color = (255, 0, 255)
-            else:
-                color = (0, 0, 0)
 
             # Fill in block ...
             tile.paste(
