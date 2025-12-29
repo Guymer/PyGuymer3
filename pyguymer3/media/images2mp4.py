@@ -276,7 +276,9 @@ def images2mp4(
         "-map_chapters", "-1",
         "-map_metadata", "-1",
         "-metadata", f"comment=Converted to a {form.upper()} using ffmpeg (version {find_program_version(ffmpeg, pkgPath = pkgPath, portPath = portPath, timeout = timeout, zypperPath = zypperPath)}) which used libx264 (version {find_program_version(libx264, pkgPath = pkgPath, portPath = portPath, timeout = timeout, zypperPath = zypperPath)}) using a CRF of {crf:.1f} for libx264 (which adhered to the {profile} profile and level {level}).",
-        "-threads", f"{max(1, (os.cpu_count() or 1) - 1):d}",
+        "-threads", f"{os.cpu_count() - 1:d}",  # TODO: Once I ditch Python 3.11 and
+                                        #       Python 3.12 then I can use
+                                        #       "os.process_cpu_count()" instead.
         f"{tmpname}/video.mp4",
     ]
     if debug:

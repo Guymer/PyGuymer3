@@ -79,7 +79,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--number-of-children",
-        default = os.cpu_count(),       # TODO: Once I ditch Python 3.11 and
+        default = os.cpu_count() - 1,   # TODO: Once I ditch Python 3.11 and
                                         #       Python 3.12 then I can use
                                         #       "os.process_cpu_count()" instead.
            dest = "nChild",
@@ -102,6 +102,12 @@ if __name__ == "__main__":
            help = "the resolutions of the GSHHG datasets",
           nargs = "+",
            type = str,
+    )
+    parser.add_argument(
+        "--timeout",
+        default = 60.0,
+           help = "the timeout for any requests/subprocess calls (in seconds)",
+           type = float,
     )
     args = parser.parse_args()
 

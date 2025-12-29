@@ -139,7 +139,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--number-of-children",
-        default = os.cpu_count(),       # TODO: Once I ditch Python 3.11 and
+        default = os.cpu_count() - 1,   # TODO: Once I ditch Python 3.11 and
                                         #       Python 3.12 then I can use
                                         #       "os.process_cpu_count()" instead.
            dest = "nChild",
