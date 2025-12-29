@@ -278,11 +278,10 @@ if __name__ == "__main__":
             fg,
             ax,
             fov,
-                     debug = args.debug,
-                      grid = grid,
-                   maxElev = args.maxElev,
-            mergedTileName = f"{dName}/{grid}_mergedTile.png",
-                   timeout = args.timeout,
+              debug = args.debug,
+               grid = grid,
+            maxElev = args.maxElev,
+            timeout = args.timeout,
         )
 
         # Configure axis ...
