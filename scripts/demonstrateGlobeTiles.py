@@ -157,6 +157,14 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
+    # Create short-hand ...
+    # NOTE: See "pyguymer3/data/png/README.md".
+    tileSize = 300                                                              # [px]
+
+    # **************************************************************************
+
+    print("Finding the United Kingdom mainland ...")
+
     # Find the Polygon within the United Kingdom which has the largest Euclidean
     # area ...
     polys = []
@@ -188,6 +196,8 @@ if __name__ == "__main__":
     del uk
 
     # **************************************************************************
+
+    print("Finding the centre of the United Kingdom mainland ...")
 
     # Calculate the Geodesic bounding circle ...
     midLon, midLat, maxDist = pyguymer3.geo.find_middle_of_locs(
