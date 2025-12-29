@@ -254,10 +254,7 @@ if __name__ == "__main__":
     ]:
         print(f"Processing {grid} ...")
 
-        # Create short-hands and append PNG name ...
-        nx, ny = grid.split("x")
-        nx = int(nx)                                                            # [#]
-        ny = int(ny)                                                            # [#]
+        # Create short-hand and append PNG name ...
         pName = f"{dName}/{grid}.png"
         pNames.append(pName)
 
@@ -284,65 +281,17 @@ if __name__ == "__main__":
                               tol = args.tol,
         )
 
-        # Loop over tiles ...
-        for ix in range(nx):
-            for iy in range(ny):
-                # Create short-hand and skip if this tile does not exist ...
-                tName = f"{args.absPathToRepo}/pyguymer3/data/png/gshhg/{nx:d}x{ny:d}/res={args.gshhgRes}/x={ix:d}/y={iy:d}.png"
-                if not os.path.exists(tName):
-                    continue
-
-                # Create short-hands ...
-                left   = -180.0 + 360.0 * float(ix    ) / float(nx)             # [°]
-                right  = -180.0 + 360.0 * float(ix + 1) / float(nx)             # [°]
-                bottom =  +90.0 - 180.0 * float(iy + 1) / float(ny)             # [°]
-                top    =  +90.0 - 180.0 * float(iy    ) / float(ny)             # [°]
-
-                # Make a correctly oriented Polygon of the border of the tile
-                # and skip this tile if it does not overlap with the
-                # field-of-view ...
-                tile = shapely.geometry.polygon.orient(
-                    shapely.geometry.polygon.Polygon(
-                        shapely.geometry.polygon.LinearRing(
-                            [
-                                (left , top   ),
-                                (right, top   ),
-                                (right, bottom),
-                                (left , bottom),
-                                (left , top   ),
-                            ]
-                        )
-                    )
-                )
-                if tile.disjoint(fov):
-                    continue
-
-                print(f"  Drawing \"{tName}\" ...")
-
-                # Draw tile ...
-                # NOTE: I am explicitly setting the regrid shape based off the
-                #       size of the tile, as well as a safety factor
-                #       (remembering Nyquist).
-                # NOTE: As of 5/Dec/2023, the default "zorder" of the gridlines
-                #       is 2.0.
-                # NOTE: There is an off-by-one error in Cartopy somewhere ... I
-                #       *think* that "cartopy.img_transform.mesh_projection()"
-                #       shrinks the array by half a pixel at both ends.
-                ax.imshow(
-                    matplotlib.image.imread(tName),
-                           extent = [
-                        left,
-                        right,
-                        bottom,
-                        top,
-                    ],
-                    interpolation = "gaussian",
-                           origin = "upper",
-                     regrid_shape = (600, 600),
-                         resample = False,
-                        transform = cartopy.crs.PlateCarree(),
-                           zorder = 1.5,
-                )
+        # Add GSHHG tiles ...
+        pyguymer3.geo.add_GSHHG_tiles(
+            fg,
+            ax,
+            fov,
+                     debug = args.debug,
+                      grid = grid,
+            mergedTileName = f"{dName}/{grid}_mergedTile.png",
+                resolution = args.gshhgRes,
+                   timeout = args.timeout,
+        )
 
         # Configure axis ...
         ax.set_title(grid)
