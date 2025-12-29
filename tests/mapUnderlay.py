@@ -3,7 +3,7 @@
 # Use the proper idiom in the main module ...
 # NOTE: See https://docs.python.org/3.12/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
 if __name__ == "__main__":
-    # This is a test suite for “geo.add_NE_map_underlay()”.
+    # This is a test suite for “geo.add_NE_map()”.
 
     # Import standard modules ...
     import argparse
@@ -133,7 +133,7 @@ if __name__ == "__main__":
 
         # Configure axis ...
         ax.set_title(resolution)
-        pyguymer3.geo.add_NE_map_underlay(
+        pyguymer3.geo.add_NE_map(
             ax,
               cultural = False,
                  debug = args.debug,
@@ -192,7 +192,7 @@ if __name__ == "__main__":
 
         # Configure axis ...
         ax.set_title(resolution)
-        pyguymer3.geo.add_NE_map_underlay(
+        pyguymer3.geo.add_NE_map(
             ax,
               cultural = False,
                  debug = args.debug,
@@ -251,7 +251,7 @@ if __name__ == "__main__":
 
         # Configure axis ...
         ax.set_title(resolution)
-        pyguymer3.geo.add_NE_map_underlay(
+        pyguymer3.geo.add_NE_map(
             ax,
               cultural = True,
                  debug = args.debug,
@@ -310,7 +310,7 @@ if __name__ == "__main__":
 
         # Configure axis ...
         ax.set_title(resolution)
-        pyguymer3.geo.add_NE_map_underlay(
+        pyguymer3.geo.add_NE_map(
             ax,
               cultural = True,
                  debug = args.debug,
