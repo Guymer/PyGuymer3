@@ -165,7 +165,7 @@ if __name__ == "__main__":
                 # Create axis ...
                 ax = pyguymer3.geo.add_axis(
                     fg,
-                        add_coastlines = False,             # NOTE: Do not draw coastlines so that changes in GSHGG do not change the image.
+                        add_coastlines = False,             # NOTE: Do not draw coastlines so that changes in GSHHG do not change the image.
                          add_gridlines = True,
                                  debug = args.debug,
                                    eps = args.eps,
