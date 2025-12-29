@@ -226,4 +226,4 @@ if __name__ == "__main__":
             totSize = globeSize + gshhgSize + neSize + osTerrainSize            # [B]
 
             # Write data ...
-            fObj.write(f"{n:d},{float(globeSize) / (1024.0 * 1024.0):.1f},{float(gshhgSize) / (1024.0 * 1024.0):.1f},{float(neSize) / (1024.0 * 1024.0):.1f},{float(osTerrainSize) / (1024.0 * 1024.0):.1f},{float(totSize) / (1024.0 * 1024.0):.1f}\n")
+            fObj.write(f"{n:d},{float(globeSize) / (1024.0 * 1024.0):.3f},{float(gshhgSize) / (1024.0 * 1024.0):.3f},{float(neSize) / (1024.0 * 1024.0):.3f},{float(osTerrainSize) / (1024.0 * 1024.0):.3f},{float(totSize) / (1024.0 * 1024.0):.3f}\n")
