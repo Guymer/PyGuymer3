@@ -219,10 +219,10 @@ def create_map_of_points(
 
     # Import sub-functions ...
     from .add_axis import add_axis
-    from .add_GSHHG_map_underlay import add_GSHHG_map_underlay
+    from .add_Cartopy_tiles import add_Cartopy_tiles
+    from .add_GSHHG_map import add_GSHHG_map
     from .add_map_background import add_map_background
-    from .add_NE_map_underlay import add_NE_map_underlay
-    from .add_OSM_map_background import add_OSM_map_background
+    from .add_NE_map import add_NE_map
     from .extract_lines import extract_lines
     from .find_middle_of_locs import find_middle_of_locs
     from .great_circle import great_circle
@@ -382,7 +382,7 @@ def create_map_of_points(
     match background:
         case "GSHHG":
             # Add GSHHG background ...
-            add_GSHHG_map_underlay(
+            add_GSHHG_map(
                 ax,
                 background = True,
                      debug = debug,
@@ -411,7 +411,7 @@ def create_map_of_points(
             )
         case "NE":
             # Add NE background ...
-            add_NE_map_underlay(
+            add_NE_map(
                 ax,
                 background = True,
                   cultural = True,
@@ -446,8 +446,8 @@ def create_map_of_points(
                     2.0 * maxDist / (fg.get_figheight() * fg.get_dpi()),
                 )                                                               # [m/px]
 
-            # Add OpenStreetMap background ...
-            add_OSM_map_background(
+            # Add OpenStreetMap-style tiles background ...
+            add_Cartopy_tiles(
                 ax,
                 midLat,
                 res,

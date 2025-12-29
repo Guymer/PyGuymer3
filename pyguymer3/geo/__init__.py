@@ -133,10 +133,10 @@ from ._debug import _debug
 from ._points2polys import _points2polys
 from .add_annotation import add_annotation
 from .add_axis import add_axis
-from .add_GSHHG_map_underlay import add_GSHHG_map_underlay
+from .add_Cartopy_tiles import add_Cartopy_tiles
+from .add_GSHHG_map import add_GSHHG_map
 from .add_map_background import add_map_background
-from .add_NE_map_underlay import add_NE_map_underlay
-from .add_OSM_map_background import add_OSM_map_background
+from .add_NE_map import add_NE_map
 from .area import area
 from .buffer import buffer
 from .calc_angle_between_two_locs import calc_angle_between_two_locs

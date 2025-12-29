@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def add_OSM_map_background(
+def add_Cartopy_tiles(
     ax,
     midLat,
     res,

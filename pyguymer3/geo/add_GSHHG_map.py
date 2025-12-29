@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def add_GSHHG_map_underlay(
+def add_GSHHG_map(
     ax,
     /,
     *,
