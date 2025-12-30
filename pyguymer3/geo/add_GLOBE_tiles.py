@@ -48,7 +48,7 @@ def add_GLOBE_tiles(
 
     # **************************************************************************
 
-    # Create short-hands and append PNG name ...
+    # Create short-hands ...
     # NOTE: See "pyguymer3/data/png/README.md".
     nx, ny = grid.split("x")
     nx = int(nx)                                                                # [#]
@@ -114,7 +114,8 @@ def add_GLOBE_tiles(
             tName = f"{os.path.dirname(__file__)}/../data/png/globe/{nx:d}x{ny:d}/maxElev={maxElev:d}m/x={ix:d}/y={iy:d}.png"
             if not os.path.exists(tName):
                 tName = f"{os.path.dirname(__file__)}/../data/png/missingTile.png"
-            print(f"  Adding \"{tName}\" to merged tile ...")
+            if debug:
+                print(f"  Adding \"{tName}\" to merged tile ...")
             with PIL.Image.open(tName) as iObj:
                 mergedTile.paste(
                     iObj.convert("RGB"),
@@ -143,7 +144,7 @@ def add_GLOBE_tiles(
     # Draw merged tile ...
     # NOTE: I am explicitly setting the regrid shape based off the resolution
     #       and the size of the figure, as well as a safety factor of 2
-    #       (remembering Nyquist) ...
+    #       (remembering Nyquist).
     # NOTE: As of 5/Dec/2023, the default "zorder" of the gridlines is 2.0.
     # NOTE: There is an off-by-one error in Cartopy somewhere ... I *think* that
     #       "cartopy.img_transform.mesh_projection()" shrinks the array by half
