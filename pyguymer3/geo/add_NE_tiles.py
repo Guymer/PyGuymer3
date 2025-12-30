@@ -7,12 +7,18 @@ def add_NE_tiles(
     fov,
     /,
     *,
+         chunksize = 1048576,
              debug = __debug__,
            elevInt = 250,
+      exiftoolPath = None,
+      gifsiclePath = None,
               grid = "18x9",
      interpolation = "none",
+      jpegtranPath = None,
            maxElev = 1000,
     mergedTileName = None,
+       optipngPath = None,
+              pool = None,
           resample = False,
         resolution = "10m",
            timeout = 60.0,
@@ -140,9 +146,15 @@ def add_NE_tiles(
         # Optimise PNG ...
         optimise_image(
             mergedTileName,
-              debug = debug,
-              strip = True,
-            timeout = timeout,
+               chunksize = chunksize,
+                   debug = debug,
+            exiftoolPath = exiftoolPath,
+            gifsiclePath = gifsiclePath,
+            jpegtranPath = jpegtranPath,
+             optipngPath = optipngPath,
+                    pool = pool,
+                   strip = True,
+                 timeout = timeout,
         )
 
     # Draw merged tile ...

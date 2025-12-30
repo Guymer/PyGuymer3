@@ -7,10 +7,16 @@ def add_GSHHG_tiles(
     fov,
     /,
     *,
+         chunksize = 1048576,
              debug = __debug__,
+      exiftoolPath = None,
+      gifsiclePath = None,
               grid = "2x1",
      interpolation = "none",
+      jpegtranPath = None,
     mergedTileName = None,
+       optipngPath = None,
+              pool = None,
           resample = False,
         resolution = "i",
            timeout = 60.0,
@@ -138,9 +144,15 @@ def add_GSHHG_tiles(
         # Optimise PNG ...
         optimise_image(
             mergedTileName,
-              debug = debug,
-              strip = True,
-            timeout = timeout,
+               chunksize = chunksize,
+                   debug = debug,
+            exiftoolPath = exiftoolPath,
+            gifsiclePath = gifsiclePath,
+            jpegtranPath = jpegtranPath,
+             optipngPath = optipngPath,
+                    pool = pool,
+                   strip = True,
+                 timeout = timeout,
         )
 
     # Draw merged tile ...

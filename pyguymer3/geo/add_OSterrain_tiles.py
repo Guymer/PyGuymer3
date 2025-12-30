@@ -7,11 +7,17 @@ def add_OSterrain_tiles(
     fov,
     /,
     *,
+         chunksize = 1048576,
              debug = __debug__,
+      exiftoolPath = None,
+      gifsiclePath = None,
               grid = "22x41",
      interpolation = "none",
+      jpegtranPath = None,
            maxElev = 1000,
     mergedTileName = None,
+       optipngPath = None,
+              pool = None,
             prefix = ".",
           resample = False,
            timeout = 60.0,
@@ -151,9 +157,15 @@ def add_OSterrain_tiles(
         # Optimise PNG ...
         optimise_image(
             mergedTileName,
-              debug = debug,
-              strip = True,
-            timeout = timeout,
+               chunksize = chunksize,
+                   debug = debug,
+            exiftoolPath = exiftoolPath,
+            gifsiclePath = gifsiclePath,
+            jpegtranPath = jpegtranPath,
+             optipngPath = optipngPath,
+                    pool = pool,
+                   strip = True,
+                 timeout = timeout,
         )
 
     # Draw merged tile ...
