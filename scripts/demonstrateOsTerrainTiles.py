@@ -274,10 +274,12 @@ if __name__ == "__main__":
             fg,
             ax,
             fov,
-              debug = args.debug,
-               grid = grid,
-            maxElev = args.maxElev,
-            timeout = args.timeout,
+                    debug = args.debug,
+                     grid = grid,
+            interpolation = "gaussian",
+                  maxElev = args.maxElev,
+                 resample = False,
+                  timeout = args.timeout,
         )
 
         # Configure axis ...
