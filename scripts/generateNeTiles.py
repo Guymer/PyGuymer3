@@ -393,7 +393,7 @@ if __name__ == "__main__":
                         # Get result ...
                         _ = result.get(args.timeout)
 
-                        print(f"  Waiting for child \"multiprocessing\" processes to finish ... {100.0 * float(iResult + 1) / float(nResults):.1f}%", end = "\r")
+                        print(f"      Waiting for child \"multiprocessing\" processes to finish ... {100.0 * float(iResult + 1) / float(nResults):.1f}%", end = "\r")
 
                         # Check result ...
                         if not result.successful():
@@ -543,7 +543,7 @@ if __name__ == "__main__":
                     # Get result ...
                     _ = result.get(args.timeout)
 
-                    print(f"  Waiting for child \"multiprocessing\" processes to finish ... {100.0 * float(iResult + 1) / float(nResults):.1f}%", end = "\r")
+                    print(f"      Waiting for child \"multiprocessing\" processes to finish ... {100.0 * float(iResult + 1) / float(nResults):.1f}%", end = "\r")
 
                     # Check result ...
                     if not result.successful():
