@@ -50,6 +50,13 @@ if __name__ == "__main__":
         formatter_class = argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
+        "--absolute-path-to-repository",
+        default = os.path.dirname(os.path.dirname(__file__)),
+           dest = "absPathToRepo",
+           help = "the absolute path to the PyGuymer3 repository",
+           type = str,
+    )
+    parser.add_argument(
         "--debug",
         action = "store_true",
           dest = "debug",
@@ -92,9 +99,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # **************************************************************************
-
-    # Find the absolute path to the repository ...
-    absPathToRepo = os.path.dirname(os.path.dirname(__file__))
 
     # Check input ...
     # NOTE: The possible values are:
@@ -228,12 +232,12 @@ if __name__ == "__main__":
     fg.tight_layout()
 
     # Save figure ...
-    fg.savefig(f"{absPathToRepo}/scripts/plotLimitOfVincenty.png")
+    fg.savefig(f"{args.absPathToRepo}/scripts/plotLimitOfVincenty.png")
     matplotlib.pyplot.close(fg)
 
     # Optimise PNG ...
     pyguymer3.image.optimise_image(
-        f"{absPathToRepo}/scripts/plotLimitOfVincenty.png",
+        f"{args.absPathToRepo}/scripts/plotLimitOfVincenty.png",
           debug = args.debug,
           strip = True,
         timeout = args.timeout,
