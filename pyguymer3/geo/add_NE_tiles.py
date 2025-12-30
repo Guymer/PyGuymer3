@@ -10,8 +10,10 @@ def add_NE_tiles(
              debug = __debug__,
            elevInt = 250,
               grid = "18x9",
+     interpolation = "none",
            maxElev = 1000,
     mergedTileName = None,
+          resample = False,
         resolution = "10m",
            timeout = 60.0,
 ):
@@ -147,7 +149,6 @@ def add_NE_tiles(
     # NOTE: I am explicitly setting the regrid shape based off the resolution
     #       and the size of the figure, as well as a safety factor of 2
     #       (remembering Nyquist).
-    # NOTE: As of 5/Dec/2023, the default "zorder" of the gridlines is 2.0.
     # NOTE: There is an off-by-one error in Cartopy somewhere ... I *think* that
     #       "cartopy.img_transform.mesh_projection()" shrinks the array by half
     #       a pixel at both ends.
@@ -159,13 +160,12 @@ def add_NE_tiles(
              +90.0 - 180.0 * float(lastUsedLat + 1) / float(ny),
              +90.0 - 180.0 * float(frstUsedLat) / float(ny),
         ],                                                                      # [°], [°], [°], [°]
-        interpolation = "gaussian",
+        interpolation = interpolation,
                origin = "upper",
          regrid_shape = (
             round(2.0 * fg.get_figwidth() * fg.get_dpi()),
             round(2.0 * fg.get_figheight() * fg.get_dpi()),
         ),                                                                      # [px], [px]
-             resample = False,
+             resample = resample,
             transform = cartopy.crs.PlateCarree(),
-               zorder = 1.5,
     )

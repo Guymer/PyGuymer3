@@ -9,9 +9,11 @@ def add_OSterrain_tiles(
     *,
              debug = __debug__,
               grid = "22x41",
+     interpolation = "none",
            maxElev = 1000,
     mergedTileName = None,
             prefix = ".",
+          resample = False,
            timeout = 60.0,
                tol = 1.0e-10,
 ):
@@ -158,7 +160,6 @@ def add_OSterrain_tiles(
     # NOTE: I am explicitly setting the regrid shape based off the resolution
     #       and the size of the figure, as well as a safety factor of 2
     #       (remembering Nyquist).
-    # NOTE: As of 5/Dec/2023, the default "zorder" of the gridlines is 2.0.
     # NOTE: There is an off-by-one error in Cartopy somewhere ... I *think* that
     #       "cartopy.img_transform.mesh_projection()" shrinks the array by half
     #       a pixel at both ends.
@@ -170,13 +171,12 @@ def add_OSterrain_tiles(
             float(origHeight) - float(origHeight * (lastUsedLat + 1)) / float(ny),
             float(origHeight) - float(origHeight *  frstUsedLat     ) / float(ny),
         ],                                                                      # [m], [m], [m], [m]
-        interpolation = "gaussian",
+        interpolation = interpolation,
                origin = "upper",
          regrid_shape = (
             round(2.0 * fg.get_figwidth() * fg.get_dpi()),
             round(2.0 * fg.get_figheight() * fg.get_dpi()),
         ),                                                                      # [px], [px]
-             resample = False,
+             resample = resample,
             transform = cartopy.crs.OSGB(),
-               zorder = 1.5,
     )
