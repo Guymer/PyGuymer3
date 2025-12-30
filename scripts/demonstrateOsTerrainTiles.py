@@ -280,6 +280,7 @@ if __name__ == "__main__":
                   maxElev = args.maxElev,
                  resample = False,
                   timeout = args.timeout,
+                      tol = args.tol,
         )
 
         # Configure axis ...
