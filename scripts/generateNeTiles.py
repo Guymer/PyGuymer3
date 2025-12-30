@@ -98,7 +98,9 @@ if __name__ == "__main__":
             "110m",
         ],
         default = [
-            "10m",
+             "10m",
+             "50m",
+            "110m",
         ],
            dest = "ress",
            help = "the resolutions of the NE datasets",

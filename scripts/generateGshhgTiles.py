@@ -96,6 +96,10 @@ if __name__ == "__main__":
             "f",                        # full
         ],
         default = [
+            "c",                        # crude
+            "l",                        # low
+            "i",                        # intermediate
+            "h",                        # high
             "f",                        # full
         ],
            dest = "ress",

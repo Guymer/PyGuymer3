@@ -75,6 +75,10 @@ if __name__ == "__main__":
             "f",                        # full
         ],
         default = [
+            "c",                        # crude
+            "l",                        # low
+            "i",                        # intermediate
+            "h",                        # high
             "f",                        # full
         ],
            dest = "gshhgRess",
@@ -104,7 +108,9 @@ if __name__ == "__main__":
             "110m",
         ],
         default = [
-            "10m",
+             "10m",
+             "50m",
+            "110m",
         ],
            dest = "neRess",
            help = "the resolutions of the NE datasets",
