@@ -269,7 +269,7 @@ if __name__ == "__main__":
                               tol = args.tol,
         )
 
-        # Add OS Terrain tiles ...
+        # Add "OS Terrain 50" tiles ...
         pyguymer3.geo.add_OSterrain_tiles(
             fg,
             ax,

@@ -31,7 +31,7 @@ if __name__ == "__main__":
     # Create argument parser and parse the arguments ...
     parser = argparse.ArgumentParser(
            allow_abbrev = False,
-            description = "Save the OS Terrain 50 dataset as tiles.",
+            description = "Save the \"OS Terrain 50\" dataset as tiles.",
         formatter_class = argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(

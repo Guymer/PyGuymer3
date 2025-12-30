@@ -91,7 +91,7 @@ if __name__ == "__main__":
         "--OS-Terrain-maximum-elevation-interval",
         default = 250,
            dest = "osTerrainMaxElevInt",
-           help = "the elevation interval for the OS Terrain tiles (in metres)",
+           help = "the elevation interval for the \"OS Terrain 50\" tiles (in metres)",
            type = int,
     )
     parser.add_argument(
@@ -141,7 +141,7 @@ if __name__ == "__main__":
                     debug = args.debug,
                 )                                                               # [B]
 
-    # Survey the OS Terrain tiles ...
+    # Survey the "OS Terrain 50" tiles ...
     osTerrain = {}
     for dName in sorted(glob.glob(f"{args.absPathToRepo}/pyguymer3/data/png/osTerrain/*x*")):
         w, h = os.path.basename(dName).split("x")
@@ -176,7 +176,7 @@ if __name__ == "__main__":
     # Open output file ...
     with open(f"{args.absPathToRepo}/scripts/surveyTiles.csv", "wt", encoding = "utf-8") as fObj:
         # Write header ...
-        fObj.write("maximum number of tiles in grid [#],GLOBE size [MiB],GSHHG size [MiB],NE size [MiB],OS Terrain size [MiB],total size [MiB]\n")
+        fObj.write("maximum number of tiles in grid [#],GLOBE size [MiB],GSHHG size [MiB],NE size [MiB],\"OS Terrain 50\" size [MiB],total size [MiB]\n")
 
         # Loop over possible numbers ...
         for n in range(minN, maxN + 1):
@@ -213,8 +213,8 @@ if __name__ == "__main__":
             if neSize == 0:
                 continue
 
-            # Increment counter for the OS Terrain tiles (skipping this possible
-            # number if it does not encompass any of the tiles) ...
+            # Increment counter for the "OS Terrain 50" tiles (skipping this
+            # possible number if it does not encompass any of the tiles) ...
             for key, val in osTerrain.items():
                 if key > n:
                     continue
@@ -227,3 +227,5 @@ if __name__ == "__main__":
 
             # Write data ...
             fObj.write(f"{n:d},{float(globeSize) / (1024.0 * 1024.0):.3f},{float(gshhgSize) / (1024.0 * 1024.0):.3f},{float(neSize) / (1024.0 * 1024.0):.3f},{float(osTerrainSize) / (1024.0 * 1024.0):.3f},{float(totSize) / (1024.0 * 1024.0):.3f}\n")
+
+    # **************************************************************************
