@@ -265,16 +265,26 @@ if __name__ == "__main__":
                             )
                         )
 
-                print("  Waiting for child \"multiprocessing\" processes to finish ...")
+                # Create short-hand ...
+                nResults = len(results)                                         # [#]
+
+                print("  Waiting for child \"multiprocessing\" processes to finish ...", end = "\r")
 
                 # Loop over results ...
-                for result in results:
+                for iResult, result in enumerate(results):
                     # Get result ...
                     _ = result.get(args.timeout)
 
+                    print(f"  Waiting for child \"multiprocessing\" processes to finish ... {100.0 * float(iResult + 1) / float(nResults):.1f}%", end = "\r")
+
                     # Check result ...
                     if not result.successful():
+                        # Clear the line and cry ...
+                        print()
                         raise Exception("\"multiprocessing.Pool().apply_async()\" was not successful") from None
+
+                # Clear the line ...
+                print()
 
                 # Close the pool of worker processes and wait for all of the
                 # tasks to finish ...
@@ -335,16 +345,26 @@ if __name__ == "__main__":
                         )
                     )
 
-            print("  Waiting for child \"multiprocessing\" processes to finish ...")
+            # Create short-hand ...
+            nResults = len(results)                                             # [#]
+
+            print("  Waiting for child \"multiprocessing\" processes to finish ...", end = "\r")
 
             # Loop over results ...
-            for result in results:
+            for iResult, result in enumerate(results):
                 # Get result ...
                 _ = result.get(args.timeout)
 
+                print(f"  Waiting for child \"multiprocessing\" processes to finish ... {100.0 * float(iResult + 1) / float(nResults):.1f}%", end = "\r")
+
                 # Check result ...
                 if not result.successful():
+                    # Clear the line and cry ...
+                    print()
                     raise Exception("\"multiprocessing.Pool().apply_async()\" was not successful") from None
+
+            # Clear the line ...
+            print()
 
             # Close the pool of worker processes and wait for all of the tasks
             # to finish ...
