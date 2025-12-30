@@ -273,8 +273,9 @@ if __name__ == "__main__":
                             )
                         )
 
-                # Create short-hand ...
+                # Create short-hands ...
                 nResults = len(results)                                         # [#]
+                start = pyguymer3.now()
 
                 print("  Waiting for child \"multiprocessing\" processes to finish ...", end = "\r")
 
@@ -283,7 +284,19 @@ if __name__ == "__main__":
                     # Get result ...
                     _ = result.get(args.timeout)
 
-                    print(f"  Waiting for child \"multiprocessing\" processes to finish ... {100.0 * float(iResult + 1) / float(nResults):.1f}%", end = "\r")
+                    # Print progress ...
+                    # NOTE: The progress string needs padding with extra spaces
+                    #       so that the line is fully overwritten when it
+                    #       inevitably gets shorter (as the remaining time gets
+                    #       shorter). Assume that the longest it will ever be
+                    #       is "???.???% (~??h ??m ??.?s still to go)" (which is
+                    #       37 characters).
+                    fraction = float(iResult + 1) / float(nResults)
+                    durationSoFar = pyguymer3.now() - start
+                    totalDuration = durationSoFar / fraction
+                    remaining = (totalDuration - durationSoFar).total_seconds() # [s]
+                    progress = f"{100.0 * fraction:.3f}% (~{pyguymer3.convert_seconds_to_pretty_time(remaining)} still to go)"
+                    print(f"  Waiting for child \"multiprocessing\" processes to finish ... {progress:37s}", end = "\r")
 
                     # Check result ...
                     if not result.successful():
