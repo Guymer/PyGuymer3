@@ -8,9 +8,33 @@ if __name__ == "__main__":
     import glob
     import os
 
+    # Import special modules ...
+    try:
+        import matplotlib
+        matplotlib.rcParams.update(
+            {
+                       "axes.xmargin" : 0.01,
+                       "axes.ymargin" : 0.01,
+                            "backend" : "Agg",                                  # NOTE: See https://matplotlib.org/stable/gallery/user_interfaces/canvasagg.html
+                         "figure.dpi" : 300,
+                     "figure.figsize" : (9.6, 7.2),                             # NOTE: See https://github.com/Guymer/misc/blob/main/README.md#matplotlib-figure-sizes
+                          "font.size" : 8,
+                "image.interpolation" : "none",
+                     "image.resample" : False,
+            }
+        )
+        import matplotlib.pyplot
+    except:
+        raise Exception("\"matplotlib\" is not installed; run \"pip install --user matplotlib\"") from None
+    try:
+        import numpy
+    except:
+        raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
+
     # Import my modules ...
     try:
         import pyguymer3
+        import pyguymer3.image
     except:
         raise Exception("\"pyguymer3\" is not installed; run \"pip install --user PyGuymer3\"") from None
 
@@ -229,3 +253,64 @@ if __name__ == "__main__":
             fObj.write(f"{n:d},{float(globeSize) / (1024.0 * 1024.0):.3f},{float(gshhgSize) / (1024.0 * 1024.0):.3f},{float(neSize) / (1024.0 * 1024.0):.3f},{float(osTerrainSize) / (1024.0 * 1024.0):.3f},{float(totSize) / (1024.0 * 1024.0):.3f}\n")
 
     # **************************************************************************
+
+    # Create figure ...
+    fg = matplotlib.pyplot.figure()
+
+    # Create axis ...
+    ax = fg.add_subplot()
+
+    # Load data ...
+    n, globeSize, gshhgSize, neSize, osTerrainSize, _ = numpy.loadtxt(
+        f"{args.absPathToRepo}/scripts/surveyTiles.csv",
+        delimiter = ",",
+         skiprows = 1,
+           unpack = True,
+    )                                                                           # [#], [MiB], [MiB], [MiB], [MiB]
+
+    # Plot data ...
+    ax.fill_between(
+        n,
+        globeSize,
+        label = "GLOBE",
+    )
+    ax.fill_between(
+        n,
+        globeSize,
+        globeSize + gshhgSize,
+        label = "GSHHG",
+    )
+    ax.fill_between(
+        n,
+        globeSize + gshhgSize,
+        globeSize + gshhgSize + neSize,
+        label = "NE",
+    )
+    ax.fill_between(
+        n,
+        globeSize + gshhgSize + neSize,
+        globeSize + gshhgSize + neSize + osTerrainSize,
+        label = "OS Terrain 50",
+    )
+
+    # Configure axis ...
+    ax.grid()
+    ax.legend(loc = "upper left")
+    ax.set_xlabel("Maximum Number Of Tiles In Grid [#]")
+    ax.set_ylabel("Size [MiB]")
+    ax.set_ylim(0.0)
+
+    # Configure figure ...
+    fg.tight_layout()
+
+    # Save figure ...
+    fg.savefig(f"{args.absPathToRepo}/scripts/surveyTiles.png")
+    matplotlib.pyplot.close(fg)
+
+    # Optimize PNG ...
+    pyguymer3.image.optimise_image(
+        f"{args.absPathToRepo}/scripts/surveyTiles.png",
+          debug = args.debug,
+          strip = True,
+        timeout = args.timeout,
+    )
