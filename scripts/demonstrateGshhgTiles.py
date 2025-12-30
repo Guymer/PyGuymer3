@@ -251,6 +251,7 @@ if __name__ == "__main__":
         "32x16",
         "64x32",
         "128x64",
+        "256x128",
     ]:
         print(f"Processing {grid} ...")
 
