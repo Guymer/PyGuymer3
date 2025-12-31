@@ -206,57 +206,45 @@ if __name__ == "__main__":
     # Open output file ...
     with open(f"{args.absPathToRepo}/scripts/surveyTiles.csv", "wt", encoding = "utf-8") as fObj:
         # Write header ...
-        fObj.write("maximum number of tiles in grid [#],GLOBE size [MiB],GSHHG size [MiB],NE size [MiB],\"OS Terrain 50\" size [MiB],total size [MiB]\n")
+        fObj.write("maximum number of tiles in grid [#],GLOBE size [B],GSHHG size [B],NE size [B],\"OS Terrain 50\" size [B],total size [B]\n")
 
         # Loop over possible numbers ...
-        for n in range(minN, maxN + 1):
+        for n in range(2, 65536 + 1):
             # Initialize counters ...
             globeSize = 0                                                       # [B]
             gshhgSize = 0                                                       # [B]
             neSize = 0                                                          # [B]
             osTerrainSize = 0                                                   # [B]
 
-            # Increment counter for the GLOBE tiles (skipping this possible
-            # number if it does not encompass any of the tiles) ...
+            # Increment counter for the GLOBE tiles ...
             for key, val in globe.items():
                 if key > n:
                     continue
                 globeSize += val                                                # [B]
-            if globeSize == 0:
-                continue
 
-            # Increment counter for the GSHHG tiles (skipping this possible
-            # number if it does not encompass any of the tiles) ...
+            # Increment counter for the GSHHG tiles ...
             for key, val in gshhg.items():
                 if key > n:
                     continue
                 gshhgSize += val                                                # [B]
-            if gshhgSize == 0:
-                continue
 
-            # Increment counter for the NE tiles (skipping this possible number
-            # if it does not encompass any of the tiles) ...
+            # Increment counter for the NE tiles ...
             for key, val in ne.items():
                 if key > n:
                     continue
                 neSize += val                                                   # [B]
-            if neSize == 0:
-                continue
 
-            # Increment counter for the "OS Terrain 50" tiles (skipping this
-            # possible number if it does not encompass any of the tiles) ...
+            # Increment counter for the "OS Terrain 50" tiles ...
             for key, val in osTerrain.items():
                 if key > n:
                     continue
                 osTerrainSize += val                                            # [B]
-            if osTerrainSize == 0:
-                continue
 
             # Calculate total ...
             totSize = globeSize + gshhgSize + neSize + osTerrainSize            # [B]
 
             # Write data ...
-            fObj.write(f"{n:d},{float(globeSize) / (1024.0 * 1024.0):.3f},{float(gshhgSize) / (1024.0 * 1024.0):.3f},{float(neSize) / (1024.0 * 1024.0):.3f},{float(osTerrainSize) / (1024.0 * 1024.0):.3f},{float(totSize) / (1024.0 * 1024.0):.3f}\n")
+            fObj.write(f"{n:d},{globeSize:d},{gshhgSize:d},{neSize:d},{osTerrainSize:d},{totSize:d}\n")
 
     # **************************************************************************
 
@@ -270,6 +258,7 @@ if __name__ == "__main__":
     n, globeSize, gshhgSize, neSize, osTerrainSize, _ = numpy.loadtxt(
         f"{args.absPathToRepo}/scripts/surveyTiles.csv",
         delimiter = ",",
+            dtype = numpy.uint32,
          skiprows = 1,
            unpack = True,
     )                                                                           # [#], [MiB], [MiB], [MiB], [MiB]
@@ -299,12 +288,87 @@ if __name__ == "__main__":
         label = "OS Terrain 50",
     )
 
+    # Shade region-of-interest (this one is the number of tiles above which the
+    # original image exceeds my custom PIL maximum image size) ...
+    ax.axvspan(
+        (1024.0 * 1024.0 * 1024.0) / (300.0 * 300.0),
+        65536.0,
+            alpha = 0.25,
+            color = "red",
+        linestyle = "none",
+           zorder = 0.75,
+    )
+
     # Configure axis ...
     ax.grid()
     ax.legend(loc = "upper left")
-    ax.set_xlabel("Maximum Number Of Tiles In Grid [#]")
-    ax.set_ylabel("Size [MiB]")
-    ax.set_ylim(0.0)
+    ax.semilogx()
+    ax.semilogy()
+    ax.set_xlabel("Maximum Number Of Tiles In Grid")
+    ax.set_xlim(2, 65536)
+    ax.set_xticks(
+        [
+                2,
+                4,
+                8,
+               16,
+               32,
+               64,
+              128,
+              256,
+              512,
+             1024,
+             2048,
+             4096,
+             8192,
+            16384,
+            32768,
+            65536,
+        ],
+        labels = [
+                "2",
+                "4",
+                "8",
+               "16",
+               "32",
+               "64",
+              "128",
+              "256",
+              "512",
+             "1 Ki",
+             "2 Ki",
+             "4 Ki",
+             "8 Ki",
+            "16 Ki",
+            "32 Ki",
+            "64 Ki",
+        ],
+    )
+    ax.set_ylabel("Size")
+    ax.set_ylim(10 * 1024, 10 * 1024 * 1024 * 1024)
+    ax.set_yticks(
+        [
+                          10 * 1024,
+                         100 * 1024,
+                        1024 * 1024,
+                   10 * 1024 * 1024,
+                  100 * 1024 * 1024,
+                 1024 * 1024 * 1024,
+            10 * 1024 * 1024 * 1024,
+        ],
+        labels = [
+             "10 KiB",
+            "100 KiB",
+              "1 MiB",
+             "10 MiB",
+            "100 MiB",
+              "1 GiB",
+             "10 GiB",
+        ],
+    )
+    ax.minorticks_off()                 # NOTE: This must be called after both
+                                        #       "set_xticks()" and
+                                        #       "set_yticks()".
 
     # Configure figure ...
     fg.tight_layout()
