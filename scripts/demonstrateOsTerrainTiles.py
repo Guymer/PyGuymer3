@@ -229,9 +229,9 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Create short-hands, ensure output directory exists and initialise list ...
-    dName = __file__.removesuffix(".py")
+    dName = f'{__file__.removesuffix(".py")}/maxElev={args.maxElev:d}m'
     if not os.path.exists(dName):
-        os.mkdir(dName)
+        os.makedirs(dName)
     pNames = []
     wName = f"{dName}/all.webp"
 
