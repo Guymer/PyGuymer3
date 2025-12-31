@@ -16,7 +16,7 @@ def _add_elevation(
 
     Parameters
     ----------
-    axis : cartopy.mpl.geoaxes.GeoAxesSubplot
+    ax : cartopy.mpl.geoaxes.GeoAxes
         the axis to add the elevation to
     debug : bool, optional
         print debug messages

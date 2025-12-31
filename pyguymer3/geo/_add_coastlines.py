@@ -24,7 +24,7 @@ def _add_coastlines(
 
     Parameters
     ----------
-    axis : cartopy.mpl.geoaxes.GeoAxesSubplot
+    ax : cartopy.mpl.geoaxes.GeoAxes
         the axis
     debug : bool, optional
         print debug messages

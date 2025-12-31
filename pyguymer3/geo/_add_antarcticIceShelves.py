@@ -15,7 +15,7 @@ def _add_antarcticIceShelves(
 
     Parameters
     ----------
-    axis : cartopy.mpl.geoaxes.GeoAxesSubplot
+    ax : cartopy.mpl.geoaxes.GeoAxes
         the axis to add the Antarctic ice shelves to
     debug : bool, optional
         print debug messages

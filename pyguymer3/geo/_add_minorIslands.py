@@ -15,7 +15,7 @@ def _add_minorIslands(
 
     Parameters
     ----------
-    axis : cartopy.mpl.geoaxes.GeoAxesSubplot
+    ax : cartopy.mpl.geoaxes.GeoAxes
         the axis to add the minor islands to
     debug : bool, optional
         print debug messages

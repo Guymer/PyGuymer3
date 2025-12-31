@@ -128,7 +128,7 @@ def _add_topDown_axis(
 
     Returns
     -------
-    ax : cartopy.mpl.geoaxes.GeoAxesSubplot
+    ax : cartopy.mpl.geoaxes.GeoAxes
         the axis
 
     Notes

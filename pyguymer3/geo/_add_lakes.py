@@ -15,7 +15,7 @@ def _add_lakes(
 
     Parameters
     ----------
-    axis : cartopy.mpl.geoaxes.GeoAxesSubplot
+    ax : cartopy.mpl.geoaxes.GeoAxes
         the axis to add the lakes to
     debug : bool, optional
         print debug messages

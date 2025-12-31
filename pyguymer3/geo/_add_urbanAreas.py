@@ -15,7 +15,7 @@ def _add_urbanAreas(
 
     Parameters
     ----------
-    axis : cartopy.mpl.geoaxes.GeoAxesSubplot
+    ax : cartopy.mpl.geoaxes.GeoAxes
         the axis to add the urban areas to
     debug : bool, optional
         print debug messages

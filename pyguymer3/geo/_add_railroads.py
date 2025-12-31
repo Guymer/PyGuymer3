@@ -16,7 +16,7 @@ def _add_railroads(
 
     Parameters
     ----------
-    axis : cartopy.mpl.geoaxes.GeoAxesSubplot
+    ax : cartopy.mpl.geoaxes.GeoAxes
         the axis to add the railroads to
     debug : bool, optional
         print debug messages

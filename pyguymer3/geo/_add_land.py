@@ -15,7 +15,7 @@ def _add_land(
 
     Parameters
     ----------
-    axis : cartopy.mpl.geoaxes.GeoAxesSubplot
+    ax : cartopy.mpl.geoaxes.GeoAxes
         the axis to add the land to
     debug : bool, optional
         print debug messages

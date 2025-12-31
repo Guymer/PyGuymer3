@@ -15,7 +15,7 @@ def _add_bathymetry(
 
     Parameters
     ----------
-    axis : cartopy.mpl.geoaxes.GeoAxesSubplot
+    ax : cartopy.mpl.geoaxes.GeoAxes
         the axis to add the bathymetry to
     debug : bool, optional
         print debug messages

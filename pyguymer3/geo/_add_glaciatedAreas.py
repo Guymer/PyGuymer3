@@ -15,7 +15,7 @@ def _add_glaciatedAreas(
 
     Parameters
     ----------
-    axis : cartopy.mpl.geoaxes.GeoAxesSubplot
+    ax : cartopy.mpl.geoaxes.GeoAxes
         the axis to add the glaciated areas to
     debug : bool, optional
         print debug messages

@@ -17,7 +17,7 @@ def _add_reefs(
 
     Parameters
     ----------
-    axis : cartopy.mpl.geoaxes.GeoAxesSubplot
+    ax : cartopy.mpl.geoaxes.GeoAxes
         the axis to add the reefs to
     debug : bool, optional
         print debug messages

@@ -17,7 +17,7 @@ def _add_horizontal_gridlines(
 
     Parameters
     ----------
-    ax : cartopy.mpl.geoaxes.GeoAxesSubplot
+    ax : cartopy.mpl.geoaxes.GeoAxes
         the axis to add the gridlines to
     color : str, optional
         the colour of the gridlines
