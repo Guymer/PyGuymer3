@@ -34,20 +34,20 @@ def image2gif(
         the size of the chunks of any files which are read in (in bytes)
     debug : bool, optional
         print debug messages
-    exiftoolPath : str, optional
+    exiftoolPath : None or str, optional
         the path to the "exiftool" binary (if not provided then Python will attempt to
         find the binary itself)
-    gifsiclePath : str, optional
+    gifsiclePath : None or str, optional
         the path to the "gifsicle" binary (if not provided then Python will attempt to
         find the binary itself)
-    jpegtranPath : str, optional
+    jpegtranPath : None or str, optional
         the path to the "jpegtran" binary (if not provided then Python will attempt to
         find the binary itself)
     mode : str, optional
         the mode of the outout GIF (default "RGB")
     optimise : bool, optional
         optimise the output GIF (default True)
-    optipngPath : str, optional
+    optipngPath : None or str, optional
         the path to the "optipng" binary (if not provided then Python will attempt to
         find the binary itself)
     screenHeight : int, optional

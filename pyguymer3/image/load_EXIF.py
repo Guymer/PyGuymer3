@@ -30,7 +30,7 @@ def load_EXIF(
         print debug messages
     ensureNFC : bool, optional
         ensure that the Unicode encoding is NFC
-    exiftoolPath : str, optional
+    exiftoolPath : None or str, optional
         the path to the "exiftool" binary (if not provided then Python will
         attempt to find the binary itself)
     timeout : float, optional

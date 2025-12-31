@@ -28,7 +28,7 @@ def xz(
         the number of threads to use (default 0)
     timeout : float, optional
         the timeout for any requests/subprocess calls
-    xzPath : str, optional
+    xzPath : None or str, optional
         the path to the "xz" binary (if not provided then Python will attempt to
         find the binary itself)
 

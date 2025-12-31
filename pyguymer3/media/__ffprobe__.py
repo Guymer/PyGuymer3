@@ -16,7 +16,7 @@ class ffprobeCachedDict(dict):
         print debug messages
     ensureNFC : bool, optional
         ensure that the Unicode encoding is NFC
-    ffprobePath : str, optional
+    ffprobePath : None or str, optional
         the path to the "ffprobe" binary (if not provided then Python will
         attempt to find the binary itself)
     timeout : float, optional

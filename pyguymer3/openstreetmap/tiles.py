@@ -55,20 +55,20 @@ def tiles(
         extra cookies for any requests calls
     debug : bool, optional
         print debug messages
-    exiftoolPath : str, optional
+    exiftoolPath : None or str, optional
         the path to the "exiftool" binary (if not provided then Python will
         attempt to find the binary itself)
     fill : tuple of int, optional
         the fill colour of the circle around the central location, if drawn
-    gifsiclePath : str, optional
+    gifsiclePath : None or str, optional
         the path to the "gifsicle" binary (if not provided then Python will
         attempt to find the binary itself)
     headers : dict, optional
         extra headers for any requests calls
-    jpegtranPath : str, optional
+    jpegtranPath : None or str, optional
         the path to the "jpegtran" binary (if not provided then Python will
         attempt to find the binary itself)
-    optipngPath : str, optional
+    optipngPath : None or str, optional
         the path to the "optipng" binary (if not provided then Python will
         attempt to find the binary itself)
     radius : int, optional

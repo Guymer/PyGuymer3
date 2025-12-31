@@ -29,7 +29,7 @@ def save_file_if_needed(
     gitMessage : str, optional
         the Git commit message, if the file ends up being saved and then commit
         it to Git
-    gitPath : str, optional
+    gitPath : None or str, optional
         the path to the "git" binary (if not provided then Python will attempt
         to find the binary itself)
     timeout : float, optional

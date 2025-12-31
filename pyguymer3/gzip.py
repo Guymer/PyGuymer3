@@ -19,7 +19,7 @@ def gzip(
         the name of the file to compress
     cwd : str, optional
         the child working directory (default None)
-    gzipPath : str, optional
+    gzipPath : None or str, optional
         the path to the "gzip" binary (if not provided then Python will attempt
         to find the binary itself)
     stderr : subprocess.PIPE, subprocess.DEVNULL, io.TextIOWrapper, optional

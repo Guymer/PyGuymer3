@@ -16,7 +16,7 @@ class lsdvdCachedDict(dict):
         print debug messages
     ensureNFC : bool, optional
         ensure that the Unicode encoding is NFC
-    lsdvdPath : str, optional
+    lsdvdPath : None or str, optional
         the path to the "lsdvd" binary (if not provided then Python will attempt
         to find the binary itself)
     timeout : float, optional

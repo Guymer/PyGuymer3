@@ -60,20 +60,20 @@ def save_array_as_image(
         Print debug messages.
     dpi : None or float or int, optional
         See :py:func:`pyguymer3.image.makePng` for the documentation.
-    exiftoolPath : str, optional
+    exiftoolPath : None or str, optional
         the path to the "exiftool" binary (if not provided then Python will attempt to
         find the binary itself)
     form : str, optional
         output image format
-    gifsiclePath : str, optional
+    gifsiclePath : None or str, optional
         the path to the "gifsicle" binary (if not provided then Python will attempt to
         find the binary itself)
-    jpegtranPath : str, optional
+    jpegtranPath : None or str, optional
         the path to the "jpegtran" binary (if not provided then Python will attempt to
         find the binary itself)
     modTime : None or datetime.datetime, optional
         See :py:func:`pyguymer3.image.makePng` for the documentation.
-    optipngPath : str, optional
+    optipngPath : None or str, optional
         the path to the "optipng" binary (if not provided then Python will attempt to
         find the binary itself)
     pc_bot : float, optional

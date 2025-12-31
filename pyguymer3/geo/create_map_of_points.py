@@ -79,7 +79,7 @@ def create_map_of_points(
         print debug messages and draw the circle on the axis
     eps : float, optional
         the tolerance of the Vincenty formula iterations
-    exiftoolPath : str, optional
+    exiftoolPath : None or str, optional
         the path to the "exiftool" binary (if not provided then Python will attempt to
         find the binary itself)
     extent : list of floats
@@ -94,7 +94,7 @@ def create_map_of_points(
         clip the plotted shapes to the provided field-of-view to work around
         occaisional MatPlotLib or Cartopy plotting errors when shapes much
         larger than the field-of-view are plotted
-    gifsiclePath : str, optional
+    gifsiclePath : None or str, optional
         the path to the "gifsicle" binary (if not provided then Python will attempt to
         find the binary itself)
     interpolation : str, optional
@@ -102,7 +102,7 @@ def create_map_of_points(
         the final merged and warped image, on the figure. Due to the use of
         **kwargs within Cartopy, this is passed all the way down the stack to
         the MatPlotLib ".imshow()" call.
-    jpegtranPath : str, optional
+    jpegtranPath : None or str, optional
         the path to the "jpegtran" binary (if not provided then Python will attempt to
         find the binary itself)
     method : str, optional
@@ -119,7 +119,7 @@ def create_map_of_points(
     onlyValid : bool, optional
         only return valid Polygons (checks for validity can take a while, if
         being called often)
-    optipngPath : str, optional
+    optipngPath : None or str, optional
         the path to the "optipng" binary (if not provided then Python will attempt to
         find the binary itself)
     padDist : float, optional

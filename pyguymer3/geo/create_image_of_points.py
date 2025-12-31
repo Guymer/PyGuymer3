@@ -76,12 +76,12 @@ def create_image_of_points(
         whether to draw the points
     eps : float, optional
         the tolerance of the Vincenty formula iterations
-    exiftoolPath : str, optional
+    exiftoolPath : None or str, optional
         the path to the "exiftool" binary (if not provided then Python will
         attempt to find the binary itself)
     fillColor : tuple of int, optional
         the fill colour of the points
-    gifsiclePath : str, optional
+    gifsiclePath : None or str, optional
         the path to the "gifsicle" binary (if not provided then Python will
         attempt to find the binary itself)
     globalExtent : bool, optional
@@ -92,7 +92,7 @@ def create_image_of_points(
         Mercator projection looks silly at the poles)
     headers : dict, optional
         extra headers for any requests calls
-    jpegtranPath : str, optional
+    jpegtranPath : None or str, optional
         the path to the "jpegtran" binary (if not provided then Python will
         attempt to find the binary itself)
     nAng : int, optional
@@ -102,7 +102,7 @@ def create_image_of_points(
     onlyValid : bool, optional
         only return valid Polygons (checks for validity can take a while, if
         being called often)
-    optipngPath : str, optional
+    optipngPath : None or str, optional
         the path to the "optipng" binary (if not provided then Python will
         attempt to find the binary itself)
     padDist : float, optional

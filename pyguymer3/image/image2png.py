@@ -37,20 +37,20 @@ def image2png(
         print debug messages
     exif : dict, optional
         a dictionary of EXIF data to save in the output PNG (default None)
-    exiftoolPath : str, optional
+    exiftoolPath : None or str, optional
         the path to the "exiftool" binary (if not provided then Python will attempt to
         find the binary itself)
-    gifsiclePath : str, optional
+    gifsiclePath : None or str, optional
         the path to the "gifsicle" binary (if not provided then Python will attempt to
         find the binary itself)
-    jpegtranPath : str, optional
+    jpegtranPath : None or str, optional
         the path to the "jpegtran" binary (if not provided then Python will attempt to
         find the binary itself)
     mode : str, optional
         the mode of the outout PNG (default "RGB")
     optimise : bool, optional
         optimise the output PNG (default True)
-    optipngPath : str, optional
+    optipngPath : None or str, optional
         the path to the "optipng" binary (if not provided then Python will attempt to
         find the binary itself)
     screenHeight : int, optional

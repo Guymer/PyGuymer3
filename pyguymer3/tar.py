@@ -26,7 +26,7 @@ def tar(
         the destination of STDERR (default None)
     stdout : subprocess.PIPE, subprocess.DEVNULL, io.TextIOWrapper, optional
         the destination of STDOUT (default None)
-    tarPath : str, optional
+    tarPath : None or str, optional
         the path to the "tar" binary (if not provided then Python will attempt
         to find the binary itself)
     timeout : float, optional

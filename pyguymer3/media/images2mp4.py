@@ -42,10 +42,10 @@ def images2mp4(
         using the function :func:`return_x264_crf`)
     debug : bool, optional
         print debug messages
-    ffmpegPath : str, optional
+    ffmpegPath : None or str, optional
         the path to the "ffmpeg" binary (if not provided then Python will
         attempt to find the binary itself)
-    ffprobePath : str, optional
+    ffprobePath : None or str, optional
         the path to the "ffprobe" binary (if not provided then Python will
         attempt to find the binary itself)
     form : str, optional
@@ -56,13 +56,13 @@ def images2mp4(
     level : str, optional
         the level to be passed to libx264, default "ERROR" (which means choose
         one using the function :func:`return_x264_level`)
-    mp4filePath : str, optional
+    mp4filePath : None or str, optional
         the path to the "mp4file" binary (if not provided then Python will
         attempt to find the binary itself)
-    pkgPath : str, optional
+    pkgPath : None or str, optional
         the path to the "pkg" binary (if not provided then Python will
         attempt to find the binary itself)
-    portPath : str, optional
+    portPath : None or str, optional
         the path to the "port" binary (if not provided then Python will
         attempt to find the binary itself)
     profile : str, optional
@@ -76,7 +76,7 @@ def images2mp4(
         default -1 (integers less than 100 imply no downscaling)
     timeout : float, optional
         the timeout for any requests/subprocess calls
-    zypperPath : str, optional
+    zypperPath : None or str, optional
         the path to the "zypper" binary (if not provided then Python will
         attempt to find the binary itself)
 

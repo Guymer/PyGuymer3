@@ -25,7 +25,7 @@ def return_audio_format(
         the directory to change to before running "ffprobe"
     debug : bool, optional
         print debug messages
-    ffprobePath : str, optional
+    ffprobePath : None or str, optional
         the path to the "ffprobe" binary (if not provided then Python will
         attempt to find the binary itself)
     playlist : int, optional
