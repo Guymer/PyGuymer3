@@ -23,6 +23,76 @@ def add_OSterrain_tiles(
            timeout = 60.0,
                tol = 1.0e-10,
 ):
+    """Add "OS Terrain 50" dataset tiles as a background to a Cartopy axis.
+
+    Parameters
+    ----------
+    fg : matplotlib.figure.Figure
+        The figure which the axis is part of. This is used to determine the
+        ``regrid_shape`` of the merged tile.
+    ax : cartopy.mpl.geoaxes.GeoAxes
+        The axis to add the "OS Terrain 50" dataset tiles as a background to.
+    fov : shapely.geometry.polygon.Polygon
+        The field-of-view of the axis. This is used to determine which tiles are
+        viewable on the axis and, therefore, which tiles need to be merged
+        together.
+    chunksize : int, optional
+        The size of the chunks of any files which are read in (in bytes).
+    debug : bool, optional
+        Print debug messages.
+    exiftoolPath : None or str, optional
+        The path to the "exiftool" binary (if not provided then Python will
+        attempt to find the binary itself).
+    gifsiclePath : None or str, optional
+        The path to the "gifsicle" binary (if not provided then Python will
+        attempt to find the binary itself).
+    grid : str, optional
+        The grid to fetch tiles from.
+    interpolation : str, optional
+        The interpolation method used when drawing the final merged and warped
+        image on the axis. Due to the use of ``**kwargs`` within Cartopy, this
+        is passed all the way down the stack to the MatPlotLib ``.imshow()``
+        call.
+    jpegtranPath : None or str, optional
+        The path to the "jpegtran" binary (if not provided then Python will
+        attempt to find the binary itself).
+    maxElev : int, optional
+        The maximum elevation used by the colour map of the tiles (in metres).
+    mergedTileName : None or str, optional
+        If provided, then save the merged tile to this file.
+    optipngPath : None or str, optional
+        The path to the "optipng" binary (if not provided then Python will
+        attempt to find the binary itself).
+    pool : None or multiprocessing.pool.Pool, optional
+        If provided, then run any "optipng" calls as a ``apply_async()`` job in
+        this pool.
+    prefix : str, optional
+        Change the name of the output debugging CSVs.
+    resample : bool, optional
+        Use a full resampling method when drawing the final merged and warped
+        image on the axis. Due to the use of ``**kwargs`` within Cartopy, this
+        is passed all the way down the stack to the MatPlotLib ``.imshow()``
+        call.
+    timeout : float, optional
+        The timeout for any requests/subprocess calls (in seconds).
+    tol : float, optional
+        The Euclidean distance that defines two points as being the same (in
+        degrees).
+
+    Notes
+    -----
+    See the `MatPlotLib documentation about interpolation methods
+    <https://matplotlib.org/stable/gallery/images_contours_and_fields/interpolation_methods.html>`_
+    and the `MatPlotLib documentation about anti-aliasing
+    <https://matplotlib.org/stable/gallery/images_contours_and_fields/image_antialiasing.html>`_.
+
+    Copyright 2017 Thomas Guymer [1]_
+
+    References
+    ----------
+    .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
+    """
+
     # Import standard modules ...
     import os
     import pathlib
