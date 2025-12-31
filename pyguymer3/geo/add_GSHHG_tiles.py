@@ -18,7 +18,7 @@ def add_GSHHG_tiles(
        optipngPath = None,
               pool = None,
           resample = False,
-        resolution = "f",
+        resolution = "i",
            timeout = 60.0,
 ):
     """Add GSHHG dataset tiles as a background to a Cartopy axis.
@@ -68,7 +68,7 @@ def add_GSHHG_tiles(
         is passed all the way down the stack to the MatPlotLib ``.imshow()``
         call.
     resolution : str, optional
-        The resolution of the GSHHG dataset.
+        The resolution of the GSHHG datasets.
     timeout : float, optional
         The timeout for any requests/subprocess calls (in seconds).
 
