@@ -74,6 +74,19 @@ def add_GSHHG_tiles(
 
     Notes
     -----
+    There is one argument relating to the `Global Self-Consistent Hierarchical
+    High-Resolution Geography dataset <https://www.ngdc.noaa.gov/mgg/shorelines/>`_ :
+
+    * *resolution*.
+
+    There are five resolutions to choose from:
+
+    * crude ("c");
+    * low ("l");
+    * intermediate ("i");
+    * high ("h"); and
+    * full ("f").
+
     See the `MatPlotLib documentation about interpolation methods
     <https://matplotlib.org/stable/gallery/images_contours_and_fields/interpolation_methods.html>`_
     and the `MatPlotLib documentation about anti-aliasing
