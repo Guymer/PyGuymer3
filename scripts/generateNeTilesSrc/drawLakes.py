@@ -77,6 +77,8 @@ def drawLakes(
             # Create a list of all of Polygons ...
             polys = []
             for record in cartopy.io.shapereader.Reader(sfile).records():
+                if not hasattr(record, "geometry"):
+                    continue
                 polys.extend(
                     pyguymer3.geo.extract_polys(
                         record.geometry,

@@ -76,6 +76,8 @@ def drawRivers(
             # Create a list of all of LineStrings ...
             lines = []
             for record in cartopy.io.shapereader.Reader(sfile).records():
+                if not hasattr(record, "geometry"):
+                    continue
                 lines.extend(
                     pyguymer3.geo.extract_lines(
                         record.geometry,
