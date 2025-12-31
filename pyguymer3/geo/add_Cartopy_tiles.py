@@ -22,7 +22,7 @@ def add_Cartopy_tiles(
 
     Parameters
     ----------
-    axis : cartopy.mpl.geoaxes.GeoAxesSubplot
+    ax : cartopy.mpl.geoaxes.GeoAxes
         the axis to add the OpenStreetMap map tiles as a background to
     midLat : float
         the latitude of the middle of the figure (in degrees)
