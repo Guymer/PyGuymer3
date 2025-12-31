@@ -21,7 +21,7 @@ def add_NE_map(
 
     Parameters
     ----------
-    axis : cartopy.mpl.geoaxes.GeoAxesSubplot
+    ax : cartopy.mpl.geoaxes.GeoAxes
         the axis to add the underlay to
     background : bool, optional
         add background

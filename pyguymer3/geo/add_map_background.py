@@ -17,7 +17,7 @@ def add_map_background(
 
     Parameters
     ----------
-    axis : cartopy.mpl.geoaxes.GeoAxesSubplot
+    ax : cartopy.mpl.geoaxes.GeoAxes
         the axis to add the background image to
     debug : bool, optional
         print debug messages

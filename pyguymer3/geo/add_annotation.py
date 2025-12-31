@@ -26,7 +26,7 @@ def add_annotation(
 
     Parameters
     ----------
-    ax : cartopy.mpl.geoaxes.GeoAxesSubplot
+    ax : cartopy.mpl.geoaxes.GeoAxes
         the axis to add the annotation to
     locLon : float
         the longitude of the annotation location (in degrees)

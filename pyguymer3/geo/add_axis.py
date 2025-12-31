@@ -129,7 +129,7 @@ def add_axis(
 
     Returns
     -------
-    ax : cartopy.mpl.geoaxes.GeoAxesSubplot
+    ax : cartopy.mpl.geoaxes.GeoAxes
         the axis
 
     Notes

@@ -23,7 +23,7 @@ def add_GSHHG_map(
 
     Parameters
     ----------
-    ax : cartopy.mpl.geoaxes.GeoAxesSubplot
+    ax : cartopy.mpl.geoaxes.GeoAxes
         the axis
     background : bool, optional
         add background
