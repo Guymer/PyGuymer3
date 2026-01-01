@@ -9,6 +9,7 @@ def return_folder_list(
               debug = __debug__,
           ensureNFC = True,
     follow_symlinks = True,
+          recursive = True,
     return_symlinks = True,
 ):
     """Return a recursive list of folder names in a directory.
@@ -28,6 +29,8 @@ def return_folder_list(
         ensure that the Unicode encoding is NFC
     follow_symlinks : bool, optional
         follow symbolic links
+    recursive : bool, optional
+        recursively call this function on sub-folders
     return_symlinks : bool, optional
         include symbolic links in the returned list
 
@@ -73,7 +76,7 @@ def return_folder_list(
                         print(f"WARNING: \"{entry.path}\" is illegal")
 
                 # Check if it might need following ...
-                if entry.is_dir(follow_symlinks = follow_symlinks):
+                if recursive and entry.is_dir(follow_symlinks = follow_symlinks):
                     # Check that the directory is list-able ...
                     # NOTE: On 20/Aug/2022 this was (incorrectly, in my opinion)
                     #       returning False on regular folders on FreeBSD (but

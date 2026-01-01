@@ -9,6 +9,7 @@ def return_file_list(
               debug = __debug__,
           ensureNFC = True,
     follow_symlinks = True,
+          recursive = True,
      return_dsstore = True,
     return_symlinks = True,
 ):
@@ -28,6 +29,8 @@ def return_file_list(
         ensure that the Unicode encoding is NFC
     follow_symlinks : bool, optional
         follow symbolic links
+    recursive : bool, optional
+        recursively call this function on sub-folders
     return_dsstore : bool, optional
         include ".DS_Store" files in the returned list
     return_symlinks : bool, optional
@@ -81,7 +84,7 @@ def return_file_list(
                         print(f"DEBUG: \"{entry.path}\" is illegal")
 
                 # Check if it might need following ...
-                if entry.is_dir(follow_symlinks = follow_symlinks):
+                if recursive and entry.is_dir(follow_symlinks = follow_symlinks):
                     # Check that the directory is list-able ...
                     # NOTE: On 20/Aug/2022 this was (incorrectly, in my opinion)
                     #       returning False on regular folders on FreeBSD (but
