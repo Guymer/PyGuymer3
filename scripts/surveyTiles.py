@@ -288,7 +288,7 @@ if __name__ == "__main__":
         label = "OS Terrain 50",
     )
 
-    # Shade region-of-interest (this one is the number of tiles above which the
+    # Shade region-of-interest (this is the number of tiles above which the
     # original image exceeds my custom PIL maximum image size) ...
     ax.axvspan(
         (1024.0 * 1024.0 * 1024.0) / (300.0 * 300.0),
