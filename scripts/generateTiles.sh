@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Run scripts ...
-python3.11 generateGlobeTiles.py --number-of-children 4
-python3.11 generateGshhgTiles.py --number-of-children 4
-python3.11 generateNeTiles.py --number-of-children 4
-python3.11 generateOsTerrainTiles.py --number-of-children 4
+python3.11 generateGlobeTiles.py &> generateGlobeTiles.log
+python3.11 generateGshhgTiles.py &> generateGshhgTiles.log
+python3.11 generateNeTiles.py &> generateNeTiles.log
+python3.11 generateOsTerrainTiles.py &> generateOsTerrainTiles.log
