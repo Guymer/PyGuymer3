@@ -136,18 +136,23 @@ if __name__ == "__main__":
         print(f"Making \"{pName}\" ...")
 
         # Create short-hands ...
-        pnt = shapely.geometry.point.Point(lon, lat)
-        fov = pyguymer3.geo.buffer(
-            pnt,
-            dist,
-            debug = args.debug,
-              eps = args.eps,
-             fill = -1.0,
-             nAng = 361,
-            nIter = args.nIter,
-             simp = -1.0,
-              tol = args.tol,
-        )
+        if lon is not None and lat is not None:
+            print("  Calculating field-of-view ...")
+            pnt = shapely.geometry.point.Point(lon, lat)
+            fov = pyguymer3.geo.buffer(
+                pnt,
+                dist,
+                debug = args.debug,
+                  eps = args.eps,
+                 fill = -1.0,
+                 nAng = 361,
+                nIter = args.nIter,
+                 simp = -1.0,
+                  tol = args.tol,
+            )
+        else:
+            pnt = None
+            fov = None
 
         # Create figure ...
         fg = matplotlib.pyplot.figure(
@@ -157,6 +162,8 @@ if __name__ == "__main__":
 
         # Loop over resolutions ...
         for iResolution, resolution in enumerate(resolutions):
+            print(f"  Plotting \"{resolution}\" and \"{scales[resolution]}\" ...")
+
             # Create axis ...
             ax = pyguymer3.geo.add_axis(
                 fg,
@@ -190,6 +197,8 @@ if __name__ == "__main__":
 
         # Configure figure ...
         fg.tight_layout()
+
+        print("  Saving ...")
 
         # Save figure ...
         fg.savefig(pName)
