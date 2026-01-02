@@ -3,7 +3,7 @@
 # Use the proper idiom in the main module ...
 # NOTE: See https://docs.python.org/3.12/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
 if __name__ == "__main__":
-    # This is a test suite for “geo.add_NE_map()”.
+    # This is a test suite for “geo.add_NE_map()” and “geo.add_NE_tiles()”.
 
     # Import standard modules ...
     import argparse
@@ -74,6 +74,13 @@ if __name__ == "__main__":
            type = float,
     )
     parser.add_argument(
+        "--nIter",
+        default = 1000000,
+           dest = "nIter",
+           help = "the maximum number of iterations (particularly the Vincenty formula)",
+           type = int,
+    )
+    parser.add_argument(
         "--timeout",
         default = 60.0,
            help = "the timeout for any requests/subprocess calls (in seconds)",
@@ -109,237 +116,70 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
-    # Determine file name ...
-    fname = f"{dName}/mapUnderlay0.png"
+    # Loop over plots ...
+    for iPlot, (dist, lat, lon, cultural, linewidth, maxElev) in enumerate(
+        [
+            (   1.0e99,  None, None, False, 0.0, 8000),
+            (1000.0e3 , +40.0,  0.0, False, 0.5, 8000),
+            (  25.0e3 , +51.5,  0.0,  True, 0.5, 8000),
+            (  50.0e3 , +60.5, +7.5,  True, 0.5, 2000),
+        ]
+    ):
+        # Determine file name ...
+        pName = f"{dName}/mapUnderlay{iPlot}.png"
 
-    print(f" > Making \"{fname}\" ...")
+        print(f"Making \"{pName}\" ...")
 
-    # Create figure ...
-    fg = matplotlib.pyplot.figure(
-            dpi = 100,                                      # NOTE: Reduce DPI to make test quicker.
-        figsize = (12.8, 3 * 7.2),
-    )
+        # Create figure ...
+        fg = matplotlib.pyplot.figure(
+                dpi = 100,              # NOTE: Reduce DPI to make test quicker.
+            figsize = (2 * 12.8, 3 * 7.2),
+        )
 
-    # Loop over resolutions ...
-    for iresolution, resolution in enumerate(resolutions):
-        # Create axis ...
-        ax = pyguymer3.geo.add_axis(
-            fg,
-            add_coastlines = False,
-             add_gridlines = True,
+        # Loop over resolutions ...
+        for iResolution, resolution in enumerate(resolutions):
+            # Create axis ...
+            ax = pyguymer3.geo.add_axis(
+                fg,
+                add_coastlines = False,
+                 add_gridlines = True,
+                         debug = args.debug,
+                          dist = dist,
+                           eps = args.eps,
+                           # fov = ?
+                         index = 2 * iResolution + 1,
+                           lat = lat,
+                           lon = lon,
+                         ncols = 2,
+                         nIter = args.nIter,
+                         nrows = 3,
+                           tol = args.tol,
+            )
+
+            # Configure axis ...
+            ax.set_title(f"\"add_NE_map()\" at \"{resolution}\" and \"{scales[resolution]}\"")
+            pyguymer3.geo.add_NE_map(
+                ax,
+                  cultural = cultural,
                      debug = args.debug,
-                       eps = args.eps,
-                     index = iresolution + 1,
-                     ncols = 1,
-                     nIter = None,
-                     nrows = 3,
-                       tol = args.tol,
+                     # fov = ?
+                 linewidth = linewidth,
+                   maxElev = maxElev,
+                resolution = resolution,
+                     scale = scales[resolution],
+            )
+
+        # Configure figure ...
+        fg.tight_layout()
+
+        # Save figure ...
+        fg.savefig(pName)
+        matplotlib.pyplot.close(fg)
+
+        # Optimise PNG ...
+        pyguymer3.image.optimise_image(
+            pName,
+              debug = args.debug,
+              strip = True,
+            timeout = args.timeout,
         )
-
-        # Configure axis ...
-        ax.set_title(resolution)
-        pyguymer3.geo.add_NE_map(
-            ax,
-              cultural = False,
-                 debug = args.debug,
-             linewidth = 0.0,
-               maxElev = 8000,
-              physical = True,
-            resolution = resolution,
-                 scale = scales[resolution],
-        )
-
-    # Configure figure ...
-    fg.tight_layout()
-
-    # Save figure ...
-    fg.savefig(fname)
-    matplotlib.pyplot.close(fg)
-
-    # Optimise PNG ...
-    pyguymer3.image.optimise_image(
-        fname,
-          debug = args.debug,
-          strip = True,
-        timeout = args.timeout,
-    )
-
-    # **************************************************************************
-
-    # Determine file name ...
-    fname = f"{dName}/mapUnderlay1.png"
-
-    print(f" > Making \"{fname}\" ...")
-
-    # Create figure ...
-    fg = matplotlib.pyplot.figure(
-            dpi = 100,                                      # NOTE: Reduce DPI to make test quicker.
-        figsize = (7.2, 3 * 7.2),
-    )
-
-    # Loop over resolutions ...
-    for iresolution, resolution in enumerate(resolutions):
-        # Create axis ...
-        ax = pyguymer3.geo.add_axis(
-            fg,
-            add_coastlines = False,
-             add_gridlines = True,
-                     debug = args.debug,
-                      dist = 1000.0e3,
-                       eps = args.eps,
-                     index = iresolution + 1,
-                       lat = +40.0,
-                       lon =   0.0,
-                     ncols = 1,
-                     nIter = 100,
-                     nrows = 3,
-                       tol = args.tol,
-        )
-
-        # Configure axis ...
-        ax.set_title(resolution)
-        pyguymer3.geo.add_NE_map(
-            ax,
-              cultural = False,
-                 debug = args.debug,
-             linewidth = 0.5,
-               maxElev = 8000,
-              physical = True,
-            resolution = resolution,
-                 scale = scales[resolution],
-        )
-
-    # Configure figure ...
-    fg.tight_layout()
-
-    # Save figure ...
-    fg.savefig(fname)
-    matplotlib.pyplot.close(fg)
-
-    # Optimise PNG ...
-    pyguymer3.image.optimise_image(
-        fname,
-          debug = args.debug,
-          strip = True,
-        timeout = args.timeout,
-    )
-
-    # **************************************************************************
-
-    # Determine file name ...
-    fname = f"{dName}/mapUnderlay2.png"
-
-    print(f" > Making \"{fname}\" ...")
-
-    # Create figure ...
-    fg = matplotlib.pyplot.figure(
-            dpi = 100,                                      # NOTE: Reduce DPI to make test quicker.
-        figsize = (7.2, 3 * 7.2),
-    )
-
-    # Loop over resolutions ...
-    for iresolution, resolution in enumerate(resolutions):
-        # Create axis ...
-        ax = pyguymer3.geo.add_axis(
-            fg,
-            add_coastlines = False,
-             add_gridlines = True,
-                     debug = args.debug,
-                      dist = 25.0e3,
-                       eps = args.eps,
-                     index = iresolution + 1,
-                       lat = +51.5,
-                       lon =   0.0,
-                     ncols = 1,
-                     nIter = 100,
-                     nrows = 3,
-                       tol = args.tol,
-        )
-
-        # Configure axis ...
-        ax.set_title(resolution)
-        pyguymer3.geo.add_NE_map(
-            ax,
-              cultural = True,
-                 debug = args.debug,
-             linewidth = 0.5,
-               maxElev = 8000,
-              physical = True,
-            resolution = resolution,
-                 scale = scales[resolution],
-        )
-
-    # Configure figure ...
-    fg.tight_layout()
-
-    # Save figure ...
-    fg.savefig(fname)
-    matplotlib.pyplot.close(fg)
-
-    # Optimise PNG ...
-    pyguymer3.image.optimise_image(
-        fname,
-          debug = args.debug,
-          strip = True,
-        timeout = args.timeout,
-    )
-
-    # **************************************************************************
-
-    # Determine file name ...
-    fname = f"{dName}/mapUnderlay3.png"
-
-    print(f" > Making \"{fname}\" ...")
-
-    # Create figure ...
-    fg = matplotlib.pyplot.figure(
-            dpi = 100,                                      # NOTE: Reduce DPI to make test quicker.
-        figsize = (7.2, 3 * 7.2),
-    )
-
-    # Loop over resolutions ...
-    for iresolution, resolution in enumerate(resolutions):
-        # Create axis ...
-        ax = pyguymer3.geo.add_axis(
-            fg,
-            add_coastlines = False,
-             add_gridlines = True,
-                     debug = args.debug,
-                      dist = 50.0e3,
-                       eps = args.eps,
-                     index = iresolution + 1,
-                       lat = +60.5,
-                       lon =  +7.5,
-                     ncols = 1,
-                     nIter = 100,
-                     nrows = 3,
-                       tol = args.tol,
-        )
-
-        # Configure axis ...
-        ax.set_title(resolution)
-        pyguymer3.geo.add_NE_map(
-            ax,
-              cultural = True,
-                 debug = args.debug,
-             linewidth = 0.5,
-               maxElev = 2000,
-              physical = True,
-            resolution = resolution,
-                 scale = scales[resolution],
-        )
-
-    # Configure figure ...
-    fg.tight_layout()
-
-    # Save figure ...
-    fg.savefig(fname)
-    matplotlib.pyplot.close(fg)
-
-    # Optimise PNG ...
-    pyguymer3.image.optimise_image(
-        fname,
-          debug = args.debug,
-          strip = True,
-        timeout = args.timeout,
-    )
