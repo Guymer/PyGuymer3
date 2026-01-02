@@ -30,6 +30,9 @@ PyGuymer3.egg-info
 
 # Hide large datasets ...
 debug.*.csv
+pyguymer3/data/geojson/globe/scale=01km
+pyguymer3/data/geojson/globe/scale=02km
+pyguymer3/data/geojson/globe/scale=04km
 pyguymer3/data/png/globe/36x18
 pyguymer3/data/png/globe/72x36
 pyguymer3/data/png/globe/144x72
