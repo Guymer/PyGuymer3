@@ -1,4 +1,4 @@
-The adjacent GeoJSON files were created from the [GLOBE](https://www.ngdc.noaa.gov/mgg/topo/globe.html) dataset by running [Vectorise GLOBE Dataset (VGD)](https://github.com/Guymer/vgd). If you want more elevation intervals available then you should run [Vectorise GLOBE Dataset (VGD)](https://github.com/Guymer/vgd) (PyPI has a limit of 100 MB so I cannot provide more for you as the wheel is already 82,740,959 bytes as of 2/Jan/2026).
+The adjacent GeoJSON files were created from the [GLOBE](https://www.ngdc.noaa.gov/mgg/topo/globe.html) dataset by running [Vectorise GLOBE Dataset (VGD)](https://github.com/Guymer/vgd). If you want more elevation intervals available then you should run [Vectorise GLOBE Dataset (VGD)](https://github.com/Guymer/vgd) (PyPI has a limit of 100 MB so I cannot provide more for you as the wheel is already 88,899,546 bytes as of 2/Jan/2026).
 
 
 The citation for the [GLOBE](https://www.ngdc.noaa.gov/mgg/topo/globe.html) dataset is:
