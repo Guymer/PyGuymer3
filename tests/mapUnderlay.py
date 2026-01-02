@@ -35,6 +35,11 @@ if __name__ == "__main__":
         import matplotlib.pyplot
     except:
         raise Exception("\"matplotlib\" is not installed; run \"pip install --user matplotlib\"") from None
+    try:
+        import shapely
+        import shapely.geometry
+    except:
+        raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import my modules ...
     try:
@@ -130,10 +135,24 @@ if __name__ == "__main__":
 
         print(f"Making \"{pName}\" ...")
 
+        # Create short-hands ...
+        pnt = shapely.geometry.point.Point(lon, lat)
+        fov = pyguymer3.geo.buffer(
+            pnt,
+            dist,
+            debug = args.debug,
+              eps = args.eps,
+             fill = -1.0,
+             nAng = 361,
+            nIter = args.nIter,
+             simp = -1.0,
+              tol = args.tol,
+        )
+
         # Create figure ...
         fg = matplotlib.pyplot.figure(
                 dpi = 100,              # NOTE: Reduce DPI to make test quicker.
-            figsize = (2 * 12.8, 3 * 7.2),
+            figsize = (2 * 9.6, 3 * 7.2),
         )
 
         # Loop over resolutions ...
@@ -146,7 +165,7 @@ if __name__ == "__main__":
                          debug = args.debug,
                           dist = dist,
                            eps = args.eps,
-                           # fov = ?
+                           fov = fov,
                          index = 2 * iResolution + 1,
                            lat = lat,
                            lon = lon,
@@ -162,7 +181,7 @@ if __name__ == "__main__":
                 ax,
                   cultural = cultural,
                      debug = args.debug,
-                     # fov = ?
+                       fov = fov,
                  linewidth = linewidth,
                    maxElev = maxElev,
                 resolution = resolution,
