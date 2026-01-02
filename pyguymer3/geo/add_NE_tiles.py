@@ -2,7 +2,6 @@
 
 # Define function ...
 def add_NE_tiles(
-    fg,
     ax,
     fov,
     /,
@@ -19,6 +18,7 @@ def add_NE_tiles(
     mergedTileName = None,
        optipngPath = None,
               pool = None,
+      regrid_shape = 750,
           resample = False,
         resolution = "10m",
            timeout = 60.0,
@@ -27,9 +27,6 @@ def add_NE_tiles(
 
     Parameters
     ----------
-    fg : matplotlib.figure.Figure
-        The figure which the axis is part of. This is used to determine the
-        ``regrid_shape`` of the merged tile.
     ax : cartopy.mpl.geoaxes.GeoAxes
         The axis to add the NE dataset tiles as a background to.
     fov : shapely.geometry.polygon.Polygon
@@ -69,6 +66,15 @@ def add_NE_tiles(
     pool : None or multiprocessing.pool.Pool, optional
         If provided, then run any "optipng" calls as a ``apply_async()`` job in
         this pool.
+    regrid_shape: int or tuple of int, optional
+        The smallest dimension of the merged image of all of the tiles **after**
+        it has been warped by Cartopy to be the same projection as the figure
+        (in pixels). Due to the use of **kwargs within Cartopy, this is passed
+        all the way down the stack to the Cartopy ".imshow()" call. The size of
+        a figure, in inches, can be found by calling "fg.get_size_inches()". The
+        resolution of a figure can be found by calling "fg.get_dpi()". The size
+        of a figure, in pixels, can be found by multiplying the tuple by the
+        scalar.
     resample : bool, optional
         Use a full resampling method when drawing the final merged and warped
         image on the axis. Due to the use of ``**kwargs`` within Cartopy, this
@@ -239,9 +245,6 @@ def add_NE_tiles(
         )
 
     # Draw merged tile ...
-    # NOTE: I am explicitly setting the regrid shape based off the resolution
-    #       and the size of the figure, as well as a safety factor of 2
-    #       (remembering Nyquist).
     # NOTE: There is an off-by-one error in Cartopy somewhere ... I *think* that
     #       "cartopy.img_transform.mesh_projection()" shrinks the array by half
     #       a pixel at both ends.
@@ -255,10 +258,7 @@ def add_NE_tiles(
         ],                                                                      # [°], [°], [°], [°]
         interpolation = interpolation,
                origin = "upper",
-         regrid_shape = (
-            round(2.0 * fg.get_figwidth() * fg.get_dpi()),
-            round(2.0 * fg.get_figheight() * fg.get_dpi()),
-        ),                                                                      # [px], [px]
+         regrid_shape = regrid_shape,
              resample = resample,
             transform = cartopy.crs.PlateCarree(),
     )
