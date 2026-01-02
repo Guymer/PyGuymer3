@@ -8,10 +8,11 @@ def add_NE_map(
     background = True,
       cultural = True,
          debug = __debug__,
+       elevInt = 250,
            fov = None,
      linestyle = "solid",
      linewidth = 0.5,
-       maxElev = 8850.0,
+       maxElev = 8850,
      onlyValid = False,
       physical = True,
         repair = False,
@@ -29,6 +30,8 @@ def add_NE_map(
         add cultural datasets
     debug : bool, optional
         print debug messages
+    elevInt : int, optional
+        the interval of the elevation bands to shade (in metres)
     fov : None or shapely.geometry.polygon.Polygon, optional
         clip the plotted shapes to the provided field-of-view to work around
         occaisional MatPlotLib or Cartopy plotting errors when shapes much
@@ -37,7 +40,7 @@ def add_NE_map(
         the style of the lines
     linewidth : float, optional
         the width of the lines
-    maxElev : float, optional
+    maxElev : int, optional
         the maximum elevation of the colour scale and acts as an upper bound or
         clip (in metres)
     onlyValid : bool, optional
@@ -137,6 +140,7 @@ def add_NE_map(
         _add_elevation(
             ax,
                  debug = debug,
+               elevInt = elevInt,
                    fov = fov,
                maxElev = maxElev,
              onlyValid = onlyValid,

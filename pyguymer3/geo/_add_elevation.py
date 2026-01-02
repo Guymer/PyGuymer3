@@ -6,8 +6,9 @@ def _add_elevation(
     /,
     *,
          debug = __debug__,
+       elevInt = 250,
            fov = None,
-       maxElev = 8850.0,
+       maxElev = 8850,
      onlyValid = False,
         repair = False,
     resolution = "10m",
@@ -20,11 +21,13 @@ def _add_elevation(
         the axis to add the elevation to
     debug : bool, optional
         print debug messages
+    elevInt : int, optional
+        the interval of the elevation bands to shade (in metres)
     fov : None or shapely.geometry.polygon.Polygon, optional
         clip the plotted shapes to the provided field-of-view to work around
         occaisional MatPlotLib or Cartopy plotting errors when shapes much
         larger than the field-of-view are plotted
-    maxElev : float, optional
+    maxElev : int, optional
         the maximum elevation of the colour scale and acts as an upper bound or
         clip (in metres)
     onlyValid : bool, optional
@@ -110,13 +113,13 @@ def _add_elevation(
 
     # Loop over elevations ...
     # NOTE: Rounded to the nearest integer, Mount Everest is 8,849m ASL.
-    for elevation in range(250, 9000, 250):
+    for elevation in range(elevInt, 9000, elevInt):
         # Create short-hand ...
         name = f"{elevation:04d}m"
 
         # Create suitable colour ...
         # NOTE: Rounded to the nearest integer, Mount Everest is 8,849m ASL.
-        facecolor = cmap(float(elevation) / maxElev)
+        facecolor = cmap(float(elevation) / float(maxElev))
         if debug:
             print(f"INFO: \"{name}\" is ({facecolor[0]:.6f},{facecolor[1]:.6f},{facecolor[2]:.6f},{facecolor[3]:.6f}).")
 
