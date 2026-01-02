@@ -271,13 +271,16 @@ if __name__ == "__main__":
 
         # Add "OS Terrain 50" tiles ...
         pyguymer3.geo.add_OSterrain_tiles(
-            fg,
             ax,
             fov,
                     debug = args.debug,
                      grid = grid,
             interpolation = "gaussian",
                   maxElev = args.maxElev,
+             regrid_shape = (
+                round(2.0 * fg.get_figwidth() * fg.get_dpi()),
+                round(2.0 * fg.get_figheight() * fg.get_dpi()),
+            ),                                                                  # [px], [px]
                  resample = False,
                   timeout = args.timeout,
                       tol = args.tol,

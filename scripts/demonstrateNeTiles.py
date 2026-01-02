@@ -292,7 +292,6 @@ if __name__ == "__main__":
 
         # Add NE tiles ...
         pyguymer3.geo.add_NE_tiles(
-            fg,
             ax,
             fov,
                     debug = args.debug,
@@ -300,6 +299,10 @@ if __name__ == "__main__":
                      grid = grid,
             interpolation = "gaussian",
                   maxElev = args.maxElev,
+             regrid_shape = (
+                round(2.0 * fg.get_figwidth() * fg.get_dpi()),
+                round(2.0 * fg.get_figheight() * fg.get_dpi()),
+            ),                                                                  # [px], [px]
                  resample = False,
                resolution = args.neRes,
                   timeout = args.timeout,
