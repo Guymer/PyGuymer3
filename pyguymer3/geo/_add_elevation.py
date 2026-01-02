@@ -5,13 +5,13 @@ def _add_elevation(
     ax,
     /,
     *,
-         debug = __debug__,
-       elevInt = 250,
-           fov = None,
-       maxElev = 8000,
-     onlyValid = False,
-        repair = False,
-         scale = "32km",
+        debug = __debug__,
+      elevInt = 250,
+          fov = None,
+      maxElev = 8000,
+    onlyValid = False,
+       repair = False,
+        scale = "32km",
 ):
     """Add elevation to a Cartopy axis.
 
