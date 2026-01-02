@@ -1350,7 +1350,7 @@ class MyTestCase(unittest.TestCase):
                 "tests/findMiddleOfLocs",
                 "tests/greatCircle",
                 "tests/makePng",
-                "tests/mapUnderlay",
+                "tests/mapNeUnderlay",
                 "tests/saveArrayAsImage",
             ],
         )

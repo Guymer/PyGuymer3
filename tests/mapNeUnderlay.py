@@ -131,7 +131,7 @@ if __name__ == "__main__":
         ]
     ):
         # Determine file name ...
-        pName = f"{dName}/mapUnderlay{iPlot}.png"
+        pName = f"{dName}/mapNeUnderlay{iPlot}.png"
 
         print(f"Making \"{pName}\" ...")
 
