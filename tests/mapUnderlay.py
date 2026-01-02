@@ -122,12 +122,12 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Loop over plots ...
-    for iPlot, (dist, lat, lon, cultural, linewidth, maxElev) in enumerate(
+    for iPlot, (dist, lat, lon, cultural, linewidth, maxElev, grid) in enumerate(
         [
-            (   1.0e99,  None, None, False, 0.0, 8000),
-            (1000.0e3 , +40.0,  0.0, False, 0.5, 8000),
-            (  25.0e3 , +51.5,  0.0,  True, 0.5, 8000),
-            (  50.0e3 , +60.5, +7.5,  True, 0.5, 2000),
+            (   1.0e99,  None, None, False, 0.0, 8000,  "18x9" ),
+            (1000.0e3 , +40.0,  0.0, False, 0.5, 8000,  "72x36"),
+            (  25.0e3 , +51.5,  0.0,  True, 0.5, 8000, "144x72"),
+            (  50.0e3 , +60.5, +7.5,  True, 0.5, 2000, "144x72"),
         ]
     ):
         # Determine file name ...
@@ -151,14 +151,30 @@ if __name__ == "__main__":
                   tol = args.tol,
             )
         else:
+            print("  Defining planet Earth ...")
             pnt = None
-            fov = None
+            fov = shapely.geometry.polygon.orient(
+                shapely.geometry.polygon.Polygon(
+                    shapely.geometry.polygon.LinearRing(
+                        [
+                            (-180.0,  90.0),
+                            (+180.0,  90.0),
+                            (+180.0, -90.0),
+                            (-180.0, -90.0),
+                            (-180.0,  90.0),
+                        ]
+                    )
+                )
+            )
+        pyguymer3.geo.check(fov)
 
         # Create figure ...
         fg = matplotlib.pyplot.figure(
                 dpi = 100,              # NOTE: Reduce DPI to make test quicker.
             figsize = (2 * 9.6, 3 * 7.2),
         )
+
+        # **********************************************************************
 
         # Loop over resolutions ...
         for iResolution, resolution in enumerate(resolutions):
@@ -179,6 +195,8 @@ if __name__ == "__main__":
                          ncols = 2,
                          nIter = args.nIter,
                          nrows = 3,
+                     onlyValid = True,
+                        repair = True,
                            tol = args.tol,
             )
 
@@ -191,9 +209,59 @@ if __name__ == "__main__":
                        fov = fov,
                  linewidth = linewidth,
                    maxElev = maxElev,
+                 onlyValid = True,
+                    repair = True,
                 resolution = resolution,
                      scale = scales[resolution],
             )
+
+            # ******************************************************************
+
+            # Create short-hand ...
+            regrid_shape = (
+                round(2.0 * (fg.get_figwidth() / 2.0) * fg.get_dpi()),
+                round(2.0 * (fg.get_figheight() / 3.0) * fg.get_dpi()),
+            )                                                                   # [px], [px]
+
+            print(f"  Plotting \"{resolution}\" and \"{grid}\" (with \"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\") ...")
+
+            # Create axis ...
+            ax = pyguymer3.geo.add_axis(
+                fg,
+                add_coastlines = False,
+                 add_gridlines = True,
+                         debug = args.debug,
+                          dist = dist,
+                           eps = args.eps,
+                           fov = fov,
+                         index = 2 * iResolution + 2,
+                           lat = lat,
+                           lon = lon,
+                         ncols = 2,
+                         nIter = args.nIter,
+                         nrows = 3,
+                     onlyValid = True,
+                        repair = True,
+                           tol = args.tol,
+            )
+
+            # Configure axis ...
+            ax.set_title(f"\"add_NE_tiles()\" at \"{resolution}\" and \"{grid}\" (\"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\")")
+            pyguymer3.geo.add_NE_tiles(
+                ax,
+                fov,
+                         debug = args.debug,
+                          grid = grid,
+                 interpolation = "gaussian",
+                       maxElev = maxElev,
+                mergedTileName = f"{dName}/mapUnderlay{iPlot}_{resolution}.png",
+                  regrid_shape = regrid_shape,
+                      resample = False,
+                    resolution = resolution,
+                       timeout = args.timeout,
+            )
+
+        # **********************************************************************
 
         # Configure figure ...
         fg.tight_layout()
