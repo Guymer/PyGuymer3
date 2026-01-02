@@ -15,6 +15,7 @@ exclude bugs/*/*
 exclude bugs/*/*/*
 exclude bugs/*/*/*/*
 exclude bugs/*/*/*/*/*
+exclude DEVELOP.md
 exclude docs/*
 exclude docs/*/*
 exclude docs/*/*/*
