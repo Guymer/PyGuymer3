@@ -11,7 +11,7 @@ def _add_elevation(
        maxElev = 8000,
      onlyValid = False,
         repair = False,
-    resolution = "10m",
+         scale = "32km",
 ):
     """Add elevation to a Cartopy axis.
 
@@ -35,8 +35,8 @@ def _add_elevation(
         being called often)
     repair : bool, optional
         attempt to repair invalid Polygons
-    resolution : str, optional
-        the resolution of the elevation
+    scale : str, optional
+        the scale of the elevation
 
     Notes
     -----
@@ -102,15 +102,6 @@ def _add_elevation(
         ]
     )
 
-    # Define scales ...
-    scale = {
-         "10m" : "08km",
-         "50m" : "16km",
-        "110m" : "32km",
-    }
-    if resolution not in scale:
-        raise Exception(f"\"{resolution}\" is not a recognised resolution; \"{__name__}\" needs updating") from None
-
     # Loop over elevations ...
     # NOTE: Rounded to the nearest integer, Mount Everest is 8,849m ASL.
     for elevation in range(elevInt, 9000, elevInt):
@@ -124,7 +115,7 @@ def _add_elevation(
             print(f"INFO: \"{name}\" is ({facecolor[0]:.6f},{facecolor[1]:.6f},{facecolor[2]:.6f},{facecolor[3]:.6f}).")
 
         # Find file containing the shapes ...
-        sfile = f"{os.path.dirname(__file__)}/../data/geojson/globe/scale={scale[resolution]}/elev={elevation:04d}m.geojson"
+        sfile = f"{os.path.dirname(__file__)}/../data/geojson/globe/scale={scale}/elev={elevation:04d}m.geojson"
         if not os.path.exists(sfile):
             continue
         if debug:

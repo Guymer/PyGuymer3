@@ -17,6 +17,7 @@ def add_NE_map(
       physical = True,
         repair = False,
     resolution = "10m",
+         scale = "32km",
 ):
     """Add an underlay to a Cartopy axis from Natural Earth.
 
@@ -52,6 +53,8 @@ def add_NE_map(
         attempt to repair invalid Polygons
     resolution : str, optional
         the resolution of the reefs
+    scale : str, optional
+        the scale of the elevation
 
     Notes
     -----
@@ -145,7 +148,7 @@ def add_NE_map(
                maxElev = maxElev,
              onlyValid = onlyValid,
                 repair = repair,
-            resolution = resolution,
+                 scale = scale,
         )
 
         # Land overlays ...

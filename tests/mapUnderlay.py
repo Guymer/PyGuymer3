@@ -90,12 +90,17 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
-    # Define resolutions ...
+    # Define resolutions and scales ...
     resolutions = [
          "10m",
          "50m",
         "110m",
     ]
+    scales = {
+         "10m" : "08km",
+         "50m" : "16km",
+        "110m" : "32km",
+    }
 
     # Create short-hand and make output directory ...
     dName = f'{args.absPathToRepo}/tests/{os.path.basename(__file__).removesuffix(".py")}'
@@ -141,6 +146,7 @@ if __name__ == "__main__":
                maxElev = 8000,
               physical = True,
             resolution = resolution,
+                 scale = scales[resolution],
         )
 
     # Configure figure ...
@@ -200,6 +206,7 @@ if __name__ == "__main__":
                maxElev = 8000,
               physical = True,
             resolution = resolution,
+                 scale = scales[resolution],
         )
 
     # Configure figure ...
@@ -259,6 +266,7 @@ if __name__ == "__main__":
                maxElev = 8000,
               physical = True,
             resolution = resolution,
+                 scale = scales[resolution],
         )
 
     # Configure figure ...
@@ -318,6 +326,7 @@ if __name__ == "__main__":
                maxElev = 2000,
               physical = True,
             resolution = resolution,
+                 scale = scales[resolution],
         )
 
     # Configure figure ...
