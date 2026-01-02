@@ -175,6 +175,11 @@ if __name__ == "__main__":
                 (5, 2,),                # aliceblue
                 (6, 3,),                # snow
             ]:
+                # Skip known missing datasets ...
+                if res == "c" and level == 4:
+                    print(f"      Skipping level=\"{level:d}\" and res=\"{res}\" (known missing dataset).")
+                    continue
+
                 print(f"    Adding level \"{level:d}\" ...")
 
                 # Deduce Shapefile name (catching missing datasets) ...
@@ -184,7 +189,7 @@ if __name__ == "__main__":
                         scale = res,
                     )
                 except RuntimeError:
-                    print(f"      Skipping level=\"{level}\" and res=\"{res}\" (RuntimeError).")
+                    print(f"      Skipping level=\"{level:d}\" and res=\"{res}\" (RuntimeError).")
                     continue
                 if os.path.basename(sfile) != f"GSHHS_{res}_L{level:d}.shp":
                     print(f"      Skipping \"{sfile}\" (filename does not match request).")
