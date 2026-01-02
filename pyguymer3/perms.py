@@ -12,6 +12,7 @@ def perms(
         folderPerms = None,
     follow_symlinks = True,
               group = None,
+          recursive = True,
      return_dsstore = True,
     return_symlinks = False,
               skips = None,
@@ -42,6 +43,8 @@ def perms(
         desired user owner
     follow_symlinks : bool, optional
         follow symbolic links
+    recursive : bool, optional
+        recursively call this function on sub-folders
     return_dsstore : bool, optional
         include ".DS_Store" files in the returned list
     return_symlinks : bool, optional
@@ -79,6 +82,7 @@ def perms(
                   debug = debug,
               ensureNFC = ensureNFC,
         follow_symlinks = follow_symlinks,
+              recursive = recursive,
          return_dsstore = return_dsstore,
         return_symlinks = return_symlinks,
     )
@@ -88,6 +92,7 @@ def perms(
                   debug = debug,
               ensureNFC = ensureNFC,
         follow_symlinks = follow_symlinks,
+              recursive = recursive,
         return_symlinks = return_symlinks,
     )
 
