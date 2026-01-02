@@ -100,6 +100,7 @@ def return_file_list(
                             follow_symlinks = follow_symlinks,
                              return_dsstore = return_dsstore,
                             return_symlinks = return_symlinks,
+                                  recursive = recursive,
                         )
                     elif debug:
                         print(f"DEBUG: \"{entry.path}\" cannot be listed")

@@ -91,6 +91,7 @@ def return_folder_list(
                                   ensureNFC = ensureNFC,
                             follow_symlinks = follow_symlinks,
                             return_symlinks = return_symlinks,
+                                  recursive = recursive,
                         )
                     elif debug:
                         print(f"WARNING: \"{entry.path}\" cannot be listed")

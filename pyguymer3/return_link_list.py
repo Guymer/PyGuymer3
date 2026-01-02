@@ -86,6 +86,7 @@ def return_link_list(
                                       debug = debug,
                                   ensureNFC = ensureNFC,
                             follow_symlinks = follow_symlinks,
+                                  recursive = recursive,
                         )
                     elif debug:
                         print(f"WARNING: \"{entry.path}\" cannot be listed")
