@@ -8,7 +8,7 @@ def _add_elevation(
          debug = __debug__,
        elevInt = 250,
            fov = None,
-       maxElev = 8850,
+       maxElev = 8000,
      onlyValid = False,
         repair = False,
     resolution = "10m",

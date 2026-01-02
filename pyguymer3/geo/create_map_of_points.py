@@ -420,7 +420,7 @@ def create_map_of_points(
                        fov = fov,
                  linestyle = "solid",
                  linewidth = 0.5,
-                   maxElev = 8850,
+                   maxElev = 8000,
                  onlyValid = onlyValid,
                   physical = True,
                     repair = repair,

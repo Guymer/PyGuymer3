@@ -15,7 +15,7 @@ def add_NE_tiles(
               grid = "18x9",
      interpolation = "none",
       jpegtranPath = None,
-           maxElev = 1000,
+           maxElev = 8000,
     mergedTileName = None,
        optipngPath = None,
               pool = None,
