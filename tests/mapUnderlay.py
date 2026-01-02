@@ -174,6 +174,12 @@ if __name__ == "__main__":
             figsize = (2 * 9.6, 3 * 7.2),
         )
 
+        # Create short-hand ...
+        regrid_shape = (
+            round(2.0 * (fg.get_figwidth() / 2.0) * fg.get_dpi()),
+            round(2.0 * (fg.get_figheight() / 3.0) * fg.get_dpi()),
+        )                                                                       # [px], [px]
+
         # **********************************************************************
 
         # Loop over resolutions ...
@@ -217,12 +223,6 @@ if __name__ == "__main__":
 
             # ******************************************************************
 
-            # Create short-hand ...
-            regrid_shape = (
-                round(2.0 * (fg.get_figwidth() / 2.0) * fg.get_dpi()),
-                round(2.0 * (fg.get_figheight() / 3.0) * fg.get_dpi()),
-            )                                                                   # [px], [px]
-
             print(f"  Plotting \"{resolution}\" and \"{grid}\" (with \"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\") ...")
 
             # Create axis ...
@@ -254,7 +254,7 @@ if __name__ == "__main__":
                           grid = grid,
                  interpolation = "gaussian",
                        maxElev = maxElev,
-                mergedTileName = f"{dName}/mapUnderlay{iPlot}_{resolution}.png",
+                mergedTileName = f'{pName.removesuffix(".png")}_{resolution}.png',
                   regrid_shape = regrid_shape,
                       resample = False,
                     resolution = resolution,
