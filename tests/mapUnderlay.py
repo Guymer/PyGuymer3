@@ -138,7 +138,7 @@ if __name__ == "__main__":
               cultural = False,
                  debug = args.debug,
              linewidth = 0.0,
-               maxElev = 8850.0,
+               maxElev = 8850,
               physical = True,
             resolution = resolution,
         )
@@ -197,7 +197,7 @@ if __name__ == "__main__":
               cultural = False,
                  debug = args.debug,
              linewidth = 0.5,
-               maxElev = 8850.0,
+               maxElev = 8850,
               physical = True,
             resolution = resolution,
         )
@@ -256,7 +256,7 @@ if __name__ == "__main__":
               cultural = True,
                  debug = args.debug,
              linewidth = 0.5,
-               maxElev = 8850.0,
+               maxElev = 8850,
               physical = True,
             resolution = resolution,
         )
@@ -315,7 +315,7 @@ if __name__ == "__main__":
               cultural = True,
                  debug = args.debug,
              linewidth = 0.5,
-               maxElev = 2000.0,
+               maxElev = 2000,
               physical = True,
             resolution = resolution,
         )
