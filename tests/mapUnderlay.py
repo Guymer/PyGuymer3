@@ -138,9 +138,8 @@ if __name__ == "__main__":
         # Create short-hands ...
         if lon is not None and lat is not None:
             print("  Calculating field-of-view ...")
-            pnt = shapely.geometry.point.Point(lon, lat)
             fov = pyguymer3.geo.buffer(
-                pnt,
+                shapely.geometry.point.Point(lon, lat),
                 dist,
                 debug = args.debug,
                   eps = args.eps,
@@ -152,7 +151,6 @@ if __name__ == "__main__":
             )
         else:
             print("  Defining planet Earth ...")
-            pnt = None
             fov = shapely.geometry.polygon.orient(
                 shapely.geometry.polygon.Polygon(
                     shapely.geometry.polygon.LinearRing(
