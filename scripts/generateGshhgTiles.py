@@ -7,18 +7,8 @@ if __name__ == "__main__":
     import argparse
     import multiprocessing
     import os
-    import pathlib
 
     # Import special modules ...
-    try:
-        import cartopy
-        cartopy.config.update(
-            {
-                "cache_dir" : pathlib.PosixPath("~/.local/share/cartopy").expanduser(),
-            }
-        )
-    except:
-        raise Exception("\"cartopy\" is not installed; run \"pip install --user Cartopy\"") from None
     try:
         import matplotlib
         matplotlib.rcParams.update(
@@ -43,10 +33,6 @@ if __name__ == "__main__":
         PIL.Image.MAX_IMAGE_PIXELS = 4 * 1024 * 1024 * 1024                     # [px] (this is more than normal so that I can get 256x128 tiles)
     except:
         raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None
-    try:
-        import shapely
-    except:
-        raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import my modules ...
     try:
@@ -55,6 +41,9 @@ if __name__ == "__main__":
         import pyguymer3.image
     except:
         raise Exception("\"pyguymer3\" is not installed; run \"pip install --user PyGuymer3\"") from None
+
+    # Import local modules ...
+    import generateGshhgTilesSrc as funcs
 
     # **************************************************************************
 
@@ -166,6 +155,8 @@ if __name__ == "__main__":
 
             # ******************************************************************
 
+            print("    Drawing layers ...")
+
             # Loop over levels and their colours ...
             for level, color in [
                 (1, 1,),                # darkkhaki
@@ -175,86 +166,8 @@ if __name__ == "__main__":
                 (5, 2,),                # aliceblue
                 (6, 3,),                # snow
             ]:
-                # Skip known missing datasets ...
-                if res == "c" and level == 4:
-                    print(f"      Skipping level=\"{level:d}\" and res=\"{res}\" (known missing dataset).")
-                    continue
-
-                print(f"    Adding level \"{level:d}\" ...")
-
-                # Deduce Shapefile name (catching missing datasets) ...
-                try:
-                    sfile = cartopy.io.shapereader.gshhs(
-                        level = level,
-                        scale = res,
-                    )
-                except RuntimeError:
-                    print(f"      Skipping level=\"{level:d}\" and res=\"{res}\" (RuntimeError).")
-                    continue
-                if os.path.basename(sfile) != f"GSHHS_{res}_L{level:d}.shp":
-                    print(f"      Skipping \"{sfile}\" (filename does not match request).")
-                    continue
-
-                # Create a list of all of the valid Polygons ...
-                shapelyPolys = []
-                for record in cartopy.io.shapereader.Reader(sfile).records():
-                    if not hasattr(record, "geometry"):
-                        continue
-                    shapelyPolys.extend(
-                        pyguymer3.geo.extract_polys(
-                            record.geometry,
-                            onlyValid = True,
-                               repair = True,
-                        )
-                    )
-
-                # Initialise lists ...
-                pilHoles = []
-                pilPolys = []
-
-                # Loop over valid Polygons ...
-                for shapelyPoly in shapelyPolys:
-                    # Check that it is a Polygon ...
-                    assert isinstance(shapelyPoly, shapely.geometry.polygon.Polygon), shapelyPoly
-
-                    # Convert the CoordinateSequence of the exterior ring (in
-                    # degrees) to a list of tuples (in pixels) and append it to
-                    # the list ...
-                    coords = numpy.array(shapelyPoly.exterior.coords)           # [°]
-                    pixels = []                                                 # [px]
-                    for iCoord in range(coords.shape[0]):
-                        x = float(nx) * (( coords[iCoord, 0] + 180.0) / 360.0)  # [px]
-                        y = float(ny) * ((-coords[iCoord, 1] + 90.0) / 180.0)   # [px]
-                        pixels.append((x, y))                                   # [px]
-                    del coords
-                    pilPolys.append(pixels)
-                    del pixels
-
-                    # Loop over interior rings ...
-                    for interior in shapelyPoly.interiors:
-                        # Convert the CoordinateSequence of the interior ring
-                        # (in degrees) to a list of tuples (in pixels) and
-                        # append it to the list ...
-                        coords = numpy.array(interior.coords)                   # [°]
-                        pixels = []                                             # [px]
-                        for iCoord in range(coords.shape[0]):
-                            x = float(nx) * (( coords[iCoord, 0] + 180.0) / 360.0)  # [px]
-                            y = float(ny) * ((-coords[iCoord, 1] + 90.0) / 180.0)   # [px]
-                            pixels.append((x, y))                               # [px]
-                        del coords
-                        pilHoles.append(pixels)
-                        del pixels
-                del shapelyPolys
-
-                # Draw polygons with holes ...
-                pyguymer3.image.drawPolygonsWithHoles(
-                    img,
-                    pilPolys,
-                    pilHoles,
-                    color,
-                    maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS,
-                )
-                del pilHoles, pilPolys
+                # Draw layer ...
+                funcs.drawCoastline(img, level, res, color, maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS)
 
             # ******************************************************************
 
