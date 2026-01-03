@@ -253,6 +253,24 @@ if __name__ == "__main__":
             if nShrunkenTilesX == 0 or nShrunkenTilesY == 0:
                 break
 
+            # Loop over all to-be-generated tiles skip this shrink level if all
+            # already exist ...
+            allExist = True
+            for res in args.ress:
+                for iShrunkenTileX in range(nShrunkenTilesX):
+                    for iShrunkenTileY in range(nShrunkenTilesY):
+                        pName = f"{args.absPathToRepo}/pyguymer3/data/png/ne/{nShrunkenTilesX:d}x{nShrunkenTilesY:d}/maxElev={maxElev:d}m/elevInt={args.elevBandInt:d}m/res={res}/x={iShrunkenTileX:d}/y={iShrunkenTileY:d}.png"
+                        if not os.path.exists(pName):
+                            allExist = False
+                            break
+                    if not allExist:
+                        break
+                if not allExist:
+                    break
+            if allExist:
+                print(f"  Skipping shrink level {shrinkLevel:,d} ({nShrunkenTilesX:d}x{nShrunkenTilesY:d}) as all tiles already exist.")
+                continue
+
             print(f"  Processing shrink level {shrinkLevel:,d} ({nShrunkenTilesX:d}x{nShrunkenTilesY:d}) ...")
 
             # Create shrunken data ...
@@ -271,6 +289,21 @@ if __name__ == "__main__":
 
             # Loop over resolutions ...
             for res in args.ress:
+                # Loop over all to-be-generated tiles skip this resolution if
+                # all already exist ...
+                allExist = True
+                for iShrunkenTileX in range(nShrunkenTilesX):
+                    for iShrunkenTileY in range(nShrunkenTilesY):
+                        pName = f"{args.absPathToRepo}/pyguymer3/data/png/ne/{nShrunkenTilesX:d}x{nShrunkenTilesY:d}/maxElev={maxElev:d}m/elevInt={args.elevBandInt:d}m/res={res}/x={iShrunkenTileX:d}/y={iShrunkenTileY:d}.png"
+                        if not os.path.exists(pName):
+                            allExist = False
+                            break
+                    if not allExist:
+                        break
+                if allExist:
+                    print(f"    Skipping resolution {res} as all tiles already exist.")
+                    continue
+
                 print(f"    Processing resolution {res} ...")
 
                 # Create the PIL image and drawing object ...
@@ -431,10 +464,43 @@ if __name__ == "__main__":
 
         # **********************************************************************
 
+        # Loop over all to-be-generated tiles skip this maximum elevation if all
+        # already exist ...
+        allExist = True
+        for res in args.ress:
+            for iTileX in range(nTilesX):
+                for iTileY in range(nTilesY):
+                    pName = f"{args.absPathToRepo}/pyguymer3/data/png/ne/{nTilesX:d}x{nTilesY:d}/maxElev={maxElev:d}m/elevInt={args.elevBandInt:d}m/res={res}/x={iTileX:d}/y={iTileY:d}.png"
+                    if not os.path.exists(pName):
+                        allExist = False
+                        break
+                if not allExist:
+                    break
+            if not allExist:
+                break
+        if allExist:
+            print(f"  Skipping original size ({nTilesX:d}x{nTilesY:d}) as all tiles already exist.")
+            continue
+
         print(f"  Processing original size ({nTilesX:d}x{nTilesY:d}) ...")
 
         # Loop over resolutions ...
         for res in args.ress:
+            # Loop over all to-be-generated tiles skip this resolution if all
+            # already exist ...
+            allExist = True
+            for iTileX in range(nTilesX):
+                for iTileY in range(nTilesY):
+                    pName = f"{args.absPathToRepo}/pyguymer3/data/png/ne/{nTilesX:d}x{nTilesY:d}/maxElev={maxElev:d}m/elevInt={args.elevBandInt:d}m/res={res}/x={iTileX:d}/y={iTileY:d}.png"
+                    if not os.path.exists(pName):
+                        allExist = False
+                        break
+                if not allExist:
+                    break
+            if allExist:
+                print(f"    Skipping resolution {res} as all tiles already exist.")
+                continue
+
             print(f"    Processing resolution {res} ...")
 
             # Create the PIL image and drawing object ...
