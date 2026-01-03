@@ -21,6 +21,7 @@ from .__exiftool__ import __exiftool__
 from .__pillow__ import __pillow__
 from .dict2exif import dict2exif
 from .dot2png import dot2png
+from .drawPolygonsWithHoles import drawPolygonsWithHoles
 from .EXIF_datetime import EXIF_datetime
 from .exiftool import exiftool
 from .gifsicle import gifsicle
