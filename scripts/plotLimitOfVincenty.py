@@ -6,6 +6,7 @@ if __name__ == "__main__":
     # Import standard modules ...
     import argparse
     import os
+    import shutil
 
     # Import special modules ...
     try:
@@ -57,6 +58,12 @@ if __name__ == "__main__":
            type = str,
     )
     parser.add_argument(
+        "--chunksize",
+        default = 1048576,
+           help = "the size of the chunks of any files which are read in (in bytes)",
+           type = int,
+    )
+    parser.add_argument(
         "--debug",
         action = "store_true",
           dest = "debug",
@@ -77,11 +84,39 @@ if __name__ == "__main__":
            type = float,
     )
     parser.add_argument(
+        "--exiftool-path",
+        default = shutil.which("exiftool"),
+           dest = "exiftoolPath",
+           help = "the path to the \"exiftool\" binary",
+           type = str,
+    )
+    parser.add_argument(
+        "--gifsicle-path",
+        default = shutil.which("gifsicle"),
+           dest = "gifsiclePath",
+           help = "the path to the \"gifsicle\" binary",
+           type = str,
+    )
+    parser.add_argument(
+        "--jpegtran-path",
+        default = shutil.which("jpegtran"),
+           dest = "jpegtranPath",
+           help = "the path to the \"jpegtran\" binary",
+           type = str,
+    )
+    parser.add_argument(
         "--nIter",
         default = 1000000,
            dest = "nIter",
            help = "the maximum number of iterations (particularly the Vincenty formula)",
            type = int,
+    )
+    parser.add_argument(
+        "--optipng-path",
+        default = shutil.which("optipng"),
+           dest = "optipngPath",
+           help = "the path to the \"optipng\" binary",
+           type = str,
     )
     parser.add_argument(
         "--timeout",
@@ -238,7 +273,12 @@ if __name__ == "__main__":
     # Optimise PNG ...
     pyguymer3.image.optimise_image(
         f"{args.absPathToRepo}/scripts/plotLimitOfVincenty.png",
-          debug = args.debug,
-          strip = True,
-        timeout = args.timeout,
+           chunksize = args.chunksize,
+               debug = args.debug,
+        exiftoolPath = args.exiftoolPath,
+        gifsiclePath = args.gifsiclePath,
+        jpegtranPath = args.jpegtranPath,
+         optipngPath = args.optipngPath,
+               strip = True,
+             timeout = args.timeout,
     )
