@@ -290,8 +290,8 @@ if __name__ == "__main__":
                               tol = args.tol,
         )
 
-        # Add NE tiles ...
-        pyguymer3.geo.add_NE_tiles(
+        # Add GLOBE+NE tiles ...
+        pyguymer3.geo.add_GLOBE_and_NE_tiles(
             ax,
             fov,
                     debug = args.debug,
