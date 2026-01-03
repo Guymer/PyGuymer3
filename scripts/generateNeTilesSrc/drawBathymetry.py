@@ -3,7 +3,6 @@
 # Define function ...
 def drawBathymetry(
     img,
-    draw,
     res,
     /,
 ):
@@ -49,6 +48,7 @@ def drawBathymetry(
     try:
         import pyguymer3
         import pyguymer3.geo
+        import pyguymer3.image
     except:
         raise Exception("\"pyguymer3\" is not installed; run \"pip install --user PyGuymer3\"") from None
 
@@ -78,6 +78,13 @@ def drawBathymetry(
         ( 9000, "bathymetry_B_9000" ),
         (10000, "bathymetry_A_10000"),
     ]:
+        # Create short-hands ...
+        r, g, b, _ = cmap(float(depth) / 10000.0, bytes = True)
+        assert isinstance(r, numpy.uint8)
+        assert isinstance(g, numpy.uint8)
+        assert isinstance(b, numpy.uint8)
+        color = (int(r), int(g), int(b))
+
         # Find file containing the shapes ...
         try:
             sfile = cartopy.io.shapereader.natural_earth(
@@ -90,12 +97,12 @@ def drawBathymetry(
 
         # Check (again) that the file was found ...
         if os.path.exists(sfile):
-            # Create a list of all of Polygons ...
-            polys = []
+            # Create a list of all of the valid Polygons ...
+            shapelyPolys = []
             for record in cartopy.io.shapereader.Reader(sfile).records():
                 if not hasattr(record, "geometry"):
                     continue
-                polys.extend(
+                shapelyPolys.extend(
                     pyguymer3.geo.extract_polys(
                         record.geometry,
                         onlyValid = True,
@@ -103,31 +110,50 @@ def drawBathymetry(
                     )
                 )
 
-            # Loop over Polygons ...
-            for poly in polys:
+            # Initialise lists ...
+            pilHoles = []
+            pilPolys = []
+
+            # Loop over valid Polygons ...
+            for shapelyPoly in shapelyPolys:
                 # Check that it is a Polygon ...
-                assert isinstance(poly, shapely.geometry.polygon.Polygon), poly
+                assert isinstance(shapelyPoly, shapely.geometry.polygon.Polygon), shapelyPoly
 
                 # Convert the CoordinateSequence of the exterior ring (in
-                # degrees) to a list of tuples (in pixels) ...
-                coords = numpy.array(poly.exterior.coords)                      # [°]
+                # degrees) to a list of tuples (in pixels) and append it to the
+                # list ...
+                coords = numpy.array(shapelyPoly.exterior.coords)               # [°]
                 pixels = []                                                     # [px]
                 for iCoord in range(coords.shape[0]):
                     x = float(img.width) * (( coords[iCoord, 0] + 180.0) / 360.0)   # [px]
                     y = float(img.height) * ((-coords[iCoord, 1] + 90.0) / 180.0)   # [px]
                     pixels.append((x, y))                                       # [px]
                 del coords
-
-                # Draw the Polygon ...
-                r, g, b, _ = cmap(float(depth) / 10000.0, bytes = True)
-                assert isinstance(r, numpy.uint8)
-                assert isinstance(g, numpy.uint8)
-                assert isinstance(b, numpy.uint8)
-                draw.polygon(
-                    pixels,
-                     fill = (int(r), int(g), int(b)),
-                    width = 0,
-                )
+                pilPolys.append(pixels)
                 del pixels
-            del polys
+
+                # Loop over interior rings ...
+                for interior in shapelyPoly.interiors:
+                    # Convert the CoordinateSequence of the interior ring (in
+                    # degrees) to a list of tuples (in pixels) and append it to
+                    # the list ...
+                    coords = numpy.array(interior.coords)                       # [°]
+                    pixels = []                                                 # [px]
+                    for iCoord in range(coords.shape[0]):
+                        x = float(img.width) * (( coords[iCoord, 0] + 180.0) / 360.0)   # [px]
+                        y = float(img.height) * ((-coords[iCoord, 1] + 90.0) / 180.0)   # [px]
+                        pixels.append((x, y))                                   # [px]
+                    del coords
+                    pilHoles.append(pixels)
+                    del pixels
+            del shapelyPolys
+
+            # Draw polygons with holes ...
+            pyguymer3.image.drawPolygonsWithHoles(
+                img,
+                pilPolys,
+                pilHoles,
+                color,
+            )
+            del pilHoles, pilPolys
     del cmap

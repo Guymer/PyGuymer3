@@ -319,11 +319,11 @@ if __name__ == "__main__":
                 print("      Drawing layers under elevation data ...")
 
                 # Draw layers below elevation data ...
-                funcs.drawBathymetry(img, draw, res)
-                funcs.drawAntarcticIceShelves(img, draw, res)
-                funcs.drawReefs(img, draw, res)
-                funcs.drawLand(img, draw, res)
-                funcs.drawMinorIslands(img, draw, res)
+                funcs.drawBathymetry(img, res)
+                funcs.drawAntarcticIceShelves(img, res)
+                funcs.drawReefs(img, res)
+                funcs.drawLand(img, res)
+                funcs.drawMinorIslands(img, res)
 
                 # **************************************************************
 
@@ -364,9 +364,9 @@ if __name__ == "__main__":
                 print("      Drawing layers above elevation data ...")
 
                 # Draw layers above elevation data ...
-                funcs.drawGlaciatedAreas(img, draw, res)
-                funcs.drawLakes(img, draw, res)
-                funcs.drawPlayas(img, draw, res)
+                funcs.drawGlaciatedAreas(img, res)
+                funcs.drawLakes(img, res)
+                funcs.drawPlayas(img, res)
                 funcs.drawRivers(img, draw, res)
                 del draw
 
@@ -516,11 +516,11 @@ if __name__ == "__main__":
             print("      Drawing layers under elevation data ...")
 
             # Draw layers below elevation data ...
-            funcs.drawBathymetry(img, draw, res)
-            funcs.drawAntarcticIceShelves(img, draw, res)
-            funcs.drawReefs(img, draw, res)
-            funcs.drawLand(img, draw, res)
-            funcs.drawMinorIslands(img, draw, res)
+            funcs.drawBathymetry(img, res)
+            funcs.drawAntarcticIceShelves(img, res)
+            funcs.drawReefs(img, res)
+            funcs.drawLand(img, res)
+            funcs.drawMinorIslands(img, res)
 
             # ******************************************************************
 
@@ -561,9 +561,9 @@ if __name__ == "__main__":
             print("      Drawing layers above elevation data ...")
 
             # Draw layers above elevation data ...
-            funcs.drawGlaciatedAreas(img, draw, res)
-            funcs.drawLakes(img, draw, res)
-            funcs.drawPlayas(img, draw, res)
+            funcs.drawGlaciatedAreas(img, res)
+            funcs.drawLakes(img, res)
+            funcs.drawPlayas(img, res)
             funcs.drawRivers(img, draw, res)
             del draw
 
