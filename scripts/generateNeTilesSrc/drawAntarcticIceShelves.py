@@ -4,6 +4,7 @@
 def drawAntarcticIceShelves(
     img,
     res,
+    color,
     /,
 ):
     # Import standard modules ...
@@ -121,6 +122,6 @@ def drawAntarcticIceShelves(
             img,
             pilPolys,
             pilHoles,
-            matplotlib.colors.CSS4_COLORS["aliceblue"],
+            color,
         )
         del pilHoles, pilPolys

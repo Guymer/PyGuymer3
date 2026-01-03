@@ -52,7 +52,7 @@ if __name__ == "__main__":
     # Create argument parser and parse the arguments ...
     parser = argparse.ArgumentParser(
            allow_abbrev = False,
-            description = "Rasterize the NE datasets and save them as tiles.",
+            description = "Rasterize the NE datasets, merge it with the GLOBE dataset and save them as tiles.",
         formatter_class = argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
@@ -116,6 +116,36 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # **************************************************************************
+
+    # Create suitable colour map for the bathymetry ...
+    bathymetryCmap = matplotlib.colors.LinearSegmentedColormap.from_list(
+        "bathymetry",
+        [
+            matplotlib.colors.to_rgba(matplotlib.colors.CSS4_COLORS["lightblue"]),
+            matplotlib.colors.to_rgba(matplotlib.colors.CSS4_COLORS["darkblue"]),
+        ]
+    )
+    bathymetryColors = []
+    for depth in [
+            0,
+          200,
+         1000,
+         2000,
+         3000,
+         4000,
+         5000,
+         6000,
+         7000,
+         8000,
+         9000,
+        10000,
+    ]:
+        r, g, b, _ = bathymetryCmap(float(depth) / 10000.0, bytes = True)
+        assert isinstance(r, numpy.uint8)
+        assert isinstance(g, numpy.uint8)
+        assert isinstance(b, numpy.uint8)
+        bathymetryColors.append((int(r), int(g), int(b)))
+    del bathymetryCmap
 
     # Create short-hands ...
     bName = f"{args.absPathToRepo}/scripts/globe.bin"
@@ -319,11 +349,11 @@ if __name__ == "__main__":
                 print("      Drawing layers under elevation data ...")
 
                 # Draw layers below elevation data ...
-                funcs.drawBathymetry(img, res)
-                funcs.drawAntarcticIceShelves(img, res)
-                funcs.drawReefs(img, res)
-                funcs.drawLand(img, res)
-                funcs.drawMinorIslands(img, res)
+                funcs.drawBathymetry(img, res, bathymetryColors)
+                funcs.drawAntarcticIceShelves(img, res, matplotlib.colors.CSS4_COLORS["aliceblue"])
+                funcs.drawReefs(img, res, matplotlib.colors.CSS4_COLORS["aquamarine"])
+                funcs.drawLand(img, res, matplotlib.colors.CSS4_COLORS["darkkhaki"])
+                funcs.drawMinorIslands(img, res, matplotlib.colors.CSS4_COLORS["darkkhaki"])
 
                 # **************************************************************
 
@@ -364,10 +394,10 @@ if __name__ == "__main__":
                 print("      Drawing layers above elevation data ...")
 
                 # Draw layers above elevation data ...
-                funcs.drawGlaciatedAreas(img, res)
-                funcs.drawLakes(img, res)
-                funcs.drawPlayas(img, res)
-                funcs.drawRivers(img, draw, res)
+                funcs.drawGlaciatedAreas(img, res, matplotlib.colors.CSS4_COLORS["snow"])
+                funcs.drawLakes(img, res, matplotlib.colors.CSS4_COLORS["lightblue"])
+                funcs.drawPlayas(img, res, matplotlib.colors.CSS4_COLORS["khaki"])
+                funcs.drawRivers(img, draw, res, matplotlib.colors.CSS4_COLORS["lightblue"])
                 del draw
 
                 # ******************************************************************
@@ -516,11 +546,11 @@ if __name__ == "__main__":
             print("      Drawing layers under elevation data ...")
 
             # Draw layers below elevation data ...
-            funcs.drawBathymetry(img, res)
-            funcs.drawAntarcticIceShelves(img, res)
-            funcs.drawReefs(img, res)
-            funcs.drawLand(img, res)
-            funcs.drawMinorIslands(img, res)
+            funcs.drawBathymetry(img, res, bathymetryColors)
+            funcs.drawAntarcticIceShelves(img, res, matplotlib.colors.CSS4_COLORS["aliceblue"])
+            funcs.drawReefs(img, res, matplotlib.colors.CSS4_COLORS["aquamarine"])
+            funcs.drawLand(img, res, matplotlib.colors.CSS4_COLORS["darkkhaki"])
+            funcs.drawMinorIslands(img, res, matplotlib.colors.CSS4_COLORS["darkkhaki"])
 
             # ******************************************************************
 
@@ -561,10 +591,10 @@ if __name__ == "__main__":
             print("      Drawing layers above elevation data ...")
 
             # Draw layers above elevation data ...
-            funcs.drawGlaciatedAreas(img, res)
-            funcs.drawLakes(img, res)
-            funcs.drawPlayas(img, res)
-            funcs.drawRivers(img, draw, res)
+            funcs.drawGlaciatedAreas(img, res, matplotlib.colors.CSS4_COLORS["snow"])
+            funcs.drawLakes(img, res, matplotlib.colors.CSS4_COLORS["lightblue"])
+            funcs.drawPlayas(img, res, matplotlib.colors.CSS4_COLORS["khaki"])
+            funcs.drawRivers(img, draw, res, matplotlib.colors.CSS4_COLORS["lightblue"])
             del draw
 
             # ******************************************************************

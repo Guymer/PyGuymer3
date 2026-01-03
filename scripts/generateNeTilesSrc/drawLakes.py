@@ -4,6 +4,7 @@
 def drawLakes(
     img,
     res,
+    color,
     /,
 ):
     # Import standard modules ...
@@ -130,6 +131,6 @@ def drawLakes(
                 img,
                 pilPolys,
                 pilHoles,
-                matplotlib.colors.CSS4_COLORS["lightblue"],
+                color,
             )
             del pilHoles, pilPolys

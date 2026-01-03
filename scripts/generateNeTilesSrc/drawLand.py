@@ -4,6 +4,7 @@
 def drawLand(
     img,
     res,
+    color,
     /,
 ):
     # Import standard modules ...
@@ -121,6 +122,6 @@ def drawLand(
             img,
             pilPolys,
             pilHoles,
-            matplotlib.colors.CSS4_COLORS["darkkhaki"],
+            color,
         )
         del pilHoles, pilPolys

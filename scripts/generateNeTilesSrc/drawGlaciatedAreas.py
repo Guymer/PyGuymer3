@@ -4,6 +4,7 @@
 def drawGlaciatedAreas(
     img,
     res,
+    color,
     /,
 ):
     # Import standard modules ...
@@ -121,6 +122,6 @@ def drawGlaciatedAreas(
             img,
             pilPolys,
             pilHoles,
-            matplotlib.colors.CSS4_COLORS["snow"],
+            color,
         )
         del pilHoles, pilPolys

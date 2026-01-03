@@ -4,6 +4,7 @@
 def drawPlayas(
     img,
     res,
+    color,
     /,
 ):
     # Import standard modules ...
@@ -121,6 +122,6 @@ def drawPlayas(
             img,
             pilPolys,
             pilHoles,
-            matplotlib.colors.CSS4_COLORS["khaki"],
+            color,
         )
         del pilHoles, pilPolys

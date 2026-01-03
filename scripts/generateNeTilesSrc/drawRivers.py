@@ -5,6 +5,7 @@ def drawRivers(
     img,
     draw,
     res,
+    color,
     /,
 ):
     # Import standard modules ...
@@ -103,7 +104,7 @@ def drawRivers(
                 # Draw the LineString ...
                 draw.line(
                     pixels,
-                     fill = matplotlib.colors.CSS4_COLORS["lightblue"],
+                     fill = color,
                     width = 1,
                 )
                 del pixels

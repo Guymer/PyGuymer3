@@ -4,6 +4,7 @@
 def drawReefs(
     img,
     res,
+    color,
     /,
 ):
     # Import standard modules ...
@@ -121,6 +122,6 @@ def drawReefs(
             img,
             pilPolys,
             pilHoles,
-            matplotlib.colors.CSS4_COLORS["aquamarine"],
+            color,
         )
         del pilHoles, pilPolys
