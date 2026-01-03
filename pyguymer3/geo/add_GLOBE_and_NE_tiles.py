@@ -1,18 +1,20 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def add_NE_tiles(
+def add_GLOBE_and_NE_tiles(
     ax,
     fov,
     /,
     *,
          chunksize = 1048576,
              debug = __debug__,
+           elevInt = 250,
       exiftoolPath = None,
       gifsiclePath = None,
-              grid = "2x1",
+              grid = "18x9",
      interpolation = "none",
       jpegtranPath = None,
+           maxElev = 8000,
     maxImagePixels = 1073741824,
     mergedTileName = None,
        optipngPath = None,
@@ -22,7 +24,7 @@ def add_NE_tiles(
         resolution = "10m",
            timeout = 60.0,
 ):
-    """Add NE dataset tiles as a background to a Cartopy axis.
+    """Add GLOBE and NE dataset tiles as a background to a Cartopy axis.
 
     Parameters
     ----------
@@ -36,6 +38,9 @@ def add_NE_tiles(
         The size of the chunks of any files which are read in (in bytes).
     debug : bool, optional
         Print debug messages.
+    elevInt : int, optional
+        The interval between different shaded bands of elevation used by the
+        colour map of the tiles (in metres).
     exiftoolPath : None or str, optional
         The path to the "exiftool" binary (if not provided then Python will
         attempt to find the binary itself).
@@ -52,6 +57,8 @@ def add_NE_tiles(
     jpegtranPath : None or str, optional
         The path to the "jpegtran" binary (if not provided then Python will
         attempt to find the binary itself).
+    maxElev : int, optional
+        The maximum elevation used by the colour map of the tiles (in metres).
     maxImagePixels : int, optional
         The maximum number of pixels in an image, to prevent decompression bombs.
     mergedTileName : None or str, optional
@@ -204,7 +211,7 @@ def add_NE_tiles(
         for ix in range(nx):
             if not usedTiles[iy, ix]:
                 continue
-            tName = f"{os.path.dirname(__file__)}/../data/png/ne/{nx:d}x{ny:d}/res={resolution}/x={ix:d}/y={iy:d}.png"
+            tName = f"{os.path.dirname(__file__)}/../data/png/globe+ne/{nx:d}x{ny:d}/maxElev={maxElev:d}m/elevInt={elevInt}m/res={resolution}/x={ix:d}/y={iy:d}.png"
             if not os.path.exists(tName):
                 tName = f"{os.path.dirname(__file__)}/../data/png/missingTile.png"
             if debug:

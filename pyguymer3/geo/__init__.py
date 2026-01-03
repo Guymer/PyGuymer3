@@ -135,6 +135,7 @@ from .add_annotation import add_annotation
 from .add_axis import add_axis
 from .add_Cartopy_tiles import add_Cartopy_tiles
 from .add_GLOBE_tiles import add_GLOBE_tiles
+from .add_GLOBE_and_NE_tiles import add_GLOBE_and_NE_tiles
 from .add_GSHHG_map import add_GSHHG_map
 from .add_GSHHG_tiles import add_GSHHG_tiles
 from .add_map_background import add_map_background
