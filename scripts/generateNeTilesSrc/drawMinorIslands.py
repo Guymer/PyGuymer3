@@ -6,6 +6,8 @@ def drawMinorIslands(
     res,
     color,
     /,
+    *,
+    maxImagePixels = 1073741824,
 ):
     # Import standard modules ...
     import os
@@ -123,5 +125,6 @@ def drawMinorIslands(
             pilPolys,
             pilHoles,
             color,
+            maxImagePixels = maxImagePixels,
         )
         del pilHoles, pilPolys

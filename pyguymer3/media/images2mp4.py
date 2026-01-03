@@ -5,24 +5,25 @@ def images2mp4(
     imgs,
     /,
     *,
-        cacheDir = "~/.cache/pyguymer3",
-       chunksize = 1048576,
-             crf = -1.0,
-           debug = __debug__,
-       ensureNFC = True,
-      ffmpegPath = None,
-     ffprobePath = None,
-            form = "mp4",
-             fps = 25.0,
-           level = "ERROR",
-     mp4filePath = None,
-         pkgPath = None,
-        portPath = None,
-         profile = "ERROR",
-    screenHeight = -1,
-     screenWidth = -1,
-         timeout = 60.0,
-      zypperPath = None,
+          cacheDir = "~/.cache/pyguymer3",
+         chunksize = 1048576,
+               crf = -1.0,
+             debug = __debug__,
+         ensureNFC = True,
+        ffmpegPath = None,
+       ffprobePath = None,
+              form = "mp4",
+               fps = 25.0,
+             level = "ERROR",
+    maxImagePixels = 1073741824,
+       mp4filePath = None,
+           pkgPath = None,
+          portPath = None,
+           profile = "ERROR",
+      screenHeight = -1,
+       screenWidth = -1,
+           timeout = 60.0,
+        zypperPath = None,
 ):
     """Convert a sequence of images to a MP4 video.
 
@@ -56,6 +57,8 @@ def images2mp4(
     level : str, optional
         the level to be passed to libx264, default "ERROR" (which means choose
         one using the function :func:`return_x264_level`)
+    maxImagePixels : int, optional
+        The maximum number of pixels in an image, to prevent decompression bombs.
     mp4filePath : None or str, optional
         the path to the "mp4file" binary (if not provided then Python will
         attempt to find the binary itself)
@@ -106,7 +109,7 @@ def images2mp4(
     try:
         import PIL
         import PIL.Image
-        PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                         # [px]
+        PIL.Image.MAX_IMAGE_PIXELS = maxImagePixels                             # [px]
     except:
         raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None
 

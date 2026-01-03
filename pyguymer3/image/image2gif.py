@@ -6,18 +6,19 @@ def image2gif(
     gif,
     /,
     *,
-       chunksize = 1048576,
-           debug = __debug__,
-    exiftoolPath = None,
-    gifsiclePath = None,
-    jpegtranPath = None,
-            mode = "RGB",
-        optimise = True,
-     optipngPath = None,
-    screenHeight = -1,
-     screenWidth = -1,
-           strip = False,
-         timeout = 60.0,
+         chunksize = 1048576,
+             debug = __debug__,
+      exiftoolPath = None,
+      gifsiclePath = None,
+      jpegtranPath = None,
+    maxImagePixels = 1073741824,
+              mode = "RGB",
+          optimise = True,
+       optipngPath = None,
+      screenHeight = -1,
+       screenWidth = -1,
+             strip = False,
+           timeout = 60.0,
 ):
     """Save an image as a GIF
 
@@ -43,6 +44,8 @@ def image2gif(
     jpegtranPath : None or str, optional
         the path to the "jpegtran" binary (if not provided then Python will attempt to
         find the binary itself)
+    maxImagePixels : int, optional
+        The maximum number of pixels in an image, to prevent decompression bombs.
     mode : str, optional
         the mode of the outout GIF (default "RGB")
     optimise : bool, optional
@@ -76,7 +79,7 @@ def image2gif(
     try:
         import PIL
         import PIL.Image
-        PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                         # [px]
+        PIL.Image.MAX_IMAGE_PIXELS = maxImagePixels                             # [px]
     except:
         raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None
 

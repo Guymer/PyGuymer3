@@ -7,6 +7,8 @@ def drawPolygonsWithHoles(
     holes,
     color,
     /,
+    *,
+    maxImagePixels = 1073741824,
 ):
     """Draw some polygons (which have holes) on an image
 
@@ -20,6 +22,8 @@ def drawPolygonsWithHoles(
         the holes to draw
     color : int or tuple of int
         the fill colour of the polygons
+    maxImagePixels : int, optional
+        The maximum number of pixels in an image, to prevent decompression bombs.
 
     Notes
     -----
@@ -34,7 +38,7 @@ def drawPolygonsWithHoles(
     try:
         import PIL
         import PIL.Image
-        PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                         # [px]
+        PIL.Image.MAX_IMAGE_PIXELS = maxImagePixels                             # [px]
         import PIL.ImageDraw
     except:
         raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None

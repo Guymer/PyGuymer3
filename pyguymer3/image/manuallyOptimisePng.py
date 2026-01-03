@@ -5,15 +5,16 @@ def manuallyOptimisePng(
     pName,
     /,
     *,
-    calcAdaptive: bool = True,
-     calcAverage: bool = True,
-        calcNone: bool = True,
-       calcPaeth: bool = True,
-         calcSub: bool = True,
-          calcUp: bool = True,
-           debug: bool = __debug__,
-             dpi: None | int = None,
-         modTime = None,
+      calcAdaptive: bool = True,
+       calcAverage: bool = True,
+          calcNone: bool = True,
+         calcPaeth: bool = True,
+           calcSub: bool = True,
+            calcUp: bool = True,
+             debug: bool = __debug__,
+               dpi: None | int = None,
+    maxImagePixels: int = 1073741824,
+           modTime = None,
 ):
     """Manually optimise a PNG image.
 
@@ -41,6 +42,8 @@ def manuallyOptimisePng(
         Print debug messages.
     dpi : None or float or int, optional
         See :py:func:`pyguymer3.image.makePng` for the documentation.
+    maxImagePixels : int, optional
+        The maximum number of pixels in an image, to prevent decompression bombs.
     modTime : None or datetime.datetime, optional
         See :py:func:`pyguymer3.image.makePng` for the documentation.
 
@@ -65,7 +68,7 @@ def manuallyOptimisePng(
     try:
         import PIL
         import PIL.Image
-        PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                         # [px]
+        PIL.Image.MAX_IMAGE_PIXELS = maxImagePixels                             # [px]
     except:
         raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None
 

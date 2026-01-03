@@ -15,6 +15,7 @@ def tile(
         gifsiclePath = None,
              headers = None,
         jpegtranPath = None,
+      maxImagePixels = 1073741824,
          optipngPath = None,
                scale = 1,
     thunderforestKey = None,
@@ -56,6 +57,8 @@ def tile(
     jpegtranPath : None or str, optional
         the path to the "jpegtran" binary (if not provided then Python will
         attempt to find the binary itself)
+    maxImagePixels : int, optional
+        The maximum number of pixels in an image, to prevent decompression bombs.
     optipngPath : None or str, optional
         the path to the "optipng" binary (if not provided then Python will
         attempt to find the binary itself)
@@ -97,7 +100,7 @@ def tile(
     try:
         import PIL
         import PIL.Image
-        PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                         # [px]
+        PIL.Image.MAX_IMAGE_PIXELS = maxImagePixels                             # [px]
     except:
         raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None
 

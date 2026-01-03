@@ -6,15 +6,16 @@ def images2webp(
     webp,
     /,
     *,
-             exif = None,
-              fps = 25.0,
-         lossless = False,
-           method = 6,
-    minimize_size = True,
-             mode = "RGB",
-          quality = 100,
-     screenHeight = -1,
-      screenWidth = -1,
+              exif = None,
+               fps = 25.0,
+          lossless = False,
+    maxImagePixels = 1073741824,
+            method = 6,
+     minimize_size = True,
+              mode = "RGB",
+           quality = 100,
+      screenHeight = -1,
+       screenWidth = -1,
 ):
     """Convert a sequence of images to a WEBP animation.
 
@@ -33,6 +34,8 @@ def images2webp(
         the framerate, default 25.0
     lossless : bool, optional
         save a lossless WEBP (default False)
+    maxImagePixels : int, optional
+        The maximum number of pixels in an image, to prevent decompression bombs.
     method : int, optional
         the method to use when saving the WEBP (default 6)
     minimize_size : bool, optional
@@ -63,7 +66,7 @@ def images2webp(
     try:
         import PIL
         import PIL.Image
-        PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                         # [px]
+        PIL.Image.MAX_IMAGE_PIXELS = maxImagePixels                             # [px]
     except:
         raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None
 
@@ -118,13 +121,17 @@ def images2webp(
     # NOTE: See https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html#webp
     tmpImgs[0].save(
         webp,
-            append_images = tmpImgs[1:],
-                 duration = round(1000.0 / fps),
-                     exif = dict2exif(exif, mode = mode),
-                     loop = 0,
-                 lossless = lossless,
-                   method = method,
-            minimize_size = minimize_size,
-                  quality = quality,
-                 save_all = True,
+        append_images = tmpImgs[1:],
+             duration = round(1000.0 / fps),
+                 exif = dict2exif(
+            exif,
+            maxImagePixels = maxImagePixels,
+                      mode = mode,
+        ),
+                 loop = 0,
+             lossless = lossless,
+               method = method,
+        minimize_size = minimize_size,
+              quality = quality,
+             save_all = True,
     )

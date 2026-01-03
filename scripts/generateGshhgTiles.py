@@ -250,6 +250,7 @@ if __name__ == "__main__":
                     pilPolys,
                     pilHoles,
                     color,
+                    maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS,
                 )
                 del pilHoles, pilPolys
 

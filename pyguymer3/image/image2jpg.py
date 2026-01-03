@@ -6,21 +6,22 @@ def image2jpg(
     jpg,
     /,
     *,
-       chunksize = 1048576,
-           debug = __debug__,
-            exif = None,
-    exiftoolPath = None,
-    gifsiclePath = None,
-    jpegtranPath = None,
-            mode = "RGB",
-        optimise = True,
-     optipngPath = None,
-     progressive = False,
-         quality = 95,
-    screenHeight = -1,
-     screenWidth = -1,
-           strip = False,
-         timeout = 60.0,
+         chunksize = 1048576,
+             debug = __debug__,
+              exif = None,
+      exiftoolPath = None,
+      gifsiclePath = None,
+      jpegtranPath = None,
+    maxImagePixels = 1073741824,
+              mode = "RGB",
+          optimise = True,
+       optipngPath = None,
+       progressive = False,
+           quality = 95,
+      screenHeight = -1,
+       screenWidth = -1,
+             strip = False,
+           timeout = 60.0,
 ):
     """Save an image as a JPG
 
@@ -48,6 +49,8 @@ def image2jpg(
     jpegtranPath : None or str, optional
         the path to the "jpegtran" binary (if not provided then Python will attempt to
         find the binary itself)
+    maxImagePixels : int, optional
+        The maximum number of pixels in an image, to prevent decompression bombs.
     mode : str, optional
         the mode of the outout JPG (default "RGB")
     optimise : bool, optional
@@ -85,7 +88,7 @@ def image2jpg(
     try:
         import PIL
         import PIL.Image
-        PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                         # [px]
+        PIL.Image.MAX_IMAGE_PIXELS = maxImagePixels                             # [px]
     except:
         raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None
 
@@ -138,7 +141,11 @@ def image2jpg(
     # NOTE: See https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html#jpeg
     tmpImg.save(
         jpg,
-               exif = dict2exif(exif, mode = mode),
+               exif = dict2exif(
+            exif,
+            maxImagePixels = maxImagePixels,
+                      mode = mode,
+        ),
            optimise = optimise,
         progressive = progressive,
             quality = quality,

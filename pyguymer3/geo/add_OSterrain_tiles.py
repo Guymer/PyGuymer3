@@ -14,6 +14,7 @@ def add_OSterrain_tiles(
      interpolation = "none",
       jpegtranPath = None,
            maxElev = 1000,
+    maxImagePixels = 1073741824,
     mergedTileName = None,
        optipngPath = None,
               pool = None,
@@ -55,6 +56,8 @@ def add_OSterrain_tiles(
         attempt to find the binary itself).
     maxElev : int, optional
         The maximum elevation used by the colour map of the tiles (in metres).
+    maxImagePixels : int, optional
+        The maximum number of pixels in an image, to prevent decompression bombs.
     mergedTileName : None or str, optional
         If provided, then save the merged tile to this file.
     optipngPath : None or str, optional
@@ -120,7 +123,7 @@ def add_OSterrain_tiles(
     try:
         import PIL
         import PIL.Image
-        PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                         # [px]
+        PIL.Image.MAX_IMAGE_PIXELS = maxImagePixels                             # [px]
     except:
         raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None
     try:

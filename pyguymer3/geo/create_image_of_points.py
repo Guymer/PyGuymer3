@@ -24,6 +24,7 @@ def create_image_of_points(
          globalRatio = 16.0 / 9.0,
              headers = None,
         jpegtranPath = None,
+      maxImagePixels = 1073741824,
                 nAng = 9,
                nIter = 100,
            onlyValid = False,
@@ -95,6 +96,8 @@ def create_image_of_points(
     jpegtranPath : None or str, optional
         the path to the "jpegtran" binary (if not provided then Python will
         attempt to find the binary itself)
+    maxImagePixels : int, optional
+        The maximum number of pixels in an image, to prevent decompression bombs.
     nAng : int, optional
         the number of angles around the middle location to search over
     nIter : int, optional
@@ -156,7 +159,7 @@ def create_image_of_points(
     try:
         import PIL
         import PIL.Image
-        PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                         # [px]
+        PIL.Image.MAX_IMAGE_PIXELS = maxImagePixels                             # [px]
         import PIL.ImageDraw
     except:
         raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None
@@ -283,6 +286,7 @@ def create_image_of_points(
             gifsiclePath = gifsiclePath,
                  headers = headers,
             jpegtranPath = jpegtranPath,
+          maxImagePixels = maxImagePixels,
              optipngPath = optipngPath,
                   radius = None,
                    scale = scale,
@@ -412,21 +416,22 @@ def create_image_of_points(
     image2png(
         img,
         pngOut,
-           chunksize = chunksize,
-               debug = debug,
-                exif = {
+             chunksize = chunksize,
+                 debug = debug,
+                  exif = {
                       "Artist" : "OpenStreetMap contributors",
                    "Copyright" : "All Rights Reserved",
             "ImageDescription" : "https://www.openstreetmap.org",
         },
-        exiftoolPath = exiftoolPath,
-        gifsiclePath = gifsiclePath,
-        jpegtranPath = jpegtranPath,
-                mode = "RGB",
-            optimise = True,
-         optipngPath = optipngPath,
-        screenHeight = -1,
-         screenWidth = -1,
-               strip = False,
-             timeout = timeout,
+          exiftoolPath = exiftoolPath,
+          gifsiclePath = gifsiclePath,
+          jpegtranPath = jpegtranPath,
+        maxImagePixels = maxImagePixels,
+                  mode = "RGB",
+              optimise = True,
+           optipngPath = optipngPath,
+          screenHeight = -1,
+           screenWidth = -1,
+                 strip = False,
+               timeout = timeout,
     )

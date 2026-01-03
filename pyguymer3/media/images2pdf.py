@@ -6,17 +6,18 @@ def images2pdf(
     pdf,
     /,
     *,
-          author = "My Author",
-        keywords = "My Keywords",
-            mode = "RGB",
-        optimise = True,
-     progressive = False,
-         quality = 95,
-      resolution = 300,
-    screenHeight = -1,
-     screenWidth = -1,
-         subject = "My Subject",
-           title = "My Title",
+            author = "My Author",
+          keywords = "My Keywords",
+    maxImagePixels = 1073741824,
+              mode = "RGB",
+          optimise = True,
+       progressive = False,
+           quality = 95,
+        resolution = 300,
+      screenHeight = -1,
+       screenWidth = -1,
+           subject = "My Subject",
+             title = "My Title",
 ):
     """Convert a sequence of images to a PDF slide pack.
 
@@ -33,6 +34,8 @@ def images2pdf(
         The author field in the output PDF metadata
     keywords : str, optional
         The keywords field in the output PDF metadata
+    maxImagePixels : int, optional
+        The maximum number of pixels in an image, to prevent decompression bombs.
     mode : str, optional
         the mode of the JPGs in the outout PDF
     optimise : bool, optional
@@ -71,7 +74,7 @@ def images2pdf(
     try:
         import PIL
         import PIL.Image
-        PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                         # [px]
+        PIL.Image.MAX_IMAGE_PIXELS = maxImagePixels                             # [px]
     except:
         raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None
 

@@ -6,13 +6,14 @@ def image2webp(
     webp,
     /,
     *,
-            exif = None,
-        lossless = False,
-          method = 6,
-            mode = "RGB",
-         quality = 100,
-    screenHeight = -1,
-     screenWidth = -1,
+              exif = None,
+          lossless = False,
+    maxImagePixels = 1073741824,
+            method = 6,
+              mode = "RGB",
+           quality = 100,
+      screenHeight = -1,
+       screenWidth = -1,
 ):
     """Save an image as a WEBP
 
@@ -29,6 +30,8 @@ def image2webp(
         a dictionary of EXIF data to save in the output WEBP (default None)
     lossless : bool, optional
         save a lossless WEBP (default False)
+    maxImagePixels : int, optional
+        The maximum number of pixels in an image, to prevent decompression bombs.
     method : int, optional
         the method to use when saving the WEBP (default 6)
     mode : str, optional
@@ -57,7 +60,7 @@ def image2webp(
     try:
         import PIL
         import PIL.Image
-        PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                         # [px]
+        PIL.Image.MAX_IMAGE_PIXELS = maxImagePixels                             # [px]
     except:
         raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None
 
@@ -105,7 +108,11 @@ def image2webp(
     # NOTE: See https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html#webp
     tmpImg.save(
         webp,
-            exif = dict2exif(exif, mode = mode),
+            exif = dict2exif(
+            exif,
+            maxImagePixels = maxImagePixels,
+                      mode = mode,
+        ),
         lossless = lossless,
           method = method,
          quality = quality,

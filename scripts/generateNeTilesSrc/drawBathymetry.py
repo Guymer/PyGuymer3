@@ -6,6 +6,8 @@ def drawBathymetry(
     res,
     colors,
     /,
+    *,
+    maxImagePixels = 1073741824,
 ):
     # Import standard modules ...
     import os
@@ -143,5 +145,6 @@ def drawBathymetry(
                 pilPolys,
                 pilHoles,
                 color,
+                maxImagePixels = maxImagePixels,
             )
             del pilHoles, pilPolys

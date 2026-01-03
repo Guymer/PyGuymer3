@@ -5,7 +5,8 @@ def dict2exif(
     exif,
     /,
     *,
-    mode = "RGB",
+    maxImagePixels = 1073741824,
+              mode = "RGB",
 ):
     """Convert a dictionary to an EXIF class
 
@@ -16,6 +17,8 @@ def dict2exif(
     ----------
     exif : dict
         the dictionary
+    maxImagePixels : int, optional
+        The maximum number of pixels in an image, to prevent decompression bombs.
     mode : str, optional
         the mode of the temporary image that is created to initialize the EXIF class
 
@@ -38,7 +41,7 @@ def dict2exif(
         import PIL
         import PIL.ExifTags
         import PIL.Image
-        PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                         # [px]
+        PIL.Image.MAX_IMAGE_PIXELS = maxImagePixels                             # [px]
     except:
         raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None
 

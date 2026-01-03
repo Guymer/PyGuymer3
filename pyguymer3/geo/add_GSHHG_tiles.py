@@ -13,6 +13,7 @@ def add_GSHHG_tiles(
               grid = "2x1",
      interpolation = "none",
       jpegtranPath = None,
+    maxImagePixels = 1073741824,
     mergedTileName = None,
        optipngPath = None,
               pool = None,
@@ -51,6 +52,8 @@ def add_GSHHG_tiles(
     jpegtranPath : None or str, optional
         The path to the "jpegtran" binary (if not provided then Python will
         attempt to find the binary itself).
+    maxImagePixels : int, optional
+        The maximum number of pixels in an image, to prevent decompression bombs.
     mergedTileName : None or str, optional
         If provided, then save the merged tile to this file.
     optipngPath : None or str, optional
@@ -126,7 +129,7 @@ def add_GSHHG_tiles(
     try:
         import PIL
         import PIL.Image
-        PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                         # [px]
+        PIL.Image.MAX_IMAGE_PIXELS = maxImagePixels                             # [px]
     except:
         raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None
     try:
