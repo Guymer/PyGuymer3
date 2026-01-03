@@ -164,6 +164,8 @@ if __name__ == "__main__":
                  size = (nx, ny),
             )
 
+            # ******************************************************************
+
             # Loop over levels and their colours ...
             for level, color in [
                 (1, 1,),                # darkkhaki
