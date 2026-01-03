@@ -425,6 +425,7 @@ def create_map_of_points(
                   physical = True,
                     repair = repair,
                 resolution = resolution,
+                     scale = "32km",
             )
         case "none":
             # Don't add any background ...
