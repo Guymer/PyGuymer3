@@ -259,7 +259,7 @@ if __name__ == "__main__":
             for res in args.ress:
                 for iShrunkenTileX in range(nShrunkenTilesX):
                     for iShrunkenTileY in range(nShrunkenTilesY):
-                        pName = f"{args.absPathToRepo}/pyguymer3/data/png/ne/{nShrunkenTilesX:d}x{nShrunkenTilesY:d}/maxElev={maxElev:d}m/elevInt={args.elevBandInt:d}m/res={res}/x={iShrunkenTileX:d}/y={iShrunkenTileY:d}.png"
+                        pName = f"{args.absPathToRepo}/pyguymer3/data/png/globe+ne/{nShrunkenTilesX:d}x{nShrunkenTilesY:d}/maxElev={maxElev:d}m/elevInt={args.elevBandInt:d}m/res={res}/x={iShrunkenTileX:d}/y={iShrunkenTileY:d}.png"
                         if not os.path.exists(pName):
                             allExist = False
                             break
@@ -294,7 +294,7 @@ if __name__ == "__main__":
                 allExist = True
                 for iShrunkenTileX in range(nShrunkenTilesX):
                     for iShrunkenTileY in range(nShrunkenTilesY):
-                        pName = f"{args.absPathToRepo}/pyguymer3/data/png/ne/{nShrunkenTilesX:d}x{nShrunkenTilesY:d}/maxElev={maxElev:d}m/elevInt={args.elevBandInt:d}m/res={res}/x={iShrunkenTileX:d}/y={iShrunkenTileY:d}.png"
+                        pName = f"{args.absPathToRepo}/pyguymer3/data/png/globe+ne/{nShrunkenTilesX:d}x{nShrunkenTilesY:d}/maxElev={maxElev:d}m/elevInt={args.elevBandInt:d}m/res={res}/x={iShrunkenTileX:d}/y={iShrunkenTileY:d}.png"
                         if not os.path.exists(pName):
                             allExist = False
                             break
@@ -391,7 +391,7 @@ if __name__ == "__main__":
                         for iShrunkenTileY in range(nShrunkenTilesY):
                             # Create short-hands, make sure that the directory
                             # exists and skip this tile if it already exists ...
-                            dName = f"{args.absPathToRepo}/pyguymer3/data/png/ne/{nShrunkenTilesX:d}x{nShrunkenTilesY:d}/maxElev={maxElev:d}m/elevInt={args.elevBandInt:d}m/res={res}/x={iShrunkenTileX:d}"
+                            dName = f"{args.absPathToRepo}/pyguymer3/data/png/globe+ne/{nShrunkenTilesX:d}x{nShrunkenTilesY:d}/maxElev={maxElev:d}m/elevInt={args.elevBandInt:d}m/res={res}/x={iShrunkenTileX:d}"
                             pName = f"{dName}/y={iShrunkenTileY:d}.png"
                             if not os.path.exists(dName):
                                 os.makedirs(dName)
@@ -470,7 +470,7 @@ if __name__ == "__main__":
         for res in args.ress:
             for iTileX in range(nTilesX):
                 for iTileY in range(nTilesY):
-                    pName = f"{args.absPathToRepo}/pyguymer3/data/png/ne/{nTilesX:d}x{nTilesY:d}/maxElev={maxElev:d}m/elevInt={args.elevBandInt:d}m/res={res}/x={iTileX:d}/y={iTileY:d}.png"
+                    pName = f"{args.absPathToRepo}/pyguymer3/data/png/globe+ne/{nTilesX:d}x{nTilesY:d}/maxElev={maxElev:d}m/elevInt={args.elevBandInt:d}m/res={res}/x={iTileX:d}/y={iTileY:d}.png"
                     if not os.path.exists(pName):
                         allExist = False
                         break
@@ -491,7 +491,7 @@ if __name__ == "__main__":
             allExist = True
             for iTileX in range(nTilesX):
                 for iTileY in range(nTilesY):
-                    pName = f"{args.absPathToRepo}/pyguymer3/data/png/ne/{nTilesX:d}x{nTilesY:d}/maxElev={maxElev:d}m/elevInt={args.elevBandInt:d}m/res={res}/x={iTileX:d}/y={iTileY:d}.png"
+                    pName = f"{args.absPathToRepo}/pyguymer3/data/png/globe+ne/{nTilesX:d}x{nTilesY:d}/maxElev={maxElev:d}m/elevInt={args.elevBandInt:d}m/res={res}/x={iTileX:d}/y={iTileY:d}.png"
                     if not os.path.exists(pName):
                         allExist = False
                         break
@@ -588,7 +588,7 @@ if __name__ == "__main__":
                     for iTileY in range(nTilesY):
                         # Create short-hands, make sure that the directory
                         # exists and skip this tile if it already exists ...
-                        dName = f"{args.absPathToRepo}/pyguymer3/data/png/ne/{nTilesX:d}x{nTilesY:d}/maxElev={maxElev:d}m/elevInt={args.elevBandInt:d}m/res={res}/x={iTileX:d}"
+                        dName = f"{args.absPathToRepo}/pyguymer3/data/png/globe+ne/{nTilesX:d}x{nTilesY:d}/maxElev={maxElev:d}m/elevInt={args.elevBandInt:d}m/res={res}/x={iTileX:d}"
                         pName = f"{dName}/y={iTileY:d}.png"
                         if not os.path.exists(dName):
                             os.makedirs(dName)
