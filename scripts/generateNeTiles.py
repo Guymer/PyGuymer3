@@ -175,12 +175,45 @@ if __name__ == "__main__":
         if (nx * ny) > PIL.Image.MAX_IMAGE_PIXELS:
             break
 
+        # Loop over all to-be-generated tiles and skip this resolution if all
+        # already exist ...
+        allExist = True
+        for res in args.ress:
+            for iTileX in range(nTilesX):
+                for iTileY in range(nTilesY):
+                    pName = f"{args.absPathToRepo}/pyguymer3/data/png/ne/{nTilesX:d}x{nTilesY:d}/res={res}/x={iTileX:d}/y={iTileY:d}.png"
+                    if not os.path.exists(pName):
+                        allExist = False
+                        break
+                if not allExist:
+                    break
+            if not allExist:
+                break
+        if allExist:
+            print(f"Skipping rzoom level {zoomLevel:,d} ({nTilesX:d}x{nTilesY:d}) as all tiles already exist.")
+            continue
+
         print(f"Processing zoom level {zoomLevel:,d} ({nTilesX:d}x{nTilesY:d}) ...")
 
         # **********************************************************************
 
         # Loop over resolutions ...
         for res in args.ress:
+            # Loop over all to-be-generated tiles and skip this resolution if
+            # all already exist ...
+            allExist = True
+            for iTileX in range(nTilesX):
+                for iTileY in range(nTilesY):
+                    pName = f"{args.absPathToRepo}/pyguymer3/data/png/ne/{nTilesX:d}x{nTilesY:d}/res={res}/x={iTileX:d}/y={iTileY:d}.png"
+                    if not os.path.exists(pName):
+                        allExist = False
+                        break
+                if not allExist:
+                    break
+            if allExist:
+                print(f"  Skipping resolution {res} as all tiles already exist.")
+                continue
+
             print(f"  Processing resolution \"{res}\" ...")
 
             # ******************************************************************
