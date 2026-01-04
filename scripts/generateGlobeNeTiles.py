@@ -258,7 +258,7 @@ if __name__ == "__main__":
         bName,
         dtype = numpy.int16,
     ).reshape(ny, nx)                                                           # [m]
-    numpy.place(arr, arr == -500, 0)                                            # [m]
+    numpy.place(arr, arr < 0, 0)                                                # [m]
 
     # Loop over maximum elevations ...
     for maxElev in range(args.maxElevInt, 9000, args.maxElevInt):
@@ -272,6 +272,7 @@ if __name__ == "__main__":
             break
 
         # Create suitable colour map ...
+        assert (maxElev // args.elevBandInt) <= 256
         cmap = matplotlib.colors.LinearSegmentedColormap.from_list(
             "elevation",
             [
@@ -313,17 +314,29 @@ if __name__ == "__main__":
 
             print(f"  Processing shrink level {shrinkLevel:,d} ({nShrunkenTilesX:d}x{nShrunkenTilesY:d}) ...")
 
-            # Create shrunken data ...
-            # NOTE: The documentation of "numpy.mean()" says "float64
-            #       intermediate and return values are used for integer inputs".
-            shrunkenArr = numpy.zeros(
-                (ny // shrinkFactor, nx // shrinkFactor),
-                dtype = numpy.float64,
-            )                                                                   # [m]
-            for iy in range(ny // shrinkFactor):
-                for ix in range(nx // shrinkFactor):
-                    shrunkenArr[iy, ix] = arr[iy * shrinkFactor:(iy + 1) * shrinkFactor, ix * shrinkFactor:(ix + 1) * shrinkFactor].mean()  # [m]
-            shrunkenArr = shrunkenArr.astype(numpy.int16)
+            # Check if time can be saved ...
+            if os.path.exists(f'{bName.removesuffix(".bin")}_{shrinkFactor:d}x.bin'):
+                print(f"Loading \"{bName.removesuffix(".bin")}_{shrinkFactor:d}x.bin\" ...")
+
+                # Load shrunken data and replace sea with 0 m elevation ...
+                shrunkenArr = numpy.fromfile(
+                    f'{bName.removesuffix(".bin")}_{shrinkFactor:d}x.bin',
+                    dtype = numpy.int16,
+                ).reshape(ny // shrinkFactor, nx // shrinkFactor)               # [m]
+                numpy.place(shrunkenArr, shrunkenArr < 0, 0)                    # [m]
+            else:
+                # Create shrunken data ...
+                # NOTE: The documentation of "numpy.mean()" says "float64
+                #       intermediate and return values are used for integer
+                #       inputs".
+                shrunkenArr = numpy.zeros(
+                    (ny // shrinkFactor, nx // shrinkFactor),
+                    dtype = numpy.float64,
+                )                                                               # [m]
+                for iy in range(ny // shrinkFactor):
+                    for ix in range(nx // shrinkFactor):
+                        shrunkenArr[iy, ix] = arr[iy * shrinkFactor:(iy + 1) * shrinkFactor, ix * shrinkFactor:(ix + 1) * shrinkFactor].mean()  # [m]
+                shrunkenArr = shrunkenArr.astype(numpy.int16)
 
             # ******************************************************************
 

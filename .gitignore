@@ -48,6 +48,9 @@ pyguymer3/data/png/ne/256x128
 pyguymer3/data/png/osTerrain/44x82
 scripts/globe.bin
 scripts/globe.zip
+scripts/globe_2x.bin
+scripts/globe_4x.bin
+scripts/globe_8x.bin
 scripts/osTerrain.bin
 scripts/osTerrain.zip
 tests/*.gif

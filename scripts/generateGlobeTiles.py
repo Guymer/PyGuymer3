@@ -192,7 +192,7 @@ if __name__ == "__main__":
             bName,
             dtype = numpy.int16,
         ).reshape(ny, nx, 1)                                                    # [m]
-        numpy.place(arr, arr == -500, 0)                                        # [m]
+        numpy.place(arr, arr < 0, 0)                                            # [m]
         if maxElev > arr.max():
             print("  Stopping as the maximum elevation has been reached.")
             break
@@ -211,16 +211,31 @@ if __name__ == "__main__":
 
             print(f"  Processing shrink level {shrinkLevel:,d} ({nShrunkenTilesX:d}x{nShrunkenTilesY:d}) ...")
 
-            # Create shrunken data ...
-            # NOTE: The documentation of "numpy.mean()" says "float64
-            #       intermediate and return values are used for integer inputs".
-            shrunkenArr = numpy.zeros(
-                (ny // shrinkFactor, nx // shrinkFactor, 1),
-                dtype = numpy.float64,
-            )                                                                   # [m]
-            for iy in range(ny // shrinkFactor):
-                for ix in range(nx // shrinkFactor):
-                    shrunkenArr[iy, ix, 0] = arr[iy * shrinkFactor:(iy + 1) * shrinkFactor, ix * shrinkFactor:(ix + 1) * shrinkFactor, 0].mean()    # [m]
+            # Check if time can be saved ...
+            if os.path.exists(f'{bName.removesuffix(".bin")}_{shrinkFactor:d}x.bin'):
+                print(f"Loading \"{bName.removesuffix(".bin")}_{shrinkFactor:d}x.bin\" ...")
+
+                # Load shrunken data and replace sea with 0 m elevation ...
+                shrunkenArr = numpy.fromfile(
+                    f'{bName.removesuffix(".bin")}_{shrinkFactor:d}x.bin',
+                    dtype = numpy.int16,
+                ).reshape(ny // shrinkFactor, nx // shrinkFactor, 1)            # [m]
+                numpy.place(shrunkenArr, shrunkenArr < 0, 0)                    # [m]
+                shrunkenArr = shrunkenArr.astype(numpy.float64)
+            else:
+                # Create shrunken data ...
+                # NOTE: The documentation of "numpy.mean()" says "float64
+                #       intermediate and return values are used for integer
+                #       inputs".
+                shrunkenArr = numpy.zeros(
+                    (ny // shrinkFactor, nx // shrinkFactor, 1),
+                    dtype = numpy.float64,
+                )                                                               # [m]
+                for iy in range(ny // shrinkFactor):
+                    for ix in range(nx // shrinkFactor):
+                        shrunkenArr[iy, ix, 0] = arr[iy * shrinkFactor:(iy + 1) * shrinkFactor, ix * shrinkFactor:(ix + 1) * shrinkFactor, 0].mean()    # [m]
+
+            # Scale shrunken data ...
             shrunkenArr = 255.0 * (shrunkenArr / numpy.float64(maxElev))
             numpy.place(shrunkenArr, shrunkenArr <   0.0,   0.0)
             numpy.place(shrunkenArr, shrunkenArr > 255.0, 255.0)
