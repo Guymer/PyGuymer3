@@ -122,12 +122,12 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Loop over plots ...
-    for iPlot, (dist, lat, lon, cultural, linewidth, maxElev, grid) in enumerate(
+    for iPlot, (dist, lat, lon, cultural, linewidth, maxElev, globeGrid, neGrid) in enumerate(
         [
-            (   1.0e99,  None, None, False, 0.0, 8000,  "18x9" ),
-            (1000.0e3 , +40.0,  0.0, False, 0.5, 8000,  "72x36"),
-            (  25.0e3 , +51.5,  0.0,  True, 0.5, 8000, "144x72"),
-            (  50.0e3 , +60.5, +7.5,  True, 0.5, 2000, "144x72"),
+            (   1.0e99,  None, None, False, 0.0, 8000,  "18x9" ,   "8x4"  ),
+            (1000.0e3 , +40.0,  0.0, False, 0.5, 8000,  "72x36", "128x64" ),
+            (  25.0e3 , +51.5,  0.0,  True, 0.5, 8000, "144x72", "256x128"),
+            (  50.0e3 , +60.5, +7.5,  True, 0.5, 2000, "144x72", "256x128"),
         ]
     ):
         # Determine file name ...
@@ -169,12 +169,12 @@ if __name__ == "__main__":
         # Create figure ...
         fg = matplotlib.pyplot.figure(
                 dpi = 100,              # NOTE: Reduce DPI to make test quicker.
-            figsize = (2 * 9.6, 3 * 7.2),
+            figsize = (3 * 9.6, 3 * 7.2),
         )
 
         # Create short-hand ...
         regrid_shape = (
-            round(2.0 * (fg.get_figwidth() / 2.0) * fg.get_dpi()),
+            round(2.0 * (fg.get_figwidth() / 3.0) * fg.get_dpi()),
             round(2.0 * (fg.get_figheight() / 3.0) * fg.get_dpi()),
         )                                                                       # [px], [px]
 
@@ -193,10 +193,10 @@ if __name__ == "__main__":
                           dist = dist,
                            eps = args.eps,
                            fov = fov,
-                         index = 2 * iResolution + 1,
+                         index = 3 * iResolution + 1,
                            lat = lat,
                            lon = lon,
-                         ncols = 2,
+                         ncols = 3,
                          nIter = args.nIter,
                          nrows = 3,
                      onlyValid = True,
@@ -221,7 +221,7 @@ if __name__ == "__main__":
 
             # ******************************************************************
 
-            print(f"  Plotting \"{resolution}\" and \"{grid}\" (with \"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\") ...")
+            print(f"  Plotting \"{resolution}\" and \"{globeGrid}\" (with \"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\") ...")
 
             # Create axis ...
             ax = pyguymer3.geo.add_axis(
@@ -232,10 +232,10 @@ if __name__ == "__main__":
                           dist = dist,
                            eps = args.eps,
                            fov = fov,
-                         index = 2 * iResolution + 2,
+                         index = 3 * iResolution + 2,
                            lat = lat,
                            lon = lon,
-                         ncols = 2,
+                         ncols = 3,
                          nIter = args.nIter,
                          nrows = 3,
                      onlyValid = True,
@@ -244,15 +244,54 @@ if __name__ == "__main__":
             )
 
             # Configure axis ...
-            ax.set_title(f"\"add_NE_tiles()\" at \"{resolution}\" and \"{grid}\" (\"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\")")
+            ax.set_title(f"\"add_GLOBE_and_NE_tiles()\" at \"{resolution}\" and \"{globeGrid}\" (\"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\")")
+            pyguymer3.geo.add_GLOBE_and_NE_tiles(
+                ax,
+                fov,
+                         debug = args.debug,
+                          grid = globeGrid,
+                 interpolation = "gaussian",
+                       maxElev = maxElev,
+                mergedTileName = f'{pName.removesuffix(".png")}_GLOBE+NE_{resolution}.png',
+                  regrid_shape = regrid_shape,
+                      resample = False,
+                    resolution = resolution,
+                       timeout = args.timeout,
+            )
+
+            # ******************************************************************
+
+            print(f"  Plotting \"{resolution}\" and \"{neGrid}\" (with \"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\") ...")
+
+            # Create axis ...
+            ax = pyguymer3.geo.add_axis(
+                fg,
+                add_coastlines = False,
+                 add_gridlines = True,
+                         debug = args.debug,
+                          dist = dist,
+                           eps = args.eps,
+                           fov = fov,
+                         index = 3 * iResolution + 3,
+                           lat = lat,
+                           lon = lon,
+                         ncols = 3,
+                         nIter = args.nIter,
+                         nrows = 3,
+                     onlyValid = True,
+                        repair = True,
+                           tol = args.tol,
+            )
+
+            # Configure axis ...
+            ax.set_title(f"\"add_NE_tiles()\" at \"{resolution}\" and \"{neGrid}\" (\"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\")")
             pyguymer3.geo.add_NE_tiles(
                 ax,
                 fov,
                          debug = args.debug,
-                          grid = grid,
+                          grid = neGrid,
                  interpolation = "gaussian",
-                       maxElev = maxElev,
-                mergedTileName = f'{pName.removesuffix(".png")}_{resolution}.png',
+                mergedTileName = f'{pName.removesuffix(".png")}_NE_{resolution}.png',
                   regrid_shape = regrid_shape,
                       resample = False,
                     resolution = resolution,
