@@ -136,7 +136,7 @@ if __name__ == "__main__":
         if (nx * ny) > PIL.Image.MAX_IMAGE_PIXELS:
             break
 
-        # Loop over all to-be-generated tiles and skip this resolution if all
+        # Loop over all to-be-generated tiles and skip this zoom level if all
         # already exist ...
         allExist = True
         for res in args.ress:
@@ -207,7 +207,7 @@ if __name__ == "__main__":
             print("    Converting PIL image in to NumPy array ...")
 
             # Convert PIL image to NumPy array ...
-            arr = numpy.array(img).reshape((ny, nx, 1))
+            imgArr = numpy.array(img).reshape((ny, nx, 1))
             del img
 
             # ******************************************************************
@@ -239,7 +239,7 @@ if __name__ == "__main__":
                             pObj.apply_async(
                                 pyguymer3.image.save_array_as_PNG,
                                 (
-                                    arr[iTileY * tileSize:(iTileY + 1) * tileSize, iTileX * tileSize:(iTileX + 1) * tileSize, :],
+                                    imgArr[iTileY * tileSize:(iTileY + 1) * tileSize, iTileX * tileSize:(iTileX + 1) * tileSize, :],
                                     pName,
                                 ),
                                 {
@@ -291,4 +291,4 @@ if __name__ == "__main__":
                 #       processes myself.
                 pObj.close()
                 pObj.join()
-            del arr
+            del imgArr
