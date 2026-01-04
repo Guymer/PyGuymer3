@@ -118,14 +118,14 @@ if __name__ == "__main__":
         "--NE-elevation-band-interval",
         default = 250,
            dest = "neElevBandInt",
-           help = "the interval of the elevation bands to shade for the NE tiles (in metres)",
+           help = "the interval of the elevation bands to shade for the GLOBE+NE tiles (in metres)",
            type = int,
     )
     parser.add_argument(
         "--NE-maximum-elevation-interval",
         default = 1000,
            dest = "neMaxElevInt",
-           help = "the elevation interval for the NE tiles (in metres)",
+           help = "the elevation interval for the GLOBE+NE tiles (in metres)",
            type = int,
     )
     parser.add_argument(
@@ -181,6 +181,19 @@ if __name__ == "__main__":
                 debug = args.debug,
             )                                                                   # [B]
 
+    # Survey the GLOBE+NE tiles ...
+    globeNe = {}
+    for dName in sorted(glob.glob(f"{args.absPathToRepo}/pyguymer3/data/png/globe+ne/*x*")):
+        w, h = os.path.basename(dName).split("x")
+        n = int(w) * int(h)                                                     # [#]
+        globeNe[n] = 0                                                          # [B]
+        for maxElev in range(args.neMaxElevInt, 9000, args.neMaxElevInt):
+            for res in args.neRess:
+                globeNe[n] += pyguymer3.return_folder_size(
+                    f"{dName}/maxElev={maxElev:d}m/elevInt={args.neElevBandInt:d}m/res={res}",
+                    debug = args.debug,
+                )                                                               # [B]
+
     # Survey the GSHHG tiles ...
     gshhg = {}
     for dName in sorted(glob.glob(f"{args.absPathToRepo}/pyguymer3/data/png/gshhg/*x*")):
@@ -199,12 +212,11 @@ if __name__ == "__main__":
         w, h = os.path.basename(dName).split("x")
         n = int(w) * int(h)                                                     # [#]
         ne[n] = 0                                                               # [B]
-        for maxElev in range(args.neMaxElevInt, 9000, args.neMaxElevInt):
-            for res in args.neRess:
-                ne[n] += pyguymer3.return_folder_size(
-                    f"{dName}/maxElev={maxElev:d}m/elevInt={args.neElevBandInt:d}m/res={res}",
-                    debug = args.debug,
-                )                                                               # [B]
+        for res in args.neRess:
+            ne[n] += pyguymer3.return_folder_size(
+                f"{dName}/res={res}",
+                debug = args.debug,
+            )                                                                   # [B]
 
     # Survey the "OS Terrain 50" tiles ...
     osTerrain = {}
@@ -223,12 +235,14 @@ if __name__ == "__main__":
     # Survey the surveys of the tiles ...
     minN = min(
         *globe.keys(),
+        *globeNe.keys(),
         *gshhg.keys(),
         *ne.keys(),
         *osTerrain.keys(),
     )                                                                           # [#]
     maxN = max(
         *globe.keys(),
+        *globeNe.keys(),
         *gshhg.keys(),
         *ne.keys(),
         *osTerrain.keys(),
@@ -241,12 +255,13 @@ if __name__ == "__main__":
     # Open output file ...
     with open(f"{args.absPathToRepo}/scripts/surveyTiles.csv", "wt", encoding = "utf-8") as fObj:
         # Write header ...
-        fObj.write("maximum number of tiles in grid [#],GLOBE size [B],GSHHG size [B],NE size [B],\"OS Terrain 50\" size [B],total size [B]\n")
+        fObj.write("maximum number of tiles in grid [#],GLOBE size [B],GLOBE+NE size [B],GSHHG size [B],NE size [B],\"OS Terrain 50\" size [B],total size [B]\n")
 
         # Loop over possible numbers ...
         for n in range(2, 65536 + 1):
             # Initialize counters ...
             globeSize = 0                                                       # [B]
+            globeNeSize = 0                                                     # [B]
             gshhgSize = 0                                                       # [B]
             neSize = 0                                                          # [B]
             osTerrainSize = 0                                                   # [B]
@@ -256,6 +271,12 @@ if __name__ == "__main__":
                 if key > n:
                     continue
                 globeSize += val                                                # [B]
+
+            # Increment counter for the GLOBE+NE tiles ...
+            for key, val in globeNe.items():
+                if key > n:
+                    continue
+                globeNeSize += val                                              # [B]
 
             # Increment counter for the GSHHG tiles ...
             for key, val in gshhg.items():
@@ -279,7 +300,7 @@ if __name__ == "__main__":
             totSize = globeSize + gshhgSize + neSize + osTerrainSize            # [B]
 
             # Write data ...
-            fObj.write(f"{n:d},{globeSize:d},{gshhgSize:d},{neSize:d},{osTerrainSize:d},{totSize:d}\n")
+            fObj.write(f"{n:d},{globeSize:d},{globeNeSize:d},{gshhgSize:d},{neSize:d},{osTerrainSize:d},{totSize:d}\n")
 
     # **************************************************************************
 
@@ -290,13 +311,13 @@ if __name__ == "__main__":
     ax = fg.add_subplot()
 
     # Load data ...
-    n, globeSize, gshhgSize, neSize, osTerrainSize, _ = numpy.loadtxt(
+    n, globeSize, globeNeSize, gshhgSize, neSize, osTerrainSize, _ = numpy.loadtxt(
         f"{args.absPathToRepo}/scripts/surveyTiles.csv",
         delimiter = ",",
             dtype = numpy.uint32,
          skiprows = 1,
            unpack = True,
-    )                                                                           # [#], [MiB], [MiB], [MiB], [MiB]
+    )                                                                           # [#], [B], [B], [B], [B], [B]
 
     # Plot data ...
     ax.fill_between(
@@ -307,19 +328,25 @@ if __name__ == "__main__":
     ax.fill_between(
         n,
         globeSize,
-        globeSize + gshhgSize,
+        globeSize + globeNeSize,
+        label = "GLOBE+NE",
+    )
+    ax.fill_between(
+        n,
+        globeSize + globeNeSize,
+        globeSize + globeNeSize + gshhgSize,
         label = "GSHHG",
     )
     ax.fill_between(
         n,
-        globeSize + gshhgSize,
-        globeSize + gshhgSize + neSize,
+        globeSize + globeNeSize + gshhgSize,
+        globeSize + globeNeSize + gshhgSize + neSize,
         label = "NE",
     )
     ax.fill_between(
         n,
-        globeSize + gshhgSize + neSize,
-        globeSize + gshhgSize + neSize + osTerrainSize,
+        globeSize + globeNeSize + gshhgSize + neSize,
+        globeSize + globeNeSize + gshhgSize + neSize + osTerrainSize,
         label = "OS Terrain 50",
     )
 
