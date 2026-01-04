@@ -271,6 +271,16 @@ if __name__ == "__main__":
             print("  Stopping as the maximum elevation has been reached.")
             break
 
+        # Create suitable colour map ...
+        cmap = matplotlib.colors.LinearSegmentedColormap.from_list(
+            "elevation",
+            [
+                matplotlib.colors.to_rgba(matplotlib.colors.CSS4_COLORS["olivedrab"]),
+                matplotlib.colors.to_rgba(matplotlib.colors.CSS4_COLORS["lightgrey"]),
+            ],
+            N = maxElev // args.elevBandInt,
+        )
+
         # Start ~infinite loop ...
         for shrinkLevel in range(1, 100):
             # Create short-hands and stop looping if this shrink level is too
@@ -359,16 +369,6 @@ if __name__ == "__main__":
 
                 print("      Drawing elevation data ...")
 
-                # Create suitable colour map ...
-                cmap = matplotlib.colors.LinearSegmentedColormap.from_list(
-                    "elevation",
-                    [
-                        matplotlib.colors.to_rgba(matplotlib.colors.CSS4_COLORS["olivedrab"]),
-                        matplotlib.colors.to_rgba(matplotlib.colors.CSS4_COLORS["lightgrey"]),
-                    ],
-                    N = maxElev // args.elevBandInt,
-                )
-
                 # Loop over pixels ...
                 for iy in range(ny // shrinkFactor):
                     for ix in range(nx // shrinkFactor):
@@ -387,7 +387,6 @@ if __name__ == "__main__":
                             (ix, iy),
                             (int(r), int(g), int(b)),
                         )
-                del cmap
 
                 # **************************************************************
 
@@ -556,16 +555,6 @@ if __name__ == "__main__":
 
             print("      Drawing elevation data ...")
 
-            # Create suitable colour map ...
-            cmap = matplotlib.colors.LinearSegmentedColormap.from_list(
-                "elevation",
-                [
-                    matplotlib.colors.to_rgba(matplotlib.colors.CSS4_COLORS["olivedrab"]),
-                    matplotlib.colors.to_rgba(matplotlib.colors.CSS4_COLORS["lightgrey"]),
-                ],
-                N = maxElev // args.elevBandInt,
-            )
-
             # Loop over pixels ...
             for iy in range(ny):
                 for ix in range(nx):
@@ -584,7 +573,6 @@ if __name__ == "__main__":
                         (ix, iy),
                         (int(r), int(g), int(b)),
                     )
-            del cmap
 
             # ******************************************************************
 
@@ -686,3 +674,4 @@ if __name__ == "__main__":
                 pObj.close()
                 pObj.join()
             del imgArr
+        del cmap
