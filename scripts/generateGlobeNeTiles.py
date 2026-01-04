@@ -272,7 +272,6 @@ if __name__ == "__main__":
             break
 
         # Create suitable colour map ...
-        assert (maxElev // args.elevBandInt) <= 256
         cmap = matplotlib.colors.LinearSegmentedColormap.from_list(
             "elevation",
             [
@@ -316,7 +315,7 @@ if __name__ == "__main__":
 
             # Check if time can be saved ...
             if os.path.exists(f'{bName.removesuffix(".bin")}_{shrinkFactor:d}x.bin'):
-                print(f"Loading \"{bName.removesuffix(".bin")}_{shrinkFactor:d}x.bin\" ...")
+                print(f'    Loading \"{bName.removesuffix(".bin")}_{shrinkFactor:d}x.bin\" ...')
 
                 # Load shrunken data and replace sea with 0 m elevation ...
                 shrunkenArr = numpy.fromfile(
@@ -337,6 +336,10 @@ if __name__ == "__main__":
                     for ix in range(nx // shrinkFactor):
                         shrunkenArr[iy, ix] = arr[iy * shrinkFactor:(iy + 1) * shrinkFactor, ix * shrinkFactor:(ix + 1) * shrinkFactor].mean()  # [m]
                 shrunkenArr = shrunkenArr.astype(numpy.int16)
+
+            # Convert shrunken values to elevation bands ...
+            shrunkenArr = shrunkenArr // args.elevBandInt
+            numpy.place(shrunkenArr, shrunkenArr > maxElev // args.elevBandInt, maxElev // args.elevBandInt)
 
             # ******************************************************************
 
@@ -407,24 +410,30 @@ if __name__ == "__main__":
 
                 print("      Drawing elevation data ...")
 
-                # Loop over pixels ...
-                for iy in range(ny // shrinkFactor):
-                    for ix in range(nx // shrinkFactor):
-                        # Find out which elevation band this pixel is (and skip
-                        # it if it is too low) ...
-                        band = min(shrunkenArr[iy, ix] // args.elevBandInt, maxElev // args.elevBandInt)
-                        if band < 1:
-                            continue
+                # Loop over elevation bands ...
+                for elevBand in range(maxElev // args.elevBandInt):
+                    print(f"        Processing elevation band {elevBand:,d} ({(elevBand + 1) * args.elevBandInt:,d} m) ...")
 
-                        # Paint the pixel ...
-                        r, g, b, _ = cmap(band - 1, bytes = True)
-                        assert isinstance(r, numpy.uint8)
-                        assert isinstance(g, numpy.uint8)
-                        assert isinstance(b, numpy.uint8)
-                        img.putpixel(
-                            (ix, iy),
-                            (int(r), int(g), int(b)),
-                        )
+                    # Create mask ...
+                    maskArr = numpy.zeros(
+                        (ny // shrinkFactor, nx // shrinkFactor),
+                        dtype = numpy.uint8,
+                    )
+                    numpy.place(maskArr, shrunkenArr == elevBand + 1, 255)
+                    maskImg = PIL.Image.fromarray(maskArr)
+                    del maskArr
+
+                    # Paint the image ...
+                    r, g, b, _ = cmap(elevBand, bytes = True)
+                    assert isinstance(r, numpy.uint8)
+                    assert isinstance(g, numpy.uint8)
+                    assert isinstance(b, numpy.uint8)
+                    img.paste(
+                         box = (0, 0),
+                          im = (int(r), int(g), int(b)),
+                        mask = maskImg,
+                    )
+                    del maskImg
 
                 # **************************************************************
 
@@ -571,6 +580,10 @@ if __name__ == "__main__":
 
         print(f"  Processing original size ({nTilesX:d}x{nTilesY:d}) ...")
 
+        # Convert values to elevation bands ...
+        arr = arr // args.elevBandInt
+        numpy.place(arr, arr > maxElev // args.elevBandInt, maxElev // args.elevBandInt)
+
         # Loop over resolutions ...
         for res in args.ress:
             # Loop over all to-be-generated tiles and skip this resolution if
@@ -638,24 +651,30 @@ if __name__ == "__main__":
 
             print("      Drawing elevation data ...")
 
-            # Loop over pixels ...
-            for iy in range(ny):
-                for ix in range(nx):
-                    # Find out which elevation band this pixel is (and skip it
-                    # if it is too low) ...
-                    band = min(arr[iy, ix] // args.elevBandInt, maxElev // args.elevBandInt)
-                    if band < 1:
-                        continue
+            # Loop over elevation bands ...
+            for elevBand in range(maxElev // args.elevBandInt):
+                print(f"        Processing elevation band {elevBand:,d} ({(elevBand + 1) * args.elevBandInt:,d} m) ...")
 
-                    # Paint the pixel ...
-                    r, g, b, _ = cmap(band - 1, bytes = True)
-                    assert isinstance(r, numpy.uint8)
-                    assert isinstance(g, numpy.uint8)
-                    assert isinstance(b, numpy.uint8)
-                    img.putpixel(
-                        (ix, iy),
-                        (int(r), int(g), int(b)),
-                    )
+                # Create mask ...
+                maskArr = numpy.zeros(
+                    (ny, nx),
+                    dtype = numpy.uint8,
+                )
+                numpy.place(maskArr, arr == elevBand + 1, 255)
+                maskImg = PIL.Image.fromarray(maskArr)
+                del maskArr
+
+                # Paint the image ...
+                r, g, b, _ = cmap(elevBand, bytes = True)
+                assert isinstance(r, numpy.uint8)
+                assert isinstance(g, numpy.uint8)
+                assert isinstance(b, numpy.uint8)
+                img.paste(
+                     box = (0, 0),
+                      im = (int(r), int(g), int(b)),
+                    mask = maskImg,
+                )
+                del maskImg
 
             # ******************************************************************
 
