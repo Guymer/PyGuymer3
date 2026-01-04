@@ -3,6 +3,9 @@
 # Create short-hand ...
 NCHILD=6                                                                        # [#]
 
+# Generate one-off-tiles ...
+python3.11 generateMissingTile.py &> generateMissingTile.log
+
 # Generate vector tiles ...
 python3.11 generateGshhgTiles.py                                                \
     --number-of-children ${NCHILD} &> generateGshhgTiles.log
