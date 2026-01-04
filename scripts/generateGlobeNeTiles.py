@@ -283,7 +283,7 @@ if __name__ == "__main__":
             if nShrunkenTilesX == 0 or nShrunkenTilesY == 0:
                 break
 
-            # Loop over all to-be-generated tiles skip this shrink level if all
+            # Loop over all to-be-generated tiles and skip this shrink level if all
             # already exist ...
             allExist = True
             for res in args.ress:
@@ -319,8 +319,8 @@ if __name__ == "__main__":
 
             # Loop over resolutions ...
             for res in args.ress:
-                # Loop over all to-be-generated tiles skip this resolution if
-                # all already exist ...
+                # Loop over all to-be-generated tiles and skip this resolution
+                # if all already exist ...
                 allExist = True
                 for iShrunkenTileX in range(nShrunkenTilesX):
                     for iShrunkenTileY in range(nShrunkenTilesY):
@@ -494,7 +494,7 @@ if __name__ == "__main__":
 
         # **********************************************************************
 
-        # Loop over all to-be-generated tiles skip this maximum elevation if all
+        # Loop over all to-be-generated tiles and skip this maximum elevation if all
         # already exist ...
         allExist = True
         for res in args.ress:
@@ -516,8 +516,8 @@ if __name__ == "__main__":
 
         # Loop over resolutions ...
         for res in args.ress:
-            # Loop over all to-be-generated tiles skip this resolution if all
-            # already exist ...
+            # Loop over all to-be-generated tiles and skip this resolution if
+            # all already exist ...
             allExist = True
             for iTileX in range(nTilesX):
                 for iTileY in range(nTilesY):
