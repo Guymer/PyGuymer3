@@ -119,7 +119,7 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Loop over plots ...
-    for iPlot, (dist, lat, lon, linewidth, grid) in enumerate(
+    for iPlot, (dist, lat, lon, linewidth, gshhgGrid) in enumerate(
         [
             (   1.0e99,  None, None, 0.0,   "8x4"  ),
             (1000.0e3 , +40.0,  0.0, 0.5, "128x64" ),
@@ -215,7 +215,7 @@ if __name__ == "__main__":
 
             # ******************************************************************
 
-            print(f"  Plotting \"{resolution}\" and \"{grid}\" (with \"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\") ...")
+            print(f"  Plotting \"{resolution}\" and \"{gshhgGrid}\" (with \"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\") ...")
 
             # Create axis ...
             ax = pyguymer3.geo.add_axis(
@@ -238,14 +238,14 @@ if __name__ == "__main__":
             )
 
             # Configure axis ...
-            ax.set_title(f"\"add_GSHHG_tiles()\" at \"{resolution}\" and \"{grid}\" (\"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\")")
+            ax.set_title(f"\"add_GSHHG_tiles()\" at \"{resolution}\" and \"{gshhgGrid}\" (\"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\")")
             pyguymer3.geo.add_GSHHG_tiles(
                 ax,
                 fov,
                          debug = args.debug,
-                          grid = grid,
+                          grid = gshhgGrid,
                  interpolation = "gaussian",
-                mergedTileName = f'{pName.removesuffix(".png")}_{resolution}.png',
+                mergedTileName = f'{pName.removesuffix(".png")}_GSHHG_{resolution}.png',
                   regrid_shape = regrid_shape,
                       resample = False,
                     resolution = resolution,
