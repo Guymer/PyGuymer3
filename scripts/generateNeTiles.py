@@ -211,7 +211,7 @@ if __name__ == "__main__":
                 if not allExist:
                     break
             if allExist:
-                print(f"  Skipping resolution {res} as all tiles already exist.")
+                print(f"  Skipping resolution \"{res}\" as all tiles already exist.")
                 continue
 
             print(f"  Processing resolution \"{res}\" ...")
@@ -231,21 +231,66 @@ if __name__ == "__main__":
             print("    Drawing layers under elevation data ...")
 
             # Draw layers under elevation data ...
-            funcs.drawBathymetry(img, res, bathymetryColors, maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS)
-            funcs.drawAntarcticIceShelves(img, res, 1, maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS)
-            funcs.drawReefs(img, res, 2, maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS)
-            funcs.drawLand(img, res, 3, maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS)
-            funcs.drawMinorIslands(img, res, 3, maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS)
+            funcs.drawBathymetry(
+                img,
+                res,
+                bathymetryColors,
+                maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS,
+            )
+            funcs.drawAntarcticIceShelves(
+                img,
+                res,
+                1,                      # aliceblue
+                maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS,
+            )
+            funcs.drawReefs(
+                img,
+                res,
+                2,                      # aquamarine
+                maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS,
+            )
+            funcs.drawLand(
+                img,
+                res,
+                3,                      # darkkhaki
+                maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS,
+            )
+            funcs.drawMinorIslands(
+                img,
+                res,
+                3,                      # darkkhaki
+                maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS,
+            )
 
             # ******************************************************************
 
             print("    Drawing layers above elevation data ...")
 
             # Draw layers above elevation data ...
-            funcs.drawGlaciatedAreas(img, res, 4, maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS)
-            funcs.drawLakes(img, res, 0, maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS)
-            funcs.drawPlayas(img, res, 5, maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS)
-            funcs.drawRivers(img, draw, res, 0)
+            funcs.drawGlaciatedAreas(
+                img,
+                res,
+                4,                      # snow
+                maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS,
+            )
+            funcs.drawLakes(
+                img,
+                res,
+                0,                      # lightblue
+                maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS,
+            )
+            funcs.drawPlayas(
+                img,
+                res,
+                5,                      # khaki
+                maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS,
+            )
+            funcs.drawRivers(
+                img,
+                draw,
+                res,
+                0,                      # lightblue
+            )
             del draw
 
             # ******************************************************************

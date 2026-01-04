@@ -172,7 +172,7 @@ if __name__ == "__main__":
                 if not allExist:
                     break
             if allExist:
-                print(f"  Skipping resolution {res} as all tiles already exist.")
+                print(f"  Skipping resolution \"{res}\" as all tiles already exist.")
                 continue
 
             print(f"  Processing resolution \"{res}\" ...")
@@ -200,7 +200,13 @@ if __name__ == "__main__":
                 (6, 3,),                # snow
             ]:
                 # Draw layer ...
-                funcs.drawCoastline(img, level, res, color, maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS)
+                funcs.drawCoastline(
+                    img,
+                    level,
+                    res,
+                    color,
+                    maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS,
+                )
 
             # ******************************************************************
 

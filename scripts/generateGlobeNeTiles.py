@@ -341,10 +341,10 @@ if __name__ == "__main__":
                     if not allExist:
                         break
                 if allExist:
-                    print(f"    Skipping resolution {res} as all tiles already exist.")
+                    print(f"    Skipping resolution \"{res}\" as all tiles already exist.")
                     continue
 
-                print(f"    Processing resolution {res} ...")
+                print(f"    Processing resolution \"{res}\" ...")
 
                 # Create the PIL image and drawing object ...
                 img = PIL.Image.new(
@@ -359,11 +359,36 @@ if __name__ == "__main__":
                 print("      Drawing layers under elevation data ...")
 
                 # Draw layers under elevation data ...
-                funcs.drawBathymetry(img, res, bathymetryColors, maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS)
-                funcs.drawAntarcticIceShelves(img, res, matplotlib.colors.CSS4_COLORS["aliceblue"], maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS)
-                funcs.drawReefs(img, res, matplotlib.colors.CSS4_COLORS["aquamarine"], maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS)
-                funcs.drawLand(img, res, matplotlib.colors.CSS4_COLORS["darkkhaki"], maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS)
-                funcs.drawMinorIslands(img, res, matplotlib.colors.CSS4_COLORS["darkkhaki"], maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS)
+                funcs.drawBathymetry(
+                    img,
+                    res,
+                    bathymetryColors,
+                    maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS,
+                )
+                funcs.drawAntarcticIceShelves(
+                    img,
+                    res,
+                    matplotlib.colors.CSS4_COLORS["aliceblue"],
+                    maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS,
+                )
+                funcs.drawReefs(
+                    img,
+                    res,
+                    matplotlib.colors.CSS4_COLORS["aquamarine"],
+                    maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS,
+                )
+                funcs.drawLand(
+                    img,
+                    res,
+                    matplotlib.colors.CSS4_COLORS["darkkhaki"],
+                    maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS,
+                )
+                funcs.drawMinorIslands(
+                    img,
+                    res,
+                    matplotlib.colors.CSS4_COLORS["darkkhaki"],
+                    maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS,
+                )
 
                 # **************************************************************
 
@@ -393,10 +418,30 @@ if __name__ == "__main__":
                 print("      Drawing layers above elevation data ...")
 
                 # Draw layers above elevation data ...
-                funcs.drawGlaciatedAreas(img, res, matplotlib.colors.CSS4_COLORS["snow"], maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS)
-                funcs.drawLakes(img, res, matplotlib.colors.CSS4_COLORS["lightblue"], maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS)
-                funcs.drawPlayas(img, res, matplotlib.colors.CSS4_COLORS["khaki"], maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS)
-                funcs.drawRivers(img, draw, res, matplotlib.colors.CSS4_COLORS["lightblue"])
+                funcs.drawGlaciatedAreas(
+                    img,
+                    res,
+                    matplotlib.colors.CSS4_COLORS["snow"],
+                    maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS,
+                )
+                funcs.drawLakes(
+                    img,
+                    res,
+                    matplotlib.colors.CSS4_COLORS["lightblue"],
+                    maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS,
+                )
+                funcs.drawPlayas(
+                    img,
+                    res,
+                    matplotlib.colors.CSS4_COLORS["khaki"],
+                    maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS,
+                )
+                funcs.drawRivers(
+                    img,
+                    draw,
+                    res,
+                    matplotlib.colors.CSS4_COLORS["lightblue"],
+                )
                 del draw
 
                 # ******************************************************************
@@ -527,10 +572,10 @@ if __name__ == "__main__":
                 if not allExist:
                     break
             if allExist:
-                print(f"    Skipping resolution {res} as all tiles already exist.")
+                print(f"    Skipping resolution \"{res}\" as all tiles already exist.")
                 continue
 
-            print(f"    Processing resolution {res} ...")
+            print(f"    Processing resolution \"{res}\" ...")
 
             # Create the PIL image and drawing object ...
             img = PIL.Image.new(
@@ -545,11 +590,36 @@ if __name__ == "__main__":
             print("      Drawing layers under elevation data ...")
 
             # Draw layers under elevation data ...
-            funcs.drawBathymetry(img, res, bathymetryColors, maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS)
-            funcs.drawAntarcticIceShelves(img, res, matplotlib.colors.CSS4_COLORS["aliceblue"], maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS)
-            funcs.drawReefs(img, res, matplotlib.colors.CSS4_COLORS["aquamarine"], maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS)
-            funcs.drawLand(img, res, matplotlib.colors.CSS4_COLORS["darkkhaki"], maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS)
-            funcs.drawMinorIslands(img, res, matplotlib.colors.CSS4_COLORS["darkkhaki"], maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS)
+            funcs.drawBathymetry(
+                img,
+                res,
+                bathymetryColors,
+                maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS,
+            )
+            funcs.drawAntarcticIceShelves(
+                img,
+                res,
+                matplotlib.colors.CSS4_COLORS["aliceblue"],
+                maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS,
+            )
+            funcs.drawReefs(
+                img,
+                res,
+                matplotlib.colors.CSS4_COLORS["aquamarine"],
+                maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS,
+            )
+            funcs.drawLand(
+                img,
+                res,
+                matplotlib.colors.CSS4_COLORS["darkkhaki"],
+                maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS,
+            )
+            funcs.drawMinorIslands(
+                img,
+                res,
+                matplotlib.colors.CSS4_COLORS["darkkhaki"],
+                maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS,
+            )
 
             # ******************************************************************
 
@@ -579,10 +649,30 @@ if __name__ == "__main__":
             print("      Drawing layers above elevation data ...")
 
             # Draw layers above elevation data ...
-            funcs.drawGlaciatedAreas(img, res, matplotlib.colors.CSS4_COLORS["snow"], maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS)
-            funcs.drawLakes(img, res, matplotlib.colors.CSS4_COLORS["lightblue"], maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS)
-            funcs.drawPlayas(img, res, matplotlib.colors.CSS4_COLORS["khaki"], maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS)
-            funcs.drawRivers(img, draw, res, matplotlib.colors.CSS4_COLORS["lightblue"])
+            funcs.drawGlaciatedAreas(
+                img,
+                res,
+                matplotlib.colors.CSS4_COLORS["snow"],
+                maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS,
+            )
+            funcs.drawLakes(
+                img,
+                res,
+                matplotlib.colors.CSS4_COLORS["lightblue"],
+                maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS,
+            )
+            funcs.drawPlayas(
+                img,
+                res,
+                matplotlib.colors.CSS4_COLORS["khaki"],
+                maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS,
+            )
+            funcs.drawRivers(
+                img,
+                draw,
+                res,
+                matplotlib.colors.CSS4_COLORS["lightblue"],
+            )
             del draw
 
             # ******************************************************************
