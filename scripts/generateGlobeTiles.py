@@ -213,7 +213,7 @@ if __name__ == "__main__":
 
             # Check if time can be saved ...
             if os.path.exists(f'{bName.removesuffix(".bin")}_{shrinkFactor:d}x.bin'):
-                print(f"Loading \"{bName.removesuffix(".bin")}_{shrinkFactor:d}x.bin\" ...")
+                print(f'    Loading \"{bName.removesuffix(".bin")}_{shrinkFactor:d}x.bin\" ...')
 
                 # Load shrunken data and replace sea with 0 m elevation ...
                 shrunkenArr = numpy.fromfile(
