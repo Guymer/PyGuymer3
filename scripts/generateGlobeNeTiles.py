@@ -581,8 +581,8 @@ if __name__ == "__main__":
         print(f"  Processing original size ({nTilesX:d}x{nTilesY:d}) ...")
 
         # Convert values to elevation bands ...
-        arr = arr // args.elevBandInt
-        numpy.place(arr, arr > maxElev // args.elevBandInt, maxElev // args.elevBandInt)
+        arrBanded = arr // args.elevBandInt
+        numpy.place(arrBanded, arrBanded > maxElev // args.elevBandInt, maxElev // args.elevBandInt)
 
         # Loop over resolutions ...
         for res in args.ress:
@@ -660,7 +660,7 @@ if __name__ == "__main__":
                     (ny, nx),
                     dtype = numpy.uint8,
                 )
-                numpy.place(maskArr, arr == elevBand + 1, 255)
+                numpy.place(maskArr, arrBanded == elevBand + 1, 255)
                 maskImg = PIL.Image.fromarray(maskArr)
                 del maskArr
 
@@ -796,4 +796,4 @@ if __name__ == "__main__":
                 pObj.close()
                 pObj.join()
             del imgArr
-        del cmap
+        del cmap, arrBanded
