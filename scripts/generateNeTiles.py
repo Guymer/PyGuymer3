@@ -197,7 +197,7 @@ if __name__ == "__main__":
 
             print("    Drawing layers under elevation data ...")
 
-            # Draw layers below elevation data ...
+            # Draw layers under elevation data ...
             funcs.drawBathymetry(img, res, bathymetryColors, maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS)
             funcs.drawAntarcticIceShelves(img, res, 1, maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS)
             funcs.drawReefs(img, res, 2, maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS)

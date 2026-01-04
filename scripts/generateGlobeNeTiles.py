@@ -348,7 +348,7 @@ if __name__ == "__main__":
 
                 print("      Drawing layers under elevation data ...")
 
-                # Draw layers below elevation data ...
+                # Draw layers under elevation data ...
                 funcs.drawBathymetry(img, res, bathymetryColors, maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS)
                 funcs.drawAntarcticIceShelves(img, res, matplotlib.colors.CSS4_COLORS["aliceblue"], maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS)
                 funcs.drawReefs(img, res, matplotlib.colors.CSS4_COLORS["aquamarine"], maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS)
@@ -545,7 +545,7 @@ if __name__ == "__main__":
 
             print("      Drawing layers under elevation data ...")
 
-            # Draw layers below elevation data ...
+            # Draw layers under elevation data ...
             funcs.drawBathymetry(img, res, bathymetryColors, maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS)
             funcs.drawAntarcticIceShelves(img, res, matplotlib.colors.CSS4_COLORS["aliceblue"], maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS)
             funcs.drawReefs(img, res, matplotlib.colors.CSS4_COLORS["aquamarine"], maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS)
