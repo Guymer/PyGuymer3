@@ -5,74 +5,53 @@ This folder contains tiles of some datasets to allow quick and efficient plottin
 * The [Natural Earth](https://www.naturalearthdata.com/) datasets are vector datasets.
 * The [OS Terrain 50](https://www.ordnancesurvey.co.uk/products/os-terrain-50) dataset is a raster dataset at 13,200 px × 24,600 px.
 
-Using a very simple Python function of:
+Using a very simple Python snippet of:
 
 ```python
-for i in range(2, n):
-    if n % i == 0:
-        print(f"{i:d} × {n // i:d}")
+n = [43200, 21600, 13200, 24600]
+for i in range(100, 1000):
+    if all(
+        [
+            n[0] % i == 0,
+            n[1] % i == 0,
+            n[2] % i == 0,
+            n[3] % i == 0,
+        ]
+    ):
+        print(f"{i:d} px/tile × {n[0] // i:3d} tiles = {n[0]:,d} px and {i:d} px/tile × {n[1] // i:3d} tiles = {n[1]:,d} px and {i:d} px/tile × {n[2] // i:3d} tiles = {n[2]:,d} px and {i:d} px/tile × {n[3] // i:3d} tiles = {n[3]:,d} px")
 ```
 
-... it is possible to discover which tile sizes would fit for each raster dataset. If I hide the solutions which have tiles larger than 1,024 px or smaller than 256 px, then:
+... it is possible to discover which tile sizes would fit for all the raster datasets simultaneously.
 
 * For the [Global Land One-km Base Elevation](https://www.ngdc.noaa.gov/mgg/topo/globe.html) dataset:
     * With a width of 43,200 px:
-        * 45 × 960
-        * 48 × 900 (would allow square tiles)
-        * 50 × 864 (would allow square tiles)
-        * 54 × 800 (would allow square tiles)
-        * 60 × 720 (would allow square tiles)
-        * 64 × 675 (would allow square tiles)
-        * 72 × 600 (would allow square tiles)
-        * 75 × 576
-        * 80 × 540 (would allow square tiles)
-        * 90 × 480 (would allow square tiles)
-        * 96 × 450 (would allow square tiles)
-        * 100 × 432 (would allow square tiles)
-        * 108 × 400 (would allow square tiles)
-        * 120 × 360 (would allow square tiles)
-        * 135 × 320
-        * 144 × 300 (would allow square tiles)
-        * 150 × 288 (would allow square tiles)
-        * 160 × 270 (would allow square tiles)
+        * 100 px/tile × 432 tiles = 43,200 px
+        * 120 px/tile × 360 tiles = 43,200 px
+        * 150 px/tile × 288 tiles = 43,200 px
+        * 200 px/tile × 216 tiles = 43,200 px
+        * 300 px/tile × 144 tiles = 43,200 px
+        * 600 px/tile ×  72 tiles = 43,200 px
     * With a height of 21,600 px:
-        * 24 × 900 (would allow square tiles)
-        * 25 × 864 (would allow square tiles)
-        * 27 × 800 (would allow square tiles)
-        * 30 × 720 (would allow square tiles)
-        * 32 × 675 (would allow square tiles)
-        * 36 × 600 (would allow square tiles)
-        * 40 × 540 (would allow square tiles)
-        * 45 × 480 (would allow square tiles)
-        * 48 × 450 (would allow square tiles)
-        * 50 × 432 (would allow square tiles)
-        * 54 × 400 (would allow square tiles)
-        * 60 × 360 (would allow square tiles)
-        * 72 × 300 (would allow square tiles)
-        * 75 × 288 (would allow square tiles)
-        * 80 × 270 (would allow square tiles)
+        * 100 px/tile × 216 tiles = 21,600 px
+        * 120 px/tile × 180 tiles = 21,600 px
+        * 150 px/tile × 144 tiles = 21,600 px
+        * 200 px/tile × 108 tiles = 21,600 px
+        * 300 px/tile ×  72 tiles = 21,600 px
+        * 600 px/tile ×  36 tiles = 21,600 px
 * For the [OS Terrain 50](https://www.ordnancesurvey.co.uk/products/os-terrain-50) dataset:
     * With a width of 13,200 px:
-        * 15 × 880
-        * 16 × 825
-        * 20 × 660
-        * 22 × 600 (would allow square tiles)
-        * 24 × 550
-        * 25 × 528
-        * 30 × 440
-        * 33 × 400
-        * 40 × 330
-        * 44 × 300 (would allow square tiles)
-        * 48 × 275
-        * 50 × 264
+        * 100 px/tile × 132 tiles = 13,200 px
+        * 120 px/tile × 110 tiles = 13,200 px
+        * 150 px/tile ×  88 tiles = 13,200 px
+        * 200 px/tile ×  66 tiles = 13,200 px
+        * 300 px/tile ×  44 tiles = 13,200 px
+        * 600 px/tile ×  22 tiles = 13,200 px
     * With a height of 24,600 px:
-        * 25 × 984
-        * 30 × 820
-        * 40 × 615
-        * 41 × 600 (would allow square tiles)
-        * 50 × 492
-        * 60 × 410
-        * 75 × 328
-        * 82 × 300 (would allow square tiles)
+        * 100 px/tile × 246 tiles = 24,600 px
+        * 120 px/tile × 205 tiles = 24,600 px
+        * 150 px/tile × 164 tiles = 24,600 px
+        * 200 px/tile × 123 tiles = 24,600 px
+        * 300 px/tile ×  82 tiles = 24,600 px
+        * 600 px/tile ×  41 tiles = 24,600 px
 
-It is possible to represent both raster datasets using 300 px × 300 px tiles.
+For the time being, I choose to represent both raster datasets using 300 px × 300 px tiles.
