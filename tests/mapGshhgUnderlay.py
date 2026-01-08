@@ -3,7 +3,8 @@
 # Use the proper idiom in the main module ...
 # NOTE: See https://docs.python.org/3.12/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
 if __name__ == "__main__":
-    # This is a test suite for “geo.add_GSHHG_map()” and “geo.add_GSHHG_tiles()”.
+    # This is a test suite for “geo.add_GSHHG_map()”,
+    # “geo.add_GLOBE_and_GSHHG_tiles()” and “geo.add_GSHHG_tiles()”.
 
     # Import standard modules ...
     import argparse
@@ -119,12 +120,12 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Loop over plots ...
-    for iPlot, (dist, lat, lon, linewidth, gshhgGrid) in enumerate(
+    for iPlot, (dist, lat, lon, linewidth, maxElev, globeGrid, gshhgGrid) in enumerate(
         [
-            (   1.0e99,  None, None, 0.0,   "8x4"  ),
-            (1000.0e3 , +40.0,  0.0, 0.5, "128x64" ),
-            (  25.0e3 , +51.5,  0.0, 0.5, "256x128"),
-            (  50.0e3 , +60.5, +7.5, 0.5, "256x128"),
+            (   1.0e99,  None, None, 0.0, 8000,  "18x9" ,   "8x4"  ),
+            (1000.0e3 , +40.0,  0.0, 0.5, 8000,  "72x36", "128x64" ),
+            (  25.0e3 , +51.5,  0.0, 0.5, 8000, "144x72", "256x128"),
+            (  50.0e3 , +60.5, +7.5, 0.5, 2000, "144x72", "256x128"),
         ]
     ):
         # Determine file name ...
@@ -166,12 +167,12 @@ if __name__ == "__main__":
         # Create figure ...
         fg = matplotlib.pyplot.figure(
                 dpi = 100,              # NOTE: Reduce DPI to make test quicker.
-            figsize = (2 * 9.6, 5 * 7.2),
+            figsize = (3 * 9.6, 5 * 7.2),
         )
 
         # Create short-hand ...
         regrid_shape = (
-            round(2.0 * (fg.get_figwidth() / 2.0) * fg.get_dpi()),
+            round(2.0 * (fg.get_figwidth() / 3.0) * fg.get_dpi()),
             round(2.0 * (fg.get_figheight() / 5.0) * fg.get_dpi()),
         )                                                                       # [px], [px]
 
@@ -190,10 +191,10 @@ if __name__ == "__main__":
                           dist = dist,
                            eps = args.eps,
                            fov = fov,
-                         index = 2 * iResolution + 1,
+                         index = 3 * iResolution + 1,
                            lat = lat,
                            lon = lon,
-                         ncols = 2,
+                         ncols = 3,
                          nIter = args.nIter,
                          nrows = 5,
                      onlyValid = True,
@@ -215,6 +216,46 @@ if __name__ == "__main__":
 
             # ******************************************************************
 
+            print(f"  Plotting \"{resolution}\" and \"{globeGrid}\" (with \"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\") ...")
+
+            # Create axis ...
+            ax = pyguymer3.geo.add_axis(
+                fg,
+                add_coastlines = False,
+                 add_gridlines = True,
+                         debug = args.debug,
+                          dist = dist,
+                           eps = args.eps,
+                           fov = fov,
+                         index = 3 * iResolution + 2,
+                           lat = lat,
+                           lon = lon,
+                         ncols = 3,
+                         nIter = args.nIter,
+                         nrows = 5,
+                     onlyValid = True,
+                        repair = True,
+                           tol = args.tol,
+            )
+
+            # Configure axis ...
+            ax.set_title(f"\"add_GLOBE_and_GSHHG_tiles()\" at \"{resolution}\" and \"{globeGrid}\" (\"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\")")
+            pyguymer3.geo.add_GLOBE_and_GSHHG_tiles(
+                ax,
+                fov,
+                         debug = args.debug,
+                          grid = globeGrid,
+                 interpolation = "gaussian",
+                       maxElev = maxElev,
+                mergedTileName = f'{pName.removesuffix(".png")}_GLOBE+GSHHG_{resolution}.png',
+                  regrid_shape = regrid_shape,
+                      resample = False,
+                    resolution = resolution,
+                       timeout = args.timeout,
+            )
+
+            # ******************************************************************
+
             print(f"  Plotting \"{resolution}\" and \"{gshhgGrid}\" (with \"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\") ...")
 
             # Create axis ...
@@ -226,10 +267,10 @@ if __name__ == "__main__":
                           dist = dist,
                            eps = args.eps,
                            fov = fov,
-                         index = 2 * iResolution + 2,
+                         index = 3 * iResolution + 3,
                            lat = lat,
                            lon = lon,
-                         ncols = 2,
+                         ncols = 3,
                          nIter = args.nIter,
                          nrows = 5,
                      onlyValid = True,
