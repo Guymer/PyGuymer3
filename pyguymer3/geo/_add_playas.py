@@ -83,6 +83,12 @@ def _add_playas(
 
     # **************************************************************************
 
+    # Skip known missing datasets ...
+    if resolution == "110m":
+        if debug:
+            print(f"INFO: Skipping \"{resolution}\" (known missing dataset).")
+        return
+
     # Create suitable colours ...
     edgecolor = matplotlib.colors.to_rgba(matplotlib.colors.CSS4_COLORS["cornflowerblue"])
     facecolor = matplotlib.colors.to_rgba(matplotlib.colors.CSS4_COLORS["khaki"])

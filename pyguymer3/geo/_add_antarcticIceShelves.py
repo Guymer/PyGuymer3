@@ -77,6 +77,12 @@ def _add_antarcticIceShelves(
 
     # **************************************************************************
 
+    # Skip known missing datasets ...
+    if resolution == "110m":
+        if debug:
+            print(f"INFO: Skipping \"{resolution}\" (known missing dataset).")
+        return
+
     # Create suitable colour ...
     facecolor = matplotlib.colors.to_rgba(matplotlib.colors.CSS4_COLORS["aliceblue"])
     if debug:
