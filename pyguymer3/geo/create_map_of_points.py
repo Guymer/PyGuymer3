@@ -20,8 +20,11 @@ def create_map_of_points(
                floor = False,
                  fov = None,
         gifsiclePath = None,
+                grid = "18x9",
        interpolation = "none",
         jpegtranPath = None,
+      maxImagePixels = 1073741824,
+      mergedTileName = None,
               method = "GeodesicBox",
                 name = "natural-earth-1",
                 nAng = 9,
@@ -97,6 +100,8 @@ def create_map_of_points(
     gifsiclePath : None or str, optional
         the path to the "gifsicle" binary (if not provided then Python will attempt to
         find the binary itself)
+    grid : str, optional
+        The grid to fetch tiles from.
     interpolation : str, optional
         The interpolation method used when drawing the final warped image, or
         the final merged and warped image, on the figure. Due to the use of
@@ -105,6 +110,10 @@ def create_map_of_points(
     jpegtranPath : None or str, optional
         the path to the "jpegtran" binary (if not provided then Python will attempt to
         find the binary itself)
+    maxImagePixels : int, optional
+        The maximum number of pixels in an image, to prevent decompression bombs.
+    mergedTileName : None or str, optional
+        If provided, then save the merged tile to this file.
     method : str, optional
         the method for finding the middle of the points
     name : str, optional
@@ -220,9 +229,15 @@ def create_map_of_points(
     # Import sub-functions ...
     from .add_axis import add_axis
     from .add_Cartopy_tiles import add_Cartopy_tiles
+    from .add_GLOBE_and_GSHHG_tiles import add_GLOBE_and_GSHHG_tiles
+    from .add_GLOBE_and_NE_tiles import add_GLOBE_and_NE_tiles
+    from .add_GLOBE_tiles import add_GLOBE_tiles
     from .add_GSHHG_map import add_GSHHG_map
+    from .add_GSHHG_tiles import add_GSHHG_tiles
     from .add_map_background import add_map_background
     from .add_NE_map import add_NE_map
+    from .add_NE_tiles import add_NE_tiles
+    from .add_OSterrain_tiles import add_OSterrain_tiles
     from .extract_lines import extract_lines
     from .find_middle_of_locs import find_middle_of_locs
     from .great_circle import great_circle
@@ -381,7 +396,7 @@ def create_map_of_points(
     # Check which background the user wants ...
     match background:
         case "GSHHG" | "GSHHG-map":
-            # Add GSHHG background ...
+            # Add GSHHG map background ...
             add_GSHHG_map(
                 ax,
                 background = True,
@@ -397,6 +412,27 @@ def create_map_of_points(
                     repair = repair,
                 resolution = resolution,
             )
+        case "GSHHG-tiles":
+            # Add GSHHG tiles background ...
+            add_GSHHG_tiles(
+                ax,
+                fov,
+                     chunksize = chunksize,
+                         debug = debug,
+                  exiftoolPath = exiftoolPath,
+                  gifsiclePath = gifsiclePath,
+                          grid = grid,
+                 interpolation = interpolation,
+                  jpegtranPath = jpegtranPath,
+                maxImagePixels = maxImagePixels,
+                mergedTileName = mergedTileName,
+                   optipngPath = optipngPath,
+                          pool = None,
+                  regrid_shape = regrid_shape,
+                      resample = resample,
+                    resolution = resolution,
+                       timeout = timeout,
+            )
         case "image":
             # Add image background ...
             add_map_background(
@@ -410,7 +446,7 @@ def create_map_of_points(
                    resolution = resolution,
             )
         case "NE" | "NE-map":
-            # Add NE background ...
+            # Add NE map background ...
             add_NE_map(
                 ax,
                 background = True,
@@ -426,6 +462,27 @@ def create_map_of_points(
                     repair = repair,
                 resolution = resolution,
                      scale = "32km",
+            )
+        case "NE-tiles":
+            # Add NE tiles background ...
+            add_NE_tiles(
+                ax,
+                fov,
+                     chunksize = chunksize,
+                         debug = debug,
+                  exiftoolPath = exiftoolPath,
+                  gifsiclePath = gifsiclePath,
+                          grid = grid,
+                 interpolation = interpolation,
+                  jpegtranPath = jpegtranPath,
+                maxImagePixels = maxImagePixels,
+                mergedTileName = mergedTileName,
+                   optipngPath = optipngPath,
+                          pool = None,
+                  regrid_shape = regrid_shape,
+                      resample = resample,
+                    resolution = resolution,
+                       timeout = timeout,
             )
         case "none":
             # Don't add any background ...
