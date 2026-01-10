@@ -68,8 +68,10 @@ def create_map_of_points(
     angConv : float, optional
         the angle change which classifies as converged (in degrees)
     background : str, optional
-        the type of background to add (recognised values are: "GSHHG"; "image";
-        "NE"; "none"; and "OSM")
+        The type of background to add. Recognised values are: "GLOBE-tiles";
+        "GLOBE+GSHHG-tiles"; "GLOBE+NE-tiles"; "GSHHG-map" (and "GSHHG");
+        "GSHHG-tiles"; "image"; "NE-map" (and "NE"); "NE-tiles"; "none"; "OSM";
+        and "OSterrain-tiles".
     ceil : bool, optional
         When calculating the tile zoom level from the resolution of the figure
         convert the floating-point answer to an integer using ``math.ceil()``.
