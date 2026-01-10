@@ -395,6 +395,73 @@ def create_map_of_points(
 
     # Check which background the user wants ...
     match background:
+        case "GLOBE-tiles":
+            # Add GLOBE tiles background ...
+            add_GLOBE_tiles(
+                ax,
+                fov,
+                     chunksize = chunksize,
+                         debug = debug,
+                  exiftoolPath = exiftoolPath,
+                  gifsiclePath = gifsiclePath,
+                          grid = grid,
+                 interpolation = interpolation,
+                  jpegtranPath = jpegtranPath,
+                       maxElev = 8000,
+                maxImagePixels = maxImagePixels,
+                mergedTileName = mergedTileName,
+                   optipngPath = optipngPath,
+                          pool = None,
+                  regrid_shape = regrid_shape,
+                      resample = resample,
+                       timeout = timeout,
+            )
+        case "GLOBE+GSHHG-tiles":
+            # Add GLOBE+GSHHG tiles background ...
+            add_GLOBE_and_GSHHG_tiles(
+                ax,
+                fov,
+                     chunksize = chunksize,
+                         debug = debug,
+                       elevInt = 250,
+                  exiftoolPath = exiftoolPath,
+                  gifsiclePath = gifsiclePath,
+                          grid = grid,
+                 interpolation = interpolation,
+                  jpegtranPath = jpegtranPath,
+                       maxElev = 8000,
+                maxImagePixels = maxImagePixels,
+                mergedTileName = mergedTileName,
+                   optipngPath = optipngPath,
+                          pool = None,
+                  regrid_shape = regrid_shape,
+                      resample = resample,
+                    resolution = resolution,
+                       timeout = timeout,
+            )
+        case "GLOBE+NE-tiles":
+            # Add GLOBE+NE tiles background ...
+            add_GLOBE_and_NE_tiles(
+                ax,
+                fov,
+                     chunksize = chunksize,
+                         debug = debug,
+                       elevInt = 250,
+                  exiftoolPath = exiftoolPath,
+                  gifsiclePath = gifsiclePath,
+                          grid = grid,
+                 interpolation = interpolation,
+                  jpegtranPath = jpegtranPath,
+                       maxElev = 8000,
+                maxImagePixels = maxImagePixels,
+                mergedTileName = mergedTileName,
+                   optipngPath = optipngPath,
+                          pool = None,
+                  regrid_shape = regrid_shape,
+                      resample = resample,
+                    resolution = resolution,
+                       timeout = timeout,
+            )
         case "GSHHG" | "GSHHG-map":
             # Add GSHHG map background ...
             add_GSHHG_map(
