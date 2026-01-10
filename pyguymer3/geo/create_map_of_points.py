@@ -380,7 +380,7 @@ def create_map_of_points(
 
     # Check which background the user wants ...
     match background:
-        case "GSHHG":
+        case "GSHHG" | "GSHHG-map":
             # Add GSHHG background ...
             add_GSHHG_map(
                 ax,
@@ -409,7 +409,7 @@ def create_map_of_points(
                      resample = resample,
                    resolution = resolution,
             )
-        case "NE":
+        case "NE" | "NE-map":
             # Add NE background ...
             add_NE_map(
                 ax,
