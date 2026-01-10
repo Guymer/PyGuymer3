@@ -22,6 +22,7 @@ exclude docs/*/*/*
 exclude docs/*/*/*/*
 exclude docs/*/*/*/*/*
 exclude Makefile
+exclude README.md
 exclude requirements.txt
 exclude scripts/*
 exclude scripts/*/*
@@ -34,3 +35,14 @@ exclude tests/*/*/*
 exclude tests/*/*/*/*
 exclude tests/*/*/*/*/*
 exclude unitTests.py
+
+# Make sure that the installation is less than the 100 MB upload limit of PyPI ...
+exclude pyguymer3/*/README.md
+exclude pyguymer3/*/*/README.md
+exclude pyguymer3/*/*/*/README.md
+exclude pyguymer3/data/png/gshhg/64x32/res=*/x=*/y=*.png
+exclude pyguymer3/data/png/ne/64x32/res=*/x=*/y=*.png
+exclude pyguymer3/data/png/osTerrain/22x41/maxElev=250m/x=*/y=*.png
+exclude pyguymer3/data/png/osTerrain/22x41/maxElev=500m/x=*/y=*.png
+exclude pyguymer3/data/png/osTerrain/22x41/maxElev=750m/x=*/y=*.png
+exclude pyguymer3/data/png/osTerrain/22x41/maxElev=1250m/x=*/y=*.png
