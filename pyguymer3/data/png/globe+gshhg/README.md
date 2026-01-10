@@ -1,1 +1,17 @@
 If you want more sizes (or elevation intervals or elevation band intervals or resolutions) available then you should run the [associated script in the scripts folder](/scripts/generateGlobeGshhgTiles.py) (PyPI has a limit of 100 MB so I cannot provide more for you as the wheel is already 88,899,546 bytes as of 2/Jan/2026).
+
+The citation for the [GLOBE](https://www.ngdc.noaa.gov/mgg/topo/globe.html) dataset is:
+
+```
+GLOBE Task Team and others (Hastings, David A., Paula K. Dunbar, Gerald M.
+Elphingstone, Mark Bootz, Hiroshi Murakami, Hiroshi Maruyama, Hiroshi Masaharu,
+Peter Holland, John Payne, Nevin A. Bryant, Thomas L. Logan, J.-P. Muller,
+Gunter Schreier, and John S. MacDonald), eds., 1999. The Global Land
+One-kilometer Base Elevation (GLOBE) Digital Elevation Model, Version 1.0.
+National Oceanic and Atmospheric Administration, National Geophysical Data
+Center, 325 Broadway, Boulder, Colorado 80305-3328, U.S.A. Digital data base on
+the World Wide Web (URL: http://www.ngdc.noaa.gov/mgg/topo/globe.html) and
+CD-ROMs.
+```
+
+These tiles use the [Global Self-consistent Hierarchical High-resolution Geography](https://www.ngdc.noaa.gov/mgg/shorelines/) datasets.
