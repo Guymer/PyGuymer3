@@ -57,6 +57,10 @@ def drawBathymetry(
 
     # **************************************************************************
 
+    # Skip known missing datasets ...
+    if res in ["50m", "110m"]:
+        return
+
     # Check the colours ...
     assert isinstance(colors, list)
     assert len(colors) == 12

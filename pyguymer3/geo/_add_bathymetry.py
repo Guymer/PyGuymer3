@@ -77,6 +77,12 @@ def _add_bathymetry(
 
     # **************************************************************************
 
+    # Skip known missing datasets ...
+    if resolution in ["50m", "110m"]:
+        if debug:
+            print(f"INFO: Skipping \"{resolution}\" (known missing dataset).")
+        return
+
     # Create suitable colour map ...
     cmap = matplotlib.colors.LinearSegmentedColormap.from_list(
         "bathymetry",
