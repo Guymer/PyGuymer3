@@ -521,6 +521,29 @@ def create_map_of_points(
                 thunderforestMap = thunderforestMap,
                                z = z,
             )
+        case "OSterrain-tiles":
+            # Add "OS Terrain 50" tiles background ...
+            add_OSterrain_tiles(
+                ax,
+                fov,
+                     chunksize = chunksize,
+                         debug = debug,
+                  exiftoolPath = exiftoolPath,
+                  gifsiclePath = gifsiclePath,
+                          grid = grid,
+                 interpolation = interpolation,
+                  jpegtranPath = jpegtranPath,
+                       maxElev = 1000,
+                maxImagePixels = maxImagePixels,
+                mergedTileName = mergedTileName,
+                   optipngPath = optipngPath,
+                          pool = None,
+                        prefix = prefix,
+                  regrid_shape = regrid_shape,
+                      resample = resample,
+                       timeout = timeout,
+                           tol = tol,
+            )
         case _:
             # Crash ...
             raise ValueError(f"\"background\" is an unexpected value ({repr(background)})") from None
