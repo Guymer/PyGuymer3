@@ -57,6 +57,10 @@ def drawReefs(
 
     # **************************************************************************
 
+    # Skip known missing datasets ...
+    if res in ["50m", "110m"]:
+        return
+
     # Find file containing the shapes ...
     try:
         sfile = cartopy.io.shapereader.natural_earth(

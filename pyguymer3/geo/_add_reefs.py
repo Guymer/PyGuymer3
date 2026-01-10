@@ -83,6 +83,12 @@ def _add_reefs(
 
     # **************************************************************************
 
+    # Skip known missing datasets ...
+    if resolution in ["50m", "110m"]:
+        if debug:
+            print(f"INFO: Skipping \"{resolution}\" (known missing dataset).")
+        return
+
     # Create suitable colour ...
     edgecolor = matplotlib.colors.to_rgba(matplotlib.colors.CSS4_COLORS["cornflowerblue"])
     facecolor = matplotlib.colors.to_rgba(matplotlib.colors.CSS4_COLORS["aquamarine"])
