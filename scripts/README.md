@@ -1,16 +1,13 @@
 ## Conclusions
 
-"32x16" is the largest tile size added to the repository, with "36x18" not
-making it. This means that in the repository, there are only the following tile
-sizes:
+In the repository there are only the following tile sizes:
 
-* GLOBE: 18x9
-* GSHHG: 2x1, 4x2, 8x4, 16x8 and 32x16
-* NE: 18x9
+* [Global Land One-km Base Elevation](https://www.ngdc.noaa.gov/mgg/topo/globe.html): 18x9
+* [Global Land One-km Base Elevation](https://www.ngdc.noaa.gov/mgg/topo/globe.html)+[Global Self-consistent Hierarchical High-resolution Geography](https://www.ngdc.noaa.gov/mgg/shorelines/): 18x9
+* [Global Land One-km Base Elevation](https://www.ngdc.noaa.gov/mgg/topo/globe.html)+[Natural Earth](https://www.naturalearthdata.com/): 18x9
+* [Global Self-consistent Hierarchical High-resolution Geography](https://www.ngdc.noaa.gov/mgg/shorelines/): 2x1, 4x2, 8x4, 16x8, 32x16 and 64x32
+* [Natural Earth](https://www.naturalearthdata.com/): 2x1, 4x2, 8x4, 16x8, 32x16 and 64x32
 * [OS Terrain 50](https://www.ordnancesurvey.co.uk/products/os-terrain-50): 22x41
-
-The threshold had to be at least "22x41" so that the [OS Terrain 50](https://www.ordnancesurvey.co.uk/products/os-terrain-50)
-dataset could have at least one folder of tiles.
 
 ## Bugs
 
