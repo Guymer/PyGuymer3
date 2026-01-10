@@ -130,7 +130,7 @@ def _add_coastlines(
     # Loop over levels ...
     for level in levels:
         # Skip known missing datasets ...
-        if resolution == "c" and level == 4:
+        if level == 4 and resolution == "c":
             if debug:
                 print(f"INFO: Skipping \"{resolution}\" and \"{level:d}\" (known missing dataset).")
             continue
