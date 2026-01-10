@@ -151,12 +151,12 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Load data and convert to NumPy array ...
-    with open(f"{pyguymer3.__path__[0]}/data/json/exampleLons.json", "rt", encoding = "utf-8") as fObj:
+    with open(f"{args.absPathToRepo}/tests/exampleLons.json", "rt", encoding = "utf-8") as fObj:
         lons = json.load(fObj)                                                  # [°]
     lons = numpy.array(lons, dtype = numpy.float64)                             # [°]
 
     # Load data and convert to NumPy array ...
-    with open(f"{pyguymer3.__path__[0]}/data/json/exampleLats.json", "rt", encoding = "utf-8") as fObj:
+    with open(f"{args.absPathToRepo}/tests/exampleLats.json", "rt", encoding = "utf-8") as fObj:
         lats = json.load(fObj)                                                  # [°]
     lats = numpy.array(lats, dtype = numpy.float64)                             # [°]
 
