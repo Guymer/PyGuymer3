@@ -95,6 +95,12 @@ def _add_rivers(
 
     # Loop over names ...
     for name in names:
+        # Skip known missing datasets ...
+        if resolution in ["50m", "110m"] and name != "rivers_lake_centerlines":
+            if debug:
+                print(f"INFO: Skipping \"{resolution}\" and \"{name}\" (known missing dataset).")
+            continue
+
         # Find file containing the shapes ...
         try:
             sfile = cartopy.io.shapereader.natural_earth(

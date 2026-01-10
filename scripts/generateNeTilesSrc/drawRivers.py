@@ -62,6 +62,10 @@ def drawRivers(
         "rivers_lake_centerlines",
         "rivers_north_america",
     ]:
+        # Skip known missing datasets ...
+        if res in ["50m", "110m"] and name != "rivers_lake_centerlines":
+            continue
+
         # Find file containing the shapes ...
         try:
             sfile = cartopy.io.shapereader.natural_earth(
