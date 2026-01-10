@@ -93,6 +93,12 @@ def _add_lakes(
 
     # Loop over names ...
     for name in names:
+        # Skip known missing datasets ...
+        if resolution in ["50m", "110m"] and name != "lakes":
+            if debug:
+                print(f"INFO: Skipping \"{resolution}\" and \"{name}\" (known missing dataset).")
+            continue
+
         try:
             # Find file containing the shapes ...
             sfile = cartopy.io.shapereader.natural_earth(

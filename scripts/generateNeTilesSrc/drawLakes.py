@@ -65,6 +65,10 @@ def drawLakes(
         "lakes_north_america",
         "lakes_pluvial",
     ]:
+        # Skip known missing datasets ...
+        if res in ["50m", "110m"] and name != "lakes":
+            continue
+
         # Find file containing the shapes ...
         try:
             sfile = cartopy.io.shapereader.natural_earth(
