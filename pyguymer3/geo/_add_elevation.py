@@ -8,7 +8,7 @@ def _add_elevation(
         debug = __debug__,
       elevInt = 250,
           fov = None,
-      maxElev = 8000,
+      maxElev = 1000,
     onlyValid = False,
        repair = False,
         scale = "32km",

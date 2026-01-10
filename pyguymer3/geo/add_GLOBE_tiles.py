@@ -13,7 +13,7 @@ def add_GLOBE_tiles(
               grid = "18x9",
      interpolation = "none",
       jpegtranPath = None,
-           maxElev = 8000,
+           maxElev = 1000,
     maxImagePixels = 1073741824,
     mergedTileName = None,
        optipngPath = None,

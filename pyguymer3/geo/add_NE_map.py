@@ -12,7 +12,7 @@ def add_NE_map(
            fov = None,
      linestyle = "solid",
      linewidth = 0.5,
-       maxElev = 8000,
+       maxElev = 1000,
      onlyValid = False,
       physical = True,
         repair = False,

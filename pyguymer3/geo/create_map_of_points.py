@@ -13,6 +13,7 @@ def create_map_of_points(
            chunksize = 1048576,
                 conv = 1.0e3,
                debug = __debug__,
+             elevInt = 250,
                  eps = 1.0e-12,
         exiftoolPath = None,
               extent = None,
@@ -23,6 +24,7 @@ def create_map_of_points(
                 grid = "18x9",
        interpolation = "none",
         jpegtranPath = None,
+             maxElev = 1000,
       maxImagePixels = 1073741824,
       mergedTileName = None,
               method = "GeodesicBox",
@@ -82,6 +84,9 @@ def create_map_of_points(
         metres)
     debug : bool, optional
         print debug messages and draw the circle on the axis
+    elevInt : int, optional
+        The interval between different shaded bands of elevation used by the
+        colour map of the tiles (in metres).
     eps : float, optional
         the tolerance of the Vincenty formula iterations
     exiftoolPath : None or str, optional
@@ -112,6 +117,8 @@ def create_map_of_points(
     jpegtranPath : None or str, optional
         the path to the "jpegtran" binary (if not provided then Python will attempt to
         find the binary itself)
+    maxElev : int, optional
+        The maximum elevation used by the colour map of the tiles (in metres).
     maxImagePixels : int, optional
         The maximum number of pixels in an image, to prevent decompression bombs.
     mergedTileName : None or str, optional
@@ -409,7 +416,7 @@ def create_map_of_points(
                           grid = grid,
                  interpolation = interpolation,
                   jpegtranPath = jpegtranPath,
-                       maxElev = 8000,
+                       maxElev = maxElev,
                 maxImagePixels = maxImagePixels,
                 mergedTileName = mergedTileName,
                    optipngPath = optipngPath,
@@ -425,13 +432,13 @@ def create_map_of_points(
                 fov,
                      chunksize = chunksize,
                          debug = debug,
-                       elevInt = 250,
+                       elevInt = elevInt,
                   exiftoolPath = exiftoolPath,
                   gifsiclePath = gifsiclePath,
                           grid = grid,
                  interpolation = interpolation,
                   jpegtranPath = jpegtranPath,
-                       maxElev = 8000,
+                       maxElev = maxElev,
                 maxImagePixels = maxImagePixels,
                 mergedTileName = mergedTileName,
                    optipngPath = optipngPath,
@@ -448,13 +455,13 @@ def create_map_of_points(
                 fov,
                      chunksize = chunksize,
                          debug = debug,
-                       elevInt = 250,
+                       elevInt = elevInt,
                   exiftoolPath = exiftoolPath,
                   gifsiclePath = gifsiclePath,
                           grid = grid,
                  interpolation = interpolation,
                   jpegtranPath = jpegtranPath,
-                       maxElev = 8000,
+                       maxElev = maxElev,
                 maxImagePixels = maxImagePixels,
                 mergedTileName = mergedTileName,
                    optipngPath = optipngPath,
@@ -521,16 +528,16 @@ def create_map_of_points(
                 background = True,
                   cultural = True,
                      debug = debug,
-                   elevInt = 250,
+                   elevInt = elevInt,
                        fov = fov,
                  linestyle = "solid",
                  linewidth = 0.5,
-                   maxElev = 8000,
+                   maxElev = maxElev,
                  onlyValid = onlyValid,
                   physical = True,
                     repair = repair,
                 resolution = resolution,
-                     scale = "32km",
+                     scale = scale,
             )
         case "NE-tiles":
             # Add NE tiles background ...
@@ -602,7 +609,7 @@ def create_map_of_points(
                           grid = grid,
                  interpolation = interpolation,
                   jpegtranPath = jpegtranPath,
-                       maxElev = 1000,
+                       maxElev = maxElev,
                 maxImagePixels = maxImagePixels,
                 mergedTileName = mergedTileName,
                    optipngPath = optipngPath,
