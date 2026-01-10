@@ -183,6 +183,9 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
+    # Create short-hand ...
+    tileSize = 300                                                              # [px]
+
     # Survey the GLOBE tiles ...
     globe = {}
     for dName in sorted(glob.glob(f"{args.absPathToRepo}/pyguymer3/data/png/globe/*x*")):
@@ -395,7 +398,7 @@ if __name__ == "__main__":
     # Shade region-of-interest (this is the number of tiles above which the
     # original image exceeds my custom PIL maximum image size) ...
     ax.axvspan(
-        (1024.0 * 1024.0 * 1024.0) / (300.0 * 300.0),
+        (1024.0 * 1024.0 * 1024.0) / float(tileSize * tileSize),
         65536.0,
             alpha = 0.25,
             color = "red",
