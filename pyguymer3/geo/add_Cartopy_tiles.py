@@ -13,9 +13,9 @@ def add_Cartopy_tiles(
        interpolation = "none",
         regrid_shape = 750,
             resample = False,
-               scale = 1,
     thunderforestKey = None,
     thunderforestMap = "atlas",
+           tileScale = 1,
                    z = None,
 ):
     """Add OpenStreetMap map tiles as a background to a Cartopy axis.
@@ -53,13 +53,13 @@ def add_Cartopy_tiles(
         Use a full resampling method when drawing the final merged and warped
         image on the figure. Due to the use of **kwargs within Cartopy, this is
         passed all the way down the stack to the MatPlotLib ".imshow()" call.
-    scale : int, optional
-        the scale of the tiles
     thunderforestKey : str, optional
         your personal API key for the Thunderforest service (if provided then it
         is assumed that you want to use the Thunderforest service)
     thunderforestMap : str, optional
         the Thunderforest map style (see https://www.thunderforest.com/maps/)
+    tilescale : int, optional
+        The scale of the tiles.
     z : int, optional
         the OpenStreetMap zoom level
 
@@ -105,7 +105,7 @@ def add_Cartopy_tiles(
             res,
              ceil = ceil,
             floor = floor,
-            scale = scale,
+            scale = tileScale,
         )
     if debug:
         print(f"INFO: The resolution is {res:,.1f} m/px and the OpenStreetMap zoom is {z:d}.")
@@ -115,12 +115,12 @@ def add_Cartopy_tiles(
         osm = cartopy.io.img_tiles.ThunderforestTiles(
                 apikey = thunderforestKey,
                  cache = True,
-            resolution = "" if scale == 1 else f"@{scale:d}x",
+            resolution = "" if tileScale == 1 else f"@{tileScale:d}x",
                  style = thunderforestMap,
         )
     else:
-        if scale != 1 and debug:
-            print(f'WARNING: \"scale\" equals \"{scale:d}\" - OpenStreetMap only supports a \"scale\" of \"1\".')
+        if tileScale != 1 and debug:
+            print(f'WARNING: \"tileScale\" equals \"{tileScale:d}\" - OpenStreetMap only supports a scale of \"1\".')
         osm = cartopy.io.img_tiles.OSM(
                  cache = True,
             resolution = "",

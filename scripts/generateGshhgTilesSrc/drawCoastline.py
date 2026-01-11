@@ -3,8 +3,8 @@
 # Define function ...
 def drawCoastline(
     img,
-    level,
-    res,
+    gshhgLevel,
+    gshhgRes,
     color,
     /,
     *,
@@ -59,14 +59,14 @@ def drawCoastline(
     # **************************************************************************
 
     # Skip known missing datasets ...
-    if level == 4 and res == "c":
+    if gshhgLevel == 4 and gshhgRes == "c":
         return
 
     # Find file containing the shapes ...
     try:
         sfile = cartopy.io.shapereader.gshhs(
-            level = level,
-            scale = res,
+            level = gshhgLevel,
+            scale = gshhgRes,
         )
     except urllib.error.HTTPError:
         return

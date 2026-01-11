@@ -11,7 +11,7 @@ def add_GLOBE_and_GSHHG_tiles(
            elevInt = 250,
       exiftoolPath = None,
       gifsiclePath = None,
-              grid = "18x9",
+          gshhgRes = "i",
      interpolation = "none",
       jpegtranPath = None,
            maxElev = 1000,
@@ -21,7 +21,7 @@ def add_GLOBE_and_GSHHG_tiles(
               pool = None,
       regrid_shape = 750,
           resample = False,
-        resolution = "i",
+          tileGrid = "18x9",
            timeout = 60.0,
 ):
     """Add GLOBE and GSHHG dataset tiles as a background to a Cartopy axis.
@@ -47,8 +47,8 @@ def add_GLOBE_and_GSHHG_tiles(
     gifsiclePath : None or str, optional
         The path to the "gifsicle" binary (if not provided then Python will
         attempt to find the binary itself).
-    grid : str, optional
-        The grid to fetch tiles from.
+    gshhgRes : str, optional
+        The resolution of the GSHHG [2]_ datasets.
     interpolation : str, optional
         The interpolation method used when drawing the final merged and warped
         image on the axis. Due to the use of ``**kwargs`` within Cartopy, this
@@ -83,8 +83,8 @@ def add_GLOBE_and_GSHHG_tiles(
         image on the axis. Due to the use of ``**kwargs`` within Cartopy, this
         is passed all the way down the stack to the MatPlotLib ``.imshow()``
         call.
-    resolution : str, optional
-        The resolution of the GSHHG datasets.
+    tileGrid : str, optional
+        The grid to fetch tiles from.
     timeout : float, optional
         The timeout for any requests/subprocess calls (in seconds).
 
@@ -93,7 +93,7 @@ def add_GLOBE_and_GSHHG_tiles(
     There is one argument relating to the `Global Self-Consistent Hierarchical
     High-Resolution Geography dataset <https://www.ngdc.noaa.gov/mgg/shorelines/>`_ :
 
-    * *resolution*.
+    * *gshhgRes*.
 
     There are five resolutions to choose from:
 
@@ -113,6 +113,7 @@ def add_GLOBE_and_GSHHG_tiles(
     References
     ----------
     .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
+    .. [2] Global Self-consistent Hierarchical High-resolution Geography, https://www.ngdc.noaa.gov/mgg/shorelines/
     """
 
     # Import standard modules ...
@@ -152,7 +153,7 @@ def add_GLOBE_and_GSHHG_tiles(
 
     # Create short-hands ...
     # NOTE: See "pyguymer3/data/png/README.md".
-    nx, ny = grid.split("x")
+    nx, ny = tileGrid.split("x")
     nx = int(nx)                                                                # [#]
     ny = int(ny)                                                                # [#]
     tileSize = 300                                                              # [px]
@@ -213,7 +214,7 @@ def add_GLOBE_and_GSHHG_tiles(
         for ix in range(nx):
             if not usedTiles[iy, ix]:
                 continue
-            tName = f"{os.path.dirname(__file__)}/../data/png/globe+gshhg/{nx:d}x{ny:d}/maxElev={maxElev:d}m/elevInt={elevInt}m/res={resolution}/x={ix:d}/y={iy:d}.png"
+            tName = f"{os.path.dirname(__file__)}/../data/png/globe+gshhg/{nx:d}x{ny:d}/maxElev={maxElev:d}m/elevInt={elevInt}m/res={gshhgRes}/x={ix:d}/y={iy:d}.png"
             if not os.path.exists(tName):
                 tName = f"{os.path.dirname(__file__)}/../data/png/missingTile.png"
             if debug:

@@ -3,7 +3,7 @@
 # Define function ...
 def drawGlaciatedAreas(
     img,
-    res,
+    neRes,
     color,
     /,
     *,
@@ -60,9 +60,9 @@ def drawGlaciatedAreas(
     # Find file containing the shapes ...
     try:
         sfile = cartopy.io.shapereader.natural_earth(
-            resolution = res,
               category = "physical",
                   name = "glaciated_areas",
+            resolution = neRes,
         )
     except urllib.error.HTTPError:
         return

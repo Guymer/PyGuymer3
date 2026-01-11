@@ -3,7 +3,7 @@
 # Define function ...
 def drawPlayas(
     img,
-    res,
+    neRes,
     color,
     /,
     *,
@@ -58,15 +58,15 @@ def drawPlayas(
     # **************************************************************************
 
     # Skip known missing datasets ...
-    if res == "110m":
+    if neRes == "110m":
         return
 
     # Find file containing the shapes ...
     try:
         sfile = cartopy.io.shapereader.natural_earth(
-            resolution = res,
               category = "physical",
                   name = "playas",
+            resolution = neRes,
         )
     except urllib.error.HTTPError:
         return

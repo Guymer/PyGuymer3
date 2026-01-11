@@ -278,7 +278,6 @@ if __name__ == "__main__":
             ax,
             fov,
                     debug = args.debug,
-                     grid = grid,
             interpolation = "gaussian",
                   maxElev = args.maxElev,
              regrid_shape = (
@@ -286,6 +285,7 @@ if __name__ == "__main__":
                 round(2.0 * fg.get_figheight() * fg.get_dpi()),
             ),                                                                  # [px], [px]
                  resample = False,
+                 tileGrid = grid,
                   timeout = args.timeout,
         )
 

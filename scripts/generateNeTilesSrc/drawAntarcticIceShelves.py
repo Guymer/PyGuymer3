@@ -3,7 +3,7 @@
 # Define function ...
 def drawAntarcticIceShelves(
     img,
-    res,
+    neRes,
     color,
     /,
     *,
@@ -58,15 +58,15 @@ def drawAntarcticIceShelves(
     # **************************************************************************
 
     # Skip known missing datasets ...
-    if res == "110m":
+    if neRes == "110m":
         return
 
     # Find file containing the shapes ...
     try:
         sfile = cartopy.io.shapereader.natural_earth(
-            resolution = res,
               category = "physical",
                   name = "antarctic_ice_shelves_polys",
+            resolution = neRes,
         )
     except urllib.error.HTTPError:
         return

@@ -104,12 +104,12 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Define resolutions and scales ...
-    resolutions = [
+    neRess = [
          "10m",
          "50m",
         "110m",
     ]
-    scales = {
+    neRes2globeScale = {
          "10m" : "08km",
          "50m" : "16km",
         "110m" : "32km",
@@ -182,8 +182,8 @@ if __name__ == "__main__":
         # **********************************************************************
 
         # Loop over resolutions ...
-        for iResolution, resolution in enumerate(resolutions):
-            print(f"  Plotting \"{resolution}\" and \"{scales[resolution]}\" ...")
+        for iResolution, neRes in enumerate(neRess):
+            print(f"  Plotting \"{neRes}\" and \"{neRes2globeScale[neRes]}\" ...")
 
             # Create axis ...
             ax = pyguymer3.geo.add_axis(
@@ -206,23 +206,23 @@ if __name__ == "__main__":
             )
 
             # Configure axis ...
-            ax.set_title(f"\"add_NE_map()\" at \"{resolution}\" and \"{scales[resolution]}\"")
+            ax.set_title(f"\"add_NE_map()\" at \"{neRes}\" and \"{neRes2globeScale[neRes]}\"")
             pyguymer3.geo.add_NE_map(
                 ax,
                   cultural = cultural,
                      debug = args.debug,
                        fov = fov,
+                globeScale = neRes2globeScale[neRes],
                  linewidth = linewidth,
                    maxElev = maxElev,
+                     neRes = neRes,
                  onlyValid = True,
                     repair = True,
-                resolution = resolution,
-                     scale = scales[resolution],
             )
 
             # ******************************************************************
 
-            print(f"  Plotting \"{resolution}\" and \"{globeGrid}\" (with \"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\") ...")
+            print(f"  Plotting \"{neRes}\" and \"{globeGrid}\" (with \"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\") ...")
 
             # Create axis ...
             ax = pyguymer3.geo.add_axis(
@@ -245,24 +245,24 @@ if __name__ == "__main__":
             )
 
             # Configure axis ...
-            ax.set_title(f"\"add_GLOBE_and_NE_tiles()\" at \"{resolution}\" and \"{globeGrid}\" (\"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\")")
+            ax.set_title(f"\"add_GLOBE_and_NE_tiles()\" at \"{neRes}\" and \"{globeGrid}\" (\"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\")")
             pyguymer3.geo.add_GLOBE_and_NE_tiles(
                 ax,
                 fov,
                          debug = args.debug,
-                          grid = globeGrid,
                  interpolation = "gaussian",
                        maxElev = maxElev,
-                mergedTileName = f'{pName.removesuffix(".png")}_GLOBE+NE_{resolution}.png',
+                mergedTileName = f'{pName.removesuffix(".png")}_GLOBE+NE_{neRes}.png',
+                         neRes = neRes,
                   regrid_shape = regrid_shape,
                       resample = False,
-                    resolution = resolution,
+                      tileGrid = globeGrid,
                        timeout = args.timeout,
             )
 
             # ******************************************************************
 
-            print(f"  Plotting \"{resolution}\" and \"{neGrid}\" (with \"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\") ...")
+            print(f"  Plotting \"{neRes}\" and \"{neGrid}\" (with \"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\") ...")
 
             # Create axis ...
             ax = pyguymer3.geo.add_axis(
@@ -285,17 +285,17 @@ if __name__ == "__main__":
             )
 
             # Configure axis ...
-            ax.set_title(f"\"add_NE_tiles()\" at \"{resolution}\" and \"{neGrid}\" (\"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\")")
+            ax.set_title(f"\"add_NE_tiles()\" at \"{neRes}\" and \"{neGrid}\" (\"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\")")
             pyguymer3.geo.add_NE_tiles(
                 ax,
                 fov,
                          debug = args.debug,
-                          grid = neGrid,
                  interpolation = "gaussian",
-                mergedTileName = f'{pName.removesuffix(".png")}_NE_{resolution}.png',
+                mergedTileName = f'{pName.removesuffix(".png")}_NE_{neRes}.png',
+                         neRes = neRes,
                   regrid_shape = regrid_shape,
                       resample = False,
-                    resolution = resolution,
+                      tileGrid = neGrid,
                        timeout = args.timeout,
             )
 

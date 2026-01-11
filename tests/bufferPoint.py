@@ -209,8 +209,8 @@ if __name__ == "__main__":
                 # Configure axis ...
                 pyguymer3.geo.add_map_background(
                     ax1,
-                         debug = args.debug,
-                    resolution = "large1024px",             # NOTE: Reduce size to make test quicker.
+                      debug = args.debug,
+                    subName = "large1024px",                # NOTE: Reduce size to make test quicker.
                 )
 
                 # Create axis ...
@@ -232,8 +232,8 @@ if __name__ == "__main__":
                 # Configure axis ...
                 pyguymer3.geo.add_map_background(
                     ax2,
-                         debug = args.debug,
-                    resolution = "large1024px",             # NOTE: Reduce size to make test quicker.
+                      debug = args.debug,
+                    subName = "large1024px",                # NOTE: Reduce size to make test quicker.
                 )
 
                 # Create axis ...

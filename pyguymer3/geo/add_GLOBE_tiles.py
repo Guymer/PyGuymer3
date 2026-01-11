@@ -10,7 +10,6 @@ def add_GLOBE_tiles(
              debug = __debug__,
       exiftoolPath = None,
       gifsiclePath = None,
-              grid = "18x9",
      interpolation = "none",
       jpegtranPath = None,
            maxElev = 1000,
@@ -20,6 +19,7 @@ def add_GLOBE_tiles(
               pool = None,
       regrid_shape = 750,
           resample = False,
+          tileGrid = "18x9",
            timeout = 60.0,
 ):
     """Add GLOBE dataset tiles as a background to a Cartopy axis.
@@ -42,8 +42,6 @@ def add_GLOBE_tiles(
     gifsiclePath : None or str, optional
         The path to the "gifsicle" binary (if not provided then Python will
         attempt to find the binary itself).
-    grid : str, optional
-        The grid to fetch tiles from.
     interpolation : str, optional
         The interpolation method used when drawing the final merged and warped
         image on the axis. Due to the use of ``**kwargs`` within Cartopy, this
@@ -78,6 +76,8 @@ def add_GLOBE_tiles(
         image on the axis. Due to the use of ``**kwargs`` within Cartopy, this
         is passed all the way down the stack to the MatPlotLib ``.imshow()``
         call.
+    tileGrid : str, optional
+        The grid to fetch tiles from.
     timeout : float, optional
         The timeout for any requests/subprocess calls (in seconds).
 
@@ -132,7 +132,7 @@ def add_GLOBE_tiles(
 
     # Create short-hands ...
     # NOTE: See "pyguymer3/data/png/README.md".
-    nx, ny = grid.split("x")
+    nx, ny = tileGrid.split("x")
     nx = int(nx)                                                                # [#]
     ny = int(ny)                                                                # [#]
     tileSize = 300                                                              # [px]

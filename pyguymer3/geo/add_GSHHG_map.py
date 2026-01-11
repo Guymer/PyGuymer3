@@ -8,6 +8,7 @@ def add_GSHHG_map(
     background = True,
          debug = __debug__,
            fov = None,
+      gshhgRes = "i",
       iceOcean = True,
     islandLake = True,
       lakeLand = True,
@@ -16,7 +17,6 @@ def add_GSHHG_map(
      onlyValid = False,
     pondIsland = True,
         repair = False,
-    resolution = "i",
 ):
     """Add an underlay to a Cartopy axis from the `Global Self-Consistent
     Hierarchical High-Resolution Geography dataset`
@@ -33,6 +33,8 @@ def add_GSHHG_map(
         clip the plotted shapes to the provided field-of-view to work around
         occaisional MatPlotLib or Cartopy plotting errors when shapes much
         larger than the field-of-view are plotted
+    gshhgRes : str, optional
+        the resolution of the coastline boundaries from GSHHG [2]_
     iceOcean : bool, optional
         add ice-ocean boundaries
     islandLake : bool, optional
@@ -50,15 +52,13 @@ def add_GSHHG_map(
         add pond-island boundaries
     repair : bool, optional
         attempt to repair invalid Polygons
-    resolution : str, optional
-        the resolution of the boundaries
 
     Notes
     -----
     There is one argument relating to the `Global Self-Consistent Hierarchical
     High-Resolution Geography dataset <https://www.ngdc.noaa.gov/mgg/shorelines/>`_ :
 
-    * *resolution*.
+    * *gshhgRes*.
 
     There are five resolutions to choose from:
 
@@ -73,6 +73,7 @@ def add_GSHHG_map(
     References
     ----------
     .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
+    .. [2] Global Self-consistent Hierarchical High-resolution Geography, https://www.ngdc.noaa.gov/mgg/shorelines/
     """
 
     # Import sub-functions ...
@@ -94,17 +95,17 @@ def add_GSHHG_map(
         # Ice ...
         _add_coastlines(
             ax,
-                 debug = debug,
-             edgecolor = "blue",
-             facecolor = "aliceblue",
-                   fov = fov,
-                levels = (5,),
-             linestyle = "solid",
-             linewidth = linewidth,
-             onlyValid = onlyValid,
-                repair = repair,
-            resolution = resolution,
-                zorder = 1.5,
+                  debug = debug,
+              edgecolor = "blue",
+              facecolor = "aliceblue",
+                    fov = fov,
+            gshhgLevels = (5,),
+               gshhgRes = gshhgRes,
+              linestyle = "solid",
+              linewidth = linewidth,
+              onlyValid = onlyValid,
+                 repair = repair,
+                 zorder = 1.5,
         )
 
     # Add land-ocean boundaries ...
@@ -112,33 +113,33 @@ def add_GSHHG_map(
         # Land ...
         _add_coastlines(
             ax,
-                 debug = debug,
-             edgecolor = "green",
-             facecolor = "darkkhaki",
-                   fov = fov,
-                levels = (1,),
-             linestyle = "solid",
-             linewidth = linewidth,
-             onlyValid = onlyValid,
-                repair = repair,
-            resolution = resolution,
-                zorder = 1.6,
+                  debug = debug,
+              edgecolor = "green",
+              facecolor = "darkkhaki",
+                    fov = fov,
+            gshhgLevels = (1,),
+               gshhgRes = gshhgRes,
+              linestyle = "solid",
+              linewidth = linewidth,
+              onlyValid = onlyValid,
+                 repair = repair,
+                 zorder = 1.6,
         )
 
         # Snow ...
         _add_coastlines(
             ax,
-                 debug = debug,
-             edgecolor = "white",
-             facecolor = "snow",
-                   fov = fov,
-                levels = (6,),
-             linestyle = "solid",
-             linewidth = linewidth,
-             onlyValid = onlyValid,
-                repair = repair,
-            resolution = resolution,
-                zorder = 1.6,
+                  debug = debug,
+              edgecolor = "white",
+              facecolor = "snow",
+                    fov = fov,
+            gshhgLevels = (6,),
+               gshhgRes = gshhgRes,
+              linestyle = "solid",
+              linewidth = linewidth,
+              onlyValid = onlyValid,
+                 repair = repair,
+                 zorder = 1.6,
         )
 
     # Add lake-land boundaries ...
@@ -146,17 +147,17 @@ def add_GSHHG_map(
         # Lake ...
         _add_coastlines(
             ax,
-                 debug = debug,
-             edgecolor = "none",
-             facecolor = "lightblue",
-                   fov = fov,
-                levels = (2,),
-             linestyle = "solid",
-             linewidth = linewidth,
-             onlyValid = onlyValid,
-                repair = repair,
-            resolution = resolution,
-                zorder = 1.7,
+                  debug = debug,
+              edgecolor = "none",
+              facecolor = "lightblue",
+                    fov = fov,
+            gshhgLevels = (2,),
+               gshhgRes = gshhgRes,
+              linestyle = "solid",
+              linewidth = linewidth,
+              onlyValid = onlyValid,
+                 repair = repair,
+                 zorder = 1.7,
         )
 
     # Add island-lake boundaries ...
@@ -164,17 +165,17 @@ def add_GSHHG_map(
         # Island ...
         _add_coastlines(
             ax,
-                 debug = debug,
-             edgecolor = "green",
-             facecolor = "darkkhaki",
-                   fov = fov,
-                levels = (3,),
-             linestyle = "solid",
-             linewidth = linewidth,
-             onlyValid = onlyValid,
-                repair = repair,
-            resolution = resolution,
-                zorder = 1.8,
+                  debug = debug,
+              edgecolor = "green",
+              facecolor = "darkkhaki",
+                    fov = fov,
+            gshhgLevels = (3,),
+               gshhgRes = gshhgRes,
+              linestyle = "solid",
+              linewidth = linewidth,
+              onlyValid = onlyValid,
+                 repair = repair,
+                 zorder = 1.8,
         )
 
     # Add pond-island boundaries ...
@@ -182,15 +183,15 @@ def add_GSHHG_map(
         # Pond ...
         _add_coastlines(
             ax,
-                 debug = debug,
-             edgecolor = "none",
-             facecolor = "lightblue",
-                   fov = fov,
-                levels = (4,),
-             linestyle = "solid",
-             linewidth = linewidth,
-             onlyValid = onlyValid,
-                repair = repair,
-            resolution = resolution,
-                zorder = 1.9,
+                  debug = debug,
+              edgecolor = "none",
+              facecolor = "lightblue",
+                    fov = fov,
+            gshhgLevels = (4,),
+               gshhgRes = gshhgRes,
+              linestyle = "solid",
+              linewidth = linewidth,
+              onlyValid = onlyValid,
+                 repair = repair,
+                 zorder = 1.9,
         )

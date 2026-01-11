@@ -176,8 +176,8 @@ if __name__ == "__main__":
                 # Configure axis ...
                 pyguymer3.geo.add_map_background(
                     ax,
-                         debug = args.debug,
-                    resolution = "large1024px",             # NOTE: Reduce size to make test quicker.
+                      debug = args.debug,
+                    subName = "large1024px",                # NOTE: Reduce size to make test quicker.
                 )
 
             # Loop over number of points ...

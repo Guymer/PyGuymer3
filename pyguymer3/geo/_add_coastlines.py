@@ -5,17 +5,17 @@ def _add_coastlines(
     ax,
     /,
     *,
-         debug = __debug__,
-     edgecolor = "black",
-     facecolor = "none",
-           fov = None,
-        levels = None,
-     linestyle = "solid",
-     linewidth = 0.5,
-     onlyValid = False,
-        repair = False,
-    resolution = "i",
-        zorder = 1.5,
+          debug = __debug__,
+      edgecolor = "black",
+      facecolor = "none",
+            fov = None,
+    gshhgLevels = None,
+       gshhgRes = "i",
+      linestyle = "solid",
+      linewidth = 0.5,
+      onlyValid = False,
+         repair = False,
+         zorder = 1.5,
 ):
     """Add coastlines to a Cartopy axis.
 
@@ -36,9 +36,11 @@ def _add_coastlines(
         clip the plotted shapes to the provided field-of-view to work around
         occaisional MatPlotLib or Cartopy plotting errors when shapes much
         larger than the field-of-view are plotted
-    levels : list of int, optional
-        the levels of the coastline boundaries (if None then default to
-        ``(1, 5, 6,)``)
+    gshhgLevels : list of int, optional
+        the levels of the coastline boundaries from GSHHG [2]_ (if None then
+        default to ``(1, 5, 6,)``)
+    gshhgRes : str, optional
+        the resolution of the coastline boundaries from GSHHG [2]_
     linestyle : str, optional
         the linestyle to draw the coastline boundaries with
     linewidth : float, optional
@@ -48,8 +50,6 @@ def _add_coastlines(
         being called often)
     repair : bool, optional
         attempt to repair invalid Polygons
-    resolution : str, optional
-        the resolution of the coastline boundaries
     zorder : float, optional
         the zorder to draw the coastline boundaries with (the default value has
         been chosen to match the value that it ends up being if the coastline
@@ -61,8 +61,8 @@ def _add_coastlines(
     There are two arguments relating to the `Global Self-Consistent Hierarchical
     High-Resolution Geography dataset <https://www.ngdc.noaa.gov/mgg/shorelines/>`_ :
 
-    * *levels*; and
-    * *resolution*.
+    * *gshhgLevels*; and
+    * *gshhgRes*.
 
     There are six levels to choose from:
 
@@ -86,6 +86,7 @@ def _add_coastlines(
     References
     ----------
     .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
+    .. [2] Global Self-consistent Hierarchical High-resolution Geography, https://www.ngdc.noaa.gov/mgg/shorelines/
     """
 
     # Import standard modules ...
@@ -124,22 +125,22 @@ def _add_coastlines(
     # **************************************************************************
 
     # Check inputs ...
-    if levels is None:
-        levels = (1, 5, 6,)
+    if gshhgLevels is None:
+        gshhgLevels = (1, 5, 6,)
 
     # Loop over levels ...
-    for level in levels:
+    for gshhgLevel in gshhgLevels:
         # Skip known missing datasets ...
-        if level == 4 and resolution == "c":
+        if gshhgLevel == 4 and gshhgRes == "c":
             if debug:
-                print(f"INFO: Skipping \"{resolution}\" and \"{level:d}\" (known missing dataset).")
+                print(f"INFO: Skipping \"{gshhgRes}\" and \"{gshhgLevel:d}\" (known missing dataset).")
             continue
 
         # Deduce Shapefile name (catching missing datasets) ...
         try:
             sfile = cartopy.io.shapereader.gshhs(
-                level = level,
-                scale = resolution,
+                level = gshhgLevel,
+                scale = gshhgRes,
             )
         except RuntimeError:
             if debug:
@@ -149,7 +150,7 @@ def _add_coastlines(
             if debug:
                 print("INFO: Skipping (HTTP error).")
             continue
-        if os.path.basename(sfile) != f"GSHHS_{resolution}_L{level:d}.shp":
+        if os.path.basename(sfile) != f"GSHHS_{gshhgRes}_L{gshhgLevel:d}.shp":
             if debug:
                 print(f"INFO: Skipping \"{sfile}\" (filename does not match request).")
             continue

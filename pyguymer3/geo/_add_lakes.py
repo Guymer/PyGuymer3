@@ -5,11 +5,11 @@ def _add_lakes(
     ax,
     /,
     *,
-         debug = __debug__,
-           fov = None,
-     onlyValid = False,
-        repair = False,
-    resolution = "10m",
+        debug = __debug__,
+          fov = None,
+        neRes = "10m",
+    onlyValid = False,
+       repair = False,
 ):
     """Add lakes to a Cartopy axis.
 
@@ -23,16 +23,27 @@ def _add_lakes(
         clip the plotted shapes to the provided field-of-view to work around
         occaisional MatPlotLib or Cartopy plotting errors when shapes much
         larger than the field-of-view are plotted
+    neRes : str, optional
+        the resolution of the lakes from Natural Earth [2]_
     onlyValid : bool, optional
         only add valid Polygons (checks for validity can take a while, if being
         being called often)
     repair : bool, optional
         attempt to repair invalid Polygons
-    resolution : str, optional
-        the resolution of the lakes
 
     Notes
     -----
+    There is one argument relating to the `Natural Earth dataset
+    <https://www.naturalearthdata.com>`_ :
+
+    * *neRes*.
+
+    There are three resolutions to choose from:
+
+    * large scale data 1:10m ("10m");
+    * medium scale data 1:50m ("50m"); and
+    * small scale data 1:110m ("110m").
+
     This function uses `CSS4 named colours
     <https://matplotlib.org/stable/gallery/color/named_colors.html>`_ .
 
@@ -41,6 +52,7 @@ def _add_lakes(
     References
     ----------
     .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
+    .. [2] Natural Earth, https://www.naturalearthdata.com/
     """
 
     # Import standard modules ...
@@ -94,17 +106,17 @@ def _add_lakes(
     # Loop over names ...
     for name in names:
         # Skip known missing datasets ...
-        if resolution in ["50m", "110m"] and name != "lakes":
+        if neRes in ["50m", "110m"] and name != "lakes":
             if debug:
-                print(f"INFO: Skipping \"{resolution}\" and \"{name}\" (known missing dataset).")
+                print(f"INFO: Skipping \"{neRes}\" and \"{name}\" (known missing dataset).")
             continue
 
+        # Find file containing the shapes ...
         try:
-            # Find file containing the shapes ...
             sfile = cartopy.io.shapereader.natural_earth(
-                resolution = resolution,
                   category = "physical",
                       name = name,
+                resolution = neRes,
             )
         except RuntimeError:
             if debug:

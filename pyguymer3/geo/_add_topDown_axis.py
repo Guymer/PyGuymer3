@@ -436,17 +436,17 @@ def _add_topDown_axis(
         # Add coastline boundaries ...
         _add_coastlines(
             ax,
-                 debug = debug,
-             edgecolor = coastlines_edgecolor,
-             facecolor = coastlines_facecolor,
-                   fov = fov,
-                levels = coastlines_levels,
-             linestyle = coastlines_linestyle,
-             linewidth = coastlines_linewidth,
-             onlyValid = onlyValid,
-                repair = repair,
-            resolution = coastlines_resolution,
-                zorder = coastlines_zorder,
+                  debug = debug,
+              edgecolor = coastlines_edgecolor,
+              facecolor = coastlines_facecolor,
+                    fov = fov,
+            gshhgLevels = coastlines_levels,
+               gshhgRes = coastlines_resolution,
+              linestyle = coastlines_linestyle,
+              linewidth = coastlines_linewidth,
+              onlyValid = onlyValid,
+                 repair = repair,
+                 zorder = coastlines_zorder,
         )
 
     # Check if the user wants to add gridlines ...

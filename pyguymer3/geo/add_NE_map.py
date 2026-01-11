@@ -10,14 +10,14 @@ def add_NE_map(
          debug = __debug__,
        elevInt = 250,
            fov = None,
+    globeScale = "32km",
      linestyle = "solid",
      linewidth = 0.5,
        maxElev = 1000,
+         neRes = "10m",
      onlyValid = False,
       physical = True,
         repair = False,
-    resolution = "10m",
-         scale = "32km",
 ):
     """Add an underlay to a Cartopy axis from Natural Earth.
 
@@ -37,6 +37,8 @@ def add_NE_map(
         clip the plotted shapes to the provided field-of-view to work around
         occaisional MatPlotLib or Cartopy plotting errors when shapes much
         larger than the field-of-view are plotted
+    globeScale : str, optional
+        The scale of the elevation from the GLOBE [3]_ dataset.
     linestyle : str, optional
         the style of the lines
     linewidth : float, optional
@@ -44,6 +46,8 @@ def add_NE_map(
     maxElev : int, optional
         the maximum elevation of the colour scale and acts as an upper bound or
         clip (in metres)
+    neRes : str, optional
+        The resolution of the Natural Earth [2]_ datasets.
     onlyValid : bool, optional
         only add valid Polygons (checks for validity can take a while, if being
         being called often)
@@ -51,10 +55,6 @@ def add_NE_map(
         add physical datasets
     repair : bool, optional
         attempt to repair invalid Polygons
-    resolution : str, optional
-        the resolution of the reefs
-    scale : str, optional
-        the scale of the elevation
 
     Notes
     -----
@@ -63,6 +63,8 @@ def add_NE_map(
     References
     ----------
     .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
+    .. [2] Natural Earth, https://www.naturalearthdata.com/
+    .. [3] Global Land One-km Base Elevation, https://www.ngdc.noaa.gov/mgg/topo/globe.html
     """
 
     # Import sub-functions ...
@@ -96,87 +98,87 @@ def add_NE_map(
         # Water ...
         _add_bathymetry(
             ax,
-                 debug = debug,
-                   fov = fov,
-             onlyValid = onlyValid,
-                repair = repair,
-            resolution = resolution,
+                debug = debug,
+                  fov = fov,
+                neRes = neRes,
+            onlyValid = onlyValid,
+               repair = repair,
         )
 
         # Water overlays ...
         _add_antarcticIceShelves(
             ax,
-                 debug = debug,
-                   fov = fov,
-             onlyValid = onlyValid,
-                repair = repair,
-            resolution = resolution,
+                debug = debug,
+                  fov = fov,
+                neRes = neRes,
+            onlyValid = onlyValid,
+               repair = repair,
         )
         _add_reefs(
             ax,
-                 debug = debug,
-                   fov = fov,
-             linestyle = linestyle,
-             linewidth = linewidth,
-             onlyValid = onlyValid,
-                repair = repair,
-            resolution = resolution,
+                debug = debug,
+                  fov = fov,
+            linestyle = linestyle,
+            linewidth = linewidth,
+                neRes = neRes,
+            onlyValid = onlyValid,
+               repair = repair,
         )
 
         # Land ...
         _add_land(
             ax,
-                 debug = debug,
-                   fov = fov,
-             onlyValid = onlyValid,
-                repair = repair,
-            resolution = resolution,
+                debug = debug,
+                  fov = fov,
+                neRes = neRes,
+            onlyValid = onlyValid,
+               repair = repair,
         )
         _add_minorIslands(
             ax,
-                 debug = debug,
-                   fov = fov,
-             onlyValid = onlyValid,
-                repair = repair,
-            resolution = resolution,
+                debug = debug,
+                  fov = fov,
+                neRes = neRes,
+            onlyValid = onlyValid,
+               repair = repair,
         )
         _add_elevation(
             ax,
                  debug = debug,
                elevInt = elevInt,
                    fov = fov,
+            globeScale = globeScale,
                maxElev = maxElev,
              onlyValid = onlyValid,
                 repair = repair,
-                 scale = scale,
         )
 
         # Land overlays ...
         _add_glaciatedAreas(
             ax,
-                 debug = debug,
-                   fov = fov,
-             onlyValid = onlyValid,
-                repair = repair,
-            resolution = resolution,
+                debug = debug,
+                  fov = fov,
+                neRes = neRes,
+            onlyValid = onlyValid,
+               repair = repair,
         )
         _add_lakes(
             ax,
-                 debug = debug,
-                   fov = fov,
-             onlyValid = onlyValid,
-                repair = repair,
-            resolution = resolution,
+                debug = debug,
+                  fov = fov,
+                neRes = neRes,
+            onlyValid = onlyValid,
+               repair = repair,
         )
         _add_playas(
             ax,
-                 debug = debug,
-                   fov = fov,
-             linestyle = linestyle,
-             linewidth = linewidth,
-             onlyValid = onlyValid,
-                repair = repair,
-            resolution = resolution,
+                debug = debug,
+                  fov = fov,
+            linestyle = linestyle,
+            linewidth = linewidth,
+                neRes = neRes,
+            onlyValid = onlyValid,
+               repair = repair,
         )
 
     # Add cultural Polygon datasets ...
@@ -184,11 +186,11 @@ def add_NE_map(
         # Land ...
         _add_urbanAreas(
             ax,
-                 debug = debug,
-                   fov = fov,
-             onlyValid = onlyValid,
-                repair = repair,
-            resolution = resolution,
+                debug = debug,
+                  fov = fov,
+                neRes = neRes,
+            onlyValid = onlyValid,
+               repair = repair,
         )
 
     # Add physical LineString datasets ...
@@ -196,12 +198,12 @@ def add_NE_map(
         # Land overlays ...
         _add_rivers(
             ax,
-                 debug = debug,
-                   fov = fov,
-             linestyle = linestyle,
-             linewidth = linewidth,
-             onlyValid = onlyValid,
-            resolution = resolution,
+                debug = debug,
+                  fov = fov,
+            linestyle = linestyle,
+            linewidth = linewidth,
+                neRes = neRes,
+            onlyValid = onlyValid,
         )
 
     # Add cultural LineString datasets ...
@@ -209,19 +211,19 @@ def add_NE_map(
         # Land overlays ...
         _add_railroads(
             ax,
-                 debug = debug,
-                   fov = fov,
-             linestyle = linestyle,
-             linewidth = linewidth,
-             onlyValid = onlyValid,
-            resolution = resolution,
+                debug = debug,
+                  fov = fov,
+            linestyle = linestyle,
+            linewidth = linewidth,
+                neRes = neRes,
+            onlyValid = onlyValid,
         )
         _add_roads(
             ax,
-                 debug = debug,
-                   fov = fov,
-             linestyle = linestyle,
-             linewidth = linewidth,
-             onlyValid = onlyValid,
-            resolution = resolution,
+                debug = debug,
+                  fov = fov,
+            linestyle = linestyle,
+            linewidth = linewidth,
+                neRes = neRes,
+            onlyValid = onlyValid,
         )

@@ -11,7 +11,7 @@ def add_map_background(
              name = "natural-earth-1",
      regrid_shape = 750,
          resample = False,
-       resolution = "medium0512px",
+          subName = "medium0512px",
 ):
     """Add an image of a map as a background to a Cartopy axis.
 
@@ -29,7 +29,7 @@ def add_map_background(
         figure. Due to the use of **kwargs within Cartopy, this is passed all
         the way down the stack to the MatPlotLib ".imshow()" call.
     name : str, optional
-        the name of the image in the database
+        The name of the image in the database.
     regrid_shape: int or tuple of int, optional
         The smallest dimension of the image **after** it has been warped by
         Cartopy to be the same projection as the figure (in pixels). Due to the
@@ -42,8 +42,11 @@ def add_map_background(
         Use a full resampling method when drawing the final warped image on the
         figure. Due to the use of **kwargs within Cartopy, this is passed all
         the way down the stack to the MatPlotLib ".imshow()" call.
-    resolution : str, optional
-        the resolution of the image in the database
+    subName : str, optional
+        The sub-name of the image in the database. Typically, databases use
+        ``name`` to refer to an image and then they use ``subName`` to refer to
+        a particular rendering, or size, of the image. This allows users to get
+        a quicker, or smaller, version of their desired image.
 
     Notes
     -----
@@ -83,9 +86,9 @@ def add_map_background(
             with open(jpath, "rt", encoding = "utf-8") as fObj:
                 info = json.load(fObj)
             if name in info:
-                if resolution in info[name]:
+                if subName in info[name]:
                     # Determine image path and check it exists ...
-                    ipath = f'{os.environ["CARTOPY_USER_BACKGROUNDS"]}/{info[name][resolution]}'
+                    ipath = f'{os.environ["CARTOPY_USER_BACKGROUNDS"]}/{info[name][subName]}'
                     if os.path.exists(ipath):
                         default = False
 
@@ -109,5 +112,5 @@ def add_map_background(
                  name = name,
          regrid_shape = regrid_shape,
              resample = resample,
-           resolution = resolution,
+           resolution = subName,
     )

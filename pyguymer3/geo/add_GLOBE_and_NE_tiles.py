@@ -11,17 +11,17 @@ def add_GLOBE_and_NE_tiles(
            elevInt = 250,
       exiftoolPath = None,
       gifsiclePath = None,
-              grid = "18x9",
      interpolation = "none",
       jpegtranPath = None,
            maxElev = 1000,
     maxImagePixels = 1073741824,
     mergedTileName = None,
+             neRes = "10m",
        optipngPath = None,
               pool = None,
       regrid_shape = 750,
           resample = False,
-        resolution = "10m",
+          tileGrid = "18x9",
            timeout = 60.0,
 ):
     """Add GLOBE and NE dataset tiles as a background to a Cartopy axis.
@@ -47,8 +47,6 @@ def add_GLOBE_and_NE_tiles(
     gifsiclePath : None or str, optional
         The path to the "gifsicle" binary (if not provided then Python will
         attempt to find the binary itself).
-    grid : str, optional
-        The grid to fetch tiles from.
     interpolation : str, optional
         The interpolation method used when drawing the final merged and warped
         image on the axis. Due to the use of ``**kwargs`` within Cartopy, this
@@ -63,6 +61,8 @@ def add_GLOBE_and_NE_tiles(
         The maximum number of pixels in an image, to prevent decompression bombs.
     mergedTileName : None or str, optional
         If provided, then save the merged tile to this file.
+    neRes : str, optional
+        The resolution of the Natural Earth [2]_ datasets.
     optipngPath : None or str, optional
         The path to the "optipng" binary (if not provided then Python will
         attempt to find the binary itself).
@@ -83,8 +83,8 @@ def add_GLOBE_and_NE_tiles(
         image on the axis. Due to the use of ``**kwargs`` within Cartopy, this
         is passed all the way down the stack to the MatPlotLib ``.imshow()``
         call.
-    resolution : str, optional
-        The resolution of the NE datasets.
+    tileGrid : str, optional
+        The grid to fetch tiles from.
     timeout : float, optional
         The timeout for any requests/subprocess calls (in seconds).
 
@@ -111,6 +111,7 @@ def add_GLOBE_and_NE_tiles(
     References
     ----------
     .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
+    .. [2] Natural Earth, https://www.naturalearthdata.com/
     """
 
     # Import standard modules ...
@@ -150,7 +151,7 @@ def add_GLOBE_and_NE_tiles(
 
     # Create short-hands ...
     # NOTE: See "pyguymer3/data/png/README.md".
-    nx, ny = grid.split("x")
+    nx, ny = tileGrid.split("x")
     nx = int(nx)                                                                # [#]
     ny = int(ny)                                                                # [#]
     tileSize = 300                                                              # [px]
@@ -211,7 +212,7 @@ def add_GLOBE_and_NE_tiles(
         for ix in range(nx):
             if not usedTiles[iy, ix]:
                 continue
-            tName = f"{os.path.dirname(__file__)}/../data/png/globe+ne/{nx:d}x{ny:d}/maxElev={maxElev:d}m/elevInt={elevInt}m/res={resolution}/x={ix:d}/y={iy:d}.png"
+            tName = f"{os.path.dirname(__file__)}/../data/png/globe+ne/{nx:d}x{ny:d}/maxElev={maxElev:d}m/elevInt={elevInt}m/res={neRes}/x={ix:d}/y={iy:d}.png"
             if not os.path.exists(tName):
                 tName = f"{os.path.dirname(__file__)}/../data/png/missingTile.png"
             if debug:

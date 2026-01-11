@@ -21,7 +21,8 @@ def create_map_of_points(
                floor = False,
                  fov = None,
         gifsiclePath = None,
-                grid = "18x9",
+          globeScale = "32km",
+            gshhgRes = "i",
        interpolation = "none",
         jpegtranPath = None,
              maxElev = 1000,
@@ -30,6 +31,7 @@ def create_map_of_points(
               method = "GeodesicBox",
                 name = "natural-earth-1",
                 nAng = 9,
+               neRes = "10m",
                nIter = 100,
              nRefine = 1,
            onlyValid = False,
@@ -39,15 +41,16 @@ def create_map_of_points(
             ramLimit = 1073741824,
               repair = False,
             resample = False,
-          resolution = "10m",
                route = None,
       routeFillColor = (  0.0 / 255.0, 128.0 / 255.0,   0.0 / 255.0),
     satellite_height = False,
-               scale = 1,
        skipFillColor = (255.0 / 255.0, 165.0 / 255.0,   0.0 / 255.0),
                skips = None,
+             subName = "medium0512px",
     thunderforestKey = None,
     thunderforestMap = "atlas",
+            tileGrid = "18x9",
+           tileScale = 1,
              timeout = 60.0,
                title = None,
                  tol = 1.0e-10,
@@ -107,8 +110,10 @@ def create_map_of_points(
     gifsiclePath : None or str, optional
         the path to the "gifsicle" binary (if not provided then Python will attempt to
         find the binary itself)
-    grid : str, optional
-        The grid to fetch tiles from.
+    globeScale : str, optional
+        The scale of the elevation from the GLOBE [4]_ dataset.
+    gshhgRes : str, optional
+        the resolution of the coastline boundaries from GSHHG [2]_
     interpolation : str, optional
         The interpolation method used when drawing the final warped image, or
         the final merged and warped image, on the figure. Due to the use of
@@ -126,9 +131,11 @@ def create_map_of_points(
     method : str, optional
         the method for finding the middle of the points
     name : str, optional
-        the name of the image in the database
+        The name of the image in the database.
     nAng : int, optional
         the number of angles around the middle location to search over
+    neRes : str, optional
+        The resolution of the Natural Earth [3]_ datasets.
     nIter : int, optional
         the maximum number of iterations (particularly the Vincenty formula)
     nRefine : int, optional
@@ -153,8 +160,6 @@ def create_map_of_points(
         the final merged and warped image, on the figure. Due to the use of
         **kwargs within Cartopy, this is passed all the way down the stack to
         the MatPlotLib ".imshow()" call.
-    resolution : str, optional
-        the resolution of the image or NE dataset or GSHHG dataset
     route : shapely.geometry.linestring.LineString, optional
         an extra line to draw on the map
     routeFillColor : tuple of int, optional
@@ -162,8 +167,6 @@ def create_map_of_points(
     satellite_height : float, optional
         if a distance is provided then use a "NearsidePerspective" projection at
         an altitude which has the same field-of-view as the distance
-    scale : int, optional
-        the scale of the tiles
     skipFillColor : tuple of int, optional
         the fill colour of the skipped points
     skips : numpy.ndarray, optional
@@ -171,11 +174,20 @@ def create_map_of_points(
         point from calculating the image's field-of-view (this allows the great
         circles from flights to be drawn but for them to not expand the image to
         fit in the departing airport); if not provided then all points are used
+    subName : str, optional
+        The sub-name of the image in the database. Typically, databases use
+        ``name`` to refer to an image and then they use ``subName`` to refer to
+        a particular rendering, or size, of the image. This allows users to get
+        a quicker, or smaller, version of their desired image.
     thunderforestKey : str, optional
         your personal API key for the Thunderforest service (if provided then it
         is assumed that you want to use the Thunderforest service)
     thunderforestMap : str, optional
         the Thunderforest map style (see https://www.thunderforest.com/maps/)
+    tileGrid : str, optional
+        The grid to fetch tiles from.
+    tileScale : int, optional
+        The scale of the tiles.
     timeout : float, optional
         the timeout for any requests/subprocess calls (in seconds)
     title : str, optional
@@ -190,6 +202,30 @@ def create_map_of_points(
 
     Notes
     -----
+    There is one argument relating to the `Global Self-Consistent Hierarchical
+    High-Resolution Geography dataset <https://www.ngdc.noaa.gov/mgg/shorelines/>`_ :
+
+    * *gshhgRes*.
+
+    There are five resolutions to choose from:
+
+    * crude ("c");
+    * low ("l");
+    * intermediate ("i");
+    * high ("h"); and
+    * full ("f").
+
+    There is one argument relating to the `Natural Earth dataset
+    <https://www.naturalearthdata.com>`_ :
+
+    * *neRes*.
+
+    There are three resolutions to choose from:
+
+    * large scale data 1:10m ("10m");
+    * medium scale data 1:50m ("50m"); and
+    * small scale data 1:110m ("110m").
+
     See the `MatPlotLib documentation about interpolation methods
     <https://matplotlib.org/stable/gallery/images_contours_and_fields/interpolation_methods.html>`_
     and the `MatPlotLib documentation about anti-aliasing
@@ -200,6 +236,9 @@ def create_map_of_points(
     References
     ----------
     .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
+    .. [2] Global Self-consistent Hierarchical High-resolution Geography, https://www.ngdc.noaa.gov/mgg/shorelines/
+    .. [3] Natural Earth, https://www.naturalearthdata.com/
+    .. [4] Global Land One-km Base Elevation, https://www.ngdc.noaa.gov/mgg/topo/globe.html
     """
 
     # Import standard modules ...
@@ -413,7 +452,6 @@ def create_map_of_points(
                          debug = debug,
                   exiftoolPath = exiftoolPath,
                   gifsiclePath = gifsiclePath,
-                          grid = grid,
                  interpolation = interpolation,
                   jpegtranPath = jpegtranPath,
                        maxElev = maxElev,
@@ -423,6 +461,7 @@ def create_map_of_points(
                           pool = None,
                   regrid_shape = regrid_shape,
                       resample = resample,
+                      tileGrid = tileGrid,
                        timeout = timeout,
             )
         case "GLOBE+GSHHG-tiles":
@@ -435,7 +474,7 @@ def create_map_of_points(
                        elevInt = elevInt,
                   exiftoolPath = exiftoolPath,
                   gifsiclePath = gifsiclePath,
-                          grid = grid,
+                      gshhgRes = gshhgRes,
                  interpolation = interpolation,
                   jpegtranPath = jpegtranPath,
                        maxElev = maxElev,
@@ -445,7 +484,7 @@ def create_map_of_points(
                           pool = None,
                   regrid_shape = regrid_shape,
                       resample = resample,
-                    resolution = resolution,
+                      tileGrid = tileGrid,
                        timeout = timeout,
             )
         case "GLOBE+NE-tiles":
@@ -458,17 +497,17 @@ def create_map_of_points(
                        elevInt = elevInt,
                   exiftoolPath = exiftoolPath,
                   gifsiclePath = gifsiclePath,
-                          grid = grid,
                  interpolation = interpolation,
                   jpegtranPath = jpegtranPath,
                        maxElev = maxElev,
                 maxImagePixels = maxImagePixels,
                 mergedTileName = mergedTileName,
+                         neRes = neRes,
                    optipngPath = optipngPath,
                           pool = None,
                   regrid_shape = regrid_shape,
                       resample = resample,
-                    resolution = resolution,
+                      tileGrid = tileGrid,
                        timeout = timeout,
             )
         case "GSHHG" | "GSHHG-map":
@@ -478,6 +517,7 @@ def create_map_of_points(
                 background = True,
                      debug = debug,
                        fov = fov,
+                  gshhgRes = gshhgRes,
                   iceOcean = True,
                 islandLake = True,
                   lakeLand = True,
@@ -486,7 +526,6 @@ def create_map_of_points(
                  onlyValid = onlyValid,
                 pondIsland = True,
                     repair = repair,
-                resolution = resolution,
             )
         case "GSHHG-tiles":
             # Add GSHHG tiles background ...
@@ -497,7 +536,7 @@ def create_map_of_points(
                          debug = debug,
                   exiftoolPath = exiftoolPath,
                   gifsiclePath = gifsiclePath,
-                          grid = grid,
+                      gshhgRes = gshhgRes,
                  interpolation = interpolation,
                   jpegtranPath = jpegtranPath,
                 maxImagePixels = maxImagePixels,
@@ -506,7 +545,7 @@ def create_map_of_points(
                           pool = None,
                   regrid_shape = regrid_shape,
                       resample = resample,
-                    resolution = resolution,
+                      tileGrid = tileGrid,
                        timeout = timeout,
             )
         case "image":
@@ -519,7 +558,7 @@ def create_map_of_points(
                          name = name,
                  regrid_shape = regrid_shape,
                      resample = resample,
-                   resolution = resolution,
+                      subName = subName,
             )
         case "NE" | "NE-map":
             # Add NE map background ...
@@ -530,14 +569,14 @@ def create_map_of_points(
                      debug = debug,
                    elevInt = elevInt,
                        fov = fov,
+                globeScale = globeScale,
                  linestyle = "solid",
                  linewidth = 0.5,
                    maxElev = maxElev,
+                     neRes = neRes,
                  onlyValid = onlyValid,
                   physical = True,
                     repair = repair,
-                resolution = resolution,
-                     scale = scale,
             )
         case "NE-tiles":
             # Add NE tiles background ...
@@ -548,16 +587,16 @@ def create_map_of_points(
                          debug = debug,
                   exiftoolPath = exiftoolPath,
                   gifsiclePath = gifsiclePath,
-                          grid = grid,
                  interpolation = interpolation,
                   jpegtranPath = jpegtranPath,
                 maxImagePixels = maxImagePixels,
                 mergedTileName = mergedTileName,
+                         neRes = neRes,
                    optipngPath = optipngPath,
                           pool = None,
                   regrid_shape = regrid_shape,
                       resample = resample,
-                    resolution = resolution,
+                      tileGrid = tileGrid,
                        timeout = timeout,
             )
         case "none":
@@ -592,9 +631,9 @@ def create_map_of_points(
                    interpolation = interpolation,
                     regrid_shape = regrid_shape,
                         resample = resample,
-                           scale = scale,
                 thunderforestKey = thunderforestKey,
                 thunderforestMap = thunderforestMap,
+                       tileScale = tileScale,
                                z = z,
             )
         case "OSterrain-tiles":
@@ -606,7 +645,6 @@ def create_map_of_points(
                          debug = debug,
                   exiftoolPath = exiftoolPath,
                   gifsiclePath = gifsiclePath,
-                          grid = grid,
                  interpolation = interpolation,
                   jpegtranPath = jpegtranPath,
                        maxElev = maxElev,
@@ -617,6 +655,7 @@ def create_map_of_points(
                         prefix = prefix,
                   regrid_shape = regrid_shape,
                       resample = resample,
+                      tileGrid = tileGrid,
                        timeout = timeout,
                            tol = tol,
             )

@@ -4,7 +4,7 @@
 def drawRivers(
     img,
     draw,
-    res,
+    neRes,
     color,
     /,
 ):
@@ -63,15 +63,15 @@ def drawRivers(
         "rivers_north_america",
     ]:
         # Skip known missing datasets ...
-        if res in ["50m", "110m"] and name != "rivers_lake_centerlines":
+        if neRes in ["50m", "110m"] and name != "rivers_lake_centerlines":
             continue
 
         # Find file containing the shapes ...
         try:
             sfile = cartopy.io.shapereader.natural_earth(
-                resolution = res,
                   category = "physical",
                       name = name,
+                resolution = neRes,
             )
         except urllib.error.HTTPError:
             continue

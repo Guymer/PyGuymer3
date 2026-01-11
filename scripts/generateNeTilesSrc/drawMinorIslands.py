@@ -3,7 +3,7 @@
 # Define function ...
 def drawMinorIslands(
     img,
-    res,
+    neRes,
     color,
     /,
     *,
@@ -58,15 +58,15 @@ def drawMinorIslands(
     # **************************************************************************
 
     # Skip known missing datasets ...
-    if res in ["50m", "110m"]:
+    if neRes in ["50m", "110m"]:
         return
 
     # Find file containing the shapes ...
     try:
         sfile = cartopy.io.shapereader.natural_earth(
-            resolution = res,
               category = "physical",
                   name = "minor_islands",
+            resolution = neRes,
         )
     except urllib.error.HTTPError:
         return

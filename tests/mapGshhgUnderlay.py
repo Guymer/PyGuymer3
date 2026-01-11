@@ -104,7 +104,7 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Define resolutions ...
-    resolutions = [
+    gshhgRess = [
         "c",
         "l",
         "i",
@@ -179,8 +179,8 @@ if __name__ == "__main__":
         # **********************************************************************
 
         # Loop over resolutions ...
-        for iResolution, resolution in enumerate(resolutions):
-            print(f"  Plotting \"{resolution}\" ...")
+        for iResolution, gshhgRes in enumerate(gshhgRess):
+            print(f"  Plotting \"{gshhgRes}\" ...")
 
             # Create axis ...
             ax = pyguymer3.geo.add_axis(
@@ -203,20 +203,20 @@ if __name__ == "__main__":
             )
 
             # Configure axis ...
-            ax.set_title(f"\"add_GSHHG_map()\" at \"{resolution}\"")
+            ax.set_title(f"\"add_GSHHG_map()\" at \"{gshhgRes}\"")
             pyguymer3.geo.add_GSHHG_map(
                 ax,
-                     debug = args.debug,
-                       fov = fov,
-                 linewidth = linewidth,
-                 onlyValid = True,
-                    repair = True,
-                resolution = resolution,
+                    debug = args.debug,
+                      fov = fov,
+                 gshhgRes = gshhgRes,
+                linewidth = linewidth,
+                onlyValid = True,
+                   repair = True,
             )
 
             # ******************************************************************
 
-            print(f"  Plotting \"{resolution}\" and \"{globeGrid}\" (with \"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\") ...")
+            print(f"  Plotting \"{gshhgRes}\" and \"{globeGrid}\" (with \"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\") ...")
 
             # Create axis ...
             ax = pyguymer3.geo.add_axis(
@@ -239,24 +239,24 @@ if __name__ == "__main__":
             )
 
             # Configure axis ...
-            ax.set_title(f"\"add_GLOBE_and_GSHHG_tiles()\" at \"{resolution}\" and \"{globeGrid}\" (\"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\")")
+            ax.set_title(f"\"add_GLOBE_and_GSHHG_tiles()\" at \"{gshhgRes}\" and \"{globeGrid}\" (\"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\")")
             pyguymer3.geo.add_GLOBE_and_GSHHG_tiles(
                 ax,
                 fov,
                          debug = args.debug,
-                          grid = globeGrid,
+                      gshhgRes = gshhgRes,
                  interpolation = "gaussian",
                        maxElev = maxElev,
-                mergedTileName = f'{pName.removesuffix(".png")}_GLOBE+GSHHG_{resolution}.png',
+                mergedTileName = f'{pName.removesuffix(".png")}_GLOBE+GSHHG_{gshhgRes}.png',
                   regrid_shape = regrid_shape,
                       resample = False,
-                    resolution = resolution,
+                      tileGrid = globeGrid,
                        timeout = args.timeout,
             )
 
             # ******************************************************************
 
-            print(f"  Plotting \"{resolution}\" and \"{gshhgGrid}\" (with \"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\") ...")
+            print(f"  Plotting \"{gshhgRes}\" and \"{gshhgGrid}\" (with \"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\") ...")
 
             # Create axis ...
             ax = pyguymer3.geo.add_axis(
@@ -279,17 +279,17 @@ if __name__ == "__main__":
             )
 
             # Configure axis ...
-            ax.set_title(f"\"add_GSHHG_tiles()\" at \"{resolution}\" and \"{gshhgGrid}\" (\"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\")")
+            ax.set_title(f"\"add_GSHHG_tiles()\" at \"{gshhgRes}\" and \"{gshhgGrid}\" (\"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\")")
             pyguymer3.geo.add_GSHHG_tiles(
                 ax,
                 fov,
                          debug = args.debug,
-                          grid = gshhgGrid,
+                      gshhgRes = gshhgRes,
                  interpolation = "gaussian",
-                mergedTileName = f'{pName.removesuffix(".png")}_GSHHG_{resolution}.png',
+                mergedTileName = f'{pName.removesuffix(".png")}_GSHHG_{gshhgRes}.png',
                   regrid_shape = regrid_shape,
                       resample = False,
-                    resolution = resolution,
+                      tileGrid = gshhgGrid,
                        timeout = args.timeout,
             )
 

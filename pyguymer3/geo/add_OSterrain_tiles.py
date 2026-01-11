@@ -10,7 +10,6 @@ def add_OSterrain_tiles(
              debug = __debug__,
       exiftoolPath = None,
       gifsiclePath = None,
-              grid = "22x41",
      interpolation = "none",
       jpegtranPath = None,
            maxElev = 1000,
@@ -21,6 +20,7 @@ def add_OSterrain_tiles(
             prefix = ".",
       regrid_shape = 750,
           resample = False,
+          tileGrid = "22x41",
            timeout = 60.0,
                tol = 1.0e-10,
 ):
@@ -44,8 +44,6 @@ def add_OSterrain_tiles(
     gifsiclePath : None or str, optional
         The path to the "gifsicle" binary (if not provided then Python will
         attempt to find the binary itself).
-    grid : str, optional
-        The grid to fetch tiles from.
     interpolation : str, optional
         The interpolation method used when drawing the final merged and warped
         image on the axis. Due to the use of ``**kwargs`` within Cartopy, this
@@ -82,6 +80,8 @@ def add_OSterrain_tiles(
         image on the axis. Due to the use of ``**kwargs`` within Cartopy, this
         is passed all the way down the stack to the MatPlotLib ``.imshow()``
         call.
+    tileGrid : str, optional
+        The grid to fetch tiles from.
     timeout : float, optional
         The timeout for any requests/subprocess calls (in seconds).
     tol : float, optional
@@ -140,7 +140,7 @@ def add_OSterrain_tiles(
 
     # Create short-hands ...
     # NOTE: See "pyguymer3/data/png/README.md".
-    nx, ny = grid.split("x")
+    nx, ny = tileGrid.split("x")
     nx = int(nx)                                                                # [#]
     ny = int(ny)                                                                # [#]
     origRes = 50                                                                # [m/px]

@@ -3,7 +3,7 @@
 # Define function ...
 def drawLand(
     img,
-    res,
+    neRes,
     color,
     /,
     *,
@@ -60,9 +60,9 @@ def drawLand(
     # Find file containing the shapes ...
     try:
         sfile = cartopy.io.shapereader.natural_earth(
-            resolution = res,
               category = "physical",
                   name = "land",
+            resolution = neRes,
         )
     except urllib.error.HTTPError:
         return

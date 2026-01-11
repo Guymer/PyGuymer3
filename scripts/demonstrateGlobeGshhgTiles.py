@@ -298,7 +298,7 @@ if __name__ == "__main__":
             fov,
                     debug = args.debug,
                   elevInt = args.elevInt,
-                     grid = grid,
+                 gshhgRes = args.gshhgRes,
             interpolation = "gaussian",
                   maxElev = args.maxElev,
              regrid_shape = (
@@ -306,7 +306,7 @@ if __name__ == "__main__":
                 round(2.0 * fg.get_figheight() * fg.get_dpi()),
             ),                                                                  # [px], [px]
                  resample = False,
-               resolution = args.gshhgRes,
+                 tileGrid = grid,
                   timeout = args.timeout,
         )
 

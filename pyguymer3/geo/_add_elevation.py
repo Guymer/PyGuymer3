@@ -5,13 +5,13 @@ def _add_elevation(
     ax,
     /,
     *,
-        debug = __debug__,
-      elevInt = 250,
-          fov = None,
-      maxElev = 1000,
-    onlyValid = False,
-       repair = False,
-        scale = "32km",
+         debug = __debug__,
+       elevInt = 250,
+           fov = None,
+    globeScale = "32km",
+       maxElev = 1000,
+     onlyValid = False,
+        repair = False,
 ):
     """Add elevation to a Cartopy axis.
 
@@ -27,6 +27,8 @@ def _add_elevation(
         clip the plotted shapes to the provided field-of-view to work around
         occaisional MatPlotLib or Cartopy plotting errors when shapes much
         larger than the field-of-view are plotted
+    globeScale : str, optional
+        The scale of the elevation from the GLOBE [2]_ dataset.
     maxElev : int, optional
         the maximum elevation of the colour scale and acts as an upper bound or
         clip (in metres)
@@ -35,8 +37,6 @@ def _add_elevation(
         being called often)
     repair : bool, optional
         attempt to repair invalid Polygons
-    scale : str, optional
-        the scale of the elevation
 
     Notes
     -----
@@ -48,6 +48,7 @@ def _add_elevation(
     References
     ----------
     .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
+    .. [2] Global Land One-km Base Elevation, https://www.ngdc.noaa.gov/mgg/topo/globe.html
     """
 
     # Import standard modules ...
@@ -115,7 +116,7 @@ def _add_elevation(
             print(f"INFO: \"{name}\" is ({facecolor[0]:.6f},{facecolor[1]:.6f},{facecolor[2]:.6f},{facecolor[3]:.6f}).")
 
         # Find file containing the shapes ...
-        sfile = f"{os.path.dirname(__file__)}/../data/geojson/globe/scale={scale}/elev={elevation:04d}m.geojson"
+        sfile = f"{os.path.dirname(__file__)}/../data/geojson/globe/scale={globeScale}/elev={elevation:04d}m.geojson"
         if not os.path.exists(sfile):
             continue
         if debug:

@@ -3,7 +3,7 @@
 # Define function ...
 def drawLakes(
     img,
-    res,
+    neRes,
     color,
     /,
     *,
@@ -66,15 +66,15 @@ def drawLakes(
         "lakes_pluvial",
     ]:
         # Skip known missing datasets ...
-        if res in ["50m", "110m"] and name != "lakes":
+        if neRes in ["50m", "110m"] and name != "lakes":
             continue
 
         # Find file containing the shapes ...
         try:
             sfile = cartopy.io.shapereader.natural_earth(
-                resolution = res,
                   category = "physical",
                       name = name,
+                resolution = neRes,
             )
         except urllib.error.HTTPError:
             continue

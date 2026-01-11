@@ -3,7 +3,7 @@
 # Define function ...
 def drawBathymetry(
     img,
-    res,
+    neRes,
     colors,
     /,
     *,
@@ -58,7 +58,7 @@ def drawBathymetry(
     # **************************************************************************
 
     # Skip known missing datasets ...
-    if res in ["50m", "110m"]:
+    if neRes in ["50m", "110m"]:
         return
 
     # Check the colours ...
@@ -83,9 +83,9 @@ def drawBathymetry(
         # Find file containing the shapes ...
         try:
             sfile = cartopy.io.shapereader.natural_earth(
-                resolution = res,
                   category = "physical",
                       name = name,
+                resolution = neRes,
             )
         except urllib.error.HTTPError:
             continue

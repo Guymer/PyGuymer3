@@ -296,15 +296,15 @@ if __name__ == "__main__":
             fov,
                     debug = args.debug,
                   elevInt = args.elevInt,
-                     grid = grid,
             interpolation = "gaussian",
                   maxElev = args.maxElev,
+                    neRes = args.neRes,
              regrid_shape = (
                 round(2.0 * fg.get_figwidth() * fg.get_dpi()),
                 round(2.0 * fg.get_figheight() * fg.get_dpi()),
             ),                                                                  # [px], [px]
                  resample = False,
-               resolution = args.neRes,
+                 tileGrid = grid,
                   timeout = args.timeout,
         )
 
