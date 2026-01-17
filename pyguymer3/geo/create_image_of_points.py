@@ -35,11 +35,11 @@ def create_image_of_points(
               repair = False,
                route = None,
       routeFillColor = (  0, 128,   0),
-               scale = 1,
        skipFillColor = (255, 165,   0),
                skips = None,
     thunderforestKey = None,
     thunderforestMap = "atlas",
+           tileScale = 1,
              timeout = 60.0,
                  tol = 1.0e-10,
               verify = True,
@@ -120,8 +120,6 @@ def create_image_of_points(
         an extra line to draw on the map
     routeFillColor : tuple of int, optional
         the fill colour of the extra route
-    scale : int, optional
-        the scale of the tiles
     skipFillColor : tuple of int, optional
         the fill colour of the skipped points
     skips : numpy.ndarray, optional
@@ -134,6 +132,8 @@ def create_image_of_points(
         is assumed that you want to use the Thunderforest service)
     thunderforestMap : str, optional
         the Thunderforest map style (see https://www.thunderforest.com/maps/)
+    tileScale : int, optional
+        the scale of the tiles
     timeout : float, optional
         the timeout for any requests/subprocess calls (in seconds)
     tol : float, optional
@@ -262,8 +262,8 @@ def create_image_of_points(
         print(f"DEBUG: The middle of the Mercator projection of the {0.001 * padDist:,.1f} km buffer of the points is at ({midLon:+.6f}°, {midLat:+.6f}°).")
 
     # Calculate the size of the image ...
-    imgWidth = (maxMerX - minMerX) * float(n * scale * 256)                     # [px]
-    imgHeight = (maxMerY - minMerY) * float(n * scale * 256)                    # [px]
+    imgWidth = (maxMerX - minMerX) * float(n * tileScale * 256)                 # [px]
+    imgHeight = (maxMerY - minMerY) * float(n * tileScale * 256)                # [px]
     imgWidth = 2 * round(imgWidth / 2.0)                                        # [px]
     imgHeight = 2 * round(imgHeight / 2.0)                                      # [px]
     if debug:
@@ -289,7 +289,7 @@ def create_image_of_points(
           maxImagePixels = maxImagePixels,
              optipngPath = optipngPath,
                   radius = None,
-                   scale = scale,
+                   scale = tileScale,
         thunderforestKey = thunderforestKey,
         thunderforestMap = thunderforestMap,
                  timeout = timeout,
@@ -311,8 +311,8 @@ def create_image_of_points(
         for polyMer in extract_polys(polysMer, onlyValid = onlyValid, repair = repair):
             # Convert LineString to the image projection ...
             coordsMer = numpy.array(polyMer.exterior.coords)                    # [#]
-            coordsImgX = float(midImgX) + (coordsMer[:, 0] - midMerX) * float(n * scale * 256)  # [px]
-            coordsImgY = float(midImgY) + (coordsMer[:, 1] - midMerY) * float(n * scale * 256)  # [px]
+            coordsImgX = float(midImgX) + (coordsMer[:, 0] - midMerX) * float(n * tileScale * 256)  # [px]
+            coordsImgY = float(midImgY) + (coordsMer[:, 1] - midMerY) * float(n * tileScale * 256)  # [px]
 
             # Draw the Polygon ...
             draw.polygon(
@@ -333,8 +333,8 @@ def create_image_of_points(
             ).coords[0]                                                         # [#], [#]
             difMerX = pntMerX - midMerX                                         # [#]
             difMerY = pntMerY - midMerY                                         # [#]
-            difImgX = difMerX * float(n * scale * 256)                          # [px]
-            difImgY = difMerY * float(n * scale * 256)                          # [px]
+            difImgX = difMerX * float(n * tileScale * 256)                      # [px]
+            difImgY = difMerY * float(n * tileScale * 256)                      # [px]
             pntImgX = float(midImgX) + difImgX                                  # [px]
             pntImgY = float(midImgY) + difImgY                                  # [px]
             draw.ellipse(
@@ -378,8 +378,8 @@ def create_image_of_points(
 
                 # Convert LineString to the image projection ...
                 coordsMer = numpy.array(lineMer.coords)                         # [#]
-                coordsImgX = float(midImgX) + (coordsMer[:, 0] - midMerX) * float(n * scale * 256)  # [px]
-                coordsImgY = float(midImgY) + (coordsMer[:, 1] - midMerY) * float(n * scale * 256)  # [px]
+                coordsImgX = float(midImgX) + (coordsMer[:, 0] - midMerX) * float(n * tileScale * 256)  # [px]
+                coordsImgY = float(midImgY) + (coordsMer[:, 1] - midMerY) * float(n * tileScale * 256)  # [px]
 
                 # Draw the line ...
                 draw.line(
@@ -402,8 +402,8 @@ def create_image_of_points(
 
             # Convert LineString to the image projection ...
             coordsMer = numpy.array(lineMer.coords)                             # [#]
-            coordsImgX = float(midImgX) + (coordsMer[:, 0] - midMerX) * float(n * scale * 256)  # [px]
-            coordsImgY = float(midImgY) + (coordsMer[:, 1] - midMerY) * float(n * scale * 256)  # [px]
+            coordsImgX = float(midImgX) + (coordsMer[:, 0] - midMerX) * float(n * tileScale * 256)  # [px]
+            coordsImgY = float(midImgY) + (coordsMer[:, 1] - midMerY) * float(n * tileScale * 256)  # [px]
 
             # Draw the line ...
             draw.line(
