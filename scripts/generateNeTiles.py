@@ -190,7 +190,7 @@ if __name__ == "__main__":
             if not allExist:
                 break
         if allExist:
-            print(f"Skipping rzoom level {zoomLevel:,d} ({nTilesX:d}x{nTilesY:d}) as all tiles already exist.")
+            print(f"Skipping zoom level {zoomLevel:,d} ({nTilesX:d}x{nTilesY:d}) as all tiles already exist.")
             continue
 
         print(f"Processing zoom level {zoomLevel:,d} ({nTilesX:d}x{nTilesY:d}) ...")
