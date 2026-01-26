@@ -133,7 +133,7 @@ def _add_coastlines(
         # Skip known missing datasets ...
         if gshhgLevel == 4 and gshhgRes == "c":
             if debug:
-                print(f"INFO: Skipping \"{gshhgRes}\" and \"{gshhgLevel:d}\" (known missing dataset).")
+                print(f"INFO: Skipping level=\"{gshhgLevel:d}\" and scale=\"{gshhgRes}\" (known missing dataset).")
             continue
 
         # Deduce Shapefile name (catching missing datasets) ...
