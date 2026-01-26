@@ -66,19 +66,19 @@ def drawBathymetry(
     assert len(colors) == 12
 
     # Loop over depths ...
-    for depth, name, color in [
-        (    0, "bathymetry_L_0"    , colors[ 0]),
-        (  200, "bathymetry_K_200"  , colors[ 1]),
-        ( 1000, "bathymetry_J_1000" , colors[ 2]),
-        ( 2000, "bathymetry_I_2000" , colors[ 3]),
-        ( 3000, "bathymetry_H_3000" , colors[ 4]),
-        ( 4000, "bathymetry_G_4000" , colors[ 5]),
-        ( 5000, "bathymetry_F_5000" , colors[ 6]),
-        ( 6000, "bathymetry_E_6000" , colors[ 7]),
-        ( 7000, "bathymetry_D_7000" , colors[ 8]),
-        ( 8000, "bathymetry_C_8000" , colors[ 9]),
-        ( 9000, "bathymetry_B_9000" , colors[10]),
-        (10000, "bathymetry_A_10000", colors[11]),
+    for name, color in [
+        ("bathymetry_L_0"    , colors[ 0]),
+        ("bathymetry_K_200"  , colors[ 1]),
+        ("bathymetry_J_1000" , colors[ 2]),
+        ("bathymetry_I_2000" , colors[ 3]),
+        ("bathymetry_H_3000" , colors[ 4]),
+        ("bathymetry_G_4000" , colors[ 5]),
+        ("bathymetry_F_5000" , colors[ 6]),
+        ("bathymetry_E_6000" , colors[ 7]),
+        ("bathymetry_D_7000" , colors[ 8]),
+        ("bathymetry_C_8000" , colors[ 9]),
+        ("bathymetry_B_9000" , colors[10]),
+        ("bathymetry_A_10000", colors[11]),
     ]:
         # Find file containing the shapes ...
         try:
