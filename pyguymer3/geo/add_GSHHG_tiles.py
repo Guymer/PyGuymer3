@@ -3,12 +3,12 @@
 # Define function ...
 def add_GSHHG_tiles(
     ax,
-    fov,
     /,
     *,
          chunksize = 1048576,
              debug = __debug__,
       exiftoolPath = None,
+               fov = None,
       gifsiclePath = None,
           gshhgRes = "i",
      interpolation = "none",
@@ -28,10 +28,6 @@ def add_GSHHG_tiles(
     ----------
     ax : cartopy.mpl.geoaxes.GeoAxes
         The axis to add the GSHHG dataset tiles as a background to.
-    fov : shapely.geometry.polygon.Polygon
-        The field-of-view of the axis. This is used to determine which tiles are
-        viewable on the axis and, therefore, which tiles need to be merged
-        together.
     chunksize : int, optional
         The size of the chunks of any files which are read in (in bytes).
     debug : bool, optional
@@ -39,6 +35,10 @@ def add_GSHHG_tiles(
     exiftoolPath : None or str, optional
         The path to the "exiftool" binary (if not provided then Python will
         attempt to find the binary itself).
+    fov : None or shapely.geometry.polygon.Polygon
+        The field-of-view of the axis. This is used to determine which tiles are
+        viewable on the axis and, therefore, which tiles need to be merged
+        together.
     gifsiclePath : None or str, optional
         The path to the "gifsicle" binary (if not provided then Python will
         attempt to find the binary itself).
@@ -182,7 +182,10 @@ def add_GSHHG_tiles(
                     )
                 )
             )
-            usedTiles[iy, ix] = tile.intersects(fov)
+            if fov is None:
+                usedTiles[iy, ix] = True
+            else:
+                usedTiles[iy, ix] = tile.intersects(fov)
 
     # Find the bounding box of the used tiles ...
     usedLats = numpy.any(usedTiles, axis = 1)

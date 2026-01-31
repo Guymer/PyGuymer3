@@ -447,10 +447,10 @@ def create_map_of_points(
             # Add GLOBE tiles background ...
             add_GLOBE_tiles(
                 ax,
-                fov,
                      chunksize = chunksize,
                          debug = debug,
                   exiftoolPath = exiftoolPath,
+                           fov = fov,
                   gifsiclePath = gifsiclePath,
                  interpolation = interpolation,
                   jpegtranPath = jpegtranPath,
@@ -468,11 +468,11 @@ def create_map_of_points(
             # Add GLOBE+GSHHG tiles background ...
             add_GLOBE_and_GSHHG_tiles(
                 ax,
-                fov,
                      chunksize = chunksize,
                          debug = debug,
                        elevInt = elevInt,
                   exiftoolPath = exiftoolPath,
+                           fov = fov,
                   gifsiclePath = gifsiclePath,
                       gshhgRes = gshhgRes,
                  interpolation = interpolation,
@@ -491,11 +491,11 @@ def create_map_of_points(
             # Add GLOBE+NE tiles background ...
             add_GLOBE_and_NE_tiles(
                 ax,
-                fov,
                      chunksize = chunksize,
                          debug = debug,
                        elevInt = elevInt,
                   exiftoolPath = exiftoolPath,
+                           fov = fov,
                   gifsiclePath = gifsiclePath,
                  interpolation = interpolation,
                   jpegtranPath = jpegtranPath,
@@ -531,10 +531,10 @@ def create_map_of_points(
             # Add GSHHG tiles background ...
             add_GSHHG_tiles(
                 ax,
-                fov,
                      chunksize = chunksize,
                          debug = debug,
                   exiftoolPath = exiftoolPath,
+                           fov = fov,
                   gifsiclePath = gifsiclePath,
                       gshhgRes = gshhgRes,
                  interpolation = interpolation,
@@ -582,10 +582,10 @@ def create_map_of_points(
             # Add NE tiles background ...
             add_NE_tiles(
                 ax,
-                fov,
                      chunksize = chunksize,
                          debug = debug,
                   exiftoolPath = exiftoolPath,
+                           fov = fov,
                   gifsiclePath = gifsiclePath,
                  interpolation = interpolation,
                   jpegtranPath = jpegtranPath,
@@ -640,10 +640,10 @@ def create_map_of_points(
             # Add "OS Terrain 50" tiles background ...
             add_OSterrain_tiles(
                 ax,
-                fov,
                      chunksize = chunksize,
                          debug = debug,
                   exiftoolPath = exiftoolPath,
+                           fov = fov,
                   gifsiclePath = gifsiclePath,
                  interpolation = interpolation,
                   jpegtranPath = jpegtranPath,
