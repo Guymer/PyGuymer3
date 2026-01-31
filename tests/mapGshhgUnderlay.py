@@ -190,7 +190,7 @@ if __name__ == "__main__":
                          debug = args.debug,
                           dist = dist,
                            eps = args.eps,
-                           fov = fov,
+                            fov = fov,
                          index = 3 * iResolution + 1,
                            lat = lat,
                            lon = lon,
@@ -226,7 +226,6 @@ if __name__ == "__main__":
                          debug = args.debug,
                           dist = dist,
                            eps = args.eps,
-                           fov = fov,
                          index = 3 * iResolution + 2,
                            lat = lat,
                            lon = lon,
@@ -242,8 +241,8 @@ if __name__ == "__main__":
             ax.set_title(f"\"add_GLOBE_and_GSHHG_tiles()\" at \"{gshhgRes}\" and \"{globeGrid}\" (\"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\")")
             pyguymer3.geo.add_GLOBE_and_GSHHG_tiles(
                 ax,
-                fov,
                          debug = args.debug,
+                           fov = fov,
                       gshhgRes = gshhgRes,
                  interpolation = "gaussian",
                        maxElev = maxElev,
@@ -282,8 +281,8 @@ if __name__ == "__main__":
             ax.set_title(f"\"add_GSHHG_tiles()\" at \"{gshhgRes}\" and \"{gshhgGrid}\" (\"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\")")
             pyguymer3.geo.add_GSHHG_tiles(
                 ax,
-                fov,
                          debug = args.debug,
+                           fov = fov,
                       gshhgRes = gshhgRes,
                  interpolation = "gaussian",
                 mergedTileName = f'{pName.removesuffix(".png")}_GSHHG_{gshhgRes}.png',

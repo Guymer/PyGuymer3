@@ -248,8 +248,8 @@ if __name__ == "__main__":
             ax.set_title(f"\"add_GLOBE_and_NE_tiles()\" at \"{neRes}\" and \"{globeGrid}\" (\"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\")")
             pyguymer3.geo.add_GLOBE_and_NE_tiles(
                 ax,
-                fov,
                          debug = args.debug,
+                           fov = fov,
                  interpolation = "gaussian",
                        maxElev = maxElev,
                 mergedTileName = f'{pName.removesuffix(".png")}_GLOBE+NE_{neRes}.png',
@@ -288,8 +288,8 @@ if __name__ == "__main__":
             ax.set_title(f"\"add_NE_tiles()\" at \"{neRes}\" and \"{neGrid}\" (\"regrid_shape = ({regrid_shape[0]:d},{regrid_shape[1]:d})\")")
             pyguymer3.geo.add_NE_tiles(
                 ax,
-                fov,
                          debug = args.debug,
+                           fov = fov,
                  interpolation = "gaussian",
                 mergedTileName = f'{pName.removesuffix(".png")}_NE_{neRes}.png',
                          neRes = neRes,
