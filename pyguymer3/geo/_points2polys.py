@@ -55,6 +55,9 @@ def _points2polys(
     .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
+    # Import standard modules ...
+    import copy
+
     # Import special modules ...
     try:
         import numpy
@@ -70,6 +73,7 @@ def _points2polys(
     from .check import check
     from .wrapLongitude import wrapLongitude
     from ..interpolate import interpolate
+    from .._consts import EARTH
 
     # **************************************************************************
 
@@ -353,33 +357,21 @@ def _points2polys(
 
     # Check if the two Polygons are holes in a larger Polygon ...
     if crossBothPoles:
-        # Make a correctly oriented Polygon of the planet ...
-        earth = shapely.geometry.polygon.orient(
-            shapely.geometry.polygon.Polygon(
-                shapely.geometry.polygon.LinearRing(
-                    [
-                        (-180.0,  90.0),
-                        (+180.0,  90.0),
-                        (+180.0, -90.0),
-                        (-180.0, -90.0),
-                        (-180.0,  90.0),
-                    ]
-                )
-            )
-        )
+        # Obtain a copy of a correctly oriented Polygon of the planet ...
+        planet = copy.copy(EARTH)
         if debug:
-            check(earth, prefix = prefix)
+            check(planet, prefix = prefix)
 
         # Loop over Polygons ...
         for poly in polys:
             # Subtract this Polygon from the planet ...
-            earth = earth.difference(poly)
+            planet = planet.difference(poly)
 
         # Clean up ...
         del polys
 
         # Return answer ...
-        return [earth]
+        return [planet]
 
     # Return answer ...
     return polys

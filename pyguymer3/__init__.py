@@ -16,7 +16,7 @@ References
 """
 
 # Import sub-functions ...
-from ._consts import CIRCUMFERENCE_OF_EARTH, EARTH_MOON_DISTANCE, MAXIMUM_VINCENTY, RADIUS_OF_EARTH, RESOLUTION_OF_EARTH
+from ._consts import CIRCUMFERENCE_OF_EARTH, EARTH, EARTH_MOON_DISTANCE, MAXIMUM_VINCENTY, RADIUS_OF_EARTH, RESOLUTION_OF_EARTH
 from .checkSudokuBoard import checkSudokuBoard
 from .convert_bytes_to_pretty_bytes import convert_bytes_to_pretty_bytes
 from .convert_pretty_bytes_to_bytes import convert_pretty_bytes_to_bytes

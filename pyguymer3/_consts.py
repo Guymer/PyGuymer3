@@ -3,7 +3,25 @@
 # Import standard modules ...
 import math
 
+# Import special modules ...
+try:
+    import shapely
+    import shapely.geometry
+except:
+    raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
+
 # Set constants ...
+EARTH = shapely.geometry.polygon.Polygon(
+    shapely.geometry.polygon.LinearRing(
+        [
+            (-180.0, +90.0),
+            (-180.0, -90.0),
+            (+180.0, -90.0),
+            (+180.0, +90.0),
+            (-180.0, +90.0),
+        ]
+    )
+)
 EARTH_MOON_DISTANCE = 385000000.0                                               # [m]
 RADIUS_OF_EARTH = 6371008.8                                                     # [m]
 
