@@ -295,9 +295,9 @@ if __name__ == "__main__":
         # Add GLOBE+GSHHG tiles ...
         pyguymer3.geo.add_GLOBE_and_GSHHG_tiles(
             ax,
-            fov,
                     debug = args.debug,
                   elevInt = args.elevInt,
+                      fov = fov,
                  gshhgRes = args.gshhgRes,
             interpolation = "gaussian",
                   maxElev = args.maxElev,

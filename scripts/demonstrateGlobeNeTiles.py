@@ -293,9 +293,9 @@ if __name__ == "__main__":
         # Add GLOBE+NE tiles ...
         pyguymer3.geo.add_GLOBE_and_NE_tiles(
             ax,
-            fov,
                     debug = args.debug,
                   elevInt = args.elevInt,
+                      fov = fov,
             interpolation = "gaussian",
                   maxElev = args.maxElev,
                     neRes = args.neRes,

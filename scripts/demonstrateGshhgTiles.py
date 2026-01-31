@@ -285,8 +285,8 @@ if __name__ == "__main__":
         # Add GSHHG tiles ...
         pyguymer3.geo.add_GSHHG_tiles(
             ax,
-            fov,
                     debug = args.debug,
+                      fov = fov,
                  gshhgRes = args.gshhgRes,
             interpolation = "gaussian",
              regrid_shape = (

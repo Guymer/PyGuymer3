@@ -276,8 +276,8 @@ if __name__ == "__main__":
         # Add GLOBE tiles ...
         pyguymer3.geo.add_GLOBE_tiles(
             ax,
-            fov,
                     debug = args.debug,
+                      fov = fov,
             interpolation = "gaussian",
                   maxElev = args.maxElev,
              regrid_shape = (
