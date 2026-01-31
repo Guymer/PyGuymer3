@@ -150,22 +150,9 @@ if __name__ == "__main__":
                  simp = -1.0,
                   tol = args.tol,
             )
+            pyguymer3.geo.check(fov)
         else:
-            print("  Defining planet Earth ...")
-            fov = shapely.geometry.polygon.orient(
-                shapely.geometry.polygon.Polygon(
-                    shapely.geometry.polygon.LinearRing(
-                        [
-                            (-180.0,  90.0),
-                            (+180.0,  90.0),
-                            (+180.0, -90.0),
-                            (-180.0, -90.0),
-                            (-180.0,  90.0),
-                        ]
-                    )
-                )
-            )
-        pyguymer3.geo.check(fov)
+            fov = None
 
         # Create figure ...
         fg = matplotlib.pyplot.figure(
