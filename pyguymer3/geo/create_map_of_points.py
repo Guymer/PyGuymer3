@@ -19,7 +19,6 @@ def create_map_of_points(
               extent = None,
            fillColor = (255.0 / 255.0,   0.0 / 255.0,   0.0 / 255.0),
                floor = False,
-                 fov = None,
         gifsiclePath = None,
           globeScale = "32km",
             gshhgRes = "i",
@@ -103,10 +102,6 @@ def create_map_of_points(
     floor : bool, optional
         When calculating the tile zoom level from the resolution of the figure
         convert the floating-point answer to an integer using ``math.floor()``.
-    fov : None or shapely.geometry.polygon.Polygon, optional
-        clip the plotted shapes to the provided field-of-view to work around
-        occaisional MatPlotLib or Cartopy plotting errors when shapes much
-        larger than the field-of-view are plotted
     gifsiclePath : None or str, optional
         the path to the "gifsicle" binary (if not provided then Python will attempt to
         find the binary itself)
@@ -273,6 +268,11 @@ def create_map_of_points(
         import numpy
     except:
         raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
+    try:
+        import shapely
+        import shapely.geometry
+    except:
+        raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
     from .add_axis import add_axis
@@ -286,10 +286,11 @@ def create_map_of_points(
     from .add_NE_map import add_NE_map
     from .add_NE_tiles import add_NE_tiles
     from .add_OSterrain_tiles import add_OSterrain_tiles
+    from .buffer import buffer
     from .extract_lines import extract_lines
     from .find_middle_of_locs import find_middle_of_locs
     from .great_circle import great_circle
-    from .._consts import CIRCUMFERENCE_OF_EARTH, RESOLUTION_OF_EARTH
+    from .._consts import CIRCUMFERENCE_OF_EARTH, EARTH, RESOLUTION_OF_EARTH
     from ..image import optimise_image
 
     # **************************************************************************
@@ -344,7 +345,7 @@ def create_map_of_points(
             configureAgain = bool(background == "OSM"),
                      debug = debug,
                        eps = eps,
-                       fov = fov,
+                       fov = EARTH,
                         gs = None,
                      index = None,
                      ncols = None,
@@ -413,6 +414,23 @@ def create_map_of_points(
             case _:
                 # Crash ...
                 raise ValueError(f"\"method\" is an unexpected value ({repr(method)})") from None
+
+        # Find the field-of-view ...
+        fov = buffer(
+            shapely.geometry.point.Point(midLon, midLat),
+            maxDist,
+                    debug = debug,
+                      eps = eps,
+                     fill = -1.0,
+                fillSpace = "EuclideanSpace",
+            keepInteriors = False,
+                     nAng = 361,
+                    nIter = nIter,
+                   prefix = prefix,
+                 ramLimit = ramLimit,
+                     simp = -1.0,
+                      tol = tol,
+        )
 
         # Create axis ...
         ax = add_axis(
