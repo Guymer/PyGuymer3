@@ -237,6 +237,7 @@ def create_map_of_points(
     """
 
     # Import standard modules ...
+    import copy
     import pathlib
 
     # Import special modules ...
@@ -337,6 +338,10 @@ def create_map_of_points(
     # Check if the points are so widely spread that the map has to have global
     # extent to show them all ...
     if maxDistQuick > 90.0:
+        # Create short-hands ...
+        fov = copy.copy(EARTH)
+        midLat = 0.0                                                            # [°]
+
         # Create axis ...
         ax = add_axis(
             fg,
@@ -345,7 +350,7 @@ def create_map_of_points(
             configureAgain = bool(background == "OSM"),
                      debug = debug,
                        eps = eps,
-                       fov = EARTH,
+                       fov = fov,
                         gs = None,
                      index = None,
                      ncols = None,
@@ -357,9 +362,6 @@ def create_map_of_points(
                     repair = repair,
                        tol = tol,
         )
-
-        # Create short-hand ...
-        midLat = 0.0                                                            # [°]
     else:
         # If the user asked for a Euclidean method then the padding distance
         # needs converting from metres in to degrees ...
