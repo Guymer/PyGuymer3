@@ -169,4 +169,5 @@ from .ll2mer import ll2mer
 from .max_dist import max_dist
 from .mer2ll import mer2ll
 from .min_dist import min_dist
+from .triangulateTriangle import triangulateTriangle
 from .wrapLongitude import wrapLongitude
