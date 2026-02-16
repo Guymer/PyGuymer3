@@ -73,6 +73,13 @@ if __name__ == "__main__":
            type = float,
     )
     parser.add_argument(
+        "--level",
+        default = 1,
+           dest = "level",
+           help = "the number of levels to split shapes into when calculating their area",
+           type = int,
+    )
+    parser.add_argument(
         "--nAng",
         default = 41,
            dest = "nAng",
@@ -153,6 +160,7 @@ if __name__ == "__main__":
                 ratios[iLat, iLon] = pyguymer3.geo.area(
                     buff,
                       eps = args.eps,
+                    level = args.level,
                     nIter = args.nIter,
                 ) / area
 
@@ -223,6 +231,7 @@ if __name__ == "__main__":
                 ratios[iLat, iLon] = pyguymer3.geo.area(
                     buff,
                       eps = args.eps,
+                    level = args.level,
                     nIter = args.nIter,
                 ) / area
 
