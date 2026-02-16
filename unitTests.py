@@ -226,7 +226,7 @@ class MyTestCase(unittest.TestCase):
         estimArea = pyguymer3.geo.area(
             buff,
               eps = self.eps,
-            level = 6,
+            level = 1,
             nIter = self.nIter,
         )                                                                       # [m²]
 
@@ -275,7 +275,7 @@ class MyTestCase(unittest.TestCase):
                 estimArea = pyguymer3.geo.area(
                     buff,
                       eps = self.eps,
-                    level = 6,
+                    level = 1,
                     nIter = self.nIter,
                 )                                                               # [m²]
 
@@ -334,7 +334,7 @@ class MyTestCase(unittest.TestCase):
         estimArea = pyguymer3.geo.area(
             buff,
               eps = self.eps,
-            level = 6,
+            level = 1,
             nIter = self.nIter,
         )                                                                       # [m²]
 
@@ -393,7 +393,7 @@ class MyTestCase(unittest.TestCase):
                 estimArea = pyguymer3.geo.area(
                     buff,
                       eps = self.eps,
-                    level = 6,
+                    level = 1,
                     nIter = self.nIter,
                 )                                                               # [m²]
 
