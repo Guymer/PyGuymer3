@@ -53,6 +53,7 @@ def area(
     # Import sub-functions ...
     from ._area import _area
     from .extract_polys import extract_polys
+    from .triangulateTriangle import triangulateTriangle
 
     # **************************************************************************
 
@@ -60,65 +61,125 @@ def area(
     tot = 0.0                                                                   # [m2]
 
     # Loop over the Polygons in the shape ...
-    for shapePart in extract_polys(shape, onlyValid = onlyValid, repair = repair):
+    for shapePart in extract_polys(
+        shape,
+        onlyValid = onlyValid,
+           repair = repair,
+    ):
         # Loop over the Polygons in the Voronoi diagram of the part of the shape ...
-        for voronoi in extract_polys(shapely.ops.voronoi_diagram(shapePart), onlyValid = onlyValid, repair = repair):
+        for voronoi in extract_polys(
+            shapely.ops.voronoi_diagram(shapePart),
+            onlyValid = onlyValid,
+               repair = repair,
+        ):
             # Loop over the parts of the Polygon in the Voronoi diagram of the
             # part of the shape which intersect the part of the shape ...
-            for voronoiPart in extract_polys(shapePart.intersection(voronoi), onlyValid = onlyValid, repair = repair):
+            for voronoiPart in extract_polys(
+                shapePart.intersection(voronoi),
+                onlyValid = onlyValid,
+                   repair = repair,
+            ):
                 # Loop over triangles within the Polygon ...
-                for triangle1 in extract_polys(shapely.ops.triangulate(voronoiPart), onlyValid = onlyValid, repair = repair):
+                for triangle1 in extract_polys(
+                    shapely.ops.triangulate(voronoiPart),
+                    onlyValid = onlyValid,
+                       repair = repair,
+                ):
                     # Check if the user wants this level of refinement ...
                     if level == 1:
                         # Increment the total and move on to the next one ...
-                        tot += _area(triangle1, eps = eps, nIter = nIter)       # [m2]
+                        tot += _area(
+                            triangle1,
+                              eps = eps,
+                            nIter = nIter,
+                        )                                                       # [m2]
                         continue
 
                     # Loop over triangles within the triangle ...
-                    for triangle2 in extract_polys(shapely.ops.triangulate(triangle1), onlyValid = onlyValid, repair = repair):
+                    for triangle2 in extract_polys(
+                        triangulateTriangle(triangle1),
+                        onlyValid = onlyValid,
+                           repair = repair,
+                    ):
                         # Check if the user wants this level of refinement ...
                         if level == 2:
                             # Increment the total and move on to the next one ...
-                            tot += _area(triangle2, eps = eps, nIter = nIter)   # [m2]
+                            tot += _area(
+                                triangle2,
+                                  eps = eps,
+                                nIter = nIter,
+                            )                                                   # [m2]
                             continue
 
                         # Loop over triangles within the triangle ...
-                        for triangle3 in extract_polys(shapely.ops.triangulate(triangle2), onlyValid = onlyValid, repair = repair):
+                        for triangle3 in extract_polys(
+                            triangulateTriangle(triangle2),
+                            onlyValid = onlyValid,
+                               repair = repair,
+                        ):
                             # Check if the user wants this level of refinement ...
                             if level == 3:
                                 # Increment the total and move on to the next
                                 # one ...
-                                tot += _area(triangle3, eps = eps, nIter = nIter)   # [m2]
+                                tot += _area(
+                                    triangle3,
+                                      eps = eps,
+                                    nIter = nIter,
+                                )                                               # [m2]
                                 continue
 
                             # Loop over triangles within the triangle ...
-                            for triangle4 in extract_polys(shapely.ops.triangulate(triangle3), onlyValid = onlyValid, repair = repair):
+                            for triangle4 in extract_polys(
+                                triangulateTriangle(triangle3),
+                                onlyValid = onlyValid,
+                                   repair = repair,
+                            ):
                                 # Check if the user wants this level of
                                 # refinement ...
                                 if level == 4:
                                     # Increment the total and move on to the
                                     # next one ...
-                                    tot += _area(triangle4, eps = eps, nIter = nIter)   # [m2]
+                                    tot += _area(
+                                        triangle4,
+                                          eps = eps,
+                                        nIter = nIter,
+                                    )                                           # [m2]
                                     continue
 
                                 # Loop over triangles within the triangle ...
-                                for triangle5 in extract_polys(shapely.ops.triangulate(triangle4), onlyValid = onlyValid, repair = repair):
+                                for triangle5 in extract_polys(
+                                    triangulateTriangle(triangle4),
+                                    onlyValid = onlyValid,
+                                       repair = repair,
+                                ):
                                     # Check if the user wants this level of
                                     # refinement ...
                                     if level == 5:
                                         # Increment the total and move on to the
                                         # next one ...
-                                        tot += _area(triangle5, eps = eps, nIter = nIter)   # [m2]
+                                        tot += _area(
+                                            triangle5,
+                                              eps = eps,
+                                            nIter = nIter,
+                                        )                                       # [m2]
                                         continue
 
                                     # Loop over triangles within the triangle ...
-                                    for triangle6 in extract_polys(shapely.ops.triangulate(triangle5), onlyValid = onlyValid, repair = repair):
+                                    for triangle6 in extract_polys(
+                                        triangulateTriangle(triangle5),
+                                        onlyValid = onlyValid,
+                                           repair = repair,
+                                    ):
                                         # Check if the user wants this level of
                                         # refinement ...
                                         if level == 6:
                                             # Increment the total and move on to
                                             # the next one ...
-                                            tot += _area(triangle6, eps = eps, nIter = nIter)   # [m2]
+                                            tot += _area(
+                                                triangle6,
+                                                  eps = eps,
+                                                nIter = nIter,
+                                            )                                   # [m2]
                                             continue
 
                                         # Cry ...
