@@ -164,6 +164,7 @@ from .find_min_max_dist_bearing import find_min_max_dist_bearing
 from .find_point_on_great_circle import find_point_on_great_circle
 from .getRecordAttribute import getRecordAttribute
 from .great_circle import great_circle
+from .length import length
 from .ll2en import ll2en
 from .ll2mer import ll2mer
 from .max_dist import max_dist
