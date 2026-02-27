@@ -165,8 +165,12 @@ def buffer_CoordinateSequence(
         # Convert the CoordinateSequence to a NumPy array ...
         points1 = numpy.array(coords)                                           # [°]
 
-    # Create short-hand ...
-    npoint = int(points1.shape[0])                                              # [#]
+    # Clean up ..
+    del coords
+
+    # Create short-hand and check the size of the arrays to come ...
+    nPoint = int(points1.shape[0])                                              # [#]
+    assert nPoint * nAng * 2 * 8 <= ramLimit, f"\"points2\" is going to be {nPoint * nAng * 2 * 8:,d} bytes, which is larger than {ramLimit:,d} bytes"
 
     # **************************************************************************
     # Step 2: Buffer the NumPy array of the original points to get a NumPy     #
@@ -199,11 +203,11 @@ def buffer_CoordinateSequence(
     buffs = []
 
     # Loop over points ...
-    for ipoint in range(npoint):
+    for iPoint in range(nPoint):
         # Add list of Polygons to list of Polygons ...
         buffs += _points2polys(
-            points1[ipoint, :],
-            points2[ipoint, :, :],
+            points1[iPoint, :],
+            points2[iPoint, :, :],
              debug = debug,
               huge = bool(dist > 0.25 * CIRCUMFERENCE_OF_EARTH),
             prefix = prefix,
