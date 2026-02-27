@@ -4,6 +4,8 @@
 def triangulateTriangle(
     triangle,
     /,
+    *,
+    splitSpace = "EuclideanSpace",
 ):
     """Split a triangle up in to four triangles.
 
@@ -16,6 +18,9 @@ def triangulateTriangle(
     -------
     triangles : list of shapely.geometry.polygon.Polygon
         the four triangles
+    splitSpace : str, optional
+        the geometric space to perform the splitting in (either "EuclideanSpace"
+        or "GeodesicSpace")
 
     Notes
     -----
@@ -32,6 +37,9 @@ def triangulateTriangle(
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
+    # Import sub-functions ...
+    from .find_middle_of_great_circle import find_middle_of_great_circle
+
     # **************************************************************************
 
     # Check input ...
@@ -44,19 +52,45 @@ def triangulateTriangle(
     b = triangle.exterior.coords[1]
     c = triangle.exterior.coords[2]
 
-    # Calculate middles ...
-    ab = (
-        0.5 * (a[0] + b[0]),
-        0.5 * (a[1] + b[1]),
-    )
-    ac = (
-        0.5 * (a[0] + c[0]),
-        0.5 * (a[1] + c[1]),
-    )
-    bc = (
-        0.5 * (b[0] + c[0]),
-        0.5 * (b[1] + c[1]),
-    )
+    # Check what space the user wants to split in ...
+    match splitSpace:
+        case "EuclideanSpace":
+            # Calculate middles ...
+            ab = (
+                0.5 * (a[0] + b[0]),
+                0.5 * (a[1] + b[1]),
+            )
+            ac = (
+                0.5 * (a[0] + c[0]),
+                0.5 * (a[1] + c[1]),
+            )
+            bc = (
+                0.5 * (b[0] + c[0]),
+                0.5 * (b[1] + c[1]),
+            )
+        case "GeodesicSpace":
+            # Calculate middles ...
+            ab = find_middle_of_great_circle(
+                    a[0],
+                    a[1],
+                    b[0],
+                    b[1],
+                )
+            ac = find_middle_of_great_circle(
+                    a[0],
+                    a[1],
+                    c[0],
+                    c[1],
+                )
+            bc = find_middle_of_great_circle(
+                    b[0],
+                    b[1],
+                    c[0],
+                    c[1],
+                )
+        case _:
+            # Crash ...
+            raise ValueError(f"\"splitSpace\" is an unexpected value ({repr(splitSpace)})") from None
 
     # Return answer ...
     return [

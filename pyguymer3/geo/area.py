@@ -5,11 +5,12 @@ def area(
     shape,
     /,
     *,
-          eps = 1.0e-12,
-        level = 1,
-        nIter = 100,
-    onlyValid = False,
-       repair = False,
+           eps = 1.0e-12,
+         level = 1,
+         nIter = 100,
+     onlyValid = False,
+        repair = False,
+    splitSpace = "EuclideanSpace",
 ):
     """Find the area of a shape.
 
@@ -28,6 +29,9 @@ def area(
         being called often)
     repair : bool, optional
         attempt to repair invalid Polygons
+    splitSpace : str, optional
+        the geometric space to perform the splitting in (either "EuclideanSpace"
+        or "GeodesicSpace")
 
     Returns
     -------
@@ -97,7 +101,10 @@ def area(
 
                     # Loop over triangles within the triangle ...
                     for triangle2 in extract_polys(
-                        triangulateTriangle(triangle1),
+                        triangulateTriangle(
+                            triangle1,
+                            splitSpace = splitSpace,
+                        ),
                         onlyValid = onlyValid,
                            repair = repair,
                     ):
@@ -113,7 +120,10 @@ def area(
 
                         # Loop over triangles within the triangle ...
                         for triangle3 in extract_polys(
-                            triangulateTriangle(triangle2),
+                            triangulateTriangle(
+                                triangle2,
+                                splitSpace = splitSpace,
+                            ),
                             onlyValid = onlyValid,
                                repair = repair,
                         ):
@@ -130,7 +140,10 @@ def area(
 
                             # Loop over triangles within the triangle ...
                             for triangle4 in extract_polys(
-                                triangulateTriangle(triangle3),
+                                triangulateTriangle(
+                                    triangle3,
+                                    splitSpace = splitSpace,
+                                ),
                                 onlyValid = onlyValid,
                                    repair = repair,
                             ):
@@ -148,7 +161,10 @@ def area(
 
                                 # Loop over triangles within the triangle ...
                                 for triangle5 in extract_polys(
-                                    triangulateTriangle(triangle4),
+                                    triangulateTriangle(
+                                        triangle4,
+                                        splitSpace = splitSpace,
+                                    ),
                                     onlyValid = onlyValid,
                                        repair = repair,
                                 ):
@@ -166,7 +182,10 @@ def area(
 
                                     # Loop over triangles within the triangle ...
                                     for triangle6 in extract_polys(
-                                        triangulateTriangle(triangle5),
+                                        triangulateTriangle(
+                                            triangle5,
+                                            splitSpace = splitSpace,
+                                        ),
                                         onlyValid = onlyValid,
                                            repair = repair,
                                     ):
