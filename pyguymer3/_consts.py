@@ -27,7 +27,9 @@ RADIUS_OF_EARTH = 6371008.8                                                     
 
 # Set derived constants ...
 CIRCUMFERENCE_OF_EARTH = 2.0 * math.pi * RADIUS_OF_EARTH                        # [m]
+DIAMETER_OF_EARTH = 2.0 * RADIUS_OF_EARTH                                       # [m]
 RESOLUTION_OF_EARTH = CIRCUMFERENCE_OF_EARTH / 360.0                            # [m/°]
+SURFACE_AREA_OF_EARTH = math.pi * pow(RADIUS_OF_EARTH, 2)                       # [m]
 
 # Set limits ...
 # NOTE: Running "python3.12 scripts/plotLimitOfVincenty.py --degree-interval 1"
