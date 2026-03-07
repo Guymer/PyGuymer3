@@ -20,7 +20,7 @@ if __name__ == "__main__":
                          "figure.dpi" : 300,
                      "figure.figsize" : (9.6, 7.2),                             # NOTE: See https://github.com/Guymer/misc/blob/main/README.md#matplotlib-figure-sizes
                           "font.size" : 8,
-                "image.interpolation" : "none",
+                "image.interpolation" : "none",                                 # NOTE: See https://matplotlib.org/stable/gallery/images_contours_and_fields/interpolation_methods.html
                      "image.resample" : False,
             }
         )
