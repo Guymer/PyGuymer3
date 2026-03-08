@@ -51,6 +51,7 @@ docs/test_mapNeUnderlay.rst
 docs/test_saveArrayAsImage.rst
 docs/testing.rst
 docs/todo.rst
+git-files.txt
 LICENCE.txt
 Makefile
 MANIFEST.in
