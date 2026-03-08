@@ -4,6 +4,7 @@
 # NOTE: See https://docs.python.org/3.12/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
 if __name__ == "__main__":
     # Import standard modules ...
+    import argparse
     import os
 
     # Import special modules ...
@@ -44,38 +45,59 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
+    # Create argument parser and parse the arguments ...
+    parser = argparse.ArgumentParser(
+           allow_abbrev = False,
+            description = "Demonstrate a bug when buffering by huge distances.",
+        formatter_class = argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument(
+        "--debug",
+        action = "store_true",
+          help = "print debug messages",
+    )
+    parser.add_argument(
+        "--eps",
+        default = 1.0e-12,
+           dest = "eps",
+           help = "the tolerance of the Vincenty formula iterations",
+           type = float,
+    )
+    parser.add_argument(
+        "--nIter",
+        default = 1000000,
+           dest = "nIter",
+           help = "the maximum number of iterations (particularly the Vincenty formula)",
+           type = int,
+    )
+    parser.add_argument(
+        "--timeout",
+        default = 60.0,
+           help = "the timeout for any requests/subprocess calls (in seconds)",
+           type = float,
+    )
+    parser.add_argument(
+        "--tolerance",
+        default = 1.0e-10,
+           dest = "tol",
+           help = "the Euclidean distance that defines two points as being the same (in degrees)",
+           type = float,
+    )
+    args = parser.parse_args()
+
+    # **************************************************************************
+
     # Define starting location ...
     lon = 0.0                                                                   # [°]
     lat = 0.0                                                                   # [°]
 
     # Configure functions ...
-    debug = False
     fill = -1.0                                                                 # [°]
     fillSpace = "EuclideanSpace"
     simp = -1.0                                                                 # [°]
 
     # Create point ...
-    point = shapely.geometry.point.Point(lon, lat)
-
-    # **************************************************************************
-
-    # for dist in [
-    #     9984,                           # good
-    #     9985,                           # good
-    #     9986,                           # bad
-    #     9987,                           # bad
-    # ]:
-    #     buff = pyguymer3.geo.buffer(
-    #         point,
-    #         float(1000 * dist),
-    #             debug = True,
-    #              fill = fill,
-    #         fillSpace = fillSpace,
-    #              nAng = 9,
-    #              simp = simp,
-    #     )
-    #     print(dist, buff.area)
-    # exit()
+    pnt = shapely.geometry.point.Point(lon, lat)
 
     # **************************************************************************
 
@@ -116,13 +138,16 @@ if __name__ == "__main__":
 
                     # Buffer Point and append values to list ...
                     buff = pyguymer3.geo.buffer(
-                        point,
+                        pnt,
                         float(1000 * dist),
-                            debug = debug,
+                            debug = args.debug,
+                              eps = args.eps,
                              fill = fill,
                         fillSpace = fillSpace,
                              nAng = nAng,
+                            nIter = args.nIter,
                              simp = simp,
+                              tol = args.tol,
                     )
 
                     # Write data ...
@@ -163,6 +188,7 @@ if __name__ == "__main__":
     # Optimise PNG ...
     pyguymer3.image.optimise_image(
         pName,
-        debug = debug,
-        strip = True,
+          debug = args.debug,
+          strip = True,
+        timeout = args.timeout,
     )
