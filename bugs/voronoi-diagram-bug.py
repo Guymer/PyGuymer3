@@ -105,6 +105,9 @@ if __name__ == "__main__":
     # Create point ...
     pnt = shapely.geometry.point.Point(lon, lat)
 
+    # Define buffering distance ...
+    dist = 1000.0                                                               # [m]
+
     # **************************************************************************
 
     # Buffer Point ...
