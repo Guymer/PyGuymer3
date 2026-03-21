@@ -59,7 +59,7 @@ if __name__ == "__main__":
     # Create argument parser and parse the arguments ...
     parser = argparse.ArgumentParser(
            allow_abbrev = False,
-            description = "foobar",
+            description = "Demonstrate another bug in \"shapely.ops.voronoi_diagram\".",
         formatter_class = argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
