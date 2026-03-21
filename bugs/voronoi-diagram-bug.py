@@ -5,6 +5,7 @@
 if __name__ == "__main__":
     # Import standard modules ...
     import argparse
+    import math
     import os
     import shutil
 
@@ -33,6 +34,7 @@ if __name__ == "__main__":
     try:
         import shapely
         import shapely.geometry
+        import shapely.ops
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
@@ -44,12 +46,14 @@ if __name__ == "__main__":
     except:
         raise Exception("\"pyguymer3\" is not installed; run \"pip install --user PyGuymer3\"") from None
 
+    print(f"Testing \"{pyguymer3.__path__[0]}\" ...")
+
     # **************************************************************************
 
     # Create argument parser and parse the arguments ...
     parser = argparse.ArgumentParser(
            allow_abbrev = False,
-            description = "Demonstrate a bug when buffering by huge distances.",
+            description = "Demonstrate a bug in \"shapely.ops.voronoi_diagram\".",
         formatter_class = argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
@@ -90,6 +94,13 @@ if __name__ == "__main__":
            dest = "jpegtranPath",
            help = "the path to the \"jpegtran\" binary",
            type = str,
+    )
+    parser.add_argument(
+        "--nAng",
+        default = 41,
+           dest = "nAng",
+           help = "the number of angles around each circle",
+           type = int,
     )
     parser.add_argument(
         "--nIter",
@@ -133,93 +144,80 @@ if __name__ == "__main__":
     lon = 0.0                                                                   # [°]
     lat = 0.0                                                                   # [°]
 
-    # Configure functions ...
-    fill = -1.0                                                                 # [°]
-    fillSpace = "EuclideanSpace"
-    simp = -1.0                                                                 # [°]
-
     # Create point ...
     pnt = shapely.geometry.point.Point(lon, lat)
 
+    # Define buffering distance ...
+    dist = 1000.0                                                               # [m]
+
     # **************************************************************************
+
+    # Buffer Point ...
+    buff = pyguymer3.geo.buffer(
+        pnt,
+        dist,
+           debug = args.debug,
+             eps = args.eps,
+            fill = -1.0,
+            nAng = args.nAng,
+           nIter = args.nIter,
+        ramLimit = args.ramLimit,
+            simp = -1.0,
+             tol = args.tol,
+    )
 
     # Create short-hand ...
     pName = f'{__file__.removesuffix(".py")}.png'
 
-    # Create figure ...
-    fg = matplotlib.pyplot.figure()
+    # Create figure and axes ...
+    fg = matplotlib.pyplot.figure(figsize = (2 * 7.2, 2 * 7.2))
+    ax = fg.subplots(7, 7).flatten()
 
-    # Create axis ...
-    ax = fg.add_subplot()
+    # Make the Voronoi diagram ...
+    voro = shapely.ops.voronoi_diagram(buff)
 
-    # Loop over number of angles ...
-    for i in range(3, 16):
-        # Create short-hands ...
-        nAng = pow(2, i) + 1                                                    # [#]
-        cName = f'{__file__.removesuffix(".py")}_nAng={nAng:d}.csv'
+    # Loop over Polygons in the Voronoi diagram ...
+    for iVoroPoly, voroPoly in enumerate(
+        pyguymer3.geo.extract_polys(
+            voro,
+            onlyValid = True,
+               repair = False,
+        )
+    ):
+        print(f"iVoroPoly = {iVoroPoly:2d} :: voroPoly area = {voroPoly.area:8.6f}°²")
 
-        print(f"Processing {nAng:,d} angles ...")
-
-        # **********************************************************************
-
-        # Check if the CSV is missing ...
-        if not os.path.exists(cName):
-            print(f"  Making \"{cName}\" ...")
-
-            # Open CSV ...
-            with open(cName, "wt", encoding = "utf-8") as fObj:
-                # Write header ...
-                fObj.write("buffer distance [km],buffer Euclidean area [°2]\n")
-
-                # Loop over distances ...
-                for dist in range(9986 - 10, 10001 + 11, 1):
-                    # Create short-hand ...
-                    huge = bool(float(1000 * dist) > 0.25 * pyguymer3.CIRCUMFERENCE_OF_EARTH)
-
-                    print(f"    Processing {dist:,d} km ({huge}) ...")
-
-                    # Buffer Point and append values to list ...
-                    buff = pyguymer3.geo.buffer(
-                        pnt,
-                        float(1000 * dist),
-                            debug = args.debug,
-                              eps = args.eps,
-                             fill = fill,
-                        fillSpace = fillSpace,
-                             nAng = nAng,
-                            nIter = args.nIter,
-                         ramLimit = args.ramLimit,
-                             simp = simp,
-                              tol = args.tol,
-                    )
-
-                    # Write data ...
-                    fObj.write(f"{dist:d},{buff.area:.15e}\n")
-
-        # **********************************************************************
-
-        print(f"  Loading \"{cName}\" ...")
-
-        # Load data ...
-        dists, areas = numpy.loadtxt(
-            cName,
-            delimiter = ",",
-             skiprows = 1,
-               unpack = True,
-        )                                                                       # [km], [°2]
-
-        # Plot data ...
-        ax.plot(
-            dists,
-            areas,
-            label = f"{nAng:,d} angles",
+        # Plot the current Polygon in the buffer of the Point ...
+        coords = numpy.array(buff.exterior.coords)                              # [°]
+        ax[iVoroPoly].plot(
+            coords[:, 0],
+            coords[:, 1],
+            color = "C0",
         )
 
-    # Configure axis ...
-    ax.grid()
-    ax.legend(loc = "upper left")
-    ax.set_xlabel("Buffer Distance [km]")
-    ax.set_ylabel("Buffer Area [°2]")
+        # Plot the current Polygon in the Voronoi diagram ...
+        coords = numpy.array(voroPoly.exterior.coords)                          # [°]
+        ax[iVoroPoly].plot(
+            coords[:, 0],
+            coords[:, 1],
+            color = "C1",
+        )
+
+        # Configure axis ...
+        ax[iVoroPoly].grid()
+        ax[iVoroPoly].set_aspect("equal")
+        ax[iVoroPoly].set_title(f"iVoroPoly = {iVoroPoly:d}")
+        ax[iVoroPoly].set_xlabel("Longitude [°]")
+        ax[iVoroPoly].set_xlim(-0.03, +0.03)
+        ax[iVoroPoly].set_xticks(
+            [-0.03, -0.02, -0.01, 0.0, +0.01, +0.02, +0.03],
+            labels = ["-0.03", "", "", "0.0", "", "", "+0.03"],
+        )
+        ax[iVoroPoly].set_ylabel("Latitude [°]")
+        ax[iVoroPoly].set_ylim(-0.03, +0.03)
+        ax[iVoroPoly].set_yticks(
+            [-0.03, -0.02, -0.01, 0.0, +0.01, +0.02, +0.03],
+            labels = ["-0.03", "", "", "0.0", "", "", "+0.03"],
+        )
 
     # Configure figure ...
     fg.tight_layout()
