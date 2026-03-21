@@ -98,7 +98,7 @@ def tar(
                     "--no-xattrs",
                 ]
             case _:
-                raise ValueError(f"unknown platform \"{_}\"") from None
+                raise ValueError(f"unknown platform \"{platform.system()}\"") from None
 
         # Make archive ...
         subprocess.run(
