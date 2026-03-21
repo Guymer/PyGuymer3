@@ -44,6 +44,7 @@ def tar(
     """
 
     # Import standard modules ...
+    import platform
     import shutil
     import subprocess
     import tempfile
@@ -71,18 +72,37 @@ def tar(
             for fname in fnames:
                 fObj.write(f"{fname}\n")
 
+        # Initialize command ...
+        cmd = [
+            tarPath,
+            "--create",
+            "--file", tarName,
+            "--files-from", tmpName,
+            "--format", "pax",
+        ]
+
+        # Find out what platform we are on ...
+        match platform.system():
+            case "Darwin" | "FreeBSD":
+                # Update command with platform-specific arguments ...
+                cmd += [
+                    "--no-acls",
+                    "--no-fflags",
+                    "--no-xattrs",
+                ]
+            case "Linux":
+                # Update command with platform-specific arguments ...
+                cmd += [
+                    "--no-acls",
+                    "--no-selinux",
+                    "--no-xattrs",
+                ]
+            case _:
+                raise ValueError(f"unknown platform \"{_}\"") from None
+
         # Make archive ...
         subprocess.run(
-            [
-                tarPath,
-                "--create",
-                "--file", tarName,
-                "--files-from", tmpName,
-                "--format", "pax",
-                "--no-acls",
-                "--no-fflags",
-                "--no-xattrs",
-            ],
+            cmd,
                check = True,
                  cwd = cwd,
             encoding = "utf-8",
