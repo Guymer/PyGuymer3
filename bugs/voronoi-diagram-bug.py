@@ -7,6 +7,7 @@ if __name__ == "__main__":
     import argparse
     import math
     import os
+    import shutil
 
     # Import special modules ...
     try:
