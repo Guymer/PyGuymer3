@@ -56,6 +56,12 @@ if __name__ == "__main__":
         formatter_class = argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
+        "--chunksize",
+        default = 1048576,
+           help = "the size of the chunks of any files which are read in (in bytes)",
+           type = int,
+    )
+    parser.add_argument(
         "--debug",
         action = "store_true",
           help = "print debug messages",
@@ -66,6 +72,27 @@ if __name__ == "__main__":
            dest = "eps",
            help = "the tolerance of the Vincenty formula iterations",
            type = float,
+    )
+    parser.add_argument(
+        "--exiftool-path",
+        default = shutil.which("exiftool"),
+           dest = "exiftoolPath",
+           help = "the path to the \"exiftool\" binary",
+           type = str,
+    )
+    parser.add_argument(
+        "--gifsicle-path",
+        default = shutil.which("gifsicle"),
+           dest = "gifsiclePath",
+           help = "the path to the \"gifsicle\" binary",
+           type = str,
+    )
+    parser.add_argument(
+        "--jpegtran-path",
+        default = shutil.which("jpegtran"),
+           dest = "jpegtranPath",
+           help = "the path to the \"jpegtran\" binary",
+           type = str,
     )
     parser.add_argument(
         "--nAng",
@@ -79,6 +106,20 @@ if __name__ == "__main__":
         default = 1000000,
            dest = "nIter",
            help = "the maximum number of iterations (particularly the Vincenty formula)",
+           type = int,
+    )
+    parser.add_argument(
+        "--optipng-path",
+        default = shutil.which("optipng"),
+           dest = "optipngPath",
+           help = "the path to the \"optipng\" binary",
+           type = str,
+    )
+    parser.add_argument(
+        "--RAM-limit",
+        default = 1073741824,
+           dest = "ramLimit",
+           help = "the maximum RAM usage of each \"large\" array (in bytes)",
            type = int,
     )
     parser.add_argument(
@@ -114,13 +155,14 @@ if __name__ == "__main__":
     buff = pyguymer3.geo.buffer(
         pnt,
         dist,
-        debug = args.debug,
-          eps = args.eps,
-         fill = -1.0,
-         nAng = args.nAng,
-        nIter = args.nIter,
-         simp = -1.0,
-          tol = args.tol,
+           debug = args.debug,
+             eps = args.eps,
+            fill = -1.0,
+            nAng = args.nAng,
+           nIter = args.nIter,
+        ramLimit = args.ramLimit,
+            simp = -1.0,
+             tol = args.tol,
     )
 
     # Create short-hand ...
@@ -134,7 +176,13 @@ if __name__ == "__main__":
     voro = shapely.ops.voronoi_diagram(buff)
 
     # Loop over Polygons in the Voronoi diagram ...
-    for iVoroPoly, voroPoly in enumerate(pyguymer3.geo.extract_polys(voro)):
+    for iVoroPoly, voroPoly in enumerate(
+        pyguymer3.geo.extract_polys(
+            voro,
+            onlyValid = True,
+               repair = False,
+        )
+    ):
         print(f"iVoroPoly = {iVoroPoly:2d} :: voroPoly area = {voroPoly.area:8.6f}°²")
 
         # Plot the current Polygon in the buffer of the Point ...
@@ -180,7 +228,12 @@ if __name__ == "__main__":
     # Optimise PNG ...
     pyguymer3.image.optimise_image(
         pName,
-          debug = args.debug,
-          strip = True,
-        timeout = args.timeout,
+           chunksize = args.chunksize,
+               debug = args.debug,
+        exiftoolPath = args.exiftoolPath,
+        gifsiclePath = args.gifsiclePath,
+        jpegtranPath = args.jpegtranPath,
+         optipngPath = args.optipngPath,
+               strip = True,
+             timeout = args.timeout,
     )
