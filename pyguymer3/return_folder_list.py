@@ -68,12 +68,12 @@ def return_folder_list(
                     # Test if this part is hidden and print the full path for
                     # identification ...
                     if not allowHidden and entry.name.startswith("."):
-                        print(f"WARNING: \"{entry.path}\" is hidden")
+                        print(f"DEBUG: \"{entry.path}\" is hidden")
 
                     # Test if this part is illegal and print the full path for
                     # identification ...
                     if not entry.name.startswith(".") and entry.name != make_path_safe(entry.name, allowHidden = allowHidden, ensureNFC = ensureNFC):
-                        print(f"WARNING: \"{entry.path}\" is illegal")
+                        print(f"DEBUG: \"{entry.path}\" is illegal")
 
                 # Check if it might need following ...
                 if recursive and entry.is_dir(follow_symlinks = follow_symlinks):
@@ -94,14 +94,14 @@ def return_folder_list(
                                   recursive = recursive,
                         )
                     elif debug:
-                        print(f"WARNING: \"{entry.path}\" cannot be listed")
+                        print(f"DEBUG: \"{entry.path}\" cannot be listed")
 
                 # Check if it should be added to the list ...
                 if entry.is_dir(follow_symlinks = return_symlinks):
                     # Add to the list ...
                     contents.append(entry.path)
     elif debug:
-        print(f"WARNING: \"{path}\" does not exist")
+        print(f"DEBUG: \"{path}\" does not exist")
 
     # Return sorted list ...
     return sorted(contents)
