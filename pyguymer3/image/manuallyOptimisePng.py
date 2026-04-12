@@ -86,10 +86,10 @@ def manuallyOptimisePng(
     with PIL.Image.open(pName) as iObj:
         match iObj.mode:
             case "L":
-                arrUint8 = numpy.array(iObj).reshape((iObj.size[1], iObj.size[0], 1))
+                arrUint8 = numpy.array(iObj).reshape((iObj.height, iObj.width, 1))
                 palUint8 = None
             case "P":
-                arrUint8 = numpy.array(iObj).reshape((iObj.size[1], iObj.size[0], 1))
+                arrUint8 = numpy.array(iObj).reshape((iObj.height, iObj.width, 1))
                 palUint8 = numpy.frombuffer(iObj.palette.tobytes(), dtype = numpy.uint8)
                 palUint8 = palUint8.reshape((palUint8.size // 3, 3))
             case "RGB":
