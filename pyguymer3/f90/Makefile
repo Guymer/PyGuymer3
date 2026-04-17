@@ -27,7 +27,7 @@ RM      := $(shell which rm             2> /dev/null || echo "ERROR")
 ifeq ($(COVERAGE), true)
 	LANG_OPTS += -g -O0 -fprofile-abs-path --coverage
 else ifeq ($(DEBUG), true)
-	LANG_OPTS += -g -fcheck=all
+	LANG_OPTS += -g -O0 -fcheck=all
 else
 	LANG_OPTS += -O2
 endif
