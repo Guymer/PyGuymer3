@@ -31,7 +31,7 @@ def image2webp(
     lossless : bool, optional
         save a lossless WEBP (default False)
     maxImagePixels : int, optional
-        The maximum number of pixels in an image, to prevent decompression bombs.
+        the maximum number of pixels in an image, to prevent decompression bombs
     method : int, optional
         the method to use when saving the WEBP (default 6)
     mode : str, optional

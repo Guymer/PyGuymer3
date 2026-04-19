@@ -45,7 +45,7 @@ def image2gif(
         the path to the "jpegtran" binary (if not provided then Python will attempt to
         find the binary itself)
     maxImagePixels : int, optional
-        The maximum number of pixels in an image, to prevent decompression bombs.
+        the maximum number of pixels in an image, to prevent decompression bombs
     mode : str, optional
         the mode of the outout GIF (default "RGB")
     optimise : bool, optional

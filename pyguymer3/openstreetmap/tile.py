@@ -58,7 +58,7 @@ def tile(
         the path to the "jpegtran" binary (if not provided then Python will
         attempt to find the binary itself)
     maxImagePixels : int, optional
-        The maximum number of pixels in an image, to prevent decompression bombs.
+        the maximum number of pixels in an image, to prevent decompression bombs
     optipngPath : None or str, optional
         the path to the "optipng" binary (if not provided then Python will
         attempt to find the binary itself)

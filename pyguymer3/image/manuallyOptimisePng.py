@@ -43,7 +43,7 @@ def manuallyOptimisePng(
     dpi : None or float or int, optional
         See :py:func:`pyguymer3.image.makePng` for the documentation.
     maxImagePixels : int, optional
-        The maximum number of pixels in an image, to prevent decompression bombs.
+        the maximum number of pixels in an image, to prevent decompression bombs
     modTime : None or datetime.datetime, optional
         See :py:func:`pyguymer3.image.makePng` for the documentation.
 

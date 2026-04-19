@@ -53,7 +53,7 @@ def add_GSHHG_tiles(
         The path to the "jpegtran" binary (if not provided then Python will
         attempt to find the binary itself).
     maxImagePixels : int, optional
-        The maximum number of pixels in an image, to prevent decompression bombs.
+        the maximum number of pixels in an image, to prevent decompression bombs
     mergedTileName : None or str, optional
         If provided, then save the merged tile to this file.
     optipngPath : None or str, optional

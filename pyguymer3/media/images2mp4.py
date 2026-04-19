@@ -58,7 +58,7 @@ def images2mp4(
         the level to be passed to libx264, default "ERROR" (which means choose
         one using the function :func:`return_x264_level`)
     maxImagePixels : int, optional
-        The maximum number of pixels in an image, to prevent decompression bombs.
+        the maximum number of pixels in an image, to prevent decompression bombs
     mp4filePath : None or str, optional
         the path to the "mp4file" binary (if not provided then Python will
         attempt to find the binary itself)

@@ -18,7 +18,7 @@ def dict2exif(
     exif : dict
         the dictionary
     maxImagePixels : int, optional
-        The maximum number of pixels in an image, to prevent decompression bombs.
+        the maximum number of pixels in an image, to prevent decompression bombs
     mode : str, optional
         the mode of the temporary image that is created to initialize the EXIF class
 

@@ -23,7 +23,7 @@ def drawPolygonsWithHoles(
     color : int or tuple of int
         the fill colour of the polygons
     maxImagePixels : int, optional
-        The maximum number of pixels in an image, to prevent decompression bombs.
+        the maximum number of pixels in an image, to prevent decompression bombs
 
     Notes
     -----

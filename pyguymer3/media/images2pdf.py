@@ -35,7 +35,7 @@ def images2pdf(
     keywords : str, optional
         The keywords field in the output PDF metadata
     maxImagePixels : int, optional
-        The maximum number of pixels in an image, to prevent decompression bombs.
+        the maximum number of pixels in an image, to prevent decompression bombs
     mode : str, optional
         the mode of the JPGs in the outout PDF
     optimise : bool, optional

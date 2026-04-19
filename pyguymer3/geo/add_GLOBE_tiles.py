@@ -53,7 +53,7 @@ def add_GLOBE_tiles(
     maxElev : int, optional
         The maximum elevation used by the colour map of the tiles (in metres).
     maxImagePixels : int, optional
-        The maximum number of pixels in an image, to prevent decompression bombs.
+        the maximum number of pixels in an image, to prevent decompression bombs
     mergedTileName : None or str, optional
         If provided, then save the merged tile to this file.
     optipngPath : None or str, optional
