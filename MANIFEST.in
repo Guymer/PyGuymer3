@@ -37,6 +37,8 @@ exclude tests/*/*/*/*/*
 exclude unitTests.py
 
 # Make sure that the installation is less than the 100 MB upload limit of PyPI ...
+# NOTE: These are files which are known by Git and in the repository but which
+#       are excluded from the build.
 exclude pyguymer3/*/README.md
 exclude pyguymer3/*/*/README.md
 exclude pyguymer3/*/*/*/README.md
