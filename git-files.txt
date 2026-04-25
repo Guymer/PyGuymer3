@@ -38243,6 +38243,7 @@ pyguymer3/geo/_add_horizontal_gridlines.py
 pyguymer3/geo/_add_lakes.py
 pyguymer3/geo/_add_land.py
 pyguymer3/geo/_add_minorIslands.py
+pyguymer3/geo/_add_OSterrain_elevation.py
 pyguymer3/geo/_add_playas.py
 pyguymer3/geo/_add_railroads.py
 pyguymer3/geo/_add_reefs.py
