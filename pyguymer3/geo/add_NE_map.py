@@ -21,7 +21,9 @@ def add_NE_map(
      osTerrainPath = None,
     osTerrainScale = "400m",
           physical = True,
+            prefix = ".",
             repair = False,
+               tol = 1.0e-10,
 ):
     """Add an underlay to a Cartopy axis from Natural Earth.
 
@@ -37,7 +39,7 @@ def add_NE_map(
         print debug messages
     elevInt : int, optional
         the interval of the elevation bands to shade (in metres)
-    elevSource : str, optional
+    elevSource : None or str, optional
         the source of the Polygons of elevation
     fov : None or shapely.geometry.polygon.Polygon, optional
         clip the plotted shapes to the provided field-of-view to work around
@@ -68,8 +70,13 @@ def add_NE_map(
         dataset
     physical : bool, optional
         add physical datasets
+    prefix : str, optional
+        change the name of the output debugging CSVs
     repair : bool, optional
         attempt to repair invalid Polygons
+    tol : float, optional
+        the Euclidean distance that defines two points as being the same (in
+        degrees)
 
     Notes
     -----
@@ -183,6 +190,8 @@ def add_NE_map(
                repair = repair,
         )
         match elevSource:
+            case None | "none":
+                pass
             case "GLOBE":
                 _add_GLOBE_elevation(
                     ax,
