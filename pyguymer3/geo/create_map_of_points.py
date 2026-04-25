@@ -36,6 +36,8 @@ def create_map_of_points(
              nRefine = 1,
            onlyValid = False,
          optipngPath = None,
+       osTerrainPath = None,
+      osTerrainScale = "400m",
              padDist = 12.0 * 1852.0,
               prefix = ".",
             ramLimit = 1073741824,
@@ -146,6 +148,12 @@ def create_map_of_points(
     optipngPath : None or str, optional
         the path to the "optipng" binary (if not provided then Python will attempt to
         find the binary itself)
+    osTerrainPath : None str, optional
+        the path to the root folder containing the GeoJSON files derived from
+        the OS Terrain 50 [2]_ dataset
+    osTerrainScale : str, optional
+        the scale of the Polygons of elevation from the OS Terrain 50 [2]_
+        dataset
     padDist : float, optional
         the padding to draw around the points (in metres)
     prefix : str, optional
@@ -316,6 +324,16 @@ def create_map_of_points(
         return
     if debug:
         print(f"INFO: The GeoJSON files derived from the GLOBE dataset are in \"{globePath}\".")
+
+    # Find the path to the GeoJSON files derived from the OS Terrain 50 dataset ...
+    if osTerrainPath is None:
+        osTerrainPath = os.path.abspath(f"{os.path.dirname(__file__)}/../data/geojson/osTerrain")
+    if not os.path.exists(osTerrainPath):
+        if debug:
+            print(f"INFO: \"{osTerrainPath}\" does not exist.")
+        return
+    if debug:
+        print(f"INFO: The GeoJSON files derived from the OS Terrain 50 dataset are in \"{osTerrainPath}\".")
 
     # **************************************************************************
 
@@ -601,20 +619,22 @@ def create_map_of_points(
             # Add NE map background ...
             add_NE_map(
                 ax,
-                background = True,
-                  cultural = True,
-                     debug = debug,
-                   elevInt = elevInt,
-                       fov = fov,
-                 globePath = globePath,
-                globeScale = globeScale,
-                 linestyle = "solid",
-                 linewidth = 0.5,
-                   maxElev = maxElev,
-                     neRes = neRes,
-                 onlyValid = onlyValid,
-                  physical = True,
-                    repair = repair,
+                    background = True,
+                      cultural = True,
+                         debug = debug,
+                       elevInt = elevInt,
+                           fov = fov,
+                     globePath = globePath,
+                    globeScale = globeScale,
+                     linestyle = "solid",
+                     linewidth = 0.5,
+                       maxElev = maxElev,
+                         neRes = neRes,
+                     onlyValid = onlyValid,
+                 osTerrainPath = osTerrainPath,
+                osTerrainScale = osTerrainScale,
+                      physical = True,
+                        repair = repair,
             )
         case "NE-tiles":
             # Add NE tiles background ...

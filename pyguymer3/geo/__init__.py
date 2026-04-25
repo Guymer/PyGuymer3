@@ -112,13 +112,14 @@ from ._add_antarcticIceShelves import _add_antarcticIceShelves
 from ._add_background import _add_background
 from ._add_bathymetry import _add_bathymetry
 from ._add_coastlines import _add_coastlines
-from ._add_GLOBE_elevation import _add_GLOBE_elevation
 from ._add_glaciatedAreas import _add_glaciatedAreas
 from ._add_global_axis import _add_global_axis
+from ._add_GLOBE_elevation import _add_GLOBE_elevation
 from ._add_horizontal_gridlines import _add_horizontal_gridlines
 from ._add_lakes import _add_lakes
 from ._add_land import _add_land
 from ._add_minorIslands import _add_minorIslands
+from ._add_OSterrain_elevation import _add_OSterrain_elevation
 from ._add_playas import _add_playas
 from ._add_railroads import _add_railroads
 from ._add_reefs import _add_reefs

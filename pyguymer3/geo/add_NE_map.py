@@ -5,20 +5,22 @@ def add_NE_map(
     ax,
     /,
     *,
-    background = True,
-      cultural = True,
-         debug = __debug__,
-       elevInt = 250,
-           fov = None,
-     globePath = None,
-    globeScale = "32km",
-     linestyle = "solid",
-     linewidth = 0.5,
-       maxElev = 1000,
-         neRes = "10m",
-     onlyValid = False,
-      physical = True,
-        repair = False,
+        background = True,
+          cultural = True,
+             debug = __debug__,
+           elevInt = 250,
+               fov = None,
+         globePath = None,
+        globeScale = "32km",
+         linestyle = "solid",
+         linewidth = 0.5,
+           maxElev = 1000,
+             neRes = "10m",
+         onlyValid = False,
+     osTerrainPath = None,
+    osTerrainScale = "400m",
+          physical = True,
+            repair = False,
 ):
     """Add an underlay to a Cartopy axis from Natural Earth.
 
@@ -55,6 +57,12 @@ def add_NE_map(
     onlyValid : bool, optional
         only add valid Polygons (checks for validity can take a while, if being
         being called often)
+    osTerrainPath : None str, optional
+        the path to the root folder containing the GeoJSON files derived from
+        the OS Terrain 50 [2]_ dataset
+    osTerrainScale : str, optional
+        the scale of the Polygons of elevation from the OS Terrain 50 [2]_
+        dataset
     physical : bool, optional
         add physical datasets
     repair : bool, optional
@@ -78,11 +86,12 @@ def add_NE_map(
     from ._add_antarcticIceShelves import _add_antarcticIceShelves
     from ._add_background import _add_background
     from ._add_bathymetry import _add_bathymetry
-    from ._add_GLOBE_elevation import _add_GLOBE_elevation
     from ._add_glaciatedAreas import _add_glaciatedAreas
+    from ._add_GLOBE_elevation import _add_GLOBE_elevation
     from ._add_lakes import _add_lakes
     from ._add_land import _add_land
     from ._add_minorIslands import _add_minorIslands
+    from ._add_OSterrain_elevation import _add_OSterrain_elevation
     from ._add_playas import _add_playas
     from ._add_railroads import _add_railroads
     from ._add_reefs import _add_reefs
@@ -101,6 +110,16 @@ def add_NE_map(
         return
     if debug:
         print(f"INFO: The GeoJSON files derived from the GLOBE dataset are in \"{globePath}\".")
+
+    # Find the path to the GeoJSON files derived from the OS Terrain 50 dataset ...
+    if osTerrainPath is None:
+        osTerrainPath = os.path.abspath(f"{os.path.dirname(__file__)}/../data/geojson/osTerrain")
+    if not os.path.exists(osTerrainPath):
+        if debug:
+            print(f"INFO: \"{osTerrainPath}\" does not exist.")
+        return
+    if debug:
+        print(f"INFO: The GeoJSON files derived from the OS Terrain 50 dataset are in \"{osTerrainPath}\".")
 
     # Add background ...
     if background:
