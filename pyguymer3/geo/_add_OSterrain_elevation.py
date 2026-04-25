@@ -131,7 +131,7 @@ def _add_OSterrain_elevation(
 
     # Loop over elevations ...
     # NOTE: Rounded to the nearest integer, Ben Nevis is 1,345m ASL.
-    for elevation in range(elevInt, 1340, elevInt):
+    for elevation in range(elevInt, 1350, elevInt):
         # Create short-hand ...
         name = f"{elevation:04d}m"
 
