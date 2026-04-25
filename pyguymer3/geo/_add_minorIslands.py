@@ -21,8 +21,8 @@ def _add_minorIslands(
         print debug messages
     fov : None or shapely.geometry.polygon.Polygon, optional
         clip the plotted shapes to the provided field-of-view to work around
-        occaisional MatPlotLib or Cartopy plotting errors when shapes much
-        larger than the field-of-view are plotted
+        occasional MatPlotLib or Cartopy plotting errors when shapes much larger
+        than the field-of-view are plotted
     neRes : str, optional
         the resolution of the minor islands from Natural Earth [2]_
     onlyValid : bool, optional

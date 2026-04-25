@@ -31,8 +31,8 @@ def add_GSHHG_map(
         print debug messages
     fov : None or shapely.geometry.polygon.Polygon, optional
         clip the plotted shapes to the provided field-of-view to work around
-        occaisional MatPlotLib or Cartopy plotting errors when shapes much
-        larger than the field-of-view are plotted
+        occasional MatPlotLib or Cartopy plotting errors when shapes much larger
+        than the field-of-view are plotted
     gshhgRes : str, optional
         the resolution of the coastline boundaries from GSHHG [2]_
     iceOcean : bool, optional

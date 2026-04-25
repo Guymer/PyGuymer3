@@ -34,8 +34,8 @@ def _add_coastlines(
         the colour of the faces of the coastline Polygons
     fov : None or shapely.geometry.polygon.Polygon, optional
         clip the plotted shapes to the provided field-of-view to work around
-        occaisional MatPlotLib or Cartopy plotting errors when shapes much
-        larger than the field-of-view are plotted
+        occasional MatPlotLib or Cartopy plotting errors when shapes much larger
+        than the field-of-view are plotted
     gshhgLevels : list of int, optional
         the levels of the coastline boundaries from GSHHG [2]_ (if None then
         default to ``(1, 5, 6,)``)

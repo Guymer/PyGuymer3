@@ -10,6 +10,7 @@ def add_NE_map(
          debug = __debug__,
        elevInt = 250,
            fov = None,
+     globePath = None,
     globeScale = "32km",
      linestyle = "solid",
      linewidth = 0.5,
@@ -35,17 +36,20 @@ def add_NE_map(
         the interval of the elevation bands to shade (in metres)
     fov : None or shapely.geometry.polygon.Polygon, optional
         clip the plotted shapes to the provided field-of-view to work around
-        occaisional MatPlotLib or Cartopy plotting errors when shapes much
-        larger than the field-of-view are plotted
+        occasional MatPlotLib or Cartopy plotting errors when shapes much larger
+        than the field-of-view are plotted
+    globePath : None str, optional
+        the path to the root folder containing the GeoJSON files derived from
+        the GLOBE [3]_ dataset
     globeScale : str, optional
-        The scale of the elevation from the GLOBE [3]_ dataset.
+        the scale of the Polygons of elevation from the GLOBE [3]_ dataset
     linestyle : str, optional
         the style of the lines
     linewidth : float, optional
         the width of the lines
     maxElev : int, optional
-        the maximum elevation of the colour scale and acts as an upper bound or
-        clip (in metres)
+        the maximum elevation of the colour scale which acts as an upper bound
+        or clip (in metres)
     neRes : str, optional
         The resolution of the Natural Earth [2]_ datasets.
     onlyValid : bool, optional
@@ -67,6 +71,9 @@ def add_NE_map(
     .. [3] Global Land One-km Base Elevation, https://www.ngdc.noaa.gov/mgg/topo/globe.html
     """
 
+    # Import standard modules ...
+    import os
+
     # Import sub-functions ...
     from ._add_antarcticIceShelves import _add_antarcticIceShelves
     from ._add_background import _add_background
@@ -84,6 +91,16 @@ def add_NE_map(
     from ._add_urbanAreas import _add_urbanAreas
 
     # **************************************************************************
+
+    # Find the path to the GeoJSON files derived from the GLOBE dataset ...
+    if globePath is None:
+        globePath = os.path.abspath(f"{os.path.dirname(__file__)}/../data/geojson/globe")
+    if not os.path.exists(globePath):
+        if debug:
+            print(f"INFO: \"{globePath}\" does not exist.")
+        return
+    if debug:
+        print(f"INFO: The GeoJSON files derived from the GLOBE dataset are in \"{globePath}\".")
 
     # Add background ...
     if background:
@@ -147,6 +164,7 @@ def add_NE_map(
                  debug = debug,
                elevInt = elevInt,
                    fov = fov,
+             globePath = globePath,
             globeScale = globeScale,
                maxElev = maxElev,
              onlyValid = onlyValid,

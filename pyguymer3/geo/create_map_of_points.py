@@ -20,6 +20,7 @@ def create_map_of_points(
            fillColor = (255.0 / 255.0,   0.0 / 255.0,   0.0 / 255.0),
                floor = False,
         gifsiclePath = None,
+           globePath = globePath,
           globeScale = "32km",
             gshhgRes = "i",
        interpolation = "none",
@@ -105,8 +106,11 @@ def create_map_of_points(
     gifsiclePath : None or str, optional
         the path to the "gifsicle" binary (if not provided then Python will attempt to
         find the binary itself)
+    globePath : None str, optional
+        the path to the root folder containing the GeoJSON files derived from
+        the GLOBE [4]_ dataset
     globeScale : str, optional
-        The scale of the elevation from the GLOBE [4]_ dataset.
+        the scale of the Polygons of elevation from the GLOBE [4]_ dataset
     gshhgRes : str, optional
         the resolution of the coastline boundaries from GSHHG [2]_
     interpolation : str, optional
@@ -238,6 +242,7 @@ def create_map_of_points(
 
     # Import standard modules ...
     import copy
+    import os
     import pathlib
 
     # Import special modules ...
@@ -301,6 +306,16 @@ def create_map_of_points(
     # Check inputs ...
     if skips is None:
         skips = numpy.zeros(pntLons.size, dtype = bool)
+
+    # Find the path to the GeoJSON files derived from the GLOBE dataset ...
+    if globePath is None:
+        globePath = os.path.abspath(f"{os.path.dirname(__file__)}/../data/geojson/globe")
+    if not os.path.exists(globePath):
+        if debug:
+            print(f"INFO: \"{globePath}\" does not exist.")
+        return
+    if debug:
+        print(f"INFO: The GeoJSON files derived from the GLOBE dataset are in \"{globePath}\".")
 
     # **************************************************************************
 
@@ -591,6 +606,7 @@ def create_map_of_points(
                      debug = debug,
                    elevInt = elevInt,
                        fov = fov,
+                 globePath = globePath,
                 globeScale = globeScale,
                  linestyle = "solid",
                  linewidth = 0.5,

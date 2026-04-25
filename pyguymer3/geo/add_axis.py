@@ -80,8 +80,8 @@ def add_axis(
         the tolerance of the Vincenty formula iterations
     fov : None or shapely.geometry.polygon.Polygon, optional
         clip the plotted shapes to the provided field-of-view to work around
-        occaisional MatPlotLib or Cartopy plotting errors when shapes much
-        larger than the field-of-view are plotted
+        occasional MatPlotLib or Cartopy plotting errors when shapes much larger
+        than the field-of-view are plotted
     gridlines_int : int, optional
         the interval between gridlines, best results if ``90 % gridlines_int == 0``;
         if the axis is of global extent then the default will be 45° else it

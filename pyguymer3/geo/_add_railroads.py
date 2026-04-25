@@ -22,8 +22,8 @@ def _add_railroads(
         print debug messages
     fov : None or shapely.geometry.polygon.Polygon, optional
         clip the plotted shapes to the provided field-of-view to work around
-        occaisional MatPlotLib or Cartopy plotting errors when shapes much
-        larger than the field-of-view are plotted
+        occasional MatPlotLib or Cartopy plotting errors when shapes much larger
+        than the field-of-view are plotted
     linestyle : str, optional
         the style of the railroads
     linewidth : float, optional

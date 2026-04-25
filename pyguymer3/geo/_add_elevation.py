@@ -8,30 +8,34 @@ def _add_elevation(
          debug = __debug__,
        elevInt = 250,
            fov = None,
+     globePath = None,
     globeScale = "32km",
        maxElev = 1000,
      onlyValid = False,
         repair = False,
 ):
-    """Add elevation to a Cartopy axis.
+    """Add Polygons of elevation from the GLOBE [2]_ dataset to a Cartopy axis.
 
     Parameters
     ----------
     ax : cartopy.mpl.geoaxes.GeoAxes
-        the axis to add the elevation to
+        the axis to add the Polygons of elevation to
     debug : bool, optional
         print debug messages
     elevInt : int, optional
         the interval of the elevation bands to shade (in metres)
     fov : None or shapely.geometry.polygon.Polygon, optional
         clip the plotted shapes to the provided field-of-view to work around
-        occaisional MatPlotLib or Cartopy plotting errors when shapes much
-        larger than the field-of-view are plotted
+        occasional MatPlotLib or Cartopy plotting errors when shapes much larger
+        than the field-of-view are plotted
+    globePath : None str, optional
+        the path to the root folder containing the GeoJSON files derived from
+        the GLOBE [2]_ dataset
     globeScale : str, optional
-        The scale of the elevation from the GLOBE [2]_ dataset.
+        the scale of the Polygons of elevation from the GLOBE [2]_ dataset
     maxElev : int, optional
-        the maximum elevation of the colour scale and acts as an upper bound or
-        clip (in metres)
+        the maximum elevation of the colour scale which acts as an upper bound
+        or clip (in metres)
     onlyValid : bool, optional
         only add valid Polygons (checks for validity can take a while, if being
         being called often)
@@ -105,6 +109,16 @@ def _add_elevation(
         ]
     )
 
+    # Find the path to the GeoJSON files derived from the GLOBE dataset ...
+    if globePath is None:
+        globePath = os.path.abspath(f"{os.path.dirname(__file__)}/../data/geojson/globe")
+    if not os.path.exists(globePath):
+        if debug:
+            print(f"INFO: \"{globePath}\" does not exist.")
+        return
+    if debug:
+        print(f"INFO: The GeoJSON files derived from the GLOBE dataset are in \"{globePath}\".")
+
     # Loop over elevations ...
     # NOTE: Rounded to the nearest integer, Mount Everest is 8,849m ASL.
     for elevation in range(elevInt, 9000, elevInt):
@@ -112,21 +126,22 @@ def _add_elevation(
         name = f"{elevation:04d}m"
 
         # Create suitable colour ...
-        # NOTE: Rounded to the nearest integer, Mount Everest is 8,849m ASL.
         facecolor = cmap(float(elevation) / float(maxElev))
         if debug:
             print(f"INFO: \"{name}\" is ({facecolor[0]:.6f},{facecolor[1]:.6f},{facecolor[2]:.6f},{facecolor[3]:.6f}).")
 
-        # Find file containing the shapes ...
-        sfile = f"{os.path.dirname(__file__)}/../data/geojson/globe/scale={globeScale}/elev={elevation:04d}m.geojson"
-        if not os.path.exists(sfile):
+        # Find GeoJSON file containing the shapes ...
+        gName = f"{globePath}/scale={globeScale}/elev={elevation:04d}m.geojson"
+        if not os.path.exists(gName):
+            if debug:
+                print(f"INFO: \"{gName}\" does not exist.")
             continue
         if debug:
-            print(f"INFO: \"{name}\" is \"{sfile}\".")
+            print(f"INFO: \"{name}\" is \"{gName}\".")
 
         # Load the GeoJSON geometry collection and convert it to a Shapely
         # geometry collection ...
-        with open(sfile, "rt", encoding = "utf-8") as fObj:
+        with open(gName, "rt", encoding = "utf-8") as fObj:
             coll = geojson.load(fObj)
         coll = shapely.geometry.shape(coll)
 
