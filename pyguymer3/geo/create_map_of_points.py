@@ -14,7 +14,7 @@ def create_map_of_points(
                 conv = 1.0e3,
                debug = __debug__,
              elevInt = 250,
-          elevSource = "GLOBE",
+          elevSource = "none",
                  eps = 1.0e-12,
         exiftoolPath = None,
               extent = None,
@@ -573,18 +573,27 @@ def create_map_of_points(
             # Add GSHHG map background ...
             add_GSHHG_map(
                 ax,
-                background = True,
-                     debug = debug,
-                       fov = fov,
-                  gshhgRes = gshhgRes,
-                  iceOcean = True,
-                islandLake = True,
-                  lakeLand = True,
-                 landOcean = True,
-                 linewidth = 0.5,
-                 onlyValid = onlyValid,
-                pondIsland = True,
-                    repair = repair,
+                    background = True,
+                         debug = debug,
+                       elevInt = elevInt,
+                    elevSource = elevSource,
+                           fov = fov,
+                     globePath = globePath,
+                    globeScale = globeScale,
+                      gshhgRes = gshhgRes,
+                      iceOcean = True,
+                    islandLake = True,
+                      lakeLand = True,
+                     landOcean = True,
+                     linewidth = 0.5,
+                       maxElev = maxElev,
+                     onlyValid = onlyValid,
+                 osTerrainPath = osTerrainPath,
+                osTerrainScale = osTerrainScale,
+                    pondIsland = True,
+                        prefix = prefix,
+                        repair = repair,
+                           tol = tol,
             )
         case "GSHHG-tiles":
             # Add GSHHG tiles background ...
@@ -639,7 +648,9 @@ def create_map_of_points(
                  osTerrainPath = osTerrainPath,
                 osTerrainScale = osTerrainScale,
                       physical = True,
+                        prefix = prefix,
                         repair = repair,
+                           tol = tol,
             )
         case "NE-tiles":
             # Add NE tiles background ...

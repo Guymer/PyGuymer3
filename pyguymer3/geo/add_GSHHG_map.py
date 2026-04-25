@@ -8,7 +8,7 @@ def add_GSHHG_map(
         background = True,
              debug = __debug__,
            elevInt = 250,
-        elevSource = "GLOBE",
+        elevSource = "none",
                fov = None,
          globePath = None,
         globeScale = "32km",

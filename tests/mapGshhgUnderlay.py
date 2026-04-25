@@ -195,12 +195,13 @@ if __name__ == "__main__":
             ax.set_title(f"\"add_GSHHG_map()\" at \"{gshhgRes}\"")
             pyguymer3.geo.add_GSHHG_map(
                 ax,
-                    debug = args.debug,
-                      fov = fov,
-                 gshhgRes = gshhgRes,
-                linewidth = linewidth,
-                onlyValid = True,
-                   repair = True,
+                     debug = args.debug,
+                elevSource = "none",
+                       fov = fov,
+                  gshhgRes = gshhgRes,
+                 linewidth = linewidth,
+                 onlyValid = True,
+                    repair = True,
             )
 
             # ******************************************************************

@@ -9,7 +9,7 @@ def add_NE_map(
           cultural = True,
              debug = __debug__,
            elevInt = 250,
-        elevSource = "GLOBE",
+        elevSource = "none",
                fov = None,
          globePath = None,
         globeScale = "32km",

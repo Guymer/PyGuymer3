@@ -203,6 +203,7 @@ if __name__ == "__main__":
                        fov = fov,
                 globeScale = neRes2globeScale[neRes],
                  linewidth = linewidth,
+                elevSource = "GLOBE",
                    maxElev = maxElev,
                      neRes = neRes,
                  onlyValid = True,
