@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def _add_elevation(
+def _add_GLOBE_elevation(
     ax,
     /,
     *,
