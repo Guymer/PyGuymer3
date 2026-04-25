@@ -14,6 +14,7 @@ def create_map_of_points(
                 conv = 1.0e3,
                debug = __debug__,
              elevInt = 250,
+          elevSource = "GLOBE",
                  eps = 1.0e-12,
         exiftoolPath = None,
               extent = None,
@@ -92,6 +93,8 @@ def create_map_of_points(
     elevInt : int, optional
         The interval between different shaded bands of elevation used by the
         colour map of the tiles (in metres).
+    elevSource : str, optional
+        the source of the Polygons of elevation
     eps : float, optional
         the tolerance of the Vincenty formula iterations
     exiftoolPath : None or str, optional
@@ -150,9 +153,9 @@ def create_map_of_points(
         find the binary itself)
     osTerrainPath : None str, optional
         the path to the root folder containing the GeoJSON files derived from
-        the OS Terrain 50 [2]_ dataset
+        the OS Terrain 50 [5]_ dataset
     osTerrainScale : str, optional
-        the scale of the Polygons of elevation from the OS Terrain 50 [2]_
+        the scale of the Polygons of elevation from the OS Terrain 50 [5]_
         dataset
     padDist : float, optional
         the padding to draw around the points (in metres)
@@ -246,6 +249,7 @@ def create_map_of_points(
     .. [2] Global Self-consistent Hierarchical High-resolution Geography, https://www.ngdc.noaa.gov/mgg/shorelines/
     .. [3] Natural Earth, https://www.naturalearthdata.com/
     .. [4] Global Land One-km Base Elevation, https://www.ngdc.noaa.gov/mgg/topo/globe.html
+    .. [5] OS Terrain 50, https://www.ordnancesurvey.co.uk/products/os-terrain-50
     """
 
     # Import standard modules ...
@@ -623,6 +627,7 @@ def create_map_of_points(
                       cultural = True,
                          debug = debug,
                        elevInt = elevInt,
+                    elevSource = elevSource,
                            fov = fov,
                      globePath = globePath,
                     globeScale = globeScale,

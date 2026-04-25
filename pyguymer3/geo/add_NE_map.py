@@ -9,6 +9,7 @@ def add_NE_map(
           cultural = True,
              debug = __debug__,
            elevInt = 250,
+        elevSource = "GLOBE",
                fov = None,
          globePath = None,
         globeScale = "32km",
@@ -36,6 +37,8 @@ def add_NE_map(
         print debug messages
     elevInt : int, optional
         the interval of the elevation bands to shade (in metres)
+    elevSource : str, optional
+        the source of the Polygons of elevation
     fov : None or shapely.geometry.polygon.Polygon, optional
         clip the plotted shapes to the provided field-of-view to work around
         occasional MatPlotLib or Cartopy plotting errors when shapes much larger
@@ -59,9 +62,9 @@ def add_NE_map(
         being called often)
     osTerrainPath : None str, optional
         the path to the root folder containing the GeoJSON files derived from
-        the OS Terrain 50 [2]_ dataset
+        the OS Terrain 50 [4]_ dataset
     osTerrainScale : str, optional
-        the scale of the Polygons of elevation from the OS Terrain 50 [2]_
+        the scale of the Polygons of elevation from the OS Terrain 50 [4]_
         dataset
     physical : bool, optional
         add physical datasets
@@ -77,6 +80,7 @@ def add_NE_map(
     .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     .. [2] Natural Earth, https://www.naturalearthdata.com/
     .. [3] Global Land One-km Base Elevation, https://www.ngdc.noaa.gov/mgg/topo/globe.html
+    .. [4] OS Terrain 50, https://www.ordnancesurvey.co.uk/products/os-terrain-50
     """
 
     # Import standard modules ...
@@ -178,17 +182,35 @@ def add_NE_map(
             onlyValid = onlyValid,
                repair = repair,
         )
-        _add_GLOBE_elevation(
-            ax,
-                 debug = debug,
-               elevInt = elevInt,
-                   fov = fov,
-             globePath = globePath,
-            globeScale = globeScale,
-               maxElev = maxElev,
-             onlyValid = onlyValid,
-                repair = repair,
-        )
+        match elevSource:
+            case "GLOBE":
+                _add_GLOBE_elevation(
+                    ax,
+                         debug = debug,
+                       elevInt = elevInt,
+                           fov = fov,
+                     globePath = globePath,
+                    globeScale = globeScale,
+                       maxElev = maxElev,
+                     onlyValid = onlyValid,
+                        repair = repair,
+                )
+            case "OS Terrain 50":
+                _add_OSterrain_elevation(
+                    ax,
+                             debug = debug,
+                           elevInt = elevInt,
+                               fov = fov,
+                           maxElev = maxElev,
+                         onlyValid = onlyValid,
+                     osTerrainPath = osTerrainPath,
+                    osTerrainScale = osTerrainScale,
+                            prefix = prefix,
+                            repair = repair,
+                               tol = tol,
+                )
+            case _:
+                raise Exception(f"\"{elevSource}\" is an unrecognized elevation source") from None
 
         # Land overlays ...
         _add_glaciatedAreas(

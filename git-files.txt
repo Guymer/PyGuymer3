@@ -38236,9 +38236,9 @@ pyguymer3/geo/_add_antarcticIceShelves.py
 pyguymer3/geo/_add_background.py
 pyguymer3/geo/_add_bathymetry.py
 pyguymer3/geo/_add_coastlines.py
-pyguymer3/geo/_add_elevation.py
 pyguymer3/geo/_add_glaciatedAreas.py
 pyguymer3/geo/_add_global_axis.py
+pyguymer3/geo/_add_GLOBE_elevation.py
 pyguymer3/geo/_add_horizontal_gridlines.py
 pyguymer3/geo/_add_lakes.py
 pyguymer3/geo/_add_land.py
