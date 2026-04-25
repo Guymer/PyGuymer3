@@ -179,7 +179,7 @@ if __name__ == "__main__":
                          debug = args.debug,
                           dist = dist,
                            eps = args.eps,
-                            fov = fov,
+                           fov = fov,
                          index = 3 * iResolution + 1,
                            lat = lat,
                            lon = lon,
