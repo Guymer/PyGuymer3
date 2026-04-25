@@ -21,7 +21,7 @@ def create_map_of_points(
            fillColor = (255.0 / 255.0,   0.0 / 255.0,   0.0 / 255.0),
                floor = False,
         gifsiclePath = None,
-           globePath = globePath,
+           globePath = None,
           globeScale = "32km",
             gshhgRes = "i",
        interpolation = "none",
@@ -93,7 +93,7 @@ def create_map_of_points(
     elevInt : int, optional
         The interval between different shaded bands of elevation used by the
         colour map of the tiles (in metres).
-    elevSource : str, optional
+    elevSource : None or str, optional
         the source of the Polygons of elevation
     eps : float, optional
         the tolerance of the Vincenty formula iterations
