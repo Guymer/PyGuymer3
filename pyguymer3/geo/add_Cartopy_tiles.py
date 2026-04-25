@@ -88,6 +88,7 @@ def add_Cartopy_tiles(
                 "cache_dir" : pathlib.PosixPath("~/.local/share/cartopy").expanduser(),
             }
         )
+        import cartopy.io
         import cartopy.io.img_tiles
     except:
         raise Exception("\"cartopy\" is not installed; run \"pip install --user Cartopy\"") from None
