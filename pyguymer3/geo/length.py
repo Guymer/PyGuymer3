@@ -42,11 +42,6 @@ def length(
         import numpy
     except:
         raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
-    try:
-        import shapely
-        import shapely.ops
-    except:
-        raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
     from .calc_dist_between_two_locs import calc_dist_between_two_locs
