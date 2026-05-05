@@ -105,4 +105,4 @@ References
 """
 
 # Import sub-functions ...
-from .funcs import *
+from .funcs import *                                                           # pylint: disable=E0401
