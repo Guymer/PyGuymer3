@@ -384,7 +384,7 @@ if __name__ == "__main__":
             8192,
         ]:
             # Create short-hand ...
-            wName = f"{__file__.removesuffix(".py")}_{maxSize:04d}px.webp"
+            wName = f'{__file__.removesuffix(".py")}_{maxSize:04d}px.webp'
 
             # Check if WEBP needs making ...
             if not os.path.exists(wName):
