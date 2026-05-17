@@ -223,7 +223,7 @@ def find_min_max_dist_bearing(
     # Check if the answer is converged ...
     if abs(startAng - bestAng) <= angConv:
         if debug:
-            print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: The middle is finally ({midLon:.6f}°, {midLat:.6f}°) and the minimum maximum distance bearing is finally {startAng:.6f}°.")
+            print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: The middle is finally ({midLon:.6f}°, {midLat:.6f}°) and the minimum maximum distance bearing is finally {bestAng:.6f}°.")
         return bestAng
 
     # Return answer ...
