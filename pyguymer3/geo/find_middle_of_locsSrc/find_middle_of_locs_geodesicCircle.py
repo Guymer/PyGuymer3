@@ -147,7 +147,7 @@ def find_middle_of_locs_geodesicCircle(
             )                                                                   # [°]
 
             if debug:
-                print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: Moving middle {0.001 * conv:,.1f} km towards {minAng:.1f}° ...")
+                print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: Moving middle {0.001 * conv:,.1f} km towards {minAng:.6f}° ...")
 
             # Find the new location ...
             newMidLon, newMidLat, _ = calc_loc_from_loc_and_bearing_and_dist(

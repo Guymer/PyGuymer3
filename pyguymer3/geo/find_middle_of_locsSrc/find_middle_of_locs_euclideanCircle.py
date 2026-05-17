@@ -147,7 +147,7 @@ def find_middle_of_locs_euclideanCircle(
             )                                                                   # [°]
 
             if debug:
-                print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: Moving middle {conv:.6f}° towards {minAng:.1f}° ...")
+                print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: Moving middle {conv:.6f}° towards {minAng:.6f}° ...")
 
             # Find the new location ...
             newMidLon = midLon + conv * math.sin(math.radians(minAng))          # [°]
