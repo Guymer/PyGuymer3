@@ -6,16 +6,17 @@ def buffer_CoordinateSequence(
     dist,
     /,
     *,
-        debug = __debug__,
-          eps = 1.0e-12,
-         fill = 1.0,
-    fillSpace = "EuclideanSpace",
-         nAng = 9,
-        nIter = 100,
-       prefix = ".",
-     ramLimit = 1073741824,
-         simp = 0.1,
-          tol = 1.0e-10,
+    attemptFortran = True,
+             debug = __debug__,
+               eps = 1.0e-12,
+              fill = 1.0,
+         fillSpace = "EuclideanSpace",
+              nAng = 9,
+             nIter = 100,
+            prefix = ".",
+          ramLimit = 1073741824,
+              simp = 0.1,
+               tol = 1.0e-10,
 ):
     """Buffer a CoordinateSequence
 
@@ -27,6 +28,8 @@ def buffer_CoordinateSequence(
     ----------
     coords : shapely.coords.CoordinateSequence
         the CoordinateSequence
+    attemptFortran : bool, optional
+        attempt to use a f2py implementation first
     dist : float
         the Geodesic distance to buffer each point within the CoordinateSequence
         by (in metres)
@@ -104,18 +107,23 @@ def buffer_CoordinateSequence(
     from ..clean import clean
     from ..fillin import fillin
     from ..._consts import CIRCUMFERENCE_OF_EARTH, MAXIMUM_VINCENTY
-    try:
-        from ...f90 import funcs
+    if attemptFortran:
+        try:
+            from ...f90 import funcs
+            if debug:
+                print("INFO: Will find the rings using FORTRAN.")
+            fortran = True
+        except ModuleNotFoundError:
+            if debug:
+                print("INFO: Will find the rings using Python (did not find FORTRAN module).")
+            fortran = False
+        except ImportError:
+            if debug:
+                print("INFO: Will find the rings using Python (error when attempting to import found FORTRAN).")
+            fortran = False
+    else:
         if debug:
-            print("INFO: Will find the rings using FORTRAN.")
-        fortran = True
-    except ModuleNotFoundError:
-        if debug:
-            print("INFO: Will find the rings using Python (did not find FORTRAN module).")
-        fortran = False
-    except ImportError:
-        if debug:
-            print("INFO: Will find the rings using Python (error when attempting to import found FORTRAN).")
+            print("INFO: Will find the rings using Python (you told me not to attempt using FORTRAN).")
         fortran = False
 
     # **************************************************************************
