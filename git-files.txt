@@ -38226,6 +38226,9 @@ pyguymer3/f90/Makefile
 pyguymer3/f90/src/add.f90
 pyguymer3/f90/src/buffer_point_crudely.f90
 pyguymer3/f90/src/buffer_points_crudely.f90
+pyguymer3/f90/src/find_middle_of_locs_euclideanBox.f90
+pyguymer3/f90/src/find_middle_of_locs_euclideanCircle.f90
+pyguymer3/f90/src/find_middle_of_locs_geodesicCircle.f90
 pyguymer3/find_instances_of_a_file.py
 pyguymer3/find_integer_divisors.py
 pyguymer3/find_program_version.py
