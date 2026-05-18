@@ -1,21 +1,21 @@
 {
     "EuclideanBox": {
-        "dist": 19.588183,
+        "dist": 19.498251,
         "lat": -31.13,
         "lon": 159.08
     },
     "EuclideanCircle": {
-        "dist": 19.061871,
+        "dist": 18.971939,
         "lat": -30.251492,
         "lon": 159.228581
     },
     "GeodesicBox": {
-        "dist": 2086577.4,
+        "dist": 2076577.4,
         "lat": -31.145522,
         "lon": 159.08
     },
     "GeodesicCircle": {
-        "dist": 1960150.5,
+        "dist": 1950150.5,
         "lat": -30.956098,
         "lon": 157.335221
     }
