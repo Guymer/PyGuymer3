@@ -9,6 +9,7 @@ def create_image_of_points(
     pngOut,
     /,
     *,
+      attemptFortran = True,
           background = (255, 255, 255),
            chunksize = 1048576,
              cookies = None,
@@ -61,6 +62,8 @@ def create_image_of_points(
         the session for any requests calls
     pngOut : str
         the name of the output PNG
+    attemptFortran : bool, optional
+        attempt to use a f2py implementation
     background : tuple of int, optional
         the background colour of the merged tile
     chunksize : int, optional
@@ -205,17 +208,18 @@ def create_image_of_points(
     polysLonLat = buffer(
         pntsLonLat,
         padDist,
-                debug = debug,
-                  eps = eps,
-                 fill = -1.0,
-            fillSpace = "EuclideanSpace",
-        keepInteriors = False,
-                 nAng = nAng,
-                nIter = nIter,
-               prefix = prefix,
-             ramLimit = ramLimit,
-                 simp = -1.0,
-                  tol = tol,
+        attemptFortran = attemptFortran,
+                 debug = debug,
+                   eps = eps,
+                  fill = -1.0,
+             fillSpace = "EuclideanSpace",
+         keepInteriors = False,
+                  nAng = nAng,
+                 nIter = nIter,
+                prefix = prefix,
+              ramLimit = ramLimit,
+                  simp = -1.0,
+                   tol = tol,
     )
     if debug:
         print(f"DEBUG: The {0.001 * padDist:,.1f} km buffer of the points extends from {polysLonLat.bounds[0]:+.6f}° to {polysLonLat.bounds[2]:+.6f}° longitude.")

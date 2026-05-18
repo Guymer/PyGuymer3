@@ -7,6 +7,7 @@ def add_axis(
     *,
            add_coastlines = True,
             add_gridlines = True,
+           attemptFortran = True,
      coastlines_edgecolor = "black",
      coastlines_facecolor = "none",
         coastlines_levels = None,
@@ -50,6 +51,8 @@ def add_axis(
         add coastline boundaries
     add_gridlines : bool, optional
         add gridlines of longitude and latitude
+    attemptFortran : bool, optional
+        attempt to use a f2py implementation
     coastlines_edgecolor : str, optional
         the colour of the edges of the coastline Polygons
     coastlines_facecolor : str, optional
@@ -179,6 +182,7 @@ def add_axis(
             lat,
                    add_coastlines = add_coastlines,
                     add_gridlines = add_gridlines,
+                   attemptFortran = attemptFortran,
              coastlines_edgecolor = coastlines_edgecolor,
              coastlines_facecolor = coastlines_facecolor,
                 coastlines_levels = coastlines_levels,

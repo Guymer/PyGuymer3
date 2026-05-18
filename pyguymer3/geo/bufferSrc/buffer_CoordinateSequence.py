@@ -28,11 +28,11 @@ def buffer_CoordinateSequence(
     ----------
     coords : shapely.coords.CoordinateSequence
         the CoordinateSequence
-    attemptFortran : bool, optional
-        attempt to use a f2py implementation
     dist : float
         the Geodesic distance to buffer each point within the CoordinateSequence
         by (in metres)
+    attemptFortran : bool, optional
+        attempt to use a f2py implementation
     debug : bool, optional
         print debug messages
     eps : float, optional

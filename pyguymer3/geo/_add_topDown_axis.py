@@ -9,6 +9,7 @@ def _add_topDown_axis(
     *,
            add_coastlines = True,
             add_gridlines = True,
+           attemptFortran = True,
      coastlines_edgecolor = "black",
      coastlines_facecolor = "none",
         coastlines_levels = None,
@@ -53,6 +54,8 @@ def _add_topDown_axis(
         add coastline boundaries
     add_gridlines : bool, optional
         add gridlines of longitude and latitude
+    attemptFortran : bool, optional
+        attempt to use a f2py implementation
     coastlines_edgecolor : str, optional
         the colour of the edges of the coastline Polygons
     coastlines_facecolor : str, optional
@@ -307,17 +310,18 @@ def _add_topDown_axis(
         polygon1 = buffer(
             point1,
             dist,
-                    debug = debug,
-                      eps = eps,
-                     fill = +1.0,
-                fillSpace = "EuclideanSpace",
-            keepInteriors = False,
-                     nAng = 361,
-                    nIter = nIter,
-                   prefix = prefix,
-                 ramLimit = ramLimit,
-                     simp = -1.0,
-                      tol = tol,
+            attemptFortran = attemptFortran,
+                     debug = debug,
+                       eps = eps,
+                      fill = +1.0,
+                 fillSpace = "EuclideanSpace",
+             keepInteriors = False,
+                      nAng = 361,
+                     nIter = nIter,
+                    prefix = prefix,
+                  ramLimit = ramLimit,
+                      simp = -1.0,
+                       tol = tol,
         )
 
         # Calculate Northern extent ...

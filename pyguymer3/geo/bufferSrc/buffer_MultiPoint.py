@@ -6,16 +6,17 @@ def buffer_MultiPoint(
     dist,
     /,
     *,
-        debug = __debug__,
-          eps = 1.0e-12,
-         fill = 1.0,
-    fillSpace = "EuclideanSpace",
-         nAng = 9,
-        nIter = 100,
-       prefix = ".",
-     ramLimit = 1073741824,
-         simp = 0.1,
-          tol = 1.0e-10,
+    attemptFortran = True,
+             debug = __debug__,
+               eps = 1.0e-12,
+              fill = 1.0,
+         fillSpace = "EuclideanSpace",
+              nAng = 9,
+             nIter = 100,
+            prefix = ".",
+          ramLimit = 1073741824,
+              simp = 0.1,
+               tol = 1.0e-10,
 ):
     """Buffer a MultiPoint
 
@@ -30,6 +31,8 @@ def buffer_MultiPoint(
     dist : float
         the Geodesic distance to buffer each point within the MultiPoint by (in
         metres)
+    attemptFortran : bool, optional
+        attempt to use a f2py implementation
     debug : bool, optional
         print debug messages
     eps : float, optional
@@ -115,16 +118,17 @@ def buffer_MultiPoint(
             buffer_Point(
                 point,
                 dist,
-                    debug = debug,
-                      eps = eps,
-                     fill = fill,
-                fillSpace = fillSpace,
-                     nAng = nAng,
-                    nIter = nIter,
-                   prefix = prefix,
-                 ramLimit = ramLimit,
-                     simp = simp,
-                      tol = tol,
+                attemptFortran = attemptFortran,
+                         debug = debug,
+                           eps = eps,
+                          fill = fill,
+                     fillSpace = fillSpace,
+                          nAng = nAng,
+                         nIter = nIter,
+                        prefix = prefix,
+                      ramLimit = ramLimit,
+                          simp = simp,
+                           tol = tol,
             )
         )
 

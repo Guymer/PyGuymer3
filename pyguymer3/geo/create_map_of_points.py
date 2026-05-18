@@ -8,6 +8,7 @@ def create_map_of_points(
     /,
     *,
              angConv = 0.1,
+      attemptFortran = True,
           background = "NE",
                 ceil = True,
            chunksize = 1048576,
@@ -75,6 +76,8 @@ def create_map_of_points(
         the name of the output PNG
     angConv : float, optional
         the angle change which classifies as converged (in degrees)
+    attemptFortran : bool, optional
+        attempt to use a f2py implementation
     background : str, optional
         The type of background to add. Recognised values are: "GLOBE-tiles";
         "GLOBE+GSHHG-tiles"; "GLOBE+NE-tiles"; "GSHHG-map" (and "GSHHG");
@@ -360,18 +363,19 @@ def create_map_of_points(
     midLonQuick, midLatQuick, maxDistQuick = find_middle_of_locs(
         pntLons[numpy.logical_not(skips)],
         pntLats[numpy.logical_not(skips)],
-         angConv = None,
-            conv = None,
-           debug = debug,
-             eps = eps,
-          method = "EuclideanBox",
-          midLat = None,
-          midLon = None,
-            nAng = None,
-           nIter = nIter,
-         nRefine = nRefine,
-             pad = -1.0,
-        useSciPy = None,
+               angConv = None,
+        attemptFortran = attemptFortran,
+                  conv = None,
+                 debug = debug,
+                   eps = eps,
+                method = "EuclideanBox",
+                midLat = None,
+                midLon = None,
+                  nAng = None,
+                 nIter = nIter,
+               nRefine = nRefine,
+                   pad = -1.0,
+              useSciPy = None,
     )                                                                           # [°]
 
     # Check if the points are so widely spread that the map has to have global
@@ -386,6 +390,7 @@ def create_map_of_points(
             fg,
             add_coastlines = False,
              add_gridlines = True,
+            attemptFortran = attemptFortran,
             configureAgain = bool(background == "OSM"),
                      debug = debug,
                        eps = eps,
@@ -417,18 +422,19 @@ def create_map_of_points(
         midLon, midLat, maxDist = find_middle_of_locs(
             pntLons[numpy.logical_not(skips)],
             pntLats[numpy.logical_not(skips)],
-             angConv = angConv,
-                conv = conv,
-               debug = debug,
-                 eps = eps,
-              method = method,
-              midLat = midLatQuick,
-              midLon = midLonQuick,
-                nAng = nAng,
-               nIter = nIter,
-             nRefine = nRefine,
-                 pad = padDist,
-            useSciPy = useSciPy,
+                   angConv = angConv,
+            attemptFortran = attemptFortran,
+                      conv = conv,
+                     debug = debug,
+                       eps = eps,
+                    method = method,
+                    midLat = midLatQuick,
+                    midLon = midLonQuick,
+                      nAng = nAng,
+                     nIter = nIter,
+                   nRefine = nRefine,
+                       pad = padDist,
+                  useSciPy = useSciPy,
         )                                                                       # [°], [°], [°] or [m]
 
         # Check what method the user wants ...
@@ -460,17 +466,18 @@ def create_map_of_points(
         fov = buffer(
             shapely.geometry.point.Point(midLon, midLat),
             maxDist,
-                    debug = debug,
-                      eps = eps,
-                     fill = -1.0,
-                fillSpace = "EuclideanSpace",
-            keepInteriors = False,
-                     nAng = 361,
-                    nIter = nIter,
-                   prefix = prefix,
-                 ramLimit = ramLimit,
-                     simp = -1.0,
-                      tol = tol,
+            attemptFortran = attemptFortran,
+                     debug = debug,
+                       eps = eps,
+                      fill = -1.0,
+                 fillSpace = "EuclideanSpace",
+             keepInteriors = False,
+                      nAng = 361,
+                     nIter = nIter,
+                    prefix = prefix,
+                  ramLimit = ramLimit,
+                      simp = -1.0,
+                       tol = tol,
         )
 
         # Create axis ...
@@ -478,6 +485,7 @@ def create_map_of_points(
             fg,
               add_coastlines = False,
                add_gridlines = True,
+              attemptFortran = attemptFortran,
               configureAgain = bool(background == "OSM"),
                        debug = debug,
                         dist = maxDist,
