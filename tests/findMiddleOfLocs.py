@@ -488,8 +488,8 @@ if __name__ == "__main__":
         maxLat = max(maxLat, info["lat"])                                       # [°]
     minLon -= euclideanConv                                                     # [°]
     maxLon += euclideanConv                                                     # [°]
-    minLat -= 1.5 * euclideanConv                                               # [°]
-    maxLat += 1.5 * euclideanConv                                               # [°]
+    minLat -= euclideanConv                                                     # [°]
+    maxLat += euclideanConv                                                     # [°]
 
     # Calculate the ranges and the minimum range ...
     lonRange = maxLon - minLon                                                  # [°]
@@ -620,6 +620,10 @@ if __name__ == "__main__":
     cb.set_label("Geodesic Distance [km]")
 
     # Configure axis ...
+    # NOTE: Setting the ticks clobbers the limits, so the limits must be set
+    #       afterwards.
+    ax.set_xticks(numpy.linspace(-180.0, +180.0, num = 3601))
+    ax.set_yticks(numpy.linspace( -90.0,  +90.0, num = 1801))
     ax.grid()
     ax.set_aspect("equal")
     ax.set_title("How Different Are The Methods?")
