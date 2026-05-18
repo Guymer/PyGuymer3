@@ -9,7 +9,6 @@ SUBROUTINE find_middle_of_locs_geodesicCircle(                                  
     debug,                                                                      &
     dist,                                                                       &
     eps,                                                                        &
-    iRefine,                                                                    &
     nAng,                                                                       &
     nAngIter,                                                                   &
     nDistIter,                                                                  &
@@ -31,13 +30,12 @@ SUBROUTINE find_middle_of_locs_geodesicCircle(                                  
     INTEGER(kind = C_LONG_LONG), INTENT(in)                                     :: n
     REAL(kind = C_DOUBLE), DIMENSION(n), INTENT(in)                             :: lons
     REAL(kind = C_DOUBLE), DIMENSION(n), INTENT(in)                             :: lats
-    REAL(kind = C_DOUBLE), INTENT(inout)                                        :: midLon
-    REAL(kind = C_DOUBLE), INTENT(inout)                                        :: midLat
+    REAL(kind = C_DOUBLE), INTENT(out)                                          :: midLon
+    REAL(kind = C_DOUBLE), INTENT(out)                                          :: midLat
     REAL(kind = C_DOUBLE), INTENT(out)                                          :: maxDist
 
     ! Declare optional input variables/outputs ...
     LOGICAL, INTENT(in)                                                         :: debug
-    INTEGER(kind = C_LONG_LONG), INTENT(in)                                     :: iRefine
     INTEGER(kind = C_LONG_LONG), INTENT(in)                                     :: nAng
     INTEGER(kind = C_LONG_LONG), INTENT(in)                                     :: nAngIter
     INTEGER(kind = C_LONG_LONG), INTENT(in)                                     :: nDistIter
@@ -61,7 +59,7 @@ SUBROUTINE find_middle_of_locs_geodesicCircle(                                  
             debug = LOGICAL(debug, kind = INT8),                                &
              dist = dist,                                                       &
               eps = eps,                                                        &
-          iRefine = iRefine,                                                    &
+          iRefine = 1_INT64,                                                    &
              nAng = nAng,                                                       &
          nAngIter = nAngIter,                                                   &
         nDistIter = nDistIter,                                                  &
