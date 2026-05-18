@@ -24,10 +24,12 @@ RM      := $(shell which rm             2> /dev/null || echo "ERROR")
 # *                             DYNAMIC VARIABLES                              *
 # ******************************************************************************
 
+DUMPMACHINE := $(shell $(FC) -dumpmachine 2> /dev/null || echo "ERROR")
+DUMPVERSION := $(shell $(FC) -dumpversion 2> /dev/null || echo "ERROR")
 ifeq ($(COVERAGE), true)
 	LANG_OPTS += -g -O0 -fprofile-abs-path --coverage
 else ifeq ($(DEBUG), true)
-	LANG_OPTS += -g -O0 -fcheck=all
+	LANG_OPTS += -g -O0 -fbacktrace -fcheck=all -ffpe-trap=invalid,zero
 else
 	LANG_OPTS += -O2
 endif
@@ -67,7 +69,7 @@ endif
 # *                             DERIVED VARIABLES                              *
 # ******************************************************************************
 
-SUFFIX ?= $(shell $(PYTHON3) -c "import sysconfig; print(sysconfig.get_config_var(\"EXT_SUFFIX\"))")
+SUFFIX := $(shell $(PYTHON3) -c "import sysconfig; print(sysconfig.get_config_var(\"EXT_SUFFIX\"))")
 
 # ******************************************************************************
 # *                           USER-SPECIFIED TARGETS                           *
@@ -86,7 +88,12 @@ compile:	funcs.so
 
 # "gmake -r help"    = print this help
 help:
-	echo "The suffix is \"${SUFFIX}\"."
+	echo "These are the known settings:"
+	echo "  COVERAGE = $(COVERAGE)"
+	echo "     DEBUG = $(DEBUG)"
+	echo "   MACHINE = $(DUMPMACHINE)"
+	echo "    SUFFIX = $(SUFFIX)"
+	echo "   VERSION = $(DUMPVERSION)"
 	echo "These are the available options:"
 	$(GREP) -E "^# \"gmake -r " Makefile | $(CUT) -c 2-
 
@@ -125,10 +132,10 @@ $(FTNLIB)/%.o &:	$(FTNLIB)/%.F90
 funcs.so:			$(FTNLIB)/libmod_safe.a										\
 					funcs.F90													\
 					src/*.f90
-	$(RM) -f funcs.*.so funcs.so
+	$(RM) -f funcs.*.so $@
 	FC=$(FC) FFLAGS="$(LANG_OPTS) $(WARN_OPTS) $(MACH_OPTS)" $(PYTHON3) -m numpy.f2py -c funcs.F90 -m funcs --backend meson -lgomp -lmod_safe -L$(FTNLIB) -I$(FTNLIB) -I$(CURDIR)
 	test $(shell uname) = Darwin && install_name_tool -add_rpath /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib funcs$(SUFFIX) || true
 	test $(shell uname) = Darwin && install_name_tool -add_rpath /opt/local/lib funcs$(SUFFIX) || true
 	test $(shell uname) = Darwin && install_name_tool -add_rpath /opt/local/lib/libgcc funcs$(SUFFIX) || true
 	test $(shell uname) = Darwin && install_name_tool -add_rpath /opt/local/lib/libomp funcs$(SUFFIX) || true
-	$(LN) -s funcs$(SUFFIX) funcs.so
+	$(LN) -s funcs$(SUFFIX) $@
