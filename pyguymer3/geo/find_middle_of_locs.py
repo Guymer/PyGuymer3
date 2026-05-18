@@ -125,7 +125,7 @@ def find_middle_of_locs(
             # Return answer ...
             # NOTE: The FORTRAN implementation does not support padding.
             if fortran:
-                midLon, midLat, maxDist = funcs.find_middle_of_locs_euclideanbox(
+                midLon, midLat, maxDist = funcs.find_middle_of_locs_euclideanbox(   # pylint: disable=E0606
                     lons,
                     lats,
                 )
@@ -142,7 +142,7 @@ def find_middle_of_locs(
             # Return answer ...
             # NOTE: The FORTRAN implementation does not support padding.
             if fortran:
-                midLon, midLat, maxDist = funcs.find_middle_of_locs_euclideancircle(
+                midLon, midLat, maxDist = funcs.find_middle_of_locs_euclideancircle(    # pylint: disable=E0606
                     lons,
                     lats,
                     angConv,
@@ -190,7 +190,7 @@ def find_middle_of_locs(
             # Return answer ...
             # NOTE: The FORTRAN implementation does not support padding.
             if fortran:
-                midLon, midLat, maxDist = funcs.find_middle_of_locs_geodesiccircle(
+                midLon, midLat, maxDist = funcs.find_middle_of_locs_geodesiccircle( # pylint: disable=E0606
                     lons,
                     lats,
                     angConv,

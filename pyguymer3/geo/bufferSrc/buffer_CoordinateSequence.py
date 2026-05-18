@@ -187,7 +187,7 @@ def buffer_CoordinateSequence(
 
     # Buffer (in Geodesic space) the CoordinateSequence ...
     if fortran:
-        points2 = funcs.buffer_points_crudely(
+        points2 = funcs.buffer_points_crudely(                                  # pylint: disable=E0606
             points1,
             dist,
             nAng,
