@@ -6,18 +6,19 @@ def find_middle_of_locs(
     lats,
     /,
     *,
-     angConv = 0.1,
-        conv = 1.0e3,
-       debug = __debug__,
-         eps = 1.0e-12,
-      method = "GeodesicBox",
-      midLat = None,
-      midLon = None,
-        nAng = 9,
-       nIter = 100,
-     nRefine = 1,
-         pad = 10.0e3,
-    useSciPy = False,
+           angConv = 0.1,
+    attemptFortran = True,
+              conv = 1.0e3,
+             debug = __debug__,
+               eps = 1.0e-12,
+            method = "GeodesicBox",
+            midLat = None,
+            midLon = None,
+              nAng = 9,
+             nIter = 100,
+           nRefine = 1,
+               pad = 10.0e3,
+          useSciPy = False,
 ):
     """Find the middle of some locations
 
@@ -33,6 +34,8 @@ def find_middle_of_locs(
         the latitudes (in degrees)
     angConv : float, optional
         the angle change which classifies as converged (in degrees)
+    attemptFortran : bool, optional
+        attempt to use a f2py implementation first when using my own minimizer
     conv : float, optional
         the distance that defines the middle as being converged (in degrees or
         metres)
@@ -85,6 +88,24 @@ def find_middle_of_locs(
     from .find_middle_of_locsSrc import find_middle_of_locs_euclideanCircle
     from .find_middle_of_locsSrc import find_middle_of_locs_geodesicBox
     from .find_middle_of_locsSrc import find_middle_of_locs_geodesicCircle
+    if attemptFortran:
+        try:
+            from ..f90 import funcs
+            if debug:
+                print("INFO: Will find the middle using FORTRAN.")
+            fortran = True
+        except ModuleNotFoundError:
+            if debug:
+                print("INFO: Will find the middle using Python (did not find FORTRAN module).")
+            fortran = False
+        except ImportError:
+            if debug:
+                print("INFO: Will find the middle using Python (error when attempting to import found FORTRAN).")
+            fortran = False
+    else:
+        if debug:
+            print("INFO: Will find the middle using Python (you told me not to attempt using FORTRAN).")
+        fortran = False
 
     # **************************************************************************
 
@@ -102,6 +123,11 @@ def find_middle_of_locs(
     match method:
         case "EuclideanBox":
             # Return answer ...
+            if fortran:
+                return funcs.find_middle_of_locs_euclideanbox(
+                    lons,
+                    lats,
+                )
             return find_middle_of_locs_euclideanBox(
                 lons,
                 lats,
@@ -110,6 +136,18 @@ def find_middle_of_locs(
             )
         case "EuclideanCircle":
             # Return answer ...
+            if fortran:
+                return funcs.find_middle_of_locs_euclideancircle(
+                    lons,
+                    lats,
+                    angConv,
+                    debug,
+                    conv,
+                    nAng,
+                    nIter,
+                    nIter,
+                    nRefine,
+                )
             return find_middle_of_locs_euclideanCircle(
                 lons,
                 lats,
@@ -142,6 +180,20 @@ def find_middle_of_locs(
             )
         case "GeodesicCircle":
             # Return answer ...
+            if fortran:
+                return funcs.find_middle_of_locs_geodesiccircle(
+                    lons,
+                    lats,
+                    angConv,
+                    debug,
+                    conv,
+                    eps,
+                    nAng,
+                    nIter,
+                    nIter,
+                    nIter,
+                    nRefine,
+                )
             return find_middle_of_locs_geodesicCircle(
                 lons,
                 lats,
