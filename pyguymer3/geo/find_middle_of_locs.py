@@ -35,7 +35,7 @@ def find_middle_of_locs(
     angConv : float, optional
         the angle change which classifies as converged (in degrees)
     attemptFortran : bool, optional
-        attempt to use a f2py implementation first when using my own minimizer
+        attempt to use a f2py implementation first, when using my own minimizer
     conv : float, optional
         the distance that defines the middle as being converged (in degrees or
         metres)
