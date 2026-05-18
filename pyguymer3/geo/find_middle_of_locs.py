@@ -123,11 +123,15 @@ def find_middle_of_locs(
     match method:
         case "EuclideanBox":
             # Return answer ...
+            # NOTE: The FORTRAN implementation does not support padding.
             if fortran:
-                return funcs.find_middle_of_locs_euclideanbox(
+                midLon, midLat, maxDist = funcs.find_middle_of_locs_euclideanbox(
                     lons,
                     lats,
                 )
+                if pad > 0.0:
+                    maxDist += pad                                              # [°]
+                return midLon, midLat, maxDist
             return find_middle_of_locs_euclideanBox(
                 lons,
                 lats,
@@ -136,8 +140,9 @@ def find_middle_of_locs(
             )
         case "EuclideanCircle":
             # Return answer ...
+            # NOTE: The FORTRAN implementation does not support padding.
             if fortran:
-                return funcs.find_middle_of_locs_euclideancircle(
+                midLon, midLat, maxDist = funcs.find_middle_of_locs_euclideancircle(
                     lons,
                     lats,
                     angConv,
@@ -148,6 +153,9 @@ def find_middle_of_locs(
                     nIter,
                     nRefine,
                 )
+                if pad > 0.0:
+                    maxDist += pad                                              # [°]
+                return midLon, midLat, maxDist
             return find_middle_of_locs_euclideanCircle(
                 lons,
                 lats,
@@ -180,8 +188,9 @@ def find_middle_of_locs(
             )
         case "GeodesicCircle":
             # Return answer ...
+            # NOTE: The FORTRAN implementation does not support padding.
             if fortran:
-                return funcs.find_middle_of_locs_geodesiccircle(
+                midLon, midLat, maxDist = funcs.find_middle_of_locs_geodesiccircle(
                     lons,
                     lats,
                     angConv,
@@ -194,6 +203,9 @@ def find_middle_of_locs(
                     nIter,
                     nRefine,
                 )
+                if pad > 0.0:
+                    maxDist += pad                                              # [m]
+                return midLon, midLat, maxDist
             return find_middle_of_locs_geodesicCircle(
                 lons,
                 lats,
