@@ -8,9 +8,10 @@ def max_dist(
     midLat,
     /,
     *,
-      eps = 1.0e-12,
-    nIter = 100,
-    space = "EuclideanSpace",
+    attemptFortran = True,
+               eps = 1.0e-12,
+             nIter = 100,
+             space = "EuclideanSpace",
 ):
     # Import special modules ...
     try:
@@ -21,6 +22,24 @@ def max_dist(
     # Import sub-functions ...
     from .max_distSrc import max_dist_euclidean
     from .max_distSrc import max_dist_geodesic
+    if attemptFortran:
+        try:
+            from ..f90 import funcs
+            if debug:
+                print("INFO: Will find the maximum using FORTRAN.")
+            fortran = True
+        except ModuleNotFoundError:
+            if debug:
+                print("INFO: Will find the maximum using Python (did not find FORTRAN module).")
+            fortran = False
+        except ImportError:
+            if debug:
+                print("INFO: Will find the maximum using Python (error when attempting to import found FORTRAN).")
+            fortran = False
+    else:
+        if debug:
+            print("INFO: Will find the maximum using Python (you told me not to attempt using FORTRAN).")
+        fortran = False
 
     # **************************************************************************
 
@@ -38,6 +57,14 @@ def max_dist(
             assert nIter is None, "\"nIter\" is not None but \"space\" is \"EuclideanSpace\""
 
             # Return answer ...
+            # NOTE: The FORTRAN implementation does not support padding.
+            if fortran:
+                return funcs.max_dist_euclideanSpace(                           # pylint: disable=E0606
+                    midLon = midLon,
+                    midLat = midLat,
+                      lons = lons,
+                      lats = lats,
+                )
             return max_dist_euclidean(
                 lons,
                 lats,
@@ -46,6 +73,16 @@ def max_dist(
             )
         case "GeodesicSpace":
             # Return answer ...
+            # NOTE: The FORTRAN implementation does not support padding.
+            if fortran:
+                return funcs.max_dist_geodesicSpace(                            # pylint: disable=E0606
+                    midLon = midLon,
+                    midLat = midLat,
+                      lons = lons,
+                      lats = lats,
+                       eps = eps,
+                      nMax = nIter,
+                )
             return max_dist_geodesic(
                 lons,
                 lats,

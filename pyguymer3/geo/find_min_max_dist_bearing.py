@@ -135,7 +135,6 @@ def find_min_max_dist_bearing(
         match method:
             case "EuclideanSpace":
                 return funcs.find_min_max_dist_bearing_euclideanSpace(          # pylint: disable=E0606
-                               n = n,
                           midLon = midLon,
                           midLat = midLat,
                             lons = lons,
@@ -151,7 +150,6 @@ def find_min_max_dist_bearing(
                 )
             case "GeodesicSpace":
                 return funcs.find_min_max_dist_bearing_geodesicSpace(           # pylint: disable=E0606
-                               n = n,
                           midLon = midLon,
                           midLat = midLat,
                             lons = lons,
