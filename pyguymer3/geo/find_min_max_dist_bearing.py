@@ -134,36 +134,36 @@ def find_min_max_dist_bearing(
         # Check what space the user wants ...
         match space:
             case "EuclideanSpace":
-                return funcs.find_min_max_dist_bearing_euclideanSpace(          # pylint: disable=E0606
-                          midLon = midLon,
-                          midLat = midLat,
+                return funcs.find_min_max_dist_bearing_euclideanspace(          # pylint: disable=E0606
+                          midlon = midLon,
+                          midlat = midLat,
                             lons = lons,
                             lats = lats,
-                         angConv = angConv,
-                    angHalfRange = angHalfRange,
+                         angconv = angConv,
+                    anghalfrange = angHalfRange,
                            debug = debug,
                             dist = dist,
-                            nAng = nAng,
-                        nAngIter = iIter,
-                       nDistIter = iIter,
-                        startAng = startAng,
+                            nang = nAng,
+                        nangiter = iIter,
+                       ndistiter = iIter,
+                        startang = startAng,
                 )
             case "GeodesicSpace":
-                return funcs.find_min_max_dist_bearing_geodesicSpace(           # pylint: disable=E0606
-                          midLon = midLon,
-                          midLat = midLat,
+                return funcs.find_min_max_dist_bearing_geodesicspace(           # pylint: disable=E0606
+                          midlon = midLon,
+                          midlat = midLat,
                             lons = lons,
                             lats = lats,
-                         angConv = angConv,
-                    angHalfRange = angHalfRange,
+                         angconv = angConv,
+                    anghalfrange = angHalfRange,
                            debug = debug,
                             dist = dist,
                              eps = eps,
-                            nAng = nAng,
-                        nAngIter = iIter,
-                       nDistIter = iIter,
-                            nMax = nIter,
-                        startAng = startAng,
+                            nang = nAng,
+                        nangiter = iIter,
+                       ndistiter = iIter,
+                            nmax = nIter,
+                        startang = startAng,
                 )
             case _:
                 # Crash ...

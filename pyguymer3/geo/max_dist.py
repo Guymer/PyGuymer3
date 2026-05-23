@@ -60,9 +60,9 @@ def max_dist(
             # Return answer ...
             # NOTE: The FORTRAN implementation does not support padding.
             if fortran:
-                return funcs.max_dist_euclideanSpace(                           # pylint: disable=E0606
-                    midLon = midLon,
-                    midLat = midLat,
+                return funcs.max_dist_euclideanspace(                           # pylint: disable=E0606
+                    midlon = midLon,
+                    midlat = midLat,
                       lons = lons,
                       lats = lats,
                 )
@@ -76,13 +76,13 @@ def max_dist(
             # Return answer ...
             # NOTE: The FORTRAN implementation does not support padding.
             if fortran:
-                return funcs.max_dist_geodesicSpace(                            # pylint: disable=E0606
-                    midLon = midLon,
-                    midLat = midLat,
+                return funcs.max_dist_geodesicspace(                            # pylint: disable=E0606
+                    midlon = midLon,
+                    midlat = midLat,
                       lons = lons,
                       lats = lats,
                        eps = eps,
-                      nMax = nIter,
+                      nmax = nIter,
                 )
             return max_dist_geodesic(
                 lons,
