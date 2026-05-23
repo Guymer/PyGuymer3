@@ -8,6 +8,7 @@ if __name__ == "__main__":
     import json
     import os
     import pathlib
+    import shutil
     import sys
 
     # Import special modules ...
@@ -66,6 +67,12 @@ if __name__ == "__main__":
            type = str,
     )
     parser.add_argument(
+        "--chunksize",
+        default = 1048576,
+           help = "the size of the chunks of any files which are read in (in bytes)",
+           type = int,
+    )
+    parser.add_argument(
         "--debug",
         action = "store_true",
           help = "print debug messages",
@@ -78,11 +85,32 @@ if __name__ == "__main__":
            type = float,
     )
     parser.add_argument(
+        "--exiftool-path",
+        default = shutil.which("exiftool"),
+           dest = "exiftoolPath",
+           help = "the path to the \"exiftool\" binary",
+           type = str,
+    )
+    parser.add_argument(
+        "--gifsicle-path",
+        default = shutil.which("gifsicle"),
+           dest = "gifsiclePath",
+           help = "the path to the \"gifsicle\" binary",
+           type = str,
+    )
+    parser.add_argument(
         "--initial-geodesic-convergence",
         default = 1000.0e3,
            dest = "initialGeodesicConv",
            help = "the *initial* Geodesic distance that defines the middle as being converged (in metres)",
            type = float,
+    )
+    parser.add_argument(
+        "--jpegtran-path",
+        default = shutil.which("jpegtran"),
+           dest = "jpegtranPath",
+           help = "the path to the \"jpegtran\" binary",
+           type = str,
     )
     parser.add_argument(
         "--nAng",
@@ -104,6 +132,13 @@ if __name__ == "__main__":
            dest = "nIter",
            help = "the maximum number of iterations (particularly the Vincenty formula)",
            type = int,
+    )
+    parser.add_argument(
+        "--optipng-path",
+        default = shutil.which("optipng"),
+           dest = "optipngPath",
+           help = "the path to the \"optipng\" binary",
+           type = str,
     )
     parser.add_argument(
         "--timeout",
@@ -194,9 +229,11 @@ if __name__ == "__main__":
                 lats,
                 lonsDivL[iLon],
                 latsDivL[iLat],
-                  eps = args.eps,
-                nIter = args.nIter,
-                space = "GeodesicSpace",
+                attemptFortran = True,
+                         debug = args.debug,
+                           eps = args.eps,
+                         nIter = args.nIter,
+                         space = "GeodesicSpace",
             )                                                                   # [m]
     maxDistL *= 0.001                                                           # [km]
 
@@ -259,9 +296,11 @@ if __name__ == "__main__":
                 lats,
                 lonsDivM[iLon],
                 latsDivM[iLat],
-                  eps = args.eps,
-                nIter = args.nIter,
-                space = "GeodesicSpace",
+                attemptFortran = True,
+                         debug = args.debug,
+                           eps = args.eps,
+                         nIter = args.nIter,
+                         space = "GeodesicSpace",
             )                                                                   # [m]
     maxDistM *= 0.001                                                           # [km]
 
@@ -324,9 +363,11 @@ if __name__ == "__main__":
                 lats,
                 lonsDivR[iLon],
                 latsDivR[iLat],
-                  eps = args.eps,
-                nIter = args.nIter,
-                space = "GeodesicSpace",
+                attemptFortran = True,
+                         debug = args.debug,
+                           eps = args.eps,
+                         nIter = args.nIter,
+                         space = "GeodesicSpace",
             )                                                                   # [m]
     maxDistR *= 0.001                                                           # [km]
 
@@ -389,9 +430,11 @@ if __name__ == "__main__":
                 lats,
                 lonsDivB[iLon],
                 latsDivB[iLat],
-                  eps = args.eps,
-                nIter = args.nIter,
-                space = "GeodesicSpace",
+                attemptFortran = True,
+                         debug = args.debug,
+                           eps = args.eps,
+                         nIter = args.nIter,
+                         space = "GeodesicSpace",
             )                                                                   # [m]
     maxDistB *= 0.001                                                           # [km]
 
@@ -535,7 +578,11 @@ if __name__ == "__main__":
         )
     ).records():
         # Loop over Polygons ...
-        for poly in pyguymer3.geo.extract_polys(record.geometry):
+        for poly in pyguymer3.geo.extract_polys(
+            record.geometry,
+            onlyValid = True,
+               repair = False,
+        ):
             # Create short-hand ...
             coords = numpy.array(poly.exterior.coords)                          # [°]
 
@@ -685,7 +732,12 @@ if __name__ == "__main__":
     # Optimise PNG ...
     pyguymer3.image.optimise_image(
         pName,
-          debug = args.debug,
-          strip = True,
-        timeout = args.timeout,
+           chunksize = args.chunksize,
+               debug = args.debug,
+        exiftoolPath = args.exiftoolPath,
+        gifsiclePath = args.gifsiclePath,
+        jpegtranPath = args.jpegtranPath,
+         optipngPath = args.optipngPath,
+               strip = True,
+             timeout = args.timeout,
     )
