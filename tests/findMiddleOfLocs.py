@@ -174,14 +174,15 @@ if __name__ == "__main__":
     midLon1, midLat1, maxDist1 = pyguymer3.geo.find_middle_of_locs(
         lons,
         lats,
-           conv = None,
-          debug = args.debug,
-            eps = None,
-         method = "EuclideanBox",
-           nAng = None,
-          nIter = None,
-        nRefine = None,
-            pad = -1.0,
+        attemptFortran = True,
+                  conv = None,
+                 debug = args.debug,
+                   eps = None,
+                method = "EuclideanBox",
+                  nAng = None,
+                 nIter = None,
+               nRefine = None,
+                   pad = -1.0,
     )                                                                           # [°], [°], [°]
     EuclideanBox = shapely.geometry.point.Point(midLon1, midLat1).buffer(
         maxDist1,
@@ -193,25 +194,27 @@ if __name__ == "__main__":
     midLon2, midLat2, maxDist2 = pyguymer3.geo.find_middle_of_locs(
         lons,
         lats,
-           conv = args.geodesicConv,                                            # 10 km
-          debug = args.debug,
-            eps = args.eps,
-         method = "GeodesicBox",
-           nAng = args.nAng,
-          nIter = args.nIter,
-        nRefine = args.nRefine,                                                 # 156.25 m
-            pad = -1.0,
+        attemptFortran = True,
+                  conv = args.geodesicConv,                                     # 10 km
+                 debug = args.debug,
+                   eps = args.eps,
+                method = "GeodesicBox",
+                  nAng = args.nAng,
+                 nIter = args.nIter,
+               nRefine = args.nRefine,                                          # 156.25 m
+                   pad = -1.0,
     )                                                                           # [°], [°], [m]
     GeodesicBox = pyguymer3.geo.buffer(
         shapely.geometry.point.Point(midLon2, midLat2),
         maxDist2,
-        debug = args.debug,
-          eps = args.eps,
-         fill = -1.0,
-         nAng = args.nAng,
-        nIter = args.nIter,
-         simp = -1.0,
-          tol = args.tol,
+        attemptFortran = True,
+                 debug = args.debug,
+                   eps = args.eps,
+                  fill = -1.0,
+                  nAng = args.nAng,
+                 nIter = args.nIter,
+                  simp = -1.0,
+                   tol = args.tol,
     )
     print(f"    GeodesicBox: ({midLon2:.6f}°, {midLat2:.6f}°) and {0.001 * maxDist2:,.1f} km.")
 
@@ -219,14 +222,15 @@ if __name__ == "__main__":
     midLon3, midLat3, maxDist3 = pyguymer3.geo.find_middle_of_locs(
         lons,
         lats,
-           conv = euclideanConv,                                                # ~10 km
-          debug = args.debug,
-            eps = None,
-         method = "EuclideanCircle",
-           nAng = args.nAng,
-          nIter = args.nIter,
-        nRefine = args.nRefine,                                                 # ~156.25 m
-            pad = -1.0,
+        attemptFortran = True,
+                  conv = euclideanConv,                                         # ~10 km
+                 debug = args.debug,
+                   eps = None,
+                method = "EuclideanCircle",
+                  nAng = args.nAng,
+                 nIter = args.nIter,
+               nRefine = args.nRefine,                                          # ~156.25 m
+                   pad = -1.0,
     )                                                                           # [°], [°], [°]
     EuclideanCircle = shapely.geometry.point.Point(midLon3, midLat3).buffer(
         maxDist3,
@@ -238,25 +242,27 @@ if __name__ == "__main__":
     midLon4, midLat4, maxDist4 = pyguymer3.geo.find_middle_of_locs(
         lons,
         lats,
-           conv = args.geodesicConv,                                            # 10 km
-          debug = args.debug,
-            eps = args.eps,
-         method = "GeodesicCircle",
-           nAng = args.nAng,
-          nIter = args.nIter,
-        nRefine = args.nRefine,                                                 # 156.25 m
-            pad = -1.0,
+        attemptFortran = True,
+                  conv = args.geodesicConv,                                     # 10 km
+                 debug = args.debug,
+                   eps = args.eps,
+                method = "GeodesicCircle",
+                  nAng = args.nAng,
+                 nIter = args.nIter,
+               nRefine = args.nRefine,                                          # 156.25 m
+                   pad = -1.0,
     )                                                                           # [°], [°], [m]
     GeodesicCircle = pyguymer3.geo.buffer(
         shapely.geometry.point.Point(midLon4, midLat4),
         maxDist4,
-        debug = args.debug,
-          eps = args.eps,
-         fill = -1.0,
-         nAng = args.nAng,
-        nIter = args.nIter,
-         simp = -1.0,
-          tol = args.tol,
+        attemptFortran = True,
+                 debug = args.debug,
+                   eps = args.eps,
+                  fill = -1.0,
+                  nAng = args.nAng,
+                 nIter = args.nIter,
+                  simp = -1.0,
+                   tol = args.tol,
     )
     print(f" GeodesicCircle: ({midLon4:.6f}°, {midLat4:.6f}°) and {0.001 * maxDist4:,.1f} km.")
 
@@ -332,6 +338,7 @@ if __name__ == "__main__":
                 fg,
                 add_coastlines = False,                     # NOTE: Do not draw coastlines so that changes in GSHHG do not change the image.
                  add_gridlines = True,
+                attemptFortran = True,
                          debug = args.debug,
                           dist = maxDist1 * pyguymer3.RESOLUTION_OF_EARTH,
                            eps = args.eps,
@@ -521,9 +528,11 @@ if __name__ == "__main__":
                 lats,
                 lonsDiv[iLon],
                 latsDiv[iLat],
-                  eps = args.eps,
-                nIter = args.nIter,
-                space = "GeodesicSpace",
+                attemptFortran = True,
+                         debug = args.debug,
+                           eps = args.eps,
+                         nIter = args.nIter,
+                         space = "GeodesicSpace",
             )                                                                   # [m]
     maxDist *= 0.001                                                            # [km]
 
