@@ -38229,6 +38229,10 @@ pyguymer3/f90/src/buffer_points_crudely.f90
 pyguymer3/f90/src/find_middle_of_locs_euclideanBox.f90
 pyguymer3/f90/src/find_middle_of_locs_euclideanCircle.f90
 pyguymer3/f90/src/find_middle_of_locs_geodesicCircle.f90
+pyguymer3/f90/src/find_min_max_dist_bearing_euclideanSpace.f90
+pyguymer3/f90/src/find_min_max_dist_bearing_geodesicSpace.f90
+pyguymer3/f90/src/max_dist_euclideanSpace.f90
+pyguymer3/f90/src/max_dist_geodesicSpace.f90
 pyguymer3/find_instances_of_a_file.py
 pyguymer3/find_integer_divisors.py
 pyguymer3/find_program_version.py
@@ -38565,6 +38569,7 @@ pyproject.toml
 README.md
 requirements.txt
 scripts/convergeMiddleOfLocations.png
+scripts/convergeMiddleOfLocations.py
 scripts/demonstrateGlobeGshhgTiles.py
 scripts/demonstrateGlobeGshhgTiles/maxElev=1000m/elevInt=250m/res=f/144x72.png
 scripts/demonstrateGlobeGshhgTiles/maxElev=1000m/elevInt=250m/res=f/18x9.png
@@ -39231,7 +39236,6 @@ tests/findMiddleOfLocs.py
 tests/findMiddleOfLocs/comparison.json
 tests/findMiddleOfLocs/comparison.png
 tests/findMiddleOfLocs/locations.png
-tests/findMiddleOfLocsRefinement.py
 tests/greatCircle.py
 tests/greatCircle/greatCircle0_0.geojson
 tests/greatCircle/greatCircle0_1.geojson
