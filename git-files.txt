@@ -38564,6 +38564,7 @@ pyguymer3/xz.py
 pyproject.toml
 README.md
 requirements.txt
+scripts/convergeMiddleOfLocations.png
 scripts/demonstrateGlobeGshhgTiles.py
 scripts/demonstrateGlobeGshhgTiles/maxElev=1000m/elevInt=250m/res=f/144x72.png
 scripts/demonstrateGlobeGshhgTiles/maxElev=1000m/elevInt=250m/res=f/18x9.png
@@ -39230,6 +39231,7 @@ tests/findMiddleOfLocs.py
 tests/findMiddleOfLocs/comparison.json
 tests/findMiddleOfLocs/comparison.png
 tests/findMiddleOfLocs/locations.png
+tests/findMiddleOfLocsRefinement.py
 tests/greatCircle.py
 tests/greatCircle/greatCircle0_0.geojson
 tests/greatCircle/greatCircle0_1.geojson

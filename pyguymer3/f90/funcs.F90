@@ -10,4 +10,6 @@ MODULE funcs
     INCLUDE "src/find_middle_of_locs_euclideanBox.f90"
     INCLUDE "src/find_middle_of_locs_euclideanCircle.f90"
     INCLUDE "src/find_middle_of_locs_geodesicCircle.f90"
+    INCLUDE "src/find_min_max_dist_bearing_euclideanSpace.f90"
+    INCLUDE "src/find_min_max_dist_bearing_geodesicSpace.f90"
 END MODULE funcs

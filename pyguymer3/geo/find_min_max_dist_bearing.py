@@ -8,17 +8,18 @@ def find_min_max_dist_bearing(
     lats,
     /,
     *,
-         angConv = 0.1,
-    angHalfRange = 180.0,
-           debug = __debug__,
-            dist = 1000.0,
-             eps = 1.0e-12,
-           first = True,
-           iIter = 0,
-            nAng = 9,
-           nIter = 100,
-           space = "EuclideanSpace",
-        startAng = 180.0,
+           angConv = 0.1,
+      angHalfRange = 180.0,
+    attemptFortran = True,
+             debug = __debug__,
+              dist = 1000.0,
+               eps = 1.0e-12,
+             first = True,
+             iIter = 0,
+              nAng = 9,
+             nIter = 100,
+             space = "EuclideanSpace",
+          startAng = 180.0,
 ):
     """Find the bearing which points towards the minimum maximum distance to
     some locations
@@ -41,6 +42,8 @@ def find_min_max_dist_bearing(
         the angle change which classifies as converged (in degrees)
     angHalfRange : float, optional
         the angle either side of the starting angle to search over (in degrees)
+    attemptFortran : bool, optional
+        attempt to use a f2py implementation
     debug : bool, optional
         print debug messages
     dist : float, optional
@@ -92,6 +95,24 @@ def find_min_max_dist_bearing(
     # Import sub-functions ...
     from .calc_loc_from_loc_and_bearing_and_dist import calc_loc_from_loc_and_bearing_and_dist
     from .max_dist import max_dist
+    if attemptFortran:
+        try:
+            from ..f90 import funcs
+            if debug:
+                print("INFO: Will find the minimum maximum using FORTRAN.")
+            fortran = True
+        except ModuleNotFoundError:
+            if debug:
+                print("INFO: Will find the minimum maximum using Python (did not find FORTRAN module).")
+            fortran = False
+        except ImportError:
+            if debug:
+                print("INFO: Will find the minimum maximum using Python (error when attempting to import found FORTRAN).")
+            fortran = False
+    else:
+        if debug:
+            print("INFO: Will find the minimum maximum using Python (you told me not to attempt using FORTRAN).")
+        fortran = False
 
     # **************************************************************************
 
@@ -105,6 +126,50 @@ def find_min_max_dist_bearing(
 
     if debug:
         print(f"INFO: #{iIter + 1:,d}/{nIter:,d}: The middle is now ({midLon:.6f}°, {midLat:.6f}°) and the minimum maximum distance bearing is now {startAng:.6f}°.")
+
+    # **************************************************************************
+
+    # Check if we can use FORTRAN ...
+    if fortran:
+        # Check what space the user wants ...
+        match method:
+            case "EuclideanSpace":
+                return funcs.find_min_max_dist_bearing_euclideanSpace(          # pylint: disable=E0606
+                               n = n,
+                          midLon = midLon,
+                          midLat = midLat,
+                            lons = lons,
+                            lats = lats,
+                         angConv = angConv,
+                    angHalfRange = angHalfRange,
+                           debug = debug,
+                            dist = dist,
+                            nAng = nAng,
+                        nAngIter = iIter,
+                       nDistIter = iIter,
+                        startAng = startAng,
+                )
+            case "GeodesicSpace":
+                return funcs.find_min_max_dist_bearing_geodesicSpace(           # pylint: disable=E0606
+                               n = n,
+                          midLon = midLon,
+                          midLat = midLat,
+                            lons = lons,
+                            lats = lats,
+                         angConv = angConv,
+                    angHalfRange = angHalfRange,
+                           debug = debug,
+                            dist = dist,
+                             eps = eps,
+                            nAng = nAng,
+                        nAngIter = iIter,
+                       nDistIter = iIter,
+                            nMax = nIter,
+                        startAng = startAng,
+                )
+            case _:
+                # Crash ...
+                raise ValueError(f"\"space\" is an unexpected value ({repr(space)})") from None
 
     # **************************************************************************
 
