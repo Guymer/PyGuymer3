@@ -132,7 +132,7 @@ def find_min_max_dist_bearing(
     # Check if we can use FORTRAN ...
     if fortran:
         # Check what space the user wants ...
-        match method:
+        match space:
             case "EuclideanSpace":
                 return funcs.find_min_max_dist_bearing_euclideanSpace(          # pylint: disable=E0606
                           midLon = midLon,
@@ -244,9 +244,11 @@ def find_min_max_dist_bearing(
             lats,
             angLons[iAng],
             angLats[iAng],
-              eps = eps,
-            nIter = None if space == "EuclideanSpace" else nIter,
-            space = space,
+            attemptFortran = attemptFortran,
+                     debug = debug,
+                       eps = eps,
+                     nIter = None if space == "EuclideanSpace" else nIter,
+                     space = space,
         )                                                                       # [°] or [m]
 
     # **************************************************************************
@@ -262,17 +264,18 @@ def find_min_max_dist_bearing(
             midLat,
             lons,
             lats,
-                 angConv = angConv,
-            angHalfRange = 0.5 * angHalfRange,
-                   debug = debug,
-                    dist = dist,
-                     eps = eps,
-                   first = False,
-                   iIter = iIter + 1,
-                    nAng = nAng,
-                   nIter = nIter,
-                   space = space,
-                startAng = (fakeAngs[iAng] + 360.0) % 360.0,
+                   angConv = angConv,
+              angHalfRange = 0.5 * angHalfRange,
+            attemptFortran = attemptFortran,
+                     debug = debug,
+                      dist = dist,
+                       eps = eps,
+                     first = False,
+                     iIter = iIter + 1,
+                      nAng = nAng,
+                     nIter = nIter,
+                     space = space,
+                  startAng = (fakeAngs[iAng] + 360.0) % 360.0,
         )
 
     # Fit a polynomial degree 2 to the values and find the best angle ...
@@ -295,15 +298,16 @@ def find_min_max_dist_bearing(
         midLat,
         lons,
         lats,
-             angConv = angConv,
-        angHalfRange = 0.5 * angHalfRange,
-               debug = debug,
-                dist = dist,
-                 eps = eps,
-               first = False,
-               iIter = iIter + 1,
-                nAng = nAng,
-               nIter = nIter,
-               space = space,
-            startAng = (bestAng + 360.0) % 360.0,
+               angConv = angConv,
+          angHalfRange = 0.5 * angHalfRange,
+        attemptFortran = attemptFortran,
+                 debug = debug,
+                  dist = dist,
+                   eps = eps,
+                 first = False,
+                 iIter = iIter + 1,
+                  nAng = nAng,
+                 nIter = nIter,
+                 space = space,
+              startAng = (bestAng + 360.0) % 360.0,
     )

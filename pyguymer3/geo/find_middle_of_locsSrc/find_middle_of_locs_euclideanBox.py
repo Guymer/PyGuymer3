@@ -6,8 +6,9 @@ def find_middle_of_locs_euclideanBox(
     lats,
     /,
     *,
-    debug = __debug__,
-      pad = 0.1,
+    attemptFortran = True,
+             debug = __debug__,
+               pad = 0.1,
 ):
     """Find the middle of some locations such that: a) the Euclidean distance to
     the most Northern point is the same as the Euclidean distance to the most
@@ -45,9 +46,11 @@ def find_middle_of_locs_euclideanBox(
         lats,
         midLon,
         midLat,
-          eps = None,
-        nIter = None,
-        space = "EuclideanSpace",
+        attemptFortran = attemptFortran,
+                 debug = debug,
+                   eps = None,
+                 nIter = None,
+                 space = "EuclideanSpace",
     )                                                                           # [°]
 
     if debug:

@@ -9,6 +9,7 @@ def max_dist(
     /,
     *,
     attemptFortran = True,
+             debug = __debug__,
                eps = 1.0e-12,
              nIter = 100,
              space = "EuclideanSpace",

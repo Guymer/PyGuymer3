@@ -6,15 +6,16 @@ def find_middle_of_locs_geodesicBox(
     lats,
     /,
     *,
-       conv = 1.0e3,
-      debug = __debug__,
-        eps = 1.0e-12,
-    iRefine = 0,
-     midLat = None,
-     midLon = None,
-      nIter = 100,
-    nRefine = 1,
-        pad = 10.0e3,
+    attemptFortran = True,
+              conv = 1.0e3,
+             debug = __debug__,
+               eps = 1.0e-12,
+           iRefine = 0,
+            midLat = None,
+            midLon = None,
+             nIter = 100,
+           nRefine = 1,
+               pad = 10.0e3,
 ):
     """Find the middle of some locations such that: a) the Geodesic distance to
     the most Northern point is the same as the Geodesic distance to the most
@@ -48,8 +49,9 @@ def find_middle_of_locs_geodesicBox(
         midLon, midLat, _ = find_middle_of_locs_euclideanBox(
             lons,
             lats,
-            debug = debug,
-              pad = -1.0,
+            attemptFortran = attemptFortran,
+                     debug = debug,
+                       pad = -1.0,
         )                                                                       # [°], [°]
 
     # Find the maximum Geodesic distance from the middle to any location ...
@@ -58,9 +60,11 @@ def find_middle_of_locs_geodesicBox(
         lats,
         midLon,
         midLat,
-          eps = eps,
-        nIter = nIter,
-        space = "GeodesicSpace",
+        attemptFortran = attemptFortran,
+                 debug = debug,
+                   eps = eps,
+                 nIter = nIter,
+                 space = "GeodesicSpace",
     )                                                                           # [m]
 
     if debug:
@@ -218,9 +222,11 @@ def find_middle_of_locs_geodesicBox(
         lats,
         midLon,
         midLat,
-          eps = eps,
-        nIter = nIter,
-        space = "GeodesicSpace",
+        attemptFortran = attemptFortran,
+                 debug = debug,
+                   eps = eps,
+                 nIter = nIter,
+                 space = "GeodesicSpace",
     )                                                                           # [m]
 
     if debug:
@@ -242,13 +248,14 @@ def find_middle_of_locs_geodesicBox(
     return find_middle_of_locs_geodesicBox(
         lons,
         lats,
-           conv = 0.5 * conv,
-          debug = debug,
-            eps = eps,
-        iRefine = iRefine + 1,
-         midLat = midLat,
-         midLon = midLon,
-          nIter = nIter,
-        nRefine = nRefine,
-            pad = pad,
+        attemptFortran = attemptFortran,
+                  conv = 0.5 * conv,
+                 debug = debug,
+                   eps = eps,
+               iRefine = iRefine + 1,
+                midLat = midLat,
+                midLon = midLon,
+                 nIter = nIter,
+               nRefine = nRefine,
+                   pad = pad,
     )
