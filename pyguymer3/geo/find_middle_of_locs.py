@@ -175,6 +175,24 @@ def find_middle_of_locs(
             )
         case "GeodesicBox":
             # Return answer ...
+            # NOTE: The FORTRAN implementation does not support padding.
+            if fortran:
+                midLon, midLat, maxDist = funcs.find_middle_of_locs_geodesicbox(    # pylint: disable=E0606
+                    lons,
+                    lats,
+                    angConv,
+                    debug,
+                    conv,
+                    eps,
+                    nAng,
+                    nIter,
+                    nIter,
+                    nIter,
+                    nRefine,
+                )
+                if pad > 0.0:
+                    maxDist += pad                                              # [m]
+                return midLon, midLat, maxDist
             return find_middle_of_locs_geodesicBox(
                 lons,
                 lats,
