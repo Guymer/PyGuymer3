@@ -456,17 +456,17 @@ if __name__ == "__main__":
     minMaxDist = 999.999e3                                                      # [km]
 
     # Loop over settings ...
-    for angConv, attemptFortran, useSciPy in [
-        (1.0  ,  True, False),
-        (1.0  , False, False),
-        (0.1  ,  True, False),
-        (0.1  , False, False),
-        (0.01 ,  True, False),
-        (0.01 , False, False),
-        (0.001,  True, False),
-        (0.001, False, False),
+    for angConv, attemptFortran, useNumPy, useSciPy in [
+        (1.0  ,  True, False, False),
+        (1.0  , False, False, False),
+        (0.1  ,  True, False, False),
+        (0.1  , False, False, False),
+        (0.01 ,  True, False, False),
+        (0.01 , False, False, False),
+        (0.001,  True, False, False),
+        (0.001, False, False, False),
     ]:
-        print(f"Testing \"angConv={angConv:.3f}°, attemptFortran={repr(attemptFortran)[0]}, useSciPy={repr(useSciPy)[0]}\" ... ")
+        print(f"Testing \"angConv={angConv:.3f}°, attemptFortran={repr(attemptFortran)[0]}, useNumPy={repr(useNumPy)[0]}, useSciPy={repr(useSciPy)[0]}\" ... ")
 
         # Initialise lists ...
         n = []                                                                  # [#]
@@ -499,6 +499,7 @@ if __name__ == "__main__":
                          nIter = args.nIter,
                        nRefine = nRefine,
                            pad = -1.0,
+                      useNumPy = useNumPy,
                       useSciPy = useSciPy,
             )                                                                   # [°], [°], [m]
             dur = (pyguymer3.now() - now).total_seconds()                       # [s]
@@ -516,34 +517,34 @@ if __name__ == "__main__":
         axTL.plot(
             x,
             y,
-             label = f"angConv={angConv:.3f}°, attemptFortran={repr(attemptFortran)[0]}, useSciPy={repr(useSciPy)[0]}",
+             label = f"angConv={angConv:.3f}°, attemptFortran={repr(attemptFortran)[0]}, useNumPy={repr(useNumPy)[0]}, useSciPy={repr(useSciPy)[0]}",
             marker = "d",
             zorder = 2.0,
         )
         axTM.plot(
             x,
             y,
-             label = f"angConv={angConv:.3f}°, attemptFortran={repr(attemptFortran)[0]}, useSciPy={repr(useSciPy)[0]}",
+             label = f"angConv={angConv:.3f}°, attemptFortran={repr(attemptFortran)[0]}, useNumPy={repr(useNumPy)[0]}, useSciPy={repr(useSciPy)[0]}",
             marker = "d",
             zorder = 2.0,
         )
         axTR.plot(
             x,
             y,
-             label = f"angConv={angConv:.3f}°, attemptFortran={repr(attemptFortran)[0]}, useSciPy={repr(useSciPy)[0]}",
+             label = f"angConv={angConv:.3f}°, attemptFortran={repr(attemptFortran)[0]}, useNumPy={repr(useNumPy)[0]}, useSciPy={repr(useSciPy)[0]}",
             marker = "d",
             zorder = 2.0,
         )
         axBL.plot(
             n,
             z,
-             label = f"angConv={angConv:.3f}°, attemptFortran={repr(attemptFortran)[0]}, useSciPy={repr(useSciPy)[0]}",
+             label = f"angConv={angConv:.3f}°, attemptFortran={repr(attemptFortran)[0]}, useNumPy={repr(useNumPy)[0]}, useSciPy={repr(useSciPy)[0]}",
             marker = "d",
         )
         axBR.plot(
             n,
             t,
-             label = f"angConv={angConv:.3f}°, attemptFortran={repr(attemptFortran)[0]}, useSciPy={repr(useSciPy)[0]}",
+             label = f"angConv={angConv:.3f}°, attemptFortran={repr(attemptFortran)[0]}, useNumPy={repr(useNumPy)[0]}, useSciPy={repr(useSciPy)[0]}",
             marker = "d",
         )
 
