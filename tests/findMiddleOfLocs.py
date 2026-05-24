@@ -8,6 +8,7 @@ if __name__ == "__main__":
     import json
     import os
     import pathlib
+    import shutil
     import sys
 
     # Import special modules ...
@@ -71,6 +72,12 @@ if __name__ == "__main__":
            type = str,
     )
     parser.add_argument(
+        "--chunksize",
+        default = 1048576,
+           help = "the size of the chunks of any files which are read in (in bytes)",
+           type = int,
+    )
+    parser.add_argument(
         "--debug",
         action = "store_true",
           help = "print debug messages",
@@ -89,11 +96,32 @@ if __name__ == "__main__":
            type = float,
     )
     parser.add_argument(
-        "--geodesic-convergence",
+        "--exiftool-path",
+        default = shutil.which("exiftool"),
+           dest = "exiftoolPath",
+           help = "the path to the \"exiftool\" binary",
+           type = str,
+    )
+    parser.add_argument(
+        "--gifsicle-path",
+        default = shutil.which("gifsicle"),
+           dest = "gifsiclePath",
+           help = "the path to the \"gifsicle\" binary",
+           type = str,
+    )
+    parser.add_argument(
+        "--initial-geodesic-convergence",
         default = 10000.0,
-           dest = "geodesicConv",
+           dest = "initialGeodesicConv",
            help = "the *initial* Geodesic distance that defines the middle as being converged (in metres)",
            type = float,
+    )
+    parser.add_argument(
+        "--jpegtran-path",
+        default = shutil.which("jpegtran"),
+           dest = "jpegtranPath",
+           help = "the path to the \"jpegtran\" binary",
+           type = str,
     )
     parser.add_argument(
         "--nAng",
@@ -124,9 +152,11 @@ if __name__ == "__main__":
            type = int,
     )
     parser.add_argument(
-        "--quiet",
-        action = "store_true",
-          help = "don't print most messages",
+        "--optipng-path",
+        default = shutil.which("optipng"),
+           dest = "optipngPath",
+           help = "the path to the \"optipng\" binary",
+           type = str,
     )
     parser.add_argument(
         "--timeout",
@@ -163,10 +193,10 @@ if __name__ == "__main__":
     lats = numpy.array(lats, dtype = numpy.float64)                             # [°]
 
     # Calculate convergence criteria ...
-    euclideanConv = args.geodesicConv / pyguymer3.RESOLUTION_OF_EARTH           # [°]
+    initialEuclideanConv = args.initialGeodesicConv / pyguymer3.RESOLUTION_OF_EARTH # [°]
 
-    print(f"The *initial* Geodesic convergence criteria is {0.001 * args.geodesicConv:,.1f} km.")
-    print(f"The *initial* Euclidean convergence criteria is {euclideanConv:.6f}°.")
+    print(f"The *initial* Geodesic convergence criteria is {0.001 * args.initialGeodesicConv:,.1f} km.")
+    print(f"The *initial* Euclidean convergence criteria is {initialEuclideanConv:.6f}°.")
 
     # **************************************************************************
 
@@ -179,6 +209,8 @@ if __name__ == "__main__":
                  debug = args.debug,
                    eps = None,
                 method = "EuclideanBox",
+                midLat = None,
+                midLon = None,
                   nAng = None,
                  nIter = None,
                nRefine = None,
@@ -196,10 +228,12 @@ if __name__ == "__main__":
         lons,
         lats,
         attemptFortran = True,
-                  conv = args.geodesicConv,                                     # 10 km
+                  conv = args.initialGeodesicConv,                              # 10 km
                  debug = args.debug,
                    eps = args.eps,
                 method = "GeodesicBox",
+                midLat = None,
+                midLon = None,
                   nAng = args.nAng,
                  nIter = args.nIter,
                nRefine = args.nRefine,                                          # 156.25 m
@@ -225,10 +259,12 @@ if __name__ == "__main__":
         lons,
         lats,
         attemptFortran = True,
-                  conv = euclideanConv,                                         # ~10 km
+                  conv = initialEuclideanConv,                                  # ~10 km
                  debug = args.debug,
                    eps = None,
                 method = "EuclideanCircle",
+                midLat = None,
+                midLon = None,
                   nAng = args.nAng,
                  nIter = args.nIter,
                nRefine = args.nRefine,                                          # ~156.25 m
@@ -246,10 +282,12 @@ if __name__ == "__main__":
         lons,
         lats,
         attemptFortran = True,
-                  conv = args.geodesicConv,                                     # 10 km
+                  conv = args.initialGeodesicConv,                              # 10 km
                  debug = args.debug,
                    eps = args.eps,
                 method = "GeodesicCircle",
+                midLat = None,
+                midLon = None,
                   nAng = args.nAng,
                  nIter = args.nIter,
                nRefine = args.nRefine,                                          # 156.25 m
@@ -272,8 +310,7 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
-    if not args.quiet:
-        print(f"Making \"{dName}/comparison.json\" ...")
+    print(f"Making \"{dName}/comparison.json\" ...")
 
     # Populate database ...
     db = {
@@ -317,8 +354,21 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
-    if not args.quiet:
-        print(f"Making \"{dName}/comparison.png\" ...")
+    print(f"Making \"{dName}/comparison.png\" ...")
+
+    # Calculate field-of-view ...
+    fov = pyguymer3.geo.buffer(
+        shapely.geometry.point.Point(midLon1, midLat1),
+        maxDist1 * pyguymer3.RESOLUTION_OF_EARTH,
+        attemptFortran = True,
+                 debug = args.debug,
+                   eps = args.eps,
+                  fill = -1.0,
+                  nAng = args.nAng,
+                 nIter = args.nIter,
+                  simp = -1.0,
+                   tol = args.tol,
+    )
 
     # Create figure ...
     fg = matplotlib.pyplot.figure(
@@ -346,12 +396,15 @@ if __name__ == "__main__":
                          debug = args.debug,
                           dist = maxDist1 * pyguymer3.RESOLUTION_OF_EARTH,
                            eps = args.eps,
+                           fov = fov,
                          index = iCol + 1,
                            lat = midLat1,
                            lon = midLon1,
                          ncols = 4,
                          nIter = args.nIter,
                          nrows = 2,
+                     onlyValid = True,
+                        repair = False,
                            tol = args.tol,
             )
         )
@@ -378,7 +431,11 @@ if __name__ == "__main__":
         )
 
     # Plot the Euclidean bounding box and configure axes ...
-    for poly in pyguymer3.geo.extract_polys(EuclideanBox):
+    for poly in pyguymer3.geo.extract_polys(
+        EuclideanBox,
+        onlyValid = True,
+           repair = False,
+    ):
         axBot[0].plot(
             numpy.array(poly.exterior.coords)[:, 0],
             numpy.array(poly.exterior.coords)[:, 1],
@@ -387,7 +444,11 @@ if __name__ == "__main__":
             linewidth = 1.0,
         )
     axTop[0].add_geometries(
-        pyguymer3.geo.extract_polys(EuclideanBox),
+        pyguymer3.geo.extract_polys(
+            EuclideanBox,
+            onlyValid = True,
+               repair = False,
+        ),
         cartopy.crs.PlateCarree(),
         edgecolor = (1.0, 0.0, 0.0, 1.0),
         facecolor = (1.0, 0.0, 0.0, 0.5),
@@ -398,7 +459,11 @@ if __name__ == "__main__":
     axTop[0].set_title(f"EuclideanBox: ({midLon1:.6f}°, {midLat1:.6f}°) and {maxDist1:.6f}°.")
 
     # Plot the Geodesic bounding box and configure axes ...
-    for poly in pyguymer3.geo.extract_polys(GeodesicBox):
+    for poly in pyguymer3.geo.extract_polys(
+        GeodesicBox,
+        onlyValid = True,
+           repair = False,
+    ):
         axBot[1].plot(
             numpy.array(poly.exterior.coords)[:, 0],
             numpy.array(poly.exterior.coords)[:, 1],
@@ -407,7 +472,11 @@ if __name__ == "__main__":
             linewidth = 1.0,
         )
     axTop[1].add_geometries(
-        pyguymer3.geo.extract_polys(GeodesicBox),
+        pyguymer3.geo.extract_polys(
+            GeodesicBox,
+            onlyValid = True,
+               repair = False,
+        ),
         cartopy.crs.PlateCarree(),
         edgecolor = (1.0, 0.0, 0.0, 1.0),
         facecolor = (1.0, 0.0, 0.0, 0.5),
@@ -418,7 +487,11 @@ if __name__ == "__main__":
     axTop[1].set_title(f"GeodesicBox: ({midLon2:.6f}°, {midLat2:.6f}°) and {0.001 * maxDist2:,.1f} km.")
 
     # Plot the Euclidean bounding circle and configure axes ...
-    for poly in pyguymer3.geo.extract_polys(EuclideanCircle):
+    for poly in pyguymer3.geo.extract_polys(
+        EuclideanCircle,
+        onlyValid = True,
+           repair = False,
+    ):
         axBot[2].plot(
             numpy.array(poly.exterior.coords)[:, 0],
             numpy.array(poly.exterior.coords)[:, 1],
@@ -427,7 +500,11 @@ if __name__ == "__main__":
             linewidth = 1.0,
         )
     axTop[2].add_geometries(
-        pyguymer3.geo.extract_polys(EuclideanCircle),
+        pyguymer3.geo.extract_polys(
+            EuclideanCircle,
+            onlyValid = True,
+               repair = False,
+        ),
         cartopy.crs.PlateCarree(),
         edgecolor = (1.0, 0.0, 0.0, 1.0),
         facecolor = (1.0, 0.0, 0.0, 0.5),
@@ -438,7 +515,11 @@ if __name__ == "__main__":
     axTop[2].set_title(f"EuclideanCircle: ({midLon3:.6f}°, {midLat3:.6f}°) and {maxDist3:.6f}°.")
 
     # Plot the Geodesic bounding circle and configure axes ...
-    for poly in pyguymer3.geo.extract_polys(GeodesicCircle):
+    for poly in pyguymer3.geo.extract_polys(
+        GeodesicCircle,
+        onlyValid = True,
+           repair = False,
+    ):
         axBot[3].plot(
             numpy.array(poly.exterior.coords)[:, 0],
             numpy.array(poly.exterior.coords)[:, 1],
@@ -447,7 +528,11 @@ if __name__ == "__main__":
             linewidth = 1.0,
         )
     axTop[3].add_geometries(
-        pyguymer3.geo.extract_polys(GeodesicCircle),
+        pyguymer3.geo.extract_polys(
+            GeodesicCircle,
+            onlyValid = True,
+               repair = False,
+        ),
         cartopy.crs.PlateCarree(),
         edgecolor = (1.0, 0.0, 0.0, 1.0),
         facecolor = (1.0, 0.0, 0.0, 0.5),
@@ -479,9 +564,14 @@ if __name__ == "__main__":
     # Optimise PNG ...
     pyguymer3.image.optimise_image(
         f"{dName}/comparison.png",
-          debug = args.debug,
-          strip = True,
-        timeout = args.timeout,
+           chunksize = args.chunksize,
+               debug = args.debug,
+        exiftoolPath = args.exiftoolPath,
+        gifsiclePath = args.gifsiclePath,
+        jpegtranPath = args.jpegtranPath,
+         optipngPath = args.optipngPath,
+               strip = True,
+             timeout = args.timeout,
     )
 
     # **************************************************************************
@@ -497,10 +587,10 @@ if __name__ == "__main__":
         maxLon = max(maxLon, info["lon"])                                       # [°]
         minLat = min(minLat, info["lat"])                                       # [°]
         maxLat = max(maxLat, info["lat"])                                       # [°]
-    minLon -= euclideanConv                                                     # [°]
-    maxLon += euclideanConv                                                     # [°]
-    minLat -= euclideanConv                                                     # [°]
-    maxLat += euclideanConv                                                     # [°]
+    minLon -= initialEuclideanConv                                              # [°]
+    maxLon += initialEuclideanConv                                              # [°]
+    minLat -= initialEuclideanConv                                              # [°]
+    maxLat += initialEuclideanConv                                              # [°]
 
     # Calculate the ranges and the minimum range ...
     lonRange = maxLon - minLon                                                  # [°]
@@ -542,8 +632,7 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
-    if not args.quiet:
-        print(f"Making \"{dName}/locations.png\" ...")
+    print(f"Making \"{dName}/locations.png\" ...")
 
     # Create figure ...
     fg = matplotlib.pyplot.figure(
@@ -584,14 +673,14 @@ if __name__ == "__main__":
             label = f'{method}\n{info["dist"]:.6f}°'
         x = info["lon"]                                                         # [°]
         if x > 0.5 * (minLon + maxLon):
-            x -= 3.0 * euclideanConv                                            # [°]
+            x -= 3.0 * initialEuclideanConv                                     # [°]
         else:
-            x += 3.0 * euclideanConv                                            # [°]
+            x += 3.0 * initialEuclideanConv                                     # [°]
         y = info["lat"]                                                         # [°]
         if "Geodesic" in method:
-            y -= 0.5 * euclideanConv                                            # [°]
+            y -= 0.5 * initialEuclideanConv                                     # [°]
         else:
-            y += 0.5 * euclideanConv                                            # [°]
+            y += 0.5 * initialEuclideanConv                                     # [°]
         ax.annotate(
             label,
             (info["lon"], info["lat"]),
@@ -655,7 +744,12 @@ if __name__ == "__main__":
     # Optimise PNG ...
     pyguymer3.image.optimise_image(
         f"{dName}/locations.png",
-          debug = args.debug,
-          strip = True,
-        timeout = args.timeout,
+           chunksize = args.chunksize,
+               debug = args.debug,
+        exiftoolPath = args.exiftoolPath,
+        gifsiclePath = args.gifsiclePath,
+        jpegtranPath = args.jpegtranPath,
+         optipngPath = args.optipngPath,
+               strip = True,
+             timeout = args.timeout,
     )
