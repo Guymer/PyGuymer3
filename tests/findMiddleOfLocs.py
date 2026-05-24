@@ -72,6 +72,13 @@ if __name__ == "__main__":
            type = str,
     )
     parser.add_argument(
+        "--angle-convergence",
+        default = 0.001,
+           dest = "angConv",
+           help = "the angle change which classifies as converged (in degrees)",
+           type = float,
+    )
+    parser.add_argument(
         "--chunksize",
         default = 1048576,
            help = "the size of the chunks of any files which are read in (in bytes)",
@@ -81,6 +88,12 @@ if __name__ == "__main__":
         "--debug",
         action = "store_true",
           help = "print debug messages",
+    )
+    parser.add_argument(
+        "--dont-attempt-FORTRAN",
+        action = "store_true",
+          dest = "dontAttemptFortran",
+          help = "don't attempt to use FORTRAN",
     )
     parser.add_argument(
         "--dont-make-plots",
@@ -111,7 +124,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--initial-geodesic-convergence",
-        default = 10000.0,
+        default = 1000.0e3,
            dest = "initialGeodesicConv",
            help = "the *initial* Geodesic distance that defines the middle as being converged (in metres)",
            type = float,
@@ -146,7 +159,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--nRefine",
-        default = 6,
+        default = 15,
            dest = "nRefine",
            help = "the number of refinements to make (each refinement halves the \"geodesic-convergence\" distance)",
            type = int,
@@ -195,8 +208,11 @@ if __name__ == "__main__":
     # Calculate convergence criteria ...
     initialEuclideanConv = args.initialGeodesicConv / pyguymer3.RESOLUTION_OF_EARTH # [°]
 
+    print(f"The resolution of Earth is {0.001 * pyguymer3.RESOLUTION_OF_EARTH:,.3f} km/°.")
     print(f"The *initial* Geodesic convergence criteria is {0.001 * args.initialGeodesicConv:,.1f} km.")
     print(f"The *initial* Euclidean convergence criteria is {initialEuclideanConv:.6f}°.")
+    print(f"The *final* Geodesic convergence criteria will be {0.001 * args.initialGeodesicConv / pow(2, args.nRefine - 1):,.3f} km.")
+    print(f"The *final* Euclidean convergence criteria will be {initialEuclideanConv / pow(2, args.nRefine - 1):.6f}°.")
 
     # **************************************************************************
 
@@ -204,7 +220,8 @@ if __name__ == "__main__":
     midLon1, midLat1, maxDist1 = pyguymer3.geo.find_middle_of_locs(
         lons,
         lats,
-        attemptFortran = True,
+               angConv = args.angConv,
+        attemptFortran = not args.dontAttemptFortran,
                   conv = None,
                  debug = args.debug,
                    eps = None,
@@ -228,8 +245,9 @@ if __name__ == "__main__":
     midLon2, midLat2, maxDist2 = pyguymer3.geo.find_middle_of_locs(
         lons,
         lats,
-        attemptFortran = True,
-                  conv = args.initialGeodesicConv,                              # 10 km
+               angConv = args.angConv,
+        attemptFortran = not args.dontAttemptFortran,
+                  conv = args.initialGeodesicConv,
                  debug = args.debug,
                    eps = args.eps,
                 method = "GeodesicBox",
@@ -237,7 +255,7 @@ if __name__ == "__main__":
                 midLon = None,
                   nAng = args.nAng,
                  nIter = args.nIter,
-               nRefine = args.nRefine,                                          # 156.25 m
+               nRefine = args.nRefine,
                    pad = -1.0,
               useNumPy = False,
               useSciPy = False,
@@ -245,7 +263,7 @@ if __name__ == "__main__":
     GeodesicBox = pyguymer3.geo.buffer(
         shapely.geometry.point.Point(midLon2, midLat2),
         maxDist2,
-        attemptFortran = True,
+        attemptFortran = not args.dontAttemptFortran,
                  debug = args.debug,
                    eps = args.eps,
                   fill = -1.0,
@@ -260,8 +278,9 @@ if __name__ == "__main__":
     midLon3, midLat3, maxDist3 = pyguymer3.geo.find_middle_of_locs(
         lons,
         lats,
-        attemptFortran = True,
-                  conv = initialEuclideanConv,                                  # ~10 km
+               angConv = args.angConv,
+        attemptFortran = not args.dontAttemptFortran,
+                  conv = initialEuclideanConv,
                  debug = args.debug,
                    eps = None,
                 method = "EuclideanCircle",
@@ -269,7 +288,7 @@ if __name__ == "__main__":
                 midLon = None,
                   nAng = args.nAng,
                  nIter = args.nIter,
-               nRefine = args.nRefine,                                          # ~156.25 m
+               nRefine = args.nRefine,
                    pad = -1.0,
               useNumPy = False,
               useSciPy = False,
@@ -284,8 +303,9 @@ if __name__ == "__main__":
     midLon4, midLat4, maxDist4 = pyguymer3.geo.find_middle_of_locs(
         lons,
         lats,
-        attemptFortran = True,
-                  conv = args.initialGeodesicConv,                              # 10 km
+               angConv = args.angConv,
+        attemptFortran = not args.dontAttemptFortran,
+                  conv = args.initialGeodesicConv,
                  debug = args.debug,
                    eps = args.eps,
                 method = "GeodesicCircle",
@@ -293,7 +313,7 @@ if __name__ == "__main__":
                 midLon = None,
                   nAng = args.nAng,
                  nIter = args.nIter,
-               nRefine = args.nRefine,                                          # 156.25 m
+               nRefine = args.nRefine,
                    pad = -1.0,
               useNumPy = False,
               useSciPy = False,
@@ -301,7 +321,7 @@ if __name__ == "__main__":
     GeodesicCircle = pyguymer3.geo.buffer(
         shapely.geometry.point.Point(midLon4, midLat4),
         maxDist4,
-        attemptFortran = True,
+        attemptFortran = not args.dontAttemptFortran,
                  debug = args.debug,
                    eps = args.eps,
                   fill = -1.0,
@@ -364,7 +384,7 @@ if __name__ == "__main__":
     fov = pyguymer3.geo.buffer(
         shapely.geometry.point.Point(midLon1, midLat1),
         maxDist1 * pyguymer3.RESOLUTION_OF_EARTH,
-        attemptFortran = True,
+        attemptFortran = not args.dontAttemptFortran,
                  debug = args.debug,
                    eps = args.eps,
                   fill = -1.0,
@@ -396,7 +416,7 @@ if __name__ == "__main__":
                 fg,
                 add_coastlines = False,                     # NOTE: Do not draw coastlines so that changes in GSHHG do not change the image.
                  add_gridlines = True,
-                attemptFortran = True,
+                attemptFortran = not args.dontAttemptFortran,
                          debug = args.debug,
                           dist = maxDist1 * pyguymer3.RESOLUTION_OF_EARTH,
                            eps = args.eps,
@@ -626,7 +646,7 @@ if __name__ == "__main__":
                 lats,
                 lonsDiv[iLon],
                 latsDiv[iLat],
-                attemptFortran = True,
+                attemptFortran = not args.dontAttemptFortran,
                          debug = args.debug,
                            eps = args.eps,
                          nIter = args.nIter,
