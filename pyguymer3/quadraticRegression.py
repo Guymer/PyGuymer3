@@ -37,9 +37,9 @@ def quadraticRegression(
     a *= 0.5
 
     # Create short-hands ...
-    xbar = mean(x)
-    x2bar = mean(numpy.float_power(x, 2))
-    ybar = mean(y)
+    xbar = mean(x, dof = 0)
+    x2bar = mean(numpy.float_power(x, 2), dof = 0)
+    ybar = mean(y, dof = 0)
 
     # Set (final) answer ...
     c = ybar - a * x2bar - b * xbar
