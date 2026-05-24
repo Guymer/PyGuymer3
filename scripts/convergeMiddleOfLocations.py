@@ -476,7 +476,7 @@ if __name__ == "__main__":
         z = []                                                                  # [km]
 
         # Loop over refinements ...
-        for nRefine in range(1, 15):
+        for nRefine in range(1, 16):
             # Create short-hand ...
             finalGeodesicConv = args.initialGeodesicConv / pow(2, nRefine - 1)  # [m]
 
