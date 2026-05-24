@@ -62,6 +62,7 @@ from .sha256_of_MP4 import sha256_of_MP4
 from .sha512 import sha512
 from .sha512_of_GZ import sha512_of_GZ
 from .sha512_of_MP4 import sha512_of_MP4
+from .solve_quadratic_equation import solve_quadratic_equation
 from .start_session import start_session
 from .stat import stat
 from .stddev import stddev

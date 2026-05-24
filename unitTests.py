@@ -47,14 +47,14 @@ class MyTestCase(unittest.TestCase):
     """
 
     # Define constants from the environment ...
-    # NOTE: As of 9/Aug/2025, on my MacBook Pro this is the output:
-    #           % python3.12 -m unittest unitTests.py
-    #           .......s.s......................
+    # NOTE: As of 24/May/2026, on my MacBook Pro this is the output:
+    #           % python3.12 -m unittest --failfast unitTests.py
+    #           .......s.s......................s
     #           ----------------------------------------------------------------------
-    #           Ran 32 tests in 43.659s
+    #           Ran 33 tests in 2.655s
     #
-    #           OK (skipped=2)
-    #           % ALLTESTS=1234 python3.12 -m unittest unitTests.py
+    #           OK (skipped=3)
+    #           % ALLTESTS=1234 python3.12 -m unittest --failfast unitTests.py
     #           ................................
     #           ----------------------------------------------------------------------
     #           Ran 32 tests in 4257.979s
@@ -1453,6 +1453,22 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(
             pyguymer3.sha512_of_MP4("tests/bigBuckBunny.mp4", ignoreModificationTime = False),
             "92fa11caccbe37481ecb61a46693f5cb9cea1d95cb458ad17339153ba057455e4af40f413d79a7121314b338a2ec47874420a635e2caacafbc542a591c584356",
+        )
+
+    # Define a test ...
+    def test_solveQuadraticEquation(self):
+        """
+        Test the function "pyguymer3.solve_quadratic_equation()"
+        """
+
+        # Assert result ...
+        self.assertSequenceEqual(
+            pyguymer3.solve_quadratic_equation(
+                +0.5,
+                -3.0,
+                +2.5,
+            ),
+            (1.0, 5.0),
         )
 
     # Define a test ...
