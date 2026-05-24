@@ -51,9 +51,13 @@ def var(
     # Import sub-functions ...
     from .mean import mean
 
+    # **************************************************************************
+
     # Check argument ...
     if not isinstance(arr, numpy.ndarray):
         raise TypeError("\"arr\" is not a NumPy array") from None
+
+    # **************************************************************************
 
     # Calculate the squared deviations from the mean ...
     tmp = numpy.float_power(arr - mean(arr, dof = 0), 2)

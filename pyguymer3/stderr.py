@@ -44,9 +44,13 @@ def stderr(
     # Import sub-functions ...
     from .stddev import stddev
 
+    # **************************************************************************
+
     # Check argument ...
     if not isinstance(arr, numpy.ndarray):
         raise TypeError("\"arr\" is not a NumPy array") from None
+
+    # **************************************************************************
 
     # Return answer ...
     return stddev(arr, dof = dof) / numpy.sqrt(arr.size)

@@ -41,9 +41,13 @@ def mean(
     except:
         raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
 
+    # **************************************************************************
+
     # Check argument ...
     if not isinstance(arr, numpy.ndarray):
         raise TypeError("\"arr\" is not a NumPy array") from None
+
+    # **************************************************************************
 
     # Return answer ...
     return arr.sum() / (arr.size - dof)
