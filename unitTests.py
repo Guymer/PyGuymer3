@@ -1592,6 +1592,52 @@ class MyTestCase(unittest.TestCase):
             places = 3,
         )
 
+        # Create datasets with a bit of random noise ...
+        m = +0.5
+        c = +2.5
+        x = numpy.linspace(0.0, 6.0)
+        y = m * x + c
+        rng = numpy.random.default_rng()
+        y += rng.uniform(low = -0.01, high = +0.01, size = y.size)
+
+        # Assert results ...
+        self.assertAlmostEqual(
+            pyguymer3.linearRegression(x, y)[0],
+            m,
+            places = 2,
+        )
+        self.assertAlmostEqual(
+            pyguymer3.linearRegression(x, y)[1],
+            c,
+            places = 2,
+        )
+
+        # Create datasets with a bit of random noise ...
+        a = +0.5
+        b = -3.0
+        c = +2.5
+        x = numpy.linspace(0.0, 6.0)
+        y = a * x ** 2 + b * x + c
+        rng = numpy.random.default_rng()
+        y += rng.uniform(low = -0.01, high = +0.01, size = y.size)
+
+        # Assert results ...
+        self.assertAlmostEqual(
+            pyguymer3.quadraticRegression(x, y)[0],
+            a,
+            places = 2,
+        )
+        self.assertAlmostEqual(
+            pyguymer3.quadraticRegression(x, y)[1],
+            b,
+            places = 2,
+        )
+        self.assertAlmostEqual(
+            pyguymer3.quadraticRegression(x, y)[2],
+            c,
+            places = 2,
+        )
+
     # Define a test ...
     @unittest.skipUnless(compareOutput, "test needs generated output")
     def testsOutput(self):
