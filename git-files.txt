@@ -38440,6 +38440,7 @@ pyguymer3/image/save_array_as_PNG.py
 pyguymer3/image/save_array_as_PPM.py
 pyguymer3/interpolate.py
 pyguymer3/intersection.py
+pyguymer3/linearRegression.py
 pyguymer3/make_path_safe.py
 pyguymer3/mean.py
 pyguymer3/media/__ffprobe__.py
@@ -38546,6 +38547,7 @@ pyguymer3/osterrain/findExtent.py
 pyguymer3/osterrain/loadASCIIcontents.py
 pyguymer3/osterrain/loadASCIIheader.py
 pyguymer3/perms.py
+pyguymer3/quadraticRegression.py
 pyguymer3/remove_almost_empty_directories.py
 pyguymer3/return_file_list.py
 pyguymer3/return_folder_list.py
@@ -38559,6 +38561,7 @@ pyguymer3/sha256.py
 pyguymer3/sha512_of_GZ.py
 pyguymer3/sha512_of_MP4.py
 pyguymer3/sha512.py
+pyguymer3/solve_quadratic_equation.py
 pyguymer3/start_session.py
 pyguymer3/stat.py
 pyguymer3/stddev.py
