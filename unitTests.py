@@ -51,7 +51,7 @@ class MyTestCase(unittest.TestCase):
     #           % python3.12 -m unittest --failfast unitTests.py
     #           .......s.s......................s
     #           ----------------------------------------------------------------------
-    #           Ran 33 tests in 2.655s
+    #           Ran 33 tests in 2.668s
     #
     #           OK (skipped=3)
     #           % ALLTESTS=1234 python3.12 -m unittest --failfast unitTests.py
@@ -1535,6 +1535,61 @@ class MyTestCase(unittest.TestCase):
         self.assertAlmostEqual(
             pyguymer3.stderr(arr2),
             4.404543109109064e-2,
+        )
+
+        # Create datasets ...
+        # NOTE: See the "Numerical example" section of https://en.wikipedia.org/wiki/Simple_linear_regression
+        x = numpy.array(
+            [
+                1.47,
+                1.50,
+                1.52,
+                1.55,
+                1.57,
+                1.60,
+                1.63,
+                1.65,
+                1.68,
+                1.70,
+                1.73,
+                1.75,
+                1.78,
+                1.80,
+                1.83,
+            ],
+            dtype = numpy.float64,
+        )
+        y = numpy.array(
+            [
+                52.21,
+                53.12,
+                54.48,
+                55.84,
+                57.20,
+                58.57,
+                59.93,
+                61.29,
+                63.11,
+                64.47,
+                66.28,
+                68.10,
+                69.92,
+                72.19,
+                74.46,
+            ],
+            dtype = numpy.float64,
+        )
+
+        # Assert results ...
+        self.assertAlmostEqual(
+            pyguymer3.linearRegression(x, y)[0],
+            +61.272,
+            places = 3,
+        )
+        self.assertAlmostEqual(
+            pyguymer3.linearRegression(x, y)[1],
+            -39.062,
+            places = 3,
         )
 
     # Define a test ...

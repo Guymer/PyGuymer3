@@ -44,6 +44,7 @@ from .gzip import gzip
 from .hostname import hostname
 from .interpolate import interpolate
 from .intersection import intersection
+from .linearRegression import linearRegression
 from .make_path_safe import make_path_safe
 from .mean import mean
 from .nlines import nlines
