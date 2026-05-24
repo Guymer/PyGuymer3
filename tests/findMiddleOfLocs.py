@@ -215,6 +215,7 @@ if __name__ == "__main__":
                  nIter = None,
                nRefine = None,
                    pad = -1.0,
+              useNumPy = False,
               useSciPy = False,
     )                                                                           # [°], [°], [°]
     EuclideanBox = shapely.geometry.point.Point(midLon1, midLat1).buffer(
@@ -238,6 +239,7 @@ if __name__ == "__main__":
                  nIter = args.nIter,
                nRefine = args.nRefine,                                          # 156.25 m
                    pad = -1.0,
+              useNumPy = False,
               useSciPy = False,
     )                                                                           # [°], [°], [m]
     GeodesicBox = pyguymer3.geo.buffer(
@@ -269,6 +271,7 @@ if __name__ == "__main__":
                  nIter = args.nIter,
                nRefine = args.nRefine,                                          # ~156.25 m
                    pad = -1.0,
+              useNumPy = False,
               useSciPy = False,
     )                                                                           # [°], [°], [°]
     EuclideanCircle = shapely.geometry.point.Point(midLon3, midLat3).buffer(
@@ -292,6 +295,7 @@ if __name__ == "__main__":
                  nIter = args.nIter,
                nRefine = args.nRefine,                                          # 156.25 m
                    pad = -1.0,
+              useNumPy = False,
               useSciPy = False,
     )                                                                           # [°], [°], [m]
     GeodesicCircle = pyguymer3.geo.buffer(
