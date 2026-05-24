@@ -18,6 +18,7 @@ def find_middle_of_locs_geodesicCircle(
              nIter = 100,
            nRefine = 1,
                pad = 10.0e3,
+          useNumPy = False,
           useSciPy = False,
 ):
     """Find the middle of some locations such that they are encompassed by the
@@ -153,6 +154,7 @@ def find_middle_of_locs_geodesicCircle(
                          nIter = nIter,
                          space = "GeodesicSpace",
                       startAng = 180.0,
+                      useNumPy = useNumPy,
             )                                                                   # [°]
 
             if debug:
@@ -228,5 +230,6 @@ def find_middle_of_locs_geodesicCircle(
                  nIter = nIter,
                nRefine = nRefine,
                    pad = pad,
+              useNumPy = useNumPy,
               useSciPy = useSciPy,
     )

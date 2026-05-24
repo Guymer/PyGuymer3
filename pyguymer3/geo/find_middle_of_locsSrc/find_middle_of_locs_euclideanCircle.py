@@ -17,6 +17,7 @@ def find_middle_of_locs_euclideanCircle(
              nIter = 100,
            nRefine = 1,
                pad = 0.1,
+          useNumPy = False,
           useSciPy = False,
 ):
     """Find the middle of some locations such that they are encompassed by the
@@ -153,6 +154,7 @@ def find_middle_of_locs_euclideanCircle(
                          nIter = nIter,
                          space = "EuclideanSpace",
                       startAng = 180.0,
+                      useNumPy = useNumPy,
             )                                                                   # [°]
 
             if debug:
@@ -222,5 +224,6 @@ def find_middle_of_locs_euclideanCircle(
                  nIter = nIter,
                nRefine = nRefine,
                    pad = pad,
+              useNumPy = useNumPy,
               useSciPy = useSciPy,
     )

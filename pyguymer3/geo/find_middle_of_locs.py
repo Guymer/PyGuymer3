@@ -18,6 +18,7 @@ def find_middle_of_locs(
              nIter = 100,
            nRefine = 1,
                pad = 10.0e3,
+          useNumPy = False,
           useSciPy = False,
 ):
     """Find the middle of some locations
@@ -55,6 +56,8 @@ def find_middle_of_locs(
     pad : float, optional
         the padding to add to the maximum distance from the middle to the most
         extreme location (in degrees or metres)
+    useNumPy : bool, optional
+        use "numpy.polynomial.Polynomial.fit" or my own fitter
     useSciPy : bool, optional
         use "scipy.optimize.minimize" or my own minimizer
 
@@ -171,6 +174,7 @@ def find_middle_of_locs(
                          nIter = nIter,
                        nRefine = nRefine,
                            pad = pad,
+                      useNumPy = useNumPy,
                       useSciPy = useSciPy,
             )
         case "GeodesicBox":
@@ -242,6 +246,7 @@ def find_middle_of_locs(
                          nIter = nIter,
                        nRefine = nRefine,
                            pad = pad,
+                      useNumPy = useNumPy,
                       useSciPy = useSciPy,
             )
         case _:

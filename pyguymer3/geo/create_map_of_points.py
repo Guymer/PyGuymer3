@@ -58,6 +58,7 @@ def create_map_of_points(
              timeout = 60.0,
                title = None,
                  tol = 1.0e-10,
+            useNumPy = False,
             useSciPy = False,
                    z = None,
 ):
@@ -208,6 +209,8 @@ def create_map_of_points(
     tol : float, optional
         the Euclidean distance that defines two points as being the same (in
         degrees)
+    useNumPy : bool, optional
+        use "numpy.polynomial.Polynomial.fit" or my own fitter
     useSciPy : bool, optional
         use "scipy.optimize.minimize" or my own minimizer
     z : int, optional
@@ -375,6 +378,7 @@ def create_map_of_points(
                  nIter = nIter,
                nRefine = nRefine,
                    pad = -1.0,
+              useNumPy = None,
               useSciPy = None,
     )                                                                           # [°]
 
@@ -434,6 +438,7 @@ def create_map_of_points(
                      nIter = nIter,
                    nRefine = nRefine,
                        pad = padDist,
+                  useNumPy = useNumPy,
                   useSciPy = useSciPy,
         )                                                                       # [°], [°], [°] or [m]
 

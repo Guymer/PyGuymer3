@@ -20,6 +20,7 @@ def find_min_max_dist_bearing(
              nIter = 100,
              space = "EuclideanSpace",
           startAng = 180.0,
+          useNumPy = False,
 ):
     """Find the bearing which points towards the minimum maximum distance to
     some locations
@@ -67,6 +68,8 @@ def find_min_max_dist_bearing(
         "EuclideanSpace" or "GeodesicSpace")
     startAng : float, optional
         the starting angle to search over (in degrees)
+    useNumPy : bool, optional
+        use "numpy.polynomial.Polynomial.fit" or my own fitter
 
     Returns
     -------
@@ -95,6 +98,7 @@ def find_min_max_dist_bearing(
     # Import sub-functions ...
     from .calc_loc_from_loc_and_bearing_and_dist import calc_loc_from_loc_and_bearing_and_dist
     from .max_dist import max_dist
+    from ..linearRegression import linearRegression
     if attemptFortran:
         try:
             from ..f90 import funcs
@@ -276,15 +280,30 @@ def find_min_max_dist_bearing(
                      nIter = nIter,
                      space = space,
                   startAng = (fakeAngs[iAng] + 360.0) % 360.0,
+                  useNumPy = useNumPy,
         )
 
-    # Fit a polynomial degree 2 to the values and find the best angle ...
-    eqn = numpy.polynomial.Polynomial.fit(
-        fakeAngs,
-        maxDists,
-        deg = 2,
-    )
-    bestAng = eqn.deriv().roots()[0]                                            # [°]
+    # Check if the user wants to use NumPy ...
+    if useNumPy:
+        # Fit a polynomial degree 2 to the values and find the angle with the
+        # minimum maximum distance ...
+        eqn = numpy.polynomial.Polynomial.fit(
+            fakeAngs,
+            maxDists,
+            deg = 2,
+        )
+        bestAng = eqn.deriv().roots()[0]                                        # [°]
+        del eqn
+    else:
+        # Fit a polynomial degree 2 to the values and find the angle with the
+        # minimum maximum distance (this is the same as differentiating each
+        # pair and fitting a polynomial degree 1 to the gradients and finding
+        # the angle with a zero gradient maximum distance) ...
+        dydx = (maxDists[1:] - maxDists[:-1]) / (fakeAngs[1:] - fakeAngs[:-1])  # [°/°] or [m/°]
+        midx = 0.5 * (fakeAngs[:-1] + fakeAngs[1:])                             # [°]
+        linM, linC = linearRegression(midx, dydx)
+        bestAng = -linC / linM                                                  # [°]
+        del dydx, midx, linM, linC
 
     # Check if the answer is converged ...
     if abs(startAng - bestAng) <= angConv:
@@ -310,4 +329,5 @@ def find_min_max_dist_bearing(
                  nIter = nIter,
                  space = space,
               startAng = (bestAng + 360.0) % 360.0,
+              useNumPy = useNumPy,
     )
