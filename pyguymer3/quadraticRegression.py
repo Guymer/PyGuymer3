@@ -32,7 +32,6 @@ def quadraticRegression(
     dydx = (y[1:] - y[:-1]) / (x[1:] - x[:-1])
     midx = 0.5 * (x[:-1] + x[1:])
 
-
     # Calculate linear regression parameters and set (two out of three) answers ...
     a, b = linearRegression(midx, dydx)
     a *= 0.5
