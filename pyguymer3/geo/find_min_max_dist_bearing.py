@@ -98,7 +98,7 @@ def find_min_max_dist_bearing(
     # Import sub-functions ...
     from .calc_loc_from_loc_and_bearing_and_dist import calc_loc_from_loc_and_bearing_and_dist
     from .max_dist import max_dist
-    from ..linearRegression import linearRegression
+    # from ..linearRegression import linearRegression
     if attemptFortran:
         try:
             from ..f90 import funcs
@@ -259,7 +259,7 @@ def find_min_max_dist_bearing(
 
     # Check if this is the first time that a solution has been found ...
     if first:
-        # Find angle with minimum maximum distance ...
+        # Find the angle with the minimum maximum distance ...
         iAng = maxDists.argmin()                                                # [#]
 
         # Return answer ...
@@ -299,11 +299,15 @@ def find_min_max_dist_bearing(
         # minimum maximum distance (this is the same as differentiating each
         # pair and fitting a polynomial degree 1 to the gradients and finding
         # the angle with a zero gradient maximum distance) ...
-        dydx = (maxDists[1:] - maxDists[:-1]) / (fakeAngs[1:] - fakeAngs[:-1])  # [°/°] or [m/°]
-        midx = 0.5 * (fakeAngs[:-1] + fakeAngs[1:])                             # [°]
-        linM, linC = linearRegression(midx, dydx)
-        bestAng = -linC / linM                                                  # [°]
-        del dydx, midx, linM, linC
+        # dydx = (maxDists[1:] - maxDists[:-1]) / (fakeAngs[1:] - fakeAngs[:-1])  # [°/°] or [m/°]
+        # midx = 0.5 * (fakeAngs[:-1] + fakeAngs[1:])                             # [°]
+        # linM, linC = linearRegression(midx, dydx)
+        # bestAng = -linC / linM                                                  # [°]
+        # del dydx, midx, linM, linC
+
+        # Find the angle with the minimum maximum distance ...
+        iAng = maxDists.argmin()                                                # [#]
+        bestAng = fakeAngs[iAng]                                                # [°]
 
     # Check if the answer is converged ...
     if abs(startAng - bestAng) <= angConv:
