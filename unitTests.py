@@ -69,6 +69,7 @@ class MyTestCase(unittest.TestCase):
     ffprobePath = shutil.which("ffprobe7") if platform.system() == "Darwin" else shutil.which("ffprobe")
     nAng = 361                                                                  # [#]
     nIter = 1000000                                                             # [#]
+    rng = numpy.random.default_rng()
     timeout = 60.0                                                              # [s]
     tol = 1.0e-10                                                               # [°]
 
@@ -1537,6 +1538,8 @@ class MyTestCase(unittest.TestCase):
             4.404543109109064e-2,
         )
 
+        # **********************************************************************
+
         # Create datasets ...
         # NOTE: See the "Numerical example" section of https://en.wikipedia.org/wiki/Simple_linear_regression
         x = numpy.array(
@@ -1581,59 +1584,64 @@ class MyTestCase(unittest.TestCase):
         )
 
         # Assert results ...
+        linM, linC = pyguymer3.linearRegression(x, y)
         self.assertAlmostEqual(
-            pyguymer3.linearRegression(x, y)[0],
+            linM,
             +61.272,
             places = 3,
         )
         self.assertAlmostEqual(
-            pyguymer3.linearRegression(x, y)[1],
+            linC,
             -39.062,
             places = 3,
         )
 
+        # **********************************************************************
+
         # Create datasets with a bit of random noise ...
         m = +0.5
         c = +2.5
-        x = numpy.linspace(0.0, 6.0)
+        x = numpy.linspace(0.0, 6.0, num = 1000)
         y = m * x + c
-        rng = numpy.random.default_rng()
-        y += rng.uniform(low = -0.01, high = +0.01, size = y.size)
+        y += self.rng.uniform(low = -0.01, high = +0.01, size = y.size)
 
         # Assert results ...
+        linM, linC = pyguymer3.linearRegression(x, y)
         self.assertAlmostEqual(
-            pyguymer3.linearRegression(x, y)[0],
+            linM,
             m,
             places = 2,
         )
         self.assertAlmostEqual(
-            pyguymer3.linearRegression(x, y)[1],
+            linC,
             c,
             places = 2,
         )
+
+        # **********************************************************************
 
         # Create datasets with a bit of random noise ...
         a = +0.5
         b = -3.0
         c = +2.5
-        x = numpy.linspace(0.0, 6.0)
+        x = numpy.linspace(0.0, 6.0, num = 1000)
         y = a * x ** 2 + b * x + c
-        rng = numpy.random.default_rng()
-        y += rng.uniform(low = -0.01, high = +0.01, size = y.size)
+        y += self.rng.uniform(low = -0.01, high = +0.01, size = y.size)
 
         # Assert results ...
+        quaA, quaB, quaC = pyguymer3.quadraticRegression(x, y)
         self.assertAlmostEqual(
-            pyguymer3.quadraticRegression(x, y)[0],
+            quaA,
             a,
             places = 2,
         )
         self.assertAlmostEqual(
-            pyguymer3.quadraticRegression(x, y)[1],
+            quaB,
             b,
             places = 2,
         )
         self.assertAlmostEqual(
-            pyguymer3.quadraticRegression(x, y)[2],
+            quaC,
             c,
             places = 2,
         )
