@@ -510,12 +510,13 @@ if __name__ == "__main__":
                       useSciPy = useSciPy,
             )                                                                   # [°], [°], [m]
             dur = (pyguymer3.now() - now).total_seconds()                       # [s]
+            maxDist *= 0.001                                                    # [km]
 
-            print(f"({midLon:.6f}°, {midLat:.6f}°) and {0.001 * maxDist:9,.3f} km.")
+            print(f"({midLon:.6f}°, {midLat:.6f}°) and {maxDist:9,.3f} km.")
 
             # Append values to database lists ...
             db[label]["durs"].append(round(dur, 3))                             # [s]
-            db[label]["dists"].append(round(0.001 * maxDist, 3))                # [km]
+            db[label]["dists"].append(round(maxDist, 3))                        # [km]
             db[label]["lats"].append(round(midLat, 6))                          # [°]
             db[label]["lons"].append(round(midLon, 6))                          # [°]
             db[label]["nRefines"].append(nRefine)                               # [#]
