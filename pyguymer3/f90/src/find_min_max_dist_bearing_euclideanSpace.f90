@@ -57,7 +57,6 @@ SUBROUTINE find_min_max_dist_bearing_euclideanSpace(                            
         angHalfRange = angHalfRange,                                            &
                debug = LOGICAL(debug, kind = INT8),                             &
                 dist = dist,                                                    &
-               first = .TRUE._INT8,                                             &
             iAngIter = 1_INT64,                                                 &
            iDistIter = 1_INT64,                                                 &
              iRefine = 1_INT64,                                                 &
