@@ -158,6 +158,7 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Create short-hands ...
+    jName = f'{os.path.basename(__file__).removesuffix(".py")}.json'
     pName = f'{os.path.basename(__file__).removesuffix(".py")}.png'
     midLon = 157.343904                                                         # [°]
     midLat = -30.949886                                                         # [°]
@@ -452,7 +453,8 @@ if __name__ == "__main__":
     # **************************************************************************
     # **************************************************************************
 
-    # Initialise minimum ...
+    # Initialise database and minimum ...
+    db = {}
     minMaxDist = 999.999e3                                                      # [km]
 
     # Loop over settings ...
@@ -466,14 +468,19 @@ if __name__ == "__main__":
         (0.001,  True, False, False),
         (0.001, False, False, False),
     ]:
-        print(f"Testing \"angConv={angConv:.3f}°, attemptFortran={repr(attemptFortran)[0]}, useNumPy={repr(useNumPy)[0]}, useSciPy={repr(useSciPy)[0]}\" ... ")
+        # Create short-hand ...
+        label = f"angConv={angConv:.3f}°, attemptFortran={repr(attemptFortran)[0]}, useNumPy={repr(useNumPy)[0]}, useSciPy={repr(useSciPy)[0]}"
 
-        # Initialise lists ...
-        n = []                                                                  # [#]
-        t = []                                                                  # [s]
-        x = []                                                                  # [°]
-        y = []                                                                  # [°]
-        z = []                                                                  # [km]
+        print(f"Testing \"{label}\" ... ")
+
+        # Initialise database lists ...
+        db[label] = {
+                "durs" : [],                                                    # [s]
+               "dists" : [],                                                    # [km]
+                "lats" : [],                                                    # [°]
+                "lons" : [],                                                    # [°]
+            "nRefines" : [],                                                    # [#]
+        }
 
         # Loop over refinements ...
         for nRefine in range(1, 16):
@@ -506,53 +513,63 @@ if __name__ == "__main__":
 
             print(f"({midLon:.6f}°, {midLat:.6f}°) and {0.001 * maxDist:9,.3f} km.")
 
-            # Append values to lists ...
-            n.append(nRefine)                                                   # [#]
-            t.append(dur)                                                       # [s]
-            x.append(midLon)                                                    # [°]
-            y.append(midLat)                                                    # [°]
-            z.append(0.001 * maxDist)                                           # [km]
+            # Append values to database lists ...
+            db[label]["durs"].append(round(dur, 3))                             # [s]
+            db[label]["dists"].append(round(0.001 * maxDist, 3))                # [km]
+            db[label]["lats"].append(round(midLat, 6))                          # [°]
+            db[label]["lons"].append(round(midLon, 6))                          # [°]
+            db[label]["nRefines"].append(nRefine)                               # [#]
+
+            # Update minimum ...
+            minMaxDist = min(minMaxDist, maxDist)                               # [km]
 
         # Plot data ...
         axTL.plot(
-            x,
-            y,
-             label = f"angConv={angConv:.3f}°, attemptFortran={repr(attemptFortran)[0]}, useNumPy={repr(useNumPy)[0]}, useSciPy={repr(useSciPy)[0]}",
+            db[label]["lons"],
+            db[label]["lats"],
+             label = label,
             marker = "d",
             zorder = 2.0,
         )
         axTM.plot(
-            x,
-            y,
-             label = f"angConv={angConv:.3f}°, attemptFortran={repr(attemptFortran)[0]}, useNumPy={repr(useNumPy)[0]}, useSciPy={repr(useSciPy)[0]}",
+            db[label]["lons"],
+            db[label]["lats"],
+             label = label,
             marker = "d",
             zorder = 2.0,
         )
         axTR.plot(
-            x,
-            y,
-             label = f"angConv={angConv:.3f}°, attemptFortran={repr(attemptFortran)[0]}, useNumPy={repr(useNumPy)[0]}, useSciPy={repr(useSciPy)[0]}",
+            db[label]["lons"],
+            db[label]["lats"],
+             label = label,
             marker = "d",
             zorder = 2.0,
         )
         axBL.plot(
-            n,
-            z,
-             label = f"angConv={angConv:.3f}°, attemptFortran={repr(attemptFortran)[0]}, useNumPy={repr(useNumPy)[0]}, useSciPy={repr(useSciPy)[0]}",
+            db[label]["nRefines"],
+            db[label]["dists"],
+             label = label,
             marker = "d",
         )
         axBR.plot(
-            n,
-            t,
-             label = f"angConv={angConv:.3f}°, attemptFortran={repr(attemptFortran)[0]}, useNumPy={repr(useNumPy)[0]}, useSciPy={repr(useSciPy)[0]}",
+            db[label]["nRefines"],
+            db[label]["durs"],
+             label = label,
             marker = "d",
         )
 
-        # Update minimum ...
-        minMaxDist = min(minMaxDist, min(z))                                    # [km]
+    # Save database ...
+    with open(jName, "wt", encoding = "utf-8") as fObj:
+        json.dump(
+            db,
+            fObj,
+            ensure_ascii = False,
+                  indent = 4,
+               sort_keys = True,
+        )
 
     # Plot data ...
-    n = numpy.array(n)                                                          # [#]
+    n = numpy.array(db[label]["nRefines"])                                      # [#]
     axBL.plot(
         n,
         minMaxDist - 0.001 * (args.initialGeodesicConv / numpy.pow(2, n - 1)),
@@ -566,6 +583,7 @@ if __name__ == "__main__":
             color = "red",
         linestyle = "dashed",
     )
+    del n
 
     # **************************************************************************
     # **************************************************************************
