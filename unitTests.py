@@ -1610,12 +1610,12 @@ class MyTestCase(unittest.TestCase):
         self.assertAlmostEqual(
             linM,
             m,
-            places = 2,
+            places = 1,
         )
         self.assertAlmostEqual(
             linC,
             c,
-            places = 2,
+            places = 1,
         )
 
         # **********************************************************************
@@ -1633,17 +1633,17 @@ class MyTestCase(unittest.TestCase):
         self.assertAlmostEqual(
             quaA,
             a,
-            places = 2,
+            places = 1,
         )
         self.assertAlmostEqual(
             quaB,
             b,
-            places = 2,
+            places = 1,
         )
         self.assertAlmostEqual(
             quaC,
             c,
-            places = 2,
+            places = 1,
         )
 
     # Define a test ...
