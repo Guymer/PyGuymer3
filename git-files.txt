@@ -38572,6 +38572,7 @@ pyguymer3/xz.py
 pyproject.toml
 README.md
 requirements.txt
+scripts/convergeMiddleOfLocations.json
 scripts/convergeMiddleOfLocations.png
 scripts/convergeMiddleOfLocations.py
 scripts/demonstrateGlobeGshhgTiles.py
