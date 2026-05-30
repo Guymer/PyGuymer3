@@ -5,6 +5,7 @@ def _add_global_axis(
     fg,
     /,
     *,
+           add_background = False,
            add_coastlines = True,
             add_gridlines = True,
      coastlines_edgecolor = "black",
@@ -34,6 +35,8 @@ def _add_global_axis(
     ----------
     fg : matplotlib.figure.Figure
         the figure to add the axis to
+    add_background : bool, optional
+        add background
     add_coastlines : bool, optional
         add coastline boundaries
     add_gridlines : bool, optional
@@ -142,6 +145,7 @@ def _add_global_axis(
         raise Exception("\"cartopy\" is not installed; run \"pip install --user Cartopy\"") from None
 
     # Import sub-functions ...
+    from ._add_background import _add_background
     from ._add_coastlines import _add_coastlines
     from ._add_horizontal_gridlines import _add_horizontal_gridlines
     from ._add_vertical_gridlines import _add_vertical_gridlines
@@ -175,6 +179,14 @@ def _add_global_axis(
 
     # Configure axis ...
     ax.set_global()
+
+    # Check if the user wants to add background ...
+    if add_background:
+        # Add background ...
+        _add_background(
+            ax,
+            debug = debug,
+        )
 
     # Check if the user wants to add coastline boundaries ...
     if add_coastlines:

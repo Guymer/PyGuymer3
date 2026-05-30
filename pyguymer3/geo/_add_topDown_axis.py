@@ -7,6 +7,7 @@ def _add_topDown_axis(
     lat,
     /,
     *,
+           add_background = False,
            add_coastlines = True,
             add_gridlines = True,
            attemptFortran = True,
@@ -50,6 +51,8 @@ def _add_topDown_axis(
         the longitude of the point (in degrees)
     lat : float
         the latitude of the point (in degrees)
+    add_background : bool, optional
+        add background
     add_coastlines : bool, optional
         add coastline boundaries
     add_gridlines : bool, optional
@@ -208,6 +211,7 @@ def _add_topDown_axis(
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
+    from ._add_background import _add_background
     from ._add_coastlines import _add_coastlines
     from ._add_horizontal_gridlines import _add_horizontal_gridlines
     from ._add_vertical_gridlines import _add_vertical_gridlines
@@ -436,6 +440,14 @@ def _add_topDown_axis(
                 facecolor = (0.0, 0.0, 1.0, 0.5),
                 linewidth = 1.0,
             )
+
+    # Check if the user wants to add background ...
+    if add_background:
+        # Add background ...
+        _add_background(
+            ax,
+            debug = debug,
+        )
 
     # Check if the user wants to add coastline boundaries ...
     if add_coastlines:

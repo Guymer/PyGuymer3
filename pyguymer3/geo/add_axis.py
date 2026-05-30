@@ -5,6 +5,7 @@ def add_axis(
     fg,
     /,
     *,
+           add_background = False,
            add_coastlines = True,
             add_gridlines = True,
            attemptFortran = True,
@@ -47,6 +48,8 @@ def add_axis(
     ----------
     fg : matplotlib.figure.Figure
         the figure to add the axis to
+    add_background : bool, optional
+        add background
     add_coastlines : bool, optional
         add coastline boundaries
     add_gridlines : bool, optional
@@ -180,6 +183,7 @@ def add_axis(
             fg,
             lon,
             lat,
+                   add_background = add_background,
                    add_coastlines = add_coastlines,
                     add_gridlines = add_gridlines,
                    attemptFortran = attemptFortran,
@@ -216,6 +220,7 @@ def add_axis(
     # Return answer ...
     return _add_global_axis(
         fg,
+               add_background = add_background,
                add_coastlines = add_coastlines,
                 add_gridlines = add_gridlines,
          coastlines_edgecolor = coastlines_edgecolor,

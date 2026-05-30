@@ -392,6 +392,7 @@ def create_map_of_points(
         # Create axis ...
         ax = add_axis(
             fg,
+            add_background = False,
             add_coastlines = False,
              add_gridlines = True,
             attemptFortran = attemptFortran,
@@ -488,6 +489,7 @@ def create_map_of_points(
         # Create axis ...
         ax = add_axis(
             fg,
+              add_background = False,
               add_coastlines = False,
                add_gridlines = True,
               attemptFortran = attemptFortran,
