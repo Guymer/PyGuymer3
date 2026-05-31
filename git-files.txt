@@ -6,7 +6,6 @@
 .github/workflows/mypy.yaml
 .github/workflows/profile.yaml
 .github/workflows/publish.yaml
-.github/workflows/unittest.yaml
 .gitignore
 .gitmodules
 .mypy.ini
