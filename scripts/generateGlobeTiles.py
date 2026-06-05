@@ -65,6 +65,12 @@ if __name__ == "__main__":
            help = "the timeout for any requests/subprocess calls (in seconds)",
            type = float,
     )
+    parser.add_argument(
+        "--url",
+        default = "https://www.ngdc.noaa.gov/mgg/topo/DATATILES/elev/all10g.zip",
+           help = "the URL to the \"GLOBE\" dataset",
+           type = str,
+    )
     args = parser.parse_args()
 
     # **************************************************************************
@@ -72,7 +78,6 @@ if __name__ == "__main__":
     # Create short-hands ...
     bName = f"{args.absPathToRepo}/scripts/globe.bin"
     zName = f"{args.absPathToRepo}/scripts/globe.zip"
-    url = "https://www.ngdc.noaa.gov/mgg/topo/DATATILES/elev/globe.zip"
 
     # Load colour tables and create short-hand ...
     with open(f"{args.absPathToRepo}/pyguymer3/data/json/colourTables.json", "rt", encoding = "utf-8") as fObj:
@@ -96,14 +101,15 @@ if __name__ == "__main__":
         # Start session ...
         with pyguymer3.start_session() as sess:
             # Download the ZIP file ...
-            assert pyguymer3.download_file(
+            if not pyguymer3.download_file(
                 sess,
-                url,
+                args.url,
                 zName,
                   debug = args.debug,
                 timeout = args.timeout,
                  verify = True,
-            ), f"failed to download \"{url}\" to \"{zName}\""
+            ):
+                raise Exception(f"failed to download \"{args.url}\"") from None
 
     # **************************************************************************
 

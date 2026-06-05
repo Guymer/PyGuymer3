@@ -68,6 +68,12 @@ if __name__ == "__main__":
            help = "the timeout for any requests/subprocess calls (in seconds)",
            type = float,
     )
+    parser.add_argument(
+        "--url",
+        default = "https://api.os.uk/downloads/v1/products/Terrain50/downloads?area=GB&format=ASCII+Grid+and+GML+%28Grid%29&redirect",
+           help = "the URL to the \"OS Terrain 50\" dataset",
+           type = str,
+    )
     args = parser.parse_args()
 
     # **************************************************************************
@@ -75,7 +81,6 @@ if __name__ == "__main__":
     # Create short-hands ...
     bName = f"{args.absPathToRepo}/scripts/osTerrain.bin"
     zName = f"{args.absPathToRepo}/scripts/osTerrain.zip"
-    url = "https://www.ordnancesurvey.co.uk/products/os-terrain-50"
 
     # Load colour tables and create short-hand ...
     with open(f"{args.absPathToRepo}/pyguymer3/data/json/colourTables.json", "rt", encoding = "utf-8") as fObj:
@@ -94,7 +99,20 @@ if __name__ == "__main__":
 
     # Check if the ZIP file does not exist yet ...
     if not os.path.exists(zName):
-        raise Exception(f"you need to download \"{zName}\" file yourself from \"{url}\"") from None
+        print(f"Downloading \"{zName}\" ...")
+
+        # Start session ...
+        with pyguymer3.start_session() as sess:
+            # Download the ZIP file ...
+            if not pyguymer3.download_file(
+                sess,
+                args.url,
+                zName,
+                  debug = args.debug,
+                timeout = args.timeout,
+                 verify = True,
+            ):
+                raise Exception(f"failed to download \"{args.url}\"") from None
 
     # **************************************************************************
 
