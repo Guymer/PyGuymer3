@@ -133,9 +133,9 @@ if __name__ == "__main__":
         pattern = re.compile(r"data/[a-z]+/[a-z]+[0-9]+_OST50GRID_[0-9]+.zip")
 
         # Load dataset ...
-        with zipfile.ZipFile(zName, "r") as zObj0:
+        with zipfile.ZipFile(zName, "r") as fObj0:
             # Loop over members ...
-            for fName in zObj0.namelist():
+            for fName in fObj0.namelist():
                 # Skip this member if it is not a sub-dataset ...
                 if pattern.match(fName) is None:
                     continue
@@ -145,17 +145,20 @@ if __name__ == "__main__":
 
                 # Read sub-dataset into RAM so that it becomes seekable ...
                 # NOTE: https://stackoverflow.com/a/12025492
-                fObj0 = io.BytesIO(zObj0.read(fName))
+                zipObj = io.BytesIO(fObj0.read(fName))
 
                 # Load sub-dataset ...
-                with zipfile.ZipFile(fObj0, "r") as zObj1:
+                with zipfile.ZipFile(zipObj, "r") as fObj1:
                     # Read ASCII dataset into RAM so that it becomes seekable ...
                     # NOTE: https://stackoverflow.com/a/12025492
-                    fObj1 = io.BytesIO(zObj1.read(f"{key}.asc"))
+                    ascObj = io.BytesIO(fObj1.read(f"{key}.asc"))
 
                     # Load header and contents of ASCII dataset ...
-                    hdr = pyguymer3.osterrain.loadASCIIheader(fObj1)
-                    cont = pyguymer3.osterrain.loadASCIIcontents(fObj1, hdr["length"])  # [m]
+                    hdr = pyguymer3.osterrain.loadASCIIheader(ascObj)
+                    cont = pyguymer3.osterrain.loadASCIIcontents(
+                        ascObj,
+                        hdr["length"],
+                    )                                                           # [m]
 
                     # Determine indexes (from the upper-left corner not the
                     # lower-left corner) ...
@@ -164,12 +167,11 @@ if __name__ == "__main__":
                     iy1 = ny - (hdr["yllcorner"] // hdr["cellsize"] + hdr["nrows"])
                     iy2 = ny - (hdr["yllcorner"] // hdr["cellsize"])
 
-                    # Populate array ...
+                    # Fill map ...
                     elev[iy1:iy2, ix1:ix2] = cont[:, :]                         # [m]
 
         # Save BIN ...
         elev.tofile(bName)
-        del elev
 
     # **************************************************************************
 
