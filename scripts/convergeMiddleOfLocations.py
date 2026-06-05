@@ -160,9 +160,9 @@ if __name__ == "__main__":
     # Create short-hands ...
     jName = f'{os.path.basename(__file__).removesuffix(".py")}.json'
     pName = f'{os.path.basename(__file__).removesuffix(".py")}.png'
-    midLon = 157.343904                                                         # [°]
-    midLat = -30.949886                                                         # [°]
-    maxDist = 1950.149873                                                       # [km]
+    midLon = 157.333456                                                         # [°]
+    midLat = -30.957367                                                         # [°]
+    maxDist = 1950.15                                                           # [km]
 
     # **************************************************************************
 
@@ -238,6 +238,8 @@ if __name__ == "__main__":
             )                                                                   # [m]
     maxDistL *= 0.001                                                           # [km]
 
+    print(f"  The minimum on the grid is {maxDistL.min():,.3f} km versus the user-supplied minimum of {maxDist:,.3f} km.")
+
     # Plot data ...
     imL = axTL.pcolormesh(
         lonsDivL,
@@ -251,13 +253,14 @@ if __name__ == "__main__":
         lonsDivL,
         latsDivL,
         maxDistL,
-        colors = "red",
-        levels = numpy.linspace(
-            maxDist +  1.0,
-            maxDist + 10.0,
-            num = 10,
+           colors = "red",
+           levels = numpy.linspace(
+            maxDist +  20.0,
+            maxDist + 100.0,
+            num = 5,
         ),
-        zorder = 1.5,
+        linestyle = "dashed",
+           zorder = 1.5,
     )
 
     # **************************************************************************
@@ -305,6 +308,8 @@ if __name__ == "__main__":
             )                                                                   # [m]
     maxDistM *= 0.001                                                           # [km]
 
+    print(f"  The minimum on the grid is {maxDistM.min():,.3f} km versus the user-supplied minimum of {maxDist:,.3f} km.")
+
     # Plot data ...
     imM = axTM.pcolormesh(
         lonsDivM,
@@ -318,13 +323,14 @@ if __name__ == "__main__":
         lonsDivM,
         latsDivM,
         maxDistM,
-        colors = "red",
-        levels = numpy.linspace(
-            maxDist +  1.0,
+           colors = "red",
+           levels = numpy.linspace(
+            maxDist +  2.0,
             maxDist + 10.0,
-            num = 10,
+            num = 5,
         ),
-        zorder = 1.5,
+        linestyle = "dashed",
+           zorder = 1.5,
     )
 
     # **************************************************************************
@@ -372,6 +378,8 @@ if __name__ == "__main__":
             )                                                                   # [m]
     maxDistR *= 0.001                                                           # [km]
 
+    print(f"  The minimum on the grid is {maxDistR.min():,.3f} km versus the user-supplied minimum of {maxDist:,.3f} km.")
+
     # Plot data ...
     imR = axTR.pcolormesh(
         lonsDivR,
@@ -385,13 +393,14 @@ if __name__ == "__main__":
         lonsDivR,
         latsDivR,
         maxDistR,
-        colors = "red",
-        levels = numpy.linspace(
-            maxDist +  1.0,
-            maxDist + 10.0,
-            num = 10,
+           colors = "red",
+           levels = numpy.linspace(
+            maxDist + 0.2,
+            maxDist + 1.0,
+            num = 5,
         ),
-        zorder = 1.5,
+        linestyle = "dashed",
+           zorder = 1.5,
     )
 
     # **************************************************************************
@@ -438,6 +447,8 @@ if __name__ == "__main__":
                          space = "GeodesicSpace",
             )                                                                   # [m]
     maxDistB *= 0.001                                                           # [km]
+
+    print(f"  The minimum on the grid is {maxDistB.min():,.3f} km versus the user-supplied minimum of {maxDist:,.3f} km.")
 
     # Plot data ...
     imB = axBM.pcolormesh(
