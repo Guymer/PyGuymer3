@@ -172,6 +172,7 @@ if __name__ == "__main__":
 
         # Save BIN ...
         elev.tofile(bName)
+        del elev
 
     # **************************************************************************
 
@@ -183,11 +184,13 @@ if __name__ == "__main__":
 
         print(f"  Loading \"{bName}\" ...")
 
-        # Load data ...
+        # Load data, replace sea with 0 m elevation and stop looping if this
+        # elevation would be pointless ...
         arr = numpy.fromfile(
             bName,
             dtype = numpy.float32,
         ).reshape(ny, nx, 1)                                                    # [m]
+        numpy.place(arr, arr < 0.0, 0.0)                                        # [m]
         if maxElev > arr.max():
             print("  Stopping as the maximum elevation has been reached.")
             break
@@ -204,16 +207,29 @@ if __name__ == "__main__":
             if nShrunkenTilesX == 0 or nShrunkenTilesY == 0:
                 break
 
-            print(f"  Processing shrink level {shrinkLevel:,d} ({nShrunkenTilesX:d}x{nShrunkenTilesY:d}) ...")
+            print(f"  Processing shrink level {shrinkLevel:,d}, which is a shrink factor of {shrinkFactor:d}×, and results in ({nShrunkenTilesX:,d} × {nShrunkenTilesY:,d}) tiles and ({nx // shrinkFactor:,d} × {ny // shrinkFactor:,d}) pixels ...")
 
-            # Create shrunken data ...
-            shrunkenArr = numpy.zeros(
-                (ny // shrinkFactor, nx // shrinkFactor, 1),
-                dtype = numpy.float32,
-            )                                                                   # [m]
-            for iy in range(ny // shrinkFactor):
-                for ix in range(nx // shrinkFactor):
-                    shrunkenArr[iy, ix, 0] = arr[iy * shrinkFactor:(iy + 1) * shrinkFactor, ix * shrinkFactor:(ix + 1) * shrinkFactor, 0].mean()    # [m]
+            # Check if time can be saved ...
+            if os.path.exists(f'{bName.removesuffix(".bin")}_{shrinkFactor:d}x.bin'):
+                print(f'    Loading \"{bName.removesuffix(".bin")}_{shrinkFactor:d}x.bin\" ...')
+
+                # Load shrunken data and replace sea with 0 m elevation ...
+                shrunkenArr = numpy.fromfile(
+                    f'{bName.removesuffix(".bin")}_{shrinkFactor:d}x.bin',
+                    dtype = numpy.float32,
+                ).reshape(ny // shrinkFactor, nx // shrinkFactor, 1)            # [m]
+                numpy.place(shrunkenArr, shrunkenArr < 0.0, 0.0)                # [m]
+            else:
+                # Create shrunken data ...
+                shrunkenArr = numpy.zeros(
+                    (ny // shrinkFactor, nx // shrinkFactor, 1),
+                    dtype = numpy.float32,
+                )                                                               # [m]
+                for iy in range(ny // shrinkFactor):
+                    for ix in range(nx // shrinkFactor):
+                        shrunkenArr[iy, ix, 0] = arr[iy * shrinkFactor:(iy + 1) * shrinkFactor, ix * shrinkFactor:(ix + 1) * shrinkFactor, 0].mean()    # [m]
+
+            # Scale shrunken data ...
             shrunkenArr = 255.0 * (shrunkenArr / numpy.float32(maxElev))
             numpy.place(shrunkenArr, shrunkenArr <   0.0,   0.0)
             numpy.place(shrunkenArr, shrunkenArr > 255.0, 255.0)
@@ -304,10 +320,10 @@ if __name__ == "__main__":
 
         # **********************************************************************
 
-        print(f"  Processing original size ({nTilesX:d}x{nTilesY:d}) ...")
+        print(f"  Processing original size and results in ({nTilesX:,d} × {nTilesY:,d}) tiles and ({nx:,d} × {ny:,d}) pixels ...")
 
         # Scale data ...
-        arr = 255.0 * (arr.astype(numpy.float32) / numpy.float32(maxElev))
+        arr = 255.0 * (arr / numpy.float32(maxElev))
         numpy.place(arr, arr <   0.0,   0.0)
         numpy.place(arr, arr > 255.0, 255.0)
         arr = arr.astype(numpy.uint8)
