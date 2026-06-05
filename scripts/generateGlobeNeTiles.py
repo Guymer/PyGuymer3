@@ -54,7 +54,7 @@ if __name__ == "__main__":
     # Create argument parser and parse the arguments ...
     parser = argparse.ArgumentParser(
            allow_abbrev = False,
-            description = "Rasterize the NE datasets, merge it with the GLOBE dataset and save them as tiles.",
+            description = "Rasterize the \"NE\" datasets, merge it with the \"GLOBE\" dataset and save them as tiles.",
         formatter_class = argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
@@ -105,7 +105,7 @@ if __name__ == "__main__":
             "110m",
         ],
            dest = "ress",
-           help = "the resolutions of the NE datasets",
+           help = "the resolutions of the \"NE\" datasets",
           nargs = "+",
            type = str,
     )
@@ -114,6 +114,12 @@ if __name__ == "__main__":
         default = 60.0,
            help = "the timeout for any requests/subprocess calls (in seconds)",
            type = float,
+    )
+    parser.add_argument(
+        "--url",
+        default = "https://www.ngdc.noaa.gov/mgg/topo/DATATILES/elev/all10g.zip",
+           help = "the URL to the \"GLOBE\" dataset",
+           type = str,
     )
     args = parser.parse_args()
 
@@ -152,7 +158,6 @@ if __name__ == "__main__":
     # Create short-hands ...
     bName = f"{args.absPathToRepo}/scripts/globe.bin"
     zName = f"{args.absPathToRepo}/scripts/globe.zip"
-    url = "https://www.ngdc.noaa.gov/mgg/topo/DATATILES/elev/globe.zip"
 
     # Create short-hands ...
     # NOTE: See "pyguymer3/data/png/README.md".
@@ -171,14 +176,15 @@ if __name__ == "__main__":
         # Start session ...
         with pyguymer3.start_session() as sess:
             # Download the ZIP file ...
-            assert pyguymer3.download_file(
+            if not pyguymer3.download_file(
                 sess,
-                url,
+                args.url,
                 zName,
                   debug = args.debug,
                 timeout = args.timeout,
                  verify = True,
-            ), f"failed to download \"{url}\" to \"{zName}\""
+            ):
+                raise Exception(f"failed to download \"{args.url}\"") from None
 
     # **************************************************************************
 
@@ -248,7 +254,7 @@ if __name__ == "__main__":
                 iy += nrows                                                     # [px]
 
         # Save BIN ...
-        elev.tofile(bName)
+        elev.astype(numpy.float32).tofile(bName)
         del elev
 
     # **************************************************************************
@@ -258,9 +264,9 @@ if __name__ == "__main__":
     # Load data and replace sea with 0 m elevation ...
     arr = numpy.fromfile(
         bName,
-        dtype = numpy.int16,
+        dtype = numpy.float32,
     ).reshape(ny, nx)                                                           # [m]
-    numpy.place(arr, arr < 0, 0)                                                # [m]
+    numpy.place(arr, arr < 0.0, 0.0)                                            # [m]
 
     # Loop over maximum elevations ...
     for maxElev in range(args.maxElevInt, 9000, args.maxElevInt):
@@ -310,10 +316,10 @@ if __name__ == "__main__":
                 if not allExist:
                     break
             if allExist:
-                print(f"  Skipping shrink level {shrinkLevel:,d} ({nShrunkenTilesX:d}x{nShrunkenTilesY:d}) as all tiles already exist.")
+                print(f"  Skipping shrink level {shrinkLevel:,d}, which is a shrink factor of {shrinkFactor:d}×, and results in ({nShrunkenTilesX:,d} × {nShrunkenTilesY:,d}) tiles and ({nx // shrinkFactor:,d} × {ny // shrinkFactor:,d}) pixels as all tiles already exist.")
                 continue
 
-            print(f"  Processing shrink level {shrinkLevel:,d} ({nShrunkenTilesX:d}x{nShrunkenTilesY:d}) ...")
+            print(f"  Processing shrink level {shrinkLevel:,d}, which is a shrink factor of {shrinkFactor:d}×, and results in ({nShrunkenTilesX:,d} × {nShrunkenTilesY:,d}) tiles and ({nx // shrinkFactor:,d} × {ny // shrinkFactor:,d}) pixels ...")
 
             # Check if time can be saved ...
             if os.path.exists(f'{bName.removesuffix(".bin")}_{shrinkFactor:d}x.bin'):
@@ -322,17 +328,14 @@ if __name__ == "__main__":
                 # Load shrunken data and replace sea with 0 m elevation ...
                 shrunkenArr = numpy.fromfile(
                     f'{bName.removesuffix(".bin")}_{shrinkFactor:d}x.bin',
-                    dtype = numpy.int16,
+                    dtype = numpy.float32,
                 ).reshape(ny // shrinkFactor, nx // shrinkFactor)               # [m]
-                numpy.place(shrunkenArr, shrunkenArr < 0, 0)                    # [m]
+                numpy.place(shrunkenArr, shrunkenArr < 0.0, 0.0)                # [m]
             else:
                 # Create shrunken data ...
-                # NOTE: The documentation of "numpy.mean()" says "float64
-                #       intermediate and return values are used for integer
-                #       inputs".
                 shrunkenArr = numpy.zeros(
                     (ny // shrinkFactor, nx // shrinkFactor),
-                    dtype = numpy.float64,
+                    dtype = numpy.float32,
                 )                                                               # [m]
                 for iy in range(ny // shrinkFactor):
                     for ix in range(nx // shrinkFactor):
@@ -577,10 +580,10 @@ if __name__ == "__main__":
             if not allExist:
                 break
         if allExist:
-            print(f"  Skipping original size ({nTilesX:d}x{nTilesY:d}) as all tiles already exist.")
+            print(f"  Skipping original size and results in ({nTilesX:,d} × {nTilesY:,d}) tiles and ({nx:,d} × {ny:,d}) pixels as all tiles already exist.")
             continue
 
-        print(f"  Processing original size ({nTilesX:d}x{nTilesY:d}) ...")
+        print(f"  Processing original size and results in ({nTilesX:,d} × {nTilesY:,d}) tiles and ({nx:,d} × {ny:,d}) pixels ...")
 
         # Convert values to elevation bands ...
         arrBanded = arr // args.elevBandInt

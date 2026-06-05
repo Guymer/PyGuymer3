@@ -170,6 +170,7 @@ if __name__ == "__main__":
 
                     # Fill map ...
                     elev[iy:iy + tile.shape[0], ix:ix + tile.shape[1]] = tile[:, :] # [m]
+                    del tile
 
                     # Increment index ...
                     ix += ncols                                                 # [px]
