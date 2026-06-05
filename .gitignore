@@ -62,6 +62,7 @@ scripts/globe_4x.bin
 scripts/globe_8x.bin
 scripts/osTerrain.bin
 scripts/osTerrain.zip
+scripts/osTerrain_2x.bin
 tests/*.mp4
 tests/animateBufferPoint/*.png
 tests/animateExpandPoint/*.png
