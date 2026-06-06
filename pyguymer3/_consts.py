@@ -2,8 +2,18 @@
 
 # Import standard modules ...
 import math
+import pathlib
 
 # Import special modules ...
+try:
+    import cartopy
+    cartopy.config.update(
+        {
+            "cache_dir" : pathlib.PosixPath("~/.local/share/cartopy").expanduser(),
+        }
+    )
+except:
+    raise Exception("\"cartopy\" is not installed; run \"pip install --user Cartopy\"") from None
 try:
     import shapely
     import shapely.geometry
@@ -23,6 +33,8 @@ EARTH = shapely.geometry.polygon.Polygon(
     )
 )
 EARTH_MOON_DISTANCE = 385000000.0                                               # [m]
+GEODETIC = cartopy.crs.Geodetic()
+PLATECARREE = cartopy.crs.PlateCarree()
 RADIUS_OF_EARTH = 6371008.8                                                     # [m]
 
 # Set derived constants ...
