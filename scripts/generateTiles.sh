@@ -9,6 +9,10 @@ source "${BASH_ENV}" || exit 1
 # programs are anything that does not appear on the following two lists:
 #   * https://pubs.opengroup.org/onlinepubs/9699919799/idx/utilities.html
 #   * https://www.gnu.org/software/bash/manual/html_node/Bash-Builtins.html
+if ! type python3.11 &> /dev/null; then
+    echo "ERROR: \"python3.11\" is not installed." >&2
+    exit 1
+fi
 
 # Create short-hand ...
 NCHILD=6                                                                        # [#]
