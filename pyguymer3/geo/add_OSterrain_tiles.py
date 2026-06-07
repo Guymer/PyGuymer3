@@ -207,6 +207,10 @@ def add_OSterrain_tiles(
             else:
                 usedTiles[iy, ix] = tile.intersects(fov)
 
+    # Don't procede if there aren't any tiles in the field-of-view ...
+    if not numpy.any(usedTiles):
+        return
+
     # Find the bounding box of the used tiles ...
     usedLats = numpy.any(usedTiles, axis = 1)
     usedLons = numpy.any(usedTiles, axis = 0)
