@@ -149,6 +149,7 @@ def _add_global_axis(
     from ._add_coastlines import _add_coastlines
     from ._add_horizontal_gridlines import _add_horizontal_gridlines
     from ._add_vertical_gridlines import _add_vertical_gridlines
+    from .._consts import ROBINSON
 
     # **************************************************************************
 
@@ -161,7 +162,7 @@ def _add_global_axis(
         # Create axis ...
         ax = fg.add_subplot(
             gs,
-            projection = cartopy.crs.Robinson(),
+            projection = ROBINSON,
         )
     elif nrows is not None and ncols is not None and index is not None:
         # Create axis ...
@@ -169,12 +170,12 @@ def _add_global_axis(
             nrows,
             ncols,
             index,
-            projection = cartopy.crs.Robinson(),
+            projection = ROBINSON,
         )
     else:
         # Create axis ...
         ax = fg.add_subplot(
-            projection = cartopy.crs.Robinson(),
+            projection = ROBINSON,
         )
 
     # Configure axis ...

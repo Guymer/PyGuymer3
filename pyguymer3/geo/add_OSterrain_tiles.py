@@ -140,6 +140,7 @@ def add_OSterrain_tiles(
 
     # Import sub-functions ...
     from .en2ll import en2ll
+    from .._consts import OSGB
     from ..image import optimise_image
 
     # **************************************************************************
@@ -286,5 +287,5 @@ def add_OSterrain_tiles(
                origin = "upper",
          regrid_shape = regrid_shape,
              resample = resample,
-            transform = cartopy.crs.OSGB(),
+            transform = OSGB,
     )
