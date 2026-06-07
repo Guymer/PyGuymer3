@@ -12,6 +12,7 @@ def create_map_of_points(
           background = "NE",
                 ceil = True,
            chunksize = 1048576,
+      configureAgain = False,
                 conv = 1.0e3,
             dataPath = None,
                debug = __debug__,
@@ -88,6 +89,9 @@ def create_map_of_points(
         convert the floating-point answer to an integer using ``math.ceil()``.
     chunksize : int, optional
         the size of the chunks of any files which are read in (in bytes)
+    configureAgain : bool, optional
+        configure the axis a second time (this is a hack to make narrow
+        field-of-view top-down axes work correctly with OpenStreetMap tiles)
     conv : float, optional
         the Geodesic distance that defines the middle as being converged (in
         metres)
@@ -382,7 +386,7 @@ def create_map_of_points(
             add_coastlines = False,
              add_gridlines = True,
             attemptFortran = attemptFortran,
-            configureAgain = bool(background == "OSM"),
+            configureAgain = configureAgain,
                      debug = debug,
                        eps = eps,
                        fov = fov,
@@ -479,7 +483,7 @@ def create_map_of_points(
               add_coastlines = False,
                add_gridlines = True,
               attemptFortran = attemptFortran,
-              configureAgain = bool(background == "OSM"),
+              configureAgain = configureAgain,
                        debug = debug,
                         dist = maxDist,
                          eps = eps,
