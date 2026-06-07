@@ -279,14 +279,14 @@ if __name__ == "__main__":
                 # Plot LinearRing thrice ...
                 ax1.add_geometries(
                     [denseRing1],
-                    cartopy.crs.PlateCarree(),
+                    pyguymer3.PLATECARREE,
                     edgecolor = (1.0, 0.0, 0.0, 1.0),
                     facecolor = "none",
                     linewidth = 1.0,
                 )
                 ax2.add_geometries(
                     [denseRing1],
-                    cartopy.crs.PlateCarree(),
+                    pyguymer3.PLATECARREE,
                     edgecolor = (1.0, 0.0, 0.0, 1.0),
                     facecolor = "none",
                     linewidth = 1.0,
@@ -339,14 +339,14 @@ if __name__ == "__main__":
                 # Plot LinearRing thrice ...
                 ax1.add_geometries(
                     [denseRing2],
-                    cartopy.crs.PlateCarree(),
+                    pyguymer3.PLATECARREE,
                     edgecolor = (0.0, 0.0, 1.0, 1.0),
                     facecolor = "none",
                     linewidth = 1.0,
                 )
                 ax2.add_geometries(
                     [denseRing2],
-                    cartopy.crs.PlateCarree(),
+                    pyguymer3.PLATECARREE,
                     edgecolor = (0.0, 0.0, 1.0, 1.0),
                     facecolor = "none",
                     linewidth = 1.0,

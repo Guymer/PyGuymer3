@@ -123,12 +123,17 @@ def _add_coastlines(
 
     # Import sub-functions ...
     from .extract_polys import extract_polys
+    from .geodetic2platecarree import geodetic2platecarree
+    from .._consts import PLATECARREE
 
     # **************************************************************************
 
     # Check inputs ...
     if gshhgLevels is None:
         gshhgLevels = (1, 5, 6,)
+
+    # Initialize list ...
+    polys = []
 
     # Loop over levels ...
     for gshhgLevel in gshhgLevels:
@@ -163,9 +168,8 @@ def _add_coastlines(
             if not hasattr(record, "geometry"):
                 continue
 
-            # Create a list of Polygons to plot (taking in to account if the
-            # user provided a field-of-view to clip them by) ...
-            polys = []
+            # Append Polygons to list (taking in to account if the user provided
+            # a field-of-view to clip them by) ...
             for poly in extract_polys(
                 record.geometry,
                 onlyValid = onlyValid,
@@ -178,13 +182,15 @@ def _add_coastlines(
                     continue
                 polys.append(poly.intersection(fov))
 
-            # Plot geometry ...
-            ax.add_geometries(
-                polys,
-                cartopy.crs.PlateCarree(),
-                edgecolor = edgecolor,
-                facecolor = facecolor,
-                linestyle = linestyle,
-                linewidth = linewidth,
-                   zorder = zorder,
-            )
+    # Plot geometry (converting from an elliptical description of Earth to a
+    # circular description of Earth) ...
+    # NOTE: See https://cartopy.readthedocs.io/stable/gallery/lines_and_polygons/effects_of_the_ellipse.html
+    ax.add_geometries(
+        geodetic2platecarree(polys),
+        PLATECARREE,
+        edgecolor = edgecolor,
+        facecolor = facecolor,
+        linestyle = linestyle,
+        linewidth = linewidth,
+           zorder = zorder,
+    )

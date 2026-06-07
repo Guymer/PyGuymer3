@@ -88,6 +88,8 @@ def _add_bathymetry(
 
     # Import sub-functions ...
     from .extract_polys import extract_polys
+    from .geodetic2platecarree import geodetic2platecarree
+    from .._consts import PLATECARREE
 
     # **************************************************************************
 
@@ -147,15 +149,17 @@ def _add_bathymetry(
         if debug:
             print(f"INFO: \"{name}\" is \"{sfile}\".")
 
+        # Initialize list ...
+        polys = []
+
         # Loop over records ...
         for record in cartopy.io.shapereader.Reader(sfile).records():
             # Skip bad records ...
             if not hasattr(record, "geometry"):
                 continue
 
-            # Create a list of Polygons to plot (taking in to account if the
-            # user provided a field-of-view to clip them by) ...
-            polys = []
+            # Append Polygons to list (taking in to account if the user provided
+            # a field-of-view to clip them by) ...
             for poly in extract_polys(
                 record.geometry,
                 onlyValid = onlyValid,
@@ -168,10 +172,12 @@ def _add_bathymetry(
                     continue
                 polys.append(poly.intersection(fov))
 
-            # Plot geometry ...
-            ax.add_geometries(
-                polys,
-                cartopy.crs.PlateCarree(),
-                edgecolor = "none",
-                facecolor = facecolor,
-            )
+        # Plot geometry (converting from an elliptical description of Earth to a
+        # circular description of Earth) ...
+        # NOTE: See https://cartopy.readthedocs.io/stable/gallery/lines_and_polygons/effects_of_the_ellipse.html
+        ax.add_geometries(
+            geodetic2platecarree(polys),
+            PLATECARREE,
+            edgecolor = "none",
+            facecolor = facecolor,
+        )

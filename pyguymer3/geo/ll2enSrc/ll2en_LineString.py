@@ -42,15 +42,6 @@ def ll2en_LineString(
 
     # Import special modules ...
     try:
-        import cartopy
-        cartopy.config.update(
-            {
-                "cache_dir" : pathlib.PosixPath("~/.local/share/cartopy").expanduser(),
-            }
-        )
-    except:
-        raise Exception("\"cartopy\" is not installed; run \"pip install --user Cartopy\"") from None
-    try:
         import numpy
     except:
         raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
@@ -62,6 +53,7 @@ def ll2en_LineString(
 
     # Import sub-functions ...
     from ..check import check
+    from ..._consts import GEODETIC, OSGB
 
     # **************************************************************************
 
@@ -74,7 +66,7 @@ def ll2en_LineString(
     points1 = numpy.array(line1.coords)                                         # [m]
 
     # Project from Longitudes/Latitudes to Eastings/Northings ...
-    points2 = cartopy.crs.OSGB().transform_points(cartopy.crs.Geodetic(), points1[:, 0], points1[:, 1]) # [°]
+    points2 = OSGB.transform_points(GEODETIC, points1[:, 0], points1[:, 1])     # [°]
 
     # Clean up ...
     del points1

@@ -238,13 +238,13 @@ if __name__ == "__main__":
 
                         # Transform coordinates ...
                         # NOTE: See https://stackoverflow.com/a/52861074
-                        points = cartopy.crs.Robinson().transform_points(cartopy.crs.Geodetic(), coords[:, 0], coords[:, 1])
+                        points = pyguymer3.ROBINSON.transform_points(pyguymer3.GEODETIC, coords[:, 0], coords[:, 1])
 
                         # Plot great circle ...
                         ax.plot(
                             points[:, 0],
                             points[:, 1],
-                            transform = cartopy.crs.Robinson(),
+                            transform = pyguymer3.ROBINSON,
                             linewidth = 1.0,
                                 color = matplotlib.colormaps["turbo"](float(c) / float(len(npoints) - 1)),
                         )

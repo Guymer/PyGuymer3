@@ -91,6 +91,8 @@ def _add_roads(
 
     # Import sub-functions ...
     from .extract_lines import extract_lines
+    from .geodetic2platecarree import geodetic2platecarree
+    from .._consts import PLATECARREE
 
     # **************************************************************************
 
@@ -104,6 +106,9 @@ def _add_roads(
         "roads",
         "roads_north_america",
     ]
+
+    # Initialize list ...
+    lines = []
 
     # Loop over names ...
     for name in names:
@@ -131,9 +136,8 @@ def _add_roads(
             if not hasattr(record, "geometry"):
                 continue
 
-            # Create a list of LineStrings to plot (taking in to account if the
-            # user provided a field-of-view to clip them by) ...
-            lines = []
+            # Append LineStrings to list (taking in to account if the user
+            # provided a field-of-view to clip them by) ...
             for line in extract_lines(
                 record.geometry,
                 onlyValid = onlyValid,
@@ -145,12 +149,14 @@ def _add_roads(
                     continue
                 lines.append(line.intersection(fov))
 
-            # Plot geometry ...
-            ax.add_geometries(
-                lines,
-                cartopy.crs.PlateCarree(),
-                edgecolor = edgecolor,
-                facecolor = "none",
-                linestyle = linestyle,
-                linewidth = linewidth,
-            )
+    # Plot geometry (converting from an elliptical description of Earth to a
+    # circular description of Earth) ...
+    # NOTE: See https://cartopy.readthedocs.io/stable/gallery/lines_and_polygons/effects_of_the_ellipse.html
+    ax.add_geometries(
+        geodetic2platecarree(lines),
+        PLATECARREE,
+        edgecolor = edgecolor,
+        facecolor = "none",
+        linestyle = linestyle,
+        linewidth = linewidth,
+    )

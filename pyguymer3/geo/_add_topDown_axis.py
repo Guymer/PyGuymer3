@@ -218,7 +218,8 @@ def _add_topDown_axis(
     from .buffer import buffer
     from .calc_loc_from_loc_and_bearing_and_dist import calc_loc_from_loc_and_bearing_and_dist
     from .clean import clean
-    from .._consts import MAXIMUM_VINCENTY, RADIUS_OF_EARTH
+    from .geodetic2platecarree import geodetic2platecarree
+    from .._consts import MAXIMUM_VINCENTY, PLATECARREE, RADIUS_OF_EARTH
 
     # **************************************************************************
 
@@ -432,10 +433,12 @@ def _add_topDown_axis(
 
         # Check if the user wants to draw the circle ...
         if debug:
-            # Draw the circle ...
+            # Draw the circle (converting from an elliptical description of
+            # Earth to a circular description of Earth) ...
+            # NOTE: See https://cartopy.readthedocs.io/stable/gallery/lines_and_polygons/effects_of_the_ellipse.html
             ax.add_geometries(
-                [polygon1],
-                cartopy.crs.PlateCarree(),
+                geodetic2platecarree([polygon1]),
+                PLATECARREE,
                 edgecolor = (0.0, 0.0, 1.0, 1.0),
                 facecolor = (0.0, 0.0, 1.0, 0.5),
                 linewidth = 1.0,

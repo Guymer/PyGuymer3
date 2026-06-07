@@ -38338,6 +38338,7 @@ pyguymer3/geo/find_middle_of_locsSrc/find_middle_of_locs_geodesicBox.py
 pyguymer3/geo/find_middle_of_locsSrc/find_middle_of_locs_geodesicCircle.py
 pyguymer3/geo/find_min_max_dist_bearing.py
 pyguymer3/geo/find_point_on_great_circle.py
+pyguymer3/geo/geodetic2platecarree.py
 pyguymer3/geo/getRecordAttribute.py
 pyguymer3/geo/great_circle.py
 pyguymer3/geo/length.py
