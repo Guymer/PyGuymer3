@@ -13,6 +13,7 @@ def create_map_of_points(
                 ceil = True,
            chunksize = 1048576,
                 conv = 1.0e3,
+            dataPath = None,
                debug = __debug__,
              elevInt = 250,
           elevSource = "none",
@@ -22,7 +23,6 @@ def create_map_of_points(
            fillColor = (255.0 / 255.0,   0.0 / 255.0,   0.0 / 255.0),
                floor = False,
         gifsiclePath = None,
-           globePath = None,
           globeScale = "32km",
             gshhgRes = "i",
        interpolation = "none",
@@ -38,7 +38,6 @@ def create_map_of_points(
              nRefine = 1,
            onlyValid = False,
          optipngPath = None,
-       osTerrainPath = None,
       osTerrainScale = "400m",
              padDist = 12.0 * 1852.0,
               prefix = ".",
@@ -92,6 +91,8 @@ def create_map_of_points(
     conv : float, optional
         the Geodesic distance that defines the middle as being converged (in
         metres)
+    dataPath : None or str, optional
+        the path to the PyGuymer3 "data" folder
     debug : bool, optional
         print debug messages and draw the circle on the axis
     elevInt : int, optional
@@ -115,9 +116,6 @@ def create_map_of_points(
     gifsiclePath : None or str, optional
         the path to the "gifsicle" binary (if not provided then Python will attempt to
         find the binary itself)
-    globePath : None str, optional
-        the path to the root folder containing the GeoJSON files derived from
-        the GLOBE [4]_ dataset
     globeScale : str, optional
         the scale of the Polygons of elevation from the GLOBE [4]_ dataset
     gshhgRes : str, optional
@@ -155,9 +153,6 @@ def create_map_of_points(
     optipngPath : None or str, optional
         the path to the "optipng" binary (if not provided then Python will attempt to
         find the binary itself)
-    osTerrainPath : None str, optional
-        the path to the root folder containing the GeoJSON files derived from
-        the OS Terrain 50 [5]_ dataset
     osTerrainScale : str, optional
         the scale of the Polygons of elevation from the OS Terrain 50 [5]_
         dataset
@@ -315,8 +310,9 @@ def create_map_of_points(
     from .buffer import buffer
     from .extract_lines import extract_lines
     from .find_middle_of_locs import find_middle_of_locs
+    from .geodetic2platecarree import geodetic2platecarree
     from .great_circle import great_circle
-    from .._consts import CIRCUMFERENCE_OF_EARTH, EARTH, RESOLUTION_OF_EARTH
+    from .._consts import CIRCUMFERENCE_OF_EARTH, EARTH, GEODETIC, PLATECARREE, RESOLUTION_OF_EARTH
     from ..image import optimise_image
 
     # **************************************************************************
@@ -325,25 +321,15 @@ def create_map_of_points(
     if skips is None:
         skips = numpy.zeros(pntLons.size, dtype = bool)
 
-    # Find the path to the GeoJSON files derived from the GLOBE dataset ...
-    if globePath is None:
-        globePath = os.path.abspath(f"{os.path.dirname(__file__)}/../data/geojson/globe")
-    if not os.path.exists(globePath):
+    # Find the path to the PyGuymer3 "data" folder ...
+    if dataPath is None:
+        dataPath = os.path.abspath(f"{os.path.dirname(__file__)}/../data")
+    if not os.path.exists(dataPath):
         if debug:
-            print(f"INFO: \"{globePath}\" does not exist.")
+            print(f"INFO: \"{dataPath}\" does not exist.")
         return
     if debug:
-        print(f"INFO: The GeoJSON files derived from the GLOBE dataset are in \"{globePath}\".")
-
-    # Find the path to the GeoJSON files derived from the OS Terrain 50 dataset ...
-    if osTerrainPath is None:
-        osTerrainPath = os.path.abspath(f"{os.path.dirname(__file__)}/../data/geojson/osTerrain")
-    if not os.path.exists(osTerrainPath):
-        if debug:
-            print(f"INFO: \"{osTerrainPath}\" does not exist.")
-        return
-    if debug:
-        print(f"INFO: The GeoJSON files derived from the OS Terrain 50 dataset are in \"{osTerrainPath}\".")
+        print(f"INFO: The PyGuymer3 \"data\" folder is \"{dataPath}\".")
 
     # **************************************************************************
 
@@ -522,6 +508,7 @@ def create_map_of_points(
             add_GLOBE_tiles(
                 ax,
                      chunksize = chunksize,
+                      dataPath = dataPath,
                          debug = debug,
                   exiftoolPath = exiftoolPath,
                            fov = fov,
@@ -543,6 +530,7 @@ def create_map_of_points(
             add_GLOBE_and_GSHHG_tiles(
                 ax,
                      chunksize = chunksize,
+                      dataPath = dataPath,
                          debug = debug,
                        elevInt = elevInt,
                   exiftoolPath = exiftoolPath,
@@ -566,6 +554,7 @@ def create_map_of_points(
             add_GLOBE_and_NE_tiles(
                 ax,
                      chunksize = chunksize,
+                      dataPath = dataPath,
                          debug = debug,
                        elevInt = elevInt,
                   exiftoolPath = exiftoolPath,
@@ -589,11 +578,11 @@ def create_map_of_points(
             add_GSHHG_map(
                 ax,
                     background = True,
+                      dataPath = dataPath,
                          debug = debug,
                        elevInt = elevInt,
                     elevSource = elevSource,
                            fov = fov,
-                     globePath = globePath,
                     globeScale = globeScale,
                       gshhgRes = gshhgRes,
                       iceOcean = True,
@@ -603,7 +592,6 @@ def create_map_of_points(
                      linewidth = 0.5,
                        maxElev = maxElev,
                      onlyValid = onlyValid,
-                 osTerrainPath = osTerrainPath,
                 osTerrainScale = osTerrainScale,
                     pondIsland = True,
                         prefix = prefix,
@@ -615,6 +603,7 @@ def create_map_of_points(
             add_GSHHG_tiles(
                 ax,
                      chunksize = chunksize,
+                      dataPath = dataPath,
                          debug = debug,
                   exiftoolPath = exiftoolPath,
                            fov = fov,
@@ -649,18 +638,17 @@ def create_map_of_points(
                 ax,
                     background = True,
                       cultural = True,
+                      dataPath = dataPath,
                          debug = debug,
                        elevInt = elevInt,
                     elevSource = elevSource,
                            fov = fov,
-                     globePath = globePath,
                     globeScale = globeScale,
                      linestyle = "solid",
                      linewidth = 0.5,
                        maxElev = maxElev,
                          neRes = neRes,
                      onlyValid = onlyValid,
-                 osTerrainPath = osTerrainPath,
                 osTerrainScale = osTerrainScale,
                       physical = True,
                         prefix = prefix,
@@ -672,6 +660,7 @@ def create_map_of_points(
             add_NE_tiles(
                 ax,
                      chunksize = chunksize,
+                      dataPath = dataPath,
                          debug = debug,
                   exiftoolPath = exiftoolPath,
                            fov = fov,
@@ -730,6 +719,7 @@ def create_map_of_points(
             add_OSterrain_tiles(
                 ax,
                      chunksize = chunksize,
+                      dataPath = dataPath,
                          debug = debug,
                   exiftoolPath = exiftoolPath,
                            fov = fov,
@@ -763,7 +753,7 @@ def create_map_of_points(
         facecolor = fillColor,
         linewidth = 0.1,
                 s = 64.0,
-        transform = cartopy.crs.Geodetic(),
+        transform = GEODETIC,
            zorder = 5.0,
     )
 
@@ -778,7 +768,7 @@ def create_map_of_points(
         facecolor = skipFillColor,
         linewidth = 0.1,
                 s = 64.0,
-        transform = cartopy.crs.Geodetic(),
+        transform = GEODETIC,
            zorder = 5.0,
     )
 
@@ -799,10 +789,12 @@ def create_map_of_points(
             ramLimit = ramLimit,
         )
 
-        # Draw the great circle ...
+        # Draw the great circle (converting from an elliptical description of
+        # Earth to a circular description of Earth) ...
+        # NOTE: See https://cartopy.readthedocs.io/stable/gallery/lines_and_polygons/effects_of_the_ellipse.html
         ax.add_geometries(
-            extract_lines(circle, onlyValid = onlyValid),
-            cartopy.crs.PlateCarree(),
+            geodetic2platecarree(extract_lines(circle, onlyValid = onlyValid)),
+            PLATECARREE,
             edgecolor = skipFillColor if skips[iPnt] or skips[iPnt + 1] else fillColor,
             facecolor = "none",
             linewidth = 1.0,
@@ -811,10 +803,12 @@ def create_map_of_points(
 
     # Check that an extra route was passed ...
     if route is not None:
-        # Draw the extra route ...
+        # Draw the extra route (converting from an elliptical description of
+        # Earth to a circular description of Earth) ...
+        # NOTE: See https://cartopy.readthedocs.io/stable/gallery/lines_and_polygons/effects_of_the_ellipse.html
         ax.add_geometries(
-            extract_lines(route, onlyValid = onlyValid),
-            cartopy.crs.PlateCarree(),
+            geodetic2platecarree(extract_lines(route, onlyValid = onlyValid)),
+            PLATECARREE,
             edgecolor = routeFillColor,
             facecolor = "none",
             linewidth = 1.0,

@@ -7,18 +7,17 @@ def add_NE_map(
     *,
         background = True,
           cultural = True,
+          dataPath = None,
              debug = __debug__,
            elevInt = 250,
         elevSource = "none",
                fov = None,
-         globePath = None,
         globeScale = "32km",
          linestyle = "solid",
          linewidth = 0.5,
            maxElev = 1000,
              neRes = "10m",
          onlyValid = False,
-     osTerrainPath = None,
     osTerrainScale = "400m",
           physical = True,
             prefix = ".",
@@ -35,6 +34,8 @@ def add_NE_map(
         add background
     cultural : bool, optional
         add cultural datasets
+    dataPath : None or str, optional
+        the path to the PyGuymer3 "data" folder
     debug : bool, optional
         print debug messages
     elevInt : int, optional
@@ -45,9 +46,6 @@ def add_NE_map(
         clip the plotted shapes to the provided field-of-view to work around
         occasional MatPlotLib or Cartopy plotting errors when shapes much larger
         than the field-of-view are plotted
-    globePath : None str, optional
-        the path to the root folder containing the GeoJSON files derived from
-        the GLOBE [3]_ dataset
     globeScale : str, optional
         the scale of the Polygons of elevation from the GLOBE [3]_ dataset
     linestyle : str, optional
@@ -62,9 +60,6 @@ def add_NE_map(
     onlyValid : bool, optional
         only add valid Polygons (checks for validity can take a while, if being
         being called often)
-    osTerrainPath : None str, optional
-        the path to the root folder containing the GeoJSON files derived from
-        the OS Terrain 50 [4]_ dataset
     osTerrainScale : str, optional
         the scale of the Polygons of elevation from the OS Terrain 50 [4]_
         dataset
@@ -112,25 +107,15 @@ def add_NE_map(
 
     # **************************************************************************
 
-    # Find the path to the GeoJSON files derived from the GLOBE dataset ...
-    if globePath is None:
-        globePath = os.path.abspath(f"{os.path.dirname(__file__)}/../data/geojson/globe")
-    if not os.path.exists(globePath):
+    # Find the path to the PyGuymer3 "data" folder ...
+    if dataPath is None:
+        dataPath = os.path.abspath(f"{os.path.dirname(__file__)}/../data")
+    if not os.path.exists(dataPath):
         if debug:
-            print(f"INFO: \"{globePath}\" does not exist.")
+            print(f"INFO: \"{dataPath}\" does not exist.")
         return
     if debug:
-        print(f"INFO: The GeoJSON files derived from the GLOBE dataset are in \"{globePath}\".")
-
-    # Find the path to the GeoJSON files derived from the OS Terrain 50 dataset ...
-    if osTerrainPath is None:
-        osTerrainPath = os.path.abspath(f"{os.path.dirname(__file__)}/../data/geojson/osTerrain")
-    if not os.path.exists(osTerrainPath):
-        if debug:
-            print(f"INFO: \"{osTerrainPath}\" does not exist.")
-        return
-    if debug:
-        print(f"INFO: The GeoJSON files derived from the OS Terrain 50 dataset are in \"{osTerrainPath}\".")
+        print(f"INFO: The PyGuymer3 \"data\" folder is \"{dataPath}\".")
 
     # Add background ...
     if background:
@@ -195,10 +180,10 @@ def add_NE_map(
             case "GLOBE":
                 _add_GLOBE_elevation(
                     ax,
+                      dataPath = dataPath,
                          debug = debug,
                        elevInt = elevInt,
                            fov = fov,
-                     globePath = globePath,
                     globeScale = globeScale,
                        maxElev = maxElev,
                      onlyValid = onlyValid,
@@ -207,12 +192,12 @@ def add_NE_map(
             case "OS Terrain 50":
                 _add_OSterrain_elevation(
                     ax,
+                          dataPath = dataPath,
                              debug = debug,
                            elevInt = elevInt,
                                fov = fov,
                            maxElev = maxElev,
                          onlyValid = onlyValid,
-                     osTerrainPath = osTerrainPath,
                     osTerrainScale = osTerrainScale,
                             prefix = prefix,
                             repair = repair,

@@ -5,12 +5,12 @@ def _add_OSterrain_elevation(
     ax,
     /,
     *,
+          dataPath = None,
              debug = __debug__,
            elevInt = 100,
                fov = None,
            maxElev = 1000,
          onlyValid = False,
-     osTerrainPath = None,
     osTerrainScale = "400m",
             prefix = ".",
             repair = False,
@@ -23,6 +23,8 @@ def _add_OSterrain_elevation(
     ----------
     ax : cartopy.mpl.geoaxes.GeoAxes
         the axis to add the Polygons of elevation to
+    dataPath : None or str, optional
+        the path to the PyGuymer3 "data" folder
     debug : bool, optional
         print debug messages
     elevInt : int, optional
@@ -37,9 +39,6 @@ def _add_OSterrain_elevation(
     onlyValid : bool, optional
         only add valid Polygons (checks for validity can take a while, if being
         being called often)
-    osTerrainPath : None str, optional
-        the path to the root folder containing the GeoJSON files derived from
-        the OS Terrain 50 [2]_ dataset
     osTerrainScale : str, optional
         the scale of the Polygons of elevation from the OS Terrain 50 [2]_
         dataset
@@ -107,6 +106,8 @@ def _add_OSterrain_elevation(
     # Import sub-functions ...
     from .en2ll import en2ll
     from .extract_polys import extract_polys
+    from .geodetic2platecarree import geodetic2platecarree
+    from .._consts import PLATECARREE
 
     # **************************************************************************
 
@@ -119,15 +120,15 @@ def _add_OSterrain_elevation(
         ]
     )
 
-    # Find the path to the GeoJSON files derived from the OS Terrain 50 dataset ...
-    if osTerrainPath is None:
-        osTerrainPath = os.path.abspath(f"{os.path.dirname(__file__)}/../data/geojson/osTerrain")
-    if not os.path.exists(osTerrainPath):
+    # Find the path to the PyGuymer3 "data" folder ...
+    if dataPath is None:
+        dataPath = os.path.abspath(f"{os.path.dirname(__file__)}/../data")
+    if not os.path.exists(dataPath):
         if debug:
-            print(f"INFO: \"{osTerrainPath}\" does not exist.")
+            print(f"INFO: \"{dataPath}\" does not exist.")
         return
     if debug:
-        print(f"INFO: The GeoJSON files derived from the OS Terrain 50 dataset are in \"{osTerrainPath}\".")
+        print(f"INFO: The PyGuymer3 \"data\" folder is \"{dataPath}\".")
 
     # Loop over elevations ...
     # NOTE: Rounded to the nearest integer, Ben Nevis is 1,345m ASL.
@@ -141,7 +142,7 @@ def _add_OSterrain_elevation(
             print(f"INFO: \"{name}\" is ({facecolor[0]:.6f},{facecolor[1]:.6f},{facecolor[2]:.6f},{facecolor[3]:.6f}).")
 
         # Find GeoJSON file containing the shapes ...
-        gName = f"{osTerrainPath}/scale={osTerrainScale}/elev={elevation:04d}m.geojson"
+        gName = f"{dataPath}/geojson/osTerrain/scale={osTerrainScale}/elev={elevation:04d}m.geojson"
         if not os.path.exists(gName):
             if debug:
                 print(f"INFO: \"{gName}\" does not exist.")
@@ -176,10 +177,12 @@ def _add_OSterrain_elevation(
                 continue
             polys.append(poly.intersection(fov))
 
-        # Plot geometry ...
+        # Plot geometry (converting from an elliptical description of Earth to a
+        # circular description of Earth) ...
+        # NOTE: See https://cartopy.readthedocs.io/stable/gallery/lines_and_polygons/effects_of_the_ellipse.html
         ax.add_geometries(
-            polys,
-            cartopy.crs.PlateCarree(),
+            geodetic2platecarree(polys),
+            PLATECARREE,
             edgecolor = "none",
             facecolor = facecolor,
         )

@@ -6,6 +6,7 @@ def add_NE_tiles(
     /,
     *,
          chunksize = 1048576,
+          dataPath = None,
              debug = __debug__,
       exiftoolPath = None,
                fov = None,
@@ -30,6 +31,8 @@ def add_NE_tiles(
         The axis to add the NE dataset tiles as a background to.
     chunksize : int, optional
         The size of the chunks of any files which are read in (in bytes).
+    dataPath : None or str, optional
+        the path to the PyGuymer3 "data" folder
     debug : bool, optional
         Print debug messages.
     exiftoolPath : None or str, optional
@@ -137,10 +140,24 @@ def add_NE_tiles(
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
+    # Import standard modules ...
+    import os
+
     # Import sub-functions ...
+    from .._consts import PLATECARREE
     from ..image import optimise_image
 
     # **************************************************************************
+
+    # Find the path to the PyGuymer3 "data" folder ...
+    if dataPath is None:
+        dataPath = os.path.abspath(f"{os.path.dirname(__file__)}/../data")
+    if not os.path.exists(dataPath):
+        if debug:
+            print(f"INFO: \"{dataPath}\" does not exist.")
+        return
+    if debug:
+        print(f"INFO: The PyGuymer3 \"data\" folder is \"{dataPath}\".")
 
     # Create short-hands ...
     # NOTE: See "pyguymer3/data/png/README.md".
@@ -208,9 +225,9 @@ def add_NE_tiles(
         for ix in range(nx):
             if not usedTiles[iy, ix]:
                 continue
-            tName = f"{os.path.dirname(__file__)}/../data/png/ne/{nx:d}x{ny:d}/res={neRes}/x={ix:d}/y={iy:d}.png"
+            tName = f"{dataPath}/png/ne/{nx:d}x{ny:d}/res={neRes}/x={ix:d}/y={iy:d}.png"
             if not os.path.exists(tName):
-                tName = f"{os.path.dirname(__file__)}/../data/png/missingTile.png"
+                tName = f"{dataPath}/png/missingTile.png"
             if debug:
                 print(f"  Adding \"{tName}\" to merged tile ...")
             with PIL.Image.open(tName) as iObj:
@@ -260,5 +277,5 @@ def add_NE_tiles(
                origin = "upper",
          regrid_shape = regrid_shape,
              resample = resample,
-            transform = cartopy.crs.PlateCarree(),
+            transform = PLATECARREE,
     )
