@@ -9,8 +9,8 @@ source "${BASH_ENV}" || exit 1
 # programs are anything that does not appear on the following two lists:
 #   * https://pubs.opengroup.org/onlinepubs/9699919799/idx/utilities.html
 #   * https://www.gnu.org/software/bash/manual/html_node/Bash-Builtins.html
-if ! type python3.11 &> /dev/null; then
-    echo "ERROR: \"python3.11\" is not installed." >&2
+if ! type python3.12 &> /dev/null; then
+    echo "ERROR: \"python3.12\" is not installed." >&2
     exit 1
 fi
 
@@ -18,22 +18,22 @@ fi
 NCHILD=6                                                                        # [#]
 
 # Generate one-off-tiles ...
-python3.11 generateMissingTile.py &> generateMissingTile.log
+python3.12 generateMissingTile.py &> generateMissingTile.log
 
 # Generate vector tiles ...
-python3.11 generateGshhgTiles.py                                                \
+python3.12 generateGshhgTiles.py                                                \
     --number-of-children ${NCHILD} &> generateGshhgTiles.log
-python3.11 generateNeTiles.py                                                   \
+python3.12 generateNeTiles.py                                                   \
     --number-of-children ${NCHILD} &> generateNeTiles.log
 
 # Generate raster tiles ...
-python3.11 generateGlobeTiles.py                                                \
+python3.12 generateGlobeTiles.py                                                \
     --number-of-children ${NCHILD} &> generateGlobeTiles.log
-python3.11 generateOsTerrainTiles.py                                            \
+python3.12 generateOsTerrainTiles.py                                            \
     --number-of-children ${NCHILD} &> generateOsTerrainTiles.log
 
 # Generate combined raster+vector tiles ...
-python3.11 generateGlobeGshhgTiles.py                                           \
+python3.12 generateGlobeGshhgTiles.py                                           \
     --number-of-children ${NCHILD} &> generateGlobeGshhgTiles.log
-python3.11 generateGlobeNeTiles.py                                              \
+python3.12 generateGlobeNeTiles.py                                              \
     --number-of-children ${NCHILD} &> generateGlobeNeTiles.log
