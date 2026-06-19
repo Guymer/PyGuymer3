@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Use the proper idiom in the main module ...
-# NOTE: See https://docs.python.org/3.12/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
+# NOTE: See https://docs.python.org/3.13/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
 if __name__ == "__main__":
     # This is a test suite for “geo.fillin()”.
     # Each ring has a plot with both a top-down projection and a Robinson
@@ -304,7 +304,7 @@ if __name__ == "__main__":
             #       of the written string. Fortunately, if you have no shame,
             #       then you can load and then dump the string again, see:
             #         * https://stackoverflow.com/a/29066406
-            with open(jname1, "wt", encoding = "utf-8") as fObj:
+            with open(jname1, mode = "wt", encoding = "utf-8") as fObj:
                 json.dump(
                     json.loads(
                         geojson.dumps(
@@ -364,7 +364,7 @@ if __name__ == "__main__":
             #       of the written string. Fortunately, if you have no shame,
             #       then you can load and then dump the string again, see:
             #         * https://stackoverflow.com/a/29066406
-            with open(jname2, "wt", encoding = "utf-8") as fObj:
+            with open(jname2, mode = "wt", encoding = "utf-8") as fObj:
                 json.dump(
                     json.loads(
                         geojson.dumps(

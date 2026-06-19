@@ -34,7 +34,7 @@ def tar(
 
     Notes
     -----
-    I still need to provide justification for using this function over https://docs.python.org/3.12/library/tarfile.html
+    I still need to provide justification for using this function over https://docs.python.org/3.13/library/tarfile.html
 
     Copyright 2017 Thomas Guymer [1]_
 
@@ -68,7 +68,7 @@ def tar(
         tmpName = f"{tname}/fnames.txt"
 
         # Make list of files to archive ...
-        with open(tmpName, "wt", encoding = "utf-8") as fObj:
+        with open(tmpName, mode = "wt", encoding = "utf-8") as fObj:
             for fname in fnames:
                 fObj.write(f"{fname}\n")
 

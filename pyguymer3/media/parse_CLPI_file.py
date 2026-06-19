@@ -19,7 +19,7 @@ def parse_CLPI_file(
     info = {}
 
     # Open file ...
-    with open(f"{br}/BDMV/CLIPINF/{ip:05d}.clpi", "rb") as fObj:
+    with open(f"{br}/BDMV/CLIPINF/{ip:05d}.clpi", mode = "rb") as fObj:
         # Load header ...
         info["header"] = load_header(fObj)
 

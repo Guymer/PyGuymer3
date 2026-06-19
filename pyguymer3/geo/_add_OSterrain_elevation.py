@@ -152,7 +152,7 @@ def _add_OSterrain_elevation(
 
         # Load the GeoJSON geometry collection and convert it to a Shapely
         # geometry collection ...
-        with open(gName, "rt", encoding = "utf-8") as fObj:
+        with open(gName, mode = "rt", encoding = "utf-8") as fObj:
             coll = geojson.load(fObj)
         coll = shapely.geometry.shape(coll)
 

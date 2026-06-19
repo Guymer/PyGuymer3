@@ -48,13 +48,13 @@ class MyTestCase(unittest.TestCase):
 
     # Define constants from the environment ...
     # NOTE: As of 24/May/2026, on my MacBook Pro this is the output:
-    #           % python3.12 -m unittest --failfast unitTests.py
+    #           % python3.13 -m unittest --failfast unitTests.py
     #           .......s.s......................s
     #           ----------------------------------------------------------------------
     #           Ran 33 tests in 2.668s
     #
     #           OK (skipped=3)
-    #           % ALLTESTS=1234 python3.12 -m unittest --failfast unitTests.py
+    #           % ALLTESTS=1234 python3.13 -m unittest --failfast unitTests.py
     #           ................................
     #           ----------------------------------------------------------------------
     #           Ran 32 tests in 4257.979s
@@ -116,7 +116,7 @@ class MyTestCase(unittest.TestCase):
         """
 
         # Load input data as binary and parse it as XML ...
-        with open("tests/feed.atom", "rb") as fObj:
+        with open("tests/feed.atom", mode = "rb") as fObj:
             src = fObj.read()
         xmlElem = lxml.etree.XML(src)
 
@@ -125,7 +125,7 @@ class MyTestCase(unittest.TestCase):
             xmlElem,
             debug = self.debug,
         )
-        with open("feed.json", "wt", encoding = "utf-8") as fObj:
+        with open("feed.json", mode = "wt", encoding = "utf-8") as fObj:
             json.dump(
                 pyDict,
                 fObj,
@@ -453,9 +453,9 @@ class MyTestCase(unittest.TestCase):
             sparseRing = shapely.geometry.polygon.LinearRing(ring)
 
             # Load GeoJSONs ...
-            with open(f"tests/fillin/fillin{iRing:d}Euclidean.geojson", "rt", encoding = "utf-8") as fObj:
+            with open(f"tests/fillin/fillin{iRing:d}Euclidean.geojson", mode = "rt", encoding = "utf-8") as fObj:
                 savedRing1 = shapely.geometry.shape(geojson.load(fObj))
-            with open(f"tests/fillin/fillin{iRing:d}Geodesic.geojson", "rt", encoding = "utf-8") as fObj:
+            with open(f"tests/fillin/fillin{iRing:d}Geodesic.geojson", mode = "rt", encoding = "utf-8") as fObj:
                 savedRing2 = shapely.geometry.shape(geojson.load(fObj))
 
             # Fill in ring in Euclidean space ...
@@ -580,7 +580,7 @@ class MyTestCase(unittest.TestCase):
             # Loop over number of points ...
             for iPoint, npoint in enumerate(npoints):
                 # Load GeoJSON ...
-                with open(f"tests/greatCircle/greatCircle{iCoord:d}_{iPoint:d}.geojson", "rt", encoding = "utf-8") as fObj:
+                with open(f"tests/greatCircle/greatCircle{iCoord:d}_{iPoint:d}.geojson", mode = "rt", encoding = "utf-8") as fObj:
                     savedCircle = shapely.geometry.shape(geojson.load(fObj))
 
                 # Find the great circle ...
@@ -1668,9 +1668,9 @@ class MyTestCase(unittest.TestCase):
             # Check if this file is a GeoJSON file in the "tests" folder ...
             if patGeojson.fullmatch(fNameNull):
                 # Load Shapes from GeoJSON ...
-                with open(fNameNull, "rt", encoding = "utf-8") as fObj:
+                with open(fNameNull, mode = "rt", encoding = "utf-8") as fObj:
                     shapeNull = shapely.geometry.shape(geojson.load(fObj))
-                with open(fNameTest, "rt", encoding = "utf-8") as fObj:
+                with open(fNameTest, mode = "rt", encoding = "utf-8") as fObj:
                     shapeTest = shapely.geometry.shape(geojson.load(fObj))
 
                 # Tell "unittest" that we are doing sub-tests ...
@@ -1689,9 +1689,9 @@ class MyTestCase(unittest.TestCase):
             # Check if this file is a JSON file in the "tests" folder ...
             if patJson.fullmatch(fNameNull):
                 # Load data from JSON ...
-                with open(fNameNull, "rt", encoding = "utf-8") as fObj:
+                with open(fNameNull, mode = "rt", encoding = "utf-8") as fObj:
                     dataNull = json.load(fObj)
-                with open(fNameTest, "rt", encoding = "utf-8") as fObj:
+                with open(fNameTest, mode = "rt", encoding = "utf-8") as fObj:
                     dataTest = json.load(fObj)
 
                 # Tell "unittest" that we are doing sub-tests ...
@@ -1705,7 +1705,7 @@ class MyTestCase(unittest.TestCase):
                     )
 
 # Use the proper idiom in the main module ...
-# NOTE: See https://docs.python.org/3.12/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
+# NOTE: See https://docs.python.org/3.13/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
 if __name__ == "__main__":
     # Run the tests ...
     unittest.main()

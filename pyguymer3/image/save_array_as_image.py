@@ -131,7 +131,7 @@ def save_array_as_image(
     ny, nx = img0.shape                                                         # [px], [px]
 
     # Load colour tables ...
-    with open(f"{dataPath}/json/colourTables.json", "rt", encoding = "utf-8") as fObj:
+    with open(f"{dataPath}/json/colourTables.json", mode = "rt", encoding = "utf-8") as fObj:
         cts = json.load(fObj)
 
     # Create uint8 image that will be passed to the external function ...

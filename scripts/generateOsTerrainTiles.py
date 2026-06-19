@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Use the proper idiom in the main module ...
-# NOTE: See https://docs.python.org/3.12/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
+# NOTE: See https://docs.python.org/3.13/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
 if __name__ == "__main__":
     # Import standard modules ...
     import argparse
@@ -81,7 +81,7 @@ if __name__ == "__main__":
     zName = f"{args.absPathToRepo}/scripts/osTerrain.zip"
 
     # Load colour tables and create short-hand ...
-    with open(f"{args.absPathToRepo}/pyguymer3/data/json/colourTables.json", "rt", encoding = "utf-8") as fObj:
+    with open(f"{args.absPathToRepo}/pyguymer3/data/json/colourTables.json", mode = "rt", encoding = "utf-8") as fObj:
         colourTables = json.load(fObj)
     turbo = numpy.array(colourTables["turbo"]).astype(numpy.uint8)
 
@@ -131,7 +131,7 @@ if __name__ == "__main__":
         pattern = re.compile(r"data/[a-z]+/[a-z]+[0-9]+_OST50GRID_[0-9]+.zip")
 
         # Load dataset ...
-        with zipfile.ZipFile(zName, "r") as fObj0:
+        with zipfile.ZipFile(zName, mode = "r") as fObj0:
             # Loop over members ...
             for fName in fObj0.namelist():
                 # Skip this member if it is not a sub-dataset ...
@@ -146,7 +146,7 @@ if __name__ == "__main__":
                 zipObj = io.BytesIO(fObj0.read(fName))
 
                 # Load sub-dataset ...
-                with zipfile.ZipFile(zipObj, "r") as fObj1:
+                with zipfile.ZipFile(zipObj, mode = "r") as fObj1:
                     # Read ASCII dataset into RAM so that it becomes seekable ...
                     # NOTE: https://stackoverflow.com/a/12025492
                     ascObj = io.BytesIO(fObj1.read(f"{key}.asc"))

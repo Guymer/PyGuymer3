@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Use the proper idiom in the main module ...
-# NOTE: See https://docs.python.org/3.12/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
+# NOTE: See https://docs.python.org/3.13/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
 if __name__ == "__main__":
     # Import standard modules ...
     import argparse
@@ -167,12 +167,12 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Load data and convert to NumPy array ...
-    with open(f"{args.absPathToRepo}/tests/exampleLons.json", "rt", encoding = "utf-8") as fObj:
+    with open(f"{args.absPathToRepo}/tests/exampleLons.json", mode = "rt", encoding = "utf-8") as fObj:
         lons = json.load(fObj)                                                  # [°]
     lons = numpy.array(lons, dtype = numpy.float64)                             # [°]
 
     # Load data and convert to NumPy array ...
-    with open(f"{args.absPathToRepo}/tests/exampleLats.json", "rt", encoding = "utf-8") as fObj:
+    with open(f"{args.absPathToRepo}/tests/exampleLats.json", mode = "rt", encoding = "utf-8") as fObj:
         lats = json.load(fObj)                                                  # [°]
     lats = numpy.array(lats, dtype = numpy.float64)                             # [°]
 
@@ -571,7 +571,7 @@ if __name__ == "__main__":
         )
 
     # Save database ...
-    with open(jName, "wt", encoding = "utf-8") as fObj:
+    with open(jName, mode = "wt", encoding = "utf-8") as fObj:
         json.dump(
             db,
             fObj,

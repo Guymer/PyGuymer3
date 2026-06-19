@@ -144,5 +144,5 @@ def manuallyOptimisePng(
         print(f"Overwriting \"{pName}\" with optimised version ({len(src):,d} bytes < {os.path.getsize(pName):,d} bytes) ...")
 
     # Write PNG ...
-    with open(pName, "wb") as fObj:
+    with open(pName, mode = "wb") as fObj:
         fObj.write(src)

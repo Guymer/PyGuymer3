@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Use the proper idiom in the main module ...
-# NOTE: See https://docs.python.org/3.12/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
+# NOTE: See https://docs.python.org/3.13/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
 if __name__ == "__main__":
     # Import standard modules ...
     import argparse
@@ -324,7 +324,7 @@ if __name__ == "__main__":
                 #       Fortunately, if you have no shame, then you can load and
                 #       then dump the string again, see:
                 #         * https://stackoverflow.com/a/29066406
-                with open(jname, "wt", encoding = "utf-8") as fObj:
+                with open(jname, mode = "wt", encoding = "utf-8") as fObj:
                     json.dump(
                         json.loads(
                             geojson.dumps(

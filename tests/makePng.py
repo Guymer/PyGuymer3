@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Use the proper idiom in the main module ...
-# NOTE: See https://docs.python.org/3.12/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
+# NOTE: See https://docs.python.org/3.13/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
 if __name__ == "__main__":
     # Import standard modules ...
     import argparse
@@ -88,7 +88,7 @@ if __name__ == "__main__":
         arr = numpy.array(img)
         assert arr.dtype == "uint8", f"the NumPy array is not 8-bit (\"{arr.dtype}\")"
         assert arr.ndim == 2, f"the NumPy array is not 2D (\"{arr.ndim:d}\")"
-        with open(f"{dName}/mandelbrot.bin", "wb") as fObj:
+        with open(f"{dName}/mandelbrot.bin", mode = "wb") as fObj:
             fObj.write(arr.tobytes())
 
     # Load the binary array of the example "mandelbrot" ...
@@ -138,7 +138,7 @@ if __name__ == "__main__":
         assert arr.dtype == "uint8", f"the NumPy array is not 8-bit (\"{arr.dtype}\")"
         assert arr.ndim == 3, f"the NumPy array is not 3D (\"{arr.ndim:d}\")"
         assert arr.shape[2] == 3, f"the NumPy array does not have 3 colour channels (\"{arr.shape[2]:d}\")"
-        with open(f"{dName}/photo.bin", "wb") as fObj:
+        with open(f"{dName}/photo.bin", mode = "wb") as fObj:
             fObj.write(arr.tobytes())
 
     # Load the binary array of the example "photo" ...
@@ -182,7 +182,7 @@ if __name__ == "__main__":
         assert arr.dtype == "uint8", f"the NumPy array is not 8-bit (\"{arr.dtype}\")"
         assert arr.ndim == 3, f"the NumPy array is not 3D (\"{arr.ndim:d}\")"
         assert arr.shape[2] == 3, f"the NumPy array does not have 3 colour channels (\"{arr.shape[2]:d}\")"
-        with open(f"{dName}/testcard.bin", "wb") as fObj:
+        with open(f"{dName}/testcard.bin", mode = "wb") as fObj:
             fObj.write(arr.tobytes())
 
     # Load the binary array of the example "testcard" ...
@@ -217,8 +217,8 @@ if __name__ == "__main__":
     # Load colour tables and create short-hand ...
     with open(
         f"{pyguymer3.__path__[0]}/data/json/colourTables.json",
-        "rt",
         encoding = "utf-8",
+            mode = "rt",
     ) as fObj:
         colourTables = json.load(fObj)
     palT = numpy.array(colourTables["turbo"]).astype(numpy.uint8)
@@ -250,7 +250,7 @@ if __name__ == "__main__":
     # Save array as PNG ...
     if not os.path.exists(f"{dName}/mandelbrot-greyscale.png"):
         print(f"Making \"{dName}/mandelbrot-greyscale.png\" ...")
-        with open(f"{dName}/mandelbrot-greyscale.png", "wb") as fObj:
+        with open(f"{dName}/mandelbrot-greyscale.png", mode = "wb") as fObj:
             fObj.write(
                 pyguymer3.image.makePng(
                     arrG.reshape((ny, nx, 1)),
@@ -266,7 +266,7 @@ if __name__ == "__main__":
     # Save array as PNG ...
     if not os.path.exists(f"{dName}/mandelbrot-paletted.png"):
         print(f"Making \"{dName}/mandelbrot-paletted.png\" ...")
-        with open(f"{dName}/mandelbrot-paletted.png", "wb") as fObj:
+        with open(f"{dName}/mandelbrot-paletted.png", mode = "wb") as fObj:
             fObj.write(
                 pyguymer3.image.makePng(
                     arrG.reshape((ny, nx, 1)),
@@ -282,7 +282,7 @@ if __name__ == "__main__":
     # Save array as PNG ...
     if not os.path.exists(f"{dName}/mandelbrot-truecolour.png"):
         print(f"Making \"{dName}/mandelbrot-truecolour.png\" ...")
-        with open(f"{dName}/mandelbrot-truecolour.png", "wb") as fObj:
+        with open(f"{dName}/mandelbrot-truecolour.png", mode = "wb") as fObj:
             fObj.write(
                 pyguymer3.image.makePng(
                     arrT,
@@ -307,7 +307,7 @@ if __name__ == "__main__":
     # Save array as PNG ...
     if not os.path.exists(f"{dName}/photo-truecolour.png"):
         print(f"Making \"{dName}/photo-truecolour.png\" ...")
-        with open(f"{dName}/photo-truecolour.png", "wb") as fObj:
+        with open(f"{dName}/photo-truecolour.png", mode = "wb") as fObj:
             fObj.write(
                 pyguymer3.image.makePng(
                     arrT,
@@ -332,7 +332,7 @@ if __name__ == "__main__":
     # Save array as PNG ...
     if not os.path.exists(f"{dName}/testcard-truecolour.png"):
         print(f"Making \"{dName}/testcard-truecolour.png\" ...")
-        with open(f"{dName}/testcard-truecolour.png", "wb") as fObj:
+        with open(f"{dName}/testcard-truecolour.png", mode = "wb") as fObj:
             fObj.write(
                 pyguymer3.image.makePng(
                     arrT,

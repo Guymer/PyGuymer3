@@ -98,7 +98,7 @@ class exifreadCachedDict(dict):
                     )
             else:
                 # Find metadata ...
-                with open(fName, "rb") as fObj:
+                with open(fName, mode = "rb") as fObj:
                     ans = exifread.process_file(
                         fObj,
                             builtin_types = True,

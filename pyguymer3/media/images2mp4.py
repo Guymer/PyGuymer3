@@ -284,8 +284,8 @@ def images2mp4(
     ]
     if debug:
         print(f'INFO: {" ".join(cmd)}')
-    with open(f"{tmpname}/ffmpeg.err", "wt", encoding = "utf-8") as fObjErr:
-        with open(f"{tmpname}/ffmpeg.out", "wt", encoding = "utf-8") as fObjOut:
+    with open(f"{tmpname}/ffmpeg.err", mode = "wt", encoding = "utf-8") as fObjErr:
+        with open(f"{tmpname}/ffmpeg.out", mode = "wt", encoding = "utf-8") as fObjOut:
             subprocess.run(
                 cmd,
                    check = True,
