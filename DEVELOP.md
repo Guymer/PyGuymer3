@@ -3,7 +3,7 @@
 To test the build locally first, run:
 
 ```sh
-python3.12 -m build &> build.log
+python3.13 -m build &> build.log
 ```
 
 To release a new version to both GitHub and PyPI, run:
