@@ -231,7 +231,7 @@ def buffer_CoordinateSequence(
     # **************************************************************************
 
     # Convert list of Polygons to a (unified) [Multi]Polygon ...
-    buffs = shapely.ops.unary_union(buffs).simplify(tol)
+    buffs = shapely.geometry.polygon.orient(shapely.ops.unary_union(buffs)).simplify(tol)
     if debug:
         check(buffs, prefix = prefix)
 
