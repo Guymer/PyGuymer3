@@ -2,8 +2,8 @@
 
 # Define function ...
 def buffer_List(
-    geometrycollection,
     shape,
+    dist,
     /,
     *,
     attemptFortran = True,
@@ -115,15 +115,15 @@ def buffer_List(
     # **************************************************************************
 
     # Check argument ...
-    assert isinstance(geometrycollection, shapely.geometry.collection.GeometryCollection), "\"geometrycollection\" is not a GeometryCollection"
+    assert isinstance(shape, list), "\"shape\" is not a list"
     if debug:
-        check(geometrycollection, prefix = prefix)
+        check(shape, prefix = prefix)
 
     # Initialize list ...
     buffs = []
 
     # Loop over geometries ...
-    for geom in geometrycollection.geoms:
+    for geom in shape.geoms:
         # Append buffer of geometry to list ...
         match geom:
             case shapely.coords.CoordinateSequence():

@@ -272,7 +272,7 @@ def buffer_GeometryCollection(
                     )
                 )
             case _:
-                raise TypeError(f"\"shape\" is an unexpected type ({repr(type(shape))})") from None
+                raise TypeError(f"\"geometrycollection\" is an unexpected type ({repr(type(geometrycollection))})") from None
 
     # Convert list of [Multi]Polygons to a (unified) [Multi]Polygon ...
     buffs = shapely.geometry.polygon.orient(shapely.ops.unary_union(buffs)).simplify(tol)
