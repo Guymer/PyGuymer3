@@ -25,7 +25,8 @@ def check_Polygon(
     <https://shapely.readthedocs.io/en/stable/manual.html#shapely.geometry.polygon.orient>`_ :
 
         "A sign of 1.0 means that the coordinates of the product's exterior ring
-        will be oriented counter-clockwise."
+        will be oriented counter-clockwise and the interior rings (holes) will
+        be oriented clockwise."
 
     Copyright 2017 Thomas Guymer [1]_
 
@@ -54,6 +55,11 @@ def check_Polygon(
         raise Exception(f"\"poly\" is not a valid Polygon ({shapely.validation.explain_validity(poly)})") from None
     if poly.is_empty:
         raise Exception("\"poly\" is an empty Polygon") from None
+    if not poly.exterior.is_ccw:
+        raise Exception("the exterior ring of \"poly\" is not counter-clockwise") from None
+    for hole in poly.interiors:
+        if hole.is_ccw:
+            raise Exception("an interior ring of \"poly\" is not clockwise") from None
 
     # Return answer ...
     return True
