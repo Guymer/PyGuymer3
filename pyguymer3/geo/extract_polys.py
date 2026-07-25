@@ -103,7 +103,7 @@ def extract_polys(
                 return []
 
             # Return answer ...
-            return [shape]
+            return [shapely.geometry.polygon.orient(shape)]
 
         # Check if it is valid ...
         if shape.is_valid:
@@ -112,13 +112,13 @@ def extract_polys(
                 return []
 
             # Return answer ...
-            return [shape]
+            return [shapely.geometry.polygon.orient(shape)]
 
         # Check if the user wants to attempt to fix it ...
         if repair:
             # Try to repair it and return answer ...
             return extract_polys(
-                shape.buffer(0.0),
+                shapely.geometry.polygon.orient(shape).buffer(0.0),
                 onlyValid = onlyValid,
                    repair = repair,
             )
