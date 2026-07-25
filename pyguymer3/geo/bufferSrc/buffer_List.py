@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 # Define function ...
-def buffer_GeometryCollection(
+def buffer_List(
     geometrycollection,
-    dist,
+    shape,
     /,
     *,
     attemptFortran = True,
@@ -19,19 +19,19 @@ def buffer_GeometryCollection(
               simp = 0.1,
                tol = 1.0e-10,
 ):
-    """Buffer a GeometryCollection
+    """Buffer a list of shapes
 
-    This function reads in a GeometryCollection that exists on the surface of
-    the Earth and returns a [Multi]Polygon of the same GeometryCollection
-    buffered by a constant distance (in metres).
+    This function reads in a list of shapes that exists on the surface of the
+    Earth and returns a [Multi]Polygon of the same list of shapes buffered by a
+    constant distance (in metres).
 
     Parameters
     ----------
-    geometrycollection : shapely.geometry.collection.GeometryCollection
-        the GeometryCollection
+    shape : list
+        the list of shapes
     dist : float
-        the Geodesic distance to buffer each geometry within the
-        GeometryCollection by (in metres)
+        the Geodesic distance to buffer each geometry within the list by (in
+        metres)
     attemptFortran : bool, optional
         attempt to use a f2py implementation
     debug : bool, optional
@@ -65,7 +65,7 @@ def buffer_GeometryCollection(
     Returns
     -------
     buffs : shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
-        the buffered GeometryCollection
+        the buffered list of shapes
 
     Notes
     -----
@@ -101,6 +101,7 @@ def buffer_GeometryCollection(
 
     # Import sub-functions ...
     from .buffer_CoordinateSequence import buffer_CoordinateSequence
+    from .buffer_GeometryCollection import buffer_GeometryCollection
     from .buffer_LineString import buffer_LineString
     from .buffer_LinearRing import buffer_LinearRing
     from .buffer_MultiLineString import buffer_MultiLineString
@@ -255,6 +256,25 @@ def buffer_GeometryCollection(
             case shapely.geometry.multipolygon.MultiPolygon():
                 buffs.append(
                     buffer_MultiPolygon(
+                        geom,
+                        dist,
+                        attemptFortran = attemptFortran,
+                                 debug = debug,
+                                   eps = eps,
+                                  fill = fill,
+                             fillSpace = fillSpace,
+                         keepInteriors = keepInteriors,
+                                  nAng = nAng,
+                                 nIter = nIter,
+                                prefix = prefix,
+                              ramLimit = ramLimit,
+                                  simp = simp,
+                                   tol = tol,
+                    )
+                )
+            case shapely.geometry.collection.GeometryCollection():
+                buffs.append(
+                    buffer_GeometryCollection(
                         geom,
                         dist,
                         attemptFortran = attemptFortran,
