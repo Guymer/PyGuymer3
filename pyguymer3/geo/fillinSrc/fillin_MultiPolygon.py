@@ -100,7 +100,7 @@ def fillin_MultiPolygon(
         )
 
     # Convert list of Polygons to a (unified) MultiPolygon ...
-    fills = shapely.ops.unary_union(polys)
+    fills = shapely.geometry.polygon.orient(shapely.ops.unary_union(polys))
     if debug:
         check(fills, prefix = prefix)
 

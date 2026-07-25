@@ -80,7 +80,7 @@ def clean_MultiPolygon(
         )
 
     # Convert list of Polygons to a (unified) MultiPolygon ...
-    cleans = shapely.ops.unary_union(polys)
+    cleans = shapely.geometry.polygon.orient(shapely.ops.unary_union(polys))
     if debug:
         check(cleans, prefix = prefix)
 
