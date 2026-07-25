@@ -46,6 +46,7 @@ def check(
     from .checkSrc import check_GeometryCollection
     from .checkSrc import check_LinearRing
     from .checkSrc import check_LineString
+    from .checkSrc import check_List
     from .checkSrc import check_MultiLineString
     from .checkSrc import check_MultiPoint
     from .checkSrc import check_MultiPolygon
@@ -112,6 +113,13 @@ def check(
     # Check if it is a GeometryCollection and return it checked ...
     if isinstance(shape, shapely.geometry.collection.GeometryCollection):
         return check_GeometryCollection(
+            shape,
+            prefix = prefix,
+        )
+
+    # Check if it is a list and return it checked ...
+    if isinstance(shape, list):
+        return check_List(
             shape,
             prefix = prefix,
         )
