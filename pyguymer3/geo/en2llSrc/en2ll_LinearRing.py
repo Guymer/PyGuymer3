@@ -37,9 +37,6 @@ def en2ll_LinearRing(
     .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
-    # Import standard modules ...
-    import pathlib
-
     # Import special modules ...
     try:
         import numpy
