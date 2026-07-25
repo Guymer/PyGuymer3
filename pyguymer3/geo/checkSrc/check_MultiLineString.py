@@ -43,6 +43,7 @@ def check_MultiLineString(
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
+    from .check_LineString import check_LineString
     from .._debug import _debug
 
     # **************************************************************************
@@ -54,6 +55,13 @@ def check_MultiLineString(
         raise Exception(f"\"multiline\" is not a valid MultiLineString ({shapely.validation.explain_validity(multiline)})") from None
     if multiline.is_empty:
         raise Exception("\"multiline\" is an empty MultiLineString") from None
+
+    # Check members ...
+    for line in multiline.geoms:
+        check_LineString(
+            line,
+            prefix = prefix,
+        )
 
     # Return answer ...
     return True
