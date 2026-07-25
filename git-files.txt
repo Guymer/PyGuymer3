@@ -38277,8 +38277,10 @@ pyguymer3/geo/area.py
 pyguymer3/geo/buffer.py
 pyguymer3/geo/bufferSrc/__init__.py
 pyguymer3/geo/bufferSrc/buffer_CoordinateSequence.py
+pyguymer3/geo/bufferSrc/buffer_GeometryCollection.py
 pyguymer3/geo/bufferSrc/buffer_LinearRing.py
 pyguymer3/geo/bufferSrc/buffer_LineString.py
+pyguymer3/geo/bufferSrc/buffer_List.py
 pyguymer3/geo/bufferSrc/buffer_MultiLineString.py
 pyguymer3/geo/bufferSrc/buffer_MultiPoint.py
 pyguymer3/geo/bufferSrc/buffer_MultiPolygon.py
@@ -38293,6 +38295,7 @@ pyguymer3/geo/checkSrc/check_CoordinateSequence.py
 pyguymer3/geo/checkSrc/check_GeometryCollection.py
 pyguymer3/geo/checkSrc/check_LinearRing.py
 pyguymer3/geo/checkSrc/check_LineString.py
+pyguymer3/geo/checkSrc/check_List.py
 pyguymer3/geo/checkSrc/check_MultiLineString.py
 pyguymer3/geo/checkSrc/check_MultiPoint.py
 pyguymer3/geo/checkSrc/check_MultiPolygon.py
