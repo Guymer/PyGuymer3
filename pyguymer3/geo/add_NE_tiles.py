@@ -140,9 +140,6 @@ def add_NE_tiles(
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
-    # Import standard modules ...
-    import os
-
     # Import sub-functions ...
     from .._consts import PLATECARREE
     from ..image import optimise_image

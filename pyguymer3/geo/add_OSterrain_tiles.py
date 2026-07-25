@@ -135,9 +135,6 @@ def add_OSterrain_tiles(
     except:
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
-    # Import standard modules ...
-    import os
-
     # Import sub-functions ...
     from .en2ll import en2ll
     from .._consts import OSGB
