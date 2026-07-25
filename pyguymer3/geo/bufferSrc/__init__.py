@@ -2,6 +2,7 @@
 
 # Import sub-functions ...
 from .buffer_CoordinateSequence import buffer_CoordinateSequence
+from .buffer_GeometryCollection import buffer_GeometryCollection
 from .buffer_LinearRing import buffer_LinearRing
 from .buffer_LineString import buffer_LineString
 from .buffer_MultiLineString import buffer_MultiLineString
