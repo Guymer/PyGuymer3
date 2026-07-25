@@ -7,7 +7,7 @@ def check_List(
     *,
     prefix = ".",
 ):
-    """Check list
+    """Check a list of shapes
 
     This function checks if a list of shapes is valid.
 
