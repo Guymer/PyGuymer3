@@ -38321,6 +38321,7 @@ pyguymer3/geo/en2llSrc/en2ll_MultiPoint.py
 pyguymer3/geo/en2llSrc/en2ll_MultiPolygon.py
 pyguymer3/geo/en2llSrc/en2ll_Point.py
 pyguymer3/geo/en2llSrc/en2ll_Polygon.py
+pyguymer3/geo/euclideanDist2geodesicDist.py
 pyguymer3/geo/extract_lines.py
 pyguymer3/geo/extract_points.py
 pyguymer3/geo/extract_polys.py
@@ -38341,6 +38342,7 @@ pyguymer3/geo/find_middle_of_locsSrc/find_middle_of_locs_geodesicBox.py
 pyguymer3/geo/find_middle_of_locsSrc/find_middle_of_locs_geodesicCircle.py
 pyguymer3/geo/find_min_max_dist_bearing.py
 pyguymer3/geo/find_point_on_great_circle.py
+pyguymer3/geo/geodesicDist2euclideanDist.py
 pyguymer3/geo/geodetic2platecarree.py
 pyguymer3/geo/getRecordAttribute.py
 pyguymer3/geo/great_circle.py
