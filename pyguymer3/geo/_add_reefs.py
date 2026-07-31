@@ -91,6 +91,11 @@ def _add_reefs(
         )
     except:
         raise Exception("\"matplotlib\" is not installed; run \"pip install --user matplotlib\"") from None
+    try:
+        import shapely
+        import shapely.geometry
+    except:
+        raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
     from .extract_polys import extract_polys
@@ -150,7 +155,7 @@ def _add_reefs(
                 continue
             if poly.disjoint(fov):
                 continue
-            polys.append(poly.intersection(fov))
+            polys.append(shapely.geometry.polygon.orient(poly.intersection(fov)))
 
     # Plot geometry (converting from an elliptical description of Earth to a
     # circular description of Earth) ...

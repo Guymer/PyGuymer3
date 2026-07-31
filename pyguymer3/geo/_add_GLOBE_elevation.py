@@ -159,7 +159,7 @@ def _add_GLOBE_elevation(
                 continue
             if poly.disjoint(fov):
                 continue
-            polys.append(poly.intersection(fov))
+            polys.append(shapely.geometry.polygon.orient(poly.intersection(fov)))
 
         # Plot geometry (converting from an elliptical description of Earth to a
         # circular description of Earth) ...
