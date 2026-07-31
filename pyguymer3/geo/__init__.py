@@ -155,6 +155,7 @@ from .clipLatitude import clipLatitude
 from .create_image_of_points import create_image_of_points
 from .create_map_of_points import create_map_of_points
 from .en2ll import en2ll
+from .euclideanDist2geodesicDist import euclideanDist2geodesicDist
 from .extract_lines import extract_lines
 from .extract_points import extract_points
 from .extract_polys import extract_polys
@@ -163,6 +164,7 @@ from .find_middle_of_great_circle import find_middle_of_great_circle
 from .find_middle_of_locs import find_middle_of_locs
 from .find_min_max_dist_bearing import find_min_max_dist_bearing
 from .find_point_on_great_circle import find_point_on_great_circle
+from .geodesicDist2euclideanDist import geodesicDist2euclideanDist
 from .geodetic2platecarree import geodetic2platecarree
 from .getRecordAttribute import getRecordAttribute
 from .great_circle import great_circle
