@@ -15,6 +15,7 @@ def create_image_of_points(
              cookies = None,
                debug = __debug__,
     drawGreatCircles = True,
+           drawLines = False,
     drawPointBuffers = False,
           drawPoints = True,
                  eps = 1.0e-12,
@@ -204,6 +205,24 @@ def create_image_of_points(
         print(f"DEBUG: The points extend from {pntsLonLat.bounds[0]:+.6f}° to {pntsLonLat.bounds[2]:+.6f}° longitude.")
         print(f"DEBUG: The points extend from {pntsLonLat.bounds[1]:+.6f}° to {pntsLonLat.bounds[3]:+.6f}° latitude.")
 
+    # Convert [Multi]Point to the Mercator projection and create short-hands ...
+    pntsMer = ll2mer(
+        pntsLonLat,
+         debug = debug,
+        prefix = prefix,
+           tol = tol,
+    )
+    if debug:
+        print(f"DEBUG: The points extend from {pntsMer.bounds[0]:.6f} to {pntsMer.bounds[2]:.6f} in the x-axis of the Mercator projection.")
+        print(f"DEBUG: The points extend from {pntsMer.bounds[1]:.6f} to {pntsMer.bounds[3]:.6f} in the y-axis of the Mercator projection.")
+    pntMerXs = []                                                               # [#]
+    pntMerYs = []                                                               # [#]
+    for pntMer in pntsMer.geoms:
+        pntMerXs.append(pntMer.x)                                               # [#]
+        pntMerYs.append(pntMer.y)                                               # [#]
+    pntMerXs = numpy.array(pntMerXs)                                            # [#]
+    pntMerYs = numpy.array(pntMerYs)                                            # [#]
+
     # Buffer the [Multi]Point ...
     polysLonLat = buffer(
         pntsLonLat,
@@ -327,14 +346,9 @@ def create_image_of_points(
     # Check if the user wants to draw the points ...
     if drawPoints:
         # Loop over points ...
-        for pntLon, pntLat, skip in zip(pntLons, pntLats, skips, strict = True):
+        for pntMer in pntsMer.geoms:
             # Draw the point ...
-            pntMerX, pntMerY = ll2mer(
-                shapely.geometry.point.Point(pntLon, pntLat),
-                 debug = debug,
-                prefix = prefix,
-                   tol = tol,
-            ).coords[0]                                                         # [#], [#]
+            pntMerX, pntMerY = pntMer.coords[0]                                 # [#], [#]
             difMerX = pntMerX - midMerX                                         # [#]
             difMerY = pntMerY - midMerY                                         # [#]
             difImgX = difMerX * float(n * tileScale * 256)                      # [px]
@@ -348,7 +362,7 @@ def create_image_of_points(
                     pntImgX + 10.0,
                     pntImgY + 10.0,
                 ],
-                fill = skipFillColor if skip else fillColor,
+                fill = fillColor,
             )
 
     # Check if the user wants to draw the great circles between points ...
@@ -391,6 +405,38 @@ def create_image_of_points(
                      fill = skipFillColor if skips[iPnt] or skips[iPnt + 1] else fillColor,
                     width = 4,
                 )
+
+    # Check if the user wants to draw the lines between points ...
+    if drawLines:
+        # Loop over points ...
+        for iPnt in range(pntLons.size - 1):
+            # Create short-hand ...
+            lineLonLat = shapely.geometry.linestring.LineString(
+                [
+                    (pntLons[iPnt    ], pntLats[iPnt    ]),
+                    (pntLons[iPnt + 1], pntLats[iPnt + 1]),
+                ],
+            )
+
+            # Convert LineString to the Mercator projection ...
+            lineMer = ll2mer(
+                lineLonLat,
+                 debug = debug,
+                prefix = prefix,
+                   tol = tol,
+            )
+
+            # Convert LineString to the image projection ...
+            coordsMer = numpy.array(lineMer.coords)                             # [#]
+            coordsImgX = float(midImgX) + (coordsMer[:, 0] - midMerX) * float(n * tileScale * 256)  # [px]
+            coordsImgY = float(midImgY) + (coordsMer[:, 1] - midMerY) * float(n * tileScale * 256)  # [px]
+
+            # Draw the line ...
+            draw.line(
+                list(zip(coordsImgX, coordsImgY, strict = True)),
+                 fill = skipFillColor if skips[iPnt] or skips[iPnt + 1] else fillColor,
+                width = 4,
+            )
 
     # Check that an extra route was passed ...
     if route is not None:
