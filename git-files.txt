@@ -38399,6 +38399,11 @@ pyguymer3/image/__init__.py
 pyguymer3/image/__main__.py
 pyguymer3/image/__pillow__.py
 pyguymer3/image/dict2exif.py
+pyguymer3/image/DNG/__init__.py
+pyguymer3/image/DNG/parseDirEntries.py
+pyguymer3/image/DNG/processDirEntries.py
+pyguymer3/image/DNG/tagId2tagName.py
+pyguymer3/image/DNG/typeId2typeName.py
 pyguymer3/image/dot2png.py
 pyguymer3/image/drawPolygonsWithHoles.py
 pyguymer3/image/EXIF_datetime.py
@@ -38427,6 +38432,7 @@ pyguymer3/image/makePngSrc/paethFilter.py
 pyguymer3/image/manuallyOptimisePng.py
 pyguymer3/image/optimise_image.py
 pyguymer3/image/optipng.py
+pyguymer3/image/parse_DNG_file.py
 pyguymer3/image/return_image_bit_depth.py
 pyguymer3/image/return_image_format.py
 pyguymer3/image/return_image_height.py
