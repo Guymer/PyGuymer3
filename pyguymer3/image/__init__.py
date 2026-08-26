@@ -39,6 +39,7 @@ from .makePng import makePng
 from .manuallyOptimisePng import manuallyOptimisePng
 from .optimise_image import optimise_image
 from .optipng import optipng
+from .parse_DNG_file import parse_DNG_file
 from .return_image_bit_depth import return_image_bit_depth
 from .return_image_format import return_image_format
 from .return_image_height import return_image_height
