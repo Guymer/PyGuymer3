@@ -18,6 +18,7 @@ def tile(
       maxImagePixels = 1073741824,
          optipngPath = None,
                scale = 1,
+               sleep = 1.0,
     thunderforestKey = None,
     thunderforestMap = "atlas",
              timeout = 60.0,
@@ -143,8 +144,7 @@ def tile(
 
     # Make output folders if they are missing ...
     os.makedirs(os.path.dirname(png), exist_ok = True)
-    if npy is not None:
-        os.makedirs(os.path.dirname(npy), exist_ok = True)
+    os.makedirs(os.path.dirname(npy), exist_ok = True)
 
     # **************************************************************************
 
@@ -187,7 +187,7 @@ def tile(
         )
 
         # Sleep ...
-        time.sleep(1.0)
+        time.sleep(sleep)
     elif debug:
         print(f"INFO: Already downloaded \"{url}\" to \"{png}\".")
 
@@ -200,7 +200,7 @@ def tile(
     # **************************************************************************
 
     # Check if the tile is missing ...
-    if npy is not None and not os.path.exists(npy):
+    if not os.path.exists(npy):
         if debug:
             print(f"INFO: Making \"{npy}\" from \"{png}\" ...")
 
