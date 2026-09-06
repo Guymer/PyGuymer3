@@ -38546,6 +38546,7 @@ pyguymer3/openstreetmap/__init__.py
 pyguymer3/openstreetmap/deg2num.py
 pyguymer3/openstreetmap/hfov.py
 pyguymer3/openstreetmap/num2deg.py
+pyguymer3/openstreetmap/populate.py
 pyguymer3/openstreetmap/res.py
 pyguymer3/openstreetmap/tile.py
 pyguymer3/openstreetmap/tiles.py
