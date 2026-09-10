@@ -118,6 +118,11 @@ def parse_DNG_file(
 
         # Check if there are sub-directories in the first directory entries ...
         if "SubIFDs" in dirEntries:
+            # Catch the special case of there only being one sub-directory in
+            # the first directory entries ...
+            if isinstance(dirEntries["SubIFDs"], int):
+                dirEntries["SubIFDs"] = [dirEntries["SubIFDs"]]
+
             # Initialize list ...
             subDirEntries = []
 
