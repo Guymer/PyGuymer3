@@ -21,6 +21,7 @@ except:
     raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
 # Set constants ...
+# NOTE: See https://cartopy.readthedocs.io/stable/gallery/lines_and_polygons/effects_of_the_ellipse.html
 EARTH = shapely.geometry.polygon.Polygon(
     shapely.geometry.polygon.LinearRing(
         [
