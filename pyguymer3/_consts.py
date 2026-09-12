@@ -33,6 +33,7 @@ EARTH = shapely.geometry.polygon.Polygon(
     )
 )
 EARTH_MOON_DISTANCE = 385000000.0                                               # [m]
+EQUALEARTH = cartopy.crs.EqualEarth()
 GEODETIC = cartopy.crs.Geodetic()
 OSGB = cartopy.crs.OSGB()
 PLATECARREE = cartopy.crs.PlateCarree()
