@@ -93,7 +93,6 @@ def _add_minorIslands(
 
     # Import sub-functions ...
     from .extract_polys import extract_polys
-    from .geodetic2platecarree import geodetic2platecarree
     from .._consts import PLATECARREE
 
     # **************************************************************************
@@ -150,11 +149,9 @@ def _add_minorIslands(
                 continue
             polys.append(shapely.geometry.polygon.orient(poly.intersection(fov)))
 
-    # Plot geometry (converting from an elliptical description of Earth to a
-    # circular description of Earth) ...
-    # NOTE: See https://cartopy.readthedocs.io/stable/gallery/lines_and_polygons/effects_of_the_ellipse.html
+    # Plot geometry ...
     ax.add_geometries(
-        geodetic2platecarree(polys),
+        polys,
         PLATECARREE,
         edgecolor = "none",
         facecolor = facecolor,

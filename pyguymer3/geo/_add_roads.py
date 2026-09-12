@@ -91,7 +91,6 @@ def _add_roads(
 
     # Import sub-functions ...
     from .extract_lines import extract_lines
-    from .geodetic2platecarree import geodetic2platecarree
     from .._consts import PLATECARREE
 
     # **************************************************************************
@@ -149,11 +148,9 @@ def _add_roads(
                     continue
                 lines.append(line.intersection(fov))
 
-    # Plot geometry (converting from an elliptical description of Earth to a
-    # circular description of Earth) ...
-    # NOTE: See https://cartopy.readthedocs.io/stable/gallery/lines_and_polygons/effects_of_the_ellipse.html
+    # Plot geometry ...
     ax.add_geometries(
-        geodetic2platecarree(lines),
+        lines,
         PLATECARREE,
         edgecolor = edgecolor,
         facecolor = "none",

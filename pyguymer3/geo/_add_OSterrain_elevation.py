@@ -106,7 +106,6 @@ def _add_OSterrain_elevation(
     # Import sub-functions ...
     from .en2ll import en2ll
     from .extract_polys import extract_polys
-    from .geodetic2platecarree import geodetic2platecarree
     from .._consts import PLATECARREE
 
     # **************************************************************************
@@ -177,11 +176,9 @@ def _add_OSterrain_elevation(
                 continue
             polys.append(shapely.geometry.polygon.orient(poly.intersection(fov)))
 
-        # Plot geometry (converting from an elliptical description of Earth to a
-        # circular description of Earth) ...
-        # NOTE: See https://cartopy.readthedocs.io/stable/gallery/lines_and_polygons/effects_of_the_ellipse.html
+        # Plot geometry ...
         ax.add_geometries(
-            geodetic2platecarree(polys),
+            polys,
             PLATECARREE,
             edgecolor = "none",
             facecolor = facecolor,

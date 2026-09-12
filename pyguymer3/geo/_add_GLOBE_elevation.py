@@ -96,7 +96,6 @@ def _add_GLOBE_elevation(
 
     # Import sub-functions ...
     from .extract_polys import extract_polys
-    from .geodetic2platecarree import geodetic2platecarree
     from .._consts import PLATECARREE
 
     # **************************************************************************
@@ -161,11 +160,10 @@ def _add_GLOBE_elevation(
                 continue
             polys.append(shapely.geometry.polygon.orient(poly.intersection(fov)))
 
-        # Plot geometry (converting from an elliptical description of Earth to a
-        # circular description of Earth) ...
+        # Plot geometry ...
         # NOTE: See https://cartopy.readthedocs.io/stable/gallery/lines_and_polygons/effects_of_the_ellipse.html
         ax.add_geometries(
-            geodetic2platecarree(polys),
+            polys,
             PLATECARREE,
             edgecolor = "none",
             facecolor = facecolor,

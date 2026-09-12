@@ -314,7 +314,6 @@ def create_map_of_points(
     from .buffer import buffer
     from .extract_lines import extract_lines
     from .find_middle_of_locs import find_middle_of_locs
-    from .geodetic2platecarree import geodetic2platecarree
     from .great_circle import great_circle
     from .._consts import CIRCUMFERENCE_OF_EARTH, EARTH, GEODETIC, PLATECARREE, RESOLUTION_OF_EARTH
     from ..image import optimise_image
@@ -793,11 +792,9 @@ def create_map_of_points(
             ramLimit = ramLimit,
         )
 
-        # Draw the great circle (converting from an elliptical description of
-        # Earth to a circular description of Earth) ...
-        # NOTE: See https://cartopy.readthedocs.io/stable/gallery/lines_and_polygons/effects_of_the_ellipse.html
+        # Draw the great circle ...
         ax.add_geometries(
-            geodetic2platecarree(extract_lines(circle, onlyValid = onlyValid)),
+            extract_lines(circle, onlyValid = onlyValid),
             PLATECARREE,
             edgecolor = skipFillColor if skips[iPnt] or skips[iPnt + 1] else fillColor,
             facecolor = "none",
@@ -807,11 +804,9 @@ def create_map_of_points(
 
     # Check that an extra route was passed ...
     if route is not None:
-        # Draw the extra route (converting from an elliptical description of
-        # Earth to a circular description of Earth) ...
-        # NOTE: See https://cartopy.readthedocs.io/stable/gallery/lines_and_polygons/effects_of_the_ellipse.html
+        # Draw the extra route ...
         ax.add_geometries(
-            geodetic2platecarree(extract_lines(route, onlyValid = onlyValid)),
+            extract_lines(route, onlyValid = onlyValid),
             PLATECARREE,
             edgecolor = routeFillColor,
             facecolor = "none",

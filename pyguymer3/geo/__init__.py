@@ -165,7 +165,6 @@ from .find_middle_of_locs import find_middle_of_locs
 from .find_min_max_dist_bearing import find_min_max_dist_bearing
 from .find_point_on_great_circle import find_point_on_great_circle
 from .geodesicDist2euclideanDist import geodesicDist2euclideanDist
-from .geodetic2platecarree import geodetic2platecarree
 from .getRecordAttribute import getRecordAttribute
 from .great_circle import great_circle
 from .length import length
