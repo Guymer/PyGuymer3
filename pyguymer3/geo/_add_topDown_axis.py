@@ -216,7 +216,6 @@ def _add_topDown_axis(
     from ._add_horizontal_gridlines import _add_horizontal_gridlines
     from ._add_vertical_gridlines import _add_vertical_gridlines
     from .buffer import buffer
-    from .calc_loc_from_loc_and_bearing_and_dist import calc_loc_from_loc_and_bearing_and_dist
     from .clean import clean
     from .._consts import MAXIMUM_VINCENTY, PLATECARREE, RADIUS_OF_EARTH
 
@@ -392,9 +391,6 @@ def _add_topDown_axis(
                 prefix = prefix,
                    tol = tol,
             )
-
-            # Convert the exterior ring of the Polygon to a Path ...
-            path2 = matplotlib.path.Path(polygon2.exterior.coords)
 
             # Configure axis again ...
             # NOTE: For some reason, "cartopy.io.img_tiles.OSM()" doesn't work
