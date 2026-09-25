@@ -212,6 +212,7 @@ def _add_topDown_axis(
     from ._add_horizontal_gridlines import _add_horizontal_gridlines
     from ._add_vertical_gridlines import _add_vertical_gridlines
     from .buffer import buffer
+    from .calc_dist_between_two_locs import calc_dist_between_two_locs
     from .clean import clean
     from .extract_polys import extract_polys
     from .._consts import GEODETIC, MAXIMUM_VINCENTY, PLATECARREE, RADIUS_OF_EARTH
@@ -325,8 +326,8 @@ def _add_topDown_axis(
         )
 
         # Initialise lists and minimum/maximum values ...
+        bearings = []                                                           # [°]
         coord2s = []
-        euclideanBearings = []                                                  # [°]
         maxMatplotlibX = -9.9e+99                                               # [?]
         maxMatplotlibY = -9.9e+99                                               # [?]
         minMatplotlibX = +9.9e+99                                               # [?]
@@ -353,17 +354,17 @@ def _add_topDown_axis(
                 )
                 coord2s.append(coord2)
 
-                # Find the Euclidean bearing from the Point to the coordinate
-                # and append it to the list ...
-                euclideanBearing = (
-                    math.degrees(
-                        math.atan2(
-                            coord1[1] - point1.y,
-                            coord1[0] - point1.x,
-                        )
-                    ) + 360.0
-                ) % 360.0                                                       # [°]
-                euclideanBearings.append(euclideanBearing)
+                # Find the bearing from the Point to the coordinate and append
+                # it to the list ...
+                bearing = calc_dist_between_two_locs(
+                    coord1[0],
+                    coord1[1],
+                    point1.x,
+                    point1.y,
+                      eps = eps,
+                    nIter = nIter,
+                )[1]                                                            # [°]
+                bearings.append(bearing)
 
                 # Update the minimum/maximum values ...
                 maxMatplotlibX = max(
@@ -383,13 +384,15 @@ def _add_topDown_axis(
                     coord2.y,
                 )                                                               # [?]
 
-        # Sort the converted and projected coordinate list by the Euclidean
-        # bearings and clean up ...
-        tmpList = list(zip(euclideanBearings, coord2s, strict = True))
-        del euclideanBearings
-        tmpList.sort()
-        coord2s = [coord2 for euclideanBearing, coord2 in tmpList]
-        del tmpList
+        # Sort the converted and projected coordinate list by the bearings and
+        # clean up ...
+        idxs = sorted(
+            range(len(bearings)),
+            key = lambda idx: bearings[idx],
+        )
+        del bearings
+        coord2s = [coord2s[idx] for idx in idxs]
+        del idxs
 
         # Make a Path of the converted and projected coordinates ...
         path = matplotlib.path.Path(shapely.geometry.polygon.LinearRing(coord2s).coords)
