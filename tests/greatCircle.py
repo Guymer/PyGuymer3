@@ -236,7 +236,7 @@ if __name__ == "__main__":
 
                         # Transform coordinates ...
                         # NOTE: See https://stackoverflow.com/a/52861074
-                        points = pyguymer3.EQUALEARTH.transform_points(pyguymer3.GEODETIC, coords[:, 0], coords[:, 1])
+                        points = pyguymer3.EQUALEARTH.transform_points(pyguymer3.PLATECARREE, coords[:, 0], coords[:, 1])
 
                         # Plot great circle ...
                         ax.plot(
