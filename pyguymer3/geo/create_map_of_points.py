@@ -315,7 +315,7 @@ def create_map_of_points(
     from .extract_lines import extract_lines
     from .find_middle_of_locs import find_middle_of_locs
     from .great_circle import great_circle
-    from .._consts import CIRCUMFERENCE_OF_EARTH, EARTH, GEODETIC, PLATECARREE, RESOLUTION_OF_EARTH
+    from .._consts import CIRCUMFERENCE_OF_EARTH, EARTH, PLATECARREE, RESOLUTION_OF_EARTH
     from ..image import optimise_image
 
     # **************************************************************************
@@ -756,7 +756,7 @@ def create_map_of_points(
         facecolor = fillColor,
         linewidth = 0.1,
                 s = 64.0,
-        transform = GEODETIC,
+        transform = PLATECARREE,
            zorder = 5.0,
     )
 
@@ -771,7 +771,7 @@ def create_map_of_points(
         facecolor = skipFillColor,
         linewidth = 0.1,
                 s = 64.0,
-        transform = GEODETIC,
+        transform = PLATECARREE,
            zorder = 5.0,
     )
 
