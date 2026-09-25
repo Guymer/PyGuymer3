@@ -2,7 +2,7 @@
 # "check_READMEs.py" script from "https://github.com/Guymer/misc".
 
 pillow >= 8.0.0
-cartopy > 0.25.0
+cartopy >= 0.26.0
 exifread >= 3.1.0
 geojson
 lxml
