@@ -91,7 +91,7 @@ def returnPngInfo(
     }
 
     # Open file ...
-    with open(pName, "rb") as fObj:
+    with open(pName, mode = "rb") as fObj:
         # Read file signature ...
         pngSig = fObj.read(8)
         assert pngSig == binascii.unhexlify("89504E470D0A1A0A"), f"\"{pName}\" is not a PNG file"

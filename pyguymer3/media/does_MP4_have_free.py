@@ -18,7 +18,7 @@ def does_MP4_have_free(
     import struct
 
     # Open MP4 read-only ...
-    with open(fname, "rb") as fObj:
+    with open(fname, mode = "rb") as fObj:
         # Create short-hand ...
         fsize = os.path.getsize(fname)                                          # [B]
 

@@ -65,7 +65,7 @@ def _add_topDown_axis(
         the colour of the faces of the coastline Polygons
     coastlines_levels : list of int, optional
         the levels of the coastline boundaries (if None then default to
-        ``[1, 6]``)
+        ``(1, 5, 6,)``)
     coastlines_linestyle : str, optional
         the linestyle to draw the coastline boundaries with
     coastlines_linewidth : float, optional
@@ -201,10 +201,6 @@ def _add_topDown_axis(
     except:
         raise Exception("\"matplotlib\" is not installed; run \"pip install --user matplotlib\"") from None
     try:
-        import numpy
-    except:
-        raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
-    try:
         import shapely
         import shapely.geometry
     except:
@@ -216,9 +212,10 @@ def _add_topDown_axis(
     from ._add_horizontal_gridlines import _add_horizontal_gridlines
     from ._add_vertical_gridlines import _add_vertical_gridlines
     from .buffer import buffer
-    from .calc_loc_from_loc_and_bearing_and_dist import calc_loc_from_loc_and_bearing_and_dist
+    from .calc_dist_between_two_locs import calc_dist_between_two_locs
     from .clean import clean
-    from .._consts import MAXIMUM_VINCENTY, RADIUS_OF_EARTH
+    from .extract_polys import extract_polys
+    from .._consts import GEODETIC, MAXIMUM_VINCENTY, PLATECARREE, RADIUS_OF_EARTH
 
     # **************************************************************************
 
@@ -317,7 +314,7 @@ def _add_topDown_axis(
             attemptFortran = attemptFortran,
                      debug = debug,
                        eps = eps,
-                      fill = +1.0,
+                      fill = -1.0,
                  fillSpace = "EuclideanSpace",
              keepInteriors = False,
                       nAng = 361,
@@ -328,79 +325,77 @@ def _add_topDown_axis(
                        tol = tol,
         )
 
-        # Calculate Northern extent ...
-        tmpLon, latMax, _ = calc_loc_from_loc_and_bearing_and_dist(
-            lon,
-            lat,
-            0.0,
-            dist,
-              eps = 1.0e-12,
-            nIter = 100,
-        )                                                                       # [°], [°]
-        tmpPnt = shapely.geometry.point.Point(tmpLon, latMax)
-        yMax = ax.projection.project_geometry(tmpPnt).y                         # [?]
+        # Initialise lists and minimum/maximum values ...
+        bearings = []                                                           # [°]
+        coord2s = []
+        maxMatplotlibX = -9.9e+99                                               # [?]
+        maxMatplotlibY = -9.9e+99                                               # [?]
+        minMatplotlibX = +9.9e+99                                               # [?]
+        minMatplotlibY = +9.9e+99                                               # [?]
 
-        # Calculate Eastern extent ...
-        lonIter, tmpLat, _ = calc_loc_from_loc_and_bearing_and_dist(
-            lon,
-            lat,
-            90.0,
-            dist,
-              eps = 1.0e-12,
-            nIter = 100,
-        )                                                                       # [°], [°]
-        tmpPnt = shapely.geometry.point.Point(lonIter, tmpLat)
-        xMax = ax.projection.project_geometry(tmpPnt).x                         # [?]
+        # Loop over Polygons in the buffer of the Point ...
+        for tmpPolygon1 in extract_polys(
+            polygon1,
+            onlyValid = onlyValid,
+               repair = repair,
+        ):
+            # Loop over coordinates in the exterior ...
+            for coord1 in tmpPolygon1.exterior.coords:
+                # Convert the coordinate from PLATECARREE to GEODETIC, project
+                # it and append it to the list ...
+                coord2 = ax.projection.project_geometry(
+                    shapely.geometry.point.Point(
+                        GEODETIC.transform_point(
+                            coord1[0],
+                            coord1[1],
+                            PLATECARREE,
+                        )
+                    )
+                )
+                coord2s.append(coord2)
 
-        # Calculate Southern extent ...
-        tmpLon, latMin, _ = calc_loc_from_loc_and_bearing_and_dist(
-            lon,
-            lat,
-            180.0,
-            dist,
-              eps = 1.0e-12,
-            nIter = 100,
-        )                                                                       # [°], [°]
-        tmpPnt = shapely.geometry.point.Point(tmpLon, latMin)
-        yMin = ax.projection.project_geometry(tmpPnt).y                         # [?]
+                # Find the bearing from the Point to the coordinate and append
+                # it to the list ...
+                bearing = calc_dist_between_two_locs(
+                    coord1[0],
+                    coord1[1],
+                    point1.x,
+                    point1.y,
+                      eps = eps,
+                    nIter = nIter,
+                )[1]                                                            # [°]
+                bearings.append(bearing)
 
-        # Calculate Western extent ...
-        lonMin, tmpLat, _ = calc_loc_from_loc_and_bearing_and_dist(
-            lon,
-            lat,
-            270.0,
-            dist,
-              eps = 1.0e-12,
-            nIter = 100,
-        )                                                                       # [°], [°]
-        tmpPnt = shapely.geometry.point.Point(lonMin, tmpLat)
-        xMin = ax.projection.project_geometry(tmpPnt).x                         # [?]
+                # Update the minimum/maximum values ...
+                maxMatplotlibX = max(
+                    maxMatplotlibX,
+                    coord2.x,
+                )                                                               # [?]
+                maxMatplotlibY = max(
+                    maxMatplotlibY,
+                    coord2.y,
+                )                                                               # [?]
+                minMatplotlibX = min(
+                    minMatplotlibX,
+                    coord2.x,
+                )                                                               # [?]
+                minMatplotlibY = min(
+                    minMatplotlibY,
+                    coord2.y,
+                )                                                               # [?]
 
-        # Project the Point ...
-        point2 = ax.projection.project_geometry(point1)
-
-        # Create a correctly oriented Polygon from scratch that is the Point
-        # buffered in MatPlotLib space with the same fuzziness as Cartopy does
-        # internally ...
-        radius2 = numpy.array(
-            [
-                point2.x - xMin,
-                xMax - point2.x,
-                point2.y - yMin,
-                yMax - point2.y,
-            ],
-            dtype = numpy.float64,
-        ).mean()                                                                # [?]
-        polygon2 = point2.buffer(radius2 * 0.99999)
-        polygon2 = clean(
-            polygon2,
-             debug = debug,
-            prefix = prefix,
-               tol = tol,
+        # Sort the converted and projected coordinate list by the bearings and
+        # clean up ...
+        idxs = sorted(
+            range(len(bearings)),
+            key = lambda idx: bearings[idx],
         )
+        del bearings
+        coord2s = [coord2s[idx] for idx in idxs]
+        del idxs
 
-        # Convert the exterior ring of the Polygon to a Path ...
-        path = matplotlib.path.Path(polygon2.exterior.coords)
+        # Make a Path of the converted and projected coordinates ...
+        path = matplotlib.path.Path(shapely.geometry.polygon.LinearRing(coord2s).coords)
 
         # Configure axis ...
         # NOTE: The orthographic projection does not have the ability to set
@@ -408,11 +403,37 @@ def _add_topDown_axis(
         #       which involves setting the boundary and the limits for the
         #       MatPlotLib axis.
         ax.set_boundary(path)
-        ax.set_xlim(xMin, xMax)
-        ax.set_ylim(yMin, yMax)
+        ax.set_xlim(
+            minMatplotlibX,
+            maxMatplotlibX,
+        )
+        ax.set_ylim(
+            minMatplotlibY,
+            maxMatplotlibY,
+        )
 
         # Check if the user wants to configure the axis a second time ...
         if configureAgain:
+            # Project the Point ...
+            point2 = ax.projection.project_geometry(point1)
+
+            # Create a correctly oriented Polygon from scratch that is the Point
+            # buffered in MatPlotLib space with the same fuzziness as Cartopy
+            # does internally ...
+            radius2 = min(
+                point2.x - minMatplotlibX,
+                maxMatplotlibX - point2.x,
+                point2.y - minMatplotlibY,
+                maxMatplotlibY - point2.y,
+            )                                                                   # [?]
+            polygon2 = point2.buffer(radius2 * 0.99999)
+            polygon2 = clean(
+                polygon2,
+                 debug = debug,
+                prefix = prefix,
+                   tol = tol,
+            )
+
             # Configure axis again ...
             # NOTE: For some reason, "cartopy.io.img_tiles.OSM()" doesn't work
             #       unless the first of the following protected members is also
@@ -435,7 +456,7 @@ def _add_topDown_axis(
             # Draw the circle ...
             ax.add_geometries(
                 [polygon1],
-                cartopy.crs.PlateCarree(),
+                PLATECARREE,
                 edgecolor = (0.0, 0.0, 1.0, 1.0),
                 facecolor = (0.0, 0.0, 1.0, 0.5),
                 linewidth = 1.0,

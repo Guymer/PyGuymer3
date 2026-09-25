@@ -43,6 +43,7 @@ def check_MultiPoint(
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
+    from .check_Point import check_Point
     from .._debug import _debug
 
     # **************************************************************************
@@ -54,6 +55,13 @@ def check_MultiPoint(
         raise Exception(f"\"multipoint\" is not a valid MultiPoint ({shapely.validation.explain_validity(multipoint)})") from None
     if multipoint.is_empty:
         raise Exception("\"multipoint\" is an empty MultiPoint") from None
+
+    # Check members ...
+    for point in multipoint.geoms:
+        check_Point(
+            point,
+            prefix = prefix,
+        )
 
     # Return answer ...
     return True

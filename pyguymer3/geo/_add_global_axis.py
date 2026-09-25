@@ -47,7 +47,7 @@ def _add_global_axis(
         the colour of the faces of the coastline Polygons
     coastlines_levels : list of int, optional
         the levels of the coastline boundaries (if None then default to
-        ``[1, 6]``)
+        ``(1, 5, 6,)``)
     coastlines_linestyle : str, optional
         the linestyle to draw the coastline boundaries with
     coastlines_linewidth : float, optional
@@ -149,6 +149,7 @@ def _add_global_axis(
     from ._add_coastlines import _add_coastlines
     from ._add_horizontal_gridlines import _add_horizontal_gridlines
     from ._add_vertical_gridlines import _add_vertical_gridlines
+    from .._consts import EQUALEARTH
 
     # **************************************************************************
 
@@ -161,7 +162,7 @@ def _add_global_axis(
         # Create axis ...
         ax = fg.add_subplot(
             gs,
-            projection = cartopy.crs.Robinson(),
+            projection = EQUALEARTH,
         )
     elif nrows is not None and ncols is not None and index is not None:
         # Create axis ...
@@ -169,12 +170,12 @@ def _add_global_axis(
             nrows,
             ncols,
             index,
-            projection = cartopy.crs.Robinson(),
+            projection = EQUALEARTH,
         )
     else:
         # Create axis ...
         ax = fg.add_subplot(
-            projection = cartopy.crs.Robinson(),
+            projection = EQUALEARTH,
         )
 
     # Configure axis ...

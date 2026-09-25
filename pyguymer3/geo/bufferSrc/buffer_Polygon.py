@@ -178,7 +178,7 @@ def buffer_Polygon(
             )
 
     # Convert list of [Multi]Polygons to a (unified) [Multi]Polygon ...
-    buffs = shapely.ops.unary_union(buffs).simplify(tol)
+    buffs = shapely.geometry.polygon.orient(shapely.ops.unary_union(buffs)).simplify(tol)
     if debug:
         check(buffs, prefix = prefix)
 

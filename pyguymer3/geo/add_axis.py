@@ -62,7 +62,7 @@ def add_axis(
         the colour of the faces of the coastline Polygons
     coastlines_levels : list of int, optional
         the levels of the coastline boundaries (if None then default to
-        ``[1, 6]``)
+        ``(1, 5, 6,)``)
     coastlines_linestyle : str, optional
         the linestyle to draw the coastline boundaries with
     coastlines_linewidth : float, optional

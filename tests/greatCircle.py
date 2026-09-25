@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Use the proper idiom in the main module ...
-# NOTE: See https://docs.python.org/3.12/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
+# NOTE: See https://docs.python.org/3.13/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
 if __name__ == "__main__":
     # This is a test suite for “geo.great_circle()”.
 
@@ -93,9 +93,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--number-of-children",
-        default = os.cpu_count() - 1,   # TODO: Once I ditch Python 3.11 and
-                                        #       Python 3.12 then I can use
-                                        #       "os.process_cpu_count()" instead.
+        default = os.process_cpu_count() - 1,
            dest = "nChild",
            help = "the number of child \"multiprocessing\" processes to use when making the tiles",
            type = int,
@@ -212,7 +210,7 @@ if __name__ == "__main__":
                 #       Fortunately, if you have no shame, then you can load and
                 #       then dump the string again, see:
                 #         * https://stackoverflow.com/a/29066406
-                with open(jname, "wt", encoding = "utf-8") as fObj:
+                with open(jname, mode = "wt", encoding = "utf-8") as fObj:
                     json.dump(
                         json.loads(
                             geojson.dumps(
@@ -238,13 +236,13 @@ if __name__ == "__main__":
 
                         # Transform coordinates ...
                         # NOTE: See https://stackoverflow.com/a/52861074
-                        points = cartopy.crs.Robinson().transform_points(cartopy.crs.Geodetic(), coords[:, 0], coords[:, 1])
+                        points = pyguymer3.EQUALEARTH.transform_points(pyguymer3.PLATECARREE, coords[:, 0], coords[:, 1])
 
                         # Plot great circle ...
                         ax.plot(
                             points[:, 0],
                             points[:, 1],
-                            transform = cartopy.crs.Robinson(),
+                            transform = pyguymer3.EQUALEARTH,
                             linewidth = 1.0,
                                 color = matplotlib.colormaps["turbo"](float(c) / float(len(npoints) - 1)),
                         )

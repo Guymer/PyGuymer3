@@ -14,6 +14,7 @@ def save_array_as_image(
           calcUp = True,
        chunksize = 1048576,
               ct = "grey",
+        dataPath = None,
            debug = __debug__,
              dpi = None,
     exiftoolPath = None,
@@ -56,6 +57,8 @@ def save_array_as_image(
     ct : str, optional
         the colour table to apply (the default is no colour mapping, i.e.,
         greyscale)
+    dataPath : None or str, optional
+        the path to the PyGuymer3 "data" folder
     debug : bool, optional
         Print debug messages.
     dpi : None or float or int, optional
@@ -112,11 +115,23 @@ def save_array_as_image(
     from .save_array_as_PPM import save_array_as_PPM
     from .save_array_as_PNG import save_array_as_PNG
 
+    # **************************************************************************
+
+    # Find the path to the PyGuymer3 "data" folder ...
+    if dataPath is None:
+        dataPath = os.path.abspath(f"{os.path.dirname(__file__)}/../data")
+    if not os.path.exists(dataPath):
+        if debug:
+            print(f"INFO: \"{dataPath}\" does not exist.")
+        return
+    if debug:
+        print(f"INFO: The PyGuymer3 \"data\" folder is \"{dataPath}\".")
+
     # Find image size ...
     ny, nx = img0.shape                                                         # [px], [px]
 
     # Load colour tables ...
-    with open(f"{os.path.dirname(__file__)}/../data/json/colourTables.json", "rt", encoding = "utf-8") as fObj:
+    with open(f"{dataPath}/json/colourTables.json", mode = "rt", encoding = "utf-8") as fObj:
         cts = json.load(fObj)
 
     # Create uint8 image that will be passed to the external function ...

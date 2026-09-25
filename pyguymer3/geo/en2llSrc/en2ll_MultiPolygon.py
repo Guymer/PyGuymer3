@@ -76,7 +76,7 @@ def en2ll_MultiPolygon(
         )
 
     # Convert list of Polygons to a (unified) MultiPolygon ...
-    multipoly2 = shapely.ops.unary_union(polys)
+    multipoly2 = shapely.geometry.polygon.orient(shapely.ops.unary_union(polys))
     if debug:
         check(multipoly2, prefix = prefix)
 

@@ -68,6 +68,9 @@ def _add_horizontal_gridlines(
     except:
         raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
 
+    # Import sub-functions ...
+    from .._consts import PLATECARREE
+
     # **************************************************************************
 
     # Determine y-locations depending on inputs ...
@@ -87,6 +90,6 @@ def _add_horizontal_gridlines(
                 color = color,
             linestyle = linestyle,
             linewidth = linewidth,
-            transform = cartopy.crs.PlateCarree(),
+            transform = PLATECARREE,
                zorder = zorder,
         )

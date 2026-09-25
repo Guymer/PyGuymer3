@@ -66,7 +66,7 @@ def sha512_of_MP4(
     fsize = os.path.getsize(fname)                                              # [B]
 
     # Open input MP4 file read-only ...
-    with open(fname, "rb") as fObj:
+    with open(fname, mode = "rb") as fObj:
         # Set triggers ...
         foundFTYP = False
         foundMOOV = False

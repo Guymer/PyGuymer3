@@ -18,7 +18,7 @@ def is_moov_at_beginning_of_MP4(
     import struct
 
     # Open MP4 read-only ...
-    with open(fname, "rb") as fObj:
+    with open(fname, mode = "rb") as fObj:
         # Create short-hand ...
         fsize = os.path.getsize(fname)                                          # [B]
 

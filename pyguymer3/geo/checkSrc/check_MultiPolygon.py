@@ -45,6 +45,7 @@ def check_MultiPolygon(
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
+    from .check_Polygon import check_Polygon
     from .._debug import _debug
 
     # **************************************************************************
@@ -56,6 +57,13 @@ def check_MultiPolygon(
         raise Exception(f"\"multipoly\" is not a valid MultiPolygon ({shapely.validation.explain_validity(multipoly)})") from None
     if multipoly.is_empty:
         raise Exception("\"multipoly\" is an empty MultiPolygon") from None
+
+    # Check members ...
+    for poly in multipoly.geoms:
+        check_Polygon(
+            poly,
+            prefix = prefix,
+        )
 
     # Return answer ...
     return True

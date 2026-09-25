@@ -85,9 +85,15 @@ def _add_minorIslands(
         )
     except:
         raise Exception("\"matplotlib\" is not installed; run \"pip install --user matplotlib\"") from None
+    try:
+        import shapely
+        import shapely.geometry
+    except:
+        raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
     from .extract_polys import extract_polys
+    from .._consts import PLATECARREE
 
     # **************************************************************************
 
@@ -120,15 +126,17 @@ def _add_minorIslands(
     if debug:
         print(f"INFO: \"minor_islands\" is \"{sfile}\".")
 
+    # Initialize list ...
+    polys = []
+
     # Loop over records ...
     for record in cartopy.io.shapereader.Reader(sfile).records():
         # Skip bad records ...
         if not hasattr(record, "geometry"):
             continue
 
-        # Create a list of Polygons to plot (taking in to account if the user
-        # provided a field-of-view to clip them by) ...
-        polys = []
+        # Append Polygons to list (taking in to account if the user provided a
+        # field-of-view to clip them by) ...
         for poly in extract_polys(
             record.geometry,
             onlyValid = onlyValid,
@@ -139,12 +147,12 @@ def _add_minorIslands(
                 continue
             if poly.disjoint(fov):
                 continue
-            polys.append(poly.intersection(fov))
+            polys.append(shapely.geometry.polygon.orient(poly.intersection(fov)))
 
-        # Plot geometry ...
-        ax.add_geometries(
-            polys,
-            cartopy.crs.PlateCarree(),
-            edgecolor = "none",
-            facecolor = facecolor,
-        )
+    # Plot geometry ...
+    ax.add_geometries(
+        polys,
+        PLATECARREE,
+        edgecolor = "none",
+        facecolor = facecolor,
+    )

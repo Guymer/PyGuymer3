@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Use the proper idiom in the main module ...
-# NOTE: See https://docs.python.org/3.12/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
+# NOTE: See https://docs.python.org/3.13/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
 if __name__ == "__main__":
     # Import standard modules ...
     import argparse
@@ -70,9 +70,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--number-of-children",
-        default = os.cpu_count() - 1,   # TODO: Once I ditch Python 3.11 and
-                                        #       Python 3.12 then I can use
-                                        #       "os.process_cpu_count()" instead.
+        default = os.process_cpu_count() - 1,
            dest = "nChild",
            help = "the number of child \"multiprocessing\" processes to use when making the tiles",
            type = int,

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Use the proper idiom in the main module ...
-# NOTE: See https://docs.python.org/3.12/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
+# NOTE: See https://docs.python.org/3.13/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
 if __name__ == "__main__":
     # This is a test suite for “geo.fillin()”.
     # Each ring has a plot with both a top-down projection and a Robinson
@@ -107,9 +107,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--number-of-children",
-        default = os.cpu_count() - 1,   # TODO: Once I ditch Python 3.11 and
-                                        #       Python 3.12 then I can use
-                                        #       "os.process_cpu_count()" instead.
+        default = os.process_cpu_count() - 1,
            dest = "nChild",
            help = "the number of child \"multiprocessing\" processes to use when making the tiles",
            type = int,
@@ -279,14 +277,14 @@ if __name__ == "__main__":
                 # Plot LinearRing thrice ...
                 ax1.add_geometries(
                     [denseRing1],
-                    cartopy.crs.PlateCarree(),
+                    pyguymer3.PLATECARREE,
                     edgecolor = (1.0, 0.0, 0.0, 1.0),
                     facecolor = "none",
                     linewidth = 1.0,
                 )
                 ax2.add_geometries(
                     [denseRing1],
-                    cartopy.crs.PlateCarree(),
+                    pyguymer3.PLATECARREE,
                     edgecolor = (1.0, 0.0, 0.0, 1.0),
                     facecolor = "none",
                     linewidth = 1.0,
@@ -306,7 +304,7 @@ if __name__ == "__main__":
             #       of the written string. Fortunately, if you have no shame,
             #       then you can load and then dump the string again, see:
             #         * https://stackoverflow.com/a/29066406
-            with open(jname1, "wt", encoding = "utf-8") as fObj:
+            with open(jname1, mode = "wt", encoding = "utf-8") as fObj:
                 json.dump(
                     json.loads(
                         geojson.dumps(
@@ -339,14 +337,14 @@ if __name__ == "__main__":
                 # Plot LinearRing thrice ...
                 ax1.add_geometries(
                     [denseRing2],
-                    cartopy.crs.PlateCarree(),
+                    pyguymer3.PLATECARREE,
                     edgecolor = (0.0, 0.0, 1.0, 1.0),
                     facecolor = "none",
                     linewidth = 1.0,
                 )
                 ax2.add_geometries(
                     [denseRing2],
-                    cartopy.crs.PlateCarree(),
+                    pyguymer3.PLATECARREE,
                     edgecolor = (0.0, 0.0, 1.0, 1.0),
                     facecolor = "none",
                     linewidth = 1.0,
@@ -366,7 +364,7 @@ if __name__ == "__main__":
             #       of the written string. Fortunately, if you have no shame,
             #       then you can load and then dump the string again, see:
             #         * https://stackoverflow.com/a/29066406
-            with open(jname2, "wt", encoding = "utf-8") as fObj:
+            with open(jname2, mode = "wt", encoding = "utf-8") as fObj:
                 json.dump(
                     json.loads(
                         geojson.dumps(

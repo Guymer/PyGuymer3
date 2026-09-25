@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Use the proper idiom in the main module ...
-# NOTE: See https://docs.python.org/3.12/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
+# NOTE: See https://docs.python.org/3.13/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
 if __name__ == "__main__":
     # Import standard modules ...
     import argparse
@@ -258,27 +258,27 @@ if __name__ == "__main__":
                     # Plot record ...
                     ax[0].add_geometries(
                         record.geometry,
-                        cartopy.crs.PlateCarree(),
+                        pyguymer3.PLATECARREE,
                         edgecolor = "none",
                         facecolor = "red",
                     )
                     ax[1].add_geometries(
                         record.geometry,
-                        cartopy.crs.PlateCarree(),
+                        pyguymer3.PLATECARREE,
                             alpha = 0.25,
                         edgecolor = "none",
                         facecolor = "red",
                     )
                     ax[2].add_geometries(
                         record.geometry,
-                        cartopy.crs.PlateCarree(),
+                        pyguymer3.PLATECARREE,
                             alpha = 0.25,
                         edgecolor = "none",
                         facecolor = "red",
                     )
                     ax[3].add_geometries(
                         record.geometry,
-                        cartopy.crs.PlateCarree(),
+                        pyguymer3.PLATECARREE,
                             alpha = 0.25,
                         edgecolor = "none",
                         facecolor = "red",
@@ -287,20 +287,20 @@ if __name__ == "__main__":
                     # Plot Voronoi diagram of the record ...
                     ax[1].add_geometries(
                         [voronoi],
-                        cartopy.crs.PlateCarree(),
+                        pyguymer3.PLATECARREE,
                         edgecolor = "none",
                         facecolor = "green",
                     )
                     ax[2].add_geometries(
                         [voronoi],
-                        cartopy.crs.PlateCarree(),
+                        pyguymer3.PLATECARREE,
                             alpha = 0.25,
                         edgecolor = "none",
                         facecolor = "green",
                     )
                     ax[3].add_geometries(
                         [voronoi],
-                        cartopy.crs.PlateCarree(),
+                        pyguymer3.PLATECARREE,
                             alpha = 0.25,
                         edgecolor = "none",
                         facecolor = "green",
@@ -310,13 +310,13 @@ if __name__ == "__main__":
                     # the record ...
                     ax[2].add_geometries(
                         [voronoiInter],
-                        cartopy.crs.PlateCarree(),
+                        pyguymer3.PLATECARREE,
                         edgecolor = "none",
                         facecolor = "blue",
                     )
                     ax[3].add_geometries(
                         [voronoiInter],
-                        cartopy.crs.PlateCarree(),
+                        pyguymer3.PLATECARREE,
                             alpha = 0.25,
                         edgecolor = "none",
                         facecolor = "blue",
@@ -326,7 +326,7 @@ if __name__ == "__main__":
                     # Voronoi diagram of the record ...
                     ax[3].add_geometries(
                         [voronoiInterTri],
-                        cartopy.crs.PlateCarree(),
+                        pyguymer3.PLATECARREE,
                         edgecolor = "none",
                         facecolor = "black",
                     )

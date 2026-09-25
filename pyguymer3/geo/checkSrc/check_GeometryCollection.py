@@ -45,6 +45,14 @@ def check_GeometryCollection(
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
+    from .check_CoordinateSequence import check_CoordinateSequence
+    from .check_LinearRing import check_LinearRing
+    from .check_LineString import check_LineString
+    from .check_MultiLineString import check_MultiLineString
+    from .check_MultiPoint import check_MultiPoint
+    from .check_MultiPolygon import check_MultiPolygon
+    from .check_Point import check_Point
+    from .check_Polygon import check_Polygon
     from .._debug import _debug
 
     # **************************************************************************
@@ -56,6 +64,51 @@ def check_GeometryCollection(
         raise Exception(f"\"geometrycollection\" is not a valid GeometryCollection ({shapely.validation.explain_validity(geometrycollection)})") from None
     if geometrycollection.is_empty:
         raise Exception("\"geometrycollection\" is an empty GeometryCollection") from None
+
+    # Check members ...
+    for geom in geometrycollection.geoms:
+        match geom:
+            case shapely.coords.CoordinateSequence():
+                check_CoordinateSequence(
+                    geom,
+                )
+            case shapely.geometry.point.Point():
+                check_Point(
+                    geom,
+                    prefix = prefix,
+                )
+            case shapely.geometry.multipoint.MultiPoint():
+                check_MultiPoint(
+                    geom,
+                    prefix = prefix,
+                )
+            case shapely.geometry.polygon.LinearRing():
+                check_LinearRing(
+                    geom,
+                    prefix = prefix,
+                )
+            case shapely.geometry.linestring.LineString():
+                check_LineString(
+                    geom,
+                    prefix = prefix,
+                )
+            case shapely.geometry.multilinestring.MultiLineString():
+                check_MultiLineString(
+                    geom,
+                    prefix = prefix,
+                )
+            case shapely.geometry.polygon.Polygon():
+                check_Polygon(
+                    geom,
+                    prefix = prefix,
+                )
+            case shapely.geometry.multipolygon.MultiPolygon():
+                check_MultiPolygon(
+                    geom,
+                    prefix = prefix,
+                )
+            case _:
+                raise TypeError(f"\"geom\" is an unexpected type ({repr(type(geom))})") from None
 
     # Return answer ...
     return True

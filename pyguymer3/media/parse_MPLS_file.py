@@ -17,7 +17,7 @@ def parse_MPLS_file(
     info = {}
 
     # Open file ...
-    with open(f"{br}/BDMV/PLAYLIST/{ip:05d}.mpls", "rb") as fObj:
+    with open(f"{br}/BDMV/PLAYLIST/{ip:05d}.mpls", mode = "rb") as fObj:
         # Load header ...
         info["header"] = load_header(fObj)
 

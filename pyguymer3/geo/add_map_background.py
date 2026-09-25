@@ -83,7 +83,7 @@ def add_map_background(
         jpath = f'{os.environ["CARTOPY_USER_BACKGROUNDS"]}/images.json'
         if os.path.exists(jpath):
             # Load JSON and check keys exist ...
-            with open(jpath, "rt", encoding = "utf-8") as fObj:
+            with open(jpath, mode = "rt", encoding = "utf-8") as fObj:
                 info = json.load(fObj)
             if name in info:
                 if subName in info[name]:

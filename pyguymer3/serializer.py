@@ -29,7 +29,9 @@ def serializer(
     """
 
     # Import standard modules ...
+    import base64
     import datetime
+    import fractions
 
     # Import special modules ...
     try:
@@ -40,6 +42,16 @@ def serializer(
         import numpy
     except:
         raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
+
+    # **************************************************************************
+
+    # Check type ...
+    if isinstance(obj, bytes):
+        # Return serializable answer ...
+        return base64.b64encode(obj).decode(
+            encoding = "ascii",
+              errors = "strict",
+        )
 
     # **************************************************************************
 
@@ -62,6 +74,13 @@ def serializer(
     if isinstance(obj, datetime.timedelta):
         # Return serializable answer ...
         return obj.total_seconds()
+
+    # **************************************************************************
+
+    # Check type ...
+    if isinstance(obj, fractions.Fraction):
+        # Return serializable answer ...
+        return float(obj)
 
     # **************************************************************************
 

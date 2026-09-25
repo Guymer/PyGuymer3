@@ -26,7 +26,7 @@ def buffer(
 
     Parameters
     ----------
-    shape : shapely.coords.CoordinateSequence, shapely.geometry.point.Point, shapely.geometry.multipoint.MultiPoint, shapely.geometry.polygon.LinearRing, shapely.geometry.linestring.LineString, shapely.geometry.multilinestring.MultiLineString, shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon
+    shape : shapely.coords.CoordinateSequence, shapely.geometry.point.Point, shapely.geometry.multipoint.MultiPoint, shapely.geometry.polygon.LinearRing, shapely.geometry.linestring.LineString, shapely.geometry.multilinestring.MultiLineString, shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon, shapely.geometry.collection.GeometryCollection, list
         the shape
     dist : float
         the Geodesic distance to buffer each point within the shape by (in
@@ -99,8 +99,10 @@ def buffer(
 
     # Import sub-functions ...
     from .bufferSrc import buffer_CoordinateSequence
-    from .bufferSrc import buffer_LinearRing
+    from .bufferSrc import buffer_GeometryCollection
     from .bufferSrc import buffer_LineString
+    from .bufferSrc import buffer_LinearRing
+    from .bufferSrc import buffer_List
     from .bufferSrc import buffer_MultiLineString
     from .bufferSrc import buffer_MultiPoint
     from .bufferSrc import buffer_MultiPolygon
@@ -234,6 +236,42 @@ def buffer(
         case shapely.geometry.multipolygon.MultiPolygon():
             # Return it buffered ...
             return buffer_MultiPolygon(
+                shape,
+                dist,
+                attemptFortran = attemptFortran,
+                         debug = debug,
+                           eps = eps,
+                          fill = fill,
+                     fillSpace = fillSpace,
+                 keepInteriors = keepInteriors,
+                          nAng = nAng,
+                         nIter = nIter,
+                        prefix = prefix,
+                      ramLimit = ramLimit,
+                          simp = simp,
+                           tol = tol,
+            )
+        case shapely.geometry.collection.GeometryCollection():
+            # Return it buffered ...
+            return buffer_GeometryCollection(
+                shape,
+                dist,
+                attemptFortran = attemptFortran,
+                         debug = debug,
+                           eps = eps,
+                          fill = fill,
+                     fillSpace = fillSpace,
+                 keepInteriors = keepInteriors,
+                          nAng = nAng,
+                         nIter = nIter,
+                        prefix = prefix,
+                      ramLimit = ramLimit,
+                          simp = simp,
+                           tol = tol,
+            )
+        case list():
+            # Return it buffered ...
+            return buffer_List(
                 shape,
                 dist,
                 attemptFortran = attemptFortran,

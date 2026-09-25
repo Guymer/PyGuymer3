@@ -22,6 +22,7 @@ def stat(
     import grp
     import os
     import pwd
+    import stat
 
     # Stat the file ...
     info = os.stat(
@@ -35,11 +36,13 @@ def stat(
         if key.startswith("st_"):
             ans[key] = getattr(info, key)
 
-    # Add helpful short-hands for user and group information ...
+    # Add helpful short-hands for user, group and mode information ...
     if "st_uid" in ans:
         ans["user"] = pwd.getpwuid(ans["st_uid"]).pw_name
     if "st_gid" in ans:
         ans["group"] = grp.getgrgid(ans["st_gid"]).gr_name
+    if "st_mode" in ans:
+        ans["mode"] = stat.filemode(ans["st_mode"])
 
     # Return answer ...
     return ans

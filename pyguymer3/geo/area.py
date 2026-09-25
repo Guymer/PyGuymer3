@@ -79,7 +79,7 @@ def area(
             # Loop over the parts of the Polygon in the Voronoi diagram of the
             # part of the shape which intersect the part of the shape ...
             for voronoiPart in extract_polys(
-                shapePart.intersection(voronoi),
+                shapely.geometry.polygon.orient(shapePart.intersection(voronoi)),
                 onlyValid = onlyValid,
                    repair = repair,
             ):

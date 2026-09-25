@@ -21,6 +21,6 @@ def save_array_as_PGM(
         raise TypeError("\"img\" must be a \"uint8\" array") from None
 
     # Write out PGM ...
-    with open(fname, "wb") as fObj:
+    with open(fname, mode = "wb") as fObj:
         fObj.write(f"P5 {nx:d} {ny:d} 255 ".encode("utf-8"))
         img.tofile(fObj)

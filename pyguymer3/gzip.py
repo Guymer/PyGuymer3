@@ -31,7 +31,7 @@ def gzip(
 
     Notes
     -----
-    I still need to provide justification for using this function over https://docs.python.org/3.12/library/gzip.html
+    I still need to provide justification for using this function over https://docs.python.org/3.13/library/gzip.html
 
     Copyright 2017 Thomas Guymer [1]_
 

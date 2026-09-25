@@ -90,7 +90,7 @@ def download_file(
     if len(dname) > 0:
         if not os.path.exists(dname):
             os.makedirs(dname)
-    with open(fname, "wb") as fObj:
+    with open(fname, mode = "wb") as fObj:
         fObj.write(resp.content)
 
     # Change modification time if present ...

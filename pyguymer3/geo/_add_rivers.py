@@ -91,6 +91,7 @@ def _add_rivers(
 
     # Import sub-functions ...
     from .extract_lines import extract_lines
+    from .._consts import PLATECARREE
 
     # **************************************************************************
 
@@ -106,6 +107,9 @@ def _add_rivers(
         "rivers_lake_centerlines",
         "rivers_north_america",
     ]
+
+    # Initialize list ...
+    lines = []
 
     # Loop over names ...
     for name in names:
@@ -139,9 +143,8 @@ def _add_rivers(
             if not hasattr(record, "geometry"):
                 continue
 
-            # Create a list of LineStrings to plot (taking in to account if the
-            # user provided a field-of-view to clip them by) ...
-            lines = []
+            # Append LineStrings to list (taking in to account if the user
+            # provided a field-of-view to clip them by) ...
             for line in extract_lines(
                 record.geometry,
                 onlyValid = onlyValid,
@@ -153,12 +156,12 @@ def _add_rivers(
                     continue
                 lines.append(line.intersection(fov))
 
-            # Plot geometry ...
-            ax.add_geometries(
-                lines,
-                cartopy.crs.PlateCarree(),
-                edgecolor = edgecolor,
-                facecolor = "none",
-                linestyle = linestyle,
-                linewidth = linewidth,
-            )
+    # Plot geometry ...
+    ax.add_geometries(
+        lines,
+        PLATECARREE,
+        edgecolor = edgecolor,
+        facecolor = "none",
+        linestyle = linestyle,
+        linewidth = linewidth,
+    )

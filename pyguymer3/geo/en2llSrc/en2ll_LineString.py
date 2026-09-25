@@ -37,19 +37,7 @@ def en2ll_LineString(
     .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
-    # Import standard modules ...
-    import pathlib
-
     # Import special modules ...
-    try:
-        import cartopy
-        cartopy.config.update(
-            {
-                "cache_dir" : pathlib.PosixPath("~/.local/share/cartopy").expanduser(),
-            }
-        )
-    except:
-        raise Exception("\"cartopy\" is not installed; run \"pip install --user Cartopy\"") from None
     try:
         import numpy
     except:
@@ -62,6 +50,7 @@ def en2ll_LineString(
 
     # Import sub-functions ...
     from ..check import check
+    from ..._consts import GEODETIC, OSGB
 
     # **************************************************************************
 
@@ -74,7 +63,7 @@ def en2ll_LineString(
     points1 = numpy.array(line1.coords)                                         # [m]
 
     # Project from Eastings/Northings to Longitudes/Latitudes ...
-    points2 = cartopy.crs.Geodetic().transform_points(cartopy.crs.OSGB(), points1[:, 0], points1[:, 1]) # [°]
+    points2 = GEODETIC.transform_points(OSGB, points1[:, 0], points1[:, 1])     # [°]
 
     # Clean up ...
     del points1

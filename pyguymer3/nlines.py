@@ -9,7 +9,7 @@ def nlines(
     n = 0                                                                       # [#]
 
     # Open the input file ...
-    with open(fname, "rt", encoding = "utf-8") as fObj:
+    with open(fname, mode = "rt", encoding = "utf-8") as fObj:
         # Load the source and strip whitespace ...
         src = fObj.read().strip()
 

@@ -107,5 +107,5 @@ def save_array_as_PNG(
     )
 
     # Write PNG ...
-    with open(fname, "wb") as fObj:
+    with open(fname, mode = "wb") as fObj:
         fObj.write(src)

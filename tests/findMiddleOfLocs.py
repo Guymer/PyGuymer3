@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Use the proper idiom in the main module ...
-# NOTE: See https://docs.python.org/3.12/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
+# NOTE: See https://docs.python.org/3.13/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
 if __name__ == "__main__":
     # Import standard modules ...
     import argparse
@@ -145,7 +145,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--nDiv",
-        default = 100,
+        default = 256,
            dest = "nDiv",
            help = "the number of divisions when showing the shape of the surface",
            type = int,
@@ -196,12 +196,12 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Load data and convert to NumPy array ...
-    with open(f"{args.absPathToRepo}/tests/exampleLons.json", "rt", encoding = "utf-8") as fObj:
+    with open(f"{args.absPathToRepo}/tests/exampleLons.json", mode = "rt", encoding = "utf-8") as fObj:
         lons = json.load(fObj)                                                  # [°]
     lons = numpy.array(lons, dtype = numpy.float64)                             # [°]
 
     # Load data and convert to NumPy array ...
-    with open(f"{args.absPathToRepo}/tests/exampleLats.json", "rt", encoding = "utf-8") as fObj:
+    with open(f"{args.absPathToRepo}/tests/exampleLats.json", mode = "rt", encoding = "utf-8") as fObj:
         lats = json.load(fObj)                                                  # [°]
     lats = numpy.array(lats, dtype = numpy.float64)                             # [°]
 
@@ -361,7 +361,7 @@ if __name__ == "__main__":
     }
 
     # Save database ...
-    with open(f"{dName}/comparison.json", "wt", encoding = "utf-8") as fObj:
+    with open(f"{dName}/comparison.json", mode = "wt", encoding = "utf-8") as fObj:
         json.dump(
             db,
             fObj,
@@ -450,7 +450,7 @@ if __name__ == "__main__":
             lons,
             lats,
                 color = (0.0, 0.0, 1.0, 1.0),
-            transform = cartopy.crs.Geodetic(),
+            transform = pyguymer3.PLATECARREE,
                zorder = 5.0,
         )
 
@@ -473,7 +473,7 @@ if __name__ == "__main__":
             onlyValid = True,
                repair = False,
         ),
-        cartopy.crs.PlateCarree(),
+        pyguymer3.PLATECARREE,
         edgecolor = (1.0, 0.0, 0.0, 1.0),
         facecolor = (1.0, 0.0, 0.0, 0.5),
         linestyle = "solid",
@@ -501,7 +501,7 @@ if __name__ == "__main__":
             onlyValid = True,
                repair = False,
         ),
-        cartopy.crs.PlateCarree(),
+        pyguymer3.PLATECARREE,
         edgecolor = (1.0, 0.0, 0.0, 1.0),
         facecolor = (1.0, 0.0, 0.0, 0.5),
         linestyle = "solid",
@@ -529,7 +529,7 @@ if __name__ == "__main__":
             onlyValid = True,
                repair = False,
         ),
-        cartopy.crs.PlateCarree(),
+        pyguymer3.PLATECARREE,
         edgecolor = (1.0, 0.0, 0.0, 1.0),
         facecolor = (1.0, 0.0, 0.0, 0.5),
         linestyle = "solid",
@@ -557,7 +557,7 @@ if __name__ == "__main__":
             onlyValid = True,
                repair = False,
         ),
-        cartopy.crs.PlateCarree(),
+        pyguymer3.PLATECARREE,
         edgecolor = (1.0, 0.0, 0.0, 1.0),
         facecolor = (1.0, 0.0, 0.0, 0.5),
         linestyle = "solid",
@@ -611,10 +611,10 @@ if __name__ == "__main__":
         maxLon = max(maxLon, info["lon"])                                       # [°]
         minLat = min(minLat, info["lat"])                                       # [°]
         maxLat = max(maxLat, info["lat"])                                       # [°]
-    minLon -= initialEuclideanConv                                              # [°]
-    maxLon += initialEuclideanConv                                              # [°]
-    minLat -= initialEuclideanConv                                              # [°]
-    maxLat += initialEuclideanConv                                              # [°]
+    minLon -= 0.05 * initialEuclideanConv                                       # [°]
+    maxLon += 0.05 * initialEuclideanConv                                       # [°]
+    minLat -= 0.05 * initialEuclideanConv                                       # [°]
+    maxLat += 0.05 * initialEuclideanConv                                       # [°]
 
     # Calculate the ranges and the minimum range ...
     lonRange = maxLon - minLon                                                  # [°]
@@ -697,14 +697,14 @@ if __name__ == "__main__":
             label = f'{method}\n{info["dist"]:.6f}°'
         x = info["lon"]                                                         # [°]
         if x > 0.5 * (minLon + maxLon):
-            x -= 3.0 * initialEuclideanConv                                     # [°]
+            x -= 0.2 * initialEuclideanConv                                     # [°]
         else:
-            x += 3.0 * initialEuclideanConv                                     # [°]
+            x += 0.2 * initialEuclideanConv                                     # [°]
         y = info["lat"]                                                         # [°]
         if "Geodesic" in method:
-            y -= 0.5 * initialEuclideanConv                                     # [°]
+            y -= 0.05 * initialEuclideanConv                                    # [°]
         else:
-            y += 0.5 * initialEuclideanConv                                     # [°]
+            y += 0.05 * initialEuclideanConv                                    # [°]
         ax.annotate(
             label,
             (info["lon"], info["lat"]),

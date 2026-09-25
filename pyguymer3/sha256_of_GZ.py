@@ -57,7 +57,7 @@ def sha256_of_GZ(
     hObj = hashlib.sha256()
 
     # Open input GZ file read-only ...
-    with open(fname, "rb") as fObj:
+    with open(fname, mode = "rb") as fObj:
         # Attempt to read 2 bytes and pass them to the hash object ...
         src = fObj.read(2)
         hObj.update(src)

@@ -17,6 +17,7 @@ References
 from .deg2num import deg2num
 from .hfov import hfov
 from .num2deg import num2deg
+from .populate import populate
 from .res import res
 from .tile import tile
 from .tiles import tiles

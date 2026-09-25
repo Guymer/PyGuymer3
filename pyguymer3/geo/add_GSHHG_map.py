@@ -6,11 +6,11 @@ def add_GSHHG_map(
     /,
     *,
         background = True,
+          dataPath = None,
              debug = __debug__,
            elevInt = 250,
         elevSource = "none",
                fov = None,
-         globePath = None,
         globeScale = "32km",
           gshhgRes = "i",
           iceOcean = True,
@@ -20,7 +20,6 @@ def add_GSHHG_map(
          linewidth = 0.5,
            maxElev = 1000,
          onlyValid = False,
-     osTerrainPath = None,
     osTerrainScale = "400m",
         pondIsland = True,
             prefix = ".",
@@ -36,6 +35,8 @@ def add_GSHHG_map(
         the axis
     background : bool, optional
         add background
+    dataPath : None or str, optional
+        the path to the PyGuymer3 "data" folder
     debug : bool, optional
         print debug messages
     elevInt : int, optional
@@ -46,9 +47,6 @@ def add_GSHHG_map(
         clip the plotted shapes to the provided field-of-view to work around
         occasional MatPlotLib or Cartopy plotting errors when shapes much larger
         than the field-of-view are plotted
-    globePath : None str, optional
-        the path to the root folder containing the GeoJSON files derived from
-        the GLOBE [3]_ dataset
     globeScale : str, optional
         the scale of the Polygons of elevation from the GLOBE [3]_ dataset
     gshhgRes : str, optional
@@ -69,9 +67,6 @@ def add_GSHHG_map(
     onlyValid : bool, optional
         only return valid Polygons (checks for validity can take a while, if
         being called often)
-    osTerrainPath : None str, optional
-        the path to the root folder containing the GeoJSON files derived from
-        the OS Terrain 50 [4]_ dataset
     osTerrainScale : str, optional
         the scale of the Polygons of elevation from the OS Terrain 50 [4]_
         dataset
@@ -110,6 +105,9 @@ def add_GSHHG_map(
     .. [4] OS Terrain 50, https://www.ordnancesurvey.co.uk/products/os-terrain-50
     """
 
+    # Import standard modules ...
+    import os
+
     # Import sub-functions ...
     from ._add_background import _add_background
     from ._add_coastlines import _add_coastlines
@@ -117,6 +115,16 @@ def add_GSHHG_map(
     from ._add_OSterrain_elevation import _add_OSterrain_elevation
 
     # **************************************************************************
+
+    # Find the path to the PyGuymer3 "data" folder ...
+    if dataPath is None:
+        dataPath = os.path.abspath(f"{os.path.dirname(__file__)}/../data")
+    if not os.path.exists(dataPath):
+        if debug:
+            print(f"INFO: \"{dataPath}\" does not exist.")
+        return
+    if debug:
+        print(f"INFO: The PyGuymer3 \"data\" folder is \"{dataPath}\".")
 
     # Add background ...
     if background:
@@ -167,10 +175,10 @@ def add_GSHHG_map(
             case "GLOBE":
                 _add_GLOBE_elevation(
                     ax,
+                      dataPath = dataPath,
                          debug = debug,
                        elevInt = elevInt,
                            fov = fov,
-                     globePath = globePath,
                     globeScale = globeScale,
                        maxElev = maxElev,
                      onlyValid = onlyValid,
@@ -179,12 +187,12 @@ def add_GSHHG_map(
             case "OS Terrain 50":
                 _add_OSterrain_elevation(
                     ax,
+                          dataPath = dataPath,
                              debug = debug,
                            elevInt = elevInt,
                                fov = fov,
                            maxElev = maxElev,
                          onlyValid = onlyValid,
-                     osTerrainPath = osTerrainPath,
                     osTerrainScale = osTerrainScale,
                             prefix = prefix,
                             repair = repair,

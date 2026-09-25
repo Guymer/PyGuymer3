@@ -25,7 +25,7 @@ def does_FLAC_have_padding(
     }
 
     # Open FLAC read-only ...
-    with open(fname, "rb") as fObj:
+    with open(fname, mode = "rb") as fObj:
         # Create short-hand ...
         fsize = os.path.getsize(fname)                                          # [B]
 
