@@ -201,10 +201,6 @@ def _add_topDown_axis(
     except:
         raise Exception("\"matplotlib\" is not installed; run \"pip install --user matplotlib\"") from None
     try:
-        import numpy
-    except:
-        raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
-    try:
         import shapely
         import shapely.geometry
     except:
@@ -216,9 +212,9 @@ def _add_topDown_axis(
     from ._add_horizontal_gridlines import _add_horizontal_gridlines
     from ._add_vertical_gridlines import _add_vertical_gridlines
     from .buffer import buffer
-    from .calc_loc_from_loc_and_bearing_and_dist import calc_loc_from_loc_and_bearing_and_dist
     from .clean import clean
-    from .._consts import MAXIMUM_VINCENTY, PLATECARREE, RADIUS_OF_EARTH
+    from .extract_polys import extract_polys
+    from .._consts import GEODETIC, MAXIMUM_VINCENTY, PLATECARREE, RADIUS_OF_EARTH
 
     # **************************************************************************
 
@@ -317,7 +313,7 @@ def _add_topDown_axis(
             attemptFortran = attemptFortran,
                      debug = debug,
                        eps = eps,
-                      fill = +1.0,
+                      fill = -1.0,
                  fillSpace = "EuclideanSpace",
              keepInteriors = False,
                       nAng = 361,
@@ -328,113 +324,113 @@ def _add_topDown_axis(
                        tol = tol,
         )
 
-        # Calculate Northern extent in MatPlotLib space ...
-        tmpLon, latMax, _ = calc_loc_from_loc_and_bearing_and_dist(
-            lon,
-            lat,
-            0.0,
-            dist,
-              eps = 1.0e-12,
-            nIter = 100,
-        )                                                                       # [°], [°]
-        yMax = ax.projection.project_geometry(
-            shapely.geometry.point.Point(
-                tmpLon,
-                latMax,
-            )
-        ).y                                                                     # [?]
+        # Initialise lists and minimum/maximum values ...
+        coord2s = []
+        euclideanBearings = []                                                  # [°]
+        maxMatplotlibX = -9.9e+99                                               # [?]
+        maxMatplotlibY = -9.9e+99                                               # [?]
+        minMatplotlibX = +9.9e+99                                               # [?]
+        minMatplotlibY = +9.9e+99                                               # [?]
 
-        # Calculate Eastern extent in MatPlotLib space ...
-        lonMax, tmpLat, _ = calc_loc_from_loc_and_bearing_and_dist(
-            lon,
-            lat,
-            90.0,
-            dist,
-              eps = 1.0e-12,
-            nIter = 100,
-        )                                                                       # [°], [°]
-        xMax = ax.projection.project_geometry(
-            shapely.geometry.point.Point(
-                lonMax,
-                tmpLat,
-            )
-        ).x                                                                     # [?]
+        # Loop over Polygons in the buffer of the Point ...
+        for tmpPolygon1 in extract_polys(
+            polygon1,
+            onlyValid = onlyValid,
+               repair = repair,
+        ):
+            # Loop over coordinates in the exterior ...
+            for coord1 in tmpPolygon1.exterior.coords:
+                # Convert the coordinate from PLATECARREE to GEODETIC, project
+                # it and append it to the list ...
+                coord2 = ax.projection.project_geometry(
+                    shapely.geometry.point.Point(
+                        GEODETIC.transform_point(
+                            coord1[0],
+                            coord1[1],
+                            PLATECARREE,
+                        )
+                    )
+                )
+                coord2s.append(coord2)
 
-        # Calculate Southern extent in MatPlotLib space ...
-        tmpLon, latMin, _ = calc_loc_from_loc_and_bearing_and_dist(
-            lon,
-            lat,
-            180.0,
-            dist,
-              eps = 1.0e-12,
-            nIter = 100,
-        )                                                                       # [°], [°]
-        yMin = ax.projection.project_geometry(
-            shapely.geometry.point.Point(
-                tmpLon,
-                latMin,
-            )
-        ).y                                                                     # [?]
+                # Find the Euclidean bearing from the Point to the coordinate
+                # and append it to the list ...
+                euclideanBearing = (
+                    math.degrees(
+                        math.atan2(
+                            coord1[1] - point1.y,
+                            coord1[0] - point1.x,
+                        )
+                    ) + 360.0
+                ) % 360.0                                                       # [°]
+                euclideanBearings.append(euclideanBearing)
 
-        # Calculate Western extent in MatPlotLib space ...
-        lonMin, tmpLat, _ = calc_loc_from_loc_and_bearing_and_dist(
-            lon,
-            lat,
-            270.0,
-            dist,
-              eps = 1.0e-12,
-            nIter = 100,
-        )                                                                       # [°], [°]
-        xMin = ax.projection.project_geometry(
-            shapely.geometry.point.Point(
-                lonMin,
-                tmpLat,
-            )
-        ).x                                                                     # [?]
+                # Update the minimum/maximum values ...
+                maxMatplotlibX = max(
+                    maxMatplotlibX,
+                    coord2.x,
+                )                                                               # [?]
+                maxMatplotlibY = max(
+                    maxMatplotlibY,
+                    coord2.y,
+                )                                                               # [?]
+                minMatplotlibX = min(
+                    minMatplotlibX,
+                    coord2.x,
+                )                                                               # [?]
+                minMatplotlibY = min(
+                    minMatplotlibY,
+                    coord2.y,
+                )                                                               # [?]
 
-        # Project the Point ...
-        point2 = ax.projection.project_geometry(point1)
+        # Sort the converted and projected coordinate list by the Euclidean
+        # bearings and clean up ...
+        tmpList = list(zip(euclideanBearings, coord2s, strict = True))
+        del euclideanBearings
+        tmpList.sort()
+        coord2s = [coord2 for euclideanBearing, coord2 in tmpList]
+        del tmpList
 
-        # Create a correctly oriented Polygon from scratch that is the Point
-        # buffered in MatPlotLib space with the same fuzziness as Cartopy does
-        # internally ...
-        radius2 = numpy.array(
-            [
-                point2.x - xMin,
-                xMax - point2.x,
-                point2.y - yMin,
-                yMax - point2.y,
-            ],
-            dtype = numpy.float64,
-        ).mean()                                                                # [?]
-        polygon2 = point2.buffer(radius2 * 0.99999)
-        polygon2 = clean(
-            polygon2,
-             debug = debug,
-            prefix = prefix,
-               tol = tol,
-        )
-
-        # Convert the exterior ring of the Polygon to a Path ...
-        path = matplotlib.path.Path(polygon2.exterior.coords)
+        # Make a Path of the converted and projected coordinates ...
+        path = matplotlib.path.Path(shapely.geometry.polygon.LinearRing(coord2s).coords)
 
         # Configure axis ...
         # NOTE: The orthographic projection does not have the ability to set
         #       either the altitude or the field-of-view. I manually do this,
         #       which involves setting the boundary and the limits for the
         #       MatPlotLib axis.
-        # NOTE: Don't try to be clever and make the "matplotlib.path.Path()"
-        #       from the buffered Polygon in Geodetic space and then pass a
-        #       "transform" keyword to "set_boundary()" as that will not work
-        #       when the Polygon is infact a MultiPolygon (because it has
-        #       crossed the anti-meridean). It is much better to have the faff
-        #       above and do it all in MatPlotLib space from the start.
         ax.set_boundary(path)
-        ax.set_xlim(xMin, xMax)
-        ax.set_ylim(yMin, yMax)
+        ax.set_xlim(
+            minMatplotlibX,
+            maxMatplotlibX,
+        )
+        ax.set_ylim(
+            minMatplotlibY,
+            maxMatplotlibY,
+        )
 
         # Check if the user wants to configure the axis a second time ...
         if configureAgain:
+            # Project the Point ...
+            point2 = ax.projection.project_geometry(point1)
+
+            # Create a correctly oriented Polygon from scratch that is the Point
+            # buffered in MatPlotLib space with the same fuzziness as Cartopy
+            # does internally ...
+            radius2 = min(
+                point2.x - minMatplotlibX,
+                maxMatplotlibX - point2.x,
+                point2.y - minMatplotlibY,
+                maxMatplotlibY - point2.y,
+            )                                                                   # [?]
+            polygon2 = point2.buffer(radius2 * 0.99999)
+            polygon2 = clean(
+                polygon2,
+                 debug = debug,
+                prefix = prefix,
+                   tol = tol,
+            )
+
             # Configure axis again ...
             # NOTE: For some reason, "cartopy.io.img_tiles.OSM()" doesn't work
             #       unless the first of the following protected members is also
