@@ -216,6 +216,7 @@ def _add_topDown_axis(
     from ._add_horizontal_gridlines import _add_horizontal_gridlines
     from ._add_vertical_gridlines import _add_vertical_gridlines
     from .buffer import buffer
+    from .calc_loc_from_loc_and_bearing_and_dist import calc_loc_from_loc_and_bearing_and_dist
     from .clean import clean
     from .._consts import MAXIMUM_VINCENTY, PLATECARREE, RADIUS_OF_EARTH
 
@@ -327,71 +328,107 @@ def _add_topDown_axis(
                        tol = tol,
         )
 
-        # Convert the exterior ring of the Polygon to a Path ...
-        path1 = matplotlib.path.Path(polygon1.exterior.coords)
-
         # Calculate Northern extent in MatPlotLib space ...
+        tmpLon, latMax, _ = calc_loc_from_loc_and_bearing_and_dist(
+            lon,
+            lat,
+            0.0,
+            dist,
+              eps = 1.0e-12,
+            nIter = 100,
+        )                                                                       # [°], [°]
         yMax = ax.projection.project_geometry(
             shapely.geometry.point.Point(
-                polygon1.exterior.coords[0]
+                tmpLon,
+                latMax,
             )
         ).y                                                                     # [?]
 
         # Calculate Eastern extent in MatPlotLib space ...
+        lonIter, tmpLat, _ = calc_loc_from_loc_and_bearing_and_dist(
+            lon,
+            lat,
+            90.0,
+            dist,
+              eps = 1.0e-12,
+            nIter = 100,
+        )                                                                       # [°], [°]
         xMax = ax.projection.project_geometry(
             shapely.geometry.point.Point(
-                polygon1.exterior.coords[270]
+                lonIter,
+                tmpLat,
             )
         ).x                                                                     # [?]
 
         # Calculate Southern extent in MatPlotLib space ...
+        tmpLon, latMin, _ = calc_loc_from_loc_and_bearing_and_dist(
+            lon,
+            lat,
+            180.0,
+            dist,
+              eps = 1.0e-12,
+            nIter = 100,
+        )                                                                       # [°], [°]
         yMin = ax.projection.project_geometry(
             shapely.geometry.point.Point(
-                polygon1.exterior.coords[180]
+                tmpLon,
+                latMin,
             )
         ).y                                                                     # [?]
 
         # Calculate Western extent in MatPlotLib space ...
+        lonMin, tmpLat, _ = calc_loc_from_loc_and_bearing_and_dist(
+            lon,
+            lat,
+            270.0,
+            dist,
+              eps = 1.0e-12,
+            nIter = 100,
+        )                                                                       # [°], [°]
         xMin = ax.projection.project_geometry(
             shapely.geometry.point.Point(
-                polygon1.exterior.coords[90]
+                lonMin,
+                tmpLat,
             )
         ).x                                                                     # [?]
+
+        # Project the Point ...
+        point2 = ax.projection.project_geometry(point1)
+
+        # Create a correctly oriented Polygon from scratch that is the Point
+        # buffered in MatPlotLib space with the same fuzziness as Cartopy does
+        # internally ...
+        radius2 = numpy.array(
+            [
+                point2.x - xMin,
+                xMax - point2.x,
+                point2.y - yMin,
+                yMax - point2.y,
+            ],
+            dtype = numpy.float64,
+        ).mean()                                                                # [?]
+        polygon2 = point2.buffer(radius2 * 0.99999)
+        polygon2 = clean(
+            polygon2,
+             debug = debug,
+            prefix = prefix,
+               tol = tol,
+        )
+
+        # Convert the exterior ring of the Polygon to a Path ...
+        path = matplotlib.path.Path(polygon2.exterior.coords)
 
         # Configure axis ...
         # NOTE: The orthographic projection does not have the ability to set
         #       either the altitude or the field-of-view. I manually do this,
         #       which involves setting the boundary and the limits for the
         #       MatPlotLib axis.
-        ax.set_boundary(path1, transform = PLATECARREE)
+        ax.set_boundary(path)
         ax.set_xlim(xMin, xMax)
         ax.set_ylim(yMin, yMax)
 
         # Check if the user wants to configure the axis a second time ...
         if configureAgain:
-            # Project the Point ...
-            point2 = ax.projection.project_geometry(point1)
-
-            # Create a correctly oriented Polygon from scratch that is the Point
-            # buffered in MatPlotLib space with the same fuzziness as Cartopy
-            # does internally ...
-            radius2 = numpy.array(
-                [
-                    point2.x - xMin,
-                    xMax - point2.x,
-                    point2.y - yMin,
-                    yMax - point2.y,
-                ],
-                dtype = numpy.float64,
-            ).mean()                                                            # [?]
-            polygon2 = point2.buffer(radius2 * 0.99999)
-            polygon2 = clean(
-                polygon2,
-                 debug = debug,
-                prefix = prefix,
-                   tol = tol,
-            )
-
             # Configure axis again ...
             # NOTE: For some reason, "cartopy.io.img_tiles.OSM()" doesn't work
             #       unless the first of the following protected members is also
