@@ -36,6 +36,99 @@ if __name__ == "__main__":
            help = "the absolute path to the PyGuymer3 repository",
            type = str,
     )
+    parser.add_argument(
+        "--angle-convergence",
+        default = 0.001,
+           dest = "angConv",
+           help = "the angle change which classifies as converged (in degrees)",
+           type = float,
+    )
+    parser.add_argument(
+        "--chunksize",
+        default = 1048576,
+           help = "the size of the chunks of any files which are read in (in bytes)",
+           type = int,
+    )
+    parser.add_argument(
+        "--debug",
+        action = "store_true",
+          help = "print debug messages",
+    )
+    parser.add_argument(
+        "--dont-attempt-FORTRAN",
+        action = "store_true",
+          dest = "dontAttemptFortran",
+          help = "don't attempt to use FORTRAN",
+    )
+    parser.add_argument(
+        "--eps",
+        default = 1.0e-12,
+           dest = "eps",
+           help = "the tolerance of the Vincenty formula iterations",
+           type = float,
+    )
+    parser.add_argument(
+        "--exiftool-path",
+        default = shutil.which("exiftool"),
+           dest = "exiftoolPath",
+           help = "the path to the \"exiftool\" binary",
+           type = str,
+    )
+    parser.add_argument(
+        "--gifsicle-path",
+        default = shutil.which("gifsicle"),
+           dest = "gifsiclePath",
+           help = "the path to the \"gifsicle\" binary",
+           type = str,
+    )
+    parser.add_argument(
+        "--jpegtran-path",
+        default = shutil.which("jpegtran"),
+           dest = "jpegtranPath",
+           help = "the path to the \"jpegtran\" binary",
+           type = str,
+    )
+    parser.add_argument(
+        "--nAng",
+        default = 361,
+           dest = "nAng",
+           help = "the number of angles around each circle",
+           type = int,
+    )
+    parser.add_argument(
+        "--nIter",
+        default = 1000000,
+           dest = "nIter",
+           help = "the maximum number of iterations (particularly the Vincenty formula)",
+           type = int,
+    )
+    parser.add_argument(
+        "--nRefine",
+        default = 15,
+           dest = "nRefine",
+           help = "the number of refinements to make (each refinement halves the \"geodesic-convergence\" distance)",
+           type = int,
+    )
+    parser.add_argument(
+        "--optipng-path",
+        default = shutil.which("optipng"),
+           dest = "optipngPath",
+           help = "the path to the \"optipng\" binary",
+           type = str,
+    )
+    parser.add_argument(
+        "--timeout",
+        default = 60.0,
+           help = "the timeout for any requests/subprocess calls (in seconds)",
+           type = float,
+    )
+    parser.add_argument(
+        "--tolerance",
+        default = 1.0e-10,
+           dest = "tol",
+           help = "the Euclidean distance that defines two points as being the same (in degrees)",
+           type = float,
+    )
     args = parser.parse_args()
 
     # **************************************************************************
@@ -72,4 +165,23 @@ if __name__ == "__main__":
         lons,
         lats,
         fName,
+               angConv = args.angConv,
+        attemptFortran = not args.dontAttemptFortran,
+             chunksize = args.chunksize,
+                 debug = args.debug,
+                   eps = args.eps,
+          exiftoolPath = args.exiftoolPath,
+          gifsiclePath = args.gifsiclePath,
+          jpegtranPath = args.jpegtranPath,
+                  nAng = args.nAng,
+                 nIter = args.nIter,
+               nRefine = args.nRefine,
+             onlyValid = True,
+           optipngPath = args.optipngPath,
+                prefix = f".{__name__}.",
+                repair = False,
+               timeout = args.timeout,
+                   tol = args.tol,
+              useNumPy = False,
+              useSciPy = False,
     )
