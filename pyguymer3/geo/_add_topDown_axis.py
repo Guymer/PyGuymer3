@@ -345,7 +345,7 @@ def _add_topDown_axis(
         ).y                                                                     # [?]
 
         # Calculate Eastern extent in MatPlotLib space ...
-        lonIter, tmpLat, _ = calc_loc_from_loc_and_bearing_and_dist(
+        lonMax, tmpLat, _ = calc_loc_from_loc_and_bearing_and_dist(
             lon,
             lat,
             90.0,
@@ -355,7 +355,7 @@ def _add_topDown_axis(
         )                                                                       # [°], [°]
         xMax = ax.projection.project_geometry(
             shapely.geometry.point.Point(
-                lonIter,
+                lonMax,
                 tmpLat,
             )
         ).x                                                                     # [?]
@@ -423,6 +423,12 @@ def _add_topDown_axis(
         #       either the altitude or the field-of-view. I manually do this,
         #       which involves setting the boundary and the limits for the
         #       MatPlotLib axis.
+        # NOTE: Don't try to be clever and make the "matplotlib.path.Path()"
+        #       from the buffered Polygon in Geodetic space and then pass a
+        #       "transform" keyword to "set_boundary()" as that will not work
+        #       when the Polygon is infact a MultiPolygon (because it has
+        #       crossed the anti-meridean). It is much better to have the faff
+        #       above and do it all in MatPlotLib space from the start.
         ax.set_boundary(path)
         ax.set_xlim(xMin, xMax)
         ax.set_ylim(yMin, yMax)
