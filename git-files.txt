@@ -39229,6 +39229,10 @@ tests/bufferPoint/bufferPoint8.geojson
 tests/bufferPoint/bufferPoint8.png
 tests/bufferPoint/bufferPoint9.geojson
 tests/bufferPoint/bufferPoint9.png
+tests/createImageOfPoints.png
+tests/createImageOfPoints.py
+tests/createMapOfPoints.png
+tests/createMapOfPoints.py
 tests/exampleLats.json
 tests/exampleLons.json
 tests/feed.atom
