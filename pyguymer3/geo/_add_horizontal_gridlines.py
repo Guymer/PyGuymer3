@@ -69,7 +69,7 @@ def _add_horizontal_gridlines(
         raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
 
     # Import sub-functions ...
-    from .._consts import GEODETIC
+    from .._consts import PLATECARREE
 
     # **************************************************************************
 
@@ -90,6 +90,6 @@ def _add_horizontal_gridlines(
                 color = color,
             linestyle = linestyle,
             linewidth = linewidth,
-            transform = GEODETIC,
+            transform = PLATECARREE,
                zorder = zorder,
         )
