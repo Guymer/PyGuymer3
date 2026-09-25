@@ -145,7 +145,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--nDiv",
-        default = 100,
+        default = 256,
            dest = "nDiv",
            help = "the number of divisions when showing the shape of the surface",
            type = int,
@@ -611,10 +611,10 @@ if __name__ == "__main__":
         maxLon = max(maxLon, info["lon"])                                       # [°]
         minLat = min(minLat, info["lat"])                                       # [°]
         maxLat = max(maxLat, info["lat"])                                       # [°]
-    minLon -= initialEuclideanConv                                              # [°]
-    maxLon += initialEuclideanConv                                              # [°]
-    minLat -= initialEuclideanConv                                              # [°]
-    maxLat += initialEuclideanConv                                              # [°]
+    minLon -= 0.05 * initialEuclideanConv                                       # [°]
+    maxLon += 0.05 * initialEuclideanConv                                       # [°]
+    minLat -= 0.05 * initialEuclideanConv                                       # [°]
+    maxLat += 0.05 * initialEuclideanConv                                       # [°]
 
     # Calculate the ranges and the minimum range ...
     lonRange = maxLon - minLon                                                  # [°]
@@ -697,14 +697,14 @@ if __name__ == "__main__":
             label = f'{method}\n{info["dist"]:.6f}°'
         x = info["lon"]                                                         # [°]
         if x > 0.5 * (minLon + maxLon):
-            x -= 3.0 * initialEuclideanConv                                     # [°]
+            x -= 0.2 * initialEuclideanConv                                     # [°]
         else:
-            x += 3.0 * initialEuclideanConv                                     # [°]
+            x += 0.2 * initialEuclideanConv                                     # [°]
         y = info["lat"]                                                         # [°]
         if "Geodesic" in method:
-            y -= 0.5 * initialEuclideanConv                                     # [°]
+            y -= 0.05 * initialEuclideanConv                                    # [°]
         else:
-            y += 0.5 * initialEuclideanConv                                     # [°]
+            y += 0.05 * initialEuclideanConv                                    # [°]
         ax.annotate(
             label,
             (info["lon"], info["lat"]),
