@@ -450,7 +450,7 @@ if __name__ == "__main__":
             lons,
             lats,
                 color = (0.0, 0.0, 1.0, 1.0),
-            transform = pyguymer3.GEODETIC,
+            transform = pyguymer3.PLATECARREE,
                zorder = 5.0,
         )
 
