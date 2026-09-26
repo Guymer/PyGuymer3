@@ -50,7 +50,7 @@ def en2ll_Point(
 
     # Import sub-functions ...
     from ..check import check
-    from ..._consts import GEODETIC, OSGB
+    from ..._consts import OSGB, PLATECARREE
 
     # **************************************************************************
 
@@ -63,7 +63,7 @@ def en2ll_Point(
     points1 = numpy.array(point1.coords)                                        # [m]
 
     # Project from Eastings/Northings to Longitudes/Latitudes ...
-    points2 = GEODETIC.transform_points(OSGB, points1[:, 0], points1[:, 1])     # [°]
+    points2 = PLATECARREE.transform_points(OSGB, points1[:, 0], points1[:, 1])  # [°]
 
     # Clean up ...
     del points1
