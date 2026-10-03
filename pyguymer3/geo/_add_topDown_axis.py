@@ -245,6 +245,7 @@ def _add_topDown_axis(
                 projection = cartopy.crs.NearsidePerspective(
                     central_longitude = point1.x,
                      central_latitude = point1.y,
+                                globe = cartopy.crs.Globe(ellipse = "WGS84"),
                      satellite_height = alt,
                 ),
             )
@@ -255,6 +256,7 @@ def _add_topDown_axis(
                 projection = cartopy.crs.Orthographic(
                     central_longitude = point1.x,
                      central_latitude = point1.y,
+                                globe = cartopy.crs.Globe(ellipse = "WGS84"),
                 ),
             )
     elif nrows is not None and ncols is not None and index is not None:
@@ -268,6 +270,7 @@ def _add_topDown_axis(
                 projection = cartopy.crs.NearsidePerspective(
                     central_longitude = point1.x,
                      central_latitude = point1.y,
+                                globe = cartopy.crs.Globe(ellipse = "WGS84"),
                      satellite_height = alt,
                 ),
             )
@@ -280,6 +283,7 @@ def _add_topDown_axis(
                 projection = cartopy.crs.Orthographic(
                     central_longitude = point1.x,
                      central_latitude = point1.y,
+                                globe = cartopy.crs.Globe(ellipse = "WGS84"),
                 ),
             )
     else:
@@ -290,6 +294,7 @@ def _add_topDown_axis(
                 projection = cartopy.crs.NearsidePerspective(
                     central_longitude = point1.x,
                      central_latitude = point1.y,
+                                globe = cartopy.crs.Globe(ellipse = "WGS84"),
                      satellite_height = alt,
                 ),
             )
@@ -299,6 +304,7 @@ def _add_topDown_axis(
                 projection = cartopy.crs.Orthographic(
                     central_longitude = point1.x,
                      central_latitude = point1.y,
+                                globe = cartopy.crs.Globe(ellipse = "WGS84"),
                 ),
             )
 
@@ -364,7 +370,7 @@ def _add_topDown_axis(
                       eps = eps,
                     nIter = nIter,
                 )[1]                                                            # [°]
-                bearings.append(bearing)
+                bearings.append(bearing)                                        # [°]
 
                 # Update the minimum/maximum values ...
                 maxMatplotlibX = max(
