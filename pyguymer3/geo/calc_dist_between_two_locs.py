@@ -108,8 +108,9 @@ def calc_dist_between_two_locs(
         )
         sin_alpha = math.cos(u1) * math.cos(u2) * math.sin(lam) / sin_sigma
         cosSq_alpha = 1.0 - sin_alpha ** 2
-        cos_two_sigma_m = cos_sigma - 2.0 * math.sin(u1) * math.sin(u2) / cosSq_alpha
-        if math.isnan(cos_two_sigma_m):
+        try:
+            cos_two_sigma_m = cos_sigma - 2.0 * math.sin(u1) * math.sin(u2) / cosSq_alpha
+        except ZeroDivisionError:
             # NOTE: equatorial line
             cos_two_sigma_m = 0.0
         c = f * cosSq_alpha * (4.0 + f * (4.0 - 3.0 * cosSq_alpha)) / 16.0
