@@ -48,6 +48,7 @@ if __name__ == "__main__":
     try:
         import PIL
         import PIL.Image
+        import PIL.ImageDraw
         PIL.Image.MAX_IMAGE_PIXELS = 1073741824                                 # [px]
     except:
         raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None
@@ -441,9 +442,10 @@ if __name__ == "__main__":
                 if not os.path.exists(pNameBoth):
                     print(f"    Making \"{pNameBoth}\" ...")
 
-                    # Create empty image to hold both the PNGs ...
+                    # Create empty image to hold both the PNGs and initialize
+                    # the drawing object ...
                     bothIm = PIL.Image.new(
-                        "RGB",
+                        "RGBA",
                         (
                             2 * width + 3 * margin,
                                height + 2 * margin,
@@ -454,6 +456,7 @@ if __name__ == "__main__":
                             127,
                         ),
                     )
+                    draw = PIL.ImageDraw.Draw(bothIm)
 
                     # Check if the global map exists ...
                     if os.path.exists(pNameGlobal):
@@ -462,11 +465,24 @@ if __name__ == "__main__":
                             pNameGlobal,
                             mode = "r",
                         ) as globalIm:
-                            # Convert image to RGB and paste it on to the main
-                            # image ...
-                            bothIm.paste(
-                                globalIm.convert("RGB"),
-                                (
+                            # Overlay the RGBA image over a white rectangle on
+                            # the main image ...
+                            draw.rectangle(
+                                [
+                                    margin,
+                                    margin,
+                                    margin + width  - 1,
+                                    margin + height - 1,
+                                ],
+                                fill = (
+                                    255,
+                                    255,
+                                    255,
+                                ),
+                            )
+                            bothIm.alpha_composite(
+                                globalIm,
+                                dest = (
                                     margin,
                                     margin,
                                 ),
@@ -483,11 +499,24 @@ if __name__ == "__main__":
                             pNameLocal,
                             mode = "r",
                         ) as localIm:
-                            # Convert image to RGB and paste it on to the main
-                            # image ...
-                            bothIm.paste(
-                                localIm.convert("RGB"),
-                                (
+                            # Overlay the RGBA image over a white rectangle on
+                            # the main image ...
+                            draw.rectangle(
+                                [
+                                    width + 2 * margin,
+                                                margin,
+                                    width + 2 * margin + width  - 1,
+                                                margin + height - 1,
+                                ],
+                                fill = (
+                                    255,
+                                    255,
+                                    255,
+                                ),
+                            )
+                            bothIm.alpha_composite(
+                                localIm,
+                                dest = (
                                     width + 2 * margin,
                                                 margin,
                                 ),
@@ -501,11 +530,13 @@ if __name__ == "__main__":
                     pyguymer3.image.image2png(
                         bothIm,
                         pNameBoth,
+                         mode = "RGB",
+                        strip = True,
                     )
 
                     # Clean up ...
                     bothIm.close()
-                    del bothIm
+                    del bothIm, draw
 
         # **********************************************************************
 
@@ -559,6 +590,8 @@ if __name__ == "__main__":
             pyguymer3.image.image2png(
                 allIm,
                 pNameAll,
+                 mode = "RGB",
+                strip = True,
             )
 
             # Clean up ...
