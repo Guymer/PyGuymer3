@@ -465,28 +465,41 @@ if __name__ == "__main__":
                             pNameGlobal,
                             mode = "r",
                         ) as globalIm:
-                            # Overlay the RGBA image over a white rectangle on
+                            # Either paste the RGB image on the main image or
+                            # overlay the RGBA image over a white rectangle on
                             # the main image ...
-                            draw.rectangle(
-                                [
-                                    margin,
-                                    margin,
-                                    margin + width  - 1,
-                                    margin + height - 1,
-                                ],
-                                fill = (
-                                    255,
-                                    255,
-                                    255,
-                                ),
-                            )
-                            bothIm.alpha_composite(
-                                globalIm,
-                                dest = (
-                                    margin,
-                                    margin,
-                                ),
-                            )
+                            match globalIm.mode:
+                                case "RGB":
+                                    bothIm.paste(
+                                        globalIm,
+                                        (
+                                            margin,
+                                            margin,
+                                        ),
+                                    )
+                                case "RGBA":
+                                    draw.rectangle(
+                                        [
+                                            margin,
+                                            margin,
+                                            margin + width  - 1,
+                                            margin + height - 1,
+                                        ],
+                                        fill = (
+                                            255,
+                                            255,
+                                            255,
+                                        ),
+                                    )
+                                    bothIm.alpha_composite(
+                                        globalIm,
+                                        dest = (
+                                            margin,
+                                            margin,
+                                        ),
+                                    )
+                                case _:
+                                    raise Exception(globalIm.mode) from None
 
                         # Clean up ...
                         globalIm.close()
@@ -499,28 +512,41 @@ if __name__ == "__main__":
                             pNameLocal,
                             mode = "r",
                         ) as localIm:
-                            # Overlay the RGBA image over a white rectangle on
+                            # Either paste the RGB image on the main image or
+                            # overlay the RGBA image over a white rectangle on
                             # the main image ...
-                            draw.rectangle(
-                                [
-                                    width + 2 * margin,
-                                                margin,
-                                    width + 2 * margin + width  - 1,
-                                                margin + height - 1,
-                                ],
-                                fill = (
-                                    255,
-                                    255,
-                                    255,
-                                ),
-                            )
-                            bothIm.alpha_composite(
-                                localIm,
-                                dest = (
-                                    width + 2 * margin,
-                                                margin,
-                                ),
-                            )
+                            match localIm.mode:
+                                case "RGB":
+                                    bothIm.paste(
+                                        localIm,
+                                        (
+                                            width + 2 * margin,
+                                                        margin,
+                                        ),
+                                    )
+                                case "RGBA":
+                                    draw.rectangle(
+                                        [
+                                            width + 2 * margin,
+                                                        margin,
+                                            width + 2 * margin + width  - 1,
+                                                        margin + height - 1,
+                                        ],
+                                        fill = (
+                                            255,
+                                            255,
+                                            255,
+                                        ),
+                                    )
+                                    bothIm.alpha_composite(
+                                        localIm,
+                                        dest = (
+                                            width + 2 * margin,
+                                                        margin,
+                                        ),
+                                    )
+                                case _:
+                                    raise Exception(localIm.mode) from None
 
                         # Clean up ...
                         localIm.close()
