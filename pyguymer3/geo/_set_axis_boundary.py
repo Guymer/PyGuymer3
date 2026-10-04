@@ -9,6 +9,8 @@ def _set_axis_boundary(
     /,
     *,
     configureAgain = False,
+               eps = 1.0e-12,
+             nIter = 100,
                tol = 1.0e-10,
 ):
     # Import standard modules ...
@@ -86,17 +88,19 @@ def _set_axis_boundary(
                 centreLl.y,
                 pointLl.x,
                 pointLl.y,
+                  eps = eps,
+                nIter = nIter,
             )                                                                   # [m], [°]
 
-            # print(
-            #     intendedDist,
-            #     actualDist,
-            #     math.isclose(
-            #         intendedDist,
-            #         actualDist,
-            #         abs_tol = tol * RESOLUTION_OF_EARTH,
-            #     )
-            # )
+            # Skip this exterior Point if it is not on the buffer (i.e., it is
+            # an extra exterior Point to make the buffer look good, e.g., a
+            # slice along the anti-meridean) ...
+            if not math.isclose(
+                intendedDist,
+                actualDist,
+                abs_tol = tol * RESOLUTION_OF_EARTH,
+            ):
+                continue
 
             # Project the exterior Point and append it to the list ...
             pointMpl = ax.projection.project_geometry(pointLl)
@@ -104,7 +108,7 @@ def _set_axis_boundary(
 
             # Append the bearing from the centre Point to the exterior Point to
             # the list ...
-            bearings.append(bearing)                                              # [°]
+            bearings.append(bearing)                                            # [°]
 
             # Append the distance between the projected centre Point to the
             # projected exterior Point to the list ...
@@ -132,8 +136,6 @@ def _set_axis_boundary(
                 minMplY,
                 pointMpl.y,
             )                                                                   # [?]
-
-    # exit()
 
     # Sort the projected exterior Point list by the bearings and clean up ...
     idxs = sorted(
