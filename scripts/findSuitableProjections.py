@@ -4,11 +4,13 @@
 # NOTE: See https://docs.python.org/3.13/library/multiprocessing.html#the-spawn-and-forkserver-start-methods
 if __name__ == "__main__":
     # Import standard modules ...
+    import argparse
     import glob
     import json
     import math
     import os
     import pathlib
+    import shutil
     import warnings
 
     # Import special modules ...
@@ -64,6 +66,89 @@ if __name__ == "__main__":
         import pyguymer3.image
     except:
         raise Exception("\"pyguymer3\" is not installed; run \"pip install --user PyGuymer3\"") from None
+
+    # **************************************************************************
+
+    # Create argument parser and parse the arguments ...
+    parser = argparse.ArgumentParser(
+           allow_abbrev = False,
+            description = "Find suitable projections (for a top-down axis).",
+        formatter_class = argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument(
+        "--chunksize",
+        default = 1048576,
+           help = "the size of the chunks of any files which are read in (in bytes)",
+           type = int,
+    )
+    parser.add_argument(
+        "--debug",
+        action = "store_true",
+          help = "print debug messages",
+    )
+    parser.add_argument(
+        "--eps",
+        default = 1.0e-12,
+           dest = "eps",
+           help = "the tolerance of the Vincenty formula iterations",
+           type = float,
+    )
+    parser.add_argument(
+        "--exiftool-path",
+        default = shutil.which("exiftool"),
+           dest = "exiftoolPath",
+           help = "the path to the \"exiftool\" binary",
+           type = str,
+    )
+    parser.add_argument(
+        "--gifsicle-path",
+        default = shutil.which("gifsicle"),
+           dest = "gifsiclePath",
+           help = "the path to the \"gifsicle\" binary",
+           type = str,
+    )
+    parser.add_argument(
+        "--jpegtran-path",
+        default = shutil.which("jpegtran"),
+           dest = "jpegtranPath",
+           help = "the path to the \"jpegtran\" binary",
+           type = str,
+    )
+    parser.add_argument(
+        "--nIter",
+        default = 1000000,
+           dest = "nIter",
+           help = "the maximum number of iterations (particularly the Vincenty formula)",
+           type = int,
+    )
+    parser.add_argument(
+        "--optipng-path",
+        default = shutil.which("optipng"),
+           dest = "optipngPath",
+           help = "the path to the \"optipng\" binary",
+           type = str,
+    )
+    parser.add_argument(
+        "--RAM-limit",
+        default = 1073741824,
+           dest = "ramLimit",
+           help = "the maximum RAM usage of each \"large\" array (in bytes)",
+           type = int,
+    )
+    parser.add_argument(
+        "--timeout",
+        default = 60.0,
+           help = "the timeout for any requests/subprocess calls (in seconds)",
+           type = float,
+    )
+    parser.add_argument(
+        "--tolerance",
+        default = 1.0e-10,
+           dest = "tol",
+           help = "the Euclidean distance that defines two points as being the same (in degrees)",
+           type = float,
+    )
+    args = parser.parse_args()
 
     # **************************************************************************
 
@@ -172,10 +257,15 @@ if __name__ == "__main__":
         polygon1 = pyguymer3.geo.buffer(
             point1,
             dist,
-            debug = False,
-             fill = +1.0,                                                       # NOTE: Need to fill in the result to
-             nAng = 361,                                                        #       undo the ".simplify(tol)" in
-             simp = -1.0,                                                       #       "buffer_CoordinateSequence()".
+                debug = args.debug,
+                  eps = args.eps,
+                 fill = +1.0,                                                   # NOTE: Need to fill in the result to
+            fillSpace = "EuclideanSpace",                                       #       undo the ".simplify(tol)" in
+                 nAng = 361,                                                    #       "buffer_CoordinateSequence()".
+                nIter = args.nIter,
+             ramLimit = args.ramLimit,
+                 simp = -1.0,
+                  tol = args.tol,
         )
         stub2 = f"{stub1}/(lon={lon:+.1f}°,lat={lat:+.1f}°) dist={round(0.001 * dist):,d}km"
 
@@ -302,11 +392,12 @@ if __name__ == "__main__":
                     )
                     pyguymer3.geo._add_coastlines(
                         ax,
-                            debug = False,
-                              fov = pyguymer3.EARTH,
-                         gshhgRes = "c",
-                        onlyValid = True,
-                           repair = False,
+                              debug = args.debug,
+                                fov = pyguymer3.EARTH,
+                        gshhgLevels = (1, 5, 6,)
+                           gshhgRes = "c",
+                          onlyValid = True,
+                             repair = False,
                     )
                     pyguymer3.geo._add_horizontal_gridlines(
                         ax,
@@ -330,7 +421,15 @@ if __name__ == "__main__":
                         fg.savefig(pNameGlobal)
                         pyguymer3.image.optimise_image(
                             pNameGlobal,
-                            strip = True,
+                               chunksize = args.chunksize,
+                                   debug = args.debug,
+                            exiftoolPath = args.exiftoolPath,
+                            gifsiclePath = args.gifsiclePath,
+                            jpegtranPath = args.jpegtranPath,
+                             optipngPath = args.optipngPath,
+                                    pool = None,
+                                   strip = True,
+                                 timeout = args.timeout,
                         )
                     except:
                         print("    WARNING: Saving the figure failed.")
@@ -368,6 +467,9 @@ if __name__ == "__main__":
                         point1,
                         polygon1,
                         dist,
+                          eps = args.eps,
+                        nIter = args.nIter,
+                          tol = args.tol,
                     )
 
                     # Add background and buffer ...
@@ -402,11 +504,12 @@ if __name__ == "__main__":
                     )
                     pyguymer3.geo._add_coastlines(
                         ax,
-                            debug = False,
-                              fov = polygon1,
-                         gshhgRes = gshhgRes,
-                        onlyValid = True,
-                           repair = False,
+                              debug = args.debug,
+                                fov = polygon1,
+                        gshhgLevels = (1, 5, 6,)
+                           gshhgRes = gshhgRes,
+                          onlyValid = True,
+                             repair = False,
                     )
                     pyguymer3.geo._add_horizontal_gridlines(
                         ax,
@@ -430,7 +533,15 @@ if __name__ == "__main__":
                         fg.savefig(pNameLocal)
                         pyguymer3.image.optimise_image(
                             pNameLocal,
-                            strip = True,
+                               chunksize = args.chunksize,
+                                   debug = args.debug,
+                            exiftoolPath = args.exiftoolPath,
+                            gifsiclePath = args.gifsiclePath,
+                            jpegtranPath = args.jpegtranPath,
+                             optipngPath = args.optipngPath,
+                                    pool = None,
+                                   strip = True,
+                                 timeout = args.timeout,
                         )
                     except:
                         print("    WARNING: Saving the figure failed.")
@@ -564,8 +675,17 @@ if __name__ == "__main__":
                     pyguymer3.image.image2png(
                         bothIm,
                         pNameBoth,
-                         mode = "RGB",
-                        strip = True,
+                             chunksize = args.chunksize,
+                                 debug = args.debug,
+                          exiftoolPath = args.exiftoolPath,
+                          gifsiclePath = args.gifsiclePath,
+                          jpegtranPath = args.jpegtranPath,
+                        maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS,
+                                  mode = "RGB",
+                              optimise = True,
+                           optipngPath = args.optipngPath,
+                                 strip = True,
+                               timeout = args.timeout,
                     )
 
                     # Clean up ...
@@ -624,8 +744,17 @@ if __name__ == "__main__":
             pyguymer3.image.image2png(
                 allIm,
                 pNameAll,
-                 mode = "RGB",
-                strip = True,
+                     chunksize = args.chunksize,
+                         debug = args.debug,
+                  exiftoolPath = args.exiftoolPath,
+                  gifsiclePath = args.gifsiclePath,
+                  jpegtranPath = args.jpegtranPath,
+                maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS,
+                          mode = "RGB",
+                      optimise = True,
+                   optipngPath = args.optipngPath,
+                         strip = True,
+                       timeout = args.timeout,
             )
 
             # Clean up ...
@@ -742,8 +871,17 @@ if __name__ == "__main__":
     pyguymer3.image.image2png(
         goodGlobalIm,
         f"{stub1}/global.png",
-         mode = "RGB",
-        strip = True,
+             chunksize = args.chunksize,
+                 debug = args.debug,
+          exiftoolPath = args.exiftoolPath,
+          gifsiclePath = args.gifsiclePath,
+          jpegtranPath = args.jpegtranPath,
+        maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS,
+                  mode = "RGB",
+              optimise = True,
+           optipngPath = args.optipngPath,
+                 strip = True,
+               timeout = args.timeout,
     )
 
     # Clean up ...
@@ -821,8 +959,17 @@ if __name__ == "__main__":
     pyguymer3.image.image2png(
         goodLocalIm,
         f"{stub1}/local.png",
-         mode = "RGB",
-        strip = True,
+             chunksize = args.chunksize,
+                 debug = args.debug,
+          exiftoolPath = args.exiftoolPath,
+          gifsiclePath = args.gifsiclePath,
+          jpegtranPath = args.jpegtranPath,
+        maxImagePixels = PIL.Image.MAX_IMAGE_PIXELS,
+                  mode = "RGB",
+              optimise = True,
+           optipngPath = args.optipngPath,
+                 strip = True,
+               timeout = args.timeout,
     )
 
     # Clean up ...
