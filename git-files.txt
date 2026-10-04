@@ -38261,6 +38261,7 @@ pyguymer3/geo/_area.py
 pyguymer3/geo/_buffer_points_crudely.py
 pyguymer3/geo/_debug.py
 pyguymer3/geo/_points2polys.py
+pyguymer3/geo/_set_axis_boundary.py
 pyguymer3/geo/add_annotation.py
 pyguymer3/geo/add_axis.py
 pyguymer3/geo/add_Cartopy_tiles.py
@@ -38626,6 +38627,7 @@ scripts/demonstrateOsTerrainTiles.py
 scripts/demonstrateOsTerrainTiles/maxElev=1000m/22x41.png
 scripts/demonstrateOsTerrainTiles/maxElev=1000m/44x82.png
 scripts/demonstrateOsTerrainTiles/maxElev=1000m/all.webp
+scripts/findSuitableProjections.py
 scripts/generateColourTables.py
 scripts/generateGlobeGshhgTiles.py
 scripts/generateGlobeNeTiles.py
