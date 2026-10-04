@@ -656,6 +656,103 @@ if __name__ == "__main__":
     # Create short-hand ...
     nGoodProjs = len(goodProjectionNames)                                       # [#]
 
+    # Save list of good projection names ...
+    with open(
+        f"{stub1}/goodProjectionNames.json",
+        encoding = "utf-8",
+            mode = "wt",
+    ) as fObj:
+        json.dump(
+            goodProjectionNames,
+            fObj,
+            ensure_ascii = False,
+                  indent = 4,
+               sort_keys = True,
+        )
+
+    # **************************************************************************
+
+    print(f"Making \"{stub1}/global.png\" ...")
+
+    # Create empty image to hold all the PNGs and initialize the drawing object ...
+    goodGlobalIm = PIL.Image.new(
+        "RGBA",
+        (
+                  nLoc * (width  + 2 * margin),
+            nGoodProjs * (height + 2 * margin),
+        ),
+        (
+            127,
+            127,
+            127,
+        ),
+    )
+    draw = PIL.ImageDraw.Draw(goodGlobalIm)
+
+    # Loop over good projection names ...
+    for iGoodProj, goodProjectionName in enumerate(goodProjectionNames):
+        # Loop over global maps ...
+        for iLoc, pNameGlobal in enumerate(sorted(glob.glob(f"{stub1}/(lon=*°,lat=*°) dist=*km/global/{goodProjectionName}.png"))):
+            # Open image ...
+            with PIL.Image.open(
+                pNameGlobal,
+                mode = "r",
+            ) as globalIm:
+                # Either paste the RGB image on the main image or overlay the
+                # RGBA image over a white rectangle on the main image ...
+                match globalIm.mode:
+                    case "RGB":
+                        goodGlobalIm.paste(
+                            globalIm,
+                            (
+                                     iLoc * (width  + 2 * margin) + margin,
+                                iGoodProj * (height + 2 * margin) + margin,
+                            ),
+                        )
+                    case "RGBA":
+                        draw.rectangle(
+                            [
+                                     iLoc * (width  + 2 * margin) + margin,
+                                iGoodProj * (height + 2 * margin) + margin,
+                                     iLoc * (width  + 2 * margin) + margin + width  - 1,
+                                iGoodProj * (height + 2 * margin) + margin + height - 1,
+                            ],
+                            fill = (
+                                255,
+                                255,
+                                255,
+                            ),
+                        )
+                        goodGlobalIm.alpha_composite(
+                            globalIm,
+                            dest = (
+                                     iLoc * (width  + 2 * margin) + margin,
+                                iGoodProj * (height + 2 * margin) + margin,
+                            ),
+                        )
+                    case _:
+                        raise Exception(globalIm.mode) from None
+
+            # Clean up ...
+            globalIm.close()
+            del globalIm
+
+    # Save image ...
+    pyguymer3.image.image2png(
+        goodGlobalIm,
+        f"{stub1}/global.png",
+         mode = "RGB",
+        strip = True,
+    )
+
+    # Clean up ...
+    goodGlobalIm.close()
+    del goodGlobalIm, draw
+
+    # **************************************************************************
+
+    print(f"Making \"{stub1}/local.png\" ...")
+
     # Create empty image to hold all the PNGs and initialize the drawing object ...
     goodLocalIm = PIL.Image.new(
         "RGBA",
