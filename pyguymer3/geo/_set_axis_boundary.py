@@ -8,10 +8,9 @@ def _set_axis_boundary(
     intendedDist,
     /,
     *,
-    configureAgain = False,
-               eps = 1.0e-12,
-             nIter = 100,
-               tol = 1.0e-10,
+      eps = 1.0e-12,
+    nIter = 100,
+      tol = 1.0e-10,
 ):
     # Import standard modules ...
     import math
@@ -161,26 +160,6 @@ def _set_axis_boundary(
         minMplY,
         maxMplY,
     )
-
-    # Check if the user wants to configure the axis a second time ...
-    if configureAgain:
-        # Configure axis again ...
-        # NOTE: For some reason, "cartopy.io.img_tiles.OSM()" doesn't work
-        #       unless the first of the following protected members is also
-        #       set. All other interactions with the axis appear to be fine
-        #       without it being set though. Annoyingly, once the first
-        #       protected member is set, all other interactions with the
-        #       axis fail unless the second and third protected members are
-        #       also set. If the second and third protected members are set
-        #       then the resulting gridlines do not extend all the way to
-        #       the edge of the map. Therefore, I have chosen to not set the
-        #       second and third protected members and instead I protect
-        #       setting the first protect member by checking if the
-        #       background is going to be "OSM".
-        pass
-        # ax.projection._boundary = ringMpl                             # pylint: disable=W0212
-        # ax.projection._cw_boundary = ringMpl.reverse()                # pylint: disable=W0212
-        # ax.projection._ccw_boundary = ringMpl                         # pylint: disable=W0212
 
     # Calculate the average distance between the projected centre Point and the
     # projected exterior Points ...
