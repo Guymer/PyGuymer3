@@ -145,20 +145,20 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Loop over centres, distances and zooms ...
-    for iLoc, (lon, lat, dist, zoom) in enumerate(
+    for iLoc, (lon, lat, dist, gshhgRes, zoom, gridlines_int) in enumerate(
         [
-            (  -4.0, +53.0,    50.0e3, 9),  # ~Snowdonia holiday
-            (+157.0, -31.0,  3000.0e3, 4),  # ~Australia holiday
-            (-180.0, +90.0,  1000.0e3, 6),  # Satisfies test A, C, D, F
-            ( -90.0, +45.0,  1000.0e3, 6),  # Satisfies test A
-            (   0.0,   0.0,  1000.0e3, 6),  # Satisfies test A, B
-            ( +90.0, -45.0,  1000.0e3, 6),  # Satisfies test A
-            (+180.0, -90.0,  1000.0e3, 6),  # Satisfies test A, C, D, F
-            (+170.0, +10.0,  4000.0e3, 4),  # Satisfies test B, C, E
-            (+170.0, +80.0,  4000.0e3, 4),  # Satisfies test C, D, F
-            (   0.0, +83.0,  1000.0e3, 6),  # Satisfies test C, D, F
-            ( -90.0, -83.0,  1000.0e3, 6),  # Satisfies test C, D, F
-            (   0.0,   0.0, 10000.0e3, 4),  # Satisfies test A, B
+            (  -4.0, +53.0,    50.0e3, "f", 9, 1),  # ~Snowdonia holiday
+            (+157.0, -31.0,  3000.0e3, "c", 4, 5),  # ~Australia holiday
+            (-180.0, +90.0,  1000.0e3, "i", 6, 2),  # Satisfies test A, C, D, F
+            ( -90.0, +45.0,  1000.0e3, "i", 6, 2),  # Satisfies test A
+            (   0.0,   0.0,  1000.0e3, "i", 6, 2),  # Satisfies test A, B
+            ( +90.0, -45.0,  1000.0e3, "i", 6, 2),  # Satisfies test A
+            (+180.0, -90.0,  1000.0e3, "i", 6, 2),  # Satisfies test A, C, D, F
+            (+170.0, +10.0,  4000.0e3, "c", 4, 5),  # Satisfies test B, C, E
+            (+170.0, +80.0,  4000.0e3, "c", 4, 5),  # Satisfies test C, D, F
+            (   0.0, +83.0,  1000.0e3, "i", 6, 2),  # Satisfies test C, D, F
+            ( -90.0, -83.0,  1000.0e3, "i", 6, 2),  # Satisfies test C, D, F
+            (   0.0,   0.0, 10000.0e3, "c", 4, 5),  # Satisfies test A, B
         ]
     ):
         print(f"Processing ({lon:+.1f}°,{lat:+.1f}°) with {round(0.001 * dist):,d} km ...")
@@ -285,14 +285,16 @@ if __name__ == "__main__":
                         facecolor = (0.0, 0.0, 1.0, 0.5),
                         linewidth = 1.0,
                     )
-                    ax.add_geometries(
-                        [
-                            point1,
-                        ],
-                        pyguymer3.GEODETIC,
+                    ax.scatter(
+                        [lon,],
+                        [lat,],
                         edgecolor = "black",
                         facecolor = "gold",
                         linewidth = 1.0,
+                           marker = "*",
+                                s = 64.0,
+                        transform = pyguymer3.GEODETIC,
+                           zorder = 2.0,
                     )
                     pyguymer3.geo._add_coastlines(
                         ax,
@@ -378,30 +380,32 @@ if __name__ == "__main__":
                             facecolor = (0.0, 0.0, 1.0, 0.5),
                             linewidth = 1.0,
                         )
-                        ax.add_geometries(
-                            [
-                                point1,
-                            ],
-                            pyguymer3.GEODETIC,
+                        ax.scatter(
+                            [lon,],
+                            [lat,],
                             edgecolor = "black",
                             facecolor = "gold",
                             linewidth = 1.0,
+                               marker = "*",
+                                    s = 64.0,
+                            transform = pyguymer3.GEODETIC,
+                               zorder = 2.0,
                         )
                         pyguymer3.geo._add_coastlines(
                             ax,
                                 debug = False,
                                   fov = polygon1,
-                             gshhgRes = "c",
+                             gshhgRes = gshhgRes,
                             onlyValid = True,
                                repair = False,
                         )
                         pyguymer3.geo._add_horizontal_gridlines(
                             ax,
-                            locs = range( -90,  +95, 5),
+                            locs = range( -90,  +90 + gridlines_int, gridlines_int),
                         )
                         pyguymer3.geo._add_vertical_gridlines(
                             ax,
-                            locs = range(-180, +185, 5),
+                            locs = range(-180, +180 + gridlines_int, gridlines_int),
                         )
 
                         # Configure figure ...
@@ -457,12 +461,15 @@ if __name__ == "__main__":
                         with PIL.Image.open(
                             pNameGlobal,
                             mode = "r",
-                        ) as iObj:
-                            # Convert image to RGB and paste it on to the main image ...
-                            globalIm = iObj.convert("RGB")
+                        ) as globalIm:
+                            # Convert image to RGB and paste it on to the main
+                            # image ...
                             bothIm.paste(
-                                globalIm,
-                                (margin, margin),
+                                globalIm.convert("RGB"),
+                                (
+                                    margin,
+                                    margin,
+                                ),
                             )
 
                         # Clean up ...
@@ -475,11 +482,11 @@ if __name__ == "__main__":
                         with PIL.Image.open(
                             pNameLocal,
                             mode = "r",
-                        ) as iObj:
-                            # Convert image to RGB and paste it on to the main image ...
-                            localIm = iObj.convert("RGB")
+                        ) as localIm:
+                            # Convert image to RGB and paste it on to the main
+                            # image ...
                             bothIm.paste(
-                                localIm,
+                                localIm.convert("RGB"),
                                 (
                                     width + 2 * margin,
                                                 margin,
@@ -534,11 +541,10 @@ if __name__ == "__main__":
                 with PIL.Image.open(
                     pNameBoth,
                     mode = "r",
-                ) as iObj:
+                ) as bothIm:
                     # Convert image to RGB and paste it on to the main image ...
-                    bothIm = iObj.convert("RGB")
                     allIm.paste(
-                        bothIm,
+                        bothIm.convert("RGB"),
                         (
                             0,
                             iProj * bothIm.height,
