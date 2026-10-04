@@ -9,7 +9,6 @@ if __name__ == "__main__":
     import math
     import os
     import pathlib
-    import resource
     import warnings
 
     # Import special modules ...
@@ -68,18 +67,11 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
-    # Set the maximum area of address space which may be taken by the process ...
-    try:
-        resource.setrlimit(resource.RLIMIT_AS, (16 * 1024 * 1024 * 1024, resource.RLIM_INFINITY))
-    except:
-        print("WARNING: Failed to limit the maximum area of address space which may be taken by the process - prepare for OOM errors.")
-
-    # **************************************************************************
-
     # NOTE: https://github.com/SciTools/cartopy/pull/2378
     # NOTE: https://cartopy.readthedocs.io/stable/gallery/lines_and_polygons/effects_of_the_ellipse.html
 
     # Create short-hands and make output directory ...
+    # NOTE: 7.2 inches at 100 DPI is 720 pixels.
     height = 720                                                                # [px]
     margin = 5                                                                  # [px]
     width = 720                                                                 # [px]
@@ -279,13 +271,13 @@ if __name__ == "__main__":
                     ax.set_global()
 
                     # Add background and buffer ...
-                    # ax.add_image(
-                    #     cartopy.io.img_tiles.OSM(
-                    #         cache = True,
-                    #     ),
-                    #     4,
-                    # )
-                    ax.stock_img()
+                    ax.add_image(
+                        cartopy.io.img_tiles.OSM(
+                            cache = True,
+                        ),
+                        4,
+                    )
+                    # ax.stock_img()
                     ax.add_geometries(
                         pyguymer3.geo.extract_polys(
                             polygon1,
@@ -294,7 +286,7 @@ if __name__ == "__main__":
                         ),
                         pyguymer3.GEODETIC,
                         edgecolor = (0.0, 0.0, 1.0, 1.0),
-                        facecolor = (0.0, 0.0, 1.0, 0.5),
+                        facecolor = (0.0, 0.0, 1.0, 0.2),
                         linewidth = 1.0,
                     )
                     ax.scatter(
@@ -326,6 +318,8 @@ if __name__ == "__main__":
                     )
 
                     # Configure figure ...
+                    # NOTE: Setting the background patch to be a colour with an
+                    #       alpha channel means that the resultant PNG is RGBA.
                     if projectionName == "AzimuthalEquidistant":
                         fg.patch.set_facecolor((1.0, 0.0, 0.0, 0.5))
                     fg.suptitle(projectionName)
@@ -369,16 +363,21 @@ if __name__ == "__main__":
                     )
 
                     # Set extent ...
-                    minR, maxR = pyguymer3.geo._set_axis_boundary(ax, point1, polygon1, dist)
+                    minR, maxR = pyguymer3.geo._set_axis_boundary(
+                        ax,
+                        point1,
+                        polygon1,
+                        dist,
+                    )
 
                     # Add background and buffer ...
-                    # ax.add_image(
-                    #     cartopy.io.img_tiles.OSM(
-                    #         cache = True,
-                    #     ),
-                    #     zoom,
-                    # )
-                    ax.stock_img()
+                    ax.add_image(
+                        cartopy.io.img_tiles.OSM(
+                            cache = True,
+                        ),
+                        zoom,
+                    )
+                    # ax.stock_img()
                     ax.add_geometries(
                         pyguymer3.geo.extract_polys(
                             polygon1,
@@ -387,7 +386,7 @@ if __name__ == "__main__":
                         ),
                         pyguymer3.GEODETIC,
                         edgecolor = (0.0, 0.0, 1.0, 1.0),
-                        facecolor = (0.0, 0.0, 1.0, 0.5),
+                        facecolor = (0.0, 0.0, 1.0, 0.2),
                         linewidth = 1.0,
                     )
                     ax.scatter(
@@ -419,6 +418,8 @@ if __name__ == "__main__":
                     )
 
                     # Configure figure ...
+                    # NOTE: Setting the background patch to be a colour with an
+                    #       alpha channel means that the resultant PNG is RGBA.
                     if projectionName == "AzimuthalEquidistant":
                         fg.patch.set_facecolor((1.0, 0.0, 0.0, 0.5))
                     fg.suptitle(f"{projectionName} : {100.0 * minR:5.1f}% : {100.0 * maxR:5.1f}%")
@@ -454,8 +455,8 @@ if __name__ == "__main__":
                     bothIm = PIL.Image.new(
                         "RGBA",
                         (
-                            2 * width + 3 * margin,
-                               height + 2 * margin,
+                            2 * (width  + 2 * margin),
+                                 height + 2 * margin ,
                         ),
                         (
                             127,
@@ -527,16 +528,16 @@ if __name__ == "__main__":
                                     bothIm.paste(
                                         localIm,
                                         (
-                                            width + 2 * margin,
+                                            width + 3 * margin,
                                                         margin,
                                         ),
                                     )
                                 case "RGBA":
                                     draw.rectangle(
                                         [
-                                            width + 2 * margin,
+                                            width + 3 * margin,
                                                         margin,
-                                            width + 2 * margin + width  - 1,
+                                            width + 3 * margin + width  - 1,
                                                         margin + height - 1,
                                         ],
                                         fill = (
@@ -548,7 +549,7 @@ if __name__ == "__main__":
                                     bothIm.alpha_composite(
                                         localIm,
                                         dest = (
-                                            width + 2 * margin,
+                                            width + 3 * margin,
                                                         margin,
                                         ),
                                     )
@@ -584,8 +585,8 @@ if __name__ == "__main__":
             allIm = PIL.Image.new(
                 "RGB",
                 (
-                              2 * width + 3 * margin ,
-                    nProjs * (   height + 2 * margin),
+                         2 * (width  + 2 * margin),
+                    nProjs * (height + 2 * margin),
                 ),
                 (
                     127,
