@@ -79,10 +79,13 @@ if __name__ == "__main__":
     # NOTE: https://github.com/SciTools/cartopy/pull/2378
     # NOTE: https://cartopy.readthedocs.io/stable/gallery/lines_and_polygons/effects_of_the_ellipse.html
 
-    # Create short-hands ...
+    # Create short-hands and make output directory ...
     height = 720                                                                # [px]
     margin = 5                                                                  # [px]
     width = 720                                                                 # [px]
+    stub1 = __file__.removesuffix(".py")
+    if not os.path.exists(stub1):
+        os.mkdir(stub1)
 
     # **************************************************************************
     # **************************************************************************
@@ -127,9 +130,12 @@ if __name__ == "__main__":
             # Append projection name to list ...
             projectionNames.append(projectionName)
 
+    # Create short-hand ...
+    nProjs = len(projectionNames)                                               # [#]
+
     # Save list of projection names ...
     with open(
-        f'{__file__.removesuffix(".py")}/projectionNames.json',
+        f"{stub1}/projectionNames.json",
         encoding = "utf-8",
             mode = "wt",
     ) as fObj:
@@ -144,6 +150,9 @@ if __name__ == "__main__":
     # **************************************************************************
     # **************************************************************************
     # **************************************************************************
+
+    # Initialize counter ...
+    nLoc = 0                                                                    # [#]
 
     # Loop over centres, distances and zooms ...
     for iLoc, (lon, lat, dist, gshhgRes, zoom, gridlines_int) in enumerate(
@@ -164,7 +173,9 @@ if __name__ == "__main__":
     ):
         print(f"Processing ({lon:+.1f}°,{lat:+.1f}°) with {round(0.001 * dist):,d} km ...")
 
-        # Create short-hands and buffer the centre by the distance ...
+        # Create short-hands, increment counter and buffer the centre by the
+        # distance ...
+        nLoc += 1                                                               # [#]
         point1 = shapely.geometry.point.Point(lon, lat)
         polygon1 = pyguymer3.geo.buffer(
             point1,
@@ -174,7 +185,7 @@ if __name__ == "__main__":
              nAng = 361,                                                        #       undo the ".simplify(tol)" in
              simp = -1.0,                                                       #       "buffer_CoordinateSequence()".
         )
-        stub1 = f'{__file__.removesuffix(".py")}/(lon={lon:+.1f}°,lat={lat:+.1f}°) dist={round(0.001 * dist):,d}km'
+        stub2 = f"{stub1}/(lon={lon:+.1f}°,lat={lat:+.1f}°) dist={round(0.001 * dist):,d}km"
 
         # Save Polygon as a GeoJSON ...
         # NOTE: As of 4/Aug/2025, the Python module "geojson" just converts the
@@ -185,7 +196,7 @@ if __name__ == "__main__":
         #       then dump the string again, see:
         #         * https://stackoverflow.com/a/29066406
         with open(
-            f"{stub1}.geojson",
+            f"{stub2}.geojson",
             encoding = "utf-8",
                 mode = "wt",
         ) as fObj:
@@ -246,7 +257,7 @@ if __name__ == "__main__":
                 # **************************************************************
 
                 # Create short-hands and make output directory if it is missing ...
-                dName = f"{stub1}/global"
+                dName = f"{stub2}/global"
                 pNameGlobal = f"{dName}/{projectionName}.png"
                 if not os.path.exists(dName):
                     os.makedirs(dName)
@@ -339,7 +350,7 @@ if __name__ == "__main__":
                 # **************************************************************
 
                 # Create short-hands and make output directory if it is missing ...
-                dName = f"{stub1}/local"
+                dName = f"{stub2}/local"
                 pNameLocal = f"{dName}/{projectionName}.png"
                 if not os.path.exists(dName):
                     os.makedirs(dName)
@@ -357,75 +368,71 @@ if __name__ == "__main__":
                         projection = projection,
                     )
 
-                    # Catch some common errors ...
-                    try:
-                        # Set extent ...
-                        minR, maxR = pyguymer3.geo._set_axis_boundary(ax, point1, polygon1, dist)
+                    # Set extent ...
+                    minR, maxR = pyguymer3.geo._set_axis_boundary(ax, point1, polygon1, dist)
 
-                        # Add background and buffer ...
-                        # ax.add_image(
-                        #     cartopy.io.img_tiles.OSM(
-                        #         cache = True,
-                        #     ),
-                        #     zoom,
-                        # )
-                        ax.stock_img()
-                        ax.add_geometries(
-                            pyguymer3.geo.extract_polys(
-                                polygon1,
-                                onlyValid = True,
-                                   repair = False,
-                            ),
-                            pyguymer3.GEODETIC,
-                            edgecolor = (0.0, 0.0, 1.0, 1.0),
-                            facecolor = (0.0, 0.0, 1.0, 0.5),
-                            linewidth = 1.0,
-                        )
-                        ax.scatter(
-                            [lon,],
-                            [lat,],
-                            edgecolor = "black",
-                            facecolor = "gold",
-                            linewidth = 1.0,
-                               marker = "*",
-                                    s = 64.0,
-                            transform = pyguymer3.GEODETIC,
-                               zorder = 2.0,
-                        )
-                        pyguymer3.geo._add_coastlines(
-                            ax,
-                                debug = False,
-                                  fov = polygon1,
-                             gshhgRes = gshhgRes,
+                    # Add background and buffer ...
+                    # ax.add_image(
+                    #     cartopy.io.img_tiles.OSM(
+                    #         cache = True,
+                    #     ),
+                    #     zoom,
+                    # )
+                    ax.stock_img()
+                    ax.add_geometries(
+                        pyguymer3.geo.extract_polys(
+                            polygon1,
                             onlyValid = True,
                                repair = False,
-                        )
-                        pyguymer3.geo._add_horizontal_gridlines(
-                            ax,
-                            locs = range( -90,  +90 + gridlines_int, gridlines_int),
-                        )
-                        pyguymer3.geo._add_vertical_gridlines(
-                            ax,
-                            locs = range(-180, +180 + gridlines_int, gridlines_int),
-                        )
+                        ),
+                        pyguymer3.GEODETIC,
+                        edgecolor = (0.0, 0.0, 1.0, 1.0),
+                        facecolor = (0.0, 0.0, 1.0, 0.5),
+                        linewidth = 1.0,
+                    )
+                    ax.scatter(
+                        [lon,],
+                        [lat,],
+                        edgecolor = "black",
+                        facecolor = "gold",
+                        linewidth = 1.0,
+                           marker = "*",
+                                s = 64.0,
+                        transform = pyguymer3.GEODETIC,
+                           zorder = 2.0,
+                    )
+                    pyguymer3.geo._add_coastlines(
+                        ax,
+                            debug = False,
+                              fov = polygon1,
+                         gshhgRes = gshhgRes,
+                        onlyValid = True,
+                           repair = False,
+                    )
+                    pyguymer3.geo._add_horizontal_gridlines(
+                        ax,
+                        locs = range( -90,  +90 + gridlines_int, gridlines_int),
+                    )
+                    pyguymer3.geo._add_vertical_gridlines(
+                        ax,
+                        locs = range(-180, +180 + gridlines_int, gridlines_int),
+                    )
 
-                        # Configure figure ...
-                        if projectionName == "AzimuthalEquidistant":
-                            fg.patch.set_facecolor((1.0, 0.0, 0.0, 0.5))
-                        fg.suptitle(f"{projectionName} : {100.0 * minR:5.1f}% : {100.0 * maxR:5.1f}%")
-                        fg.tight_layout()
+                    # Configure figure ...
+                    if projectionName == "AzimuthalEquidistant":
+                        fg.patch.set_facecolor((1.0, 0.0, 0.0, 0.5))
+                    fg.suptitle(f"{projectionName} : {100.0 * minR:5.1f}% : {100.0 * maxR:5.1f}%")
+                    fg.tight_layout()
 
-                        # Try to save figure and optimise PNG ...
-                        try:
-                            fg.savefig(pNameLocal)
-                            pyguymer3.image.optimise_image(
-                                pNameLocal,
-                                strip = True,
-                            )
-                        except:
-                            print("    WARNING: Saving the figure failed.")
-                    except shapely.errors.GEOSException:
-                        print("    WARNING: Setting the boundary failed.")
+                    # Try to save figure and optimise PNG ...
+                    try:
+                        fg.savefig(pNameLocal)
+                        pyguymer3.image.optimise_image(
+                            pNameLocal,
+                            strip = True,
+                        )
+                    except:
+                        print("    WARNING: Saving the figure failed.")
 
                     # Clean up ...
                     matplotlib.pyplot.close(fg)
@@ -436,7 +443,7 @@ if __name__ == "__main__":
                 # **************************************************************
 
                 # Create short-hand ...
-                pNameBoth = f"{stub1}/{projectionName}.png"
+                pNameBoth = f"{stub2}/{projectionName}.png"
 
                 # Check if the map comparison needs making ...
                 if not os.path.exists(pNameBoth):
@@ -567,7 +574,7 @@ if __name__ == "__main__":
         # **********************************************************************
 
         # Create short-hand ...
-        pNameAll = f"{stub1}.png"
+        pNameAll = f"{stub2}.png"
 
         # Check if the map comparison needs making ...
         if not os.path.exists(pNameAll):
@@ -577,8 +584,8 @@ if __name__ == "__main__":
             allIm = PIL.Image.new(
                 "RGB",
                 (
-                                            2 * width + 3 * margin ,
-                    len(projectionNames) * (   height + 2 * margin),
+                              2 * width + 3 * margin ,
+                    nProjs * (   height + 2 * margin),
                 ),
                 (
                     127,
@@ -590,7 +597,7 @@ if __name__ == "__main__":
             # Loop over projection names ...
             for iProj, projectionName in enumerate(projectionNames):
                 # Create short-hand and skip if the image is missing ...
-                pNameBoth = f"{stub1}/{projectionName}.png"
+                pNameBoth = f"{stub2}/{projectionName}.png"
                 if not os.path.exists(pNameBoth):
                     continue
 
@@ -628,9 +635,105 @@ if __name__ == "__main__":
     # **************************************************************************
     # **************************************************************************
 
+    # Initialize list ...
+    goodProjectionNames = []
+
+    # Loop over projection names ...
+    for projectionName in projectionNames:
+        # Skip this projection name if there aren't the correct number of global
+        # maps ...
+        if nLoc != len(glob.glob(f"{stub1}/(lon=*°,lat=*°) dist=*km/global/{projectionName}.png")):
+            continue
+
+        # Skip this projection name if there aren't the correct number of local
+        # maps ...
+        if nLoc != len(glob.glob(f"{stub1}/(lon=*°,lat=*°) dist=*km/local/{projectionName}.png")):
+            continue
+
+        # Append projection name to list ...
+        goodProjectionNames.append(projectionName)
+
+    # Create short-hand ...
+    nGoodProjs = len(goodProjectionNames)                                       # [#]
+
+    # Create empty image to hold all the PNGs and initialize the drawing object ...
+    goodLocalIm = PIL.Image.new(
+        "RGBA",
+        (
+                  nLoc * (width  + 2 * margin),
+            nGoodProjs * (height + 2 * margin),
+        ),
+        (
+            127,
+            127,
+            127,
+        ),
+    )
+    draw = PIL.ImageDraw.Draw(goodLocalIm)
+
+    # Loop over good projection names ...
+    for iGoodProj, goodProjectionName in enumerate(goodProjectionNames):
+        # Loop over local maps ...
+        for iLoc, pNameLocal in enumerate(sorted(glob.glob(f"{stub1}/(lon=*°,lat=*°) dist=*km/local/{goodProjectionName}.png"))):
+            # Open image ...
+            with PIL.Image.open(
+                pNameLocal,
+                mode = "r",
+            ) as localIm:
+                # Either paste the RGB image on the main image or overlay the
+                # RGBA image over a white rectangle on the main image ...
+                match localIm.mode:
+                    case "RGB":
+                        goodLocalIm.paste(
+                            localIm,
+                            (
+                                     iLoc * (width  + 2 * margin) + margin,
+                                iGoodProj * (height + 2 * margin) + margin,
+                            ),
+                        )
+                    case "RGBA":
+                        draw.rectangle(
+                            [
+                                     iLoc * (width  + 2 * margin) + margin,
+                                iGoodProj * (height + 2 * margin) + margin,
+                                     iLoc * (width  + 2 * margin) + margin + width  - 1,
+                                iGoodProj * (height + 2 * margin) + margin + height - 1,
+                            ],
+                            fill = (
+                                255,
+                                255,
+                                255,
+                            ),
+                        )
+                        goodLocalIm.alpha_composite(
+                            localIm,
+                            dest = (
+                                     iLoc * (width  + 2 * margin) + margin,
+                                iGoodProj * (height + 2 * margin) + margin,
+                            ),
+                        )
+                    case _:
+                        raise Exception(localIm.mode) from None
+
+            # Clean up ...
+            localIm.close()
+            del localIm
+
+    # Save image ...
+    pyguymer3.image.image2png(
+        goodLocalIm,
+        f"{stub1}/local.png",
+         mode = "RGB",
+        strip = True,
+    )
+
+    # Clean up ...
+    goodLocalIm.close()
+    del goodLocalIm, draw
+
+    # **************************************************************************
+    # **************************************************************************
+    # **************************************************************************
+
     # It has to be a pleasing global projection and a local projection where the
     # boundary/exterior is approximately circular.
-
-    # AzimuthalEquidistant           <--------------------
-    # Stereographic
-    # LambertAzimuthalEqualArea (does not work for Australia)
