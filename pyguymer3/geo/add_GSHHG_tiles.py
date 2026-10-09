@@ -276,5 +276,7 @@ def add_GSHHG_tiles(
                origin = "upper",
          regrid_shape = regrid_shape,
              resample = resample,
-            transform = GEODETIC,
+            transform = cartopy.crs.Projection(GEODETIC),                       # NOTE: Cast as a "Projection()" class
+                                                                                #       to keep Cartopy's ".imshow()"
+                                                                                #       happy.
     )
