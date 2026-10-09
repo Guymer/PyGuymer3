@@ -18,7 +18,6 @@ def _add_topDown_axis(
      coastlines_linewidth = 0.5,
     coastlines_resolution = "i",
         coastlines_zorder = 1.5,
-           configureAgain = False,
                     debug = __debug__,
                      dist = 1.0e99,
                       eps = 1.0e-12,
@@ -76,9 +75,6 @@ def _add_topDown_axis(
         been chosen to match the value that it ends up being if the coastline
         boundaries are not drawn with the zorder keyword specified -- obtained
         by manual inspection on 5/Dec/2023)
-    configureAgain : bool, optional
-        configure the axis a second time (this is a hack to make narrow
-        field-of-view top-down axes work correctly with OpenStreetMap tiles)
     debug : bool, optional
         print debug messages and draw the circle on the axis
     dist : float, optional
@@ -166,7 +162,6 @@ def _add_topDown_axis(
     """
 
     # Import standard modules ...
-    import math
     import pathlib
 
     # Import special modules ...
@@ -209,10 +204,7 @@ def _add_topDown_axis(
     from ._add_vertical_gridlines import _add_vertical_gridlines
     from ._set_axis_boundary import _set_axis_boundary
     from .buffer import buffer
-    from .calc_dist_between_two_locs import calc_dist_between_two_locs
-    from .clean import clean
-    from .extract_polys import extract_polys
-    from .._consts import GEODETIC, MAXIMUM_VINCENTY, RADIUS_OF_EARTH, WGS84
+    from .._consts import GEODETIC, MAXIMUM_VINCENTY, WGS84
 
     # **************************************************************************
 
