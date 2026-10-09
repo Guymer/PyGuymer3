@@ -93,7 +93,7 @@ def _add_lakes(
 
     # Import sub-functions ...
     from .extract_polys import extract_polys
-    from .._consts import PLATECARREE
+    from .._consts import GEODETIC
 
     # **************************************************************************
 
@@ -163,7 +163,7 @@ def _add_lakes(
     # Plot geometry ...
     ax.add_geometries(
         polys,
-        PLATECARREE,
+        GEODETIC,
         edgecolor = "none",
         facecolor = facecolor,
     )

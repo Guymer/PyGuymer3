@@ -129,7 +129,7 @@ def add_GLOBE_tiles(
         raise Exception("\"shapely\" is not installed; run \"pip install --user Shapely\"") from None
 
     # Import sub-functions ...
-    from .._consts import PLATECARREE
+    from .._consts import GEODETIC
     from ..image import optimise_image
 
     # **************************************************************************
@@ -262,5 +262,5 @@ def add_GLOBE_tiles(
                origin = "upper",
          regrid_shape = regrid_shape,
              resample = resample,
-            transform = PLATECARREE,
+            transform = GEODETIC,
     )

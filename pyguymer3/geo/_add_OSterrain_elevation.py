@@ -106,7 +106,7 @@ def _add_OSterrain_elevation(
     # Import sub-functions ...
     from .en2ll import en2ll
     from .extract_polys import extract_polys
-    from .._consts import PLATECARREE
+    from .._consts import GEODETIC
 
     # **************************************************************************
 
@@ -179,7 +179,7 @@ def _add_OSterrain_elevation(
         # Plot geometry ...
         ax.add_geometries(
             polys,
-            PLATECARREE,
+            GEODETIC,
             edgecolor = "none",
             facecolor = facecolor,
                zorder = 1.65,
