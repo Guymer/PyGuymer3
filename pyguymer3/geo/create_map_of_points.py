@@ -12,7 +12,6 @@ def create_map_of_points(
           background = "NE",
                 ceil = True,
            chunksize = 1048576,
-      configureAgain = False,
                 conv = 1.0e3,
             dataPath = None,
                debug = __debug__,
@@ -47,7 +46,6 @@ def create_map_of_points(
             resample = False,
                route = None,
       routeFillColor = (  0.0 / 255.0, 128.0 / 255.0,   0.0 / 255.0),
-    satellite_height = False,
        skipFillColor = (255.0 / 255.0, 165.0 / 255.0,   0.0 / 255.0),
                skips = None,
              subName = "medium0512px",
@@ -89,9 +87,6 @@ def create_map_of_points(
         convert the floating-point answer to an integer using ``math.ceil()``.
     chunksize : int, optional
         the size of the chunks of any files which are read in (in bytes)
-    configureAgain : bool, optional
-        configure the axis a second time (this is a hack to make narrow
-        field-of-view top-down axes work correctly with OpenStreetMap tiles)
     conv : float, optional
         the Geodesic distance that defines the middle as being converged (in
         metres)
@@ -177,9 +172,6 @@ def create_map_of_points(
         an extra line to draw on the map
     routeFillColor : tuple of int, optional
         the fill colour of the extra route
-    satellite_height : float, optional
-        if a distance is provided then use a "NearsidePerspective" projection at
-        an altitude which has the same field-of-view as the distance
     skipFillColor : tuple of int, optional
         the fill colour of the skipped points
     skips : numpy.ndarray, optional
@@ -261,6 +253,7 @@ def create_map_of_points(
     import copy
     import os
     import pathlib
+    import warnings
 
     # Import special modules ...
     try:
@@ -315,7 +308,7 @@ def create_map_of_points(
     from .extract_lines import extract_lines
     from .find_middle_of_locs import find_middle_of_locs
     from .great_circle import great_circle
-    from .._consts import CIRCUMFERENCE_OF_EARTH, EARTH, PLATECARREE, RESOLUTION_OF_EARTH
+    from .._consts import CIRCUMFERENCE_OF_EARTH, EARTH, GEODETIC, RESOLUTION_OF_EARTH
     from ..image import optimise_image
 
     # **************************************************************************
@@ -385,7 +378,6 @@ def create_map_of_points(
             add_coastlines = False,
              add_gridlines = True,
             attemptFortran = attemptFortran,
-            configureAgain = configureAgain,
                      debug = debug,
                        eps = eps,
                        fov = fov,
@@ -464,9 +456,9 @@ def create_map_of_points(
             attemptFortran = attemptFortran,
                      debug = debug,
                        eps = eps,
-                      fill = -1.0,
-                 fillSpace = "EuclideanSpace",
-             keepInteriors = False,
+                      fill = +1.0,                                              # NOTE: Need to fill in the result to
+                 fillSpace = "EuclideanSpace",                                  #       undo the ".simplify(tol)" in
+             keepInteriors = False,                                             #       "buffer_CoordinateSequence()".
                       nAng = 361,
                      nIter = nIter,
                     prefix = prefix,
@@ -482,7 +474,6 @@ def create_map_of_points(
               add_coastlines = False,
                add_gridlines = True,
               attemptFortran = attemptFortran,
-              configureAgain = configureAgain,
                        debug = debug,
                         dist = maxDist,
                          eps = eps,
@@ -498,7 +489,6 @@ def create_map_of_points(
                       prefix = prefix,
                     ramLimit = ramLimit,
                       repair = repair,
-            satellite_height = satellite_height,
                          tol = tol,
         )
 
@@ -756,7 +746,7 @@ def create_map_of_points(
         facecolor = fillColor,
         linewidth = 0.1,
                 s = 64.0,
-        transform = PLATECARREE,
+        transform = GEODETIC,
            zorder = 5.0,
     )
 
@@ -771,7 +761,7 @@ def create_map_of_points(
         facecolor = skipFillColor,
         linewidth = 0.1,
                 s = 64.0,
-        transform = PLATECARREE,
+        transform = GEODETIC,
            zorder = 5.0,
     )
 
@@ -795,7 +785,7 @@ def create_map_of_points(
         # Draw the great circle ...
         ax.add_geometries(
             extract_lines(circle, onlyValid = onlyValid),
-            PLATECARREE,
+            GEODETIC,
             edgecolor = skipFillColor if skips[iPnt] or skips[iPnt + 1] else fillColor,
             facecolor = "none",
             linewidth = 1.0,
@@ -807,7 +797,7 @@ def create_map_of_points(
         # Draw the extra route ...
         ax.add_geometries(
             extract_lines(route, onlyValid = onlyValid),
-            PLATECARREE,
+            GEODETIC,
             edgecolor = routeFillColor,
             facecolor = "none",
             linewidth = 1.0,
@@ -821,9 +811,14 @@ def create_map_of_points(
     # Configure figure ...
     fg.tight_layout()
 
-    # Save figure ...
-    fg.savefig(pngOut)
-    matplotlib.pyplot.close(fg)
+    # Start a context manager for warnings ...
+    with warnings.catch_warnings():
+        # Hide "ignore" level warnings ...
+        warnings.simplefilter("ignore")
+
+        # Save figure ...
+        fg.savefig(pngOut)
+        matplotlib.pyplot.close(fg)
 
     # Optimise PNG ...
     optimise_image(

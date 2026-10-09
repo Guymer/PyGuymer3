@@ -80,20 +80,28 @@ def add_map_background(
     # Check if the environment variable has been defined ...
     if "CARTOPY_USER_BACKGROUNDS" in os.environ:
         # Determine JSON path and check it exists ...
-        jpath = f'{os.environ["CARTOPY_USER_BACKGROUNDS"]}/images.json'
-        if os.path.exists(jpath):
+        jPath = f'{os.environ["CARTOPY_USER_BACKGROUNDS"]}/images.json'
+        if os.path.exists(jPath):
             # Load JSON and check keys exist ...
-            with open(jpath, mode = "rt", encoding = "utf-8") as fObj:
+            with open(
+                jPath,
+                encoding = "utf-8",
+                    mode = "rt",
+            ) as fObj:
                 info = json.load(fObj)
             if name in info:
                 if subName in info[name]:
                     # Determine image path and check it exists ...
-                    ipath = f'{os.environ["CARTOPY_USER_BACKGROUNDS"]}/{info[name][subName]}'
-                    if os.path.exists(ipath):
+                    iPath = f'{os.environ["CARTOPY_USER_BACKGROUNDS"]}/{info[name][subName]}'
+                    if os.path.exists(iPath):
                         default = False
 
     # Draw default background image ...
     if default:
+        # TODO: As of 9/Oct/2026, ".stock_img()" is hard coded to draw the image
+        #       assuming that it is a PlateCarree projection eventhough the
+        #       underlying ".imshow()" that it uses can accept arbitrary
+        #       transforms. I should probably do it myself.
         if debug:
             print("INFO: Drawing default background.")
         ax.stock_img(
@@ -104,6 +112,10 @@ def add_map_background(
         return
 
     # Draw user-requested background image ...
+    # TODO: As of 9/Oct/2026, ".background_img()" is hard coded to draw the
+    #       image assuming that it is a PlateCarree projection eventhough the
+    #       underlying ".imshow()" that it uses can accept arbitrary transforms.
+    #       I should probably do it myself.
     if debug:
         print("INFO: Drawing user-requested background.")
     ax.background_img(

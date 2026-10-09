@@ -132,6 +132,7 @@ from ._area import _area
 from ._buffer_points_crudely import _buffer_points_crudely
 from ._debug import _debug
 from ._points2polys import _points2polys
+from ._set_axis_boundary import _set_axis_boundary
 from .add_annotation import add_annotation
 from .add_axis import add_axis
 from .add_Cartopy_tiles import add_Cartopy_tiles

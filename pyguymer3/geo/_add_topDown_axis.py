@@ -18,7 +18,6 @@ def _add_topDown_axis(
      coastlines_linewidth = 0.5,
     coastlines_resolution = "i",
         coastlines_zorder = 1.5,
-           configureAgain = False,
                     debug = __debug__,
                      dist = 1.0e99,
                       eps = 1.0e-12,
@@ -37,10 +36,9 @@ def _add_topDown_axis(
                    prefix = ".",
                  ramLimit = 1073741824,
                    repair = False,
-         satellite_height = False,
                       tol = 1.0e-10,
 ):
-    """Add an Orthographic axis centred above a point with optionally a
+    """Add an AzimuthalEquidistant axis centred above a point with optionally a
     field-of-view based on a circle around the point on the surface of the Earth
 
     Parameters
@@ -77,9 +75,6 @@ def _add_topDown_axis(
         been chosen to match the value that it ends up being if the coastline
         boundaries are not drawn with the zorder keyword specified -- obtained
         by manual inspection on 5/Dec/2023)
-    configureAgain : bool, optional
-        configure the axis a second time (this is a hack to make narrow
-        field-of-view top-down axes work correctly with OpenStreetMap tiles)
     debug : bool, optional
         print debug messages and draw the circle on the axis
     dist : float, optional
@@ -125,9 +120,6 @@ def _add_topDown_axis(
         the maximum RAM usage of each "large" array (in bytes)
     repair : bool, optional
         attempt to repair invalid Polygons
-    satellite_height : bool, optional
-        if a distance is provided then use a "NearsidePerspective" projection at
-        an altitude which has the same field-of-view as the distance
     tol : float, optional
         the Euclidean distance that defines two points as being the same (in
         degrees)
@@ -170,7 +162,6 @@ def _add_topDown_axis(
     """
 
     # Import standard modules ...
-    import math
     import pathlib
 
     # Import special modules ...
@@ -211,11 +202,9 @@ def _add_topDown_axis(
     from ._add_coastlines import _add_coastlines
     from ._add_horizontal_gridlines import _add_horizontal_gridlines
     from ._add_vertical_gridlines import _add_vertical_gridlines
+    from ._set_axis_boundary import _set_axis_boundary
     from .buffer import buffer
-    from .calc_dist_between_two_locs import calc_dist_between_two_locs
-    from .clean import clean
-    from .extract_polys import extract_polys
-    from .._consts import GEODETIC, MAXIMUM_VINCENTY, PLATECARREE, RADIUS_OF_EARTH
+    from .._consts import GEODETIC, MAXIMUM_VINCENTY, WGS84
 
     # **************************************************************************
 
@@ -228,8 +217,6 @@ def _add_topDown_axis(
             gridlines_int = 45                                                  # [°]
         else:
             gridlines_int = 1                                                   # [°]
-    if not huge and satellite_height:
-        alt = RADIUS_OF_EARTH / math.cos(dist / RADIUS_OF_EARTH) - RADIUS_OF_EARTH  # [m]
 
     # Create a Point ...
     point1 = shapely.geometry.point.Point(lon, lat)
@@ -237,76 +224,42 @@ def _add_topDown_axis(
     # Check where the axis should be created ...
     # NOTE: See https://scitools.org.uk/cartopy/docs/latest/reference/projections.html
     if gs is not None:
-        # Check if a NearsidePerspective axis can be used ...
-        if not huge and satellite_height:
-            # Create NearsidePerspective axis ...
-            ax = fg.add_subplot(
-                gs,
-                projection = cartopy.crs.NearsidePerspective(
-                    central_longitude = point1.x,
-                     central_latitude = point1.y,
-                     satellite_height = alt,
-                ),
-            )
-        else:
-            # Create Orthographic axis ...
-            ax = fg.add_subplot(
-                gs,
-                projection = cartopy.crs.Orthographic(
-                    central_longitude = point1.x,
-                     central_latitude = point1.y,
-                ),
-            )
+        # Create AzimuthalEquidistant axis ...
+        ax = fg.add_subplot(
+            gs,
+            projection = cartopy.crs.AzimuthalEquidistant(
+                central_longitude = point1.x,
+                 central_latitude = point1.y,
+                            globe = WGS84,
+            ),
+        )
     elif nrows is not None and ncols is not None and index is not None:
-        # Check if a NearsidePerspective axis can be used ...
-        if not huge and satellite_height:
-            # Create NearsidePerspective axis ...
-            ax = fg.add_subplot(
-                nrows,
-                ncols,
-                index,
-                projection = cartopy.crs.NearsidePerspective(
-                    central_longitude = point1.x,
-                     central_latitude = point1.y,
-                     satellite_height = alt,
-                ),
-            )
-        else:
-            # Create Orthographic axis ...
-            ax = fg.add_subplot(
-                nrows,
-                ncols,
-                index,
-                projection = cartopy.crs.Orthographic(
-                    central_longitude = point1.x,
-                     central_latitude = point1.y,
-                ),
-            )
+        # Create AzimuthalEquidistant axis ...
+        ax = fg.add_subplot(
+            nrows,
+            ncols,
+            index,
+            projection = cartopy.crs.AzimuthalEquidistant(
+                central_longitude = point1.x,
+                 central_latitude = point1.y,
+                            globe = WGS84,
+            ),
+        )
     else:
-        # Check if a NearsidePerspective axis can be used ...
-        if not huge and satellite_height:
-            # Create NearsidePerspective axis ...
-            ax = fg.add_subplot(
-                projection = cartopy.crs.NearsidePerspective(
-                    central_longitude = point1.x,
-                     central_latitude = point1.y,
-                     satellite_height = alt,
-                ),
-            )
-        else:
-            # Create Orthographic axis ...
-            ax = fg.add_subplot(
-                projection = cartopy.crs.Orthographic(
-                    central_longitude = point1.x,
-                     central_latitude = point1.y,
-                ),
-            )
+        # Create AzimuthalEquidistant axis ...
+        ax = fg.add_subplot(
+            projection = cartopy.crs.AzimuthalEquidistant(
+                central_longitude = point1.x,
+                 central_latitude = point1.y,
+                            globe = WGS84,
+            ),
+        )
 
     # Check if the field-of-view is too large ...
     if huge:
         # Configure axis ...
         ax.set_global()
-    elif not satellite_height:
+    else:
         # Buffer the Point ...
         polygon1 = buffer(
             point1,
@@ -314,9 +267,9 @@ def _add_topDown_axis(
             attemptFortran = attemptFortran,
                      debug = debug,
                        eps = eps,
-                      fill = -1.0,
-                 fillSpace = "EuclideanSpace",
-             keepInteriors = False,
+                      fill = +1.0,                                              # NOTE: Need to fill in the result to
+                 fillSpace = "EuclideanSpace",                                  #       undo the ".simplify(tol)" in
+             keepInteriors = False,                                             #       "buffer_CoordinateSequence()".
                       nAng = 361,
                      nIter = nIter,
                     prefix = prefix,
@@ -325,138 +278,23 @@ def _add_topDown_axis(
                        tol = tol,
         )
 
-        # Initialise lists and minimum/maximum values ...
-        bearings = []                                                           # [°]
-        coord2s = []
-        maxMatplotlibX = -9.9e+99                                               # [?]
-        maxMatplotlibY = -9.9e+99                                               # [?]
-        minMatplotlibX = +9.9e+99                                               # [?]
-        minMatplotlibY = +9.9e+99                                               # [?]
-
-        # Loop over Polygons in the buffer of the Point ...
-        for tmpPolygon1 in extract_polys(
+        # Set extent ...
+        _, _ = _set_axis_boundary(
+            ax,
+            point1,
             polygon1,
-            onlyValid = onlyValid,
-               repair = repair,
-        ):
-            # Loop over coordinates in the exterior ...
-            for coord1 in tmpPolygon1.exterior.coords:
-                # Convert the coordinate from PLATECARREE to GEODETIC, project
-                # it and append it to the list ...
-                coord2 = ax.projection.project_geometry(
-                    shapely.geometry.point.Point(
-                        GEODETIC.transform_point(
-                            coord1[0],
-                            coord1[1],
-                            PLATECARREE,
-                        )
-                    )
-                )
-                coord2s.append(coord2)
-
-                # Find the bearing from the Point to the coordinate and append
-                # it to the list ...
-                bearing = calc_dist_between_two_locs(
-                    coord1[0],
-                    coord1[1],
-                    point1.x,
-                    point1.y,
-                      eps = eps,
-                    nIter = nIter,
-                )[1]                                                            # [°]
-                bearings.append(bearing)
-
-                # Update the minimum/maximum values ...
-                maxMatplotlibX = max(
-                    maxMatplotlibX,
-                    coord2.x,
-                )                                                               # [?]
-                maxMatplotlibY = max(
-                    maxMatplotlibY,
-                    coord2.y,
-                )                                                               # [?]
-                minMatplotlibX = min(
-                    minMatplotlibX,
-                    coord2.x,
-                )                                                               # [?]
-                minMatplotlibY = min(
-                    minMatplotlibY,
-                    coord2.y,
-                )                                                               # [?]
-
-        # Sort the converted and projected coordinate list by the bearings and
-        # clean up ...
-        idxs = sorted(
-            range(len(bearings)),
-            key = lambda idx: bearings[idx],
+            dist,
+              eps = eps,
+            nIter = nIter,
+              tol = tol,
         )
-        del bearings
-        coord2s = [coord2s[idx] for idx in idxs]
-        del idxs
-
-        # Make a Path of the converted and projected coordinates ...
-        path = matplotlib.path.Path(shapely.geometry.polygon.LinearRing(coord2s).coords)
-
-        # Configure axis ...
-        # NOTE: The orthographic projection does not have the ability to set
-        #       either the altitude or the field-of-view. I manually do this,
-        #       which involves setting the boundary and the limits for the
-        #       MatPlotLib axis.
-        ax.set_boundary(path)
-        ax.set_xlim(
-            minMatplotlibX,
-            maxMatplotlibX,
-        )
-        ax.set_ylim(
-            minMatplotlibY,
-            maxMatplotlibY,
-        )
-
-        # Check if the user wants to configure the axis a second time ...
-        if configureAgain:
-            # Project the Point ...
-            point2 = ax.projection.project_geometry(point1)
-
-            # Create a correctly oriented Polygon from scratch that is the Point
-            # buffered in MatPlotLib space with the same fuzziness as Cartopy
-            # does internally ...
-            radius2 = min(
-                point2.x - minMatplotlibX,
-                maxMatplotlibX - point2.x,
-                point2.y - minMatplotlibY,
-                maxMatplotlibY - point2.y,
-            )                                                                   # [?]
-            polygon2 = point2.buffer(radius2 * 0.99999)
-            polygon2 = clean(
-                polygon2,
-                 debug = debug,
-                prefix = prefix,
-                   tol = tol,
-            )
-
-            # Configure axis again ...
-            # NOTE: For some reason, "cartopy.io.img_tiles.OSM()" doesn't work
-            #       unless the first of the following protected members is also
-            #       set. All other interactions with the axis appear to be fine
-            #       without it being set though. Annoyingly, once the first
-            #       protected member is set, all other interactions with the
-            #       axis fail unless the second and third protected members are
-            #       also set. If the second and third protected members are set
-            #       then the resulting gridlines do not extend all the way to
-            #       the edge of the map. Therefore, I have chosen to not set the
-            #       second and third protected members and instead I protect
-            #       setting the first protect member by checking if the
-            #       background is going to be "OSM".
-            ax.projection._boundary = polygon2.exterior                         # pylint: disable=W0212
-            # ax.projection._cw_boundary = polygon2.exterior.reverse()
-            # ax.projection._ccw_boundary = polygon2.exterior
 
         # Check if the user wants to draw the circle ...
         if debug:
             # Draw the circle ...
             ax.add_geometries(
                 [polygon1],
-                PLATECARREE,
+                GEODETIC,
                 edgecolor = (0.0, 0.0, 1.0, 1.0),
                 facecolor = (0.0, 0.0, 1.0, 0.5),
                 linewidth = 1.0,

@@ -9,7 +9,6 @@ if __name__ == "__main__":
     import os
     import pathlib
     import shutil
-    import sys
 
     # Import special modules ...
     try:

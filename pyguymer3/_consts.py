@@ -34,16 +34,17 @@ EARTH = shapely.geometry.polygon.Polygon(
     )
 )
 EARTH_MOON_DISTANCE = 385000000.0                                               # [m]
-EQUALEARTH = cartopy.crs.EqualEarth()
-GEODETIC = cartopy.crs.Geodetic()
-OSGB = cartopy.crs.OSGB()
-PLATECARREE = cartopy.crs.PlateCarree()
 RADIUS_OF_EARTH = 6371008.8                                                     # [m]
-ROBINSON = cartopy.crs.Robinson()
+WGS84 = cartopy.crs.Globe(ellipse = "WGS84")
 
 # Set derived constants ...
+# NOTE: See https://cartopy.readthedocs.io/stable/gallery/lines_and_polygons/effects_of_the_ellipse.html
 CIRCUMFERENCE_OF_EARTH = 2.0 * math.pi * RADIUS_OF_EARTH                        # [m]
 DIAMETER_OF_EARTH = 2.0 * RADIUS_OF_EARTH                                       # [m]
+EQUALEARTH = cartopy.crs.EqualEarth(globe = WGS84)
+GEODETIC = cartopy.crs.Geodetic(globe = WGS84)
+OSGB = cartopy.crs.OSGB()
+PLATECARREE = cartopy.crs.PlateCarree(globe = WGS84)
 RESOLUTION_OF_EARTH = CIRCUMFERENCE_OF_EARTH / 360.0                            # [m/°]
 SURFACE_AREA_OF_EARTH = math.pi * pow(RADIUS_OF_EARTH, 2)                       # [m]
 

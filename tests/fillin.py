@@ -13,6 +13,7 @@ if __name__ == "__main__":
     import multiprocessing
     import os
     import pathlib
+    import warnings
 
     # Import special modules ...
     try:
@@ -277,14 +278,14 @@ if __name__ == "__main__":
                 # Plot LinearRing thrice ...
                 ax1.add_geometries(
                     [denseRing1],
-                    pyguymer3.PLATECARREE,
+                    pyguymer3.GEODETIC,
                     edgecolor = (1.0, 0.0, 0.0, 1.0),
                     facecolor = "none",
                     linewidth = 1.0,
                 )
                 ax2.add_geometries(
                     [denseRing1],
-                    pyguymer3.PLATECARREE,
+                    pyguymer3.GEODETIC,
                     edgecolor = (1.0, 0.0, 0.0, 1.0),
                     facecolor = "none",
                     linewidth = 1.0,
@@ -337,14 +338,14 @@ if __name__ == "__main__":
                 # Plot LinearRing thrice ...
                 ax1.add_geometries(
                     [denseRing2],
-                    pyguymer3.PLATECARREE,
+                    pyguymer3.GEODETIC,
                     edgecolor = (0.0, 0.0, 1.0, 1.0),
                     facecolor = "none",
                     linewidth = 1.0,
                 )
                 ax2.add_geometries(
                     [denseRing2],
-                    pyguymer3.PLATECARREE,
+                    pyguymer3.GEODETIC,
                     edgecolor = (0.0, 0.0, 1.0, 1.0),
                     facecolor = "none",
                     linewidth = 1.0,
@@ -387,9 +388,14 @@ if __name__ == "__main__":
                 fg.suptitle(f"A rhombus around ({ring[0][0]:.1f},{ring[1][1]:.1f}) filled in by {euclideanFill:,.0f}° & {0.001 * geodesicFill:,.1f}km\nred = Euclidean; blue = Geodesic")
                 fg.tight_layout()
 
-                # Save figure ...
-                fg.savefig(fname)
-                matplotlib.pyplot.close(fg)
+                # Start a context manager for warnings ...
+                with warnings.catch_warnings():
+                    # Hide "ignore" level warnings ...
+                    warnings.simplefilter("ignore")
+
+                    # Save figure ...
+                    fg.savefig(fname)
+                    matplotlib.pyplot.close(fg)
 
                 # Optimise PNG ...
                 pyguymer3.image.optimise_image(

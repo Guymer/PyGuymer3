@@ -128,7 +128,7 @@ def _add_coastlines(
 
     # Import sub-functions ...
     from .extract_polys import extract_polys
-    from .._consts import PLATECARREE
+    from .._consts import GEODETIC
 
     # **************************************************************************
 
@@ -189,7 +189,7 @@ def _add_coastlines(
     # Plot geometry ...
     ax.add_geometries(
         polys,
-        PLATECARREE,
+        GEODETIC,
         edgecolor = edgecolor,
         facecolor = facecolor,
         linestyle = linestyle,

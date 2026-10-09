@@ -19,6 +19,7 @@ if __name__ == "__main__":
     import multiprocessing
     import os
     import pathlib
+    import warnings
 
     # Import special modules ...
     try:
@@ -275,14 +276,14 @@ if __name__ == "__main__":
                 # Plot Point thrice ...
                 ax1.add_geometries(
                     pyguymer3.geo.extract_polys(buff0),
-                    pyguymer3.PLATECARREE,
+                    pyguymer3.GEODETIC,
                     edgecolor = (1.0, 0.0, 0.0, 1.0),
                     facecolor = (1.0, 0.0, 0.0, 0.5),
                     linewidth = 1.0,
                 )
                 ax2.add_geometries(
                     pyguymer3.geo.extract_polys(buff0),
-                    pyguymer3.PLATECARREE,
+                    pyguymer3.GEODETIC,
                     edgecolor = (1.0, 0.0, 0.0, 1.0),
                     facecolor = (1.0, 0.0, 0.0, 0.5),
                     linewidth = 1.0,
@@ -326,9 +327,14 @@ if __name__ == "__main__":
                 fg.suptitle(f"({lon:.1f},{lat:.1f}) buffered by {0.001 * dist:,.1f}km")
                 fg.tight_layout()
 
-                # Save figure ...
-                fg.savefig(fname)
-                matplotlib.pyplot.close(fg)
+                # Start a context manager for warnings ...
+                with warnings.catch_warnings():
+                    # Hide "ignore" level warnings ...
+                    warnings.simplefilter("ignore")
+
+                    # Save figure ...
+                    fg.savefig(fname)
+                    matplotlib.pyplot.close(fg)
 
                 # Optimise PNG ...
                 pyguymer3.image.optimise_image(

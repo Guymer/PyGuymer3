@@ -10,6 +10,7 @@ if __name__ == "__main__":
     import pathlib
     import shutil
     import sys
+    import warnings
 
     # Import special modules ...
     try:
@@ -450,7 +451,7 @@ if __name__ == "__main__":
             lons,
             lats,
                 color = (0.0, 0.0, 1.0, 1.0),
-            transform = pyguymer3.PLATECARREE,
+            transform = pyguymer3.GEODETIC,
                zorder = 5.0,
         )
 
@@ -473,7 +474,7 @@ if __name__ == "__main__":
             onlyValid = True,
                repair = False,
         ),
-        pyguymer3.PLATECARREE,
+        pyguymer3.GEODETIC,
         edgecolor = (1.0, 0.0, 0.0, 1.0),
         facecolor = (1.0, 0.0, 0.0, 0.5),
         linestyle = "solid",
@@ -501,7 +502,7 @@ if __name__ == "__main__":
             onlyValid = True,
                repair = False,
         ),
-        pyguymer3.PLATECARREE,
+        pyguymer3.GEODETIC,
         edgecolor = (1.0, 0.0, 0.0, 1.0),
         facecolor = (1.0, 0.0, 0.0, 0.5),
         linestyle = "solid",
@@ -529,7 +530,7 @@ if __name__ == "__main__":
             onlyValid = True,
                repair = False,
         ),
-        pyguymer3.PLATECARREE,
+        pyguymer3.GEODETIC,
         edgecolor = (1.0, 0.0, 0.0, 1.0),
         facecolor = (1.0, 0.0, 0.0, 0.5),
         linestyle = "solid",
@@ -557,7 +558,7 @@ if __name__ == "__main__":
             onlyValid = True,
                repair = False,
         ),
-        pyguymer3.PLATECARREE,
+        pyguymer3.GEODETIC,
         edgecolor = (1.0, 0.0, 0.0, 1.0),
         facecolor = (1.0, 0.0, 0.0, 0.5),
         linestyle = "solid",
@@ -581,9 +582,14 @@ if __name__ == "__main__":
     fg.suptitle("Photos From My Holiday")
     fg.tight_layout()
 
-    # Save figure ...
-    fg.savefig(f"{dName}/comparison.png")
-    matplotlib.pyplot.close(fg)
+    # Start a context manager for warnings ...
+    with warnings.catch_warnings():
+        # Hide "ignore" level warnings ...
+        warnings.simplefilter("ignore")
+
+        # Save figure ...
+        fg.savefig(f"{dName}/comparison.png")
+        matplotlib.pyplot.close(fg)
 
     # Optimise PNG ...
     pyguymer3.image.optimise_image(

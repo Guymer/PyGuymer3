@@ -10,6 +10,7 @@ if __name__ == "__main__":
     import argparse
     import os
     import pathlib
+    import warnings
 
     # Import special modules ...
     try:
@@ -151,7 +152,7 @@ if __name__ == "__main__":
             )
             pyguymer3.geo.check(fov)
         else:
-            fov = None
+            fov = pyguymer3.EARTH
 
         # Create figure ...
         fg = matplotlib.pyplot.figure(
@@ -289,9 +290,14 @@ if __name__ == "__main__":
 
         print("  Saving ...")
 
-        # Save figure ...
-        fg.savefig(pName)
-        matplotlib.pyplot.close(fg)
+        # Start a context manager for warnings ...
+        with warnings.catch_warnings():
+            # Hide "ignore" level warnings ...
+            warnings.simplefilter("ignore")
+
+            # Save figure ...
+            fg.savefig(pName)
+            matplotlib.pyplot.close(fg)
 
         # Optimise PNG ...
         pyguymer3.image.optimise_image(

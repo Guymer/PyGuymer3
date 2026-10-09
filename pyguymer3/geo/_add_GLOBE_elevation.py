@@ -96,7 +96,7 @@ def _add_GLOBE_elevation(
 
     # Import sub-functions ...
     from .extract_polys import extract_polys
-    from .._consts import PLATECARREE
+    from .._consts import GEODETIC
 
     # **************************************************************************
 
@@ -164,7 +164,7 @@ def _add_GLOBE_elevation(
         # NOTE: See https://cartopy.readthedocs.io/stable/gallery/lines_and_polygons/effects_of_the_ellipse.html
         ax.add_geometries(
             polys,
-            PLATECARREE,
+            GEODETIC,
             edgecolor = "none",
             facecolor = facecolor,
         )

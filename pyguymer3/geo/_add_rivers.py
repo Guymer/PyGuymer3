@@ -91,7 +91,7 @@ def _add_rivers(
 
     # Import sub-functions ...
     from .extract_lines import extract_lines
-    from .._consts import PLATECARREE
+    from .._consts import GEODETIC
 
     # **************************************************************************
 
@@ -159,7 +159,7 @@ def _add_rivers(
     # Plot geometry ...
     ax.add_geometries(
         lines,
-        PLATECARREE,
+        GEODETIC,
         edgecolor = edgecolor,
         facecolor = "none",
         linestyle = linestyle,

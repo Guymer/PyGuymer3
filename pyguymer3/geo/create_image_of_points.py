@@ -231,9 +231,9 @@ def create_image_of_points(
         attemptFortran = attemptFortran,
                  debug = debug,
                    eps = eps,
-                  fill = -1.0,
-             fillSpace = "EuclideanSpace",
-         keepInteriors = False,
+                  fill = +1.0,                                                  # NOTE: Need to fill in the result to
+             fillSpace = "EuclideanSpace",                                      #       undo the ".simplify(tol)" in
+         keepInteriors = False,                                                 #       "buffer_CoordinateSequence()".
                   nAng = nAng,
                  nIter = nIter,
                 prefix = prefix,

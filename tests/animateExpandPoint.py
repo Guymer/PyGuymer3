@@ -12,6 +12,7 @@ if __name__ == "__main__":
     import platform
     import shutil
     import sys
+    import warnings
 
     # Import special modules ...
     try:
@@ -300,14 +301,14 @@ if __name__ == "__main__":
                 # Plot Point thrice ...
                 ax1.add_geometries(
                     pyguymer3.geo.extract_polys(buff),
-                    pyguymer3.PLATECARREE,
+                    pyguymer3.GEODETIC,
                     edgecolor = (1.0, 0.0, 0.0, 1.0),
                     facecolor = (1.0, 0.0, 0.0, 0.5),
                     linewidth = 1.0,
                 )
                 ax2.add_geometries(
                     pyguymer3.geo.extract_polys(buff),
-                    pyguymer3.PLATECARREE,
+                    pyguymer3.GEODETIC,
                     edgecolor = (1.0, 0.0, 0.0, 1.0),
                     facecolor = (1.0, 0.0, 0.0, 0.5),
                     linewidth = 1.0,
@@ -351,19 +352,24 @@ if __name__ == "__main__":
                 fg.suptitle(f"({lon:+.1f}°,{lat:+.1f}°) buffered by {dist:,d}km")
                 fg.tight_layout()
 
-                # Try to save figure ...
-                # NOTE: There is a bug in one of Cartopy v0.21.1, MatPlotLib
-                #       v3.7.1, NumPy v1.24.1 or SciPy v1.10.1 which means that
-                #       the transform of the background image fails for certain
-                #       locations.
-                try:
-                    fg.savefig(fname)
-                    matplotlib.pyplot.close(fg)
-                except:
-                    if not args.quiet:
-                        print("   Failed")
-                    matplotlib.pyplot.close(fg)
-                    continue
+                # Start a context manager for warnings ...
+                with warnings.catch_warnings():
+                    # Hide "ignore" level warnings ...
+                    warnings.simplefilter("ignore")
+
+                    # Try to save figure ...
+                    # NOTE: There is a bug in one of Cartopy v0.21.1, MatPlotLib
+                    #       v3.7.1, NumPy v1.24.1 or SciPy v1.10.1 which means
+                    #       that the transform of the background image fails for
+                    #       certain locations.
+                    try:
+                        fg.savefig(fname)
+                        matplotlib.pyplot.close(fg)
+                    except:
+                        if not args.quiet:
+                            print("   Failed")
+                        matplotlib.pyplot.close(fg)
+                        continue
 
                 # Optimise PNG ...
                 pyguymer3.image.optimise_image(

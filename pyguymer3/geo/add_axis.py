@@ -16,7 +16,6 @@ def add_axis(
      coastlines_linewidth = 0.5,
     coastlines_resolution = "i",
         coastlines_zorder = 1.5,
-           configureAgain = False,
                     debug = __debug__,
                      dist = 1.0e99,
                       eps = 1.0e-12,
@@ -37,12 +36,11 @@ def add_axis(
                    prefix = ".",
                  ramLimit = 1073741824,
                    repair = False,
-         satellite_height = False,
                       tol = 1.0e-10,
 ):
-    """Add either a global Robinson axis or an Orthographic axis centred above a
-    point with optionally a field-of-view based on a circle around the point on
-    the surface of the Earth
+    """Add either a global Robinson axis or an AzimuthalEquidistant axis centred
+    above a point with optionally a field-of-view based on a circle around the
+    point on the surface of the Earth
 
     Parameters
     ----------
@@ -74,9 +72,6 @@ def add_axis(
         been chosen to match the value that it ends up being if the coastline
         boundaries are not drawn with the zorder keyword specified -- obtained
         by manual inspection on 5/Dec/2023)
-    configureAgain : bool, optional
-        configure the axis a second time (this is a hack to make narrow
-        field-of-view top-down axes work correctly with OpenStreetMap tiles)
     debug : bool, optional
         print debug messages and draw the circle on the axis
     dist : float, optional
@@ -126,9 +121,6 @@ def add_axis(
         the maximum RAM usage of each "large" array (in bytes)
     repair : bool, optional
         attempt to repair invalid Polygons
-    satellite_height : bool, optional
-        if a distance is provided then use a "NearsidePerspective" projection at
-        an altitude which has the same field-of-view as the distance
     tol : float, optional
         the Euclidean distance that defines two points as being the same (in
         degrees)
@@ -194,7 +186,6 @@ def add_axis(
              coastlines_linewidth = coastlines_linewidth,
             coastlines_resolution = coastlines_resolution,
                 coastlines_zorder = coastlines_zorder,
-                   configureAgain = configureAgain,
                             debug = debug,
                              dist = dist,
                               eps = eps,
@@ -213,7 +204,6 @@ def add_axis(
                            prefix = prefix,
                          ramLimit = ramLimit,
                            repair = repair,
-                 satellite_height = satellite_height,
                               tol = tol,
         )
 
