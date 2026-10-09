@@ -5,8 +5,6 @@
 if __name__ == "__main__":
     # Import standard modules ...
     import argparse
-    import math
-    import os
     import shutil
 
     # Import special modules ...
