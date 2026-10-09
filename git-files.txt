@@ -38627,7 +38627,6 @@ scripts/demonstrateOsTerrainTiles.py
 scripts/demonstrateOsTerrainTiles/maxElev=1000m/22x41.png
 scripts/demonstrateOsTerrainTiles/maxElev=1000m/44x82.png
 scripts/demonstrateOsTerrainTiles/maxElev=1000m/all.webp
-scripts/findSuitableProjections.py
 scripts/generateColourTables.py
 scripts/generateGlobeGshhgTiles.py
 scripts/generateGlobeNeTiles.py
