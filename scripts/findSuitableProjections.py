@@ -228,20 +228,23 @@ if __name__ == "__main__":
     # **************************************************************************
     # **************************************************************************
 
-    # Initialize counter ...
+    # Initialize counter and list ...
     nLoc = 0                                                                    # [#]
+    stub2s = []
 
     # Loop over centres, distances and zooms ...
     for iLoc, (lon, lat, dist, gshhgRes, zoom, gridlines_int) in enumerate(
         [
             (  -4.0, +53.0,    50.0e3, "f", 9, 1),  # ~Snowdonia holiday
-            (+157.0, -31.0,  3000.0e3, "c", 4, 5),  # ~Australia holiday
+            (+157.0, -31.0,  3000.0e3, "c", 4, 5),  # ~Australia holiday                OSM does not work
+            (+157.0, -31.0,  1000.0e3, "i", 6, 2),  # ~Australia holiday                OSM works
             (-180.0, +90.0,  1000.0e3, "i", 6, 2),  # Satisfies test A, C, D, F
             ( -90.0, +45.0,  1000.0e3, "i", 6, 2),  # Satisfies test A
             (   0.0,   0.0,  1000.0e3, "i", 6, 2),  # Satisfies test A, B
             ( +90.0, -45.0,  1000.0e3, "i", 6, 2),  # Satisfies test A
             (+180.0, -90.0,  1000.0e3, "i", 6, 2),  # Satisfies test A, C, D, F
-            (+170.0, +10.0,  4000.0e3, "c", 4, 5),  # Satisfies test B, C, E
+            (+170.0, +10.0,  4000.0e3, "c", 4, 5),  # Satisfies test B, C, E            OSM does not work
+            (+170.0, +10.0,  1000.0e3, "i", 6, 2),  # Satisfies test B, C, E            OSM works
             (+170.0, +80.0,  4000.0e3, "c", 4, 5),  # Satisfies test C, D, F
             (   0.0, +83.0,  1000.0e3, "i", 6, 2),  # Satisfies test C, D, F
             ( -90.0, -83.0,  1000.0e3, "i", 6, 2),  # Satisfies test C, D, F
@@ -268,6 +271,7 @@ if __name__ == "__main__":
                   tol = args.tol,
         )
         stub2 = f"{stub1}/(lon={lon:+.1f}°,lat={lat:+.1f}°) dist={round(0.001 * dist):,d}km"
+        stub2s.append(stub2)
 
         # Save Polygon as a GeoJSON ...
         # NOTE: As of 4/Aug/2025, the Python module "geojson" just converts the
@@ -394,7 +398,7 @@ if __name__ == "__main__":
                         ax,
                               debug = args.debug,
                                 fov = pyguymer3.EARTH,
-                        gshhgLevels = (1, 5, 6,)
+                        gshhgLevels = (1, 5, 6,),
                            gshhgRes = "c",
                           onlyValid = True,
                              repair = False,
@@ -431,8 +435,8 @@ if __name__ == "__main__":
                                    strip = True,
                                  timeout = args.timeout,
                         )
-                    except:
-                        print("    WARNING: Saving the figure failed.")
+                    except Exception as e:
+                        print(f"    WARNING: Saving the figure failed ({e}).")
 
                     # Clean up ...
                     matplotlib.pyplot.close(fg)
@@ -506,7 +510,7 @@ if __name__ == "__main__":
                         ax,
                               debug = args.debug,
                                 fov = polygon1,
-                        gshhgLevels = (1, 5, 6,)
+                        gshhgLevels = (1, 5, 6,),
                            gshhgRes = gshhgRes,
                           onlyValid = True,
                              repair = False,
@@ -543,8 +547,8 @@ if __name__ == "__main__":
                                    strip = True,
                                  timeout = args.timeout,
                         )
-                    except:
-                        print("    WARNING: Saving the figure failed.")
+                    except Exception as e:
+                        print(f"    WARNING: Saving the figure failed ({e}).")
 
                     # Clean up ...
                     matplotlib.pyplot.close(fg)
@@ -773,15 +777,24 @@ if __name__ == "__main__":
         # Skip this projection name if there aren't the correct number of global
         # maps ...
         if nLoc != len(glob.glob(f"{stub1}/(lon=*°,lat=*°) dist=*km/global/{projectionName}.png")):
+            print(f"Rejecting {projectionName} because it does not have all the global maps.")
             continue
 
         # Skip this projection name if there aren't the correct number of local
         # maps ...
         if nLoc != len(glob.glob(f"{stub1}/(lon=*°,lat=*°) dist=*km/local/{projectionName}.png")):
+            print(f"Rejecting {projectionName} because it does not have all the local maps.")
             continue
 
         # Append projection name to list ...
         goodProjectionNames.append(projectionName)
+
+    # Ensure that interesting ones are included ...
+    if "AzimuthalEquidistant" not in goodProjectionNames:
+        goodProjectionNames.append("AzimuthalEquidistant")
+    if "Stereographic" not in goodProjectionNames:
+        goodProjectionNames.append("Stereographic")
+    goodProjectionNames.sort()
 
     # Create short-hand ...
     nGoodProjs = len(goodProjectionNames)                                       # [#]
@@ -821,8 +834,13 @@ if __name__ == "__main__":
 
     # Loop over good projection names ...
     for iGoodProj, goodProjectionName in enumerate(goodProjectionNames):
-        # Loop over global maps ...
-        for iLoc, pNameGlobal in enumerate(sorted(glob.glob(f"{stub1}/(lon=*°,lat=*°) dist=*km/global/{goodProjectionName}.png"))):
+        # Loop over stubs ...
+        for iLoc, stub2 in enumerate(stub2s):
+            # Create short-hand and skip if it does not exist ...
+            pNameGlobal = f"{stub2}/global/{goodProjectionName}.png"
+            if not os.path.exists(pNameGlobal):
+                continue
+
             # Open image ...
             with PIL.Image.open(
                 pNameGlobal,
@@ -909,8 +927,13 @@ if __name__ == "__main__":
 
     # Loop over good projection names ...
     for iGoodProj, goodProjectionName in enumerate(goodProjectionNames):
-        # Loop over local maps ...
-        for iLoc, pNameLocal in enumerate(sorted(glob.glob(f"{stub1}/(lon=*°,lat=*°) dist=*km/local/{goodProjectionName}.png"))):
+        # Loop over stubs ...
+        for iLoc, stub2 in enumerate(stub2s):
+            # Create short-hand and skip if it does not exist ...
+            pNameLocal = f"{stub2}/local/{goodProjectionName}.png"
+            if not os.path.exists(pNameLocal):
+                continue
+
             # Open image ...
             with PIL.Image.open(
                 pNameLocal,
