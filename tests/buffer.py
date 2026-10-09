@@ -19,6 +19,7 @@ if __name__ == "__main__":
     import multiprocessing
     import os
     import pathlib
+    import warnings
 
     # Import special modules ...
     try:
@@ -404,9 +405,14 @@ if __name__ == "__main__":
                 fg.suptitle(f"({lon:.1f},{lat:.1f}) buffered by {0.001 * dist1:,.1f}km & {0.001 * dist2:,.1f}km\nred = {0.001 * (dist1 + dist2):,.1f}km; green = {0.001 * dist1:,.1f}km; blue = {0.001 * dist1:,.1f}km & {0.001 * dist2:,.1f}km")
                 fg.tight_layout()
 
-                # Save figure ...
-                fg.savefig(fname)
-                matplotlib.pyplot.close(fg)
+                # Start a context manager for warnings ...
+                with warnings.catch_warnings():
+                    # Hide "ignore" level warnings ...
+                    warnings.simplefilter("ignore")
+
+                    # Save figure ...
+                    fg.savefig(fname)
+                    matplotlib.pyplot.close(fg)
 
                 # Optimise PNG ..
                 pyguymer3.image.optimise_image(

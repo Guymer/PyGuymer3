@@ -10,6 +10,7 @@ if __name__ == "__main__":
     import pathlib
     import shutil
     import sys
+    import warnings
 
     # Import special modules ...
     try:
@@ -581,9 +582,14 @@ if __name__ == "__main__":
     fg.suptitle("Photos From My Holiday")
     fg.tight_layout()
 
-    # Save figure ...
-    fg.savefig(f"{dName}/comparison.png")
-    matplotlib.pyplot.close(fg)
+    # Start a context manager for warnings ...
+    with warnings.catch_warnings():
+        # Hide "ignore" level warnings ...
+        warnings.simplefilter("ignore")
+
+        # Save figure ...
+        fg.savefig(f"{dName}/comparison.png")
+        matplotlib.pyplot.close(fg)
 
     # Optimise PNG ...
     pyguymer3.image.optimise_image(
