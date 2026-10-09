@@ -275,14 +275,14 @@ if __name__ == "__main__":
                 # Plot Point thrice ...
                 ax1.add_geometries(
                     pyguymer3.geo.extract_polys(buff0),
-                    pyguymer3.PLATECARREE,
+                    pyguymer3.GEODETIC,
                     edgecolor = (1.0, 0.0, 0.0, 1.0),
                     facecolor = "none",
                     linewidth = 1.0,
                 )
                 ax2.add_geometries(
                     pyguymer3.geo.extract_polys(buff0),
-                    pyguymer3.PLATECARREE,
+                    pyguymer3.GEODETIC,
                     edgecolor = (1.0, 0.0, 0.0, 1.0),
                     facecolor = "none",
                     linewidth = 1.0,
@@ -314,14 +314,14 @@ if __name__ == "__main__":
                 # Plot Point thrice ...
                 ax1.add_geometries(
                     pyguymer3.geo.extract_polys(buff1),
-                    pyguymer3.PLATECARREE,
+                    pyguymer3.GEODETIC,
                     edgecolor = (0.0, 1.0, 0.0, 1.0),
                     facecolor = "none",
                     linewidth = 1.0,
                 )
                 ax2.add_geometries(
                     pyguymer3.geo.extract_polys(buff1),
-                    pyguymer3.PLATECARREE,
+                    pyguymer3.GEODETIC,
                     edgecolor = (0.0, 1.0, 0.0, 1.0),
                     facecolor = "none",
                     linewidth = 1.0,
@@ -353,14 +353,14 @@ if __name__ == "__main__":
                 # Plot Point thrice ...
                 ax1.add_geometries(
                     pyguymer3.geo.extract_polys(buff2),
-                    pyguymer3.PLATECARREE,
+                    pyguymer3.GEODETIC,
                     edgecolor = (0.0, 0.0, 1.0, 1.0),
                     facecolor = (0.0, 0.0, 1.0, 0.5),
                     linewidth = 1.0,
                 )
                 ax2.add_geometries(
                     pyguymer3.geo.extract_polys(buff2),
-                    pyguymer3.PLATECARREE,
+                    pyguymer3.GEODETIC,
                     edgecolor = (0.0, 0.0, 1.0, 1.0),
                     facecolor = (0.0, 0.0, 1.0, 0.5),
                     linewidth = 1.0,

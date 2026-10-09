@@ -277,14 +277,14 @@ if __name__ == "__main__":
                 # Plot LinearRing thrice ...
                 ax1.add_geometries(
                     [denseRing1],
-                    pyguymer3.PLATECARREE,
+                    pyguymer3.GEODETIC,
                     edgecolor = (1.0, 0.0, 0.0, 1.0),
                     facecolor = "none",
                     linewidth = 1.0,
                 )
                 ax2.add_geometries(
                     [denseRing1],
-                    pyguymer3.PLATECARREE,
+                    pyguymer3.GEODETIC,
                     edgecolor = (1.0, 0.0, 0.0, 1.0),
                     facecolor = "none",
                     linewidth = 1.0,
@@ -337,14 +337,14 @@ if __name__ == "__main__":
                 # Plot LinearRing thrice ...
                 ax1.add_geometries(
                     [denseRing2],
-                    pyguymer3.PLATECARREE,
+                    pyguymer3.GEODETIC,
                     edgecolor = (0.0, 0.0, 1.0, 1.0),
                     facecolor = "none",
                     linewidth = 1.0,
                 )
                 ax2.add_geometries(
                     [denseRing2],
-                    pyguymer3.PLATECARREE,
+                    pyguymer3.GEODETIC,
                     edgecolor = (0.0, 0.0, 1.0, 1.0),
                     facecolor = "none",
                     linewidth = 1.0,
