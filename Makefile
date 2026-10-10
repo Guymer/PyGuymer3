@@ -2,11 +2,12 @@
 # *                                  BINARIES                                  *
 # ******************************************************************************
 
-CUT     := $(shell which cut        2> /dev/null || echo "ERROR")
-GREP    := $(shell which grep       2> /dev/null || echo "ERROR")
-LS      := $(shell which ls         2> /dev/null || echo "ERROR")
-PYTHON3 := $(shell which python3.13 2> /dev/null || echo "ERROR")
-RM      := $(shell which rm         2> /dev/null || echo "ERROR")
+CUT     := $(shell which cut            2> /dev/null || echo "ERROR")
+FC      := $(shell which gfortran-mp-14 2> /dev/null || echo "ERROR")
+GREP    := $(shell which grep           2> /dev/null || echo "ERROR")
+LS      := $(shell which ls             2> /dev/null || echo "ERROR")
+PYTHON3 := $(shell which python3.13     2> /dev/null || echo "ERROR")
+RM      := $(shell which rm             2> /dev/null || echo "ERROR")
 
 # ******************************************************************************
 # *                               CHECK BINARIES                               *
@@ -14,6 +15,9 @@ RM      := $(shell which rm         2> /dev/null || echo "ERROR")
 
 ifeq ($(CUT),ERROR)
     $(error The binary "cut" is not installed)
+endif
+ifeq ($(FC),ERROR)
+    $(error The binary "fc" is not installed)
 endif
 ifeq ($(GREP),ERROR)
     $(error The binary "grep" is not installed)
@@ -42,6 +46,7 @@ endif
 
 # "gmake -r [all]"       = "gmake -r build doc" (default)
 all:			build															\
+				compile															\
 				doc
 
 # "gmake -r build"       = build a Python wheel
@@ -55,13 +60,17 @@ clean:
 	$(RM) -f mypy.log pylint.log shellcheck.log
 	$(RM) -f pyguymer3/mypy.log pyguymer3/pylint.log pyguymer3/shellcheck.log
 	$(RM) -f pyguymer3/f90/fortranlib/mypy.log pyguymer3/f90/fortranlib/pylint.log pyguymer3/f90/fortranlib/shellcheck.log
-	$(MAKE) -C docs clean
-	$(MAKE) -C pyguymer3/f90/fortranlib clean
+	$(MAKE) -r -C docs clean
+	$(MAKE) -r -C pyguymer3/f90 FC=$(FC) PYTHON3=$(PYTHON3) clean
+
+compile:
+	$(MAKE) -r -C pyguymer3/f90 FC=$(FC) PYTHON3=$(PYTHON3)
 
 # "gmake -r doc"         = compiles the Sphinx documentation
 docs/_build/html/objects.inv													\
 doc &:
-	$(MAKE) -C docs html
+	$(MAKE) -r -C docs html
+	$(MAKE) -r -C pyguymer3/f90 FC=$(FC) PYTHON3=$(PYTHON3) doc
 
 # "gmake -r doc-targets" = lists all the available Sphinx documentation targets
 doc-targets:	docs/_build/html/objects.inv
