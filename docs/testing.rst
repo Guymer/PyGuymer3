@@ -9,7 +9,8 @@ that I might have introduced; and demonstrate some simple programming techniques
     test_fillin
     test_findMiddleOfLocs
     test_greatCircle
-    test_mapUnderlay
+    test_mapGshhgUnderlay
+    test_mapNeUnderlay
     test_saveArrayAsImage
 
 To compare the images with a previous version, try something like::
