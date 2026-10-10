@@ -26,22 +26,22 @@ def add_map_background(
         to be added
     interpolation : str, optional
         The interpolation method used when drawing the final warped image on the
-        figure. Due to the use of **kwargs within Cartopy, this is passed all
-        the way down the stack to the MatPlotLib ".imshow()" call.
+        figure. Due to the use of ``**kwargs`` within Cartopy, this is passed
+        all the way down the stack to the MatPlotLib ".imshow()" call.
     name : str, optional
         The name of the image in the database.
     regrid_shape: int or tuple of int, optional
         The smallest dimension of the image **after** it has been warped by
         Cartopy to be the same projection as the figure (in pixels). Due to the
-        use of **kwargs within Cartopy, this is passed all the way down the
+        use of ``**kwargs`` within Cartopy, this is passed all the way down the
         stack to the Cartopy ".imshow()" call. The size of a figure, in inches,
         can be found by calling "fg.get_size_inches()". The resolution of a
         figure can be found by calling "fg.get_dpi()". The size of a figure, in
         pixels, can be found by multiplying the tuple by the scalar.
     resample : bool, optional
         Use a full resampling method when drawing the final warped image on the
-        figure. Due to the use of **kwargs within Cartopy, this is passed all
-        the way down the stack to the MatPlotLib ".imshow()" call.
+        figure. Due to the use of ``**kwargs`` within Cartopy, this is passed
+        all the way down the stack to the MatPlotLib ".imshow()" call.
     subName : str, optional
         The sub-name of the image in the database. Typically, databases use
         ``name`` to refer to an image and then they use ``subName`` to refer to
@@ -63,9 +63,22 @@ def add_map_background(
 
     Copyright 2017 Thomas Guymer [1]_
 
+    Warnings
+    --------
+    The Cartopy methods :py:method:cartopy.mpl.geoaxes.GeoAxes.stock_img and
+    :py:method:cartopy.mpl.geoaxes.GeoAxes.background_img are hard coded to
+    assume that the projection of the source image is Plate Carrée. If the map
+    has global extent then this appears fine. However, if the map has a small
+    local extent then distortion can be introduced if the map has an elliptical
+    (rather than spherical) globe. Overlayed locations may appear out of place
+    [2]_. In that scenario, you must either use a different background or use a
+    tiling method which specifies the source projection correctly, such as
+    :py:function:pyguymer3.geo.add_raster_tiles instead.
+
     References
     ----------
     .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
+    .. [2] The effect of badly referencing an ellipse, https://cartopy.readthedocs.io/stable/gallery/lines_and_polygons/effects_of_the_ellipse.html
     """
 
     # Import standard modules ...
@@ -99,7 +112,7 @@ def add_map_background(
     # Draw default background image ...
     if default:
         # TODO: As of 9/Oct/2026, ".stock_img()" is hard coded to draw the image
-        #       assuming that it is a PlateCarree projection eventhough the
+        #       assuming that it is a Plate Carrée projection eventhough the
         #       underlying ".imshow()" that it uses can accept arbitrary
         #       transforms. I should probably do it myself.
         if debug:
@@ -113,7 +126,7 @@ def add_map_background(
 
     # Draw user-requested background image ...
     # TODO: As of 9/Oct/2026, ".background_img()" is hard coded to draw the
-    #       image assuming that it is a PlateCarree projection eventhough the
+    #       image assuming that it is a Plate Carrée projection eventhough the
     #       underlying ".imshow()" that it uses can accept arbitrary transforms.
     #       I should probably do it myself.
     if debug:
