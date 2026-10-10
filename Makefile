@@ -54,7 +54,7 @@ build:
 	$(PYTHON3) -m build
 	$(LS) -hl dist
 
-# "gmake -r clean"       = removes linting logs, build output, compiled Sphinx documentation and compiled FORTRAN
+# "gmake -r clean"       = removes linting logs, build output, compiled Sphinx documentation and compiled f2py module
 clean:
 	$(RM) -rf dist PyGuymer3.egg-info
 	$(RM) -f mypy.log pylint.log shellcheck.log
@@ -65,7 +65,7 @@ clean:
 
 # "gmake -r compile"     = compiles the f2py module
 compile:
-	$(MAKE) -r -C pyguymer3/f90 FC=$(FC) PYTHON3=$(PYTHON3)
+	$(MAKE) -r -C pyguymer3/f90 FC=$(FC) PYTHON3=$(PYTHON3) compile
 
 # "gmake -r doc"         = compiles the Sphinx documentation
 docs/_build/html/objects.inv													\
