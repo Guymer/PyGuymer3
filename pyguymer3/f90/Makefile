@@ -86,6 +86,10 @@ clean:
 # "gmake -r compile" = compiles the code
 compile:	funcs.so
 
+# "gmake -r doc"     = compiles the Sphinx documentation
+doc:
+	$(MAKE) -r -C $(FTNLIB) COVERAGE=$(COVERAGE) DEBUG=$(DEBUG) FC=$(FC) PYTHON3=$(PYTHON3) doc
+
 # "gmake -r help"    = print this help
 help:
 	echo "These are the known settings:"
