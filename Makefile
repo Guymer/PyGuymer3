@@ -4,7 +4,9 @@
 
 CUT     := $(shell which cut        2> /dev/null || echo "ERROR")
 GREP    := $(shell which grep       2> /dev/null || echo "ERROR")
+LS      := $(shell which ls         2> /dev/null || echo "ERROR")
 PYTHON3 := $(shell which python3.13 2> /dev/null || echo "ERROR")
+RM      := $(shell which rm         2> /dev/null || echo "ERROR")
 
 # ******************************************************************************
 # *                               CHECK BINARIES                               *
@@ -16,8 +18,14 @@ endif
 ifeq ($(GREP),ERROR)
     $(error The binary "grep" is not installed)
 endif
+ifeq ($(LS),ERROR)
+    $(error The binary "ls" is not installed)
+endif
 ifeq ($(PYTHON3),ERROR)
     $(error The binary "python3" is not installed)
+endif
+ifeq ($(RM),ERROR)
+    $(error The binary "rm" is not installed)
 endif
 
 # ******************************************************************************
@@ -32,12 +40,23 @@ endif
 # *                           USER-SPECIFIED TARGETS                           *
 # ******************************************************************************
 
-# "gmake -r [all]"       = "gmake -r doc" (default)
-all:			doc
+# "gmake -r [all]"       = "gmake -r build doc" (default)
+all:			build															\
+				doc
 
-# "gmake -r clean"       = removes the compiled Sphinx documentation
+# "gmake -r build"       = build a Python wheel
+build:
+	$(PYTHON3) -m build
+	$(LS) -hl dist
+
+# "gmake -r clean"       = removes linting logs, build output, compiled Sphinx documentation and compiled FORTRAN
 clean:
+	$(RM) -rf dist PyGuymer3.egg-info
+	$(RM) -f mypy.log pylint.log shellcheck.log
+	$(RM) -f pyguymer3/mypy.log pyguymer3/pylint.log pyguymer3/shellcheck.log
+	$(RM) -f pyguymer3/f90/fortranlib/mypy.log pyguymer3/f90/fortranlib/pylint.log pyguymer3/f90/fortranlib/shellcheck.log
 	$(MAKE) -C docs clean
+	$(MAKE) -C pyguymer3/f90/fortranlib clean
 
 # "gmake -r doc"         = compiles the Sphinx documentation
 docs/_build/html/objects.inv													\
