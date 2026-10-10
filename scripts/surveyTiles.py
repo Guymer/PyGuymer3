@@ -376,7 +376,7 @@ if __name__ == "__main__":
     n, globeSize, globeGshhgSize, globeNeSize, gshhgSize, neSize, osTerrainSize, rasterSize, _ = numpy.loadtxt(
         f"{args.absPathToRepo}/scripts/surveyTiles.csv",
         delimiter = ",",
-            dtype = numpy.uint32,
+            dtype = numpy.uint64,
          skiprows = 1,
            unpack = True,
     )                                                                           # [#], [B], [B], [B], [B], [B], [B], [B]
