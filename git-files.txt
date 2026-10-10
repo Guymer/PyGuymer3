@@ -38647,6 +38647,7 @@ scripts/generateNeTilesSrc/drawPlayas.py
 scripts/generateNeTilesSrc/drawReefs.py
 scripts/generateNeTilesSrc/drawRivers.py
 scripts/generateOsTerrainTiles.py
+scripts/generateRasterTiles.py
 scripts/generateTiles.sh
 scripts/plotLimitOfVincenty.png
 scripts/plotLimitOfVincenty.py
