@@ -55,6 +55,8 @@ pyguymer3/data/png/gshhg/256x128
 pyguymer3/data/png/ne/128x64
 pyguymer3/data/png/ne/256x128
 pyguymer3/data/png/osTerrain/44x82
+pyguymer3/data/png/raster/*/36x18
+pyguymer3/data/png/raster/*/72x36
 scripts/cross-blend-hypso.tif
 scripts/cross-blend-hypso.zip
 scripts/globe.bin
