@@ -260,6 +260,16 @@ if __name__ == "__main__":
                 debug = args.debug,
             )                                                                   # [B]
 
+    # Survey the raster tiles ...
+    raster = {}
+    for dName in sorted(glob.glob(f"{args.absPathToRepo}/pyguymer3/data/png/raster/*x*")):
+        w, h = os.path.basename(dName).split("x")
+        n = int(w) * int(h)                                                     # [#]
+        raster[n] = pyguymer3.return_folder_size(
+            dName,
+            debug = args.debug,
+        )                                                                       # [B]
+
     # **************************************************************************
 
     # Survey the surveys of the tiles ...
@@ -270,6 +280,7 @@ if __name__ == "__main__":
         *gshhg.keys(),
         *ne.keys(),
         *osTerrain.keys(),
+        *raster.keys(),
     )                                                                           # [#]
     maxN = max(
         *globe.keys(),
@@ -278,6 +289,7 @@ if __name__ == "__main__":
         *gshhg.keys(),
         *ne.keys(),
         *osTerrain.keys(),
+        *raster.keys(),
     )                                                                           # [#]
     print(f"The smallest grid has {minN:,d} tiles.")
     print(f"The largest grid has {maxN:,d} tiles.")
@@ -285,9 +297,13 @@ if __name__ == "__main__":
     # **************************************************************************
 
     # Open output file ...
-    with open(f"{args.absPathToRepo}/scripts/surveyTiles.csv", mode = "wt", encoding = "utf-8") as fObj:
+    with open(
+        f"{args.absPathToRepo}/scripts/surveyTiles.csv",
+        encoding = "utf-8",
+            mode = "wt",
+    ) as fObj:
         # Write header ...
-        fObj.write("maximum number of tiles in grid [#],GLOBE size [B],GLOBE+GSHHG size [B],GLOBE+NE size [B],GSHHG size [B],NE size [B],\"OS Terrain 50\" size [B],total size [B]\n")
+        fObj.write("maximum number of tiles in grid [#],GLOBE size [B],GLOBE+GSHHG size [B],GLOBE+NE size [B],GSHHG size [B],NE size [B],\"OS Terrain 50\" size [B],raster size [B],total size [B]\n")
 
         # Loop over possible numbers ...
         for n in range(2, 65536 + 1):
@@ -298,6 +314,7 @@ if __name__ == "__main__":
             gshhgSize = 0                                                       # [B]
             neSize = 0                                                          # [B]
             osTerrainSize = 0                                                   # [B]
+            rasterSize = 0                                                      # [B]
 
             # Increment counter for the GLOBE tiles ...
             for key, val in globe.items():
@@ -335,11 +352,17 @@ if __name__ == "__main__":
                     continue
                 osTerrainSize += val                                            # [B]
 
+            # Increment counter for the raster tiles ...
+            for key, val in raster.items():
+                if key > n:
+                    continue
+                rasterSize += val                                               # [B]
+
             # Calculate total ...
-            totSize = globeSize + globeGshhgSize + globeNeSize + gshhgSize + neSize + osTerrainSize # [B]
+            totSize = globeSize + globeGshhgSize + globeNeSize + gshhgSize + neSize + osTerrainSize + rasterSize    # [B]
 
             # Write data ...
-            fObj.write(f"{n:d},{globeSize:d},{globeGshhgSize:d},{globeNeSize:d},{gshhgSize:d},{neSize:d},{osTerrainSize:d},{totSize:d}\n")
+            fObj.write(f"{n:d},{globeSize:d},{globeGshhgSize:d},{globeNeSize:d},{gshhgSize:d},{neSize:d},{osTerrainSize:d},{rasterSize:d},{totSize:d}\n")
 
     # **************************************************************************
 
@@ -350,13 +373,13 @@ if __name__ == "__main__":
     ax = fg.add_subplot()
 
     # Load data ...
-    n, globeSize, globeGshhgSize, globeNeSize, gshhgSize, neSize, osTerrainSize, _ = numpy.loadtxt(
+    n, globeSize, globeGshhgSize, globeNeSize, gshhgSize, neSize, osTerrainSize, rasterSize, _ = numpy.loadtxt(
         f"{args.absPathToRepo}/scripts/surveyTiles.csv",
         delimiter = ",",
             dtype = numpy.uint32,
          skiprows = 1,
            unpack = True,
-    )                                                                           # [#], [B], [B], [B], [B], [B], [B]
+    )                                                                           # [#], [B], [B], [B], [B], [B], [B], [B]
 
     # Plot data ...
     ax.fill_between(
@@ -393,6 +416,12 @@ if __name__ == "__main__":
         globeSize + globeGshhgSize + globeNeSize + gshhgSize + neSize,
         globeSize + globeGshhgSize + globeNeSize + gshhgSize + neSize + osTerrainSize,
         label = "OS Terrain 50",
+    )
+    ax.fill_between(
+        n,
+        globeSize + globeGshhgSize + globeNeSize + gshhgSize + neSize + osTerrainSize,
+        globeSize + globeGshhgSize + globeNeSize + gshhgSize + neSize + osTerrainSize + rasterSize,
+        label = "Raster",
     )
 
     # Shade region-of-interest (this is the number of tiles above which the
