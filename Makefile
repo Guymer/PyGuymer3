@@ -44,7 +44,7 @@ endif
 # *                           USER-SPECIFIED TARGETS                           *
 # ******************************************************************************
 
-# "gmake -r [all]"       = "gmake -r build doc" (default)
+# "gmake -r [all]"       = "gmake -r build compile doc" (default)
 all:			build															\
 				compile															\
 				doc
