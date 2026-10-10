@@ -5,12 +5,27 @@
 if __name__ == "__main__":
     # Import standard modules ...
     import argparse
+    import multiprocessing
     import os
     import zipfile
+
+    # Import special modules ...
+    try:
+        import numpy
+    except:
+        raise Exception("\"numpy\" is not installed; run \"pip install --user numpy\"") from None
+    try:
+        import PIL
+        import PIL.Image
+        PIL.Image.MAX_IMAGE_PIXELS = 1024 * 1024 * 1024                         # [px]
+        import PIL.ImageDraw
+    except:
+        raise Exception("\"PIL\" is not installed; run \"pip install --user Pillow\"") from None
 
     # Import my modules ...
     try:
         import pyguymer3
+        import pyguymer3.image
     except:
         raise Exception("\"pyguymer3\" is not installed; run \"pip install --user PyGuymer3\"") from None
 
@@ -51,6 +66,14 @@ if __name__ == "__main__":
 
     # **************************************************************************
 
+    # Create short-hands ...
+    # NOTE: See "pyguymer3/data/png/README.md".
+    nx = 21600                                                                  # [px]
+    ny = 10800                                                                  # [px]
+    tileSize = 300                                                              # [px]
+    nTilesX = nx // tileSize                                                    # [#]
+    nTilesY = ny // tileSize                                                    # [#]
+
     # Define the raster datasets ...
     rasters = {
         "cross-blend-hypso" : "https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/raster/HYP_HR_SR_OB_DR.zip",
@@ -66,57 +89,172 @@ if __name__ == "__main__":
     with pyguymer3.start_session() as sess:
         # Loop over raster datasets ...
         for name, url in rasters.items():
-            # Create short-hand ...
+            # Create short-hand and skip if it exists ...
             zName = f"{args.absPathToRepo}/scripts/{name}.zip"
+            if os.path.exists(zName):
+                continue
 
-            # Check if the ZIP file does not exist yet ...
-            if not os.path.exists(zName):
-                print(f"Downloading \"{zName}\" ...")
+            print(f"Downloading \"{zName}\" ...")
 
-                # Download the ZIP file ...
-                if not pyguymer3.download_file(
-                    sess,
-                    url,
-                    zName,
-                      debug = args.debug,
-                    timeout = args.timeout,
-                     verify = True,
-                ):
-                    raise Exception(f"failed to download \"{url}\"") from None
+            # Download the ZIP file ...
+            if not pyguymer3.download_file(
+                sess,
+                url,
+                zName,
+                  debug = args.debug,
+                timeout = args.timeout,
+                 verify = True,
+            ):
+                raise Exception(f"failed to download \"{url}\"") from None
 
     # **************************************************************************
 
     # Loop over raster datasets ...
     for name in rasters.keys():
-        # Create short-hands ...
+        # Create short-hands and skip if it exists ...
         tName = f"{args.absPathToRepo}/scripts/{name}.tif"
         zName = f"{args.absPathToRepo}/scripts/{name}.zip"
+        if os.path.exists(tName):
+            continue
 
-        # Check if the TIF file does not exist yet ...
-        if not os.path.exists(tName):
-            # Open ZIP file ...
-            with zipfile.ZipFile(
-                zName,
-                mode = "r",
-            ) as zObj:
-                # Loop over contents ...
-                for zInfo in zObj.infolist():
-                    # Check if this item is a TIF image ...
-                    if zInfo.filename.lower().endswith(".tif"):
-                        print(f"Extracting \"{tName}\" ...")
+        # Open ZIP file ...
+        with zipfile.ZipFile(
+            zName,
+            mode = "r",
+        ) as zObj:
+            # Loop over contents ...
+            for zInfo in zObj.infolist():
+                # Skip item if it is not a TIF image ...
+                if not zInfo.filename.lower().endswith(".tif"):
+                    continue
 
-                        # Open the input compressed TIF image ...
-                        with zObj.open(
-                            zInfo,
-                            mode = "r",
-                        ) as fObjIn:
-                            # Open the output uncompressed TIF image ...
-                            with open(
-                                tName,
-                                mode = "wb",
-                            ) as fObjOut:
-                                # Extract the TIF image ...
-                                fObjOut.write(fObjIn.read())
+                print(f"Extracting \"{tName}\" ...")
 
-                        # Stop looping over contents ...
-                        break
+                # Open the input compressed TIF image ...
+                with zObj.open(
+                    zInfo,
+                    mode = "r",
+                ) as fObjIn:
+                    # Open the output uncompressed TIF image ...
+                    with open(
+                        tName,
+                        mode = "wb",
+                    ) as fObjOut:
+                        # Extract the TIF image ...
+                        fObjOut.write(fObjIn.read())
+
+                # Stop looping over contents ...
+                break
+
+    # **************************************************************************
+
+    # Loop over raster datasets ...
+    for name in rasters.keys():
+        print(f"Processing \"{name}\" ...")
+
+        # Create short-hand ...
+        tName = f"{args.absPathToRepo}/scripts/{name}.tif"
+
+        # Load image ...
+        with PIL.Image.open(
+            tName,
+            mode = "r",
+        ) as iObj:
+            img = iObj.convert("RGB")
+
+        # **********************************************************************
+
+        print(f"  Processing original size and results in ({nTilesX:,d} × {nTilesY:,d}) tiles and ({nx:,d} × {ny:,d}) pixels ...")
+
+        # Convert image to NumPy array ...
+        arr = numpy.array(img)
+
+        # Create a pool of workers ...
+        with multiprocessing.Pool(args.nChild) as pObj:
+            # Initialize list ...
+            results = []
+
+            # Loop over x tiles ...
+            for iTileX in range(nTilesX):
+                # Loop over y tiles ...
+                for iTileY in range(nTilesY):
+                    # Create short-hands, make sure that the directory exists
+                    # and skip this tile if it already exists ...
+                    dName = f"{args.absPathToRepo}/pyguymer3/data/png/raster/{name}/{nTilesX:d}x{nTilesY:d}/x={iTileX:d}"
+                    pName = f"{dName}/y={iTileY:d}.png"
+                    if not os.path.exists(dName):
+                        os.makedirs(dName)
+                    if os.path.exists(pName):
+                        if args.debug:
+                            print(f"    Not making \"{pName}\".")
+                        continue
+
+                    print(f"    Adding job to make \"{pName}\" to the worker pool ...")
+
+                    # Add job to make the PNG to the worker pool ...
+                    results.append(
+                        pObj.apply_async(
+                            pyguymer3.image.save_array_as_PNG,
+                            (
+                                arr[iTileY * tileSize:(iTileY + 1) * tileSize, iTileX * tileSize:(iTileX + 1) * tileSize, :],
+                                pName,
+                            ),
+                            {
+                                "debug" : args.debug,
+                            },
+                        )
+                    )
+
+            # Create short-hands ...
+            nResults = len(results)                                             # [#]
+            start = pyguymer3.now()
+
+            print("  Waiting for child \"multiprocessing\" processes to finish ...", end = "\r")
+
+            # Loop over results ...
+            for iResult, result in enumerate(results):
+                # Get result ...
+                _ = result.get(args.timeout)
+
+                # Print progress ...
+                # NOTE: The progress string needs padding with extra spaces so
+                #       that the line is fully overwritten when it inevitably
+                #       gets shorter (as the remaining time gets shorter).
+                #       Assume that the longest it will ever be is
+                #       "???.???% (~??h ??m ??.?s still to go)" (which is 37
+                #       characters).
+                fraction = float(iResult + 1) / float(nResults)
+                durationSoFar = pyguymer3.now() - start
+                totalDuration = durationSoFar / fraction
+                remaining = (totalDuration - durationSoFar).total_seconds()     # [s]
+                progress = f"{100.0 * fraction:.3f}% (~{pyguymer3.convert_seconds_to_pretty_time(remaining)} still to go)"
+                print(f"  Waiting for child \"multiprocessing\" processes to finish ... {progress:37s}", end = "\r")
+
+                # Check result ...
+                if not result.successful():
+                    # Clear the line and cry ...
+                    print()
+                    raise Exception("\"multiprocessing.Pool().apply_async()\" was not successful") from None
+
+            # Clear the line ...
+            print()
+
+            # Close the pool of worker processes and wait for all of the tasks
+            # to finish ...
+            # NOTE: The "__exit__()" call of the context manager for
+            #       "multiprocessing.Pool()" calls "terminate()" instead of
+            #       "join()", so I must manage the end of the pool of worker
+            #       processes myself.
+            pObj.close()
+            pObj.join()
+
+        # Clean up ..
+        del arr
+
+        # **********************************************************************
+
+        # Clean up ..
+        img.close()
+        del img
+
+        exit()
