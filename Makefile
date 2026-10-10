@@ -63,6 +63,7 @@ clean:
 	$(MAKE) -r -C docs clean
 	$(MAKE) -r -C pyguymer3/f90 FC=$(FC) PYTHON3=$(PYTHON3) clean
 
+# "gmake -r compile"     = compiles the f2py module
 compile:
 	$(MAKE) -r -C pyguymer3/f90 FC=$(FC) PYTHON3=$(PYTHON3)
 
