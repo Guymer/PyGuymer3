@@ -39084,6 +39084,7 @@ pyguymer3/geo/add_map_background.py
 pyguymer3/geo/add_NE_map.py
 pyguymer3/geo/add_NE_tiles.py
 pyguymer3/geo/add_OSterrain_tiles.py
+pyguymer3/geo/add_raster_tiles.py
 pyguymer3/geo/area.py
 pyguymer3/geo/buffer.py
 pyguymer3/geo/bufferSrc/__init__.py
