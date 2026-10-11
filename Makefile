@@ -3,7 +3,7 @@
 # ******************************************************************************
 
 CUT     := $(shell which cut            2> /dev/null || echo "ERROR")
-FC      := $(shell which gfortran-mp-14 2> /dev/null || echo "ERROR")
+FC      := $(shell which gfortran-mp-15 2> /dev/null || echo "ERROR")
 GREP    := $(shell which grep           2> /dev/null || echo "ERROR")
 LS      := $(shell which ls             2> /dev/null || echo "ERROR")
 PYTHON3 := $(shell which python3.13     2> /dev/null || echo "ERROR")
