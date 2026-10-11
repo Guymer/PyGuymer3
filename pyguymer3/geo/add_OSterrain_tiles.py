@@ -234,6 +234,8 @@ def add_OSterrain_tiles(
                 continue
             tName = f"{dataPath}/png/osTerrain/{nx:d}x{ny:d}/maxElev={maxElev:d}m/x={ix:d}/y={iy:d}.png"
             if not os.path.exists(tName):
+                if debug:
+                    print(f"INFO: \"{tName}\" does not exist.")
                 tName = f"{dataPath}/png/missingTile.png"
             if debug:
                 print(f"  Adding \"{tName}\" to merged tile ...")
