@@ -92,6 +92,8 @@ def return_media_format(
                     return "3GPP"
                 case "3g2a" | "3g2b":
                     return "3GPP2"
+                case "dash":
+                    return "DASH-Compatible MP4 (ISO/IEC 23009-1:2022)"
                 case "isom":
                     return "MP4 (ISO/IEC 14496-12)"
                 case "M4A ":
