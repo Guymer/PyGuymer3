@@ -145,6 +145,7 @@ from .add_map_background import add_map_background
 from .add_NE_map import add_NE_map
 from .add_NE_tiles import add_NE_tiles
 from .add_OSterrain_tiles import add_OSterrain_tiles
+from .add_raster_tiles import add_raster_tiles
 from .area import area
 from .buffer import buffer
 from .calc_angle_between_two_locs import calc_angle_between_two_locs

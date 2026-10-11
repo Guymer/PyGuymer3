@@ -304,6 +304,7 @@ def create_map_of_points(
     from .add_NE_map import add_NE_map
     from .add_NE_tiles import add_NE_tiles
     from .add_OSterrain_tiles import add_OSterrain_tiles
+    from .add_raster_tiles import add_raster_tiles
     from .buffer import buffer
     from .extract_lines import extract_lines
     from .find_middle_of_locs import find_middle_of_locs
@@ -730,6 +731,28 @@ def create_map_of_points(
                       tileGrid = tileGrid,
                        timeout = timeout,
                            tol = tol,
+            )
+        case "raster-tiles":
+            # Add raster tiles background ...
+            add_raster_tiles(
+                ax,
+                     chunksize = chunksize,
+                      dataPath = dataPath,
+                         debug = debug,
+                  exiftoolPath = exiftoolPath,
+                           fov = fov,
+                  gifsiclePath = gifsiclePath,
+                 interpolation = interpolation,
+                  jpegtranPath = jpegtranPath,
+                maxImagePixels = maxImagePixels,
+                mergedTileName = mergedTileName,
+                          name = name,
+                   optipngPath = optipngPath,
+                          pool = None,
+                  regrid_shape = regrid_shape,
+                      resample = resample,
+                      tileGrid = tileGrid,
+                       timeout = timeout,
             )
         case _:
             # Crash ...
