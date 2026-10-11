@@ -47,8 +47,8 @@ def add_GLOBE_tiles(
         attempt to find the binary itself).
     interpolation : str, optional
         The interpolation method used when drawing the final merged and warped
-        image on the axis. Due to the use of ``**kwargs`` within Cartopy, this
-        is passed all the way down the stack to the MatPlotLib ``.imshow()``
+        image on the axis. Due to the use of ````**kwargs```` within Cartopy,
+        this is passed all the way down the stack to the MatPlotLib ``.imshow()``
         call.
     jpegtranPath : None or str, optional
         The path to the "jpegtran" binary (if not provided then Python will
@@ -68,17 +68,17 @@ def add_GLOBE_tiles(
     regrid_shape: int or tuple of int, optional
         The smallest dimension of the merged image of all of the tiles **after**
         it has been warped by Cartopy to be the same projection as the figure
-        (in pixels). Due to the use of **kwargs within Cartopy, this is passed
-        all the way down the stack to the Cartopy ".imshow()" call. The size of
-        a figure, in inches, can be found by calling "fg.get_size_inches()". The
-        resolution of a figure can be found by calling "fg.get_dpi()". The size
-        of a figure, in pixels, can be found by multiplying the tuple by the
-        scalar.
+        (in pixels). Due to the use of ``**kwargs`` within Cartopy, this is
+        passed all the way down the stack to the Cartopy ".imshow()" call. The
+        size of a figure, in inches, can be found by calling
+        "fg.get_size_inches()". The resolution of a figure can be found by
+        calling "fg.get_dpi()". The size of a figure, in pixels, can be found by
+        multiplying the tuple by the scalar.
     resample : bool, optional
         Use a full resampling method when drawing the final merged and warped
-        image on the axis. Due to the use of ``**kwargs`` within Cartopy, this
-        is passed all the way down the stack to the MatPlotLib ``.imshow()``
-        call.
+        image on the axis. Due to the use of ````**kwargs```` within Cartopy,
+        this is passed all the way down the stack to the MatPlotLib
+        ``.imshow()`` call.
     tileGrid : str, optional
         The grid to fetch tiles from.
     timeout : float, optional
@@ -212,6 +212,8 @@ def add_GLOBE_tiles(
                 continue
             tName = f"{dataPath}/png/globe/{nx:d}x{ny:d}/maxElev={maxElev:d}m/x={ix:d}/y={iy:d}.png"
             if not os.path.exists(tName):
+                if debug:
+                    print(f"INFO: \"{tName}\" does not exist.")
                 tName = f"{dataPath}/png/missingTile.png"
             if debug:
                 print(f"  Adding \"{tName}\" to merged tile ...")

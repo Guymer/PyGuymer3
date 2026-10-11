@@ -31,6 +31,8 @@ python3.13 generateGlobeTiles.py                                                
     --number-of-children ${NCHILD} &> generateGlobeTiles.log
 python3.13 generateOsTerrainTiles.py                                            \
     --number-of-children ${NCHILD} &> generateOsTerrainTiles.log
+python3.13 generateRasterTiles.py                                               \
+    --number-of-children ${NCHILD} &> generateRasterTiles.log
 
 # Generate combined raster+vector tiles ...
 python3.13 generateGlobeGshhgTiles.py                                           \

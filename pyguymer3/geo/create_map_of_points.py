@@ -102,8 +102,8 @@ def create_map_of_points(
     eps : float, optional
         the tolerance of the Vincenty formula iterations
     exiftoolPath : None or str, optional
-        the path to the "exiftool" binary (if not provided then Python will attempt to
-        find the binary itself)
+        the path to the "exiftool" binary (if not provided then Python will
+        attempt to find the binary itself)
     extent : list of floats
         for high-resolution images, save time by specifying the extent that is
         to be added
@@ -113,8 +113,8 @@ def create_map_of_points(
         When calculating the tile zoom level from the resolution of the figure
         convert the floating-point answer to an integer using ``math.floor()``.
     gifsiclePath : None or str, optional
-        the path to the "gifsicle" binary (if not provided then Python will attempt to
-        find the binary itself)
+        the path to the "gifsicle" binary (if not provided then Python will
+        attempt to find the binary itself)
     globeScale : str, optional
         the scale of the Polygons of elevation from the GLOBE [4]_ dataset
     gshhgRes : str, optional
@@ -122,11 +122,11 @@ def create_map_of_points(
     interpolation : str, optional
         The interpolation method used when drawing the final warped image, or
         the final merged and warped image, on the figure. Due to the use of
-        **kwargs within Cartopy, this is passed all the way down the stack to
-        the MatPlotLib ".imshow()" call.
+        ``**kwargs`` within Cartopy, this is passed all the way down the stack
+        to the MatPlotLib ".imshow()" call.
     jpegtranPath : None or str, optional
-        the path to the "jpegtran" binary (if not provided then Python will attempt to
-        find the binary itself)
+        the path to the "jpegtran" binary (if not provided then Python will
+        attempt to find the binary itself)
     maxElev : int, optional
         The maximum elevation used by the colour map of the tiles (in metres).
     maxImagePixels : int, optional
@@ -150,8 +150,8 @@ def create_map_of_points(
         only return valid Polygons (checks for validity can take a while, if
         being called often)
     optipngPath : None or str, optional
-        the path to the "optipng" binary (if not provided then Python will attempt to
-        find the binary itself)
+        the path to the "optipng" binary (if not provided then Python will
+        attempt to find the binary itself)
     osTerrainScale : str, optional
         the scale of the Polygons of elevation from the OS Terrain 50 [5]_
         dataset
@@ -166,8 +166,8 @@ def create_map_of_points(
     resample : bool, optional
         Use a full resampling method when drawing the final warped image, or
         the final merged and warped image, on the figure. Due to the use of
-        **kwargs within Cartopy, this is passed all the way down the stack to
-        the MatPlotLib ".imshow()" call.
+        ``**kwargs`` within Cartopy, this is passed all the way down the stack
+        to the MatPlotLib ".imshow()" call.
     route : shapely.geometry.linestring.LineString, optional
         an extra line to draw on the map
     routeFillColor : tuple of int, optional
@@ -304,6 +304,7 @@ def create_map_of_points(
     from .add_NE_map import add_NE_map
     from .add_NE_tiles import add_NE_tiles
     from .add_OSterrain_tiles import add_OSterrain_tiles
+    from .add_raster_tiles import add_raster_tiles
     from .buffer import buffer
     from .extract_lines import extract_lines
     from .find_middle_of_locs import find_middle_of_locs
@@ -730,6 +731,28 @@ def create_map_of_points(
                       tileGrid = tileGrid,
                        timeout = timeout,
                            tol = tol,
+            )
+        case "raster-tiles":
+            # Add raster tiles background ...
+            add_raster_tiles(
+                ax,
+                     chunksize = chunksize,
+                      dataPath = dataPath,
+                         debug = debug,
+                  exiftoolPath = exiftoolPath,
+                           fov = fov,
+                  gifsiclePath = gifsiclePath,
+                 interpolation = interpolation,
+                  jpegtranPath = jpegtranPath,
+                maxImagePixels = maxImagePixels,
+                mergedTileName = mergedTileName,
+                          name = name,
+                   optipngPath = optipngPath,
+                          pool = None,
+                  regrid_shape = regrid_shape,
+                      resample = resample,
+                      tileGrid = tileGrid,
+                       timeout = timeout,
             )
         case _:
             # Crash ...

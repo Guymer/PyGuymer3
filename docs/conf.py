@@ -43,6 +43,7 @@ extensions = [
 # Configure Sphinx extension modules ...
 autosummary_generate = True
 intersphinx_mapping = {
+       "cartopy" : ("https://cartopy.readthedocs.io/stable/", None),
           "h5py" : ("https://docs.h5py.org/en/latest/", None),
     "matplotlib" : ("https://matplotlib.org/stable/", None),
          "numpy" : ("https://numpy.org/doc/stable/", None),

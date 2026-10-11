@@ -2,13 +2,13 @@ This folder contains tiles of some datasets to allow quick and efficient plottin
 
 * The [Global Land One-km Base Elevation](https://www.ngdc.noaa.gov/mgg/topo/globe.html) dataset is a raster dataset at 43,200 px × 21,600 px (I wrote [a Python module to vectorise it](https://github.com/Guymer/vgd)).
 * The [Global Self-consistent Hierarchical High-resolution Geography](https://www.ngdc.noaa.gov/mgg/shorelines/) datasets are vector datasets.
-* The [Natural Earth](https://www.naturalearthdata.com/) datasets are vector datasets.
+* The [Natural Earth](https://www.naturalearthdata.com/) datasets are either raster datasets at 21,600 px × 10,800 px or vector datasets.
 * The [OS Terrain 50](https://www.ordnancesurvey.co.uk/products/os-terrain-50) dataset is a raster dataset at 13,200 px × 24,600 px.
 
 Using a very simple Python snippet of:
 
 ```python
-n = [43200, 21600, 13200, 24600]
+n = [43200, 21600, 21600, 10800, 13200, 24600]
 for i in range(100, 1000):
     if all(
         [
@@ -16,9 +16,17 @@ for i in range(100, 1000):
             n[1] % i == 0,
             n[2] % i == 0,
             n[3] % i == 0,
+            n[4] % i == 0,
+            n[5] % i == 0,
         ]
     ):
-        print(f"{i:d} px/tile × {n[0] // i:3d} tiles = {n[0]:,d} px and {i:d} px/tile × {n[1] // i:3d} tiles = {n[1]:,d} px and {i:d} px/tile × {n[2] // i:3d} tiles = {n[2]:,d} px and {i:d} px/tile × {n[3] // i:3d} tiles = {n[3]:,d} px")
+        print("")
+        print(f"{i:d} px/tile × {n[0] // i:3d} tiles = {n[0]:,d} px")
+        print(f"{i:d} px/tile × {n[1] // i:3d} tiles = {n[1]:,d} px")
+        print(f"{i:d} px/tile × {n[2] // i:3d} tiles = {n[2]:,d} px")
+        print(f"{i:d} px/tile × {n[3] // i:3d} tiles = {n[3]:,d} px")
+        print(f"{i:d} px/tile × {n[4] // i:3d} tiles = {n[4]:,d} px")
+        print(f"{i:d} px/tile × {n[5] // i:3d} tiles = {n[5]:,d} px")
 ```
 
 ... it is possible to discover which tile sizes would fit for all the raster datasets simultaneously.
@@ -38,6 +46,21 @@ for i in range(100, 1000):
         * 200 px/tile × 108 tiles = 21,600 px
         * 300 px/tile ×  72 tiles = 21,600 px
         * 600 px/tile ×  36 tiles = 21,600 px
+* For the [Natural Earth](https://www.naturalearthdata.com/) datasets:
+    * With a width of 21,600 px:
+        * 100 px/tile × 216 tiles = 21,600 px
+        * 120 px/tile × 180 tiles = 21,600 px
+        * 150 px/tile × 144 tiles = 21,600 px
+        * 200 px/tile × 108 tiles = 21,600 px
+        * 300 px/tile ×  72 tiles = 21,600 px
+        * 600 px/tile ×  36 tiles = 21,600 px
+    * With a height of 10,800 px:
+        * 100 px/tile × 108 tiles = 10,800 px
+        * 120 px/tile ×  90 tiles = 10,800 px
+        * 150 px/tile ×  72 tiles = 10,800 px
+        * 200 px/tile ×  54 tiles = 10,800 px
+        * 300 px/tile ×  36 tiles = 10,800 px
+        * 600 px/tile ×  18 tiles = 10,800 px
 * For the [OS Terrain 50](https://www.ordnancesurvey.co.uk/products/os-terrain-50) dataset:
     * With a width of 13,200 px:
         * 100 px/tile × 132 tiles = 13,200 px
@@ -54,4 +77,4 @@ for i in range(100, 1000):
         * 300 px/tile ×  82 tiles = 24,600 px
         * 600 px/tile ×  41 tiles = 24,600 px
 
-For the time being, I choose to represent both raster datasets using 300 px × 300 px tiles.
+For the time being, I choose to represent all the raster datasets using 300 px × 300 px tiles.

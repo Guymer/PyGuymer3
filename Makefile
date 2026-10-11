@@ -2,9 +2,12 @@
 # *                                  BINARIES                                  *
 # ******************************************************************************
 
-CUT     := $(shell which cut        2> /dev/null || echo "ERROR")
-GREP    := $(shell which grep       2> /dev/null || echo "ERROR")
-PYTHON3 := $(shell which python3.13 2> /dev/null || echo "ERROR")
+CUT     := $(shell which cut            2> /dev/null || echo "ERROR")
+FC      := $(shell which gfortran-mp-15 2> /dev/null || echo "ERROR")
+GREP    := $(shell which grep           2> /dev/null || echo "ERROR")
+LS      := $(shell which ls             2> /dev/null || echo "ERROR")
+PYTHON3 := $(shell which python3.13     2> /dev/null || echo "ERROR")
+RM      := $(shell which rm             2> /dev/null || echo "ERROR")
 
 # ******************************************************************************
 # *                               CHECK BINARIES                               *
@@ -13,11 +16,20 @@ PYTHON3 := $(shell which python3.13 2> /dev/null || echo "ERROR")
 ifeq ($(CUT),ERROR)
     $(error The binary "cut" is not installed)
 endif
+ifeq ($(FC),ERROR)
+    $(error The binary "fc" is not installed)
+endif
 ifeq ($(GREP),ERROR)
     $(error The binary "grep" is not installed)
 endif
+ifeq ($(LS),ERROR)
+    $(error The binary "ls" is not installed)
+endif
 ifeq ($(PYTHON3),ERROR)
     $(error The binary "python3" is not installed)
+endif
+ifeq ($(RM),ERROR)
+    $(error The binary "rm" is not installed)
 endif
 
 # ******************************************************************************
@@ -32,17 +44,34 @@ endif
 # *                           USER-SPECIFIED TARGETS                           *
 # ******************************************************************************
 
-# "gmake -r [all]"       = "gmake -r doc" (default)
-all:			doc
+# "gmake -r [all]"       = "gmake -r build compile doc" (default)
+all:			build															\
+				compile															\
+				doc
 
-# "gmake -r clean"       = removes the compiled Sphinx documentation
+# "gmake -r build"       = build a Python wheel
+build:
+	$(PYTHON3) -m build
+	$(LS) -hl dist
+
+# "gmake -r clean"       = removes linting logs, build output, compiled Sphinx documentation and compiled f2py module
 clean:
-	$(MAKE) -C docs clean
+	$(RM) -rf dist PyGuymer3.egg-info
+	$(RM) -f mypy.log pylint.log shellcheck.log
+	$(RM) -f pyguymer3/mypy.log pyguymer3/pylint.log pyguymer3/shellcheck.log
+	$(RM) -f pyguymer3/f90/fortranlib/mypy.log pyguymer3/f90/fortranlib/pylint.log pyguymer3/f90/fortranlib/shellcheck.log
+	$(MAKE) -r -C docs clean
+	$(MAKE) -r -C pyguymer3/f90 FC=$(FC) PYTHON3=$(PYTHON3) clean
+
+# "gmake -r compile"     = compiles the f2py module
+compile:
+	$(MAKE) -r -C pyguymer3/f90 FC=$(FC) PYTHON3=$(PYTHON3) compile
 
 # "gmake -r doc"         = compiles the Sphinx documentation
 docs/_build/html/objects.inv													\
 doc &:
-	$(MAKE) -C docs html
+	$(MAKE) -r -C docs html
+	$(MAKE) -r -C pyguymer3/f90 FC=$(FC) PYTHON3=$(PYTHON3) doc
 
 # "gmake -r doc-targets" = lists all the available Sphinx documentation targets
 doc-targets:	docs/_build/html/objects.inv

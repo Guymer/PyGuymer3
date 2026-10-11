@@ -7,6 +7,8 @@ if __name__ == "__main__":
     import argparse
     import os
     import pathlib
+    import shutil
+    import warnings
 
     # Import special modules ...
     try:
@@ -70,6 +72,12 @@ if __name__ == "__main__":
            type = str,
     )
     parser.add_argument(
+        "--chunksize",
+        default = 1048576,
+           help = "the size of the chunks of any files which are read in (in bytes)",
+           type = int,
+    )
+    parser.add_argument(
         "--coastlines-resolution",
         choices = [
             "c",                        # crude
@@ -96,11 +104,25 @@ if __name__ == "__main__":
            type = float,
     )
     parser.add_argument(
+        "--exiftool-path",
+        default = shutil.which("exiftool"),
+           dest = "exiftoolPath",
+           help = "the path to the \"exiftool\" binary",
+           type = str,
+    )
+    parser.add_argument(
         "--geodesic-convergence",
         default = 10000.0,
            dest = "geodesicConv",
            help = "the *initial* Geodesic distance that defines the middle as being converged (in metres)",
            type = float,
+    )
+    parser.add_argument(
+        "--gifsicle-path",
+        default = shutil.which("gifsicle"),
+           dest = "gifsiclePath",
+           help = "the path to the \"gifsicle\" binary",
+           type = str,
     )
     parser.add_argument(
         "--GSHHG-resolution",
@@ -114,6 +136,13 @@ if __name__ == "__main__":
         default = "f",                  # full
            dest = "gshhgRes",
            help = "the resolution of the GSHHG datasets",
+           type = str,
+    )
+    parser.add_argument(
+        "--jpegtran-path",
+        default = shutil.which("jpegtran"),
+           dest = "jpegtranPath",
+           help = "the path to the \"jpegtran\" binary",
            type = str,
     )
     parser.add_argument(
@@ -135,6 +164,20 @@ if __name__ == "__main__":
         default = 6,
            dest = "nRefine",
            help = "the number of refinements to make (each refinement halves the \"geodesic-convergence\" distance)",
+           type = int,
+    )
+    parser.add_argument(
+        "--optipng-path",
+        default = shutil.which("optipng"),
+           dest = "optipngPath",
+           help = "the path to the \"optipng\" binary",
+           type = str,
+    )
+    parser.add_argument(
+        "--RAM-limit",
+        default = 1073741824,
+           dest = "ramLimit",
+           help = "the maximum RAM usage of each \"large\" array (in bytes)",
            type = int,
     )
     parser.add_argument(
@@ -225,13 +268,14 @@ if __name__ == "__main__":
     fov = pyguymer3.geo.buffer(
         shapely.geometry.point.Point(midLon, midLat),
         maxDist,
-        debug = args.debug,
-          eps = args.eps,
-         fill = -1.0,
-         nAng = args.nAng,
-        nIter = args.nIter,
-         simp = -1.0,
-          tol = args.tol,
+           debug = args.debug,
+             eps = args.eps,
+            fill = -1.0,
+            nAng = args.nAng,
+           nIter = args.nIter,
+        ramLimit = args.ramLimit,
+            simp = -1.0,
+             tol = args.tol,
     )
     print(f"The Geodesic circle which encompasses the United Kingdom mainland is centred at ({midLon:.6f}°, {midLat:.6f}°) and has a radius of {0.001 * maxDist:,.1f} km (inc. padding).")
 
@@ -280,6 +324,7 @@ if __name__ == "__main__":
                               lon = midLon,
                             nIter = args.nIter,
                         onlyValid = True,
+                         ramLimit = args.ramLimit,
                            repair = True,
                               tol = args.tol,
         )
@@ -287,10 +332,16 @@ if __name__ == "__main__":
         # Add GSHHG tiles ...
         pyguymer3.geo.add_GSHHG_tiles(
             ax,
+                chunksize = args.chunksize,
+                 dataPath = f"{args.absPathToRepo}/pyguymer3/data",
                     debug = args.debug,
+             exiftoolPath = args.exiftoolPath,
                       fov = fov,
+             gifsiclePath = args.gifsiclePath,
                  gshhgRes = args.gshhgRes,
             interpolation = "gaussian",
+             jpegtranPath = args.jpegtranPath,
+              optipngPath = args.optipngPath,
              regrid_shape = (
                 round(2.0 * fg.get_figwidth() * fg.get_dpi()),
                 round(2.0 * fg.get_figheight() * fg.get_dpi()),
@@ -308,16 +359,26 @@ if __name__ == "__main__":
 
         print(f"  Writing \"{pName}\" ...")
 
-        # Save figure ...
-        fg.savefig(pName)
-        matplotlib.pyplot.close(fg)
+        # Start a context manager for warnings ...
+        with warnings.catch_warnings():
+            # Hide "ignore" level warnings ...
+            warnings.simplefilter("ignore")
+
+            # Save figure ...
+            fg.savefig(pName)
+            matplotlib.pyplot.close(fg)
 
         # Optimise PNG ...
         pyguymer3.image.optimise_image(
             pName,
-              debug = args.debug,
-              strip = True,
-            timeout = args.timeout,
+               chunksize = args.chunksize,
+                   debug = args.debug,
+            exiftoolPath = args.exiftoolPath,
+            gifsiclePath = args.gifsiclePath,
+            jpegtranPath = args.jpegtranPath,
+             optipngPath = args.optipngPath,
+                   strip = True,
+                 timeout = args.timeout,
         )
 
     # **************************************************************************
