@@ -337,7 +337,7 @@ if __name__ == "__main__":
                                   tol = args.tol,
             )
 
-            # Add GLOBE tiles ...
+            # Add raster tiles ...
             pyguymer3.geo.add_raster_tiles(
                 ax,
                     chunksize = args.chunksize,
