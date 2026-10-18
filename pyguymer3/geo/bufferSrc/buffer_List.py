@@ -123,7 +123,7 @@ def buffer_List(
     buffs = []
 
     # Loop over geometries ...
-    for geom in shape.geoms:
+    for geom in shape:
         # Append buffer of geometry to list ...
         match geom:
             case shapely.coords.CoordinateSequence():
