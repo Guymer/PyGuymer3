@@ -15,7 +15,7 @@ def perms(
           recursive = True,
      return_dsstore = True,
     return_symlinks = False,
-              skips = None,
+              skips = frozenset(),
                user = None,
 ):
     """Set permissions within a path.
@@ -49,8 +49,8 @@ def perms(
         include ".DS_Store" files in the returned list
     return_symlinks : bool, optional
         set permissions on symbolic links
-    skips : list of str, default=[]
-        a list of strings which, if any are present in a file/folder name, result in the file/folder being skipped
+    skips : set of str, optional
+        a set of strings which, if any are present in a file/folder name, result in the file/folder being skipped
 
     Notes
     -----
@@ -70,10 +70,6 @@ def perms(
     from .return_file_list import return_file_list
     from .return_folder_list import return_folder_list
     from .stat import stat as myStat    # NOTE: To avoid name clash.
-
-    # Populate default values ...
-    if skips is None:
-        skips = []
 
     # Fetch lists ...
     flist = return_file_list(
