@@ -105,7 +105,7 @@ def elem2dict(
 
     # Simplify dictionary ...
     if simplify:
-        if list(ans.keys()) == ["$$TEXT$$",]:
+        if list(ans) == ["$$TEXT$$",]:
             if debug:
                 print(f"INFO: Simplifying a text-only \"{elem.tag}\" tag.")
             ans = ans["$$TEXT$$"]
