@@ -46,7 +46,7 @@ def return_dict_of_bluray_playlistsToStreams(
             )
 
     # Loop over playlists ...
-    for iPlaylist in list(ans.keys()):
+    for iPlaylist in list(ans):
         # Initialize total duration ...
         totDuration = 0.0                                                       # [s]
 
