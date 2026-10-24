@@ -9,7 +9,7 @@ def _add_coastlines(
       edgecolor = "black",
       facecolor = "none",
             fov = None,
-    gshhgLevels = None,
+    gshhgLevels = frozenset([1, 5, 6]),
        gshhgRes = "i",
       linestyle = "solid",
       linewidth = 0.5,
@@ -36,9 +36,8 @@ def _add_coastlines(
         clip the plotted shapes to the provided field-of-view to work around
         occasional MatPlotLib or Cartopy plotting errors when shapes much larger
         than the field-of-view are plotted
-    gshhgLevels : list of int, optional
-        the levels of the coastline boundaries from GSHHG [2]_ (if None then
-        default to ``(1, 5, 6,)``)
+    gshhgLevels : set of int, optional
+        the levels of the coastline boundaries from GSHHG [2]_
     gshhgRes : str, optional
         the resolution of the coastline boundaries from GSHHG [2]_
     linestyle : str, optional
@@ -131,10 +130,6 @@ def _add_coastlines(
     from .._consts import GEODETIC
 
     # **************************************************************************
-
-    # Check inputs ...
-    if gshhgLevels is None:
-        gshhgLevels = (1, 5, 6,)
 
     # Initialize list ...
     polys = []

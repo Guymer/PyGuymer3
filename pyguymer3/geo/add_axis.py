@@ -11,7 +11,7 @@ def add_axis(
            attemptFortran = True,
      coastlines_edgecolor = "black",
      coastlines_facecolor = "none",
-        coastlines_levels = None,
+        coastlines_levels = frozenset([1, 5, 6]),
      coastlines_linestyle = "solid",
      coastlines_linewidth = 0.5,
     coastlines_resolution = "i",
@@ -58,9 +58,8 @@ def add_axis(
         the colour of the edges of the coastline Polygons
     coastlines_facecolor : str, optional
         the colour of the faces of the coastline Polygons
-    coastlines_levels : list of int, optional
-        the levels of the coastline boundaries (if None then default to
-        ``(1, 5, 6,)``)
+    coastlines_levels : set of int, optional
+        the levels of the coastline boundaries
     coastlines_linestyle : str, optional
         the linestyle to draw the coastline boundaries with
     coastlines_linewidth : float, optional
