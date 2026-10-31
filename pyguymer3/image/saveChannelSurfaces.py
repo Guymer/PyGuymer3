@@ -37,6 +37,9 @@ def saveChannelSurfaces(
     .. [1] PyGuymer3, https://github.com/Guymer/PyGuymer3
     """
 
+    # Import standard modules ...
+    import os
+
     # Import special modules ...
     try:
         import numpy
@@ -53,6 +56,16 @@ def saveChannelSurfaces(
     from .makePng import makePng
 
     # **************************************************************************
+
+    # Return if nothing needs doing ...
+    if all(
+        [
+            os.path.exists(f"{oName}_reds.png"),
+            os.path.exists(f"{oName}_greens.png"),
+            os.path.exists(f"{oName}_blues.png"),
+        ]
+    ):
+        return
 
     # Check input ...
     assert maxImagePixels < pow(2, 64), f"the maximum number of pixels (\"{maxImagePixels:,d}\") is larger than the range of the histogram (\"{pow(2, 64) - 1:,d}\")"
