@@ -50,6 +50,7 @@ from .returnPngInfo import returnPngInfo
 from .rgb2hlsComp import rgb2hlsComp
 from .rgb2name import rgb2name
 from .rgb2rgbComp import rgb2rgbComp
+from .saveChannelSurfaces import saveChannelSurfaces
 from .save_array_as_image import save_array_as_image
 from .save_array_as_PGM import save_array_as_PGM
 from .save_array_as_PNG import save_array_as_PNG
