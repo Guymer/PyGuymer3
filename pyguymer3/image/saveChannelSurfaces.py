@@ -12,10 +12,10 @@ def saveChannelSurfaces(
     """Save channel surfaces as PNGs
 
     This function accepts a file path and surveys the number of red-ish,
-    green-ish and blue-ish pixels in the image. It then saves 256x256 images of:
-    all the most common red-ish pixels as a function of green and blue; all the
-    most common green-ish pixels as a function of red and blue; and all the most
-    common blue-ish pixels as a function of red and green.
+    green-ish and blue-ish pixels in the image. It then saves 256 px × 256 px
+    images of: all the most common red-ish pixels as a function of green and
+    blue; all the most common green-ish pixels as a function of red and blue;
+    and all the most common blue-ish pixels as a function of red and green.
 
     Parameters
     ----------
