@@ -39258,6 +39258,7 @@ pyguymer3/image/save_array_as_image.py
 pyguymer3/image/save_array_as_PGM.py
 pyguymer3/image/save_array_as_PNG.py
 pyguymer3/image/save_array_as_PPM.py
+pyguymer3/image/saveChannelSurfaces.py
 pyguymer3/interpolate.py
 pyguymer3/intersection.py
 pyguymer3/linearRegression.py
