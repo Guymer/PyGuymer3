@@ -423,12 +423,15 @@ def processDirEntries(
                         f"{endian}2I",
                         fObj.read(8),
                     )
-                    tmp.append(
-                        fractions.Fraction(
-                            num,
-                            den,
+                    if den == 0:
+                        tmp.append(None)
+                    else:
+                        tmp.append(
+                            fractions.Fraction(
+                                num,
+                                den,
+                            )
                         )
-                    )
                     del num, den
 
                 # Check if the value is singular or plural ...
@@ -462,12 +465,15 @@ def processDirEntries(
                         f"{endian}2i",
                         fObj.read(8),
                     )
-                    tmp.append(
-                        fractions.Fraction(
-                            num,
-                            den,
+                    if den == 0:
+                        tmp.append(None)
+                    else:
+                        tmp.append(
+                            fractions.Fraction(
+                                num,
+                                den,
+                            )
                         )
-                    )
                     del num, den
 
                 # Check if the value is singular or plural ...
@@ -553,6 +559,10 @@ def processDirEntries(
     # **************************************************************************
 
     # Check if the image identifies itself ...
+    # NOTE: Finding official copies of the relevant specifications on the
+    #       internet is quite difficult. To map integers to strings, have a look
+    #       at the definition of "%subfileType" in "lib/Image/ExifTool/Exif.pm"
+    #       of the ExifTool project on GitHub.
     if "NewSubfileType" in dirEntries:
         # Determine the image type ...
         match dirEntries["NewSubfileType"]:
@@ -560,10 +570,14 @@ def processDirEntries(
                 imageType = "main"
             case 1:
                 imageType = "thumbnail"
+            case 4:
+                imageType = "transparencyMask"
+            case 5:
+                imageType = "thumbnailTransparencyMask"
             case 65540:
                 imageType = "semanticMask"
             case _:
-                raise Exception("\"NewSubfileType\" was an unexpected type") from None
+                raise Exception(f'\"NewSubfileType\" was an unexpected type (\"{dirEntries["NewSubfileType"]:d}\")') from None
 
         # Initialize the value ...
         dirEntries["binary-image-data-length"] = 0                              # [B]
