@@ -106,13 +106,17 @@ def tagId2tagName(
                 return "GPSHPositioningError"
             case _:
                 if debug:
-                    print(f"DEBUG: {tagId:d} is not in Section 5.2.45 of \"N4378.pdf\"")
+                    print(f"DEBUG: {tagId:d} (0x{tagId:x}) is not in Section 5.2.45 of \"N4378.pdf\"")
                 return None
 
     # Match the tag ID with its name ...
     # NOTE: See Table 1 (pages 17-19) of N4378.pdf
     # NOTE: See https://web.archive.org/web/20180921145139if_/http://www.cipa.jp:80/std/documents/e/DC-010-2017_E.pdf
     # NOTE: See https://exiv2.org/tags.html
+    # NOTE: Finding official copies of the relevant specifications on the
+    #       internet is quite difficult. To map integers to strings, have a look
+    #       at the definition of "%Image::ExifTool::Exif::Main" in
+    #       "lib/Image/ExifTool/Exif.pm" of the ExifTool project on GitHub.
     match tagId:
         case 11:
             return "ProcessingSoftware"
@@ -706,6 +710,8 @@ def tagId2tagName(
             return "NewRawImageDigest"
         case 51112:
             return "RawToPreviewGain"
+        case 51114:
+            return "CacheVersion"
         case 51125:
             return "DefaultUserCrop"
         case 51177:
@@ -768,5 +774,5 @@ def tagId2tagName(
             return "JXLDecodeSpeed"
         case _:
             if debug:
-                print(f"DEBUG: {tagId:d} is not in Table 1 of \"N4378.pdf\"")
+                print(f"DEBUG: {tagId:d} (0x{tagId:x}) is not in Table 1 of \"N4378.pdf\"")
             return None
